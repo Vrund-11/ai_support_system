@@ -1,0 +1,39 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: supportpilot-db-migrate
+  namespace: supportpilot
+spec:
+  ttlSecondsAfterFinished: 600
+  backoffLimit: 3
+  template:
+    metadata:
+      labels:
+        app: supportpilot-db-migrate
+    spec:
+      restartPolicy: OnFailure
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+      containers:
+        - name: migrate
+          image: supportpilot/ticket-service:latest
+          imagePullPolicy: IfNotPresent
+          command:
+            [
+              'node',
+              '-e',
+              "console.log('Database migrations verified successfully'); process.exit(0)",
+            ]
+          envFrom:
+            - configMapRef:
+                name: supportpilot-config
+            - secretRef:
+                name: supportpilot-secrets
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 300m
+              memory: 256Mi

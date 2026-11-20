@@ -121,10 +121,20 @@
     - Added `'analytics'` navigation tab to `Shell.tsx` and wired into `App.tsx`.
     - Added 2 component tests in `apps/web/src/test/analytics-dashboard.test.tsx` (29 tests passing in web).
     - 364 total automated tests passing monorepo.
+  - S3-T08: Dockerfiles (multi-stage, non-root) for all services and compose profile for full stack:
+    - Authored multi-stage Dockerfiles with pinned base images (`node:22-alpine`, `python:3.12-slim`, `nginx:1.27-alpine`):
+      - `apps/ticket-service/Dockerfile`: builder with pnpm deploy pruning, runner with `dumb-init`, non-root user `node`, healthcheck on `/health`.
+      - `apps/gateway/Dockerfile`: builder with pnpm deploy pruning, runner with `dumb-init`, non-root user `node`, healthcheck on `/health`.
+      - `apps/notification-service/Dockerfile`: builder with pnpm deploy pruning, runner with `dumb-init`, non-root user `node`, healthcheck on `/health`.
+      - `apps/ai-service/Dockerfile`: builder with venv pip install, runner with non-root user `appuser`, healthcheck on `/health`.
+      - `apps/web/Dockerfile`: builder compiling React Vite bundle, runner with Nginx 1.27 Alpine, custom `nginx.conf` with SPA routing and API/Socket.IO reverse proxy.
+      - `apps/widget/Dockerfile`: builder compiling embed bundle, runner with Nginx serving static assets.
+    - Created root `.dockerignore` excluding `node_modules`, `dist`, `.venv`, `.turbo`, `.git`, `.env`, temporary logs, and build artifacts.
+    - Updated `infra/docker/docker-compose.yml` with `full` profile mounting all microservices with healthcheck dependencies.
 - Tests added / results: 364 tests passing across monorepo (152 in ticket-service, 65 in ai-service pytest, 44 in gateway, 32 in shared-lib, 29 in web, 23 in notification-service, 9 in widget, 4 in validators, 5 hermetic e2e, 1 newman runner with 21 collection assertions)
-- Measurements recorded (M-ids): M02 (test count: 364 tests across services), M03 (Mongo explain executionStats for ticket list compound indexes), M06 (AI Eval golden set baseline: Hit@5 100%, Groundedness 100%, F1 1.0), M07 (Classifier: Priority Accuracy 92.22%, Priority F1 0.9220, Category Accuracy 100%, Category F1 1.0, Overall Macro-F1 0.9610)
+- Measurements recorded (M-ids): M02 (test count: 364 tests across services), M03 (Mongo explain executionStats for ticket list compound indexes), M06 (AI Eval golden set baseline: Hit@5 100%, Groundedness 100%, F1 1.0), M07 (Classifier: Priority Accuracy 92.22%, Priority F1 0.9220, Category Accuracy 100%, Category F1 1.0, Overall Macro-F1 0.9610), M11 (Docker multi-stage non-root images & compose profile)
 - Issues found: none
-- Next: S3-T08 (Dockerfiles: multi-stage, non-root for all services; compose profile for full stack)
+- Next: S3-T09 (Kubernetes: kind config, Kustomize base+overlays, probes, HPA, NetworkPolicy, ingress-nginx)
   - S0-T04: .env.example + Zod env loader in @supportpilot/validators with 4 passing tests
   - S0-T05: CI skeleton .github/workflows/ci.yml with service containers
   - S0-T06: Logger (pino), request-id middleware, error handler (RFC 7807) in @supportpilot/shared-lib with 7 passing tests

@@ -103,6 +103,129 @@ services:
       timeout: 5s
       retries: 3
 
+  # ── Ticket Service (Core Business API) ──
+  ticket-service:
+    profiles: ['full']
+    build:
+      context: ../..
+      dockerfile: apps/ticket-service/Dockerfile
+    container_name: sp-ticket-service
+    restart: unless-stopped
+    ports:
+      - '4001:4001'
+    environment:
+      NODE_ENV: production
+      PORT: '4001'
+      MONGODB_URI: mongodb://mongo:27017/supportpilot
+      REDIS_URL: redis://redis:6379
+      SERVICE_TOKEN: default-service-token
+      JWT_ACCESS_SECRET: test-access-secret-must-be-32-chars!!
+      JWT_REFRESH_SECRET: test-refresh-secret-must-be-32-chars!
+      NOTIFICATION_SERVICE_URL: http://notification-service:5001
+    depends_on:
+      mongo:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  # ── AI Service (FastAPI RAG, Classifier, Assist) ──
+  ai-service:
+    profiles: ['full']
+    build:
+      context: ../..
+      dockerfile: apps/ai-service/Dockerfile
+    container_name: sp-ai-service
+    restart: unless-stopped
+    ports:
+      - '8000:8000'
+    environment:
+      ENVIRONMENT: production
+      DATABASE_URL: postgresql://supportpilot:supportpilot@postgres:5432/supportpilot
+      REDIS_URL: redis://redis:6379
+      LLM_PROVIDER: mock
+      SERVICE_TOKEN: default-service-token
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  # ── Notification Service (BullMQ queues, email, webhooks) ──
+  notification-service:
+    profiles: ['full']
+    build:
+      context: ../..
+      dockerfile: apps/notification-service/Dockerfile
+    container_name: sp-notification-service
+    restart: unless-stopped
+    ports:
+      - '5001:5001'
+    environment:
+      NODE_ENV: production
+      PORT: '5001'
+      REDIS_URL: redis://redis:6379
+      SERVICE_TOKEN: default-service-token
+      SMTP_HOST: mailhog
+      SMTP_PORT: '1025'
+    depends_on:
+      redis:
+        condition: service_healthy
+      mailhog:
+        condition: service_healthy
+
+  # ── Gateway (API Gateway, Rate Limiting, GraphQL, Socket.IO) ──
+  gateway:
+    profiles: ['full']
+    build:
+      context: ../..
+      dockerfile: apps/gateway/Dockerfile
+    container_name: sp-gateway
+    restart: unless-stopped
+    ports:
+      - '4000:4000'
+    environment:
+      NODE_ENV: production
+      PORT: '4000'
+      REDIS_URL: redis://redis:6379
+      TICKET_SERVICE_URL: http://ticket-service:4001
+      AI_SERVICE_URL: http://ai-service:8000
+      NOTIFICATION_SERVICE_URL: http://notification-service:5001
+      SERVICE_TOKEN: default-service-token
+      JWT_ACCESS_SECRET: test-access-secret-must-be-32-chars!!
+    depends_on:
+      ticket-service:
+        condition: service_started
+      ai-service:
+        condition: service_started
+      redis:
+        condition: service_healthy
+
+  # ── Web Dashboard (React SPA + Nginx) ──
+  web:
+    profiles: ['full']
+    build:
+      context: ../..
+      dockerfile: apps/web/Dockerfile
+    container_name: sp-web
+    restart: unless-stopped
+    ports:
+      - '3000:80'
+    depends_on:
+      - gateway
+
+  # ── Chat Widget Host ──
+  widget:
+    profiles: ['full']
+    build:
+      context: ../..
+      dockerfile: apps/widget/Dockerfile
+    container_name: sp-widget
+    restart: unless-stopped
+    ports:
+      - '3001:80'
+    depends_on:
+      - gateway
+
 volumes:
   mongo-data:
   postgres-data:

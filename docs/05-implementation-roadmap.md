@@ -38,7 +38,7 @@ Legend: [ ] todo, [x] done. Task id format `S<sprint>-T<nn>`. Priority P0/P1/P2 
 - [x] S2-T04 Widget app: bubble, chat UI, offline form, theming; embed script. (CHAT-1,5)
 - [x] S2-T05 Presigned upload endpoint using AWS SDK v3 against MinIO/LocalStack; attachments in chat and tickets. (KB-1) Test: spoofed extension rejected via magic bytes.
 - [x] S2-T06 ai-service skeleton (FastAPI), config, health, mock LLM provider interface.
-- [ ] S2-T07 Ingestion worker: extract, chunk, embed (lazy-loaded model), write to pgvector, status updates. (KB-2,3,5) Tests: chunker unit tests, idempotent re-ingest.
+- [x] S2-T07 Ingestion worker: extract, chunk, embed (lazy-loaded model), write to pgvector, status updates. (KB-2,3,5) Tests: chunker unit tests, idempotent re-ingest.
 - [ ] S2-T08 Hybrid retrieval with RRF and tenant filter. Test: tenant isolation in vector queries. (AI-1)
 - [ ] S2-T09 `/v1/answer` with prompt builder, JSON validation + repair retry, citation verification, confidence and thresholds. (AI-1,2,3,9)
 - [ ] S2-T10 Handoff flow: low confidence/blocklist/human request -> WAITING_AGENT + ticket with transcript. (CHAT-4)

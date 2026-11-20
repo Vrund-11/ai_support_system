@@ -7,6 +7,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
 from src.config import settings
+from src.ingest.pipeline import IngestionPipeline
+from src.ingest.repository import get_ingest_repository
 from src.lib.db import check_db_connection
 from src.lib.redis import check_redis_connection
 from src.providers.factory import get_llm_provider
@@ -123,3 +125,73 @@ async def test_embed(req: EmbedTestRequest) -> dict[str, Any]:
         }
     except Exception as exc:
         raise HTTPException(status_code=500, detail=str(exc)) from exc
+
+
+# ── Knowledge Base Ingestion Endpoints (KB-2, KB-3, KB-5) ──
+class IngestDocumentRequest(BaseModel):
+    tenant_id: str
+    document_id: str
+    text: str
+    title: str = "Untitled Document"
+    source: str = "upload"
+    s3_key: str | None = None
+
+
+@app.post("/v1/kb/ingest")
+async def ingest_kb_document(req: IngestDocumentRequest) -> dict[str, Any]:
+    pipeline = IngestionPipeline()
+    result = await pipeline.ingest_document(
+        tenant_id=req.tenant_id,
+        document_id=req.document_id,
+        raw_text=req.text,
+        title=req.title,
+        source=req.source,
+        s3_key=req.s3_key,
+    )
+    return {
+        "document_id": result.document_id,
+        "tenant_id": result.tenant_id,
+        "status": result.status,
+        "chunks_count": result.chunks_count,
+        "char_count": result.char_count,
+        "token_count": result.token_count,
+        "error": result.error,
+    }
+
+
+@app.get("/v1/kb/documents/{document_id}")
+async def get_kb_document(document_id: str, tenant_id: str) -> dict[str, Any]:
+    repo = get_ingest_repository()
+    doc = await repo.get_document(tenant_id=tenant_id, document_id=document_id)
+    if not doc:
+        raise HTTPException(status_code=404, detail="Document not found")
+    return {
+        "id": doc.id,
+        "tenant_id": doc.tenant_id,
+        "title": doc.title,
+        "source": doc.source,
+        "status": doc.status,
+        "error": doc.error,
+        "chunk_count": doc.chunk_count,
+        "version": doc.version,
+    }
+
+
+@app.get("/v1/kb/documents/{document_id}/chunks")
+async def get_kb_chunks(document_id: str, tenant_id: str) -> dict[str, Any]:
+    repo = get_ingest_repository()
+    chunks = await repo.get_chunks_for_document(tenant_id=tenant_id, document_id=document_id)
+    return {
+        "document_id": document_id,
+        "tenant_id": tenant_id,
+        "chunks": [
+            {
+                "chunk_index": c.chunk_index,
+                "section_path": c.section_path,
+                "content": c.content,
+                "token_count": c.token_count,
+            }
+            for c in chunks
+        ],
+        "count": len(chunks),
+    }

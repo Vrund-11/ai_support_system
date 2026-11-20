@@ -1,5 +1,5 @@
 import { Schema, model, type Document, type Types } from 'mongoose';
-import type { TicketStatus, TicketPriority } from '@supportpilot/shared-types';
+import type { TicketStatus, TicketPriority, Attachment } from '@supportpilot/shared-types';
 
 export interface ISlaRecord {
   firstResponseDue?: Date;
@@ -22,6 +22,7 @@ export interface ITicketDocument extends Document {
   customerId: Types.ObjectId;
   conversationId?: Types.ObjectId;
   tags: string[];
+  attachments: Attachment[];
   customFields: Record<string, unknown>;
   sla: ISlaRecord;
   version: number;
@@ -84,6 +85,17 @@ const ticketSchema = new Schema<ITicketDocument>(
     },
     tags: {
       type: [String],
+      default: [],
+    },
+    attachments: {
+      type: [
+        {
+          key: { type: String, required: true },
+          name: { type: String, required: true },
+          size: { type: Number, required: true },
+          mime: { type: String, required: true },
+        },
+      ],
       default: [],
     },
     customFields: {

@@ -18,6 +18,16 @@ export const createTicketSchema = z.object({
   priority: ticketPrioritySchema.default('MEDIUM'),
   assigneeId: z.string().optional(),
   tags: z.array(z.string().trim()).default([]),
+  attachments: z
+    .array(
+      z.object({
+        key: z.string().min(1, 'Attachment key required'),
+        name: z.string().min(1, 'Attachment name required'),
+        size: z.number().int().nonnegative('Attachment size must be non-negative'),
+        mime: z.string().min(1, 'Attachment mime required'),
+      }),
+    )
+    .default([]),
   customFields: z.record(z.string(), z.unknown()).default({}),
 });
 

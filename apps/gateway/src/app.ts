@@ -84,6 +84,8 @@ export function createApp(config: GatewayConfig = {}): Express {
 
   app.use('/api/v1/auth', ticketProxy);
   app.use('/api/v1/tickets', ticketProxy);
+  app.use('/api/v1/uploads', ticketProxy);
+  app.use('/api/v1/kb', ticketProxy);
 
   // ── Error handler (must be last) ──
   app.use(errorHandler(logger));

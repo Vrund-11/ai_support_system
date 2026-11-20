@@ -54,6 +54,20 @@ ticketRouter.post('/', async (req: Request, res: Response, next: NextFunction) =
     }
 
     const tenantId = req.user!.tenantId;
+
+    // Enforce strict tenant isolation on ticket attachments
+    if (parseResult.data.attachments && parseResult.data.attachments.length > 0) {
+      for (const att of parseResult.data.attachments) {
+        if (!att.key.startsWith(`${tenantId}/`)) {
+          throw new AppError(
+            403,
+            'Cross-tenant attachment access forbidden',
+            '/errors/cross-tenant-access',
+          );
+        }
+      }
+    }
+
     const ticketRepo = new TicketRepository(tenantId);
     const ticket = await ticketRepo.createTicket(parseResult.data);
 
@@ -138,6 +152,20 @@ ticketRouter.post('/:id/messages', async (req: Request, res: Response, next: Nex
 
     const tenantId = req.user!.tenantId;
     const actorId = req.user!.sub;
+
+    // Enforce strict tenant isolation on message attachments
+    if (parseResult.data.attachments && parseResult.data.attachments.length > 0) {
+      for (const att of parseResult.data.attachments) {
+        if (!att.key.startsWith(`${tenantId}/`)) {
+          throw new AppError(
+            403,
+            'Cross-tenant attachment access forbidden',
+            '/errors/cross-tenant-access',
+          );
+        }
+      }
+    }
+
     const ticketRepo = new TicketRepository(tenantId);
     const ticket = await ticketRepo.findById(ticketId);
     if (!ticket) {

@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { Send, X, Bot, User, Shield, Sparkles, BookOpen } from 'lucide-react';
+import { Send, X, Bot, User, Shield, Sparkles, BookOpen, Paperclip } from 'lucide-react';
 import type { WidgetMessage, WidgetTheme } from '../types';
 import { OfflineForm } from './OfflineForm';
 
@@ -189,6 +189,21 @@ export function WidgetChat({
                         >
                           <BookOpen className="w-2.5 h-2.5 text-purple-600" />
                           <span>{c.title}</span>
+                        </span>
+                      ))}
+                    </div>
+                  )}
+
+                  {/* Attachment chips */}
+                  {msg.attachments && msg.attachments.length > 0 && (
+                    <div className="mt-2 pt-1.5 border-t border-slate-200/50 flex flex-wrap gap-1">
+                      {msg.attachments.map((a) => (
+                        <span
+                          key={a.key}
+                          className="inline-flex items-center space-x-1 bg-white/90 text-slate-800 text-[10px] px-1.5 py-0.5 rounded border border-slate-200"
+                        >
+                          <Paperclip className="w-2.5 h-2.5 text-slate-500" />
+                          <span className="truncate max-w-[120px]">{a.name}</span>
                         </span>
                       ))}
                     </div>

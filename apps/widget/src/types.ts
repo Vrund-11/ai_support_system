@@ -20,6 +20,7 @@ export interface WidgetMessage {
   createdAt: string;
   pending?: boolean;
   citations?: WidgetCitation[];
+  attachments?: { key: string; name: string; size: number; mime: string }[];
 }
 
 export interface WidgetConfig {

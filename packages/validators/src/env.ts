@@ -31,6 +31,14 @@ export const ticketServiceEnvSchema = baseEnvSchema.extend({
   JWT_REFRESH_SECRET: z.string().min(32),
   JWT_ACCESS_EXPIRES_IN: z.string().default('15m'),
   JWT_REFRESH_EXPIRES_IN: z.string().default('7d'),
+  S3_ENDPOINT: z.string().optional(),
+  S3_BUCKET: z.string().default('supportpilot-files'),
+  S3_REGION: z.string().default('ap-south-1'),
+  S3_FORCE_PATH_STYLE: z
+    .preprocess((val) => val === 'true' || val === true, z.boolean())
+    .default(true),
+  AWS_ACCESS_KEY_ID: z.string().default('test'),
+  AWS_SECRET_ACCESS_KEY: z.string().default('test'),
 });
 
 /** AI-service env (Python uses Pydantic, but we define the shape here for reference) */

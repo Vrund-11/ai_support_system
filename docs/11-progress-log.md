@@ -4,8 +4,8 @@
 
 - Date: 2026-11-20
 - Current sprint: Sprint 2 (Realtime and AI)
-- Last completed task id: S2-T04
-- Next task id: S2-T05
+- Last completed task id: S2-T05
+- Next task id: S2-T06
 - Blockers: Docker not installed (docker-compose ready but can't run yet)
 - Environment notes: Node 24.18, pnpm 10.11, Python 3.13, TypeScript 5.9, git 2.52
 
@@ -41,10 +41,11 @@
   - S2-T02: Per-conversation sequence numbers and message replay (CHAT-6): implemented `SequenceService` with Redis `INCR seq:{id}` and sorted set message buffering (`conv:{id}:msgs`), `clientId` message deduplication preventing duplicate message delivery and sequence advancement, `message:send` handler with monotonic sequencing, and `conversation:join` with `lastSeq` replaying all missed messages in chronological order. 4 integration tests verifying monotonic sequence generation, ack emission, deduplication, and full disconnect/reconnect replay guaranteeing zero message loss and zero duplicates.
   - S2-T03: Real-time typing indicators, online presence, and read receipts (CHAT-3): implemented `PresenceService` with Redis socket counters and tenant presence sets (`presence:tenant:{id}`), connection/disconnect lifecycle tracking broadcasting `presence:update` to tenant rooms on first connect and last disconnect, `typing:start` and `typing:stop` handlers broadcasting typing indicators to room members while excluding senders, and `message:read` handlers recording latest read sequence (`read:{convId}:{userId}`) and broadcasting read receipts. 3 integration tests covering typing indicators, cross-tenant presence isolation, and read receipt persistence.
   - S2-T04: Embeddable chat widget app (`apps/widget`) in React 19, Vite, Tailwind CSS v4, Socket.IO client, Lucide icons. Implemented `useWidgetSocket` hook with visitor session persistence (`visitor:<tenantId>:<visitorId>`), optimistic send, sequence deduplication, unread counters, `WidgetBubble` floating launcher with unread badge and toggle, `WidgetChat` conversation window with live messages, AI citation chips, typing indicator, auto-scroll, and message composer, `OfflineForm` when outside business hours submitting offline ticket fallback, `WidgetApp` configurable container with theme injection (primaryColor, title, greeting), `apps/widget/src/embed.tsx` single-script embedder mounting custom DOM container and exposing global `window.SupportPilot` API (`init`, `open`, `close`, `toggle`, `identify`), and `apps/widget/index.html` demo host page. 9 tests covering bubble toggle, offline form submission, chat messages & socket events, and root app rendering.
-- Tests added / results: 178 tests passing across monorepo (20 in shared-lib, 106 in ticket-service, 24 in gateway, 9 in widget, 14 in web, 4 in validators, 1 newman runner with 21 collection assertions)
-- Measurements recorded (M-ids): M02 (test count & coverage: 178 tests, 88.06% ticket-service statement coverage), M03 (Mongo explain executionStats for ticket list compound indexes)
+  - S2-T05: S3 presigned uploads using AWS SDK v3 against MinIO/LocalStack with tenant-isolated keys (`${tenantId}/${purpose}/${uuid}-${filename}`), 5-minute expiry (300s), and path sanitization (KB-1). Implemented zero-dependency magic byte detector (`magic-bytes.ts`) validating file signatures against declared MIME types and rejecting executables (Windows PE/MZ, Linux ELF, Mach-O) and spoofed files (T-FILE-01). Added `POST /api/v1/uploads/presign`, `POST /api/v1/kb/uploads/presign` (restricted to OWNER/LEAD), `POST /api/v1/uploads/verify` (range-request S3 header verification), `POST /api/v1/uploads/validate-direct`, and `POST /api/v1/kb/documents`. Added attachment support to tickets and ticket messages with strict cross-tenant key access rejection (403). Proxied upload and KB endpoints in gateway, and added attachment chips to widget chat. 25 new tests covering unit detection, presigned URL generation, RBAC, spoofed file rejection (T-FILE-01), and cross-tenant storage isolation.
+- Tests added / results: 203 tests passing across monorepo (20 in shared-lib, 131 in ticket-service, 24 in gateway, 9 in widget, 14 in web, 4 in validators, 1 newman runner with 21 collection assertions)
+- Measurements recorded (M-ids): M02 (test count & coverage: 203 tests, ticket-service statement coverage), M03 (Mongo explain executionStats for ticket list compound indexes)
 - Issues found: none
-- Next: S2-T05 (Presigned upload endpoint using AWS SDK v3 against MinIO/LocalStack; attachments in chat and tickets. Test: spoofed extension rejected via magic bytes)
+- Next: S2-T06 (ai-service skeleton (FastAPI), config, health, mock LLM provider interface)
   - S0-T04: .env.example + Zod env loader in @supportpilot/validators with 4 passing tests
   - S0-T05: CI skeleton .github/workflows/ci.yml with service containers
   - S0-T06: Logger (pino), request-id middleware, error handler (RFC 7807) in @supportpilot/shared-lib with 7 passing tests

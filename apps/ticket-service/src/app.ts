@@ -3,6 +3,8 @@ import { createLogger, requestIdMiddleware, errorHandler } from '@supportpilot/s
 import { isDbConnected } from './lib/mongoose.js';
 import { authRouter } from './routes/auth.routes.js';
 import { ticketRouter } from './routes/ticket.routes.js';
+import { uploadRouter } from './routes/upload.routes.js';
+import { kbRouter } from './routes/kb.routes.js';
 
 export function createApp(logLevel: string = 'info'): Express {
   const logger = createLogger('ticket-service', logLevel);
@@ -40,6 +42,8 @@ export function createApp(logLevel: string = 'info'): Express {
   // ── API routes ──
   app.use('/api/v1/auth', authRouter);
   app.use('/api/v1/tickets', ticketRouter);
+  app.use('/api/v1/uploads', uploadRouter);
+  app.use('/api/v1/kb', kbRouter);
 
   // ── Error handler (must be last) ──
   app.use(errorHandler(logger));

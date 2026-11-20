@@ -103,10 +103,27 @@ export function createSocketServer(
 
     // Send real-time message with monotonic sequence number and deduplication
     socket.on('message:send', async (payload, ack) => {
-      const { conversationId, clientId, body } = payload;
+      const { conversationId, clientId, body, attachments } = payload;
       if (!conversationId || !body) {
         ack?.({ status: 'error', error: 'conversationId and body are required' });
         return;
+      }
+
+      // Strict tenant isolation for attachments
+      if (Array.isArray(attachments)) {
+        for (const att of attachments) {
+          if (
+            typeof att === 'object' &&
+            att !== null &&
+            'key' in att &&
+            typeof (att as { key: string }).key === 'string'
+          ) {
+            if (!(att as { key: string }).key.startsWith(`${user.tenantId}/`)) {
+              ack?.({ status: 'error', error: 'Cross-tenant attachment access forbidden' });
+              return;
+            }
+          }
+        }
       }
 
       // Deduplication check by clientId
@@ -133,6 +150,7 @@ export function createSocketServer(
         body,
         senderType: user.isVisitor ? 'CUSTOMER' : 'AGENT',
         senderId: user.id,
+        attachments: attachments ?? [],
         createdAt: new Date().toISOString(),
       };
 

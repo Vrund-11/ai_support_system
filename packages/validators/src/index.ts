@@ -35,3 +35,12 @@ export {
 
 export { attachmentSchema, createMessageSchema } from './message.js';
 export type { CreateMessageInput } from './message.js';
+
+export {
+  presignUploadSchema,
+  verifyUploadSchema,
+  registerKbDocumentSchema,
+  type PresignUploadInput,
+  type VerifyUploadInput,
+  type RegisterKbDocumentInput,
+} from './upload.js';

@@ -45,6 +45,7 @@ export class TicketRepository extends BaseTenantRepository<ITicketDocument> {
       status: 'NEW',
       priority: input.priority,
       tags: input.tags,
+      attachments: input.attachments ?? [],
       customFields: input.customFields,
       version: 1,
       sla: { breached: false },

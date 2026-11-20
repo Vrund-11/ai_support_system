@@ -1,5 +1,4 @@
 // Shared TypeScript types for SupportPilot
-// Add types as features are built
 
 /** User roles across the platform */
 export type Role = 'PLATFORM_ADMIN' | 'OWNER' | 'LEAD' | 'AGENT' | 'VIEWER';
@@ -18,6 +17,55 @@ export type SenderType = 'CUSTOMER' | 'AI' | 'AGENT' | 'SYSTEM';
 
 /** Channel through which a ticket was created */
 export type Channel = 'WIDGET' | 'DASHBOARD' | 'API' | 'EMAIL';
+
+/** Tenant subscription plans */
+export type TenantPlan = 'FREE' | 'PRO';
+
+/** Tenant status */
+export type TenantStatus = 'ACTIVE' | 'SUSPENDED';
+
+/** User account status */
+export type UserStatus = 'ACTIVE' | 'INVITED' | 'SUSPENDED';
+
+/** SLA policy for a priority level (in minutes) */
+export interface SlaPolicy {
+  firstResponseMin: number;
+  resolveMin: number;
+}
+
+/** Business hours per day */
+export interface BusinessHours {
+  day: number; // 0 = Sunday, 1 = Monday, etc.
+  start: string; // HH:mm format, e.g. "09:00"
+  end: string; // HH:mm format, e.g. "17:00"
+}
+
+/** Per-tenant configuration settings */
+export interface TenantSettings {
+  brand: {
+    color: string;
+    logoUrl?: string;
+  };
+  businessHours: BusinessHours[];
+  timezone: string;
+  sla: Record<TicketPriority, SlaPolicy>;
+  aiEnabled: boolean;
+  aiThreshold: number; // 0.0 to 1.0
+}
+
+/** Registered device push token */
+export interface DeviceToken {
+  token: string;
+  platform: 'IOS' | 'ANDROID' | 'WEB';
+  lastSeen: string;
+}
+
+/** User notification preferences */
+export interface NotificationPrefs {
+  email: boolean;
+  push: boolean;
+  inApp: boolean;
+}
 
 /** RFC 7807 problem details error shape */
 export interface ProblemDetails {

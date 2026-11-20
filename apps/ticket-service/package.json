@@ -17,12 +17,14 @@
     "@supportpilot/shared-lib": "workspace:*",
     "@supportpilot/shared-types": "workspace:*",
     "@supportpilot/validators": "workspace:*",
+    "bcryptjs": "^3.0.3",
     "express": "^5.1.0",
     "mongoose": "^9.12.2",
     "pino": "^9.6.0"
   },
   "devDependencies": {
     "@supportpilot/eslint-config": "workspace:*",
+    "@types/bcryptjs": "^3.0.0",
     "@types/express": "^5.0.0",
     "@types/node": "^22.15.0",
     "@types/supertest": "^7.2.1",

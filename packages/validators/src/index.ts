@@ -14,3 +14,6 @@ export type {
   AiServiceEnv,
   NotificationServiceEnv,
 } from './env.js';
+
+export { registerTenantSchema } from './auth.js';
+export type { RegisterTenantInput } from './auth.js';

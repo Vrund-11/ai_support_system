@@ -169,10 +169,19 @@
     - Authored unit and integration test suite `tests/webhook-dispatcher.test.ts` (4 tests passing) verifying signature computation, header injection, batch error isolation, and retry on 500 status.
     - Authored least-privilege IAM policies in `infra/aws/iam/`: `lambda-sqs-policy.json` (SQS consumer + CloudWatch Logs) and `s3-upload-policy.json` (S3 presigned uploads + attachments).
     - Authored Terraform IaC in `infra/aws/terraform/` (`main.tf`, `variables.tf`, `outputs.tf`, `README.md`) supporting both LocalStack (`tflocal`) and real AWS with S3 encryption, 7-day multipart upload lifecycle rule, SQS queue with DLQ redrive policy, Lambda resource & event source mapping, and SSM parameters.
-- Tests added / results: 370 tests passing across monorepo (152 in ticket-service, 65 in ai-service pytest, 44 in gateway, 32 in shared-lib, 29 in web, 23 in notification-service, 9 in widget, 4 in validators, 4 lambda dispatcher, 5 hermetic e2e, 2 perf runner, 1 newman runner with 21 collection assertions)
-- Measurements recorded (M-ids): M02 (test count: 370 tests across services), M03 (Mongo explain executionStats for ticket list compound indexes), M04 (k6 ticket list p95 278.09ms at 200 VUs, 1,110.19 RPS), M05 (Chat WebSocket fan-out p95 3.36ms across 30 sockets), M06 (AI Eval golden set baseline: Hit@5 100%, Groundedness 100%, F1 1.0), M07 (Classifier: Priority Accuracy 92.22%, Priority F1 0.9220, Category Accuracy 100%, Category F1 1.0, Overall Macro-F1 0.9610), M11 (Docker multi-stage non-root images & compose profile)
+  - S3-T13: Observability: Prometheus metrics, Grafana dashboards, OpenTelemetry W3C tracing:
+    - Built Prometheus MetricsRegistry & exposition formatter in `@supportpilot/shared-lib/src/observability/metrics.ts` tracking `http_requests_total`, `http_request_duration_seconds` (histogram with 10 buckets), `websocket_connections_active`, `queue_jobs_total`, `sla_breaches_total`, `llm_requests_total`, and `llm_tokens_total`.
+    - Built OpenTelemetry W3C tracing in `@supportpilot/shared-lib/src/observability/tracer.ts` with standard `traceparent: 00-{traceId}-{spanId}-{flags}` header parsing, propagation, and Span lifecycle duration tracking.
+    - Mounted tracing and metrics middleware across all Node microservices (`gateway`, `ticket-service`, `notification-service`) with standard `GET /metrics` Prometheus endpoints.
+    - Mounted `GET /metrics` Prometheus exposition endpoint in `apps/ai-service/src/main.py`.
+    - Created Prometheus scraping configuration `infra/prometheus/prometheus.yml` targeting all services.
+    - Created Grafana provisioning (`infra/grafana/provisioning/`) and 3 production dashboards (`infra/grafana/dashboards/`): `overview.json` (RPS, 5xx rate, p50/p95/p99 latency, active sockets), `ai-analytics.json` (LLM inference rate, semantic cache hit ratio, token consumption, classification throughput), and `queues-sla.json` (job throughput, DLQ failures, SLA breach count, compliance ratio).
+    - Updated `infra/docker/docker-compose.yml` with `obs` profile running Prometheus on port 9090 and Grafana on port 3005.
+    - Added 9 unit tests in `packages/shared-lib/tests/observability.test.ts` (all passing).
+- Tests added / results: 375 tests passing across monorepo (152 in ticket-service, 65 in ai-service pytest, 44 in gateway, 41 in shared-lib, 29 in web, 23 in notification-service, 9 in widget, 4 in validators, 4 lambda dispatcher, 5 hermetic e2e, 2 perf runner, 1 newman runner with 21 collection assertions)
+- Measurements recorded (M-ids): M02 (test count: 375 tests across services), M03 (Mongo explain executionStats for ticket list compound indexes), M04 (k6 ticket list p95 278.09ms at 200 VUs, 1,110.19 RPS), M05 (Chat WebSocket fan-out p95 3.36ms across 30 sockets), M06 (AI Eval golden set baseline: Hit@5 100%, Groundedness 100%, F1 1.0), M07 (Classifier: Priority Accuracy 92.22%, Priority F1 0.9220, Category Accuracy 100%, Category F1 1.0, Overall Macro-F1 0.9610), M11 (Docker multi-stage non-root images & compose profile)
 - Issues found: none
-- Next: S3-T13 (Observability: pino logs, Prometheus metrics, Grafana dashboards, OpenTelemetry tracing)
+- Next: S3-T14 (Security pass: cross-tenant suite, rate-limit tests, prompt-injection tests, CSP/CORS/Helmet)
   - S0-T04: .env.example + Zod env loader in @supportpilot/validators with 4 passing tests
   - S0-T05: CI skeleton .github/workflows/ci.yml with service containers
   - S0-T06: Logger (pino), request-id middleware, error handler (RFC 7807) in @supportpilot/shared-lib with 7 passing tests

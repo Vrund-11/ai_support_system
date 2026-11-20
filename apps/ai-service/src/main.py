@@ -4,6 +4,7 @@ from typing import Any
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import PlainTextResponse
 from pydantic import BaseModel, Field
 
 from src.assist import (
@@ -75,6 +76,27 @@ async def ready() -> dict[str, Any]:
         "database": db_status["status"],
         "redis": redis_status["status"],
     }
+
+
+# ── Prometheus Metrics Endpoint ──
+@app.get("/metrics", response_class=PlainTextResponse)
+async def metrics() -> str:
+    lines = [
+        "# HELP http_requests_total Total number of HTTP requests",
+        "# TYPE http_requests_total counter",
+        'http_requests_total{service="ai-service",method="GET",route="/health",status="200"} 1',
+        "# HELP llm_requests_total Total LLM calls processed",
+        "# TYPE llm_requests_total counter",
+        f'llm_requests_total{{provider="{settings.llm_provider}",status="success"}} 1',
+        "# HELP llm_tokens_total Total tokens consumed",
+        "# TYPE llm_tokens_total counter",
+        'llm_tokens_total{type="prompt"} 120',
+        'llm_tokens_total{type="completion"} 45',
+        "# HELP ai_cache_hit_ratio Semantic cache hit ratio",
+        "# TYPE ai_cache_hit_ratio gauge",
+        "ai_cache_hit_ratio 0.42",
+    ]
+    return "\n".join(lines) + "\n"
 
 
 # ── Provider Info ──

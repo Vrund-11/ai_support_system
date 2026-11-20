@@ -1,5 +1,12 @@
 import express, { type Express } from 'express';
-import { requestIdMiddleware, errorHandler, type Logger } from '@supportpilot/shared-lib';
+import {
+  requestIdMiddleware,
+  errorHandler,
+  type Logger,
+  createMetricsMiddleware,
+  createMetricsHandler,
+  createTraceMiddleware,
+} from '@supportpilot/shared-lib';
 import type { QueueManager } from './manager.js';
 import { createNotificationRoutes } from './routes/notification.routes.js';
 import { createDlqRoutes } from './routes/dlq.routes.js';
@@ -15,6 +22,11 @@ export function createApp(config: AppConfig): Express {
 
   app.use(express.json());
   app.use(requestIdMiddleware);
+  app.use(createTraceMiddleware('notification-service'));
+  app.use(createMetricsMiddleware('notification-service'));
+
+  // Metrics endpoint (Prometheus)
+  app.get('/metrics', createMetricsHandler());
 
   // Health and ready probes
   app.get('/health', (_req, res) => {

@@ -1,0 +1,57 @@
+{
+  "title": "SupportPilot - Queues & SLA Compliance",
+  "uid": "supportpilot-queues-sla",
+  "schemaVersion": 36,
+  "refresh": "5s",
+  "tags": ["supportpilot", "queues", "sla"],
+  "panels": [
+    {
+      "id": 1,
+      "title": "Queue Jobs Processed Rate",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 0 },
+      "targets": [
+        {
+          "expr": "sum(rate(queue_jobs_total[1m])) by (queue_name, status)",
+          "legendFormat": "{{queue_name}} ({{status}})"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Total SLA Breaches",
+      "type": "stat",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 0 },
+      "targets": [
+        {
+          "expr": "sum(sla_breaches_total)",
+          "legendFormat": "Breaches"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Dead-Letter Queue (DLQ) Accumulation",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 8 },
+      "targets": [
+        {
+          "expr": "sum(rate(queue_jobs_total{status=\"failed\"}[5m]))",
+          "legendFormat": "Failures/sec"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "SLA Compliance Ratio",
+      "type": "gauge",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 8 },
+      "targets": [
+        {
+          "expr": "100 - (sum(rate(sla_breaches_total[10m])) / sum(rate(http_requests_total{route=~\"/api/v1/tickets.*\"}[10m])) * 100)",
+          "legendFormat": "Compliance %"
+        }
+      ]
+    }
+  ]
+}

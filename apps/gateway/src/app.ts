@@ -1,6 +1,13 @@
 import express, { type Express } from 'express';
 import type { Redis } from 'ioredis';
-import { createLogger, requestIdMiddleware, errorHandler } from '@supportpilot/shared-lib';
+import {
+  createLogger,
+  requestIdMiddleware,
+  errorHandler,
+  createMetricsMiddleware,
+  createMetricsHandler,
+  createTraceMiddleware,
+} from '@supportpilot/shared-lib';
 import { isRedisConnected } from './lib/redis.js';
 import { createRateLimiter } from './middleware/rate-limiter.js';
 import { createAuthPassthrough } from './middleware/auth-passthrough.js';
@@ -33,6 +40,11 @@ export function createApp(config: GatewayConfig = {}): Express {
 
   app.use(express.json());
   app.use(requestIdMiddleware);
+  app.use(createTraceMiddleware('gateway'));
+  app.use(createMetricsMiddleware('gateway'));
+
+  // ── Metrics endpoint (Prometheus) ──
+  app.get('/metrics', createMetricsHandler());
 
   // ── Liveness probe ──
   app.get('/health', (_req, res) => {

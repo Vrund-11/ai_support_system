@@ -1,5 +1,12 @@
 import express, { type Express } from 'express';
-import { createLogger, requestIdMiddleware, errorHandler } from '@supportpilot/shared-lib';
+import {
+  createLogger,
+  requestIdMiddleware,
+  errorHandler,
+  createMetricsMiddleware,
+  createMetricsHandler,
+  createTraceMiddleware,
+} from '@supportpilot/shared-lib';
 import { isDbConnected } from './lib/mongoose.js';
 import { authRouter } from './routes/auth.routes.js';
 import { ticketRouter } from './routes/ticket.routes.js';
@@ -15,6 +22,11 @@ export function createApp(logLevel: string = 'info'): Express {
 
   app.use(express.json());
   app.use(requestIdMiddleware);
+  app.use(createTraceMiddleware('ticket-service'));
+  app.use(createMetricsMiddleware('ticket-service'));
+
+  // ── Metrics endpoint (Prometheus) ──
+  app.get('/metrics', createMetricsHandler());
 
   // ── Liveness probe ──
   app.get('/health', (_req, res) => {

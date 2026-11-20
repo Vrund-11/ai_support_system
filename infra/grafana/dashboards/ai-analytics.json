@@ -1,0 +1,57 @@
+{
+  "title": "SupportPilot - AI & LLM Analytics",
+  "uid": "supportpilot-ai",
+  "schemaVersion": 36,
+  "refresh": "5s",
+  "tags": ["supportpilot", "ai"],
+  "panels": [
+    {
+      "id": 1,
+      "title": "LLM Inference Call Rate",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 0 },
+      "targets": [
+        {
+          "expr": "sum(rate(llm_requests_total[1m])) by (provider, status)",
+          "legendFormat": "{{provider}} ({{status}})"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Semantic Cache Hit Ratio",
+      "type": "gauge",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 0 },
+      "targets": [
+        {
+          "expr": "avg(ai_cache_hit_ratio)",
+          "legendFormat": "Hit Ratio"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Token Consumption (Prompt vs Completion)",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 8 },
+      "targets": [
+        {
+          "expr": "sum(rate(llm_tokens_total[5m])) by (type)",
+          "legendFormat": "{{type}} tokens/sec"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Ticket Classification Throughput",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 8 },
+      "targets": [
+        {
+          "expr": "sum(rate(http_requests_total{route=~\"/v1/classify.*\"}[1m]))",
+          "legendFormat": "Classifications/sec"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,65 @@
+name: Deploy Staging Smoke Test
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-staging
+  cancel-in-progress: false
+
+jobs:
+  staging-smoke:
+    name: Kind Cluster Deploy & Smoke Test
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Kind Cluster
+        uses: helm/kind-action@v1.10.0
+        with:
+          config: infra/k8s/kind-config.yaml
+          cluster_name: supportpilot-staging
+
+      - name: Install Ingress NGINX
+        run: |
+          kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/kind/deploy.yaml
+          kubectl wait --namespace ingress-nginx \
+            --for=condition=ready pod \
+            --selector=app.kubernetes.io/component=controller \
+            --timeout=120s
+
+      - name: Build Local Images
+        run: |
+          docker build -t supportpilot/gateway:staging -f apps/gateway/Dockerfile .
+          docker build -t supportpilot/ticket-service:staging -f apps/ticket-service/Dockerfile .
+          docker build -t supportpilot/ai-service:staging -f apps/ai-service/Dockerfile .
+          docker build -t supportpilot/notification-service:staging -f apps/notification-service/Dockerfile .
+          docker build -t supportpilot/web:staging -f apps/web/Dockerfile .
+
+      - name: Load Images into Kind
+        run: |
+          kind load docker-image supportpilot/gateway:staging --name supportpilot-staging
+          kind load docker-image supportpilot/ticket-service:staging --name supportpilot-staging
+          kind load docker-image supportpilot/ai-service:staging --name supportpilot-staging
+          kind load docker-image supportpilot/notification-service:staging --name supportpilot-staging
+          kind load docker-image supportpilot/web:staging --name supportpilot-staging
+
+      - name: Apply Kustomize Staging Overlay
+        run: |
+          kubectl apply -k infra/k8s/overlays/staging
+
+      - name: Verify Staging Rollouts
+        run: |
+          kubectl rollout status deployment/gateway -n supportpilot --timeout=120s
+          kubectl rollout status deployment/ticket-service -n supportpilot --timeout=120s
+          kubectl rollout status deployment/ai-service -n supportpilot --timeout=120s
+          kubectl rollout status deployment/notification-service -n supportpilot --timeout=120s
+          kubectl rollout status deployment/web -n supportpilot --timeout=120s
+
+      - name: Verify Cluster Resources & Pods
+        run: |
+          kubectl get pods,svc,ingress,hpa,networkpolicy -n supportpilot

@@ -102,6 +102,55 @@ export class TicketRepository extends BaseTenantRepository<ITicketDocument> {
   }
 
   /**
+   * Explain query execution plan for listTickets (TKT-7).
+   * Calls .explain('executionStats') to measure index usage and query performance.
+   */
+  async explainListTickets(filterInput: TicketFilterInput): Promise<Record<string, unknown>> {
+    const query: TenantQueryFilter<ITicketDocument> = {} as TenantQueryFilter<ITicketDocument>;
+
+    if (filterInput.status) {
+      const statuses = Array.isArray(filterInput.status)
+        ? filterInput.status
+        : [filterInput.status];
+      query['status'] = { $in: statuses };
+    }
+
+    if (filterInput.priority) {
+      const priorities = Array.isArray(filterInput.priority)
+        ? filterInput.priority
+        : [filterInput.priority];
+      query['priority'] = { $in: priorities };
+    }
+
+    if (filterInput.assigneeId && Types.ObjectId.isValid(filterInput.assigneeId)) {
+      query['assigneeId'] = new Types.ObjectId(filterInput.assigneeId);
+    }
+
+    if (filterInput.tag) {
+      query['tags'] = { $in: [filterInput.tag] };
+    }
+
+    if (filterInput.q) {
+      query['$text'] = { $search: filterInput.q };
+    }
+
+    if (filterInput.from || filterInput.to) {
+      const dateFilter: Record<string, Date> = {};
+      if (filterInput.from) dateFilter['$gte'] = new Date(filterInput.from);
+      if (filterInput.to) dateFilter['$lte'] = new Date(filterInput.to);
+      query['createdAt'] = dateFilter;
+    }
+
+    const explained = await (
+      this.model.find(this.scopeFilter(query)) as unknown as {
+        explain: (verbosity: string) => Promise<Record<string, unknown>>;
+      }
+    ).explain('executionStats');
+
+    return explained;
+  }
+
+  /**
    * Update ticket with optimistic concurrency control (TKT-9).
    * Verifies version before updating. Increments version on success.
    * Throws 409 Conflict if version does not match existing ticket.

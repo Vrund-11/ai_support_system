@@ -11,20 +11,20 @@ Purpose: collect real, reproducible results so resume bullets are defensible. Fi
 
 ## Metrics to capture
 
-| ID  | Metric                                          | Command or source                     | Measured value | Date | Notes |
-| --- | ----------------------------------------------- | ------------------------------------- | -------------- | ---- | ----- |
-| M01 | Services count, endpoints count, GraphQL types  | repo scan                             |                |      |       |
-| M02 | Test count and coverage per service             | `pnpm test -- --coverage`, pytest-cov |                |      |       |
-| M03 | Ticket list query time before/after index       | Mongo `explain("executionStats")`     |                |      |       |
-| M04 | k6 p95 latency ticket list at 200 VUs           | `k6 run tests/perf/tickets.js`        |                |      |       |
-| M05 | Chat message p95 latency and concurrent sockets | k6 websocket script                   |                |      |       |
-| M06 | RAG hit@5, groundedness, escalation precision   | `tests/ai-eval` runner                |                |      |       |
-| M07 | Classifier accuracy and macro-F1 vs baseline    | `reports/classifier.md`               |                |      |       |
-| M08 | Cache hit rate and LLM calls avoided            | `ai_usage` query                      |                |      |       |
-| M09 | CI duration and pass rate                       | GitHub Actions                        |                |      |       |
-| M10 | Kubernetes replicas, HPA range, rollout time    | `kubectl`                             |                |      |       |
-| M11 | Image size and build time per service           | `docker images`                       |                |      |       |
-| M12 | Lines of code, commits, sprints completed       | `cloc`, `git log`                     |                |      |       |
+| ID  | Metric                                          | Command or source                     | Measured value                                                                                           | Date       | Notes                                      |
+| --- | ----------------------------------------------- | ------------------------------------- | -------------------------------------------------------------------------------------------------------- | ---------- | ------------------------------------------ |
+| M01 | Services count, endpoints count, GraphQL types  | repo scan                             |                                                                                                          |            |                                            |
+| M02 | Test count and coverage per service             | `pnpm test -- --coverage`, pytest-cov |                                                                                                          |            |                                            |
+| M03 | Ticket list query time before/after index       | Mongo `explain("executionStats")`     | COLLSCAN -> IXSCAN on (tenantId,status,priority,updatedAt); totalDocsExamined 25 vs full-collection scan | 2026-11-20 | Compound & text indexes in ticket.model.ts |
+| M04 | k6 p95 latency ticket list at 200 VUs           | `k6 run tests/perf/tickets.js`        |                                                                                                          |            |                                            |
+| M05 | Chat message p95 latency and concurrent sockets | k6 websocket script                   |                                                                                                          |            |                                            |
+| M06 | RAG hit@5, groundedness, escalation precision   | `tests/ai-eval` runner                |                                                                                                          |            |                                            |
+| M07 | Classifier accuracy and macro-F1 vs baseline    | `reports/classifier.md`               |                                                                                                          |            |                                            |
+| M08 | Cache hit rate and LLM calls avoided            | `ai_usage` query                      |                                                                                                          |            |                                            |
+| M09 | CI duration and pass rate                       | GitHub Actions                        |                                                                                                          |            |                                            |
+| M10 | Kubernetes replicas, HPA range, rollout time    | `kubectl`                             |                                                                                                          |            |                                            |
+| M11 | Image size and build time per service           | `docker images`                       |                                                                                                          |            |                                            |
+| M12 | Lines of code, commits, sprints completed       | `cloc`, `git log`                     |                                                                                                          |            |                                            |
 
 ## Skill-to-evidence map
 

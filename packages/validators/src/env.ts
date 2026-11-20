@@ -26,6 +26,10 @@ export const ticketServiceEnvSchema = baseEnvSchema.extend({
   MONGODB_URI: z.string().min(1),
   REDIS_URL: z.string().url(),
   SERVICE_TOKEN: z.string().min(16),
+  JWT_ACCESS_SECRET: z.string().min(32),
+  JWT_REFRESH_SECRET: z.string().min(32),
+  JWT_ACCESS_EXPIRES_IN: z.string().default('15m'),
+  JWT_REFRESH_EXPIRES_IN: z.string().default('7d'),
 });
 
 /** AI-service env (Python uses Pydantic, but we define the shape here for reference) */

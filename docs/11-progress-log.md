@@ -4,8 +4,8 @@
 
 - Date: 2026-11-20
 - Current sprint: Sprint 1 (MERN core)
-- Last completed task id: S1-T02
-- Next task id: S1-T03
+- Last completed task id: S1-T03
+- Next task id: S1-T04
 - Blockers: Docker not installed (docker-compose ready but can't run yet)
 - Environment notes: Node 24.18, pnpm 10.11, Python 3.13, TypeScript 5.9, git 2.52
 
@@ -25,10 +25,11 @@
   - Sprint 0 complete (S0-T01 through S0-T07)
   - S1-T01: ticket-service skeleton, Mongoose connection module with event listeners and retry handling, `/health` and `/ready` endpoints, graceful shutdown on SIGTERM/SIGINT.
   - S1-T02: Tenant and User Mongoose models with compound indexes, default settings (brand, business hours, SLA, AI threshold), slug generator, and `POST /api/v1/auth/register` flow with bcrypt cost 12 password hashing.
-- Tests added / results: 17 tests passing across monorepo (3 new in ticket-service for registration and validation)
+  - S1-T03: JWT auth — login with bcrypt verify, access token (15m) + refresh token (7d) rotation via Redis hash store, reuse detection revokes all sessions, logout endpoint, `requireAuth` middleware. Added `jsonwebtoken` and `ioredis` deps. 10 tests: validation, wrong email/password, login success, token rotation, reuse detection, expired token, logout 204, auth middleware reject/accept.
+- Tests added / results: 27 tests passing across monorepo (10 new auth tests in ticket-service)
 - Measurements recorded (M-ids): none yet
 - Issues found: none
-- Next: S1-T03 (Auth: bcrypt, JWT access, refresh rotation with Redis hash store, logout revoke)
+- Next: S1-T04 (RBAC middleware with deny-by-default and role matrix tests)
   - S0-T04: .env.example + Zod env loader in @supportpilot/validators with 4 passing tests
   - S0-T05: CI skeleton .github/workflows/ci.yml with service containers
   - S0-T06: Logger (pino), request-id middleware, error handler (RFC 7807) in @supportpilot/shared-lib with 7 passing tests
@@ -40,7 +41,7 @@
 
 ## Handoff checklist for the next person or AI
 
-- [x] `pnpm verify` passes on main (36/36 tasks green)
+- [x] `pnpm verify` passes on main (36/36 tasks green, 27 tests)
 - [ ] `docker compose up -d` brings up datastores healthy (Docker not installed yet)
 - [x] README setup steps still accurate
 - [x] Roadmap checkboxes up to date

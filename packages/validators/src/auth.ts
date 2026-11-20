@@ -19,3 +19,22 @@ export const registerTenantSchema = z.object({
 });
 
 export type RegisterTenantInput = z.infer<typeof registerTenantSchema>;
+
+export const loginSchema = z.object({
+  email: z.string().trim().email('Invalid email address').toLowerCase(),
+  password: z.string().min(1, 'Password is required'),
+});
+
+export type LoginInput = z.infer<typeof loginSchema>;
+
+export const refreshSchema = z.object({
+  refreshToken: z.string().min(1, 'Refresh token is required'),
+});
+
+export type RefreshInput = z.infer<typeof refreshSchema>;
+
+export const logoutSchema = z.object({
+  refreshToken: z.string().min(1, 'Refresh token is required'),
+});
+
+export type LogoutInput = z.infer<typeof logoutSchema>;

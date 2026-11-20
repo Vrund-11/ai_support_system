@@ -16,7 +16,7 @@ Legend: [ ] todo, [x] done. Task id format `S<sprint>-T<nn>`. Priority P0/P1/P2 
 
 - [x] S1-T01 ticket-service skeleton, Mongoose connection, health endpoints. (FR: TEN-1)
 - [x] S1-T02 Tenant + user models, register tenant flow (creates owner, default settings). (TEN-2, AUTH-1)
-- [ ] S1-T03 Auth: bcrypt, JWT access, refresh rotation with Redis hash store, logout revoke. (AUTH-2) Tests: rotation, reuse detection, expiry.
+- [x] S1-T03 Auth: bcrypt, JWT access, refresh rotation with Redis hash store, logout revoke. (AUTH-2) Tests: rotation, reuse detection, expiry.
 - [ ] S1-T04 RBAC middleware with deny-by-default and role matrix tests. (AUTH-3)
 - [ ] S1-T05 Tenant-scoped repository base class (injects tenantId, forbids unscoped queries). (TEN-1) Tests: cross-tenant read/update/delete fail.
 - [ ] S1-T06 Ticket model, counters, create/list/get/update with version check. (TKT-1,3,9)

@@ -12,6 +12,7 @@ import { isRedisConnected } from './lib/redis.js';
 import { createRateLimiter } from './middleware/rate-limiter.js';
 import { createAuthPassthrough } from './middleware/auth-passthrough.js';
 import { createProxyMiddleware } from './middleware/proxy.js';
+import { createSecurityHeadersMiddleware } from './middleware/security.js';
 import { setupGraphQL } from './graphql/server.js';
 
 export interface GatewayConfig {
@@ -38,6 +39,7 @@ export function createApp(config: GatewayConfig = {}): Express {
     process.env['JWT_ACCESS_SECRET'] ??
     'default-secret-at-least-32-chars!!';
 
+  app.use(createSecurityHeadersMiddleware());
   app.use(express.json());
   app.use(requestIdMiddleware);
   app.use(createTraceMiddleware('gateway'));

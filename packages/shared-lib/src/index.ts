@@ -5,4 +5,9 @@ export {
   REQUEST_ID_HEADER,
   errorHandler,
   AppError,
+  requireRoles,
+  requireMinRole,
+  hasMinRole,
+  hasRole,
+  ROLE_HIERARCHY,
 } from './middleware/index.js';

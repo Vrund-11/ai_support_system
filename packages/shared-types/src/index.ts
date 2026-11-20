@@ -3,6 +3,14 @@
 /** User roles across the platform */
 export type Role = 'PLATFORM_ADMIN' | 'OWNER' | 'LEAD' | 'AGENT' | 'VIEWER';
 
+/** Authenticated user attached to requests */
+export interface AuthUser {
+  sub: string;
+  tenantId: string;
+  role: Role;
+  [key: string]: unknown;
+}
+
 /** Ticket statuses with allowed transitions */
 export type TicketStatus = 'NEW' | 'OPEN' | 'PENDING_CUSTOMER' | 'ON_HOLD' | 'RESOLVED' | 'CLOSED';
 

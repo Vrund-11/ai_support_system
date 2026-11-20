@@ -1,6 +1,7 @@
 import jwt, { type SignOptions } from 'jsonwebtoken';
 import crypto from 'node:crypto';
 import bcrypt from 'bcryptjs';
+import type { Role } from '@supportpilot/shared-types';
 import { AppError } from '@supportpilot/shared-lib';
 import { User, type IUserDocument } from '../models/user.model.js';
 import { getRedis } from '../lib/redis.js';
@@ -30,7 +31,7 @@ export function configureAuth(config: AuthConfig): void {
 export interface TokenPayload {
   sub: string; // userId
   tenantId: string;
-  role: string;
+  role: Role;
 }
 
 export interface TokenPair {

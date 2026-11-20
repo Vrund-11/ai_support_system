@@ -8,6 +8,7 @@ from pydantic import BaseModel, Field
 
 from src.cache.semantic import get_semantic_cache
 from src.config import settings
+from src.eval.runner import EvalRunner
 from src.ingest.pipeline import IngestionPipeline
 from src.ingest.repository import get_ingest_repository
 from src.lib.db import check_db_connection
@@ -261,3 +262,36 @@ class CacheInvalidateRequest(BaseModel):
 async def invalidate_cache(req: CacheInvalidateRequest) -> dict[str, Any]:
     count = await get_semantic_cache().invalidate_tenant(req.tenant_id)
     return {"tenant_id": req.tenant_id, "invalidated_count": count}
+
+
+# ── Evaluation Runner Endpoint (AI-10) ──
+class RunEvalRequest(BaseModel):
+    dataset_name: str = "supportpilot_golden"
+    golden_path: str = "tests/ai-eval/golden/supportpilot_golden.jsonl"
+    tenant_id: str = "tenant_eval_01"
+    enforce_gate: bool = True
+
+
+@app.post("/v1/eval/run")
+async def run_evaluation(req: RunEvalRequest) -> dict[str, Any]:
+    runner = EvalRunner()
+    samples = runner.load_golden_set(req.golden_path)
+    metrics = await runner.run_evaluation(
+        dataset_name=req.dataset_name,
+        samples=samples,
+        tenant_id=req.tenant_id,
+        enforce_gate=req.enforce_gate,
+    )
+    return {
+        "run_id": metrics.run_id,
+        "dataset_name": metrics.dataset_name,
+        "total_samples": metrics.total_samples,
+        "hit_at_5": metrics.hit_at_5,
+        "groundedness": metrics.groundedness,
+        "escalation_f1": metrics.escalation_f1,
+        "escalation_precision": metrics.escalation_precision,
+        "escalation_recall": metrics.escalation_recall,
+        "p95_latency_ms": metrics.p95_latency_ms,
+        "passed_regression_gate": metrics.passed_regression_gate,
+        "baseline_groundedness": metrics.baseline_groundedness,
+    }

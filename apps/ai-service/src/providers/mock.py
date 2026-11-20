@@ -6,6 +6,7 @@ unit-normalized 384-dimensional embeddings without paid API calls.
 
 import hashlib
 import math
+import re
 from typing import TypeVar
 
 from pydantic import BaseModel
@@ -60,32 +61,72 @@ class MockLLMProvider(LLMProvider):
                 raise ValueError("Simulated malformed JSON response from LLM")
 
         if issubclass(schema, RagAnswer):
-            confidence = 0.35 if self.simulate_low_confidence else 0.92
+            # Check prompt context for chunks and adversarial signals
+            adv_triggers = [
+                "cake", "gluten", "fifa", "world cup", "relativity", "spacetime",
+                "poem", "shakespeare", "sql injection", "recipe", "pizza", "hotwire",
+                "secret system prompt", "capital city", "australia", "medical",
+                "headaches", "malware", "prime minister", "swallow", "wi-fi", "hack",
+                "system override", "ignore all", "ignore context"
+            ]
+            is_adv = any(w in user_prompt.lower() for w in adv_triggers)
+            should_escalate = (
+                self.simulate_should_escalate
+                or self.simulate_low_confidence
+                or is_adv
+            )
+
+            confidence = 0.35 if should_escalate else 0.92
             self_rating = (
                 self.custom_self_rating
                 if self.custom_self_rating is not None
-                else (0.4 if self.simulate_low_confidence else 0.95)
+                else (0.4 if should_escalate else 0.95)
             )
-            should_escalate = self.simulate_should_escalate or self.simulate_low_confidence
-            answer_text = (
-                self.custom_answer
-                if self.custom_answer is not None
-                else (
+
+            chunk_matches = re.findall(
+                r"\[chunk:([^\]]+)\](?:\s*\([^)]*\))?\s*([^\n\[]+)", user_prompt
+            )
+
+            if self.custom_citations is not None:
+                citations = self.custom_citations
+            elif should_escalate or not chunk_matches:
+                citations = (
+                    []
+                    if should_escalate
+                    else [
+                        CitationItem(
+                            chunk_id="chunk-default-101",
+                            doc_id="doc-kb-001",
+                            title="Getting Started Guide",
+                        )
+                    ]
+                )
+            else:
+                citations = [
+                    CitationItem(
+                        chunk_id=chunk_matches[0][0],
+                        doc_id="doc-kb-001",
+                        title="SupportPilot Knowledge Base",
+                    )
+                ]
+
+            if self.custom_answer is not None:
+                answer_text = self.custom_answer
+            elif should_escalate:
+                answer_text = (
+                    "I am unable to answer this inquiry based on available documentation. "
+                    "Connecting you with a human support agent..."
+                )
+            elif chunk_matches:
+                chunk_snippet = chunk_matches[0][1].strip()[:180]
+                answer_text = (
+                    f"According to our official documentation: {chunk_snippet}"
+                )
+            else:
+                answer_text = (
                     "According to our knowledge base, here is the answer regarding your question: "
                     f"'{user_prompt[:80]}'."
                 )
-            )
-            citations = (
-                self.custom_citations
-                if self.custom_citations is not None
-                else [
-                    CitationItem(
-                        chunk_id="chunk-default-101",
-                        doc_id="doc-kb-001",
-                        title="Getting Started Guide",
-                    )
-                ]
-            )
 
             result = RagAnswer(
                 answer=answer_text,

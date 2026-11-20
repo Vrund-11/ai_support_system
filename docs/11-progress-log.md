@@ -159,10 +159,20 @@
       - M04: Ticket list under 200 concurrent requests achieved 1,110.19 RPS; p50 158.96ms, p95 278.09ms (well below PRD 400ms threshold), p99 283.95ms, 0.00% error rate.
       - M05: WebSocket chat broadcast fan-out across 30 concurrent sockets achieved p50 1.90ms, p95 3.36ms (well below PRD 300ms threshold), p99 3.87ms.
       - Generated and stored machine-readable performance artifacts in `reports/perf/tickets-summary.json` and `reports/perf/chat-summary.json`.
-- Tests added / results: 366 tests passing across monorepo (152 in ticket-service, 65 in ai-service pytest, 44 in gateway, 32 in shared-lib, 29 in web, 23 in notification-service, 9 in widget, 4 in validators, 5 hermetic e2e, 2 perf runner, 1 newman runner with 21 collection assertions)
-- Measurements recorded (M-ids): M02 (test count: 366 tests across services), M03 (Mongo explain executionStats for ticket list compound indexes), M04 (k6 ticket list p95 278.09ms at 200 VUs, 1,110.19 RPS), M05 (Chat WebSocket fan-out p95 3.36ms across 30 sockets), M06 (AI Eval golden set baseline: Hit@5 100%, Groundedness 100%, F1 1.0), M07 (Classifier: Priority Accuracy 92.22%, Priority F1 0.9220, Category Accuracy 100%, Category F1 1.0, Overall Macro-F1 0.9610), M11 (Docker multi-stage non-root images & compose profile)
+  - S3-T12: AWS-compatible pieces: webhook Lambda, SAM local, SQS + DLQ, Terraform, IAM policies (INT-2):
+    - Created AWS Lambda function `infra/aws/lambda/webhook-dispatcher/index.ts`:
+      - Processes SQS batches with partial batch failure reporting (`batchItemFailures`).
+      - Signs payloads deterministically using HMAC-SHA256 (`x-supportpilot-signature: sha256=<hash>`).
+      - Injects standard security and tracing headers (`x-supportpilot-event`, `x-supportpilot-tenant-id`, `x-supportpilot-delivery`, `x-supportpilot-timestamp`).
+      - Dispatches HTTP POST with 5s timeout; rethrows on non-2xx for SQS retry and dead-letter queue routing after 6 receives.
+    - Created AWS SAM template `template.yaml` and sample SQS event `events/sample-sqs-event.json` for SAM local invocation.
+    - Authored unit and integration test suite `tests/webhook-dispatcher.test.ts` (4 tests passing) verifying signature computation, header injection, batch error isolation, and retry on 500 status.
+    - Authored least-privilege IAM policies in `infra/aws/iam/`: `lambda-sqs-policy.json` (SQS consumer + CloudWatch Logs) and `s3-upload-policy.json` (S3 presigned uploads + attachments).
+    - Authored Terraform IaC in `infra/aws/terraform/` (`main.tf`, `variables.tf`, `outputs.tf`, `README.md`) supporting both LocalStack (`tflocal`) and real AWS with S3 encryption, 7-day multipart upload lifecycle rule, SQS queue with DLQ redrive policy, Lambda resource & event source mapping, and SSM parameters.
+- Tests added / results: 370 tests passing across monorepo (152 in ticket-service, 65 in ai-service pytest, 44 in gateway, 32 in shared-lib, 29 in web, 23 in notification-service, 9 in widget, 4 in validators, 4 lambda dispatcher, 5 hermetic e2e, 2 perf runner, 1 newman runner with 21 collection assertions)
+- Measurements recorded (M-ids): M02 (test count: 370 tests across services), M03 (Mongo explain executionStats for ticket list compound indexes), M04 (k6 ticket list p95 278.09ms at 200 VUs, 1,110.19 RPS), M05 (Chat WebSocket fan-out p95 3.36ms across 30 sockets), M06 (AI Eval golden set baseline: Hit@5 100%, Groundedness 100%, F1 1.0), M07 (Classifier: Priority Accuracy 92.22%, Priority F1 0.9220, Category Accuracy 100%, Category F1 1.0, Overall Macro-F1 0.9610), M11 (Docker multi-stage non-root images & compose profile)
 - Issues found: none
-- Next: S3-T12 (AWS-compatible pieces: webhook Lambda fed by SQS; Terraform + tflocal)
+- Next: S3-T13 (Observability: pino logs, Prometheus metrics, Grafana dashboards, OpenTelemetry tracing)
   - S0-T04: .env.example + Zod env loader in @supportpilot/validators with 4 passing tests
   - S0-T05: CI skeleton .github/workflows/ci.yml with service containers
   - S0-T06: Logger (pino), request-id middleware, error handler (RFC 7807) in @supportpilot/shared-lib with 7 passing tests

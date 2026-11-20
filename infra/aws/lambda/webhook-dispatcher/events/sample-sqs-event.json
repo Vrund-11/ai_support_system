@@ -1,0 +1,20 @@
+{
+  "Records": [
+    {
+      "messageId": "msg-001-sample-delivery",
+      "receiptHandle": "AQEBwJnKyrHigUMZj6r...",
+      "body": "{\"tenantId\":\"tenant_sample_01\",\"eventId\":\"evt_ticket_created_123\",\"event\":\"ticket.created\",\"targetUrl\":\"https://webhook.site/sample\",\"secret\":\"sample-secret-key-456\",\"payload\":{\"ticketId\":\"tkt_123\",\"title\":\"Network outage in US-East\",\"priority\":\"HIGH\",\"status\":\"OPEN\"},\"timestamp\":\"2026-11-20T12:00:00.000Z\"}",
+      "attributes": {
+        "ApproximateReceiveCount": "1",
+        "SentTimestamp": "1732104000000",
+        "SenderId": "AIDAI",
+        "ApproximateFirstReceiveTimestamp": "1732104001000"
+      },
+      "messageAttributes": {},
+      "md5OfBody": "098f6bcd4621d373cade4e832627b4f6",
+      "eventSource": "aws:sqs",
+      "eventSourceARN": "arn:aws:sqs:ap-south-1:123456789012:supportpilot-webhooks",
+      "awsRegion": "ap-south-1"
+    }
+  ]
+}

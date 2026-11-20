@@ -14,7 +14,12 @@ class CitationItem(BaseModel):
 class RagAnswer(BaseModel):
     answer: str = Field(description="Synthesized customer-facing response")
     citations: list[CitationItem] = Field(default_factory=list, description="Citations used")
-    confidence: float = Field(ge=0.0, le=1.0, description="Confidence score from 0.0 to 1.0")
+    confidence: float = Field(
+        default=0.85, ge=0.0, le=1.0, description="Confidence score from 0.0 to 1.0"
+    )
+    self_rating: float = Field(
+        default=0.85, ge=0.0, le=1.0, description="Model self-assessed certainty"
+    )
     should_escalate: bool = Field(
         default=False, description="Flag indicating human agent handoff required"
     )
@@ -28,10 +33,16 @@ class ChatTurn(BaseModel):
 
 class GenerateAnswerRequest(BaseModel):
     tenant_id: str
-    conversation_id: str
+    conversation_id: str | None = None
     question: str
     history: list[ChatTurn] = Field(default_factory=list)
     retrieved_chunks: list[dict[str, Any]] = Field(default_factory=list)
+    role_tone: str | None = Field(
+        default="helpful, friendly, and concise", description="Brand voice/tone"
+    )
+    confidence_threshold: float | None = Field(
+        default=None, description="Per-tenant confidence threshold overriding default"
+    )
 
 
 class GenerateAnswerResponse(BaseModel):
@@ -39,5 +50,6 @@ class GenerateAnswerResponse(BaseModel):
     citations: list[CitationItem]
     confidence: float
     should_escalate: bool
+    reason: str | None = None
     provider: str
     tokens_used: int = 0

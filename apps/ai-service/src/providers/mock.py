@@ -25,10 +25,12 @@ class MockLLMProvider(LLMProvider):
         self.embedding_dim = embedding_dim
         # Test configuration overrides
         self.simulate_malformed_json = False
+        self.simulate_repair_failure = False
         self.simulate_low_confidence = False
         self.simulate_should_escalate = False
         self.custom_answer: str | None = None
         self.custom_citations: list[CitationItem] | None = None
+        self.custom_self_rating: float | None = None
 
     async def generate_text(
         self,
@@ -51,10 +53,19 @@ class MockLLMProvider(LLMProvider):
         temperature: float = 0.2,
     ) -> T:
         if self.simulate_malformed_json:
-            raise ValueError("Simulated malformed JSON response from LLM")
+            if "repair" in user_prompt.lower() and not self.simulate_repair_failure:
+                # Succeeded on repair retry
+                pass
+            else:
+                raise ValueError("Simulated malformed JSON response from LLM")
 
         if issubclass(schema, RagAnswer):
             confidence = 0.35 if self.simulate_low_confidence else 0.92
+            self_rating = (
+                self.custom_self_rating
+                if self.custom_self_rating is not None
+                else (0.4 if self.simulate_low_confidence else 0.95)
+            )
             should_escalate = self.simulate_should_escalate or self.simulate_low_confidence
             answer_text = (
                 self.custom_answer
@@ -80,6 +91,7 @@ class MockLLMProvider(LLMProvider):
                 answer=answer_text,
                 citations=citations,
                 confidence=confidence,
+                self_rating=self_rating,
                 should_escalate=should_escalate,
                 reason="Low confidence score" if should_escalate else None,
             )

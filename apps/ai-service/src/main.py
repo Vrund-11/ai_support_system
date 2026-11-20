@@ -12,8 +12,9 @@ from src.ingest.repository import get_ingest_repository
 from src.lib.db import check_db_connection
 from src.lib.redis import check_redis_connection
 from src.providers.factory import get_llm_provider
+from src.rag.service import RagService
 from src.retrieval.hybrid import HybridRetriever
-from src.schemas.llm import RagAnswer
+from src.schemas.llm import GenerateAnswerRequest, GenerateAnswerResponse, RagAnswer
 
 app = FastAPI(
     title="SupportPilot AI Service",
@@ -241,3 +242,10 @@ async def search_kb(req: SearchRequest) -> dict[str, Any]:
             for r in results
         ],
     }
+
+
+# ── RAG Answer Generation Endpoint (AI-1, AI-2, AI-3, AI-9) ──
+@app.post("/v1/answer", response_model=GenerateAnswerResponse)
+async def generate_answer(req: GenerateAnswerRequest) -> GenerateAnswerResponse:
+    service = RagService()
+    return await service.generate_answer(req)

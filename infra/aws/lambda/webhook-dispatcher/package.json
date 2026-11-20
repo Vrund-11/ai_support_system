@@ -1,0 +1,19 @@
+{
+  "name": "@supportpilot/webhook-dispatcher",
+  "version": "0.1.0",
+  "private": true,
+  "description": "AWS Lambda webhook delivery dispatcher fed by SQS",
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@types/aws-lambda": "^8.10.147"
+  },
+  "devDependencies": {
+    "typescript": "^5.8.0",
+    "vitest": "^3.2.7"
+  }
+}

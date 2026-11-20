@@ -1,0 +1,64 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: SupportPilot Webhook Dispatcher Lambda fed by SQS with DLQ
+
+Globals:
+  Function:
+    Timeout: 10
+    MemorySize: 256
+    Runtime: nodejs22.x
+    Architectures:
+      - x86_64
+    Environment:
+      Variables:
+        NODE_ENV: production
+        WEBHOOK_DEFAULT_SECRET: default-webhook-signing-secret
+
+Resources:
+  # Dead Letter Queue for failed deliveries after 6 retries
+  WebhooksDLQ:
+    Type: AWS::SQS::Queue
+    Properties:
+      QueueName: supportpilot-webhooks-dlq
+      MessageRetentionPeriod: 1209600 # 14 days
+
+  # Main SQS queue fed by notification-service
+  WebhooksQueue:
+    Type: AWS::SQS::Queue
+    Properties:
+      QueueName: supportpilot-webhooks
+      VisibilityTimeout: 30
+      RedrivePolicy:
+        deadLetterTargetArn: !GetAtt WebhooksDLQ.Arn
+        maxReceiveCount: 6
+
+  # Dispatcher Lambda function
+  WebhookDispatcherFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: supportpilot-webhook-dispatcher
+      CodeUri: .
+      Handler: index.handler
+      Description: Dispatches HMAC-signed webhooks to tenant endpoints with timeout and SQS retry/DLQ
+      Events:
+        SQSEvent:
+          Type: SQS
+          Properties:
+            Queue: !GetAtt WebhooksQueue.Arn
+            BatchSize: 10
+            FunctionResponseTypes:
+              - ReportBatchItemFailures
+
+Outputs:
+  QueueUrl:
+    Description: SQS Webhook Queue URL
+    Value: !Ref WebhooksQueue
+  QueueArn:
+    Description: SQS Webhook Queue ARN
+    Value: !GetAtt WebhooksQueue.Arn
+  DLQUrl:
+    Description: SQS DLQ URL
+    Value: !Ref WebhooksDLQ
+  FunctionArn:
+    Description: Lambda Function ARN
+    Value: !GetAtt WebhookDispatcherFunction.Arn

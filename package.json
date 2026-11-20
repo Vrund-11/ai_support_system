@@ -17,6 +17,7 @@
     "test:ci": "turbo run test -- --coverage",
     "test:postman": "vitest run tests/api/newman.test.ts",
     "test:e2e": "vitest run tests/e2e/e2e-runner.test.ts",
+    "test:perf": "vitest run tests/perf/perf-runner.test.ts",
     "test:playwright": "playwright test --config tests/e2e/playwright.config.ts",
     "test:cypress": "cypress run --config-file tests/e2e/cypress.config.ts",
     "verify": "turbo run lint typecheck test",

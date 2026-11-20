@@ -1,0 +1,17 @@
+{
+  "test": "tickets_list_200_vus",
+  "concurrency": 200,
+  "totalRequests": 400,
+  "successfulRequests": 400,
+  "failedRequests": 0,
+  "errorRate": 0,
+  "rps": 1110.19,
+  "durationSeconds": 0.36,
+  "latency": {
+    "p50": 158.96,
+    "p90": 250.69,
+    "p95": 278.09,
+    "p99": 283.95,
+    "mean": 151.71
+  }
+}

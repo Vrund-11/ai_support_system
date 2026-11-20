@@ -1,0 +1,12 @@
+{
+  "test": "chat_websocket_fanout",
+  "concurrentSockets": 30,
+  "totalMessagesReceived": 300,
+  "latency": {
+    "p50": 1.9,
+    "p90": 2.64,
+    "p95": 3.36,
+    "p99": 3.87,
+    "mean": 2.01
+  }
+}

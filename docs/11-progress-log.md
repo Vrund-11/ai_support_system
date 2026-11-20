@@ -4,8 +4,8 @@
 
 - Date: 2026-11-20
 - Current sprint: Sprint 2 (Realtime and AI)
-- Last completed task id: S1-T14
-- Next task id: S2-T01
+- Last completed task id: S2-T01
+- Next task id: S2-T02
 - Blockers: Docker not installed (docker-compose ready but can't run yet)
 - Environment notes: Node 24.18, pnpm 10.11, Python 3.13, TypeScript 5.9, git 2.52
 
@@ -37,10 +37,11 @@
   - S1-T12: Monorepo test coverage configuration and CI integration: configured `@vitest/coverage-v8` on root, ticket-service and web packages. Fixed `test:ci` script to pass `--coverage` across turbo pipeline. Ticket-service achieved 88.06% statement coverage (exceeding Sprint 1 >= 70% threshold). Recorded M02 measurement in evidence tracker.
   - S1-T13: Postman collection (`tests/api/supportpilot-sprint1.collection.json`) and environment (`tests/api/supportpilot.environment.json`) covering complete Sprint 1 lifecycle: health check, tenant registration, login, ticket creation, list filtering, detail view, internal notes, public replies, status transition to OPEN, 409 conflict detection, and logout. Added hermetic Vitest Newman runner (`tests/api/newman.test.ts`), `pnpm test:postman` root script, and CI step in `.github/workflows/ci.yml`. 11 requests, 21 assertions passing with 0 failures.
   - S1-T14: Sprint 1 local demo script (`scripts/demo-sprint1.ps1`, `scripts/demo-sprint1.sh`) and comprehensive verification guide (`docs/sprint1-demo-guide.md`). Completed Sprint 1 Exit Gate: P0 ticketing verified end-to-end, ticket-service statement coverage at 88.06% (exceeding 70% requirement), 36/36 turbo tasks green, all 14 Sprint 1 tasks complete.
-- Tests added / results: 153 tests passing across monorepo (20 in shared-lib, 106 in ticket-service, 8 in gateway, 4 in validators, 14 in web, 1 newman runner with 21 collection assertions)
-- Measurements recorded (M-ids): M02 (test count & coverage: 153 tests, 88.06% ticket-service statement coverage), M03 (Mongo explain executionStats for ticket list compound indexes)
+  - S2-T01: Socket.IO server on Gateway with Redis adapter (`@socket.io/redis-adapter`), handshake authentication middleware (`createSocketAuthMiddleware` supporting both JWT user tokens and visitor tokens `visitor:<tenantId>:<visitorId>`), room management (`t:{tenantId}`, `u:{userId}`, `c:{conversationId}`), automatic tenant room joining for authenticated agents while isolating visitors to user rooms, and `conversation:join`/`conversation:leave` event handlers. 9 integration tests covering handshake rejections, valid agent auth, visitor auth, conversation rooms, and cross-tenant room isolation.
+- Tests added / results: 162 tests passing across monorepo (20 in shared-lib, 106 in ticket-service, 17 in gateway, 4 in validators, 14 in web, 1 newman runner with 21 collection assertions)
+- Measurements recorded (M-ids): M02 (test count & coverage: 162 tests, 88.06% ticket-service statement coverage), M03 (Mongo explain executionStats for ticket list compound indexes)
 - Issues found: none
-- Next: S2-T01 (Socket.IO on gateway with JWT/visitor handshake, rooms, Redis adapter)
+- Next: S2-T02 (Per-conversation sequence numbers (`seq:{id}` Redis INCR) and replay on join)
   - S0-T04: .env.example + Zod env loader in @supportpilot/validators with 4 passing tests
   - S0-T05: CI skeleton .github/workflows/ci.yml with service containers
   - S0-T06: Logger (pino), request-id middleware, error handler (RFC 7807) in @supportpilot/shared-lib with 7 passing tests

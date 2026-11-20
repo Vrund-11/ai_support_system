@@ -1,12 +1,15 @@
+import http from 'node:http';
 import { loadEnv, gatewayEnvSchema } from '@supportpilot/validators';
 import { createLogger } from '@supportpilot/shared-lib';
 import { createApp } from './app.js';
 import { connectRedis, disconnectRedis } from './lib/redis.js';
+import { createSocketServer, type GatewaySocketServer } from './realtime/index.js';
 
 const env = loadEnv(gatewayEnvSchema);
 const logger = createLogger('gateway', env.LOG_LEVEL);
 
 const redis = connectRedis(env.REDIS_URL, logger);
+const redisSub = redis.duplicate();
 
 const app = createApp({
   logLevel: env.LOG_LEVEL,
@@ -16,13 +19,23 @@ const app = createApp({
   redisClient: redis,
 });
 
-const server = app.listen(env.PORT, () => {
-  logger.info({ port: env.PORT }, 'Gateway listening');
+const server = http.createServer(app);
+
+const io: GatewaySocketServer = createSocketServer(server, {
+  jwtSecret: env.JWT_ACCESS_SECRET,
+  redisPubClient: redis,
+  redisSubClient: redisSub,
+});
+
+server.listen(env.PORT, () => {
+  logger.info({ port: env.PORT }, 'Gateway HTTP & Socket.IO server listening');
 });
 
 async function shutdown(): Promise<void> {
   logger.info('Gateway shutting down gracefully');
+  io.close();
   server.close(async () => {
+    redisSub.disconnect();
     await disconnectRedis();
     logger.info('Gateway stopped');
     process.exit(0);
@@ -32,4 +45,4 @@ async function shutdown(): Promise<void> {
 process.on('SIGTERM', () => void shutdown());
 process.on('SIGINT', () => void shutdown());
 
-export { app };
+export { app, server, io };

@@ -32,7 +32,7 @@ Legend: [ ] todo, [x] done. Task id format `S<sprint>-T<nn>`. Priority P0/P1/P2 
 
 ## Sprint 2: Realtime and AI (weeks 3-4)
 
-- [ ] S2-T01 Socket.IO on gateway with JWT/visitor handshake, rooms, Redis adapter. (CHAT-1,2,7)
+- [x] S2-T01 Socket.IO on gateway with JWT/visitor handshake, rooms, Redis adapter. (CHAT-1,2,7)
 - [ ] S2-T02 Per-conversation sequence numbers (`seq:{id}` Redis INCR) and replay on join. (CHAT-6) Test: disconnect/reconnect no loss, no duplicates.
 - [ ] S2-T03 Typing, presence, read receipts. (CHAT-3)
 - [ ] S2-T04 Widget app: bubble, chat UI, offline form, theming; embed script. (CHAT-1,5)

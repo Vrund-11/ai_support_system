@@ -19,6 +19,7 @@
     "test:e2e": "vitest run tests/e2e/e2e-runner.test.ts",
     "test:perf": "vitest run tests/perf/perf-runner.test.ts",
     "test:lambda": "vitest run infra/aws/lambda/webhook-dispatcher/tests/webhook-dispatcher.test.ts",
+    "test:security": "vitest run apps/ticket-service/tests/security-pass.test.ts apps/gateway/tests/security-headers.test.ts",
     "test:playwright": "playwright test --config tests/e2e/playwright.config.ts",
     "test:cypress": "cypress run --config-file tests/e2e/cypress.config.ts",
     "verify": "turbo run lint typecheck test",

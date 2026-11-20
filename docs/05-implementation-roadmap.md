@@ -64,7 +64,7 @@ Legend: [ ] todo, [x] done. Task id format `S<sprint>-T<nn>`. Priority P0/P1/P2 
 - [x] S3-T11 k6 scripts: ticket list, chat fan-out, AI endpoint with mock LLM. Store summaries as artifacts.
 - [x] S3-T12 AWS-compatible pieces: webhook Lambda (SAM local) fed by SQS (LocalStack/ElasticMQ); Terraform + tflocal for bucket, queue, Lambda, IAM policies. (INT-2)
 - [x] S3-T13 Observability: pino logs, Prometheus metrics, Grafana dashboards, OpenTelemetry tracing across services.
-- [ ] S3-T14 Security pass: cross-tenant suite, rate-limit tests, prompt-injection tests, CSP/CORS/Helmet.
+- [x] S3-T14 Security pass: cross-tenant suite, rate-limit tests, prompt-injection tests, CSP/CORS/Helmet.
       Exit: full pipeline green, cluster runs on kind, performance and test reports archived.
 
 ## Sprint 4: Mobile and polish (weeks 7-8)

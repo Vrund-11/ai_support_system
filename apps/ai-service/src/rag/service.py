@@ -11,7 +11,7 @@ from src.rag.confidence import (
     compute_composite_confidence,
     normalize_top_chunk_score,
 )
-from src.rag.prompt import build_system_prompt, build_user_prompt
+from src.rag.prompt import build_system_prompt, build_user_prompt, is_prompt_injection
 from src.rag.validator import generate_json_with_repair, verify_citations
 from src.retrieval.hybrid import HybridRetriever, SearchResultChunk
 from src.schemas.llm import (
@@ -38,7 +38,24 @@ class RagService:
 
     async def generate_answer(self, req: GenerateAnswerRequest) -> GenerateAnswerResponse:
         """Execute full RAG generation pipeline with grounding checks and calibrated confidence."""
-        # 0. Check semantic response cache (AI-7)
+        # 0. Prompt injection defense check (SEC-2)
+        if is_prompt_injection(req.question):
+            logger.warning("Prompt injection attempt detected for tenant '%s'", req.tenant_id)
+            return GenerateAnswerResponse(
+                answer=(
+                    "I am an official SupportPilot customer support assistant and cannot execute "
+                    "system override commands or reveal internal instructions. How can I assist you "
+                    "with your product inquiry?"
+                ),
+                citations=[],
+                confidence=1.0,
+                should_escalate=False,
+                reason="Prompt injection blocked by security policy",
+                provider=self.provider.name,
+                tokens_used=0,
+            )
+
+        # 1. Check semantic response cache (AI-7)
         cached_response = await self.cache.get(
             tenant_id=req.tenant_id,
             question=req.question,

@@ -11,3 +11,11 @@ export {
   hasRole,
   ROLE_HIERARCHY,
 } from './middleware/index.js';
+export {
+  calculateBusinessTimeDeadline,
+  calculateSlaMilestones,
+  isWithinBusinessHours,
+  fastForwardToBusinessStart,
+  parseTimeToMinutes,
+} from './sla/calculator.js';
+export type { SlaMilestones, SlaTargetMilestones } from './sla/calculator.js';

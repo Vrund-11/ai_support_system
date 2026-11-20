@@ -4,8 +4,8 @@
 
 - Date: 2026-11-20
 - Current sprint: Sprint 3 (Platform and quality)
-- Last completed task id: S3-T01
-- Next task id: S3-T02
+- Last completed task id: S3-T02
+- Next task id: S3-T03
 - Blockers: Docker not installed (docker-compose ready but can't run yet)
 - Environment notes: Node 24.18, pnpm 10.11, Python 3.12, TypeScript 5.9, git 2.52
 
@@ -63,10 +63,16 @@
     - Implemented DLQ inspection and replay (`routes/dlq.routes.ts`) enforcing strict cross-tenant isolation (`tenantId` filtering and replay ownership checks).
     - Implemented REST API (`app.ts`, `routes/notification.routes.ts`) with service-token authentication, job enqueuing, and queue metrics.
     - 11 new tests in `notification-service` verifying backoff, retries, DLQ routing, DLQ replay, tenant isolation, and API endpoints. 294 total automated tests passing monorepo.
-- Tests added / results: 294 tests passing across monorepo (131 in ticket-service, 50 in ai-service pytest, 43 in gateway, 23 in web, 20 in shared-lib, 11 in notification-service, 9 in widget, 4 in validators, 5 hermetic e2e, 1 newman runner with 21 collection assertions)
-- Measurements recorded (M-ids): M02 (test count: 294 tests across services), M03 (Mongo explain executionStats for ticket list compound indexes), M06 (AI Eval golden set baseline: Hit@5 100%, Groundedness 100%, F1 1.0)
+  - S3-T02: SLA policy calculator (business hours) and delayed BullMQ timer jobs (AUTO-1, AUTO-2):
+    - Implemented `calculateBusinessTimeDeadline` and `calculateSlaMilestones` (`packages/shared-lib/src/sla/calculator.ts`) calculating wall-clock deadlines across tenant business hours, skipping nights, weekends, and unconfigured days.
+    - Implemented `scheduleSlaTimers` (`apps/notification-service/src/sla/scheduler.ts`) scheduling 4 delayed BullMQ jobs for 75% warning and 100% breach across First Response and Resolution.
+    - Implemented `processSlaTimerJob` (`apps/notification-service/src/sla/processor.ts`) enforcing T-SLA-01: skips SLA warning and breach when ticket is already RESOLVED or CLOSED, or when first response has already been provided.
+    - Added fast-check property-based tests (`sla-calculator.property.test.ts`) validating non-negative elapsed time, monotonicity, 75% <= 100% invariant, and determinism.
+    - Added unit and delayed job tests in `notification-service/tests/sla-automation.test.ts`. 309 total automated tests passing monorepo.
+- Tests added / results: 309 tests passing across monorepo (131 in ticket-service, 50 in ai-service pytest, 43 in gateway, 27 in shared-lib, 23 in web, 16 in notification-service, 9 in widget, 4 in validators, 5 hermetic e2e, 1 newman runner with 21 collection assertions)
+- Measurements recorded (M-ids): M02 (test count: 309 tests across services), M03 (Mongo explain executionStats for ticket list compound indexes), M06 (AI Eval golden set baseline: Hit@5 100%, Groundedness 100%, F1 1.0)
 - Issues found: none
-- Next: S3-T02 (SLA policy calculator: business hours + delayed BullMQ jobs 75%/100%, skip if resolved, property tests, AUTO-1, 2)
+- Next: S3-T03 (Rules engine: conditions -> actions with tests, AUTO-3)
   - S0-T04: .env.example + Zod env loader in @supportpilot/validators with 4 passing tests
   - S0-T05: CI skeleton .github/workflows/ci.yml with service containers
   - S0-T06: Logger (pino), request-id middleware, error handler (RFC 7807) in @supportpilot/shared-lib with 7 passing tests

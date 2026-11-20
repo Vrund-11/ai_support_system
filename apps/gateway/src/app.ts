@@ -5,6 +5,7 @@ import { isRedisConnected } from './lib/redis.js';
 import { createRateLimiter } from './middleware/rate-limiter.js';
 import { createAuthPassthrough } from './middleware/auth-passthrough.js';
 import { createProxyMiddleware } from './middleware/proxy.js';
+import { setupGraphQL } from './graphql/server.js';
 
 export interface GatewayConfig {
   logLevel?: string;
@@ -76,6 +77,12 @@ export function createApp(config: GatewayConfig = {}): Express {
   app.use('/api/v1/auth/login', loginLimiter);
   app.use('/api/v1', apiLimiter);
 
+  // ── GraphQL Layer (Apollo Server) (INT-3) ──
+  setupGraphQL(app, {
+    ticketServiceUrl,
+    serviceToken,
+  });
+
   // ── Proxy routes to ticket-service ──
   const ticketProxy = createProxyMiddleware({
     targetBaseUrl: ticketServiceUrl,
@@ -86,6 +93,8 @@ export function createApp(config: GatewayConfig = {}): Express {
   app.use('/api/v1/tickets', ticketProxy);
   app.use('/api/v1/uploads', ticketProxy);
   app.use('/api/v1/kb', ticketProxy);
+  app.use('/api/v1/users', ticketProxy);
+  app.use('/api/v1/analytics', ticketProxy);
 
   // ── Error handler (must be last) ──
   app.use(errorHandler(logger));

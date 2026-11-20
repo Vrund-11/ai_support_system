@@ -5,6 +5,8 @@ import { authRouter } from './routes/auth.routes.js';
 import { ticketRouter } from './routes/ticket.routes.js';
 import { uploadRouter } from './routes/upload.routes.js';
 import { kbRouter } from './routes/kb.routes.js';
+import { userRouter } from './routes/user.routes.js';
+import { analyticsRouter } from './routes/analytics.routes.js';
 
 export function createApp(logLevel: string = 'info'): Express {
   const logger = createLogger('ticket-service', logLevel);
@@ -44,6 +46,8 @@ export function createApp(logLevel: string = 'info'): Express {
   app.use('/api/v1/tickets', ticketRouter);
   app.use('/api/v1/uploads', uploadRouter);
   app.use('/api/v1/kb', kbRouter);
+  app.use('/api/v1/users', userRouter);
+  app.use('/api/v1/analytics', analyticsRouter);
 
   // ── Error handler (must be last) ──
   app.use(errorHandler(logger));

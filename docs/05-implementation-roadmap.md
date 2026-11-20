@@ -44,7 +44,7 @@ Legend: [ ] todo, [x] done. Task id format `S<sprint>-T<nn>`. Priority P0/P1/P2 
 - [x] S2-T10 Handoff flow: low confidence/blocklist/human request -> WAITING_AGENT + ticket with transcript. (CHAT-4)
 - [x] S2-T11 Semantic cache in Redis; invalidate on KB change. (AI-7)
 - [x] S2-T12 Eval harness v1: 100-question golden set, metrics, baseline stored in `ai_eval_runs`. (AI-10)
-- [ ] S2-T13 GraphQL layer on gateway (queries, mutations, subscriptions, DataLoader, depth/complexity limits). (INT-3)
+- [x] S2-T13 GraphQL layer on gateway (queries, mutations, subscriptions, DataLoader, depth/complexity limits). (INT-3)
 - [ ] S2-T14 Dashboard: KB page (upload, status), live chat view with AI suggestion panel placeholder, GraphQL via Apollo Client.
 - [ ] S2-T15 Cypress E2E: login, create ticket, live chat handoff. Playwright: widget on a static host page.
       Exit: customer chats with AI, escalates to agent in real time; eval baseline recorded.

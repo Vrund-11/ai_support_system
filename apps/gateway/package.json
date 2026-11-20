@@ -14,11 +14,14 @@
     "clean": "rimraf dist *.tsbuildinfo"
   },
   "dependencies": {
+    "@apollo/server": "^5.5.2",
     "@socket.io/redis-adapter": "^8.3.0",
     "@supportpilot/shared-lib": "workspace:*",
     "@supportpilot/shared-types": "workspace:*",
     "@supportpilot/validators": "workspace:*",
+    "dataloader": "^2.2.3",
     "express": "^5.1.0",
+    "graphql": "^16.15.0",
     "ioredis": "^6.0.0",
     "jsonwebtoken": "^9.0.3",
     "pino": "^9.6.0",

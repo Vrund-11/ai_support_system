@@ -144,6 +144,7 @@ export interface TicketDto {
   customerId: string;
   tags: string[];
   customFields?: Record<string, unknown>;
+  linkedTicketIds?: string[];
   sla?: {
     firstResponseDue?: string;
     resolveDue?: string;

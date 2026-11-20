@@ -12,6 +12,7 @@ from src.ingest.pipeline import IngestionPipeline
 from src.ingest.repository import MemoryIngestRepository, set_ingest_repository
 from src.main import app
 from src.providers.mock import MockLLMProvider
+from src.quota import MemoryQuotaTracker, set_quota_tracker
 from src.rag.service import RagService
 from src.retrieval.hybrid import HybridRetriever
 
@@ -24,6 +25,8 @@ def setup_eval_env():
     set_ingest_repository(repo)
     eval_repo = MemoryEvalRepository()
     set_eval_repository(eval_repo)
+    tracker = MemoryQuotaTracker()
+    set_quota_tracker(tracker)
     yield cache, repo, eval_repo
 
 

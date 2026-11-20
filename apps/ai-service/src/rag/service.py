@@ -6,6 +6,7 @@ from src.cache.semantic import BaseSemanticCache, get_semantic_cache
 from src.config import settings
 from src.providers.base import LLMProvider
 from src.providers.factory import get_llm_provider
+from src.quota import BaseQuotaTracker, get_quota_tracker
 from src.rag.confidence import (
     calculate_citation_coverage,
     compute_composite_confidence,
@@ -15,6 +16,7 @@ from src.rag.prompt import build_system_prompt, build_user_prompt, is_prompt_inj
 from src.rag.validator import generate_json_with_repair, verify_citations
 from src.retrieval.hybrid import HybridRetriever, SearchResultChunk
 from src.schemas.llm import (
+    CitationItem,
     GenerateAnswerRequest,
     GenerateAnswerResponse,
     RagAnswer,
@@ -24,50 +26,24 @@ logger = logging.getLogger(__name__)
 
 
 class RagService:
-    """Orchestrates end-to-end RAG answer generation (AI-1, AI-2, AI-3, AI-9)."""
+    """Orchestrates end-to-end RAG answer generation (AI-1, AI-2, AI-3, AI-8, AI-9)."""
 
     def __init__(
         self,
         retriever: HybridRetriever | None = None,
         llm_provider: LLMProvider | None = None,
         cache: BaseSemanticCache | None = None,
+        quota_tracker: BaseQuotaTracker | None = None,
     ) -> None:
         self.retriever = retriever or HybridRetriever()
         self.provider = llm_provider or get_llm_provider()
         self.cache = cache or get_semantic_cache()
+        self.quota_tracker = quota_tracker or get_quota_tracker()
 
-    async def generate_answer(self, req: GenerateAnswerRequest) -> GenerateAnswerResponse:
-        """Execute full RAG generation pipeline with grounding checks and calibrated confidence."""
-        # 0. Prompt injection defense check (SEC-2)
-        if is_prompt_injection(req.question):
-            logger.warning("Prompt injection attempt detected for tenant '%s'", req.tenant_id)
-            return GenerateAnswerResponse(
-                answer=(
-                    "I am an official SupportPilot customer support assistant and cannot execute "
-                    "system override commands or reveal internal instructions. How can I assist you "
-                    "with your product inquiry?"
-                ),
-                citations=[],
-                confidence=1.0,
-                should_escalate=False,
-                reason="Prompt injection blocked by security policy",
-                provider=self.provider.name,
-                tokens_used=0,
-            )
-
-        # 1. Check semantic response cache (AI-7)
-        cached_response = await self.cache.get(
-            tenant_id=req.tenant_id,
-            question=req.question,
-        )
-        if cached_response is not None:
-            logger.info("Semantic cache hit for tenant '%s'", req.tenant_id)
-            return cached_response
-
-        # 1. Retrieve knowledge chunks
+    async def _retrieve_chunks(self, req: GenerateAnswerRequest) -> list[SearchResultChunk]:
+        """Fetch pre-provided or hybrid retrieved knowledge chunks."""
         chunks: list[SearchResultChunk] = []
         if req.retrieved_chunks:
-            # Chunks pre-provided by caller
             for item in req.retrieved_chunks:
                 chunks.append(
                     SearchResultChunk(
@@ -92,8 +68,84 @@ class RagService:
                 query=req.question,
                 top_k=5,
             )
+        return chunks
 
-        # 2. Build system and user prompts
+    async def generate_answer(self, req: GenerateAnswerRequest) -> GenerateAnswerResponse:
+        """Execute full RAG generation pipeline with grounding checks and calibrated confidence."""
+        # 0. Prompt injection defense check (SEC-2)
+        if is_prompt_injection(req.question):
+            logger.warning("Prompt injection attempt detected for tenant '%s'", req.tenant_id)
+            return GenerateAnswerResponse(
+                answer=(
+                    "I am an official SupportPilot customer support assistant and cannot execute "
+                    "system override commands or reveal internal instructions. "
+                    "How can I assist you with your product inquiry?"
+                ),
+                citations=[],
+                confidence=1.0,
+                should_escalate=False,
+                reason="Prompt injection blocked by security policy",
+                provider=self.provider.name,
+                tokens_used=0,
+            )
+
+        # 1. Check semantic response cache (AI-7)
+        cached_response = await self.cache.get(
+            tenant_id=req.tenant_id,
+            question=req.question,
+        )
+        if cached_response is not None:
+            logger.info("Semantic cache hit for tenant '%s'", req.tenant_id)
+            return cached_response
+
+        # 2. Check tenant call & token quota (AI-8)
+        if await self.quota_tracker.is_quota_exceeded(tenant_id=req.tenant_id):
+            logger.warning(
+                "Tenant '%s' exceeded daily AI quota, degrading to retrieval_fallback",
+                req.tenant_id,
+            )
+            chunks = await self._retrieve_chunks(req)
+            if chunks:
+                top_chunk = chunks[0]
+                excerpt = top_chunk.content[:300].strip()
+                citations = [
+                    CitationItem(
+                        chunk_id=c.id,
+                        doc_id=c.document_id,
+                        title=c.metadata.get("title") or c.section_path or "Knowledge Base",
+                    )
+                    for c in chunks[:3]
+                ]
+                return GenerateAnswerResponse(
+                    answer=f'Based on our knowledge base documentation: "{excerpt}"',
+                    citations=citations,
+                    confidence=0.70,
+                    should_escalate=False,
+                    reason="Daily quota exceeded; retrieval fallback excerpt provided",
+                    provider="retrieval_fallback",
+                    tokens_used=0,
+                    quota_exceeded=True,
+                )
+            else:
+                return GenerateAnswerResponse(
+                    answer=(
+                        "I apologize, but our AI service has reached its daily quota and no "
+                        "relevant knowledge base articles were found. "
+                        "Connecting you with a support agent..."
+                    ),
+                    citations=[],
+                    confidence=0.0,
+                    should_escalate=True,
+                    reason="Daily quota exceeded and no relevant knowledge chunks found",
+                    provider="retrieval_fallback",
+                    tokens_used=0,
+                    quota_exceeded=True,
+                )
+
+        # 3. Retrieve knowledge chunks
+        chunks = await self._retrieve_chunks(req)
+
+        # 4. Build system and user prompts
         system_prompt = build_system_prompt(
             tenant_tone=req.role_tone or "helpful, friendly, and concise"
         )
@@ -103,7 +155,7 @@ class RagService:
             chunks=chunks,
         )
 
-        # 3. LLM Generation with 1-shot repair retry
+        # 5. LLM Generation with 1-shot repair retry
         answer_result: RagAnswer
         try:
             answer_result, _attempts = await generate_json_with_repair(
@@ -162,6 +214,17 @@ class RagService:
                     f"Confidence {composite_confidence:.2f} below threshold {threshold:.2f}"
                 )
 
+        # Calculate tokens used and update daily quota usage
+        tokens_used = max(
+            1,
+            (len(system_prompt) + len(user_prompt) + len(answer_result.answer)) // 4,
+        )
+        await self.quota_tracker.increment_usage(
+            tenant_id=req.tenant_id,
+            calls=1,
+            tokens=tokens_used,
+        )
+
         final_response = GenerateAnswerResponse(
             answer=answer_result.answer,
             citations=answer_result.citations,
@@ -169,7 +232,8 @@ class RagService:
             should_escalate=should_escalate,
             reason=escalation_reason,
             provider=self.provider.name,
-            tokens_used=0,
+            tokens_used=tokens_used,
+            quota_exceeded=False,
         )
 
         # Cache answer if confident and not escalated (AI-7)

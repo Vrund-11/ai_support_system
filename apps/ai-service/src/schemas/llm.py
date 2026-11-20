@@ -53,3 +53,4 @@ class GenerateAnswerResponse(BaseModel):
     reason: str | None = None
     provider: str
     tokens_used: int = 0
+    quota_exceeded: bool = False

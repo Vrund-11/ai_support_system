@@ -2,6 +2,7 @@ import { useState, useTransition } from 'react';
 import { useTickets } from '../../hooks/useTickets';
 import { StatusChip } from './StatusChip';
 import { PriorityChip } from './PriorityChip';
+import { api } from '../../lib/api';
 import type { TicketStatus, TicketPriority } from '@supportpilot/shared-types';
 import { Search, Filter, AlertCircle, RefreshCw } from 'lucide-react';
 
@@ -17,6 +18,11 @@ export function TicketInbox({ onSelectTicket }: TicketInboxProps) {
   const [debouncedSearch, setDebouncedSearch] = useState('');
   const [, startTransition] = useTransition();
 
+  const [selectedTicketIds, setSelectedTicketIds] = useState<string[]>([]);
+  const [bulkAssignTarget, setBulkAssignTarget] = useState('');
+  const [bulkTagInput, setBulkTagInput] = useState('');
+  const [isBulkOperating, setIsBulkOperating] = useState(false);
+
   const handleSearchChange = (val: string) => {
     setSearchQuery(val);
     startTransition(() => {
@@ -31,6 +37,26 @@ export function TicketInbox({ onSelectTicket }: TicketInboxProps) {
   });
 
   const tickets = data?.data || [];
+
+  const handleBulkAction = async (action: 'ASSIGN' | 'TAG' | 'STATUS', value: string) => {
+    if (!value || selectedTicketIds.length === 0) return;
+    try {
+      setIsBulkOperating(true);
+      await api.tickets.bulk({
+        ticketIds: selectedTicketIds,
+        action,
+        value,
+      });
+      setSelectedTicketIds([]);
+      setBulkAssignTarget('');
+      setBulkTagInput('');
+      await refetch();
+    } catch (err) {
+      alert((err as Error).message || 'Failed to execute bulk action');
+    } finally {
+      setIsBulkOperating(false);
+    }
+  };
 
   return (
     <div className="space-y-4">
@@ -92,6 +118,82 @@ export function TicketInbox({ onSelectTicket }: TicketInboxProps) {
         </div>
       </div>
 
+      {/* Bulk actions bar */}
+      {selectedTicketIds.length > 0 && (
+        <div
+          className="bg-slate-900 text-white px-4 py-3 rounded-xl shadow-lg flex flex-wrap items-center justify-between gap-3 animate-in fade-in duration-150"
+          data-testid="bulk-actions-bar"
+        >
+          <div className="flex items-center space-x-2 text-xs font-medium">
+            <span className="bg-indigo-600 px-2 py-0.5 rounded font-bold">
+              {selectedTicketIds.length}
+            </span>
+            <span>tickets selected</span>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-2">
+            {/* Bulk Assign */}
+            <div className="flex items-center space-x-1">
+              <input
+                type="text"
+                placeholder="Agent name..."
+                value={bulkAssignTarget}
+                onChange={(e) => setBulkAssignTarget(e.target.value)}
+                className="text-xs px-2 py-1 rounded bg-slate-800 text-white placeholder-slate-400 border border-slate-700 focus:outline-none"
+                data-testid="bulk-assign-input"
+              />
+              <button
+                onClick={() => handleBulkAction('ASSIGN', bulkAssignTarget)}
+                disabled={!bulkAssignTarget.trim() || isBulkOperating}
+                className="px-2.5 py-1 text-xs font-semibold bg-indigo-600 hover:bg-indigo-500 rounded disabled:opacity-50 transition-colors"
+                data-testid="bulk-assign-btn"
+              >
+                Assign
+              </button>
+            </div>
+
+            {/* Bulk Tag */}
+            <div className="flex items-center space-x-1">
+              <input
+                type="text"
+                placeholder="Tag name..."
+                value={bulkTagInput}
+                onChange={(e) => setBulkTagInput(e.target.value)}
+                className="text-xs px-2 py-1 rounded bg-slate-800 text-white placeholder-slate-400 border border-slate-700 focus:outline-none"
+                data-testid="bulk-tag-input"
+              />
+              <button
+                onClick={() => handleBulkAction('TAG', bulkTagInput)}
+                disabled={!bulkTagInput.trim() || isBulkOperating}
+                className="px-2.5 py-1 text-xs font-semibold bg-indigo-600 hover:bg-indigo-500 rounded disabled:opacity-50 transition-colors"
+                data-testid="bulk-tag-btn"
+              >
+                Tag
+              </button>
+            </div>
+
+            {/* Bulk Close */}
+            <button
+              onClick={() => handleBulkAction('STATUS', 'CLOSED')}
+              disabled={isBulkOperating}
+              className="px-2.5 py-1 text-xs font-semibold bg-rose-600 hover:bg-rose-500 rounded disabled:opacity-50 transition-colors"
+              data-testid="bulk-close-btn"
+            >
+              Close
+            </button>
+
+            {/* Clear Selection */}
+            <button
+              onClick={() => setSelectedTicketIds([])}
+              className="px-2 py-1 text-xs text-slate-400 hover:text-white transition-colors"
+              data-testid="bulk-clear-btn"
+            >
+              Clear
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* Ticket List Table */}
       <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
         {isLoading ? (
@@ -126,6 +228,21 @@ export function TicketInbox({ onSelectTicket }: TicketInboxProps) {
             <table className="w-full text-left text-sm" data-testid="tickets-table">
               <thead className="bg-slate-50 border-b border-slate-200 text-xs font-semibold text-slate-500 uppercase tracking-wider">
                 <tr>
+                  <th className="px-3 py-3 w-8">
+                    <input
+                      type="checkbox"
+                      data-testid="select-all-tickets"
+                      checked={tickets.length > 0 && selectedTicketIds.length === tickets.length}
+                      onChange={(e) => {
+                        if (e.target.checked) {
+                          setSelectedTicketIds(tickets.map((t) => t.id));
+                        } else {
+                          setSelectedTicketIds([]);
+                        }
+                      }}
+                      className="rounded border-slate-300 text-indigo-600 focus:ring-indigo-500 cursor-pointer"
+                    />
+                  </th>
                   <th className="px-4 py-3">#</th>
                   <th className="px-4 py-3">Subject</th>
                   <th className="px-4 py-3">Status</th>
@@ -142,6 +259,21 @@ export function TicketInbox({ onSelectTicket }: TicketInboxProps) {
                     className="hover:bg-slate-50 cursor-pointer transition-colors"
                     data-testid={`ticket-row-${t.id}`}
                   >
+                    <td className="px-3 py-3.5" onClick={(e) => e.stopPropagation()}>
+                      <input
+                        type="checkbox"
+                        data-testid={`ticket-checkbox-${t.id}`}
+                        checked={selectedTicketIds.includes(t.id)}
+                        onChange={() => {
+                          setSelectedTicketIds((prev) =>
+                            prev.includes(t.id)
+                              ? prev.filter((id) => id !== t.id)
+                              : [...prev, t.id],
+                          );
+                        }}
+                        className="rounded border-slate-300 text-indigo-600 focus:ring-indigo-500 cursor-pointer"
+                      />
+                    </td>
                     <td className="px-4 py-3.5 font-mono text-xs font-semibold text-indigo-600">
                       #{t.number}
                     </td>

@@ -79,4 +79,36 @@ describe('TicketInbox', () => {
     });
     expect(screen.getByText('No tickets found')).toBeInTheDocument();
   });
+
+  it('supports checkbox selection and bulk actions bar', async () => {
+    vi.spyOn(api.tickets, 'list').mockResolvedValue({
+      data: [mockTicket, mockTicket2],
+    });
+    const bulkSpy = vi.spyOn(api.tickets, 'bulk').mockResolvedValueOnce({
+      updatedCount: 2,
+    });
+
+    renderWithQueryClient(<TicketInbox onSelectTicket={vi.fn()} onOpenCreate={vi.fn()} />);
+
+    await waitFor(() => {
+      expect(screen.getByTestId('select-all-tickets')).toBeInTheDocument();
+    });
+
+    // Select all tickets
+    fireEvent.click(screen.getByTestId('select-all-tickets'));
+
+    expect(screen.getByTestId('bulk-actions-bar')).toBeInTheDocument();
+    expect(screen.getByText('2')).toBeInTheDocument();
+
+    // Trigger Bulk Close
+    fireEvent.click(screen.getByTestId('bulk-close-btn'));
+
+    await waitFor(() => {
+      expect(bulkSpy).toHaveBeenCalledWith({
+        ticketIds: ['ticket_abc', 'ticket_xyz'],
+        action: 'STATUS',
+        value: 'CLOSED',
+      });
+    });
+  });
 });

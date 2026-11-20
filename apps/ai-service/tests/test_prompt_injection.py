@@ -1,6 +1,7 @@
 """Security tests: Prompt injection and jailbreak defense tests."""
 
 import pytest
+
 from src.rag.prompt import is_prompt_injection
 from src.rag.service import RagService
 from src.schemas.llm import GenerateAnswerRequest

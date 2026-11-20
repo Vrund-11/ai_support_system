@@ -1,6 +1,7 @@
 import { Router, type Request, type Response, type NextFunction } from 'express';
 import { Types } from 'mongoose';
 import { AppError } from '@supportpilot/shared-lib';
+import { updateNotificationPrefsSchema } from '@supportpilot/validators';
 import { requireAuth } from '../middleware/auth.middleware.js';
 import { UserRepository } from '../repositories/user.repository.js';
 
@@ -24,7 +25,68 @@ userRouter.get('/me', async (req: Request, res: Response, next: NextFunction) =>
         email: user.email,
         name: user.name,
         role: user.role,
+        notificationPrefs: user.notificationPrefs,
       },
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
+// GET /api/v1/users/me/preferences — get notification preferences (NOTIF-4)
+userRouter.get('/me/preferences', async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const tenantId = req.user!.tenantId;
+    const userId = req.user!.sub;
+    const userRepo = new UserRepository(tenantId);
+    const user = await userRepo.findById(userId);
+    if (!user) {
+      throw new AppError(404, 'User not found', '/errors/not-found');
+    }
+    res.status(200).json({
+      data: user.notificationPrefs ?? { email: true, push: true, inApp: true },
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
+// PATCH /api/v1/users/me/preferences — update notification preferences (NOTIF-4)
+userRouter.patch('/me/preferences', async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const parseResult = updateNotificationPrefsSchema.safeParse(req.body);
+    if (!parseResult.success) {
+      const issue = parseResult.error.issues[0];
+      const message = issue ? `${issue.path.join('.')}: ${issue.message}` : 'Validation error';
+      throw new AppError(400, message, '/errors/validation');
+    }
+
+    const tenantId = req.user!.tenantId;
+    const userId = req.user!.sub;
+    const userRepo = new UserRepository(tenantId);
+    const user = await userRepo.findById(userId);
+    if (!user) {
+      throw new AppError(404, 'User not found', '/errors/not-found');
+    }
+
+    if (!user.notificationPrefs) {
+      user.notificationPrefs = { email: true, push: true, inApp: true };
+    }
+
+    if (parseResult.data.email !== undefined) {
+      user.notificationPrefs.email = parseResult.data.email;
+    }
+    if (parseResult.data.push !== undefined) {
+      user.notificationPrefs.push = parseResult.data.push;
+    }
+    if (parseResult.data.inApp !== undefined) {
+      user.notificationPrefs.inApp = parseResult.data.inApp;
+    }
+
+    await user.save();
+
+    res.status(200).json({
+      data: user.notificationPrefs,
     });
   } catch (err) {
     next(err);

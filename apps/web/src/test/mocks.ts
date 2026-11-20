@@ -81,3 +81,58 @@ export const mockTimeline: TicketEventDto[] = [
     createdAt: new Date(Date.now() - 3400000).toISOString(),
   },
 ];
+
+export const mockCustomer = {
+  id: 'cust_999',
+  name: 'Alice Customer',
+  email: 'alice@example.com',
+  phone: '+1 555-0100',
+  company: 'Acme Corp',
+  ticketCount: 3,
+  createdAt: new Date(Date.now() - 86400000 * 30).toISOString(),
+};
+
+export const mockTeamMember = {
+  id: 'user_123',
+  name: 'Alex Agent',
+  email: 'agent@supportpilot.io',
+  role: 'AGENT' as const,
+  status: 'ACTIVE' as const,
+  createdAt: new Date(Date.now() - 86400000 * 60).toISOString(),
+};
+
+export const mockRule = {
+  id: 'rule_1',
+  tenantId: 'tenant_123',
+  name: 'Auto-tag Urgent Tickets',
+  description: 'Add urgent tag when priority is HIGH',
+  event: 'TICKET_CREATED' as const,
+  conditionLogic: 'AND' as const,
+  conditions: [
+    {
+      field: 'priority' as const,
+      operator: 'EQUALS' as const,
+      value: 'HIGH',
+    },
+  ],
+  actions: [
+    {
+      type: 'ADD_TAG' as const,
+      target: 'urgent',
+    },
+  ],
+  enabled: true,
+  order: 1,
+  createdAt: new Date().toISOString(),
+  updatedAt: new Date().toISOString(),
+};
+
+export const mockNotification = {
+  id: 'notif_1',
+  title: 'New ticket assigned',
+  message: 'Ticket #1001 assigned to you',
+  type: 'TICKET_ASSIGNED' as const,
+  read: false,
+  ticketId: 'ticket_abc',
+  createdAt: new Date().toISOString(),
+};

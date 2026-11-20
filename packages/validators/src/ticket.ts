@@ -29,6 +29,7 @@ export const createTicketSchema = z.object({
     )
     .default([]),
   customFields: z.record(z.string(), z.unknown()).default({}),
+  linkedTicketIds: z.array(z.string()).default([]),
 });
 
 export type CreateTicketInput = z.infer<typeof createTicketSchema>;
@@ -40,9 +41,18 @@ export const updateTicketSchema = z.object({
   assigneeId: z.string().nullable().optional(),
   tags: z.array(z.string().trim()).optional(),
   customFields: z.record(z.string(), z.unknown()).optional(),
+  linkedTicketIds: z.array(z.string()).optional(),
 });
 
 export type UpdateTicketInput = z.infer<typeof updateTicketSchema>;
+
+export const bulkTicketActionSchema = z.object({
+  ticketIds: z.array(z.string().min(1)).min(1, 'At least one ticket ID required'),
+  action: z.enum(['ASSIGN', 'TAG', 'STATUS']),
+  value: z.union([z.string(), z.array(z.string()), z.null()]),
+});
+
+export type BulkTicketActionInput = z.infer<typeof bulkTicketActionSchema>;
 
 export const ticketFilterSchema = z.object({
   status: z.union([ticketStatusSchema, z.array(ticketStatusSchema)]).optional(),

@@ -10,6 +10,7 @@ import {
 } from '@supportpilot/shared-lib';
 import { isRedisConnected } from './lib/redis.js';
 import { createRateLimiter } from './middleware/rate-limiter.js';
+import { createQuotaMiddleware } from './middleware/quota.middleware.js';
 import { createAuthPassthrough } from './middleware/auth-passthrough.js';
 import { createProxyMiddleware } from './middleware/proxy.js';
 import { createSecurityHeadersMiddleware } from './middleware/security.js';
@@ -94,6 +95,9 @@ export function createApp(config: GatewayConfig = {}): Express {
   app.use('/api/v1/auth/login', loginLimiter);
   app.use('/api/v1', apiLimiter);
 
+  // ── Tenant Quota Middleware (TEN-4) ──
+  app.use('/api/v1', createQuotaMiddleware(config.redisClient));
+
   // ── GraphQL Layer (Apollo Server) (INT-3) ──
   setupGraphQL(app, {
     ticketServiceUrl,
@@ -108,6 +112,9 @@ export function createApp(config: GatewayConfig = {}): Express {
 
   app.use('/api/v1/auth', ticketProxy);
   app.use('/api/v1/tickets', ticketProxy);
+  app.use('/api/v1/customers', ticketProxy);
+  app.use('/api/v1/team', ticketProxy);
+  app.use('/api/v1/docs', ticketProxy);
   app.use('/api/v1/uploads', ticketProxy);
   app.use('/api/v1/kb', ticketProxy);
   app.use('/api/v1/users', ticketProxy);

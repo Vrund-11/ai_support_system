@@ -1,18 +1,23 @@
 import { Router, type Request, type Response, type NextFunction } from 'express';
+import { Types } from 'mongoose';
 import {
   createTicketSchema,
   updateTicketSchema,
   ticketFilterSchema,
   createMessageSchema,
+  bulkTicketActionSchema,
 } from '@supportpilot/validators';
 import { AppError, executeRules } from '@supportpilot/shared-lib';
-import type { RuleDto, TicketDto } from '@supportpilot/shared-types';
+import type { RuleDto, TicketDto, TicketStatus } from '@supportpilot/shared-types';
 import { requireAuth } from '../middleware/auth.middleware.js';
 import { requireMinRole } from '../middleware/rbac.middleware.js';
 import { TicketRepository } from '../repositories/ticket.repository.js';
 import { TicketEventRepository } from '../repositories/ticket-event.repository.js';
 import { MessageRepository } from '../repositories/message.repository.js';
 import { RuleRepository } from '../repositories/rule.repository.js';
+import { Ticket } from '../models/ticket.model.js';
+import { AssignmentService } from '../services/assignment.service.js';
+import { validateStatusTransition } from '../lib/transitions.js';
 
 export const ticketRouter: Router = Router();
 
@@ -94,6 +99,160 @@ ticketRouter.post('/', async (req: Request, res: Response, next: NextFunction) =
     }
 
     res.status(201).json({ data: ticket });
+  } catch (err) {
+    next(err);
+  }
+});
+
+// GET /api/v1/tickets/assignment/next-agent — preview next agent assignment (TKT-4)
+ticketRouter.get(
+  '/assignment/next-agent',
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const tenantId = req.user!.tenantId;
+      const algorithm = req.query['algorithm'] === 'least-loaded' ? 'least-loaded' : 'round-robin';
+      const agentId = await AssignmentService.getNextAgent(tenantId, algorithm);
+      res.status(200).json({ data: { agentId, algorithm } });
+    } catch (err) {
+      next(err);
+    }
+  },
+);
+
+// POST /api/v1/tickets/bulk — bulk ticket actions (TKT-8)
+ticketRouter.post('/bulk', async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const parseResult = bulkTicketActionSchema.safeParse(req.body);
+    if (!parseResult.success) {
+      const issue = parseResult.error.issues[0];
+      const message = issue ? `${issue.path.join('.')}: ${issue.message}` : 'Validation error';
+      throw new AppError(400, message, '/errors/validation');
+    }
+
+    const tenantId = req.user!.tenantId;
+    const actorId = req.user!.sub;
+    const { ticketIds, action, value } = parseResult.data;
+    const eventRepo = new TicketEventRepository(tenantId);
+    const updatedIds: string[] = [];
+
+    for (const idStr of ticketIds) {
+      if (!Types.ObjectId.isValid(idStr)) continue;
+      const objId = new Types.ObjectId(idStr);
+      const ticket = await Ticket.findOne({
+        _id: objId,
+        tenantId: new Types.ObjectId(tenantId),
+      });
+      if (!ticket) continue;
+
+      if (action === 'ASSIGN') {
+        const newAssignee =
+          value === 'auto'
+            ? await AssignmentService.getNextAgent(tenantId, 'round-robin')
+            : value
+              ? String(value)
+              : null;
+
+        ticket.assigneeId = newAssignee ? new Types.ObjectId(newAssignee) : undefined;
+        ticket.version += 1;
+        await ticket.save();
+
+        await eventRepo.recordEvent(objId, 'ASSIGN', {
+          actorId,
+          from: ticket.assigneeId ? ticket.assigneeId.toString() : 'unassigned',
+          to: newAssignee ?? 'unassigned',
+        });
+        updatedIds.push(idStr);
+      } else if (action === 'TAG') {
+        const tagToAdd = Array.isArray(value) ? value : [String(value)];
+        ticket.tags = Array.from(new Set([...ticket.tags, ...tagToAdd]));
+        ticket.version += 1;
+        await ticket.save();
+
+        await eventRepo.recordEvent(objId, 'TAG', {
+          actorId,
+          from: '',
+          to: tagToAdd.join(', '),
+        });
+        updatedIds.push(idStr);
+      } else if (action === 'STATUS') {
+        const targetStatus = String(value) as TicketStatus;
+        try {
+          validateStatusTransition(ticket.status, targetStatus);
+        } catch {
+          // If transition is invalid for this ticket, skip
+          continue;
+        }
+        const oldStatus = ticket.status;
+        ticket.status = targetStatus;
+        ticket.version += 1;
+        await ticket.save();
+
+        await eventRepo.recordEvent(objId, 'STATUS', {
+          actorId,
+          from: oldStatus,
+          to: targetStatus,
+        });
+        updatedIds.push(idStr);
+      }
+    }
+
+    res.status(200).json({
+      data: {
+        updatedCount: updatedIds.length,
+        ticketIds: updatedIds,
+      },
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
+// POST /api/v1/tickets/:id/link — link tickets bidirectionally (TKT-6)
+ticketRouter.post('/:id/link', async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const ticketId = Array.isArray(req.params['id']) ? req.params['id'][0]! : req.params['id']!;
+    const { targetTicketId } = req.body as { targetTicketId?: string };
+
+    if (!targetTicketId || !Types.ObjectId.isValid(targetTicketId)) {
+      throw new AppError(400, 'Valid targetTicketId is required', '/errors/validation');
+    }
+    if (!Types.ObjectId.isValid(ticketId)) {
+      throw new AppError(400, 'Valid ticketId is required', '/errors/validation');
+    }
+
+    const tenantId = req.user!.tenantId;
+    const tenantObjectId = new Types.ObjectId(tenantId);
+    const sourceObjId = new Types.ObjectId(ticketId);
+    const targetObjId = new Types.ObjectId(targetTicketId);
+
+    const [sourceTicket, targetTicket] = await Promise.all([
+      Ticket.findOne({ _id: sourceObjId, tenantId: tenantObjectId }),
+      Ticket.findOne({ _id: targetObjId, tenantId: tenantObjectId }),
+    ]);
+
+    if (!sourceTicket || !targetTicket) {
+      throw new AppError(404, 'One or both tickets not found', '/errors/not-found');
+    }
+
+    if (!sourceTicket.linkedTicketIds) {
+      sourceTicket.linkedTicketIds = [];
+    }
+    if (!sourceTicket.linkedTicketIds.some((id) => id.equals(targetObjId))) {
+      sourceTicket.linkedTicketIds.push(targetObjId);
+      sourceTicket.version += 1;
+      await sourceTicket.save();
+    }
+
+    if (!targetTicket.linkedTicketIds) {
+      targetTicket.linkedTicketIds = [];
+    }
+    if (!targetTicket.linkedTicketIds.some((id) => id.equals(sourceObjId))) {
+      targetTicket.linkedTicketIds.push(sourceObjId);
+      targetTicket.version += 1;
+      await targetTicket.save();
+    }
+
+    res.status(200).json({ data: sourceTicket });
   } catch (err) {
     next(err);
   }

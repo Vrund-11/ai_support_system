@@ -1,4 +1,4 @@
-﻿# SupportPilot — Sprint 2 Local Demo Script (PowerShell)
+# SupportPilot — Sprint 2 Local Demo Script (PowerShell)
 # Verifies end-to-end Realtime, AI RAG, GraphQL, Handoff, and E2E
 
 $ErrorActionPreference = "Stop"

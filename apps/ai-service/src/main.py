@@ -29,6 +29,7 @@ from src.ingest.repository import get_ingest_repository
 from src.lib.db import check_db_connection
 from src.lib.redis import check_redis_connection
 from src.providers.factory import get_llm_provider
+from src.quota import get_quota_tracker
 from src.rag.service import RagService
 from src.retrieval.hybrid import HybridRetriever
 from src.schemas.llm import GenerateAnswerRequest, GenerateAnswerResponse, RagAnswer
@@ -362,3 +363,26 @@ async def suggest_agent_reply(req: SuggestReplyRequest) -> SuggestReplyResponse:
 async def summarize_thread(req: SummarizeRequest) -> SummarizeResponse:
     assist = get_agent_assist_service()
     return await assist.summarize(req)
+
+
+# ── Tenant Quota Endpoints (AI-8) ──
+@app.get("/v1/quota/{tenant_id}")
+async def get_tenant_quota(tenant_id: str) -> dict[str, Any]:
+    tracker = get_quota_tracker()
+    usage = await tracker.get_usage(tenant_id)
+    is_exceeded = await tracker.is_quota_exceeded(tenant_id)
+    return {
+        "tenant_id": tenant_id,
+        "calls": usage["calls"],
+        "tokens": usage["tokens"],
+        "max_calls": settings.daily_call_quota,
+        "max_tokens": settings.daily_token_quota,
+        "quota_exceeded": is_exceeded,
+    }
+
+
+@app.post("/v1/quota/{tenant_id}/reset")
+async def reset_tenant_quota(tenant_id: str) -> dict[str, Any]:
+    tracker = get_quota_tracker()
+    await tracker.reset(tenant_id)
+    return {"tenant_id": tenant_id, "status": "reset"}

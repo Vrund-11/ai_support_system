@@ -47,6 +47,7 @@ export class TicketRepository extends BaseTenantRepository<ITicketDocument> {
       tags: input.tags,
       attachments: input.attachments ?? [],
       customFields: input.customFields,
+      linkedTicketIds: (input.linkedTicketIds ?? []).map((id) => new Types.ObjectId(id)),
       version: 1,
       sla: { breached: false },
     };
@@ -189,6 +190,11 @@ export class TicketRepository extends BaseTenantRepository<ITicketDocument> {
     if (updateData.tags !== undefined) updateFields['tags'] = updateData.tags;
     if (updateData.customFields !== undefined)
       updateFields['customFields'] = updateData.customFields;
+    if (updateData.linkedTicketIds !== undefined) {
+      updateFields['linkedTicketIds'] = updateData.linkedTicketIds.map(
+        (id) => new Types.ObjectId(id),
+      );
+    }
 
     // Attempt atomic update matching tenantId, _id and version
     const updated = await this.model.findOneAndUpdate(

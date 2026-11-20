@@ -19,3 +19,9 @@ export {
   parseTimeToMinutes,
 } from './sla/calculator.js';
 export type { SlaMilestones, SlaTargetMilestones } from './sla/calculator.js';
+export { evaluateCondition, matchesRule, applyRuleAction, executeRules } from './rules/engine.js';
+export type {
+  RuleEvaluationContext,
+  RuleSideEffect,
+  RulesExecutionResult,
+} from './rules/engine.js';

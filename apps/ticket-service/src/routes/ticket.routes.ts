@@ -5,12 +5,14 @@ import {
   ticketFilterSchema,
   createMessageSchema,
 } from '@supportpilot/validators';
-import { AppError } from '@supportpilot/shared-lib';
+import { AppError, executeRules } from '@supportpilot/shared-lib';
+import type { RuleDto, TicketDto } from '@supportpilot/shared-types';
 import { requireAuth } from '../middleware/auth.middleware.js';
 import { requireMinRole } from '../middleware/rbac.middleware.js';
 import { TicketRepository } from '../repositories/ticket.repository.js';
 import { TicketEventRepository } from '../repositories/ticket-event.repository.js';
 import { MessageRepository } from '../repositories/message.repository.js';
+import { RuleRepository } from '../repositories/rule.repository.js';
 
 export const ticketRouter: Router = Router();
 
@@ -70,6 +72,26 @@ ticketRouter.post('/', async (req: Request, res: Response, next: NextFunction) =
 
     const ticketRepo = new TicketRepository(tenantId);
     const ticket = await ticketRepo.createTicket(parseResult.data);
+
+    // Evaluate automation rules (AUTO-3)
+    try {
+      const ruleRepo = new RuleRepository(tenantId);
+      const activeRules = await ruleRepo.findActiveRules('TICKET_CREATED');
+      if (activeRules && activeRules.length > 0) {
+        const ruleDtos = activeRules.map(
+          (r) => (typeof r.toJSON === 'function' ? r.toJSON() : r) as RuleDto,
+        );
+        const ticketData = typeof ticket.toJSON === 'function' ? ticket.toJSON() : ticket;
+        const evalResult = executeRules(ruleDtos, { ticket: ticketData as unknown as TicketDto });
+        if (Object.keys(evalResult.changes).length > 0) {
+          const ticketId = ticket._id;
+          await ticketRepo.updateById(ticketId, evalResult.changes);
+          Object.assign(ticket, evalResult.changes);
+        }
+      }
+    } catch {
+      // Continue without failing ticket creation if rule query fails
+    }
 
     res.status(201).json({ data: ticket });
   } catch (err) {

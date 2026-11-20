@@ -4,8 +4,8 @@
 
 - Date: 2026-11-20
 - Current sprint: Sprint 3 (Platform and quality)
-- Last completed task id: S3-T02
-- Next task id: S3-T03
+- Last completed task id: S3-T03
+- Next task id: S3-T04
 - Blockers: Docker not installed (docker-compose ready but can't run yet)
 - Environment notes: Node 24.18, pnpm 10.11, Python 3.12, TypeScript 5.9, git 2.52
 
@@ -69,10 +69,18 @@
     - Implemented `processSlaTimerJob` (`apps/notification-service/src/sla/processor.ts`) enforcing T-SLA-01: skips SLA warning and breach when ticket is already RESOLVED or CLOSED, or when first response has already been provided.
     - Added fast-check property-based tests (`sla-calculator.property.test.ts`) validating non-negative elapsed time, monotonicity, 75% <= 100% invariant, and determinism.
     - Added unit and delayed job tests in `notification-service/tests/sla-automation.test.ts`. 309 total automated tests passing monorepo.
-- Tests added / results: 309 tests passing across monorepo (131 in ticket-service, 50 in ai-service pytest, 43 in gateway, 27 in shared-lib, 23 in web, 16 in notification-service, 9 in widget, 4 in validators, 5 hermetic e2e, 1 newman runner with 21 collection assertions)
-- Measurements recorded (M-ids): M02 (test count: 309 tests across services), M03 (Mongo explain executionStats for ticket list compound indexes), M06 (AI Eval golden set baseline: Hit@5 100%, Groundedness 100%, F1 1.0)
+  - S3-T03: Automation Rules Engine with condition trees and mutations (AUTO-3):
+    - Added shared types `RuleDto`, `RuleCondition`, `RuleAction`, `RuleTriggerEvent` in `@supportpilot/shared-types`.
+    - Implemented rule evaluation engine (`packages/shared-lib/src/rules/engine.ts`) with `evaluateCondition`, `matchesRule`, `applyRuleAction`, and `executeRules` evaluating condition trees (EQUALS, NOT_EQUALS, CONTAINS, IN, MATCHES_REGEX across status, priority, tag, keyword, channel with AND/OR logic) and applying ticket mutations (`ASSIGN`, `ADD_TAG`, `REMOVE_TAG`, `SET_PRIORITY`, `SET_STATUS`) and side effects (`NOTIFY`, `ESCALATE`).
+    - Added unit test suite `packages/shared-lib/tests/rules-engine.test.ts` (5 tests passing).
+    - Implemented `RuleModel` (`apps/ticket-service/src/models/rule.model.ts`) with compound index `(tenantId, event, enabled, order)` and `RuleRepository` (`apps/ticket-service/src/repositories/rule.repository.ts`).
+    - Implemented REST API (`apps/ticket-service/src/routes/rule.routes.ts`) with RBAC (LEAD+ create/update/delete, AGENT+ list/get/test-evaluate) and dry-run evaluation endpoint (`POST /api/v1/rules/test-evaluate`).
+    - Integrated automatic rule execution into `POST /api/v1/tickets` triggering active `TICKET_CREATED` rules on new tickets with atomic updates.
+    - Added 4 integration tests in `apps/ticket-service/tests/rules-api.test.ts`. 318 total automated tests passing monorepo.
+- Tests added / results: 318 tests passing across monorepo (135 in ticket-service, 50 in ai-service pytest, 43 in gateway, 32 in shared-lib, 23 in web, 16 in notification-service, 9 in widget, 4 in validators, 5 hermetic e2e, 1 newman runner with 21 collection assertions)
+- Measurements recorded (M-ids): M02 (test count: 318 tests across services), M03 (Mongo explain executionStats for ticket list compound indexes), M06 (AI Eval golden set baseline: Hit@5 100%, Groundedness 100%, F1 1.0)
 - Issues found: none
-- Next: S3-T03 (Rules engine: conditions -> actions with tests, AUTO-3)
+- Next: S3-T04 (Classifier: dataset prep, training notebook, model comparison, artifact export, /v1/classify, rules fallback, AI-4)
   - S0-T04: .env.example + Zod env loader in @supportpilot/validators with 4 passing tests
   - S0-T05: CI skeleton .github/workflows/ci.yml with service containers
   - S0-T06: Logger (pino), request-id middleware, error handler (RFC 7807) in @supportpilot/shared-lib with 7 passing tests

@@ -181,3 +181,46 @@ export interface TicketEventDto {
   payload?: Record<string, unknown>;
   createdAt: string;
 }
+
+/** Rules engine condition field */
+export type RuleConditionField = 'status' | 'priority' | 'tag' | 'keyword' | 'channel';
+
+/** Rules engine condition operator */
+export type RuleConditionOperator = 'EQUALS' | 'NOT_EQUALS' | 'CONTAINS' | 'IN' | 'MATCHES_REGEX';
+
+/** Rules engine condition */
+export interface RuleCondition {
+  field: RuleConditionField;
+  operator: RuleConditionOperator;
+  value: string | string[];
+}
+
+/** Rules engine action type */
+export type RuleActionType =
+  'ASSIGN' | 'ADD_TAG' | 'REMOVE_TAG' | 'SET_PRIORITY' | 'SET_STATUS' | 'NOTIFY' | 'ESCALATE';
+
+/** Rules engine action */
+export interface RuleAction {
+  type: RuleActionType;
+  target?: string;
+  params?: Record<string, unknown>;
+}
+
+/** Rules engine trigger event */
+export type RuleTriggerEvent = 'TICKET_CREATED' | 'TICKET_UPDATED' | 'MESSAGE_RECEIVED';
+
+/** Automation Rule DTO */
+export interface RuleDto {
+  id: string;
+  tenantId: string;
+  name: string;
+  description?: string;
+  event: RuleTriggerEvent;
+  conditions: RuleCondition[];
+  conditionLogic: 'AND' | 'OR';
+  actions: RuleAction[];
+  enabled: boolean;
+  order: number;
+  createdAt: string;
+  updatedAt: string;
+}

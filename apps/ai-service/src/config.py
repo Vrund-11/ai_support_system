@@ -20,6 +20,8 @@ class Settings(BaseSettings):
     aws_region: str = "ap-south-1"
 
     embedding_model: str = "sentence-transformers/all-MiniLM-L6-v2"
+    embedding_dim: int = 384
+    ai_confidence_threshold: float = 0.55
 
     model_config = {"env_prefix": "", "case_sensitive": False}
 

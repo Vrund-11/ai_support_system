@@ -1,0 +1,12 @@
+{
+  "name": "@supportpilot/mobile",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "echo \"Expo mobile app — built in Sprint 4 (S4-T01)\"",
+    "build": "echo \"Mobile — built in Sprint 4\"",
+    "typecheck": "echo \"No source yet\"",
+    "lint": "echo \"No source yet\"",
+    "test": "echo \"No tests yet\""
+  }
+}

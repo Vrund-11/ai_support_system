@@ -1,0 +1,13 @@
+{
+  "name": "@supportpilot/web",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "echo \"Web dashboard — built in Sprint 1 (S1-T11)\"",
+    "build": "echo \"Web dashboard — built in Sprint 1\"",
+    "typecheck": "echo \"No source yet\"",
+    "lint": "echo \"No source yet\"",
+    "test": "echo \"No tests yet\""
+  }
+}

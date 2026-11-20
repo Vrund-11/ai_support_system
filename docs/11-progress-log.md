@@ -1,0 +1,41 @@
+# Progress Log (update after every session)
+
+## Current state
+
+- Date: 2026-11-20
+- Current sprint: Sprint 0 (Foundations)
+- Last completed task id: S0-T07
+- Next task id: S1-T01
+- Blockers: Docker not installed (docker-compose ready but can't run yet)
+- Environment notes: Node 24.18, pnpm 10.11, Python 3.13, TypeScript 5.9, git 2.52
+
+## Decisions made since the PRD
+
+- ADR-001: Used ESLint flat config (v9) with separate type-aware linting for src vs tests/config files
+- ADR-002: Express 5 (latest) for all Node services
+- ADR-003: Vitest over Jest for Node packages (faster, native ESM support)
+
+## Session log
+
+### 2026-11-20
+
+- Done: Sprint 0 complete (S0-T01 through S0-T07)
+  - S0-T01: Monorepo with pnpm workspaces + Turborepo, 12 packages, TS strict, ESLint flat config, Prettier, Husky pre-commit
+  - S0-T02: docs/ planning pack committed, README updated with links
+  - S0-T03: docker-compose.yml with mongo:7, pgvector:pg16, redis:7, minio, mailhog + init script
+  - S0-T04: .env.example + Zod env loader in @supportpilot/validators with 4 passing tests
+  - S0-T05: CI skeleton .github/workflows/ci.yml with service containers
+  - S0-T06: Logger (pino), request-id middleware, error handler (RFC 7807) in @supportpilot/shared-lib with 7 passing tests
+  - S0-T07: GitHub issue templates (bug, feature) + PR template
+- Tests added / results: 11 tests passing (4 env loader, 2 logger, 2 request-id, 3 error-handler)
+- Measurements recorded (M-ids): none yet
+- Issues found: Docker not installed on dev machine (compose file ready)
+- Next: S1-T01 (ticket-service skeleton, Mongoose connection, health endpoints)
+
+## Handoff checklist for the next person or AI
+
+- [x] `pnpm verify` passes on main (36/36 tasks green)
+- [ ] `docker compose up -d` brings up datastores healthy (Docker not installed yet)
+- [x] README setup steps still accurate
+- [x] Roadmap checkboxes up to date
+- [ ] No uncommitted work; branch name and open PR noted above

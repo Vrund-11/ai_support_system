@@ -1,0 +1,38 @@
+{
+  "name": "supportpilot",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Multi-tenant AI-assisted customer-support platform",
+  "packageManager": "pnpm@10.11.0",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "lint:fix": "turbo run lint:fix",
+    "typecheck": "turbo run typecheck",
+    "test": "turbo run test",
+    "test:ci": "turbo run test -- --ci --coverage",
+    "verify": "turbo run lint typecheck test",
+    "clean": "turbo run clean",
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.0",
+    "husky": "^9.1.0",
+    "lint-staged": "^16.1.0",
+    "prettier": "^3.5.0",
+    "turbo": "^2.5.0",
+    "typescript": "^5.8.0"
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx}": [
+      "prettier --write"
+    ],
+    "*.{json,md,yml,yaml}": [
+      "prettier --write"
+    ]
+  }
+}

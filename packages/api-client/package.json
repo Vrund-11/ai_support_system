@@ -1,0 +1,25 @@
+{
+  "name": "@supportpilot/api-client",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc --build",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "test": "echo \"No tests yet\"",
+    "clean": "rimraf dist *.tsbuildinfo"
+  },
+  "dependencies": {
+    "@supportpilot/shared-types": "workspace:*"
+  },
+  "devDependencies": {
+    "@supportpilot/eslint-config": "workspace:*",
+    "eslint": "^9.27.0",
+    "rimraf": "^6.0.0",
+    "typescript": "^5.8.0"
+  }
+}

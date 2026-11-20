@@ -1,0 +1,50 @@
+{
+  "name": "@supportpilot/shared-lib",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./logger": {
+      "types": "./dist/logger.d.ts",
+      "import": "./dist/logger.js"
+    },
+    "./middleware": {
+      "types": "./dist/middleware/index.d.ts",
+      "import": "./dist/middleware/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc --build",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "clean": "rimraf dist *.tsbuildinfo"
+  },
+  "dependencies": {
+    "@supportpilot/shared-types": "workspace:*",
+    "pino": "^9.6.0",
+    "pino-http": "^10.4.0",
+    "uuid": "^11.1.0"
+  },
+  "devDependencies": {
+    "@supportpilot/eslint-config": "workspace:*",
+    "@types/express": "^5.0.0",
+    "@types/uuid": "^10.0.0",
+    "eslint": "^9.27.0",
+    "express": "^5.1.0",
+    "rimraf": "^6.0.0",
+    "typescript": "^5.8.0",
+    "vitest": "^3.2.0"
+  },
+  "peerDependencies": {
+    "express": "^5.0.0"
+  }
+}

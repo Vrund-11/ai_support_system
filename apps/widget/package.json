@@ -1,0 +1,13 @@
+{
+  "name": "@supportpilot/widget",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "echo \"Chat widget — built in Sprint 2 (S2-T04)\"",
+    "build": "echo \"Chat widget — built in Sprint 2\"",
+    "typecheck": "echo \"No source yet\"",
+    "lint": "echo \"No source yet\"",
+    "test": "echo \"No tests yet\""
+  }
+}

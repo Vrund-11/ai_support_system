@@ -1,0 +1,36 @@
+{
+  "id": "supportpilot-env-local",
+  "name": "SupportPilot Local",
+  "values": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:4000",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "accessToken",
+      "value": "",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "refreshToken",
+      "value": "",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "ticketId",
+      "value": "",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "ticketVersion",
+      "value": "1",
+      "type": "default",
+      "enabled": true
+    }
+  ]
+}

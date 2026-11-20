@@ -71,6 +71,9 @@ jobs:
           SERVICE_TOKEN: ci-test-service-token-16
           LLM_PROVIDER: mock
 
+      - name: Postman / Newman API Tests
+        run: pnpm test:postman
+
       - name: Upload coverage
         if: always()
         uses: actions/upload-artifact@v4

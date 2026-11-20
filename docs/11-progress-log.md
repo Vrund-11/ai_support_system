@@ -4,8 +4,8 @@
 
 - Date: 2026-11-20
 - Current sprint: Sprint 1 (MERN core)
-- Last completed task id: S1-T12
-- Next task id: S1-T13
+- Last completed task id: S1-T13
+- Next task id: S1-T14
 - Blockers: Docker not installed (docker-compose ready but can't run yet)
 - Environment notes: Node 24.18, pnpm 10.11, Python 3.13, TypeScript 5.9, git 2.52
 
@@ -35,10 +35,11 @@
   - S1-T10: Gateway skeleton with Redis connection manager, Redis sliding window rate limiting middleware (`createRateLimiter` with login 5/15m limit per AUTH-5 and general 100/1m API limit, headers `X-RateLimit-*`, 429 Retry-After RFC 7807 problem details), in-memory JWT auth passthrough (`createAuthPassthrough`), and reverse proxy middleware (`createProxyMiddleware`) forwarding requests with `x-service-token`, `x-request-id`, and `Authorization` to ticket-service with 502 error handling. 8 new integration tests covering health, rate limiting, and proxy behavior.
   - S1-T11: Web dashboard React application (`apps/web`): React 19, Vite, Tailwind CSS v4, TanStack Query, Zustand, Lucide icons. Implemented authentication store (`useAuthStore`) with localStorage persistence, API client (`apps/web/src/lib/api.ts`) against gateway proxy, Shell layout with user/role badge and navigation, LoginForm and RegisterForm with error summary, TicketInbox view with debounced search, status and priority filter selectors and empty state, TicketDetail view with ticket header, 409 conflict detection, message thread distinguishing internal notes from public replies, activity timeline, and message composer supporting public replies and internal notes with sequence ordering. Added CreateTicketModal. 14 new tests covering auth store, login form, ticket inbox, and ticket detail (152 total tests monorepo).
   - S1-T12: Monorepo test coverage configuration and CI integration: configured `@vitest/coverage-v8` on root, ticket-service and web packages. Fixed `test:ci` script to pass `--coverage` across turbo pipeline. Ticket-service achieved 88.06% statement coverage (exceeding Sprint 1 >= 70% threshold). Recorded M02 measurement in evidence tracker.
-- Tests added / results: 152 tests passing across monorepo (20 in shared-lib, 106 in ticket-service, 8 in gateway, 4 in validators, 14 in web)
-- Measurements recorded (M-ids): M02 (test count & coverage: 152 tests, 88.06% ticket-service statement coverage), M03 (Mongo explain executionStats for ticket list compound indexes)
+  - S1-T13: Postman collection (`tests/api/supportpilot-sprint1.collection.json`) and environment (`tests/api/supportpilot.environment.json`) covering complete Sprint 1 lifecycle: health check, tenant registration, login, ticket creation, list filtering, detail view, internal notes, public replies, status transition to OPEN, 409 conflict detection, and logout. Added hermetic Vitest Newman runner (`tests/api/newman.test.ts`), `pnpm test:postman` root script, and CI step in `.github/workflows/ci.yml`. 11 requests, 21 assertions passing with 0 failures.
+- Tests added / results: 153 tests passing across monorepo (20 in shared-lib, 106 in ticket-service, 8 in gateway, 4 in validators, 14 in web, 1 newman runner with 21 collection assertions)
+- Measurements recorded (M-ids): M02 (test count & coverage: 153 tests, 88.06% ticket-service statement coverage), M03 (Mongo explain executionStats for ticket list compound indexes)
 - Issues found: none
-- Next: S1-T13 (Postman collection for auth + tickets, run with Newman in CI)
+- Next: S1-T14 (Deploy sprint-1 demo / document local demo script & update progress log)
   - S0-T04: .env.example + Zod env loader in @supportpilot/validators with 4 passing tests
   - S0-T05: CI skeleton .github/workflows/ci.yml with service containers
   - S0-T06: Logger (pino), request-id middleware, error handler (RFC 7807) in @supportpilot/shared-lib with 7 passing tests

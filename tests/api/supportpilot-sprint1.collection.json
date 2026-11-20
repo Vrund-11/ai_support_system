@@ -1,0 +1,473 @@
+{
+  "info": {
+    "name": "SupportPilot Sprint 1 API Collection",
+    "description": "Automated Newman test suite verifying authentication, RBAC, tenant isolation, ticket lifecycle, notes, and optimistic concurrency.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/health",
+          "host": ["{{baseUrl}}"],
+          "path": ["health"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "pm.test('Service reports healthy', function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData.status).to.eql('healthy');",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Auth - Register Tenant & Owner",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"tenantName\": \"Acme Corp\",\n  \"name\": \"Newman Admin\",\n  \"email\": \"newman_\" + Date.now() + \"@acme.com\",\n  \"password\": \"SecurePass123!\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/auth/register",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "auth", "register"]
+        }
+      },
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "var timestamp = Date.now();",
+              "var email = 'newman_' + timestamp + '@acme.com';",
+              "pm.environment.set('userEmail', email);",
+              "pm.request.body.raw = JSON.stringify({",
+              "    tenantName: 'Acme Corp ' + timestamp,",
+              "    name: 'Newman Admin',",
+              "    email: email,",
+              "    password: 'SecurePass123!'",
+              "});"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Registration returns 201 Created', function () {",
+              "    pm.response.to.have.status(201);",
+              "});",
+              "var jsonData = pm.response.json();",
+              "pm.test('Access and refresh tokens returned', function () {",
+              "    pm.expect(jsonData.data.accessToken).to.be.a('string');",
+              "    pm.expect(jsonData.data.refreshToken).to.be.a('string');",
+              "    pm.environment.set('accessToken', jsonData.data.accessToken);",
+              "    pm.environment.set('refreshToken', jsonData.data.refreshToken);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Auth - Login",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"{{userEmail}}\",\n  \"password\": \"SecurePass123!\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/auth/login",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "auth", "login"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Login returns 200 OK', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "var jsonData = pm.response.json();",
+              "pm.test('Login returns new tokens', function () {",
+              "    pm.expect(jsonData.data.accessToken).to.be.a('string');",
+              "    pm.environment.set('accessToken', jsonData.data.accessToken);",
+              "    if (jsonData.data.refreshToken) {",
+              "        pm.environment.set('refreshToken', jsonData.data.refreshToken);",
+              "    }",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Tickets - Create Ticket",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"subject\": \"Cannot access production dashboard\",\n  \"description\": \"500 Internal Server error on visiting reporting page\",\n  \"priority\": \"HIGH\",\n  \"tags\": [\"outage\", \"production\"]\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/tickets",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "tickets"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Create ticket returns 201 Created', function () {",
+              "    pm.response.to.have.status(201);",
+              "});",
+              "var jsonData = pm.response.json();",
+              "pm.test('Ticket has number, initial version 1, and status NEW', function () {",
+              "    pm.expect(jsonData.data.id).to.be.a('string');",
+              "    pm.expect(jsonData.data.number).to.be.a('number');",
+              "    pm.expect(jsonData.data.version).to.eql(1);",
+              "    pm.expect(jsonData.data.status).to.eql('NEW');",
+              "    pm.environment.set('ticketId', jsonData.data.id);",
+              "    pm.environment.set('ticketVersion', jsonData.data.version);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Tickets - List Tickets (Filter by Status)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/tickets?status=NEW",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "tickets"],
+          "query": [
+            {
+              "key": "status",
+              "value": "NEW"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('List tickets returns 200 OK', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "var jsonData = pm.response.json();",
+              "pm.test('Data array contains tickets', function () {",
+              "    pm.expect(jsonData.data).to.be.an('array');",
+              "    pm.expect(jsonData.data.length).to.be.at.least(1);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Tickets - Get Ticket Detail",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/tickets/{{ticketId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "tickets", "{{ticketId}}"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Get ticket detail returns 200 OK', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "var jsonData = pm.response.json();",
+              "pm.test('Returns ticket with timeline and messages array', function () {",
+              "    pm.expect(jsonData.data.ticket.id).to.eql(pm.environment.get('ticketId'));",
+              "    pm.expect(jsonData.data.timeline).to.be.an('array');",
+              "    pm.expect(jsonData.data.messages).to.be.an('array');",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Tickets - Post Internal Note",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"body\": \"Investigating gateway logs. DB connection pools look healthy.\",\n  \"isInternal\": true\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/tickets/{{ticketId}}/messages",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "tickets", "{{ticketId}}", "messages"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Post internal note returns 201 Created', function () {",
+              "    pm.response.to.have.status(201);",
+              "});",
+              "var jsonData = pm.response.json();",
+              "pm.test('Message is marked internal with seq 1', function () {",
+              "    pm.expect(jsonData.data.isInternal).to.eql(true);",
+              "    pm.expect(jsonData.data.seq).to.eql(1);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Tickets - Post Public Reply",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"body\": \"We have identified the root cause and deployed a hotfix.\",\n  \"isInternal\": false\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/tickets/{{ticketId}}/messages",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "tickets", "{{ticketId}}", "messages"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Post public reply returns 201 Created', function () {",
+              "    pm.response.to.have.status(201);",
+              "});",
+              "var jsonData = pm.response.json();",
+              "pm.test('Message is public with seq 2', function () {",
+              "    pm.expect(jsonData.data.isInternal).to.eql(false);",
+              "    pm.expect(jsonData.data.seq).to.eql(2);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Tickets - Update Status to OPEN",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"version\": {{ticketVersion}},\n  \"status\": \"OPEN\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/tickets/{{ticketId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "tickets", "{{ticketId}}"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Update ticket returns 200 OK', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "var jsonData = pm.response.json();",
+              "pm.test('Ticket status is OPEN and version incremented to 2', function () {",
+              "    pm.expect(jsonData.data.status).to.eql('OPEN');",
+              "    pm.expect(jsonData.data.version).to.eql(2);",
+              "    pm.environment.set('ticketVersion', jsonData.data.version);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Tickets - Stale Version Conflict Check (409)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"version\": 1,\n  \"status\": \"RESOLVED\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/tickets/{{ticketId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "tickets", "{{ticketId}}"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Stale version triggers 409 Conflict', function () {",
+              "    pm.response.to.have.status(409);",
+              "});",
+              "var jsonData = pm.response.json();",
+              "pm.test('Problem details has conflict status and title', function () {",
+              "    pm.expect(jsonData.status).to.eql(409);",
+              "    pm.expect(jsonData.title).to.include('Conflict');",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Auth - Logout",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"refreshToken\": \"{{refreshToken}}\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/auth/logout",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "auth", "logout"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Logout returns 204 No Content', function () {",
+              "    pm.response.to.have.status(204);",
+              "});"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

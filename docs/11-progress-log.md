@@ -131,10 +131,23 @@
       - `apps/widget/Dockerfile`: builder compiling embed bundle, runner with Nginx serving static assets.
     - Created root `.dockerignore` excluding `node_modules`, `dist`, `.venv`, `.turbo`, `.git`, `.env`, temporary logs, and build artifacts.
     - Updated `infra/docker/docker-compose.yml` with `full` profile mounting all microservices with healthcheck dependencies.
+  - S3-T09: Kubernetes manifests (kind config, Kustomize base+overlays, probes, HPA, NetworkPolicy, ingress-nginx):
+    - Created Kind cluster config `infra/k8s/kind-config.yaml` with ingress-ready node labels and extraPortMappings (80/443).
+    - Authored Kubernetes base manifests in `infra/k8s/base/`:
+      - `namespace.yaml`: `supportpilot` namespace.
+      - `configmap.yaml` and `secret.yaml`: production cluster configurations and secure credential placeholders.
+      - `pdb.yaml`: PodDisruptionBudget for gateway service (`minAvailable: 1`).
+      - `networkpolicy.yaml`: Default deny ingress, allow ingress controller to edge services (`gateway`, `web`), allow `gateway` to internal services (`ticket-service`, `ai-service`), and allow `ticket-service`/`gateway` to `notification-service`.
+      - `ingress.yaml`: Ingress-nginx definitions routing `/api`, `/graphql`, and `/socket.io` to `gateway:4000` with WebSocket proxy timeouts, and `/` to `web:80`.
+      - Deployments, Services, and HPAs with non-root security contexts, resource requests/limits, and `/health` & `/ready` probes for `gateway`, `ticket-service`, `ai-service`, `notification-service`, and `web`.
+      - `kustomization.yaml`: aggregates all base resources.
+    - Created overlays: `infra/k8s/overlays/staging/kustomization.yaml` (staging tags and replicas) and `infra/k8s/overlays/prod/kustomization.yaml` (v1.0.0 tags and scaled replicas).
+    - Created Kubernetes batch jobs in `infra/k8s/jobs/`: `migrate-job.yaml` (database migrations) and `eval-cronjob.yaml` (nightly AI eval runner).
+    - Validated all 25 YAML manifests with PyYAML.
 - Tests added / results: 364 tests passing across monorepo (152 in ticket-service, 65 in ai-service pytest, 44 in gateway, 32 in shared-lib, 29 in web, 23 in notification-service, 9 in widget, 4 in validators, 5 hermetic e2e, 1 newman runner with 21 collection assertions)
 - Measurements recorded (M-ids): M02 (test count: 364 tests across services), M03 (Mongo explain executionStats for ticket list compound indexes), M06 (AI Eval golden set baseline: Hit@5 100%, Groundedness 100%, F1 1.0), M07 (Classifier: Priority Accuracy 92.22%, Priority F1 0.9220, Category Accuracy 100%, Category F1 1.0, Overall Macro-F1 0.9610), M11 (Docker multi-stage non-root images & compose profile)
 - Issues found: none
-- Next: S3-T09 (Kubernetes: kind config, Kustomize base+overlays, probes, HPA, NetworkPolicy, ingress-nginx)
+- Next: S3-T10 (GitHub Actions: ci, e2e, perf, ai-eval, deploy-staging, Trivy scan, dependency audit)
   - S0-T04: .env.example + Zod env loader in @supportpilot/validators with 4 passing tests
   - S0-T05: CI skeleton .github/workflows/ci.yml with service containers
   - S0-T06: Logger (pino), request-id middleware, error handler (RFC 7807) in @supportpilot/shared-lib with 7 passing tests

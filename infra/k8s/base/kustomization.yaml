@@ -1,0 +1,25 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: supportpilot
+
+resources:
+  - namespace.yaml
+  - configmap.yaml
+  - secret.yaml
+  - pdb.yaml
+  - networkpolicy.yaml
+  - ingress.yaml
+  - gateway/deployment.yaml
+  - gateway/service.yaml
+  - gateway/hpa.yaml
+  - ticket-service/deployment.yaml
+  - ticket-service/service.yaml
+  - ticket-service/hpa.yaml
+  - ai-service/deployment.yaml
+  - ai-service/service.yaml
+  - ai-service/hpa.yaml
+  - notification-service/deployment.yaml
+  - notification-service/service.yaml
+  - web/deployment.yaml
+  - web/service.yaml

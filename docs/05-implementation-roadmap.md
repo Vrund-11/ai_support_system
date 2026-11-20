@@ -41,7 +41,7 @@ Legend: [ ] todo, [x] done. Task id format `S<sprint>-T<nn>`. Priority P0/P1/P2 
 - [x] S2-T07 Ingestion worker: extract, chunk, embed (lazy-loaded model), write to pgvector, status updates. (KB-2,3,5) Tests: chunker unit tests, idempotent re-ingest.
 - [x] S2-T08 Hybrid retrieval with RRF and tenant filter. Test: tenant isolation in vector queries. (AI-1)
 - [x] S2-T09 `/v1/answer` with prompt builder, JSON validation + repair retry, citation verification, confidence and thresholds. (AI-1,2,3,9)
-- [ ] S2-T10 Handoff flow: low confidence/blocklist/human request -> WAITING_AGENT + ticket with transcript. (CHAT-4)
+- [x] S2-T10 Handoff flow: low confidence/blocklist/human request -> WAITING_AGENT + ticket with transcript. (CHAT-4)
 - [ ] S2-T11 Semantic cache in Redis; invalidate on KB change. (AI-7)
 - [ ] S2-T12 Eval harness v1: 100-question golden set, metrics, baseline stored in `ai_eval_runs`. (AI-10)
 - [ ] S2-T13 GraphQL layer on gateway (queries, mutations, subscriptions, DataLoader, depth/complexity limits). (INT-3)

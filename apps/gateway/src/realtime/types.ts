@@ -34,7 +34,20 @@ export interface ClientToServerEvents {
 export interface ServerToClientEvents {
   'message:new': (message: unknown) => void;
   'message:ack': (ack: { clientId: string; seq: number }) => void;
-  'conversation:state': (state: { conversationId: string; state: string }) => void;
+  'conversation:state': (state: {
+    conversationId: string;
+    state: string;
+    ticketId?: string;
+    ticketNumber?: number;
+    reason?: string;
+  }) => void;
+  'handoff:escalated': (handoff: {
+    conversationId: string;
+    tenantId: string;
+    ticketId: string;
+    ticketNumber?: number;
+    reason: string;
+  }) => void;
   typing: (typing: { conversationId: string; who: string; isTyping: boolean }) => void;
   'presence:update': (presence: { userId: string; status: 'online' | 'offline' }) => void;
   'message:read': (receipt: { conversationId: string; userId: string; upToSeq: number }) => void;

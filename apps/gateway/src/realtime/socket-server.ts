@@ -7,6 +7,7 @@ import { createSocketAuthMiddleware } from './auth.js';
 import { tenantRoom, userRoom, conversationRoom } from './rooms.js';
 import { SequenceService, type StoredMessage } from './sequence.js';
 import { PresenceService } from './presence.js';
+import { HandoffService } from './handoff.js';
 
 export interface SocketServerOptions {
   jwtSecret: string;
@@ -15,6 +16,8 @@ export interface SocketServerOptions {
   corsOrigin?: string | string[];
   sequenceService?: SequenceService;
   presenceService?: PresenceService;
+  handoffService?: HandoffService;
+  enableHandoff?: boolean;
 }
 
 export type GatewaySocketServer = SocketServer<
@@ -25,6 +28,7 @@ export type GatewaySocketServer = SocketServer<
 > & {
   sequenceService: SequenceService;
   presenceService: PresenceService;
+  handoffService: HandoffService;
 };
 
 export function createSocketServer(
@@ -41,9 +45,13 @@ export function createSocketServer(
 
   const sequenceService = options.sequenceService ?? new SequenceService(options.redisPubClient);
   const presenceService = options.presenceService ?? new PresenceService(options.redisPubClient);
+  const handoffService =
+    options.handoffService ?? new HandoffService({ redisClient: options.redisPubClient });
+  const enableHandoff = options.enableHandoff ?? options.handoffService !== undefined;
 
   io.sequenceService = sequenceService;
   io.presenceService = presenceService;
+  io.handoffService = handoffService;
 
   // Configure Redis adapter for horizontal scaling if Redis clients provided
   if (options.redisPubClient && options.redisSubClient) {
@@ -169,6 +177,163 @@ export function createSocketServer(
       io.to(conversationRoom(conversationId)).emit('message:new', message);
 
       ack?.({ status: 'ok', seq });
+
+      if (!enableHandoff) {
+        return;
+      }
+
+      // Handle agent responses or customer handoff lifecycle (CHAT-4)
+      try {
+        if (!user.isVisitor) {
+          const currentState = await handoffService.getConversationState(conversationId);
+          if (currentState === 'WAITING_AGENT') {
+            await handoffService.setConversationState(conversationId, 'AGENT_ACTIVE');
+            io.to(conversationRoom(conversationId)).emit('conversation:state', {
+              conversationId,
+              state: 'AGENT_ACTIVE',
+            });
+          }
+          return;
+        }
+
+        // Visitor / Customer message handling
+        const convState = await handoffService.getConversationState(conversationId);
+        if (convState === 'WAITING_AGENT' || convState === 'AGENT_ACTIVE') {
+          // Conversation already transferred to human agent queue
+          return;
+        }
+
+        // Check immediate handoff triggers (human request or blocklist)
+        const immediateTrigger = handoffService.evaluateImmediateTriggers(body);
+        if (immediateTrigger.triggered) {
+          await handoffService.setConversationState(conversationId, 'WAITING_AGENT');
+          const history = await sequenceService.getMessagesSince(conversationId, 0);
+          const ticket = await handoffService.createEscalationTicket(
+            user.tenantId,
+            conversationId,
+            history,
+            immediateTrigger.reason!,
+            immediateTrigger.priority,
+          );
+
+          io.to(conversationRoom(conversationId)).emit('conversation:state', {
+            conversationId,
+            state: 'WAITING_AGENT',
+            ticketId: ticket.id,
+            ticketNumber: ticket.number,
+            reason: immediateTrigger.reason,
+          });
+
+          io.to(tenantRoom(user.tenantId)).emit('handoff:escalated', {
+            conversationId,
+            tenantId: user.tenantId,
+            ticketId: ticket.id,
+            ticketNumber: ticket.number,
+            reason: immediateTrigger.reason!,
+          });
+
+          // Emit system transfer message
+          const sysSeq = await sequenceService.getNextSeq(conversationId);
+          const sysMsg: StoredMessage = {
+            id: `msg_${conversationId}_${sysSeq}`,
+            conversationId,
+            tenantId: user.tenantId,
+            seq: sysSeq,
+            body: `You have been connected to our support queue (Ticket #${ticket.number}). A support agent will assist you shortly.`,
+            senderType: 'SYSTEM',
+            senderId: 'system',
+            attachments: [],
+            createdAt: new Date().toISOString(),
+          };
+          await sequenceService.saveMessage(conversationId, sysMsg);
+          io.to(conversationRoom(conversationId)).emit('message:new', sysMsg);
+          return;
+        }
+
+        // No immediate trigger -> Call AI Assistant
+        io.to(conversationRoom(conversationId)).emit('typing', {
+          conversationId,
+          who: 'ai',
+          isTyping: true,
+        });
+
+        const history = await sequenceService.getMessagesSince(conversationId, 0);
+        const aiResponse = await handoffService.requestAiAnswer(
+          user.tenantId,
+          conversationId,
+          body,
+          history,
+        );
+
+        io.to(conversationRoom(conversationId)).emit('typing', {
+          conversationId,
+          who: 'ai',
+          isTyping: false,
+        });
+
+        if (aiResponse.should_escalate) {
+          // AI low confidence or inability to answer -> escalate
+          await handoffService.setConversationState(conversationId, 'WAITING_AGENT');
+          const ticket = await handoffService.createEscalationTicket(
+            user.tenantId,
+            conversationId,
+            history,
+            aiResponse.reason || 'AI confidence below threshold',
+            'MEDIUM',
+          );
+
+          io.to(conversationRoom(conversationId)).emit('conversation:state', {
+            conversationId,
+            state: 'WAITING_AGENT',
+            ticketId: ticket.id,
+            ticketNumber: ticket.number,
+            reason: aiResponse.reason,
+          });
+
+          io.to(tenantRoom(user.tenantId)).emit('handoff:escalated', {
+            conversationId,
+            tenantId: user.tenantId,
+            ticketId: ticket.id,
+            ticketNumber: ticket.number,
+            reason: aiResponse.reason || 'AI confidence below threshold',
+          });
+
+          const aiSeq = await sequenceService.getNextSeq(conversationId);
+          const aiMsg: StoredMessage = {
+            id: `msg_${conversationId}_${aiSeq}`,
+            conversationId,
+            tenantId: user.tenantId,
+            seq: aiSeq,
+            body: `${aiResponse.answer} (Transferring to support agent, Ticket #${ticket.number})`,
+            senderType: 'AI',
+            senderId: 'ai',
+            citations: aiResponse.citations,
+            attachments: [],
+            createdAt: new Date().toISOString(),
+          };
+          await sequenceService.saveMessage(conversationId, aiMsg);
+          io.to(conversationRoom(conversationId)).emit('message:new', aiMsg);
+        } else {
+          // Confident AI answer -> reply directly
+          const aiSeq = await sequenceService.getNextSeq(conversationId);
+          const aiMsg: StoredMessage = {
+            id: `msg_${conversationId}_${aiSeq}`,
+            conversationId,
+            tenantId: user.tenantId,
+            seq: aiSeq,
+            body: aiResponse.answer,
+            senderType: 'AI',
+            senderId: 'ai',
+            citations: aiResponse.citations,
+            attachments: [],
+            createdAt: new Date().toISOString(),
+          };
+          await sequenceService.saveMessage(conversationId, aiMsg);
+          io.to(conversationRoom(conversationId)).emit('message:new', aiMsg);
+        }
+      } catch {
+        // Safe swallow of background errors to prevent unhandled rejections
+      }
     });
 
     // Typing start indicator (broadcast to room except sender)

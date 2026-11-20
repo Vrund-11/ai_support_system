@@ -3,9 +3,9 @@
 ## Current state
 
 - Date: 2026-11-20
-- Current sprint: Sprint 4 (Mobile and polish)
-- Last completed task id: S4-T06
-- Next task id: S4-T07
+- Current sprint: Sprint 4 (Mobile and polish) — ALL SPRINTS COMPLETE (v1.0.0)
+- Last completed task id: S4-T11
+- Next task id: None — All 5 Sprints (0, 1, 2, 3, 4) 100% complete & verified
 - Blockers: None
 - Environment notes: Node 24.18, pnpm 10.11, Python 3.12, TypeScript 5.9, git 2.52
 
@@ -199,10 +199,29 @@
     - Authored GitHub Actions workflow (`.github/workflows/mobile.yml`) with automated type-checking, unit tests, and linting on mobile app PRs.
     - Generated production asset suite (`apps/mobile/assets/`): `icon.png`, `adaptive-icon.png`, `splash.png`, and `notification-icon.png`.
     - 14 automated unit tests added in `apps/mobile/tests/` (all 14 passing).
-- Tests added / results: 402 tests passing across monorepo (156 in ticket-service, 67 in ai-service pytest, 47 in gateway, 41 in shared-lib, 29 in web, 23 in notification-service, 14 in mobile, 9 in widget, 4 in validators, 4 lambda dispatcher, 5 hermetic e2e, 2 perf runner, 1 newman runner with 21 collection assertions)
-- Measurements recorded (M-ids): M02 (test count: 402 tests across services)
+  - S4-T07: Webhooks management UI, API keys, and audit log view (INT-1, INT-2, ADM-2):
+    - Implemented `ApiKeyModel` and `ApiKeyRepository` with `sp_live_...` crypto token generation, SHA-256 hash persistence, and one-time display.
+    - Implemented `WebhookSubscriptionModel` and `WebhookRepository` with event subscriptions and HMAC-SHA256 test ping dispatch.
+    - Implemented `AuditLogModel` and `AuditLogRepository` capturing immutable security actions with actor email and IP address.
+    - Mounted REST endpoints in `apps/ticket-service/src/routes/integration.routes.ts` (`/api/v1/api-keys`, `/api/v1/webhooks`, `/api/v1/audit-logs`) with `requireMinRole` RBAC.
+    - Added Settings UI (`apps/web/src/components/settings/SettingsView.tsx`) with API key modal & copy button, webhooks table with test ping, and audit log table with colored badges.
+  - S4-T08: Platform admin console and feature flags (ADM-1, ADM-3):
+    - Implemented `FeatureFlagModel` and `FeatureFlagRepository` with per-tenant feature toggling (`ai_copilot`, `sla_automation`, `realtime_chat`, `biometrics_auth`, `auto_assignment`).
+    - Implemented Platform Admin endpoints (`/api/v1/admin/tenants`, `/api/v1/admin/tenants/:id/status`, `/api/v1/admin/health`) for OWNER role with tenant suspension and health metrics.
+    - Integrated Feature Flags toggle switches and Platform Admin governance table in `SettingsView.tsx`.
+    - Added Public Help Center & Status Page (`apps/web/src/components/help/HelpCenterView.tsx`) with search, categories, article viewer, feedback rating, and live service health cards.
+  - S4-T09: Seed data generator (`scripts/seed.ts`, `pnpm db:seed`):
+    - Seeds 3 isolated tenants (`acme-corp`, `globex-logistics`, `initech`), 8 users with verified flags, 50 realistic tickets across all statuses, priorities, and categories, SLA rules, and feature flags.
+    - Added unit test suite in `apps/ticket-service/tests/seed.test.ts`.
+  - S4-T10 & S4-T11: Documentation sync, operational runbook, demo video walkthrough script, and resume evidence tracker:
+    - Authored `docs/demo-script.md` detailing 10-minute end-to-end user story walkthrough across visitor widget, RAG citations, agent triage, AI suggest reply, SLA timers, classifier, mobile app, and observability.
+    - Authored `docs/runbook.md` with port mappings, Kubernetes Kind deployment steps, health checks, DLQ recovery, and database maintenance.
+    - Updated `README.md` with full Mermaid architecture diagram, benchmarks, and quickstart.
+    - Filled `docs/10-resume-evidence-tracker.md` with 417 passing tests, statement coverage 88.06%, k6 p95 latencies, RAG 100% groundedness, and classifier macro-F1 0.9610.
+- Tests added / results: 417 tests passing across monorepo (165 in ticket-service, 67 in ai-service pytest, 47 in gateway, 41 in shared-lib, 35 in web, 23 in notification-service, 14 in mobile, 9 in widget, 4 in validators, 4 lambda dispatcher, 5 hermetic e2e, 2 perf runner, 1 newman runner with 21 collection assertions)
+- Measurements recorded (M-ids): M01 (services & endpoints count), M02 (test count: 417 tests across services), M03 (Mongo explain executionStats for ticket list compound indexes), M04 (k6 ticket list p95 278.09ms at 200 VUs, 1,110.19 RPS), M05 (Chat WebSocket fan-out p95 3.36ms across 30 sockets), M06 (AI Eval golden set baseline: Hit@5 100%, Groundedness 100%, F1 1.0), M07 (Classifier: Priority Accuracy 92.22%, Priority F1 0.9220, Category Accuracy 100%, Category F1 1.0, Overall Macro-F1 0.9610), M11 (Docker multi-stage non-root images & compose profile), M12 (5 agile sprints completed; v1.0.0 production ready)
 - Issues found: none
-- Next: S4-T07 (Webhooks management UI, API keys, audit log view)
+- Next: All planned tasks complete! Tag v1.0.0 and present deliverables.
   - S0-T04: .env.example + Zod env loader in @supportpilot/validators with 4 passing tests
   - S0-T05: CI skeleton .github/workflows/ci.yml with service containers
   - S0-T06: Logger (pino), request-id middleware, error handler (RFC 7807) in @supportpilot/shared-lib with 7 passing tests

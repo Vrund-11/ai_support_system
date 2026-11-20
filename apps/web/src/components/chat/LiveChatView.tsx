@@ -588,73 +588,82 @@ export function LiveChatView() {
               </button>
             </div>
 
-            {activeConv && summaries[activeConv.id] ? (
-              <div className="space-y-2.5">
-                <div className="flex items-center gap-2">
-                  <span className="text-[10px] uppercase font-bold text-slate-400">Sentiment:</span>
-                  <span
-                    className={`inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold ${
-                      summaries[activeConv.id].sentiment === 'URGENT'
-                        ? 'bg-rose-100 text-rose-800 border border-rose-200'
-                        : summaries[activeConv.id].sentiment === 'FRUSTRATED'
-                          ? 'bg-amber-100 text-amber-800 border border-amber-200'
-                          : summaries[activeConv.id].sentiment === 'POSITIVE'
-                            ? 'bg-emerald-100 text-emerald-800 border border-emerald-200'
-                            : 'bg-slate-100 text-slate-800 border border-slate-200'
-                    }`}
-                  >
-                    {summaries[activeConv.id].sentiment}
-                  </span>
-                </div>
-
-                <p className="text-slate-600 leading-relaxed bg-slate-50 p-2.5 rounded-lg border border-slate-100">
-                  {summaries[activeConv.id].summary}
-                </p>
-
-                {summaries[activeConv.id].keyPoints.length > 0 && (
+            {(() => {
+              const currentSummary = activeConv ? summaries[activeConv.id] : undefined;
+              if (!currentSummary) {
+                return (
                   <div>
-                    <span className="text-[10px] font-semibold text-slate-500 uppercase">
-                      Key Points:
-                    </span>
-                    <ul className="mt-1 space-y-1 list-disc list-inside text-slate-600">
-                      {summaries[activeConv.id].keyPoints.map((pt, i) => (
-                        <li key={i}>{pt}</li>
-                      ))}
-                    </ul>
+                    <p className="text-slate-500 leading-relaxed mb-3">
+                      Customer asked about SAML SSO certificate verification and escalated to human
+                      agent.
+                    </p>
+                    <button
+                      type="button"
+                      onClick={handleSummarize}
+                      disabled={isSummarizing}
+                      className="w-full inline-flex items-center justify-center gap-1.5 py-1.5 px-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium rounded-lg transition-colors"
+                    >
+                      <Sparkles className="w-3.5 h-3.5 text-indigo-600" />
+                      <span>Summarize Conversation</span>
+                    </button>
                   </div>
-                )}
+                );
+              }
 
-                {summaries[activeConv.id].recommendedAction && (
-                  <div className="p-2.5 bg-indigo-50/60 rounded-lg border border-indigo-100 flex items-start gap-2">
-                    <Lightbulb className="w-3.5 h-3.5 text-indigo-600 shrink-0 mt-0.5" />
-                    <div>
-                      <span className="font-semibold text-indigo-900 block text-[11px]">
-                        Recommended Action
-                      </span>
-                      <span className="text-indigo-800 text-[11px]">
-                        {summaries[activeConv.id].recommendedAction}
-                      </span>
-                    </div>
+              return (
+                <div className="space-y-2.5">
+                  <div className="flex items-center gap-2">
+                    <span className="text-[10px] uppercase font-bold text-slate-400">
+                      Sentiment:
+                    </span>
+                    <span
+                      className={`inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold ${
+                        currentSummary.sentiment === 'URGENT'
+                          ? 'bg-rose-100 text-rose-800 border border-rose-200'
+                          : currentSummary.sentiment === 'FRUSTRATED'
+                            ? 'bg-amber-100 text-amber-800 border border-amber-200'
+                            : currentSummary.sentiment === 'POSITIVE'
+                              ? 'bg-emerald-100 text-emerald-800 border border-emerald-200'
+                              : 'bg-slate-100 text-slate-800 border border-slate-200'
+                      }`}
+                    >
+                      {currentSummary.sentiment}
+                    </span>
                   </div>
-                )}
-              </div>
-            ) : (
-              <div>
-                <p className="text-slate-500 leading-relaxed mb-3">
-                  Customer asked about SAML SSO certificate verification and escalated to human
-                  agent.
-                </p>
-                <button
-                  type="button"
-                  onClick={handleSummarize}
-                  disabled={isSummarizing}
-                  className="w-full inline-flex items-center justify-center gap-1.5 py-1.5 px-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium rounded-lg transition-colors"
-                >
-                  <Sparkles className="w-3.5 h-3.5 text-indigo-600" />
-                  <span>Summarize Conversation</span>
-                </button>
-              </div>
-            )}
+
+                  <p className="text-slate-600 leading-relaxed bg-slate-50 p-2.5 rounded-lg border border-slate-100">
+                    {currentSummary.summary}
+                  </p>
+
+                  {currentSummary.keyPoints.length > 0 && (
+                    <div>
+                      <span className="text-[10px] font-semibold text-slate-500 uppercase">
+                        Key Points:
+                      </span>
+                      <ul className="mt-1 space-y-1 list-disc list-inside text-slate-600">
+                        {currentSummary.keyPoints.map((pt, i) => (
+                          <li key={i}>{pt}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
+                  {currentSummary.recommendedAction && (
+                    <div className="p-2.5 bg-indigo-50/60 rounded-lg border border-indigo-100 flex items-start gap-2">
+                      <Lightbulb className="w-3.5 h-3.5 text-indigo-600 shrink-0 mt-0.5" />
+                      <div>
+                        <span className="font-semibold text-indigo-900 block text-[11px]">
+                          Recommended Action
+                        </span>
+                        <span className="text-indigo-800 text-[11px]">
+                          {currentSummary.recommendedAction}
+                        </span>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              );
+            })()}
           </div>
         </div>
       </div>

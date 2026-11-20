@@ -1,4 +1,4 @@
-import { Types } from 'mongoose';
+import type { Types } from 'mongoose';
 import { Ticket } from '../models/ticket.model.js';
 import { isDbConnected } from '../lib/mongoose.js';
 
@@ -87,7 +87,7 @@ function computePercentiles(values: number[]): SlaPercentiles {
       p >= 90
         ? Math.min(Math.ceil((p / 100) * (sorted.length - 1)), sorted.length - 1)
         : Math.min(Math.floor((p / 100) * (sorted.length - 1)), sorted.length - 1);
-    return Math.round(sorted[idx] * 10) / 10;
+    return Math.round((sorted[idx] ?? 0) * 10) / 10;
   };
   return {
     p50: getP(50),
@@ -236,7 +236,7 @@ export class AnalyticsService {
       },
     ];
 
-    const [facetResult] = await Ticket.aggregate(pipeline);
+    const [facetResult] = await Ticket.aggregate(pipeline as any);
     const totalTickets = facetResult?.total?.[0]?.count || 0;
 
     return {

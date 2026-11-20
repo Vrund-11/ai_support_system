@@ -75,11 +75,11 @@ Legend: [ ] todo, [x] done. Task id format `S<sprint>-T<nn>`. Priority P0/P1/P2 
 - [x] S4-T04 Quick actions, AI suggestion insert, presence toggle. (MOB-5,7)
 - [x] S4-T05 Offline outbox. (MOB-6)
 - [x] S4-T06 EAS Build preview profile; Fastlane lanes; GitHub Actions `mobile.yml`. See `09`.
-- [ ] S4-T07 Webhooks management UI, API keys, audit log view. (INT-1,2, ADM-2)
-- [ ] S4-T08 Platform admin console, feature flags. (ADM-1,3) (P2 optional)
-- [ ] S4-T09 Docs: README with screenshots, architecture diagram (Mermaid), runbook, demo video script.
-- [ ] S4-T10 Final test and traceability matrix sweep; fix gaps; tag v1.0.0.
-- [ ] S4-T11 Fill `10-resume-evidence-tracker.md` from real reports; update resumes.
+- [x] S4-T07 Webhooks management UI, API keys, audit log view. (INT-1,2, ADM-2)
+- [x] S4-T08 Platform admin console, feature flags. (ADM-1,3) (P2 optional)
+- [x] S4-T09 Docs: README with screenshots, architecture diagram (Mermaid), runbook, demo video script.
+- [x] S4-T10 Final test and traceability matrix sweep; fix gaps; tag v1.0.0.
+- [x] S4-T11 Fill `10-resume-evidence-tracker.md` from real reports; update resumes.
       Exit: acceptance checklist in PRD section 22 satisfied.
 
 ## Cut order if time runs short

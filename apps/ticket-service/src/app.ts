@@ -15,6 +15,8 @@ import { kbRouter } from './routes/kb.routes.js';
 import { userRouter } from './routes/user.routes.js';
 import { analyticsRouter } from './routes/analytics.routes.js';
 import { ruleRouter } from './routes/rule.routes.js';
+import { integrationRouter } from './routes/integration.routes.js';
+import { adminRouter } from './routes/admin.routes.js';
 
 export function createApp(logLevel: string = 'info'): Express {
   const logger = createLogger('ticket-service', logLevel);
@@ -62,6 +64,8 @@ export function createApp(logLevel: string = 'info'): Express {
   app.use('/api/v1/users', userRouter);
   app.use('/api/v1/analytics', analyticsRouter);
   app.use('/api/v1/rules', ruleRouter);
+  app.use('/api/v1', integrationRouter);
+  app.use('/api/v1/admin', adminRouter);
 
   // ── Error handler (must be last) ──
   app.use(errorHandler(logger));

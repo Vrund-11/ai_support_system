@@ -12,6 +12,8 @@ import { CreateTicketModal } from './components/tickets/CreateTicketModal';
 import { KnowledgeBaseView } from './components/knowledge/KnowledgeBaseView';
 import { LiveChatView } from './components/chat/LiveChatView';
 import { AnalyticsDashboard } from './components/analytics/AnalyticsDashboard';
+import { SettingsView } from './components/settings/SettingsView';
+import { HelpCenterView } from './components/help/HelpCenterView';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -54,6 +56,10 @@ export function AppContent() {
       {currentTab === 'chats' && <LiveChatView />}
 
       {currentTab === 'analytics' && <AnalyticsDashboard />}
+
+      {currentTab === 'settings' && <SettingsView />}
+
+      {currentTab === 'help' && <HelpCenterView />}
 
       {currentTab === 'inbox' &&
         (selectedTicketId ? (

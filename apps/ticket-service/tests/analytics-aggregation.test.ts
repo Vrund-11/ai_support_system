@@ -15,7 +15,7 @@ configureAuth({
 });
 
 const fakeTenantId = '507f1f77bcf86cd799439011';
-const otherTenantId = '507f1f77bcf86cd799439099';
+const _otherTenantId = '507f1f77bcf86cd799439099';
 const fakeAgentId = '507f191e810c19729de860ea';
 
 function createToken(role = 'AGENT', tenant = fakeTenantId) {

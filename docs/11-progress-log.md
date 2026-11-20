@@ -3,11 +3,11 @@
 ## Current state
 
 - Date: 2026-11-20
-- Current sprint: Sprint 2 (Realtime and AI)
-- Last completed task id: S2-T14
-- Next task id: S2-T15
+- Current sprint: Sprint 3 (Platform and quality)
+- Last completed task id: S2-T15 (Sprint 2 Complete)
+- Next task id: S3-T01
 - Blockers: Docker not installed (docker-compose ready but can't run yet)
-- Environment notes: Node 24.18, pnpm 10.11, Python 3.13, TypeScript 5.9, git 2.52
+- Environment notes: Node 24.18, pnpm 10.11, Python 3.12, TypeScript 5.9, git 2.52
 
 ## Decisions made since the PRD
 
@@ -51,10 +51,15 @@
   - S2-T12: AI Evaluation harness v1 with 100-question golden dataset, metric computation, and 3-point regression gate (AI-10): created 100-question golden dataset (`tests/ai-eval/golden/supportpilot_golden.jsonl`) covering 5 core operational domains plus adversarial/out-of-scope inquiries expecting escalation. Created `EvalRunner` (`apps/ai-service/src/eval/runner.py`) computing Hit@5 retrieval rate, groundedness check against cited chunk text, escalation confusion matrix (precision, recall, F1), p95 latency, and evaluating against baseline stored in `ai_eval_runs` table (`BaseEvalRepository`, `MemoryEvalRepository`, `PostgresEvalRepository`). Built automated CI regression gate failing when groundedness drops > 0.03 (3 points) below prior baseline. Added FastAPI endpoint `POST /v1/eval/run`. 4 unit and integration tests (50 pytest tests total in ai-service).
   - S2-T13: GraphQL layer on gateway with Apollo Server, DataLoader batching, depth/complexity limits, and subscriptions (INT-3): implemented GraphQL SDL (`apps/gateway/src/graphql/schema.ts`), queries (`tickets`, `ticket`, `analyticsOverview`, `me`), mutations (`createTicket`, `updateTicket`, `addMessage`, `assignTicket`, `suggestReply`), and subscriptions (`ticketUpdated`, `messageAdded`). Added AST validation rules for max query depth <= 8 (`createDepthLimitRule`) and max complexity <= 100 (`createComplexityLimitRule`). Implemented per-request DataLoader (`createLoaders`) batching user and customer lookups (`GET /api/v1/users/batch?ids=...`) to eliminate N+1 queries. Mounted Apollo Server via zero-dependency native middleware onto Express app at `/graphql` with sandbox enabled in non-production. Added `user.routes.ts` and `analytics.routes.ts` in `ticket-service`. 13 new integration tests in gateway (43 gateway tests, 268 monorepo tests total).
   - S2-T14: Dashboard Knowledge Base management view, Live Chat console with AI suggestion panel placeholder, and Apollo Client integration: integrated `@apollo/client` (`apps/web/src/lib/apollo.ts`) with auth headers and in-memory cache wrapping `App.tsx`. Implemented `KnowledgeBaseView` (`apps/web/src/components/knowledge/KnowledgeBaseView.tsx`) with document table, status chips (READY, PROCESSING, FAILED), chunk counts, upload/markdown paste modal, and interactive test retrieval console showing synthesized answers, confidence bars, verified citations (T-AI-02), and escalation gate status. Implemented `LiveChatView` (`apps/web/src/components/chat/LiveChatView.tsx`) with 3-panel layout (queue tabs for Waiting, Mine, All; message thread with customer, agent, and AI bubbles; AI Suggestion Panel placeholder showing grounded recommendations with 1-click "Insert into Reply" and take over controls). Added navigation tabs in `Shell.tsx`. 9 new unit and component tests (23 web tests, 277 monorepo tests total).
-- Tests added / results: 255 tests passing across monorepo (20 in shared-lib, 131 in ticket-service, 30 in gateway, 9 in widget, 14 in web, 4 in validators, 46 in ai-service, 1 newman runner with 21 collection assertions)
-- Measurements recorded (M-ids): M02 (test count & coverage: 255 tests, ticket-service statement coverage), M03 (Mongo explain executionStats for ticket list compound indexes)
+  - S2-T15: Cypress E2E specs (`tests/e2e/cypress/e2e/sprint2-handoff.cy.ts`, `tests/e2e/cypress.config.ts`), Playwright widget static host specs (`tests/e2e/playwright/widget-chat.spec.ts`, `tests/e2e/playwright.config.ts`), hermetic end-to-end integration test runner (`tests/e2e/e2e-runner.test.ts`), and Sprint 2 local demo automation (`scripts/demo-sprint2.ps1`, `scripts/demo-sprint2.sh`).
+    - Cypress tests validate agent login, ticket creation, Live Chat queue inspection, AI copilot citations, and real-time takeover.
+    - Playwright tests validate widget mounted on static host (`apps/widget/index.html`), bubble button launcher, greeting messages, customer inquiries, citations display, offline fallback, and programmatic `window.SupportPilot` open/close API.
+    - Hermetic runner validates end-to-end Socket.IO connection, sequence numbers, AI response grounding, `WAITING_AGENT` handoff flow on customer escalation, ticket transcript creation, agent takeover via GraphQL & Socket.IO, and strict cross-tenant rejection (TEN-1).
+    - **Sprint 2 Exit Gate Complete**: 283 automated tests passing monorepo, AI Eval baseline recorded with 100% groundedness and F1 1.0, customer chats with AI and escalates to agent in real time.
+- Tests added / results: 283 tests passing across monorepo (131 in ticket-service, 50 in ai-service pytest, 43 in gateway, 23 in web, 20 in shared-lib, 9 in widget, 4 in validators, 5 hermetic e2e, 1 newman runner with 21 collection assertions)
+- Measurements recorded (M-ids): M02 (test count & coverage: 283 tests, ticket-service statement coverage 88.06%), M03 (Mongo explain executionStats for ticket list compound indexes), M06 (AI Eval golden set baseline: Hit@5 100%, Groundedness 100%, F1 1.0)
 - Issues found: none
-- Next: S2-T12 (Eval harness v1: 100-question golden set, metrics, baseline stored in `ai_eval_runs`, AI-10)
+- Next: S3-T01 (`notification-service` with BullMQ queues, retries, backoff, DLQ, idempotent consumers, NOTIF-5)
   - S0-T04: .env.example + Zod env loader in @supportpilot/validators with 4 passing tests
   - S0-T05: CI skeleton .github/workflows/ci.yml with service containers
   - S0-T06: Logger (pino), request-id middleware, error handler (RFC 7807) in @supportpilot/shared-lib with 7 passing tests

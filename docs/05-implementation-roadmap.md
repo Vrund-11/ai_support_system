@@ -25,7 +25,7 @@ Legend: [ ] todo, [x] done. Task id format `S<sprint>-T<nn>`. Priority P0/P1/P2 
 - [x] S1-T09 Search and filters with compound and text indexes; record `explain()` before/after in evidence tracker. (TKT-7)
 - [x] S1-T10 Gateway skeleton: auth passthrough, rate limiting (Redis), request validation, proxy to ticket-service. (AUTH-5)
 - [x] S1-T11 Web dashboard: login, inbox list with filters, ticket detail with reply and notes (React, TanStack Query, Zustand, Tailwind). AC: works against gateway.
-- [ ] S1-T12 Jest/Vitest unit + Supertest integration (Testcontainers) for all above; coverage report artifact in CI.
+- [x] S1-T12 Jest/Vitest unit + Supertest integration (Testcontainers) for all above; coverage report artifact in CI.
 - [ ] S1-T13 Postman collection for auth + tickets, run with Newman in CI.
 - [ ] S1-T14 Deploy sprint-1 demo to a free host (Render/Vercel) or document local demo script. Update progress log.
       Exit: P0 ticketing works end to end, coverage >= 70% on ticket-service.

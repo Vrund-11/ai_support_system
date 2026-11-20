@@ -14,13 +14,14 @@
     "lint:fix": "turbo run lint:fix",
     "typecheck": "turbo run typecheck",
     "test": "turbo run test",
-    "test:ci": "turbo run test -- --ci --coverage",
+    "test:ci": "turbo run test -- --coverage",
     "verify": "turbo run lint typecheck test",
     "clean": "turbo run clean",
     "prepare": "husky"
   },
   "devDependencies": {
     "@types/node": "^22.15.0",
+    "@vitest/coverage-v8": "3.2.7",
     "husky": "^9.1.0",
     "lint-staged": "^16.1.0",
     "prettier": "^3.5.0",

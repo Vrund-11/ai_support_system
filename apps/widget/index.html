@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SupportPilot Chat Widget Demo</title>
+  </head>
+  <body class="bg-slate-100 min-h-screen p-8 text-slate-800">
+    <div class="max-w-2xl mx-auto bg-white p-8 rounded-xl shadow-sm border border-slate-200">
+      <h1 class="text-2xl font-bold text-slate-900 mb-2">SupportPilot Live Chat Widget</h1>
+      <p class="text-sm text-slate-600 mb-6">
+        This mock host website demonstrates single-script embeddable live chat, real-time Socket.IO communication, sequence numbers, AI citation display, and offline support messaging.
+      </p>
+
+      <div class="p-4 bg-slate-50 border border-slate-200 rounded-lg text-xs space-y-2 mb-6">
+        <div class="font-semibold text-slate-700">Embed Snippet:</div>
+        <pre class="bg-slate-900 text-slate-100 p-3 rounded font-mono overflow-x-auto text-[11px]">&lt;script src="https://cdn.supportpilot.io/widget.js"
+        data-tenant-id="tenant_demo_123"
+        data-primary-color="#4f46e5"
+        data-title="Customer Support"&gt;&lt;/script&gt;</pre>
+      </div>
+
+      <div class="flex items-center space-x-3">
+        <button
+          onclick="window.SupportPilot?.open()"
+          class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold rounded-md shadow-sm cursor-pointer"
+        >
+          Open Chat Widget via JS API
+        </button>
+        <button
+          onclick="window.SupportPilot?.close()"
+          class="px-4 py-2 border border-slate-300 hover:bg-slate-50 text-slate-700 text-xs font-semibold rounded-md cursor-pointer"
+        >
+          Close Widget
+        </button>
+      </div>
+    </div>
+
+    <script
+      type="module"
+      src="/src/embed.tsx"
+      data-tenant-id="tenant_demo_123"
+      data-gateway-url="http://localhost:4000"
+      data-primary-color="#4f46e5"
+      data-title="Acme Support"
+    ></script>
+  </body>
+</html>

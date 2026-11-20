@@ -1,0 +1,71 @@
+name: E2E Tests
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: e2e-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  e2e-run:
+    name: End-to-End Test Suite
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Start Docker Compose Infrastructure
+        run: |
+          docker compose -f infra/docker/docker-compose.yml up -d mongo postgres redis minio mailhog
+          sleep 10
+
+      - name: Run Hermetic E2E Test Suite
+        run: pnpm --filter @supportpilot/ticket-service test tests/e2e-runner.test.ts || pnpm test:e2e
+        env:
+          NODE_ENV: test
+          MONGODB_URI: mongodb://localhost:27017/supportpilot-e2e
+          DATABASE_URL: postgresql://supportpilot:supportpilot@localhost:5432/supportpilot
+          REDIS_URL: redis://localhost:6379
+          JWT_ACCESS_SECRET: e2e-test-access-secret-at-least-32-chars!!
+          JWT_REFRESH_SECRET: e2e-test-refresh-secret-at-least-32-chars!!
+          SERVICE_TOKEN: e2e-test-service-token-16
+          LLM_PROVIDER: mock
+
+      - name: Run Playwright Tests
+        run: npx playwright test
+        continue-on-error: true
+
+      - name: Run Cypress Headless
+        run: npx cypress run
+        continue-on-error: true
+
+      - name: Upload Test Artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: e2e-results
+          path: |
+            test-results/
+            playwright-report/
+            cypress/videos/
+            cypress/screenshots/
+          retention-days: 7

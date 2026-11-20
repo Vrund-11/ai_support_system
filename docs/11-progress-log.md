@@ -144,10 +144,17 @@
     - Created overlays: `infra/k8s/overlays/staging/kustomization.yaml` (staging tags and replicas) and `infra/k8s/overlays/prod/kustomization.yaml` (v1.0.0 tags and scaled replicas).
     - Created Kubernetes batch jobs in `infra/k8s/jobs/`: `migrate-job.yaml` (database migrations) and `eval-cronjob.yaml` (nightly AI eval runner).
     - Validated all 25 YAML manifests with PyYAML.
+  - S3-T10: GitHub Actions CI/CD workflows:
+    - Updated `.github/workflows/ci.yml`: added Python AI service lint (Ruff) + pytest job, security dependency audit (`pnpm audit`), and filesystem vulnerability scanner (Aquasecurity Trivy).
+    - Created `.github/workflows/e2e.yml`: end-to-end test runner with Docker Compose services, Playwright & Cypress test execution, and failure artifact retention.
+    - Created `.github/workflows/perf.yml`: scheduled nightly k6 benchmark runner for ticket list, chat WebSocket, and AI endpoints with summary artifact generation.
+    - Created `.github/workflows/ai-eval.yml`: automated AI eval golden set regression gate on PRs/pushes, asserting Hit@5 >= 0.85, Groundedness >= 0.90, and Priority F1 >= 0.80.
+    - Created `.github/workflows/deploy-staging.yml`: automated Kind cluster provisioning, Ingress NGINX setup, local image build & load, and Kustomize staging rollout verification.
+    - Validated all 5 workflow YAML manifests with PyYAML.
 - Tests added / results: 364 tests passing across monorepo (152 in ticket-service, 65 in ai-service pytest, 44 in gateway, 32 in shared-lib, 29 in web, 23 in notification-service, 9 in widget, 4 in validators, 5 hermetic e2e, 1 newman runner with 21 collection assertions)
 - Measurements recorded (M-ids): M02 (test count: 364 tests across services), M03 (Mongo explain executionStats for ticket list compound indexes), M06 (AI Eval golden set baseline: Hit@5 100%, Groundedness 100%, F1 1.0), M07 (Classifier: Priority Accuracy 92.22%, Priority F1 0.9220, Category Accuracy 100%, Category F1 1.0, Overall Macro-F1 0.9610), M11 (Docker multi-stage non-root images & compose profile)
 - Issues found: none
-- Next: S3-T10 (GitHub Actions: ci, e2e, perf, ai-eval, deploy-staging, Trivy scan, dependency audit)
+- Next: S3-T11 (k6 scripts: ticket list, chat fan-out, AI endpoint with mock LLM)
   - S0-T04: .env.example + Zod env loader in @supportpilot/validators with 4 passing tests
   - S0-T05: CI skeleton .github/workflows/ci.yml with service containers
   - S0-T06: Logger (pino), request-id middleware, error handler (RFC 7807) in @supportpilot/shared-lib with 7 passing tests

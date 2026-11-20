@@ -3,10 +3,10 @@
 ## Current state
 
 - Date: 2026-11-20
-- Current sprint: Sprint 3 (Platform and quality)
-- Last completed task id: S3-T04
-- Next task id: S3-T05
-- Blockers: Docker not installed (docker-compose ready but can't run yet)
+- Current sprint: Sprint 4 (Mobile and polish)
+- Last completed task id: S4-T06
+- Next task id: S4-T07
+- Blockers: None
 - Environment notes: Node 24.18, pnpm 10.11, Python 3.12, TypeScript 5.9, git 2.52
 
 ## Decisions made since the PRD
@@ -184,10 +184,25 @@
     - Authored prompt injection test suite `apps/ai-service/tests/test_prompt_injection.py` (2 tests passing).
     - Authored cross-tenant and security pass integration tests in `apps/ticket-service/tests/security-pass.test.ts` and `apps/gateway/tests/security-headers.test.ts` (7 tests passing) verifying 404/403 cross-tenant data isolation on ticket read/list, tenant-isolated S3 presigned upload keys, login rate limiting (429 Too Many Requests after 5 attempts), defensive headers, and CORS preflight.
     - Sprint 3 Exit Gate fully achieved: all 14 tasks in Sprint 3 complete, full test pipeline green across 12 packages (388 automated tests passing monorepo).
-- Tests added / results: 388 tests passing across monorepo (156 in ticket-service, 67 in ai-service pytest, 47 in gateway, 41 in shared-lib, 29 in web, 23 in notification-service, 9 in widget, 4 in validators, 4 lambda dispatcher, 5 hermetic e2e, 2 perf runner, 1 newman runner with 21 collection assertions)
-- Measurements recorded (M-ids): M02 (test count: 388 tests across services), M03 (Mongo explain executionStats for ticket list compound indexes), M04 (k6 ticket list p95 278.09ms at 200 VUs, 1,110.19 RPS), M05 (Chat WebSocket fan-out p95 3.36ms across 30 sockets), M06 (AI Eval golden set baseline: Hit@5 100%, Groundedness 100%, F1 1.0), M07 (Classifier: Priority Accuracy 92.22%, Priority F1 0.9220, Category Accuracy 100%, Category F1 1.0, Overall Macro-F1 0.9610), M11 (Docker multi-stage non-root images & compose profile)
+  - S4-T01..S4-T06: Mobile App Stack (React Native, Expo Router, Auth, Biometrics, Inbox, Chat, Push, Outbox, Fastlane, EAS):
+    - Configured Expo app (`apps/mobile`) with TypeScript, Expo Router v3 file-based navigation, and Lucide native icons.
+    - Implemented `SecureStorage` (`src/lib/storage.ts`) with Expo SecureStore and web/test fallback.
+    - Implemented `BiometricService` (`src/lib/biometrics.ts`) with Expo LocalAuthentication supporting FaceID/TouchID biometrics unlock and hardware capability checks.
+    - Implemented Zustand `useAuthStore` (`src/lib/auth.store.ts`) with email/password authentication, biometrics enablement, automatic credential storage in SecureStore, and biometrics quick unlock.
+    - Implemented `mobileApi` client (`src/lib/api.ts`) against Gateway REST endpoints with automatic Authorization header token injection.
+    - Implemented `mobileSocketManager` (`src/lib/socket.ts`) with Socket.IO client, JWT token handshake, ticket room lifecycle (`conversation:join` / `conversation:leave`), and real-time event listeners.
+    - Implemented `offlineOutbox` (`src/lib/outbox.ts`) with persistent AsyncStorage queue, automatic flush upon network reconnection, retry count tracking, and idempotency key deduplication.
+    - Implemented `notificationService` (`src/lib/notifications.ts`) with Expo Notifications, FCM device token registration against Gateway (`POST /api/v1/users/device-token`), and deep-link routing (`supportpilot://ticket/:id`).
+    - Implemented mobile screens in `apps/mobile/app/`: root `_layout.tsx`, `(auth)/login.tsx` with biometric button, `(tabs)/_layout.tsx`, `(tabs)/inbox.tsx` with pull-to-refresh & filter tabs (Open, Mine, Unassigned), `(tabs)/mine.tsx`, `(tabs)/notifications.tsx`, `(tabs)/settings.tsx` with presence toggle & biometrics switch, and `ticket/[id].tsx` with live Socket.IO chat, quick replies, and AI suggest-reply integration.
+    - Authored EAS configuration (`apps/mobile/eas.json`) with development, preview, and production profiles.
+    - Authored Fastlane pipeline (`apps/mobile/fastlane/Fastfile`) with `beta` and `release` lanes for iOS TestFlight and Android Google Play Internal App Sharing.
+    - Authored GitHub Actions workflow (`.github/workflows/mobile.yml`) with automated type-checking, unit tests, and linting on mobile app PRs.
+    - Generated production asset suite (`apps/mobile/assets/`): `icon.png`, `adaptive-icon.png`, `splash.png`, and `notification-icon.png`.
+    - 14 automated unit tests added in `apps/mobile/tests/` (all 14 passing).
+- Tests added / results: 402 tests passing across monorepo (156 in ticket-service, 67 in ai-service pytest, 47 in gateway, 41 in shared-lib, 29 in web, 23 in notification-service, 14 in mobile, 9 in widget, 4 in validators, 4 lambda dispatcher, 5 hermetic e2e, 2 perf runner, 1 newman runner with 21 collection assertions)
+- Measurements recorded (M-ids): M02 (test count: 402 tests across services)
 - Issues found: none
-- Next: Sprint 4: Mobile and Polish (S4-T01: Expo app skeleton, Expo Router, auth with secure store and biometrics)
+- Next: S4-T07 (Webhooks management UI, API keys, audit log view)
   - S0-T04: .env.example + Zod env loader in @supportpilot/validators with 4 passing tests
   - S0-T05: CI skeleton .github/workflows/ci.yml with service containers
   - S0-T06: Logger (pino), request-id middleware, error handler (RFC 7807) in @supportpilot/shared-lib with 7 passing tests

@@ -1,12 +1,26 @@
 {
   "name": "@supportpilot/mobile",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
-    "dev": "echo \"Expo mobile app — built in Sprint 4 (S4-T01)\"",
-    "build": "echo \"Mobile — built in Sprint 4\"",
-    "typecheck": "echo \"No source yet\"",
-    "lint": "echo \"No source yet\"",
-    "test": "echo \"No tests yet\""
+    "dev": "echo 'Expo development server: npx expo start'",
+    "build": "tsc --build",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@supportpilot/shared-types": "workspace:*",
+    "@supportpilot/validators": "workspace:*",
+    "@tanstack/react-query": "^5.108.1",
+    "react": "^19.3.1",
+    "socket.io-client": "^4.8.4",
+    "zustand": "^5.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.0",
+    "@types/react": "^19.3.0",
+    "typescript": "^5.8.0",
+    "vitest": "^3.2.7"
   }
 }

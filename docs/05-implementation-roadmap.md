@@ -69,12 +69,12 @@ Legend: [ ] todo, [x] done. Task id format `S<sprint>-T<nn>`. Priority P0/P1/P2 
 
 ## Sprint 4: Mobile and polish (weeks 7-8)
 
-- [ ] S4-T01 Expo app skeleton, Expo Router, auth with secure store and biometrics. (MOB-1)
-- [ ] S4-T02 Inbox, ticket/chat screens with Socket.IO and TanStack Query. (MOB-2,3)
-- [ ] S4-T03 FCM push (dev client), token registration, deep links. (MOB-4, NOTIF-2)
-- [ ] S4-T04 Quick actions, AI suggestion insert, presence toggle. (MOB-5,7)
-- [ ] S4-T05 Offline outbox. (MOB-6)
-- [ ] S4-T06 EAS Build preview profile; Fastlane lanes; GitHub Actions `mobile.yml`. See `09`.
+- [x] S4-T01 Expo app skeleton, Expo Router, auth with secure store and biometrics. (MOB-1)
+- [x] S4-T02 Inbox, ticket/chat screens with Socket.IO and TanStack Query. (MOB-2,3)
+- [x] S4-T03 FCM push (dev client), token registration, deep links. (MOB-4, NOTIF-2)
+- [x] S4-T04 Quick actions, AI suggestion insert, presence toggle. (MOB-5,7)
+- [x] S4-T05 Offline outbox. (MOB-6)
+- [x] S4-T06 EAS Build preview profile; Fastlane lanes; GitHub Actions `mobile.yml`. See `09`.
 - [ ] S4-T07 Webhooks management UI, API keys, audit log view. (INT-1,2, ADM-2)
 - [ ] S4-T08 Platform admin console, feature flags. (ADM-1,3) (P2 optional)
 - [ ] S4-T09 Docs: README with screenshots, architecture diagram (Mermaid), runbook, demo video script.

@@ -26,3 +26,9 @@ export {
   ticketFilterSchema,
 } from './ticket.js';
 export type { CreateTicketInput, UpdateTicketInput, TicketFilterInput } from './ticket.js';
+
+export {
+  ALLOWED_STATUS_TRANSITIONS,
+  canTransitionStatus,
+  type TicketStatusType,
+} from './transitions.js';

@@ -12,6 +12,7 @@ import {
 } from './base.repository.js';
 import { Ticket, type ITicketDocument } from '../models/ticket.model.js';
 import { Counter } from '../models/counter.model.js';
+import { validateStatusTransition } from '../lib/transitions.js';
 
 export class TicketRepository extends BaseTenantRepository<ITicketDocument> {
   constructor(tenantId: string | Types.ObjectId) {
@@ -112,6 +113,16 @@ export class TicketRepository extends BaseTenantRepository<ITicketDocument> {
 
     const objectId = typeof id === 'string' ? new Types.ObjectId(id) : id;
 
+    // Check existing ticket to validate status transitions and ensure existence
+    const existing = await this.findById(objectId);
+    if (!existing) {
+      throw new AppError(404, 'Ticket not found', '/errors/not-found');
+    }
+
+    if (updateData.status && updateData.status !== existing.status) {
+      validateStatusTransition(existing.status, updateData.status);
+    }
+
     const updateFields: Record<string, unknown> = {};
     if (updateData.status) updateFields['status'] = updateData.status;
     if (updateData.priority) updateFields['priority'] = updateData.priority;
@@ -138,15 +149,13 @@ export class TicketRepository extends BaseTenantRepository<ITicketDocument> {
       return updated;
     }
 
-    // Update failed. Check if ticket exists to distinguish 404 from 409 version conflict
-    const existing = await this.findById(objectId);
-    if (!existing) {
-      throw new AppError(404, 'Ticket not found', '/errors/not-found');
-    }
+    // Update failed. Version mismatch since document existence was confirmed above
+    const current = await this.findById(objectId);
+    const currentVersion = current?.version ?? 'unknown';
 
     throw new AppError(
       409,
-      `Conflict: ticket has been modified concurrently. Expected version ${version}, but current version is ${existing.version}.`,
+      `Conflict: ticket has been modified concurrently. Expected version ${version}, but current version is ${currentVersion}.`,
       '/errors/version-conflict',
     );
   }

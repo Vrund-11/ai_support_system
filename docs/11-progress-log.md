@@ -4,8 +4,8 @@
 
 - Date: 2026-11-20
 - Current sprint: Sprint 1 (MERN core)
-- Last completed task id: S1-T07
-- Next task id: S1-T08
+- Last completed task id: S1-T08
+- Next task id: S1-T09
 - Blockers: Docker not installed (docker-compose ready but can't run yet)
 - Environment notes: Node 24.18, pnpm 10.11, Python 3.13, TypeScript 5.9, git 2.52
 
@@ -30,10 +30,11 @@
   - S1-T05: Tenant-scoped repository base class `BaseTenantRepository<T>` enforcing strict tenant isolation. Injects tenantId into all queries, mutations, insertions; forbids unscoped operations and cross-tenant query injection; implements `findById`, `findOne`, `find`, `findWithPagination`, `create`, `updateById`, `updateOne`, `deleteById`, `deleteOne`, `count`, `exists`. Added `UserRepository`. 19 tests verifying cross-tenant read/update/delete isolation and filter injection rejection.
   - S1-T06: Ticket and Counter Mongoose models with per-tenant auto-incrementing numbers, optimistic concurrency version control (TKT-9), `TicketRepository`, Zod validation schemas (`createTicketSchema`, `updateTicketSchema`, `ticketFilterSchema`), and routes (`GET /api/v1/tickets`, `POST /api/v1/tickets`, `GET /api/v1/tickets/:id`, `PATCH /api/v1/tickets/:id`). 10 new integration tests verifying atomic number generation, filtering/pagination, detail retrieval, version incrementing, 409 conflict detection on stale version, and cross-tenant isolation.
   - S1-T07: Ticket status transition state machine `ALLOWED_STATUS_TRANSITIONS`, `canTransitionStatus`, `validateStatusTransition` enforcing PRD transition rules (NEW -> OPEN|CLOSED, OPEN -> PENDING_CUSTOMER|ON_HOLD|RESOLVED, PENDING_CUSTOMER -> OPEN|RESOLVED|CLOSED, ON_HOLD -> OPEN|RESOLVED, RESOLVED -> OPEN|CLOSED, CLOSED terminal). Integrated transition check in `TicketRepository.updateTicketWithVersion`. Added `fast-check` property-based tests verifying self-transitions, non-reversibility to NEW, CLOSED terminality, invariant table matching, and random path validity (9 tests).
-- Tests added / results: 113 tests passing across monorepo (20 in shared-lib, 89 in ticket-service, 4 in validators)
+  - S1-T08: Messages and internal notes (`Message` model, `MessageRepository`, `POST /api/v1/tickets/:id/messages`), and ticket activity timeline events (`TicketEvent` model, `TicketEventRepository`, chronological event recording on STATUS/PRIORITY/ASSIGN/TAG changes and MESSAGE/NOTE additions). Updated `GET /api/v1/tickets/:id` to return ticket with timeline and message thread. 8 new integration tests covering message threading, internal note isolation, status/priority/assign/tag event recording, and cross-tenant isolation.
+- Tests added / results: 121 tests passing across monorepo (20 in shared-lib, 97 in ticket-service, 4 in validators)
 - Measurements recorded (M-ids): none yet
 - Issues found: none
-- Next: S1-T08 (Messages and internal notes, ticket events timeline)
+- Next: S1-T09 (Search and filters with compound and text indexes)
   - S0-T04: .env.example + Zod env loader in @supportpilot/validators with 4 passing tests
   - S0-T05: CI skeleton .github/workflows/ci.yml with service containers
   - S0-T06: Logger (pino), request-id middleware, error handler (RFC 7807) in @supportpilot/shared-lib with 7 passing tests
@@ -45,7 +46,7 @@
 
 ## Handoff checklist for the next person or AI
 
-- [x] `pnpm verify` passes on main (36/36 tasks green, 113 tests)
+- [x] `pnpm verify` passes on main (36/36 tasks green, 121 tests)
 - [ ] `docker compose up -d` brings up datastores healthy (Docker not installed yet)
 - [x] README setup steps still accurate
 - [x] Roadmap checkboxes up to date

@@ -23,6 +23,24 @@ export type ConversationState = 'AI' | 'WAITING_AGENT' | 'WITH_AGENT' | 'CLOSED'
 /** Message sender types */
 export type SenderType = 'CUSTOMER' | 'AI' | 'AGENT' | 'SYSTEM';
 
+/** Ticket activity timeline event types */
+export type TicketEventType = 'STATUS' | 'PRIORITY' | 'ASSIGN' | 'NOTE' | 'MESSAGE' | 'SLA' | 'TAG';
+
+/** Message or ticket attachment metadata */
+export interface Attachment {
+  key: string;
+  name: string;
+  size: number;
+  mime: string;
+}
+
+/** RAG knowledge chunk citation */
+export interface Citation {
+  chunkId: string;
+  docId: string;
+  title: string;
+}
+
 /** Channel through which a ticket was created */
 export type Channel = 'WIDGET' | 'DASHBOARD' | 'API' | 'EMAIL';
 

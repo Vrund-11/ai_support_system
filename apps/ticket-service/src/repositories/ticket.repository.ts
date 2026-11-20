@@ -13,10 +13,14 @@ import {
 import { Ticket, type ITicketDocument } from '../models/ticket.model.js';
 import { Counter } from '../models/counter.model.js';
 import { validateStatusTransition } from '../lib/transitions.js';
+import { TicketEventRepository } from './ticket-event.repository.js';
 
 export class TicketRepository extends BaseTenantRepository<ITicketDocument> {
+  private readonly eventRepo: TicketEventRepository;
+
   constructor(tenantId: string | Types.ObjectId) {
     super(tenantId, Ticket);
+    this.eventRepo = new TicketEventRepository(this.tenantId);
   }
 
   /** Atomic per-tenant sequence counter for ticket numbers (1, 2, 3...) */
@@ -106,6 +110,7 @@ export class TicketRepository extends BaseTenantRepository<ITicketDocument> {
     id: string | Types.ObjectId,
     version: number,
     updateData: Omit<UpdateTicketInput, 'version'>,
+    actorId?: string | Types.ObjectId,
   ): Promise<ITicketDocument> {
     if (typeof id === 'string' && !Types.ObjectId.isValid(id)) {
       throw new AppError(404, 'Ticket not found', '/errors/not-found');
@@ -146,6 +151,42 @@ export class TicketRepository extends BaseTenantRepository<ITicketDocument> {
     );
 
     if (updated) {
+      // Record activity timeline events for each changed field (TKT-10)
+      if (updateData.status && updateData.status !== existing.status) {
+        await this.eventRepo.recordEvent(objectId, 'STATUS', {
+          actorId,
+          from: existing.status,
+          to: updateData.status,
+        });
+      }
+
+      if (updateData.priority && updateData.priority !== existing.priority) {
+        await this.eventRepo.recordEvent(objectId, 'PRIORITY', {
+          actorId,
+          from: existing.priority,
+          to: updateData.priority,
+        });
+      }
+
+      if (
+        updateData.assigneeId !== undefined &&
+        String(updateData.assigneeId) !== String(existing.assigneeId)
+      ) {
+        await this.eventRepo.recordEvent(objectId, 'ASSIGN', {
+          actorId,
+          from: existing.assigneeId ? existing.assigneeId.toString() : 'unassigned',
+          to: updateData.assigneeId ? updateData.assigneeId.toString() : 'unassigned',
+        });
+      }
+
+      if (updateData.tags && JSON.stringify(updateData.tags) !== JSON.stringify(existing.tags)) {
+        await this.eventRepo.recordEvent(objectId, 'TAG', {
+          actorId,
+          from: existing.tags.join(', '),
+          to: updateData.tags.join(', '),
+        });
+      }
+
       return updated;
     }
 

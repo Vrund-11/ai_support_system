@@ -21,7 +21,7 @@ Legend: [ ] todo, [x] done. Task id format `S<sprint>-T<nn>`. Priority P0/P1/P2 
 - [x] S1-T05 Tenant-scoped repository base class (injects tenantId, forbids unscoped queries). (TEN-1) Tests: cross-tenant read/update/delete fail.
 - [x] S1-T06 Ticket model, counters, create/list/get/update with version check. (TKT-1,3,9)
 - [x] S1-T07 Status transition map + property-based test with fast-check. (TKT-2)
-- [ ] S1-T08 Messages and internal notes, ticket events timeline. (TKT-5,10)
+- [x] S1-T08 Messages and internal notes, ticket events timeline. (TKT-5,10)
 - [ ] S1-T09 Search and filters with compound and text indexes; record `explain()` before/after in evidence tracker. (TKT-7)
 - [ ] S1-T10 Gateway skeleton: auth passthrough, rate limiting (Redis), request validation, proxy to ticket-service. (AUTH-5)
 - [ ] S1-T11 Web dashboard: login, inbox list with filters, ticket detail with reply and notes (React, TanStack Query, Zustand, Tailwind). AC: works against gateway.

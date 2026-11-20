@@ -32,3 +32,6 @@ export {
   canTransitionStatus,
   type TicketStatusType,
 } from './transitions.js';
+
+export { attachmentSchema, createMessageSchema } from './message.js';
+export type { CreateMessageInput } from './message.js';

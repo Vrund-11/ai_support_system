@@ -1,3 +1,5 @@
+import { TicketEvent } from '../src/models/ticket-event.model.js';
+import { Message } from '../src/models/message.model.js';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import request from 'supertest';
 import jwt from 'jsonwebtoken';
@@ -63,6 +65,11 @@ describe('Ticket Service & Endpoints (S1-T06: TKT-1, 3, 9)', () => {
       ticketCounter += 1;
       return { value: ticketCounter } as any;
     });
+
+    // Mock TicketEvent and Message for timeline & notes
+    vi.spyOn(TicketEvent.prototype, 'save').mockResolvedValue({} as any);
+    vi.spyOn(TicketEvent, 'find').mockReturnValue({ sort: vi.fn().mockResolvedValue([]) } as any);
+    vi.spyOn(Message, 'find').mockReturnValue({ sort: vi.fn().mockResolvedValue([]) } as any);
 
     // Mock Ticket save
     vi.spyOn(Ticket.prototype, 'save').mockImplementation(function (this: any) {

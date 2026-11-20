@@ -4,8 +4,8 @@
 
 - Date: 2026-11-20
 - Current sprint: Sprint 3 (Platform and quality)
-- Last completed task id: S3-T03
-- Next task id: S3-T04
+- Last completed task id: S3-T04
+- Next task id: S3-T05
 - Blockers: Docker not installed (docker-compose ready but can't run yet)
 - Environment notes: Node 24.18, pnpm 10.11, Python 3.12, TypeScript 5.9, git 2.52
 
@@ -77,10 +77,18 @@
     - Implemented REST API (`apps/ticket-service/src/routes/rule.routes.ts`) with RBAC (LEAD+ create/update/delete, AGENT+ list/get/test-evaluate) and dry-run evaluation endpoint (`POST /api/v1/rules/test-evaluate`).
     - Integrated automatic rule execution into `POST /api/v1/tickets` triggering active `TICKET_CREATED` rules on new tickets with atomic updates.
     - Added 4 integration tests in `apps/ticket-service/tests/rules-api.test.ts`. 318 total automated tests passing monorepo.
-- Tests added / results: 318 tests passing across monorepo (135 in ticket-service, 50 in ai-service pytest, 43 in gateway, 32 in shared-lib, 23 in web, 16 in notification-service, 9 in widget, 4 in validators, 5 hermetic e2e, 1 newman runner with 21 collection assertions)
-- Measurements recorded (M-ids): M02 (test count: 318 tests across services), M03 (Mongo explain executionStats for ticket list compound indexes), M06 (AI Eval golden set baseline: Hit@5 100%, Groundedness 100%, F1 1.0)
+  - S3-T04: Ticket Priority & Category Classifier with ML pipeline, rules fallback, and feedback loop (AI-4):
+    - Created deterministic 600-ticket dataset across 6 categories (billing, bug, how-to, account, feature request, other) and 4 priorities (LOW, MEDIUM, HIGH, URGENT) in `data/tickets_dataset.jsonl` with documentation in `data/README.md`.
+    - Implemented training, model comparison, and evaluation pipeline (`apps/ai-service/src/classifier/train.py`) comparing TF-IDF + LogisticRegression baseline against tuned sublinear TF-IDF (1-2 grams) with balanced class weights and ComplementNB/SGD variants across 70/15/15 stratified train/val/test splits (random_state=42).
+    - Recorded real evaluation metrics in `reports/classifier.md`: Priority Accuracy 92.22%, Priority Macro-F1 0.9220; Category Accuracy 100.00%, Category Macro-F1 1.0000; Overall Macro-F1 0.9610. Exported production model artifact with `joblib` into `apps/ai-service/models/classifier-v1.0.0.joblib`.
+    - Implemented deterministic heuristic rules fallback (`apps/ai-service/src/classifier/rules.py`) covering outage/downtime/breach (URGENT/bug), double-charge/refund/lockout (HIGH/billing/account), how-to, feature requests, and cosmetic UI issues.
+    - Implemented `ClassifierService` (`apps/ai-service/src/classifier/service.py`) supporting lazy model loading, probability extraction, calibrated confidence scoring, automatic failover to rules fallback, and agent feedback recording for drift monitoring.
+    - Mounted REST endpoints `POST /v1/classify` and `POST /v1/classify/feedback` in `apps/ai-service/src/main.py`.
+    - Added 10 unit and integration tests (`apps/ai-service/tests/test_classifier.py`). 328 total automated tests passing monorepo.
+- Tests added / results: 328 tests passing across monorepo (135 in ticket-service, 60 in ai-service pytest, 43 in gateway, 32 in shared-lib, 23 in web, 16 in notification-service, 9 in widget, 4 in validators, 5 hermetic e2e, 1 newman runner with 21 collection assertions)
+- Measurements recorded (M-ids): M02 (test count: 328 tests across services), M03 (Mongo explain executionStats for ticket list compound indexes), M06 (AI Eval golden set baseline: Hit@5 100%, Groundedness 100%, F1 1.0), M07 (Classifier: Priority Accuracy 92.22%, Priority F1 0.9220, Category Accuracy 100%, Category F1 1.0, Overall Macro-F1 0.9610)
 - Issues found: none
-- Next: S3-T04 (Classifier: dataset prep, training notebook, model comparison, artifact export, /v1/classify, rules fallback, AI-4)
+- Next: S3-T05 (Agent assist: suggest-reply and summarize endpoints in ai-service + UI integration in web, AI-5, 6)
   - S0-T04: .env.example + Zod env loader in @supportpilot/validators with 4 passing tests
   - S0-T05: CI skeleton .github/workflows/ci.yml with service containers
   - S0-T06: Logger (pino), request-id middleware, error handler (RFC 7807) in @supportpilot/shared-lib with 7 passing tests

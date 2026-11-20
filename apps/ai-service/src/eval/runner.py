@@ -153,9 +153,7 @@ class EvalRunner:
                 if cited_chunks:
                     # Verify overlap between answer words and cited text
                     cited_text = " ".join(c.content.lower() for c in cited_chunks)
-                    answer_words = [
-                        w for w in answer_resp.answer.lower().split() if len(w) > 3
-                    ]
+                    answer_words = [w for w in answer_resp.answer.lower().split() if len(w) > 3]
                     if answer_words:
                         overlap = sum(1 for w in answer_words if w in cited_text) / len(
                             answer_words
@@ -201,9 +199,7 @@ class EvalRunner:
 
         latencies_ms.sort()
         p95_idx = int(0.95 * len(latencies_ms))
-        p95_latency_ms = round(
-            latencies_ms[min(p95_idx, len(latencies_ms) - 1)], 1
-        )
+        p95_latency_ms = round(latencies_ms[min(p95_idx, len(latencies_ms) - 1)], 1)
 
         # 5. Regression Gate against baseline row in ai_eval_runs (AI-10)
         baseline = await self.eval_repo.get_latest_baseline(dataset_name)

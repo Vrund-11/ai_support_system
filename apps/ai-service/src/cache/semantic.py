@@ -203,8 +203,7 @@ class RedisSemanticCache(BaseSemanticCache):
                             emb = item_data.get("embedding")
                             if (
                                 emb
-                                and cosine_similarity(query_embedding, emb)
-                                >= similarity_threshold
+                                and cosine_similarity(query_embedding, emb) >= similarity_threshold
                             ):
                                 return MemorySemanticCache._to_response(item_data)
                     if cursor == 0:

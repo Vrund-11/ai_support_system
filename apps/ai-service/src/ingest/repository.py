@@ -431,9 +431,7 @@ class PostgresIngestRepository(BaseIngestRepository):
                 (tenant_id, document_id),
             )
 
-    async def get_chunks_for_document(
-        self, tenant_id: str, document_id: str
-    ) -> list[StoredChunk]:
+    async def get_chunks_for_document(self, tenant_id: str, document_id: str) -> list[StoredChunk]:
         conn = await psycopg.AsyncConnection.connect(self.dsn)
         async with conn, conn.cursor() as cur:
             await cur.execute(

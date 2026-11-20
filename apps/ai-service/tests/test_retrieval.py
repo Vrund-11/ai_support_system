@@ -140,12 +140,12 @@ async def test_tenant_isolation_in_vector_and_text_retrieval(setup_memory_repo):
 
     # Cross-tenant check: Zero results or only tenant-beta results!
     for result in beta_results:
-        assert (
-            "tenant-alpha" not in result.id
-        ), "SECURITY BREACH: Tenant A chunk leaked to Tenant B!"
-        assert (
-            "secret-token-xyz" not in result.content
-        ), "SECURITY BREACH: Tenant A content leaked to Tenant B!"
+        assert "tenant-alpha" not in result.id, (
+            "SECURITY BREACH: Tenant A chunk leaked to Tenant B!"
+        )
+        assert "secret-token-xyz" not in result.content, (
+            "SECURITY BREACH: Tenant A content leaked to Tenant B!"
+        )
 
     # 2. Tenant Alpha searches for their own data
     alpha_results = await retriever.retrieve(

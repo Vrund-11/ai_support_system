@@ -21,9 +21,7 @@ def normalize_top_chunk_score(chunk: SearchResultChunk | None) -> float:
     return 0.0
 
 
-def calculate_citation_coverage(
-    citations: list[CitationItem], valid_chunk_ids: set[str]
-) -> float:
+def calculate_citation_coverage(citations: list[CitationItem], valid_chunk_ids: set[str]) -> float:
     """Fraction of citations that are grounded in retrieved context."""
     if not citations:
         return 0.0

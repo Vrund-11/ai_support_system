@@ -36,9 +36,7 @@ class RagService:
         self.provider = llm_provider or get_llm_provider()
         self.cache = cache or get_semantic_cache()
 
-    async def generate_answer(
-        self, req: GenerateAnswerRequest
-    ) -> GenerateAnswerResponse:
+    async def generate_answer(self, req: GenerateAnswerRequest) -> GenerateAnswerResponse:
         """Execute full RAG generation pipeline with grounding checks and calibrated confidence."""
         # 0. Check semantic response cache (AI-7)
         cached_response = await self.cache.get(
@@ -113,9 +111,7 @@ class RagService:
             )
 
         # 4. Citation verification (T-AI-02)
-        valid_citations, citation_error = verify_citations(
-            answer_result.citations, chunks
-        )
+        valid_citations, citation_error = verify_citations(answer_result.citations, chunks)
         should_escalate = answer_result.should_escalate or not valid_citations
         escalation_reason = answer_result.reason
         if not valid_citations:

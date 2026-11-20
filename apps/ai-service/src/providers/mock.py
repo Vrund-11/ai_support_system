@@ -63,17 +63,35 @@ class MockLLMProvider(LLMProvider):
         if issubclass(schema, RagAnswer):
             # Check prompt context for chunks and adversarial signals
             adv_triggers = [
-                "cake", "gluten", "fifa", "world cup", "relativity", "spacetime",
-                "poem", "shakespeare", "sql injection", "recipe", "pizza", "hotwire",
-                "secret system prompt", "capital city", "australia", "medical",
-                "headaches", "malware", "prime minister", "swallow", "wi-fi", "hack",
-                "system override", "ignore all", "ignore context"
+                "cake",
+                "gluten",
+                "fifa",
+                "world cup",
+                "relativity",
+                "spacetime",
+                "poem",
+                "shakespeare",
+                "sql injection",
+                "recipe",
+                "pizza",
+                "hotwire",
+                "secret system prompt",
+                "capital city",
+                "australia",
+                "medical",
+                "headaches",
+                "malware",
+                "prime minister",
+                "swallow",
+                "wi-fi",
+                "hack",
+                "system override",
+                "ignore all",
+                "ignore context",
             ]
             is_adv = any(w in user_prompt.lower() for w in adv_triggers)
             should_escalate = (
-                self.simulate_should_escalate
-                or self.simulate_low_confidence
-                or is_adv
+                self.simulate_should_escalate or self.simulate_low_confidence or is_adv
             )
 
             confidence = 0.35 if should_escalate else 0.92
@@ -119,9 +137,7 @@ class MockLLMProvider(LLMProvider):
                 )
             elif chunk_matches:
                 chunk_snippet = chunk_matches[0][1].strip()[:180]
-                answer_text = (
-                    f"According to our official documentation: {chunk_snippet}"
-                )
+                answer_text = f"According to our official documentation: {chunk_snippet}"
             else:
                 answer_text = (
                     "According to our knowledge base, here is the answer regarding your question: "

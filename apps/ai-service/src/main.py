@@ -7,6 +7,13 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
 from src.cache.semantic import get_semantic_cache
+from src.classifier import (
+    ClassifierFeedbackRequest,
+    ClassifierFeedbackResponse,
+    ClassifyRequest,
+    ClassifyResponse,
+    get_classifier_service,
+)
 from src.config import settings
 from src.eval.runner import EvalRunner
 from src.ingest.pipeline import IngestionPipeline
@@ -295,3 +302,21 @@ async def run_evaluation(req: RunEvalRequest) -> dict[str, Any]:
         "passed_regression_gate": metrics.passed_regression_gate,
         "baseline_groundedness": metrics.baseline_groundedness,
     }
+
+
+# ── Ticket Classifier Endpoints (AI-4) ──
+@app.post("/v1/classify", response_model=ClassifyResponse)
+async def classify_ticket(req: ClassifyRequest) -> ClassifyResponse:
+    classifier = get_classifier_service()
+    return classifier.classify(
+        subject=req.subject,
+        description=req.description,
+        first_message=req.first_message,
+        tenant_id=req.tenant_id,
+    )
+
+
+@app.post("/v1/classify/feedback", response_model=ClassifierFeedbackResponse)
+async def record_classifier_feedback(req: ClassifierFeedbackRequest) -> ClassifierFeedbackResponse:
+    classifier = get_classifier_service()
+    return classifier.record_feedback(req)

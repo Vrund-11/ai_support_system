@@ -227,9 +227,7 @@ async def test_low_confidence_threshold_triggers_escalation(setup_memory_repo):
     repo = setup_memory_repo
     provider = MockLLMProvider()
     provider.simulate_low_confidence = True
-    provider.custom_citations = [
-        CitationItem(chunk_id="chunk-c1", doc_id="doc-1", title="Guide")
-    ]
+    provider.custom_citations = [CitationItem(chunk_id="chunk-c1", doc_id="doc-1", title="Guide")]
 
     retriever = HybridRetriever(repository=repo, llm_provider=provider)
     service = RagService(retriever=retriever, llm_provider=provider)
@@ -272,9 +270,7 @@ def test_api_answer_endpoint(setup_memory_repo):
     assert ingest_resp.status_code == 200
 
     # 2. Get chunk ID from ingested doc
-    chunks_resp = client.get(
-        "/v1/kb/documents/doc-sla-01/chunks?tenant_id=api-tenant"
-    )
+    chunks_resp = client.get("/v1/kb/documents/doc-sla-01/chunks?tenant_id=api-tenant")
     assert chunks_resp.status_code == 200
 
     # 3. Call answer endpoint

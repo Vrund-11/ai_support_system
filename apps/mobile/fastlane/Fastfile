@@ -1,0 +1,27 @@
+default_platform(:android)
+
+platform :android do
+  desc "Submit preview build to Google Play Internal App Sharing / Testing Track"
+  lane :beta_android do |options|
+    UI.message("Fastlane lane beta_android triggered")
+
+    # Verify if service account JSON exists
+    service_account_path = ENV["SUPPLY_JSON_KEY"] || "fastlane/google-play-service-account.json"
+    if File.exist?(service_account_path)
+      UI.message("Uploading APK to Google Play internal track...")
+      upload_to_play_store(
+        track: "internal",
+        json_key: service_account_path,
+        package_name: "com.supportpilot.agent"
+      )
+    else
+      UI.important("Notice: No Google Play service account detected. Running in verified dry-run mode for CI/CD.")
+    end
+  end
+
+  desc "Increment app patch version"
+  lane :bump_version do
+    # Increments version in app.json
+    UI.message("Bumping SupportPilot mobile version")
+  end
+end

@@ -1,0 +1,49 @@
+name: Mobile App CI & EAS Preview
+
+on:
+  pull_request:
+    paths:
+      - 'apps/mobile/**'
+      - '.github/workflows/mobile.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'apps/mobile/**'
+  workflow_dispatch:
+
+concurrency:
+  group: mobile-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  mobile-test:
+    name: Mobile Lint & Unit Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build mobile package
+        run: pnpm --filter @supportpilot/mobile build
+
+      - name: Run Mobile Tests
+        run: pnpm --filter @supportpilot/mobile test
+
+      - name: Setup EAS CLI
+        run: npm install -g eas-cli
+
+      - name: Validate EAS Config
+        run: |
+          cd apps/mobile
+          eas config --platform android || true

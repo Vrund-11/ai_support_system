@@ -1,18 +1,37 @@
 import { useAuthStore } from '../../store/auth.store';
 import { api } from '../../lib/api';
-import { LogOut, Inbox, PlusCircle, ShieldCheck } from 'lucide-react';
+import { LogOut, Inbox, PlusCircle, ShieldCheck, MessageSquare, BookOpen } from 'lucide-react';
+
+export type NavTab = 'inbox' | 'chats' | 'kb';
 
 interface ShellProps {
   children: React.ReactNode;
+  activeTab?: NavTab;
   onOpenCreateModal: () => void;
   onNavigateInbox: () => void;
+  onNavigateTab?: (tab: NavTab) => void;
 }
 
-export function Shell({ children, onOpenCreateModal, onNavigateInbox }: ShellProps) {
+export function Shell({
+  children,
+  activeTab = 'inbox',
+  onOpenCreateModal,
+  onNavigateInbox,
+  onNavigateTab,
+}: ShellProps) {
   const user = useAuthStore((s) => s.user);
 
   const handleLogout = async () => {
     await api.auth.logout();
+  };
+
+  const handleNav = (tab: NavTab) => {
+    if (tab === 'inbox') {
+      onNavigateInbox();
+    }
+    if (onNavigateTab) {
+      onNavigateTab(tab);
+    }
   };
 
   return (
@@ -21,19 +40,45 @@ export function Shell({ children, onOpenCreateModal, onNavigateInbox }: ShellPro
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <div className="flex items-center space-x-6">
             <button
-              onClick={onNavigateInbox}
+              onClick={() => handleNav('inbox')}
               className="flex items-center space-x-2 text-indigo-600 font-bold text-lg hover:text-indigo-700"
             >
               <ShieldCheck className="w-6 h-6" />
               <span>SupportPilot</span>
             </button>
-            <nav className="flex items-center space-x-2">
+            <nav className="flex items-center space-x-1">
               <button
-                onClick={onNavigateInbox}
-                className="flex items-center space-x-1.5 px-3 py-1.5 text-sm font-medium text-slate-700 hover:text-indigo-600 hover:bg-slate-100 rounded-md transition-colors"
+                onClick={() => handleNav('inbox')}
+                className={`flex items-center space-x-1.5 px-3 py-1.5 text-sm font-medium rounded-md transition-colors ${
+                  activeTab === 'inbox'
+                    ? 'text-indigo-600 bg-indigo-50 font-semibold'
+                    : 'text-slate-700 hover:text-indigo-600 hover:bg-slate-100'
+                }`}
               >
                 <Inbox className="w-4 h-4" />
                 <span>Inbox</span>
+              </button>
+              <button
+                onClick={() => handleNav('chats')}
+                className={`flex items-center space-x-1.5 px-3 py-1.5 text-sm font-medium rounded-md transition-colors ${
+                  activeTab === 'chats'
+                    ? 'text-indigo-600 bg-indigo-50 font-semibold'
+                    : 'text-slate-700 hover:text-indigo-600 hover:bg-slate-100'
+                }`}
+              >
+                <MessageSquare className="w-4 h-4" />
+                <span>Live Chats</span>
+              </button>
+              <button
+                onClick={() => handleNav('kb')}
+                className={`flex items-center space-x-1.5 px-3 py-1.5 text-sm font-medium rounded-md transition-colors ${
+                  activeTab === 'kb'
+                    ? 'text-indigo-600 bg-indigo-50 font-semibold'
+                    : 'text-slate-700 hover:text-indigo-600 hover:bg-slate-100'
+                }`}
+              >
+                <BookOpen className="w-4 h-4" />
+                <span>Knowledge Base</span>
               </button>
             </nav>
           </div>

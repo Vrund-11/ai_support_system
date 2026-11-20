@@ -177,4 +177,85 @@ export const api = {
       return res.data;
     },
   },
+
+  kb: {
+    async list(): Promise<
+      Array<{
+        id: string;
+        title: string;
+        source: string;
+        status: string;
+        chunksCount: number;
+        updatedAt: string;
+      }>
+    > {
+      const res = await request<{
+        data: Array<{
+          id: string;
+          title: string;
+          source: string;
+          status: string;
+          chunksCount: number;
+          updatedAt: string;
+        }>;
+      }>('/kb/documents');
+      return res.data || [];
+    },
+
+    async get(id: string): Promise<{
+      id: string;
+      title: string;
+      source: string;
+      status: string;
+      chunksCount: number;
+      updatedAt: string;
+    }> {
+      const res = await request<{
+        data: {
+          id: string;
+          title: string;
+          source: string;
+          status: string;
+          chunksCount: number;
+          updatedAt: string;
+        };
+      }>(`/kb/documents/${id}`);
+      return res.data;
+    },
+
+    async presign(
+      filename: string,
+      contentType: string,
+      sizeBytes: number,
+    ): Promise<{
+      uploadUrl: string;
+      key: string;
+      expiresAt: string;
+    }> {
+      return request<{ uploadUrl: string; key: string; expiresAt: string }>('/kb/uploads/presign', {
+        method: 'POST',
+        body: JSON.stringify({ filename, contentType, sizeBytes }),
+      });
+    },
+
+    async register(payload: {
+      title: string;
+      source: string;
+      key?: string;
+      contentType?: string;
+    }): Promise<{
+      documentId: string;
+      title: string;
+      status: string;
+      chunksCount: number;
+    }> {
+      return request<{ documentId: string; title: string; status: string; chunksCount: number }>(
+        '/kb/documents',
+        {
+          method: 'POST',
+          body: JSON.stringify(payload),
+        },
+      );
+    },
+  },
 };

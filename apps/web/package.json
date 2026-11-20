@@ -14,8 +14,10 @@
     "test:watch": "vitest"
   },
   "dependencies": {
+    "@apollo/client": "^4.3.8",
     "@supportpilot/shared-types": "workspace:*",
     "@tanstack/react-query": "^5.108.1",
+    "graphql": "^16.15.0",
     "lucide-react": "^1.77.0",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",

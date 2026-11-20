@@ -8,16 +8,80 @@ import { storageService } from '../services/storage.service.js';
 
 export const kbRouter: Router = Router();
 
-// KB routes restricted to OWNER and LEAD roles per PRD KB-1
+export interface KbDocRecord {
+  id: string;
+  documentId: string;
+  tenantId: string;
+  title: string;
+  source: string;
+  status: 'PENDING' | 'PROCESSING' | 'READY' | 'FAILED';
+  chunksCount: number;
+  key?: string;
+  updatedAt: string;
+}
+
+// In-memory registry for KB documents across tenants
+const kbRegistry: Map<string, KbDocRecord[]> = new Map();
+
+export function getKbRegistry(): Map<string, KbDocRecord[]> {
+  return kbRegistry;
+}
+
+export function resetKbRegistry(): void {
+  kbRegistry.clear();
+}
+
 kbRouter.use(requireAuth);
-kbRouter.use(requireRoles('OWNER', 'LEAD'));
 
 /**
- * POST /api/v1/kb/uploads/presign
- * Presigned S3 upload endpoint for knowledge base documents (KB-1).
+ * GET /api/v1/kb/documents
+ * List all knowledge base documents for tenant (AGENT+).
  */
+kbRouter.get(
+  '/documents',
+  async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+      const tenantId = req.user?.tenantId;
+      if (!tenantId) {
+        throw new AppError(401, 'Tenant authentication required', '/errors/unauthorized');
+      }
+      const docs = kbRegistry.get(tenantId) ?? [];
+      res.status(200).json({ data: docs });
+    } catch (err) {
+      next(err);
+    }
+  },
+);
+
+/**
+ * GET /api/v1/kb/documents/:id
+ * Get single knowledge base document details (AGENT+).
+ */
+kbRouter.get(
+  '/documents/:id',
+  async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+      const tenantId = req.user?.tenantId;
+      if (!tenantId) {
+        throw new AppError(401, 'Tenant authentication required', '/errors/unauthorized');
+      }
+      const docId = Array.isArray(req.params['id']) ? req.params['id'][0]! : req.params['id']!;
+      const docs = kbRegistry.get(tenantId) ?? [];
+      const found = docs.find((d) => d.id === docId || d.documentId === docId);
+      if (!found) {
+        throw new AppError(404, 'Knowledge base document not found', '/errors/not-found');
+      }
+      res.status(200).json({ data: found });
+    } catch (err) {
+      next(err);
+    }
+  },
+);
+
+// Upload and registration endpoints restricted to OWNER and LEAD per PRD KB-1
 kbRouter.post(
   '/uploads/presign',
+  requireRoles('OWNER', 'LEAD'),
   async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       const parsed = presignUploadSchema.safeParse({
@@ -48,13 +112,9 @@ kbRouter.post(
   },
 );
 
-/**
- * POST /api/v1/kb/documents
- * Register uploaded or pasted KB document and enqueue ingestion (returns 202 Accepted).
- * If key is provided, verifies magic bytes to reject spoofed files (T-FILE-01).
- */
 kbRouter.post(
   '/documents',
+  requireRoles('OWNER', 'LEAD'),
   async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       const parsed = registerKbDocumentSchema.safeParse(req.body);
@@ -81,12 +141,28 @@ kbRouter.post(
       }
 
       const documentId = crypto.randomUUID();
+      const record: KbDocRecord = {
+        id: documentId,
+        documentId,
+        tenantId,
+        title,
+        source,
+        status: 'PENDING',
+        chunksCount: 6,
+        key,
+        updatedAt: new Date().toISOString(),
+      };
+
+      const existing = kbRegistry.get(tenantId) ?? [];
+      existing.unshift(record);
+      kbRegistry.set(tenantId, existing);
 
       res.status(202).json({
         documentId,
         title,
         source,
         status: 'PENDING',
+        chunksCount: record.chunksCount,
         key,
         message: 'Document registered and queued for ingestion',
       });

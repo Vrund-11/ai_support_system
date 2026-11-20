@@ -5,6 +5,7 @@ import type { Role } from '@supportpilot/shared-types';
 import { AppError } from '@supportpilot/shared-lib';
 import { User, type IUserDocument } from '../models/user.model.js';
 import { getRedis } from '../lib/redis.js';
+import { enqueueEmail } from '../lib/notification-client.js';
 
 // Token config — set at startup via configureAuth()
 let accessSecret = '';
@@ -185,4 +186,125 @@ export function verifyAccessToken(token: string): TokenPayload {
   } catch {
     throw new AppError(401, 'Invalid or expired access token', '/errors/invalid-token');
   }
+}
+
+/** Request password reset. Sends reset email if user exists (AUTH-4). */
+export async function requestPasswordReset(
+  email: string,
+  appUrl: string = 'http://localhost:5173',
+): Promise<{ message: string; testToken?: string }> {
+  const normalizedEmail = email.toLowerCase().trim();
+  const user = await User.findOne({ email: normalizedEmail, status: 'ACTIVE' });
+
+  let rawToken: string | undefined;
+  if (user) {
+    rawToken = crypto.randomBytes(32).toString('hex');
+    const tokenHash = crypto.createHash('sha256').update(rawToken).digest('hex');
+
+    user.passwordResetToken = tokenHash;
+    user.passwordResetExpiresAt = new Date(Date.now() + 60 * 60 * 1000); // 1 hour
+    await user.save();
+
+    const resetUrl = `${appUrl}/reset-password?token=${rawToken}`;
+    await enqueueEmail({
+      tenantId: user.tenantId.toString(),
+      to: user.email,
+      subject: 'Reset your password - SupportPilot',
+      template: 'password_reset',
+      variables: {
+        name: user.name,
+        resetUrl,
+        url: resetUrl,
+      },
+    });
+  }
+
+  // Consistent generic response to prevent account enumeration
+  return {
+    message: 'If an account exists with that email, a password reset link has been sent.',
+    ...(process.env['NODE_ENV'] === 'test' && rawToken ? { testToken: rawToken } : {}),
+  };
+}
+
+/** Reset password with token. Revokes all active refresh sessions. (AUTH-4) */
+export async function resetPassword(
+  token: string,
+  newPassword: string,
+): Promise<{ message: string }> {
+  const tokenHash = crypto.createHash('sha256').update(token).digest('hex');
+  const user = await User.findOne({
+    passwordResetToken: tokenHash,
+    passwordResetExpiresAt: { $gt: new Date() },
+  }).select('+passwordResetToken +passwordResetExpiresAt');
+
+  if (!user) {
+    throw new AppError(400, 'Invalid or expired password reset token', '/errors/invalid-token');
+  }
+
+  user.passwordHash = await bcrypt.hash(newPassword, 12);
+  user.passwordResetToken = undefined;
+  user.passwordResetExpiresAt = undefined;
+  await user.save();
+
+  // Invalidate all existing sessions in Redis (session revocation on password change)
+  await revokeAllSessions(user._id.toString());
+
+  return { message: 'Password has been reset successfully. Please log in with your new password.' };
+}
+
+/** Verify user email address with single-use token (AUTH-4). */
+export async function verifyEmail(token: string): Promise<{ message: string }> {
+  const tokenHash = crypto.createHash('sha256').update(token).digest('hex');
+  const user = await User.findOne({
+    emailVerificationToken: tokenHash,
+    emailVerificationExpiresAt: { $gt: new Date() },
+  }).select('+emailVerificationToken +emailVerificationExpiresAt');
+
+  if (!user) {
+    throw new AppError(400, 'Invalid or expired email verification token', '/errors/invalid-token');
+  }
+
+  user.isEmailVerified = true;
+  user.emailVerificationToken = undefined;
+  user.emailVerificationExpiresAt = undefined;
+  await user.save();
+
+  return { message: 'Email address has been successfully verified.' };
+}
+
+/** Resend email verification link (AUTH-4). */
+export async function resendVerification(
+  email: string,
+  appUrl: string = 'http://localhost:5173',
+): Promise<{ message: string; testToken?: string }> {
+  const normalizedEmail = email.toLowerCase().trim();
+  const user = await User.findOne({ email: normalizedEmail, status: 'ACTIVE' });
+
+  let rawToken: string | undefined;
+  if (user && !user.isEmailVerified) {
+    rawToken = crypto.randomBytes(32).toString('hex');
+    const tokenHash = crypto.createHash('sha256').update(rawToken).digest('hex');
+
+    user.emailVerificationToken = tokenHash;
+    user.emailVerificationExpiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
+    await user.save();
+
+    const verifyUrl = `${appUrl}/verify-email?token=${rawToken}`;
+    await enqueueEmail({
+      tenantId: user.tenantId.toString(),
+      to: user.email,
+      subject: 'Verify your email address - SupportPilot',
+      template: 'verify_email',
+      variables: {
+        name: user.name,
+        verifyUrl,
+        url: verifyUrl,
+      },
+    });
+  }
+
+  return {
+    message: 'If an unverified account exists with that email, a verification link has been sent.',
+    ...(process.env['NODE_ENV'] === 'test' && rawToken ? { testToken: rawToken } : {}),
+  };
 }

@@ -1,6 +1,7 @@
 import { Router, type Request, type Response } from 'express';
 import type { QueueManager } from '../manager.js';
 import type { NotificationQueueName, BaseJobPayload } from '../types.js';
+import { TestMailbox } from '../email/index.js';
 
 export function createNotificationRoutes(
   queueManager: QueueManager,
@@ -81,6 +82,13 @@ export function createNotificationRoutes(
         detail: (err as Error).message,
       });
     }
+  });
+
+  // GET /email/sent (Inspection for hermetic testing / audit)
+  router.get('/email/sent', async (req: Request, res: Response) => {
+    const to = req.query['to'] as string | undefined;
+    const emails = to ? TestMailbox.findByRecipient(to) : TestMailbox.getAll();
+    res.json({ emails });
   });
 
   return router;

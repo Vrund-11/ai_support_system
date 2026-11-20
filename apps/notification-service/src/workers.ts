@@ -9,6 +9,7 @@ import type {
   DeadLetterPayload,
 } from './types.js';
 import type { IdempotencyStore } from './idempotency.js';
+import { getEmailTransporter } from './email/index.js';
 
 export interface DispatchHandlerResult {
   success: boolean;
@@ -42,11 +43,28 @@ export class NotificationDispatchers {
 
     this.logger.info(
       { to: payload.to, subject: payload.subject, tenantId: payload.tenantId },
-      'Sending transactional email',
+      'Sending transactional email via SMTP',
     );
 
-    // Mock dispatch (e.g. Resend / SMTP MailHog)
-    return { success: true, data: { to: payload.to, sentAt: new Date().toISOString() } };
+    const transporter = getEmailTransporter();
+    const result = await transporter.send({
+      to: payload.to,
+      subject: payload.subject,
+      body: payload.body,
+      template: payload.template,
+      variables: payload.variables,
+    });
+
+    return {
+      success: true,
+      data: {
+        to: payload.to,
+        messageId: result.messageId,
+        subject: result.subject,
+        sentAt: result.sentAt,
+        deliveredVia: result.deliveredVia,
+      },
+    };
   }
 
   async processPush(job: Job<PushJobPayload>): Promise<DispatchHandlerResult> {

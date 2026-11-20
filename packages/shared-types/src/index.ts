@@ -121,6 +121,7 @@ export interface UserDto {
   name: string;
   role: Role;
   tenantId: string;
+  isEmailVerified?: boolean;
 }
 
 /** Auth response DTO */

@@ -15,8 +15,26 @@ export type {
   NotificationServiceEnv,
 } from './env.js';
 
-export { registerTenantSchema, loginSchema, refreshSchema, logoutSchema } from './auth.js';
-export type { RegisterTenantInput, LoginInput, RefreshInput, LogoutInput } from './auth.js';
+export {
+  registerTenantSchema,
+  loginSchema,
+  refreshSchema,
+  logoutSchema,
+  forgotPasswordSchema,
+  resetPasswordSchema,
+  verifyEmailSchema,
+  resendVerificationSchema,
+} from './auth.js';
+export type {
+  RegisterTenantInput,
+  LoginInput,
+  RefreshInput,
+  LogoutInput,
+  ForgotPasswordInput,
+  ResetPasswordInput,
+  VerifyEmailInput,
+  ResendVerificationInput,
+} from './auth.js';
 
 export {
   ticketStatusSchema,

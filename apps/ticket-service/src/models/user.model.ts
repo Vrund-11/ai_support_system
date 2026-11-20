@@ -8,6 +8,11 @@ export interface IUserDocument extends Document {
   name: string;
   role: Role;
   status: UserStatus;
+  isEmailVerified: boolean;
+  emailVerificationToken?: string;
+  emailVerificationExpiresAt?: Date;
+  passwordResetToken?: string;
+  passwordResetExpiresAt?: Date;
   lastLoginAt?: Date;
   deviceTokens: DeviceToken[];
   notificationPrefs: NotificationPrefs;
@@ -47,6 +52,26 @@ const userSchema = new Schema<IUserDocument>(
       type: String,
       enum: ['ACTIVE', 'INVITED', 'SUSPENDED'],
       default: 'ACTIVE',
+    },
+    isEmailVerified: {
+      type: Boolean,
+      default: false,
+    },
+    emailVerificationToken: {
+      type: String,
+      select: false,
+    },
+    emailVerificationExpiresAt: {
+      type: Date,
+      select: false,
+    },
+    passwordResetToken: {
+      type: String,
+      select: false,
+    },
+    passwordResetExpiresAt: {
+      type: Date,
+      select: false,
     },
     lastLoginAt: {
       type: Date,

@@ -95,10 +95,22 @@
     - Integrated AI Thread Summarization and "Draft with AI" button into `TicketDetail` view.
     - 4 new component tests in `live-chat.test.tsx` and `ticket-detail.test.tsx` (27 tests total in web).
     - 338 total automated tests passing monorepo.
-- Tests added / results: 338 tests passing across monorepo (135 in ticket-service, 65 in ai-service pytest, 44 in gateway, 32 in shared-lib, 27 in web, 16 in notification-service, 9 in widget, 4 in validators, 5 hermetic e2e, 1 newman runner with 21 collection assertions)
-- Measurements recorded (M-ids): M02 (test count: 338 tests across services), M03 (Mongo explain executionStats for ticket list compound indexes), M06 (AI Eval golden set baseline: Hit@5 100%, Groundedness 100%, F1 1.0), M07 (Classifier: Priority Accuracy 92.22%, Priority F1 0.9220, Category Accuracy 100%, Category F1 1.0, Overall Macro-F1 0.9610)
+  - S3-T06: Email service via MailHog/SMTP; verification and reset flows (AUTH-4, NOTIF-3):
+    - Implemented transactional email templates (`apps/notification-service/src/email/templates.ts`) for `verify_email`, `password_reset`, `ticket_update`, and `sla_alert` with HTML styling, action buttons, and plain text fallbacks.
+    - Implemented `EmailTransporter` (`apps/notification-service/src/email/transporter.ts`) using Nodemailer SMTP (`localhost:1025`) and in-memory `TestMailbox` store for offline / hermetic testing.
+    - Integrated SMTP dispatcher into `NotificationDispatchers.processEmail` (`apps/notification-service/src/workers.ts`) with idempotency enforcement.
+    - Added inspection endpoint `GET /api/v1/notifications/email/sent` in `notification.routes.ts`.
+    - Added 7 tests in `apps/notification-service/tests/email-service.test.ts` (23 tests passing in notification-service).
+    - Added validation schemas (`forgotPasswordSchema`, `resetPasswordSchema`, `verifyEmailSchema`, `resendVerificationSchema`) in `packages/validators/src/auth.ts`.
+    - Added `isEmailVerified`, `emailVerificationToken`, `emailVerificationExpiresAt`, `passwordResetToken`, `passwordResetExpiresAt` fields to `User` model.
+    - Implemented `requestPasswordReset`, `resetPassword` (with SHA-256 token hashing, bcrypt 12 rehashing, and full Redis session revocation), `verifyEmail`, and `resendVerification` in `apps/ticket-service/src/services/auth.service.ts`.
+    - Added REST endpoints in `apps/ticket-service/src/routes/auth.routes.ts`: `POST /forgot-password`, `POST /reset-password`, `POST /verify-email`, `POST /resend-verification`.
+    - Added 8 integration tests in `apps/ticket-service/tests/auth-reset-verify.test.ts` (143 tests passing in ticket-service).
+    - 353 total automated tests passing monorepo.
+- Tests added / results: 353 tests passing across monorepo (143 in ticket-service, 65 in ai-service pytest, 44 in gateway, 32 in shared-lib, 27 in web, 23 in notification-service, 9 in widget, 4 in validators, 5 hermetic e2e, 1 newman runner with 21 collection assertions)
+- Measurements recorded (M-ids): M02 (test count: 353 tests across services), M03 (Mongo explain executionStats for ticket list compound indexes), M06 (AI Eval golden set baseline: Hit@5 100%, Groundedness 100%, F1 1.0), M07 (Classifier: Priority Accuracy 92.22%, Priority F1 0.9220, Category Accuracy 100%, Category F1 1.0, Overall Macro-F1 0.9610)
 - Issues found: none
-- Next: S3-T06 (Email via MailHog/SMTP; verification and reset flows, AUTH-4, NOTIF-3)
+- Next: S3-T07 (Analytics aggregation pipelines + dashboard charts, ANL-1..4)
   - S0-T04: .env.example + Zod env loader in @supportpilot/validators with 4 passing tests
   - S0-T05: CI skeleton .github/workflows/ci.yml with service containers
   - S0-T06: Logger (pino), request-id middleware, error handler (RFC 7807) in @supportpilot/shared-lib with 7 passing tests

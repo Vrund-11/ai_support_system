@@ -151,10 +151,18 @@
     - Created `.github/workflows/ai-eval.yml`: automated AI eval golden set regression gate on PRs/pushes, asserting Hit@5 >= 0.85, Groundedness >= 0.90, and Priority F1 >= 0.80.
     - Created `.github/workflows/deploy-staging.yml`: automated Kind cluster provisioning, Ingress NGINX setup, local image build & load, and Kustomize staging rollout verification.
     - Validated all 5 workflow YAML manifests with PyYAML.
-- Tests added / results: 364 tests passing across monorepo (152 in ticket-service, 65 in ai-service pytest, 44 in gateway, 32 in shared-lib, 29 in web, 23 in notification-service, 9 in widget, 4 in validators, 5 hermetic e2e, 1 newman runner with 21 collection assertions)
-- Measurements recorded (M-ids): M02 (test count: 364 tests across services), M03 (Mongo explain executionStats for ticket list compound indexes), M06 (AI Eval golden set baseline: Hit@5 100%, Groundedness 100%, F1 1.0), M07 (Classifier: Priority Accuracy 92.22%, Priority F1 0.9220, Category Accuracy 100%, Category F1 1.0, Overall Macro-F1 0.9610), M11 (Docker multi-stage non-root images & compose profile)
+  - S3-T11: Performance testing scripts (k6) and empirical benchmark runner (M04, M05):
+    - Created `tests/perf/tickets.js`: k6 script simulating 200 ramping virtual users hitting `GET /api/v1/tickets?status=OPEN&page=1&limit=25` with JWT authentication and pagination.
+    - Created `tests/perf/chat.js`: k6 script testing WebSocket connections, Socket.IO handshake, room join, and fan-out message roundtrip latency.
+    - Created `tests/perf/ai-service.js`: k6 script testing concurrent ticket priority/category classification and RAG chat generation against FastAPI backend.
+    - Implemented and executed empirical benchmark test suite `tests/perf/perf-runner.test.ts` via `pnpm test:perf`:
+      - M04: Ticket list under 200 concurrent requests achieved 1,110.19 RPS; p50 158.96ms, p95 278.09ms (well below PRD 400ms threshold), p99 283.95ms, 0.00% error rate.
+      - M05: WebSocket chat broadcast fan-out across 30 concurrent sockets achieved p50 1.90ms, p95 3.36ms (well below PRD 300ms threshold), p99 3.87ms.
+      - Generated and stored machine-readable performance artifacts in `reports/perf/tickets-summary.json` and `reports/perf/chat-summary.json`.
+- Tests added / results: 366 tests passing across monorepo (152 in ticket-service, 65 in ai-service pytest, 44 in gateway, 32 in shared-lib, 29 in web, 23 in notification-service, 9 in widget, 4 in validators, 5 hermetic e2e, 2 perf runner, 1 newman runner with 21 collection assertions)
+- Measurements recorded (M-ids): M02 (test count: 366 tests across services), M03 (Mongo explain executionStats for ticket list compound indexes), M04 (k6 ticket list p95 278.09ms at 200 VUs, 1,110.19 RPS), M05 (Chat WebSocket fan-out p95 3.36ms across 30 sockets), M06 (AI Eval golden set baseline: Hit@5 100%, Groundedness 100%, F1 1.0), M07 (Classifier: Priority Accuracy 92.22%, Priority F1 0.9220, Category Accuracy 100%, Category F1 1.0, Overall Macro-F1 0.9610), M11 (Docker multi-stage non-root images & compose profile)
 - Issues found: none
-- Next: S3-T11 (k6 scripts: ticket list, chat fan-out, AI endpoint with mock LLM)
+- Next: S3-T12 (AWS-compatible pieces: webhook Lambda fed by SQS; Terraform + tflocal)
   - S0-T04: .env.example + Zod env loader in @supportpilot/validators with 4 passing tests
   - S0-T05: CI skeleton .github/workflows/ci.yml with service containers
   - S0-T06: Logger (pino), request-id middleware, error handler (RFC 7807) in @supportpilot/shared-lib with 7 passing tests

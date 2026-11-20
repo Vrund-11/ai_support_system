@@ -19,7 +19,7 @@ Legend: [ ] todo, [x] done. Task id format `S<sprint>-T<nn>`. Priority P0/P1/P2 
 - [x] S1-T03 Auth: bcrypt, JWT access, refresh rotation with Redis hash store, logout revoke. (AUTH-2) Tests: rotation, reuse detection, expiry.
 - [x] S1-T04 RBAC middleware with deny-by-default and role matrix tests. (AUTH-3)
 - [x] S1-T05 Tenant-scoped repository base class (injects tenantId, forbids unscoped queries). (TEN-1) Tests: cross-tenant read/update/delete fail.
-- [ ] S1-T06 Ticket model, counters, create/list/get/update with version check. (TKT-1,3,9)
+- [x] S1-T06 Ticket model, counters, create/list/get/update with version check. (TKT-1,3,9)
 - [ ] S1-T07 Status transition map + property-based test with fast-check. (TKT-2)
 - [ ] S1-T08 Messages and internal notes, ticket events timeline. (TKT-5,10)
 - [ ] S1-T09 Search and filters with compound and text indexes; record `explain()` before/after in evidence tracker. (TKT-7)

@@ -2,6 +2,7 @@ import express, { type Express } from 'express';
 import { createLogger, requestIdMiddleware, errorHandler } from '@supportpilot/shared-lib';
 import { isDbConnected } from './lib/mongoose.js';
 import { authRouter } from './routes/auth.routes.js';
+import { ticketRouter } from './routes/ticket.routes.js';
 
 export function createApp(logLevel: string = 'info'): Express {
   const logger = createLogger('ticket-service', logLevel);
@@ -38,6 +39,7 @@ export function createApp(logLevel: string = 'info'): Express {
 
   // ── API routes ──
   app.use('/api/v1/auth', authRouter);
+  app.use('/api/v1/tickets', ticketRouter);
 
   // ── Error handler (must be last) ──
   app.use(errorHandler(logger));

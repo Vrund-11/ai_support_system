@@ -17,3 +17,12 @@ export type {
 
 export { registerTenantSchema, loginSchema, refreshSchema, logoutSchema } from './auth.js';
 export type { RegisterTenantInput, LoginInput, RefreshInput, LogoutInput } from './auth.js';
+
+export {
+  ticketStatusSchema,
+  ticketPrioritySchema,
+  createTicketSchema,
+  updateTicketSchema,
+  ticketFilterSchema,
+} from './ticket.js';
+export type { CreateTicketInput, UpdateTicketInput, TicketFilterInput } from './ticket.js';

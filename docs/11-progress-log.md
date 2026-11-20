@@ -4,8 +4,8 @@
 
 - Date: 2026-11-20
 - Current sprint: Sprint 1 (MERN core)
-- Last completed task id: S1-T05
-- Next task id: S1-T06
+- Last completed task id: S1-T06
+- Next task id: S1-T07
 - Blockers: Docker not installed (docker-compose ready but can't run yet)
 - Environment notes: Node 24.18, pnpm 10.11, Python 3.13, TypeScript 5.9, git 2.52
 
@@ -28,10 +28,11 @@
   - S1-T03: JWT auth — login with bcrypt verify, access token (15m) + refresh token (7d) rotation via Redis hash store, reuse detection revokes all sessions, logout endpoint, `requireAuth` middleware. Added `jsonwebtoken` and `ioredis` deps. 10 tests: validation, wrong email/password, login success, token rotation, reuse detection, expired token, logout 204, auth middleware reject/accept.
   - S1-T04: RBAC middleware (`requireRoles`, `requireMinRole`, `hasMinRole`, `hasRole`, `ROLE_HIERARCHY`) with deny-by-default (unauthenticated 401, unauthorized 403, empty allowed roles 403). Added `AuthUser` to shared types. 48 new tests (13 unit tests in shared-lib + 35 role matrix tests in ticket-service covering public, AGENT+, LEAD+, OWNER, and locked routes).
   - S1-T05: Tenant-scoped repository base class `BaseTenantRepository<T>` enforcing strict tenant isolation. Injects tenantId into all queries, mutations, insertions; forbids unscoped operations and cross-tenant query injection; implements `findById`, `findOne`, `find`, `findWithPagination`, `create`, `updateById`, `updateOne`, `deleteById`, `deleteOne`, `count`, `exists`. Added `UserRepository`. 19 tests verifying cross-tenant read/update/delete isolation and filter injection rejection.
-- Tests added / results: 94 tests passing across monorepo (20 in shared-lib, 70 in ticket-service, 4 in validators)
+  - S1-T06: Ticket and Counter Mongoose models with per-tenant auto-incrementing numbers, optimistic concurrency version control (TKT-9), `TicketRepository`, Zod validation schemas (`createTicketSchema`, `updateTicketSchema`, `ticketFilterSchema`), and routes (`GET /api/v1/tickets`, `POST /api/v1/tickets`, `GET /api/v1/tickets/:id`, `PATCH /api/v1/tickets/:id`). 10 new integration tests verifying atomic number generation, filtering/pagination, detail retrieval, version incrementing, 409 conflict detection on stale version, and cross-tenant isolation.
+- Tests added / results: 104 tests passing across monorepo (20 in shared-lib, 80 in ticket-service, 4 in validators)
 - Measurements recorded (M-ids): none yet
 - Issues found: none
-- Next: S1-T06 (Ticket model, counters, create/list/get/update with version check)
+- Next: S1-T07 (Status transition map + property-based test with fast-check)
   - S0-T04: .env.example + Zod env loader in @supportpilot/validators with 4 passing tests
   - S0-T05: CI skeleton .github/workflows/ci.yml with service containers
   - S0-T06: Logger (pino), request-id middleware, error handler (RFC 7807) in @supportpilot/shared-lib with 7 passing tests
@@ -43,7 +44,7 @@
 
 ## Handoff checklist for the next person or AI
 
-- [x] `pnpm verify` passes on main (36/36 tasks green, 94 tests)
+- [x] `pnpm verify` passes on main (36/36 tasks green, 104 tests)
 - [ ] `docker compose up -d` brings up datastores healthy (Docker not installed yet)
 - [x] README setup steps still accurate
 - [x] Roadmap checkboxes up to date

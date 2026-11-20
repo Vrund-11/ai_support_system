@@ -107,6 +107,20 @@ describe('Gateway Reverse Proxy Middleware', () => {
     expect(res.body.type).toBe('/errors/validation');
   });
 
+  it('rewrites path when pathRewrite option is provided', async () => {
+    const app = express();
+    app.use(express.json());
+    const proxy = createProxyMiddleware({
+      targetBaseUrl: `http://localhost:${mockPort}`,
+      serviceToken: 'cluster-token',
+      pathRewrite: (path) => path.replace(/^\/api\/v1\/ai/, '/v1'),
+    });
+    app.use('/api/v1/ai', proxy);
+
+    const res = await request(app).get('/api/v1/ai/assist/suggest-reply');
+    expect(res.status).toBe(200);
+  });
+
   it('returns 502 Bad Gateway when downstream service is unreachable', async () => {
     // Port 1 is reserved and unused, connection fails
     const gatewayApp = buildGatewayApp(1);

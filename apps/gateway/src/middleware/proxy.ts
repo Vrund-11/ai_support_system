@@ -4,6 +4,7 @@ import { AppError } from '@supportpilot/shared-lib';
 export interface ProxyOptions {
   targetBaseUrl: string;
   serviceToken: string;
+  pathRewrite?: (path: string) => string;
 }
 
 /**
@@ -16,7 +17,8 @@ export function createProxyMiddleware(options: ProxyOptions) {
   const target = options.targetBaseUrl.replace(/\/+$/, '');
 
   return async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    const url = `${target}${req.originalUrl}`;
+    const reqPath = options.pathRewrite ? options.pathRewrite(req.originalUrl) : req.originalUrl;
+    const url = `${target}${reqPath}`;
 
     const headers: Record<string, string> = {
       'x-service-token': options.serviceToken,

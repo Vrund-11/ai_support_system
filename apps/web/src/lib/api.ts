@@ -93,6 +93,45 @@ export interface UpdateTicketPayload {
   tags?: string[];
 }
 
+export interface SuggestReplyPayload {
+  tenantId: string;
+  ticketId?: string;
+  conversationId?: string;
+  messages: Array<{
+    role: 'customer' | 'agent' | 'system';
+    content: string;
+  }>;
+}
+
+export interface SuggestReplyResult {
+  suggestion: string;
+  confidence: number;
+  citations: Array<{
+    chunkId: string;
+    docId: string;
+    title: string;
+  }>;
+  latencyMs: number;
+}
+
+export interface SummarizePayload {
+  tenantId: string;
+  ticketId?: string;
+  conversationId?: string;
+  messages: Array<{
+    role: 'customer' | 'agent' | 'system';
+    content: string;
+  }>;
+}
+
+export interface SummarizeResult {
+  summary: string;
+  keyPoints: string[];
+  sentiment: 'URGENT' | 'FRUSTRATED' | 'POSITIVE' | 'NEUTRAL';
+  recommendedAction: string;
+  latencyMs: number;
+}
+
 export const api = {
   auth: {
     async login(email: string, password: string): Promise<{ user: UserDto; accessToken: string }> {
@@ -256,6 +295,22 @@ export const api = {
           body: JSON.stringify(payload),
         },
       );
+    },
+  },
+
+  ai: {
+    async suggestReply(payload: SuggestReplyPayload): Promise<SuggestReplyResult> {
+      return request<SuggestReplyResult>('/ai/assist/suggest-reply', {
+        method: 'POST',
+        body: JSON.stringify(payload),
+      });
+    },
+
+    async summarize(payload: SummarizePayload): Promise<SummarizeResult> {
+      return request<SummarizeResult>('/ai/assist/summarize', {
+        method: 'POST',
+        body: JSON.stringify(payload),
+      });
     },
   },
 };

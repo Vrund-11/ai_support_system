@@ -55,7 +55,7 @@ Legend: [ ] todo, [x] done. Task id format `S<sprint>-T<nn>`. Priority P0/P1/P2 
 - [x] S3-T02 SLA policy calculator (business hours) + delayed jobs 75%/100%; skip if ticket already resolved. (AUTO-1,2) Property tests.
 - [x] S3-T03 Rules engine (conditions -> actions) with tests. (AUTO-3)
 - [x] S3-T04 Classifier: dataset prep, training notebook, model comparison, artifact export, `/v1/classify`, rules fallback. (AI-4) See `08-ai-ml-plan.md`.
-- [ ] S3-T05 Agent assist: suggest-reply and summarize endpoints + UI. (AI-5,6)
+- [x] S3-T05 Agent assist: suggest-reply and summarize endpoints + UI. (AI-5,6)
 - [ ] S3-T06 Email via MailHog/SMTP; verification and reset flows. (AUTH-4, NOTIF-3)
 - [ ] S3-T07 Analytics aggregation pipelines + dashboard charts. (ANL-1..4) Record explain/latency.
 - [ ] S3-T08 Dockerfiles (multi-stage, non-root) for all services; compose profile for full stack.

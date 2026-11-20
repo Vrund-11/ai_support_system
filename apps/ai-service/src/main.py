@@ -6,6 +6,13 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
+from src.assist import (
+    SuggestReplyRequest,
+    SuggestReplyResponse,
+    SummarizeRequest,
+    SummarizeResponse,
+    get_agent_assist_service,
+)
 from src.cache.semantic import get_semantic_cache
 from src.classifier import (
     ClassifierFeedbackRequest,
@@ -320,3 +327,16 @@ async def classify_ticket(req: ClassifyRequest) -> ClassifyResponse:
 async def record_classifier_feedback(req: ClassifierFeedbackRequest) -> ClassifierFeedbackResponse:
     classifier = get_classifier_service()
     return classifier.record_feedback(req)
+
+
+# ── Agent Assist Endpoints (AI-5, AI-6) ──
+@app.post("/v1/assist/suggest-reply", response_model=SuggestReplyResponse)
+async def suggest_agent_reply(req: SuggestReplyRequest) -> SuggestReplyResponse:
+    assist = get_agent_assist_service()
+    return await assist.suggest_reply(req)
+
+
+@app.post("/v1/assist/summarize", response_model=SummarizeResponse)
+async def summarize_thread(req: SummarizeRequest) -> SummarizeResponse:
+    assist = get_agent_assist_service()
+    return await assist.summarize(req)

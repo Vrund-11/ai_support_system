@@ -10,6 +10,7 @@ import { setupGraphQL } from './graphql/server.js';
 export interface GatewayConfig {
   logLevel?: string;
   ticketServiceUrl?: string;
+  aiServiceUrl?: string;
   serviceToken?: string;
   jwtAccessSecret?: string;
   redisClient?: Redis;
@@ -21,6 +22,8 @@ export function createApp(config: GatewayConfig = {}): Express {
 
   const ticketServiceUrl =
     config.ticketServiceUrl ?? process.env['TICKET_SERVICE_URL'] ?? 'http://localhost:4001';
+  const aiServiceUrl =
+    config.aiServiceUrl ?? process.env['AI_SERVICE_URL'] ?? 'http://localhost:8000';
   const serviceToken =
     config.serviceToken ?? process.env['SERVICE_TOKEN'] ?? 'default-service-token';
   const jwtAccessSecret =
@@ -95,6 +98,15 @@ export function createApp(config: GatewayConfig = {}): Express {
   app.use('/api/v1/kb', ticketProxy);
   app.use('/api/v1/users', ticketProxy);
   app.use('/api/v1/analytics', ticketProxy);
+
+  // ── Proxy routes to ai-service (AI-5, AI-6, AI-1) ──
+  const aiProxy = createProxyMiddleware({
+    targetBaseUrl: aiServiceUrl,
+    serviceToken,
+    pathRewrite: (path) => path.replace(/^\/api\/v1\/ai/, '/v1'),
+  });
+
+  app.use('/api/v1/ai', aiProxy);
 
   // ── Error handler (must be last) ──
   app.use(errorHandler(logger));

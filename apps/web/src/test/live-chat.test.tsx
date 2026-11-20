@@ -1,9 +1,10 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { LiveChatView } from '../components/chat/LiveChatView';
 import { renderWithQueryClient } from './test-utils';
 import { useAuthStore } from '../store/auth.store';
+import { api } from '../lib/api';
 
 describe('LiveChatView Component (S2-T14)', () => {
   beforeEach(() => {
@@ -86,5 +87,51 @@ describe('LiveChatView Component (S2-T14)', () => {
     await user.click(takeOverBtn);
 
     expect(screen.getByText(/Agent Smith took over the conversation/i)).toBeInTheDocument();
+  });
+
+  it('generates thread summary with sentiment and key points (AI-6)', async () => {
+    const user = userEvent.setup();
+    vi.spyOn(api.ai, 'summarize').mockResolvedValueOnce({
+      summary: 'Customer requests help with SAML SSO certificate verification.',
+      keyPoints: ['SAML certificate needs verification', 'Human assistance requested'],
+      sentiment: 'URGENT',
+      recommendedAction: 'Verify metadata XML in tenant security settings.',
+      latencyMs: 15,
+    });
+
+    renderWithQueryClient(<LiveChatView />);
+
+    const summarizeBtn = screen.getByRole('button', { name: /Summarize Conversation/i });
+    await user.click(summarizeBtn);
+
+    expect(
+      screen.getByText('Customer requests help with SAML SSO certificate verification.'),
+    ).toBeInTheDocument();
+    expect(screen.getByText('URGENT')).toBeInTheDocument();
+    expect(screen.getByText('SAML certificate needs verification')).toBeInTheDocument();
+    expect(
+      screen.getByText('Verify metadata XML in tenant security settings.'),
+    ).toBeInTheDocument();
+  });
+
+  it('regenerates AI reply suggestion on refresh (AI-5)', async () => {
+    const user = userEvent.setup();
+    vi.spyOn(api.ai, 'suggestReply').mockResolvedValueOnce({
+      suggestion: 'Here is how you upload your certificate in the dashboard.',
+      confidence: 0.96,
+      citations: [{ chunkId: 'c1', docId: 'd1', title: 'SSO Guide' }],
+      latencyMs: 10,
+    });
+
+    renderWithQueryClient(<LiveChatView />);
+
+    const refreshBtn = screen.getByRole('button', { name: /Refresh/i });
+    await user.click(refreshBtn);
+
+    expect(
+      screen.getByText('Here is how you upload your certificate in the dashboard.'),
+    ).toBeInTheDocument();
+    expect(screen.getByText('96% match')).toBeInTheDocument();
+    expect(screen.getByText('SSO Guide')).toBeInTheDocument();
   });
 });

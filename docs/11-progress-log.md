@@ -85,10 +85,20 @@
     - Implemented `ClassifierService` (`apps/ai-service/src/classifier/service.py`) supporting lazy model loading, probability extraction, calibrated confidence scoring, automatic failover to rules fallback, and agent feedback recording for drift monitoring.
     - Mounted REST endpoints `POST /v1/classify` and `POST /v1/classify/feedback` in `apps/ai-service/src/main.py`.
     - Added 10 unit and integration tests (`apps/ai-service/tests/test_classifier.py`). 328 total automated tests passing monorepo.
-- Tests added / results: 328 tests passing across monorepo (135 in ticket-service, 60 in ai-service pytest, 43 in gateway, 32 in shared-lib, 23 in web, 16 in notification-service, 9 in widget, 4 in validators, 5 hermetic e2e, 1 newman runner with 21 collection assertions)
-- Measurements recorded (M-ids): M02 (test count: 328 tests across services), M03 (Mongo explain executionStats for ticket list compound indexes), M06 (AI Eval golden set baseline: Hit@5 100%, Groundedness 100%, F1 1.0), M07 (Classifier: Priority Accuracy 92.22%, Priority F1 0.9220, Category Accuracy 100%, Category F1 1.0, Overall Macro-F1 0.9610)
+  - S3-T05: Agent assist: suggest-reply and summarize endpoints in ai-service + UI integration in apps/web (AI-5, AI-6):
+    - Implemented `AgentAssistService` (`apps/ai-service/src/assist/service.py`) supporting RAG-grounded draft reply suggestions with citations and document title resolution, and thread summarization with sentiment detection (URGENT, FRUSTRATED, POSITIVE, NEUTRAL), bulleted key points, and recommended next action.
+    - Mounted `POST /v1/assist/suggest-reply` and `POST /v1/assist/summarize` in `apps/ai-service/src/main.py`.
+    - 5 pytest tests in `apps/ai-service/tests/test_assist.py` (65 tests total in ai-service).
+    - Added gateway reverse proxy route `/api/v1/ai` with `pathRewrite` to `ai-service` (`/v1/...`) in `apps/gateway/src/app.ts` with 1 new proxy test (44 tests in gateway).
+    - Added AI client methods `api.ai.suggestReply` and `api.ai.summarize` in `apps/web/src/lib/api.ts`.
+    - Integrated interactive Agent Assist in `LiveChatView` (refresh suggestion, summarize thread, sentiment badge, bulleted points, recommended action, insert into reply).
+    - Integrated AI Thread Summarization and "Draft with AI" button into `TicketDetail` view.
+    - 4 new component tests in `live-chat.test.tsx` and `ticket-detail.test.tsx` (27 tests total in web).
+    - 338 total automated tests passing monorepo.
+- Tests added / results: 338 tests passing across monorepo (135 in ticket-service, 65 in ai-service pytest, 44 in gateway, 32 in shared-lib, 27 in web, 16 in notification-service, 9 in widget, 4 in validators, 5 hermetic e2e, 1 newman runner with 21 collection assertions)
+- Measurements recorded (M-ids): M02 (test count: 338 tests across services), M03 (Mongo explain executionStats for ticket list compound indexes), M06 (AI Eval golden set baseline: Hit@5 100%, Groundedness 100%, F1 1.0), M07 (Classifier: Priority Accuracy 92.22%, Priority F1 0.9220, Category Accuracy 100%, Category F1 1.0, Overall Macro-F1 0.9610)
 - Issues found: none
-- Next: S3-T05 (Agent assist: suggest-reply and summarize endpoints in ai-service + UI integration in web, AI-5, 6)
+- Next: S3-T06 (Email via MailHog/SMTP; verification and reset flows, AUTH-4, NOTIF-3)
   - S0-T04: .env.example + Zod env loader in @supportpilot/validators with 4 passing tests
   - S0-T05: CI skeleton .github/workflows/ci.yml with service containers
   - S0-T06: Logger (pino), request-id middleware, error handler (RFC 7807) in @supportpilot/shared-lib with 7 passing tests

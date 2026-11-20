@@ -133,4 +133,66 @@ describe('TicketDetail', () => {
       expect(screen.getByTestId('conflict-warning')).toBeInTheDocument();
     });
   });
+
+  it('summarizes ticket thread and displays sentiment badge (AI-6)', async () => {
+    vi.spyOn(api.tickets, 'get').mockResolvedValue({
+      ticket: mockTicket,
+      timeline: mockTimeline,
+      messages: mockMessages,
+    });
+
+    vi.spyOn(api.ai, 'summarize').mockResolvedValueOnce({
+      summary: 'Customer has 2FA SMS login lockout.',
+      keyPoints: ['2FA SMS not delivered', 'Passport ID verification completed'],
+      sentiment: 'URGENT',
+      recommendedAction: 'Reset 2FA device from user admin panel.',
+      latencyMs: 14,
+    });
+
+    renderWithQueryClient(<TicketDetail ticketId="ticket_abc" onBack={vi.fn()} />);
+
+    await waitFor(() => {
+      expect(screen.getByTestId('summarize-thread-button')).toBeInTheDocument();
+    });
+
+    fireEvent.click(screen.getByTestId('summarize-thread-button'));
+
+    await waitFor(() => {
+      expect(screen.getByTestId('ai-summary-card')).toBeInTheDocument();
+    });
+
+    expect(screen.getByText('Customer has 2FA SMS login lockout.')).toBeInTheDocument();
+    expect(screen.getByTestId('summary-sentiment-badge')).toHaveTextContent('URGENT');
+    expect(screen.getByText(/Reset 2FA device from user admin panel/i)).toBeInTheDocument();
+  });
+
+  it('drafts reply into composer using AI suggest (AI-5)', async () => {
+    vi.spyOn(api.tickets, 'get').mockResolvedValue({
+      ticket: mockTicket,
+      timeline: mockTimeline,
+      messages: mockMessages,
+    });
+
+    vi.spyOn(api.ai, 'suggestReply').mockResolvedValueOnce({
+      suggestion: 'Hello, your 2FA has been successfully reset. Please try logging in again.',
+      confidence: 0.95,
+      citations: [{ chunkId: 'c_2fa', docId: 'doc_sec', title: '2FA Recovery' }],
+      latencyMs: 12,
+    });
+
+    renderWithQueryClient(<TicketDetail ticketId="ticket_abc" onBack={vi.fn()} />);
+
+    await waitFor(() => {
+      expect(screen.getByTestId('draft-with-ai-button')).toBeInTheDocument();
+    });
+
+    fireEvent.click(screen.getByTestId('draft-with-ai-button'));
+
+    await waitFor(() => {
+      const textarea = screen.getByTestId('message-textarea') as HTMLTextAreaElement;
+      expect(textarea.value).toBe(
+        'Hello, your 2FA has been successfully reset. Please try logging in again.',
+      );
+    });
+  });
 });

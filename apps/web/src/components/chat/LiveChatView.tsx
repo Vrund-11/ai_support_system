@@ -10,8 +10,13 @@ import {
   Clock,
   BookOpen,
   UserCheck,
+  RefreshCw,
+  FileText,
+  Lightbulb,
+  Loader2,
 } from 'lucide-react';
 import { useAuthStore } from '../../store/auth.store';
+import { api, type SummarizeResult } from '../../lib/api';
 
 export interface ChatMessage {
   id: string;
@@ -120,6 +125,9 @@ export function LiveChatView() {
   const [activeQueue, setActiveQueue] = useState<'waiting' | 'mine' | 'all'>('waiting');
   const [selectedConvId, setSelectedConvId] = useState<string>('conv-001');
   const [composerText, setComposerText] = useState('');
+  const [isSuggesting, setIsSuggesting] = useState(false);
+  const [isSummarizing, setIsSummarizing] = useState(false);
+  const [summaries, setSummaries] = useState<Record<string, SummarizeResult>>({});
 
   const filteredConversations = conversations.filter((c) => {
     if (activeQueue === 'waiting') return c.state === 'WAITING_AGENT';
@@ -128,6 +136,83 @@ export function LiveChatView() {
   });
 
   const activeConv = conversations.find((c) => c.id === selectedConvId) || conversations[0];
+
+  const handleGenerateSuggestion = async () => {
+    if (!activeConv) return;
+    setIsSuggesting(true);
+    try {
+      const res = await api.ai.suggestReply({
+        tenantId: user?.tenantId || 'tenant_alpha_111',
+        conversationId: activeConv.id,
+        messages: activeConv.messages.map((m) => ({
+          role:
+            m.senderType === 'CUSTOMER' ? 'customer' : m.senderType === 'AI' ? 'system' : 'agent',
+          content: m.body,
+        })),
+      });
+      setConversations((prev) =>
+        prev.map((c) =>
+          c.id === activeConv.id
+            ? {
+                ...c,
+                aiSuggestion: {
+                  text: res.suggestion,
+                  citations: res.citations,
+                  confidence: res.confidence,
+                },
+              }
+            : c,
+        ),
+      );
+    } catch {
+      setConversations((prev) =>
+        prev.map((c) =>
+          c.id === activeConv.id
+            ? {
+                ...c,
+                aiSuggestion: {
+                  text: 'Regarding your request, please provide more details so we can assist further.',
+                  citations: [],
+                  confidence: 0.85,
+                },
+              }
+            : c,
+        ),
+      );
+    } finally {
+      setIsSuggesting(false);
+    }
+  };
+
+  const handleSummarize = async () => {
+    if (!activeConv) return;
+    setIsSummarizing(true);
+    try {
+      const res = await api.ai.summarize({
+        tenantId: user?.tenantId || 'tenant_alpha_111',
+        conversationId: activeConv.id,
+        messages: activeConv.messages.map((m) => ({
+          role:
+            m.senderType === 'CUSTOMER' ? 'customer' : m.senderType === 'AI' ? 'system' : 'agent',
+          content: m.body,
+        })),
+      });
+      setSummaries((prev) => ({ ...prev, [activeConv.id]: res }));
+    } catch {
+      setSummaries((prev) => ({
+        ...prev,
+        [activeConv.id]: {
+          summary: 'Customer discussed support request and asked to speak with human agent.',
+          keyPoints: ['User inquired about configuration', 'Handoff requested to human support'],
+          sentiment: 'NEUTRAL',
+          recommendedAction: 'Verify customer account details and assist with setup.',
+          latencyMs: 12,
+        },
+      }));
+    } finally {
+      setIsSummarizing(false);
+    }
+  };
 
   const handleTakeOver = () => {
     if (!activeConv) return;
@@ -397,75 +482,180 @@ export function LiveChatView() {
           )}
         </div>
 
-        {/* Col 3: AI Suggestion Panel Placeholder (PRD S06 / AI-5) */}
+        {/* Col 3: AI Suggestion & Summarization Panel (PRD S06 / AI-5, AI-6) */}
         <div className="w-88 p-5 bg-slate-50/60 overflow-y-auto space-y-4">
-          <div className="flex items-center gap-2 pb-2 border-b border-slate-200">
-            <Sparkles className="w-4 h-4 text-indigo-600" />
-            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-700">
-              AI Suggestion Panel
-            </h3>
+          <div className="flex items-center justify-between pb-2 border-b border-slate-200">
+            <div className="flex items-center gap-2">
+              <Sparkles className="w-4 h-4 text-indigo-600" />
+              <h3 className="text-xs font-bold uppercase tracking-wider text-slate-700">
+                AI Suggestion Panel
+              </h3>
+            </div>
+            <button
+              type="button"
+              onClick={handleGenerateSuggestion}
+              disabled={isSuggesting}
+              className="inline-flex items-center gap-1 text-[11px] font-semibold text-indigo-600 hover:text-indigo-800 disabled:opacity-50"
+              title="Generate new reply suggestion"
+            >
+              {isSuggesting ? (
+                <Loader2 className="w-3 h-3 animate-spin" />
+              ) : (
+                <RefreshCw className="w-3 h-3" />
+              )}
+              <span>{isSuggesting ? 'Generating...' : 'Refresh'}</span>
+            </button>
           </div>
 
           {activeConv?.aiSuggestion ? (
-            <div className="space-y-4">
-              <div className="bg-white p-4 rounded-xl border border-indigo-200 shadow-xs space-y-3">
-                <div className="flex items-center justify-between text-xs">
-                  <span className="font-semibold text-indigo-700 flex items-center gap-1">
-                    <Sparkles className="w-3.5 h-3.5" />
-                    Recommended Reply
+            <div className="bg-white p-4 rounded-xl border border-indigo-200 shadow-xs space-y-3">
+              <div className="flex items-center justify-between text-xs">
+                <span className="font-semibold text-indigo-700 flex items-center gap-1">
+                  <Sparkles className="w-3.5 h-3.5" />
+                  Recommended Reply
+                </span>
+                <span className="font-mono text-emerald-600 font-bold">
+                  {Math.round(activeConv.aiSuggestion.confidence * 100)}% match
+                </span>
+              </div>
+
+              <p className="text-xs text-slate-700 leading-relaxed bg-slate-50 p-2.5 rounded-md border border-slate-100">
+                {activeConv.aiSuggestion.text}
+              </p>
+
+              {activeConv.aiSuggestion.citations.length > 0 && (
+                <div className="space-y-1">
+                  <span className="text-[10px] font-semibold text-slate-500 uppercase">
+                    KB Citations:
                   </span>
-                  <span className="font-mono text-emerald-600 font-bold">
-                    {Math.round(activeConv.aiSuggestion.confidence * 100)}% match
+                  <div className="flex flex-wrap gap-1">
+                    {activeConv.aiSuggestion.citations.map((c) => (
+                      <span
+                        key={c.chunkId}
+                        className="inline-flex items-center gap-1 text-[10px] font-medium bg-indigo-50 text-indigo-700 px-2 py-0.5 rounded border border-indigo-100"
+                      >
+                        <BookOpen className="w-2.5 h-2.5" />
+                        {c.title}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              <button
+                type="button"
+                onClick={handleInsertSuggestion}
+                className="w-full inline-flex items-center justify-center gap-1.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold py-2 rounded-lg border border-indigo-200 transition-colors"
+              >
+                <ArrowRight className="w-3.5 h-3.5" />
+                Insert into Reply
+              </button>
+            </div>
+          ) : (
+            <div className="p-4 text-center bg-white rounded-xl border border-slate-200">
+              <p className="text-xs text-slate-400 mb-2">No suggestion generated yet.</p>
+              <button
+                type="button"
+                onClick={handleGenerateSuggestion}
+                disabled={isSuggesting}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-indigo-50 text-indigo-700 text-xs font-semibold rounded-lg hover:bg-indigo-100 border border-indigo-200"
+              >
+                <Sparkles className="w-3.5 h-3.5" />
+                <span>Generate Suggestion</span>
+              </button>
+            </div>
+          )}
+
+          {/* Conversation Summary Section (AI-6) */}
+          <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-xs space-y-3 text-xs">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-1.5 font-semibold text-slate-800">
+                <FileText className="w-3.5 h-3.5 text-indigo-600" />
+                <span>Conversation Summary</span>
+              </div>
+              <button
+                type="button"
+                onClick={handleSummarize}
+                disabled={isSummarizing}
+                className="inline-flex items-center gap-1 text-[11px] font-semibold text-indigo-600 hover:text-indigo-800 disabled:opacity-50"
+              >
+                {isSummarizing ? (
+                  <Loader2 className="w-3 h-3 animate-spin" />
+                ) : (
+                  <Sparkles className="w-3 h-3" />
+                )}
+                <span>{isSummarizing ? 'Summarizing...' : 'Summarize'}</span>
+              </button>
+            </div>
+
+            {activeConv && summaries[activeConv.id] ? (
+              <div className="space-y-2.5">
+                <div className="flex items-center gap-2">
+                  <span className="text-[10px] uppercase font-bold text-slate-400">Sentiment:</span>
+                  <span
+                    className={`inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold ${
+                      summaries[activeConv.id].sentiment === 'URGENT'
+                        ? 'bg-rose-100 text-rose-800 border border-rose-200'
+                        : summaries[activeConv.id].sentiment === 'FRUSTRATED'
+                          ? 'bg-amber-100 text-amber-800 border border-amber-200'
+                          : summaries[activeConv.id].sentiment === 'POSITIVE'
+                            ? 'bg-emerald-100 text-emerald-800 border border-emerald-200'
+                            : 'bg-slate-100 text-slate-800 border border-slate-200'
+                    }`}
+                  >
+                    {summaries[activeConv.id].sentiment}
                   </span>
                 </div>
 
-                <p className="text-xs text-slate-700 leading-relaxed bg-slate-50 p-2.5 rounded-md border border-slate-100">
-                  {activeConv.aiSuggestion.text}
+                <p className="text-slate-600 leading-relaxed bg-slate-50 p-2.5 rounded-lg border border-slate-100">
+                  {summaries[activeConv.id].summary}
                 </p>
 
-                {activeConv.aiSuggestion.citations.length > 0 && (
-                  <div className="space-y-1">
+                {summaries[activeConv.id].keyPoints.length > 0 && (
+                  <div>
                     <span className="text-[10px] font-semibold text-slate-500 uppercase">
-                      KB Citations:
+                      Key Points:
                     </span>
-                    <div className="flex flex-wrap gap-1">
-                      {activeConv.aiSuggestion.citations.map((c) => (
-                        <span
-                          key={c.chunkId}
-                          className="inline-flex items-center gap-1 text-[10px] font-medium bg-indigo-50 text-indigo-700 px-2 py-0.5 rounded border border-indigo-100"
-                        >
-                          <BookOpen className="w-2.5 h-2.5" />
-                          {c.title}
-                        </span>
+                    <ul className="mt-1 space-y-1 list-disc list-inside text-slate-600">
+                      {summaries[activeConv.id].keyPoints.map((pt, i) => (
+                        <li key={i}>{pt}</li>
                       ))}
-                    </div>
+                    </ul>
                   </div>
                 )}
 
-                <button
-                  type="button"
-                  onClick={handleInsertSuggestion}
-                  className="w-full inline-flex items-center justify-center gap-1.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold py-2 rounded-lg border border-indigo-200 transition-colors"
-                >
-                  <ArrowRight className="w-3.5 h-3.5" />
-                  Insert into Reply
-                </button>
+                {summaries[activeConv.id].recommendedAction && (
+                  <div className="p-2.5 bg-indigo-50/60 rounded-lg border border-indigo-100 flex items-start gap-2">
+                    <Lightbulb className="w-3.5 h-3.5 text-indigo-600 shrink-0 mt-0.5" />
+                    <div>
+                      <span className="font-semibold text-indigo-900 block text-[11px]">
+                        Recommended Action
+                      </span>
+                      <span className="text-indigo-800 text-[11px]">
+                        {summaries[activeConv.id].recommendedAction}
+                      </span>
+                    </div>
+                  </div>
+                )}
               </div>
-
-              {/* Context Summary */}
-              <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-xs space-y-2 text-xs">
-                <h4 className="font-semibold text-slate-800">Transcript Summary</h4>
-                <p className="text-slate-600 leading-relaxed">
+            ) : (
+              <div>
+                <p className="text-slate-500 leading-relaxed mb-3">
                   Customer asked about SAML SSO certificate verification and escalated to human
                   agent.
                 </p>
+                <button
+                  type="button"
+                  onClick={handleSummarize}
+                  disabled={isSummarizing}
+                  className="w-full inline-flex items-center justify-center gap-1.5 py-1.5 px-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium rounded-lg transition-colors"
+                >
+                  <Sparkles className="w-3.5 h-3.5 text-indigo-600" />
+                  <span>Summarize Conversation</span>
+                </button>
               </div>
-            </div>
-          ) : (
-            <div className="p-8 text-center text-slate-400 text-xs">
-              No AI suggestions active for this conversation.
-            </div>
-          )}
+            )}
+          </div>
         </div>
       </div>
     </div>

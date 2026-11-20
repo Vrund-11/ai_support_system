@@ -214,9 +214,7 @@ def train_and_evaluate(
 
     cat_labels = sorted(list(set(categories)))
     cat_cm = confusion_matrix(y_cat_test, results[best_name]["cat_pred"], labels=cat_labels)
-    cat_rep = classification_report(
-        y_cat_test, results[best_name]["cat_pred"], labels=cat_labels
-    )
+    cat_rep = classification_report(y_cat_test, results[best_name]["cat_pred"], labels=cat_labels)
 
     # Generate Markdown Report
     report_path.parent.mkdir(parents=True, exist_ok=True)

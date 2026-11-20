@@ -113,3 +113,71 @@ export interface ApiResponse<T> {
     total?: number;
   };
 }
+
+/** User summary DTO */
+export interface UserDto {
+  id: string;
+  email: string;
+  name: string;
+  role: Role;
+  tenantId: string;
+}
+
+/** Auth response DTO */
+export interface AuthResponseDto {
+  accessToken: string;
+  refreshToken?: string;
+  user: UserDto;
+}
+
+/** Ticket DTO */
+export interface TicketDto {
+  id: string;
+  tenantId: string;
+  number: number;
+  subject: string;
+  description: string;
+  status: TicketStatus;
+  priority: TicketPriority;
+  assigneeId?: string;
+  customerId: string;
+  tags: string[];
+  customFields?: Record<string, unknown>;
+  sla?: {
+    firstResponseDue?: string;
+    resolveDue?: string;
+    firstRespondedAt?: string;
+    resolvedAt?: string;
+    breached?: boolean;
+  };
+  version: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+/** Message DTO */
+export interface MessageDto {
+  id: string;
+  tenantId: string;
+  ticketId?: string;
+  seq: number;
+  senderType: SenderType;
+  senderId?: string;
+  body: string;
+  isInternal: boolean;
+  citations?: Citation[];
+  attachments?: Attachment[];
+  createdAt: string;
+  updatedAt?: string;
+}
+
+/** Ticket Event DTO */
+export interface TicketEventDto {
+  id: string;
+  tenantId: string;
+  ticketId: string;
+  type: TicketEventType;
+  actorId?: string;
+  payload?: Record<string, unknown>;
+  createdAt: string;
+}

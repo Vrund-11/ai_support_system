@@ -2,6 +2,7 @@
 
 import logging
 
+from src.cache.semantic import BaseSemanticCache, get_semantic_cache
 from src.config import settings
 from src.providers.base import LLMProvider
 from src.providers.factory import get_llm_provider
@@ -29,14 +30,25 @@ class RagService:
         self,
         retriever: HybridRetriever | None = None,
         llm_provider: LLMProvider | None = None,
+        cache: BaseSemanticCache | None = None,
     ) -> None:
         self.retriever = retriever or HybridRetriever()
         self.provider = llm_provider or get_llm_provider()
+        self.cache = cache or get_semantic_cache()
 
     async def generate_answer(
         self, req: GenerateAnswerRequest
     ) -> GenerateAnswerResponse:
         """Execute full RAG generation pipeline with grounding checks and calibrated confidence."""
+        # 0. Check semantic response cache (AI-7)
+        cached_response = await self.cache.get(
+            tenant_id=req.tenant_id,
+            question=req.question,
+        )
+        if cached_response is not None:
+            logger.info("Semantic cache hit for tenant '%s'", req.tenant_id)
+            return cached_response
+
         # 1. Retrieve knowledge chunks
         chunks: list[SearchResultChunk] = []
         if req.retrieved_chunks:
@@ -137,7 +149,7 @@ class RagService:
                     f"Confidence {composite_confidence:.2f} below threshold {threshold:.2f}"
                 )
 
-        return GenerateAnswerResponse(
+        final_response = GenerateAnswerResponse(
             answer=answer_result.answer,
             citations=answer_result.citations,
             confidence=composite_confidence,
@@ -146,3 +158,13 @@ class RagService:
             provider=self.provider.name,
             tokens_used=0,
         )
+
+        # Cache answer if confident and not escalated (AI-7)
+        if not should_escalate and composite_confidence >= threshold:
+            await self.cache.set(
+                tenant_id=req.tenant_id,
+                question=req.question,
+                response=final_response,
+            )
+
+        return final_response

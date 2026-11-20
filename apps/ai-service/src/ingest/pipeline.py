@@ -2,6 +2,7 @@
 
 from dataclasses import dataclass
 
+from src.cache.semantic import get_semantic_cache
 from src.ingest.chunker import DocumentChunk, DocumentChunker
 from src.ingest.extract import clean_text
 from src.ingest.repository import BaseIngestRepository, get_ingest_repository
@@ -92,6 +93,9 @@ class IngestionPipeline:
                 chunks=chunks,
                 embeddings=all_embeddings,
             )
+
+            # Invalidate semantic cache for tenant on KB document update (AI-7)
+            await get_semantic_cache().invalidate_tenant(tenant_id)
 
             return IngestionResult(
                 document_id=document_id,

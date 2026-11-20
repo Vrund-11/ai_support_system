@@ -6,6 +6,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
+from src.cache.semantic import get_semantic_cache
 from src.config import settings
 from src.ingest.pipeline import IngestionPipeline
 from src.ingest.repository import get_ingest_repository
@@ -249,3 +250,14 @@ async def search_kb(req: SearchRequest) -> dict[str, Any]:
 async def generate_answer(req: GenerateAnswerRequest) -> GenerateAnswerResponse:
     service = RagService()
     return await service.generate_answer(req)
+
+
+# ── Semantic Cache Invalidation Endpoint (AI-7) ──
+class CacheInvalidateRequest(BaseModel):
+    tenant_id: str = Field(description="Tenant ID whose cache entries should be invalidated")
+
+
+@app.post("/v1/cache/invalidate")
+async def invalidate_cache(req: CacheInvalidateRequest) -> dict[str, Any]:
+    count = await get_semantic_cache().invalidate_tenant(req.tenant_id)
+    return {"tenant_id": req.tenant_id, "invalidated_count": count}

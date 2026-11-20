@@ -6,6 +6,7 @@ import type { ClientToServerEvents, ServerToClientEvents, SocketData } from './t
 import { createSocketAuthMiddleware } from './auth.js';
 import { tenantRoom, userRoom, conversationRoom } from './rooms.js';
 import { SequenceService, type StoredMessage } from './sequence.js';
+import { PresenceService } from './presence.js';
 
 export interface SocketServerOptions {
   jwtSecret: string;
@@ -13,6 +14,7 @@ export interface SocketServerOptions {
   redisSubClient?: Redis;
   corsOrigin?: string | string[];
   sequenceService?: SequenceService;
+  presenceService?: PresenceService;
 }
 
 export type GatewaySocketServer = SocketServer<
@@ -22,6 +24,7 @@ export type GatewaySocketServer = SocketServer<
   SocketData
 > & {
   sequenceService: SequenceService;
+  presenceService: PresenceService;
 };
 
 export function createSocketServer(
@@ -37,7 +40,10 @@ export function createSocketServer(
   }) as GatewaySocketServer;
 
   const sequenceService = options.sequenceService ?? new SequenceService(options.redisPubClient);
+  const presenceService = options.presenceService ?? new PresenceService(options.redisPubClient);
+
   io.sequenceService = sequenceService;
+  io.presenceService = presenceService;
 
   // Configure Redis adapter for horizontal scaling if Redis clients provided
   if (options.redisPubClient && options.redisSubClient) {
@@ -48,15 +54,22 @@ export function createSocketServer(
   io.use(createSocketAuthMiddleware(options.jwtSecret));
 
   // Connection handler & room assignments
-  io.on('connection', (socket) => {
+  io.on('connection', async (socket) => {
     const user = socket.data.user;
 
     // Join user-specific room
     void socket.join(userRoom(user.id));
 
-    // Authenticated agents/leads/owners join the tenant room
+    // Authenticated agents/leads/owners join the tenant room and update presence
     if (!user.isVisitor) {
       void socket.join(tenantRoom(user.tenantId));
+      const becameOnline = await presenceService.userConnected(user.tenantId, user.id);
+      if (becameOnline) {
+        io.to(tenantRoom(user.tenantId)).emit('presence:update', {
+          userId: user.id,
+          status: 'online',
+        });
+      }
     }
 
     // Join conversation room with message replay (CHAT-6)
@@ -138,6 +151,56 @@ export function createSocketServer(
       io.to(conversationRoom(conversationId)).emit('message:new', message);
 
       ack?.({ status: 'ok', seq });
+    });
+
+    // Typing start indicator (broadcast to room except sender)
+    socket.on('typing:start', (payload) => {
+      const { conversationId } = payload;
+      if (conversationId) {
+        socket.to(conversationRoom(conversationId)).emit('typing', {
+          conversationId,
+          who: user.id,
+          isTyping: true,
+        });
+      }
+    });
+
+    // Typing stop indicator (broadcast to room except sender)
+    socket.on('typing:stop', (payload) => {
+      const { conversationId } = payload;
+      if (conversationId) {
+        socket.to(conversationRoom(conversationId)).emit('typing', {
+          conversationId,
+          who: user.id,
+          isTyping: false,
+        });
+      }
+    });
+
+    // Message read receipt
+    socket.on('message:read', async (payload) => {
+      const { conversationId, upToSeq } = payload;
+      if (conversationId && upToSeq !== undefined) {
+        await presenceService.recordReadReceipt(conversationId, user.id, upToSeq);
+        io.to(conversationRoom(conversationId)).emit('message:read', {
+          conversationId,
+          userId: user.id,
+          upToSeq,
+        });
+      }
+    });
+
+    // Disconnect cleanup: update presence
+    socket.on('disconnect', async () => {
+      if (!user.isVisitor) {
+        const becameOffline = await presenceService.userDisconnected(user.tenantId, user.id);
+        if (becameOffline) {
+          io.to(tenantRoom(user.tenantId)).emit('presence:update', {
+            userId: user.id,
+            status: 'offline',
+          });
+        }
+      }
     });
   });
 

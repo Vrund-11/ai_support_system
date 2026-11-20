@@ -4,8 +4,8 @@
 
 - Date: 2026-11-20
 - Current sprint: Sprint 2 (Realtime and AI)
-- Last completed task id: S2-T02
-- Next task id: S2-T03
+- Last completed task id: S2-T03
+- Next task id: S2-T04
 - Blockers: Docker not installed (docker-compose ready but can't run yet)
 - Environment notes: Node 24.18, pnpm 10.11, Python 3.13, TypeScript 5.9, git 2.52
 
@@ -39,10 +39,11 @@
   - S1-T14: Sprint 1 local demo script (`scripts/demo-sprint1.ps1`, `scripts/demo-sprint1.sh`) and comprehensive verification guide (`docs/sprint1-demo-guide.md`). Completed Sprint 1 Exit Gate: P0 ticketing verified end-to-end, ticket-service statement coverage at 88.06% (exceeding 70% requirement), 36/36 turbo tasks green, all 14 Sprint 1 tasks complete.
   - S2-T01: Socket.IO server on Gateway with Redis adapter (`@socket.io/redis-adapter`), handshake authentication middleware (`createSocketAuthMiddleware` supporting both JWT user tokens and visitor tokens `visitor:<tenantId>:<visitorId>`), room management (`t:{tenantId}`, `u:{userId}`, `c:{conversationId}`), automatic tenant room joining for authenticated agents while isolating visitors to user rooms, and `conversation:join`/`conversation:leave` event handlers. 9 integration tests covering handshake rejections, valid agent auth, visitor auth, conversation rooms, and cross-tenant room isolation.
   - S2-T02: Per-conversation sequence numbers and message replay (CHAT-6): implemented `SequenceService` with Redis `INCR seq:{id}` and sorted set message buffering (`conv:{id}:msgs`), `clientId` message deduplication preventing duplicate message delivery and sequence advancement, `message:send` handler with monotonic sequencing, and `conversation:join` with `lastSeq` replaying all missed messages in chronological order. 4 integration tests verifying monotonic sequence generation, ack emission, deduplication, and full disconnect/reconnect replay guaranteeing zero message loss and zero duplicates.
-- Tests added / results: 166 tests passing across monorepo (20 in shared-lib, 106 in ticket-service, 21 in gateway, 4 in validators, 14 in web, 1 newman runner with 21 collection assertions)
-- Measurements recorded (M-ids): M02 (test count & coverage: 166 tests, 88.06% ticket-service statement coverage), M03 (Mongo explain executionStats for ticket list compound indexes)
+  - S2-T03: Real-time typing indicators, online presence, and read receipts (CHAT-3): implemented `PresenceService` with Redis socket counters and tenant presence sets (`presence:tenant:{id}`), connection/disconnect lifecycle tracking broadcasting `presence:update` to tenant rooms on first connect and last disconnect, `typing:start` and `typing:stop` handlers broadcasting typing indicators to room members while excluding senders, and `message:read` handlers recording latest read sequence (`read:{convId}:{userId}`) and broadcasting read receipts. 3 integration tests covering typing indicators, cross-tenant presence isolation, and read receipt persistence.
+- Tests added / results: 169 tests passing across monorepo (20 in shared-lib, 106 in ticket-service, 24 in gateway, 4 in validators, 14 in web, 1 newman runner with 21 collection assertions)
+- Measurements recorded (M-ids): M02 (test count & coverage: 169 tests, 88.06% ticket-service statement coverage), M03 (Mongo explain executionStats for ticket list compound indexes)
 - Issues found: none
-- Next: S2-T03 (Typing, presence, read receipts)
+- Next: S2-T04 (Widget app: bubble, chat UI, offline form, theming; embed script)
   - S0-T04: .env.example + Zod env loader in @supportpilot/validators with 4 passing tests
   - S0-T05: CI skeleton .github/workflows/ci.yml with service containers
   - S0-T06: Logger (pino), request-id middleware, error handler (RFC 7807) in @supportpilot/shared-lib with 7 passing tests

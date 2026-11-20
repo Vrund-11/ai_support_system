@@ -37,6 +37,7 @@ export interface ServerToClientEvents {
   'conversation:state': (state: { conversationId: string; state: string }) => void;
   typing: (typing: { conversationId: string; who: string; isTyping: boolean }) => void;
   'presence:update': (presence: { userId: string; status: 'online' | 'offline' }) => void;
+  'message:read': (receipt: { conversationId: string; userId: string; upToSeq: number }) => void;
   'ticket:updated': (ticket: unknown) => void;
   'notification:new': (notification: { type: string; ticketId?: string; text: string }) => void;
   'kb:ingestion': (status: { documentId: string; status: string }) => void;

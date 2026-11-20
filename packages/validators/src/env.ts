@@ -17,6 +17,7 @@ export const gatewayEnvSchema = baseEnvSchema.extend({
   JWT_ACCESS_SECRET: z.string().min(32),
   JWT_REFRESH_SECRET: z.string().min(32),
   SERVICE_TOKEN: z.string().min(16),
+  TICKET_SERVICE_URL: z.string().url().default('http://localhost:4001'),
   ALLOWED_ORIGINS: z.string().default('http://localhost:5173'),
 });
 

@@ -1,0 +1,92 @@
+import express, { type Express } from 'express';
+import type { Redis } from 'ioredis';
+import { createLogger, requestIdMiddleware, errorHandler } from '@supportpilot/shared-lib';
+import { isRedisConnected } from './lib/redis.js';
+import { createRateLimiter } from './middleware/rate-limiter.js';
+import { createAuthPassthrough } from './middleware/auth-passthrough.js';
+import { createProxyMiddleware } from './middleware/proxy.js';
+
+export interface GatewayConfig {
+  logLevel?: string;
+  ticketServiceUrl?: string;
+  serviceToken?: string;
+  jwtAccessSecret?: string;
+  redisClient?: Redis;
+}
+
+export function createApp(config: GatewayConfig = {}): Express {
+  const logger = createLogger('gateway', config.logLevel ?? 'info');
+  const app: Express = express();
+
+  const ticketServiceUrl =
+    config.ticketServiceUrl ?? process.env['TICKET_SERVICE_URL'] ?? 'http://localhost:4001';
+  const serviceToken =
+    config.serviceToken ?? process.env['SERVICE_TOKEN'] ?? 'default-service-token';
+  const jwtAccessSecret =
+    config.jwtAccessSecret ??
+    process.env['JWT_ACCESS_SECRET'] ??
+    'default-secret-at-least-32-chars!!';
+
+  app.use(express.json());
+  app.use(requestIdMiddleware);
+
+  // ── Liveness probe ──
+  app.get('/health', (_req, res) => {
+    res.status(200).json({
+      status: 'ok',
+      service: 'gateway',
+      timestamp: new Date().toISOString(),
+    });
+  });
+
+  // ── Readiness probe ──
+  app.get('/ready', (_req, res) => {
+    const ready = isRedisConnected();
+    if (ready) {
+      res.status(200).json({ status: 'ready', redis: 'connected' });
+      return;
+    }
+    res.status(200).json({ status: 'ready', redis: 'degraded' });
+  });
+
+  // ── In-memory JWT verification & auth passthrough ──
+  app.use(createAuthPassthrough(jwtAccessSecret));
+
+  // ── Rate Limiters (AUTH-5) ──
+  // Login: 5 requests per 15 minutes per IP
+  const loginLimiter = createRateLimiter(
+    {
+      windowMs: 15 * 60 * 1000,
+      max: 5,
+      prefix: 'rl:login',
+    },
+    config.redisClient,
+  );
+
+  // General API: 100 requests per minute
+  const apiLimiter = createRateLimiter(
+    {
+      windowMs: 60 * 1000,
+      max: 100,
+      prefix: 'rl:api',
+    },
+    config.redisClient,
+  );
+
+  app.use('/api/v1/auth/login', loginLimiter);
+  app.use('/api/v1', apiLimiter);
+
+  // ── Proxy routes to ticket-service ──
+  const ticketProxy = createProxyMiddleware({
+    targetBaseUrl: ticketServiceUrl,
+    serviceToken,
+  });
+
+  app.use('/api/v1/auth', ticketProxy);
+  app.use('/api/v1/tickets', ticketProxy);
+
+  // ── Error handler (must be last) ──
+  app.use(errorHandler(logger));
+
+  return app;
+}

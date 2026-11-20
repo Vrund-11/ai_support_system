@@ -1,29 +1,35 @@
-import express, { type Express } from 'express';
-import { createLogger, requestIdMiddleware, errorHandler } from '@supportpilot/shared-lib';
 import { loadEnv, gatewayEnvSchema } from '@supportpilot/validators';
+import { createLogger } from '@supportpilot/shared-lib';
+import { createApp } from './app.js';
+import { connectRedis, disconnectRedis } from './lib/redis.js';
 
 const env = loadEnv(gatewayEnvSchema);
 const logger = createLogger('gateway', env.LOG_LEVEL);
-const app: Express = express();
 
-app.use(express.json());
-app.use(requestIdMiddleware);
+const redis = connectRedis(env.REDIS_URL, logger);
 
-// ── Health ──
-app.get('/health', (_req, res) => {
-  res.json({ status: 'ok', service: 'gateway', timestamp: new Date().toISOString() });
+const app = createApp({
+  logLevel: env.LOG_LEVEL,
+  ticketServiceUrl: env.TICKET_SERVICE_URL,
+  serviceToken: env.SERVICE_TOKEN,
+  jwtAccessSecret: env.JWT_ACCESS_SECRET,
+  redisClient: redis,
 });
 
-app.get('/ready', (_req, res) => {
-  // TODO: check Redis connection
-  res.json({ status: 'ready' });
-});
-
-// ── Error handler (must be last) ──
-app.use(errorHandler(logger));
-
-app.listen(env.PORT, () => {
+const server = app.listen(env.PORT, () => {
   logger.info({ port: env.PORT }, 'Gateway listening');
 });
+
+async function shutdown(): Promise<void> {
+  logger.info('Gateway shutting down gracefully');
+  server.close(async () => {
+    await disconnectRedis();
+    logger.info('Gateway stopped');
+    process.exit(0);
+  });
+}
+
+process.on('SIGTERM', () => void shutdown());
+process.on('SIGINT', () => void shutdown());
 
 export { app };

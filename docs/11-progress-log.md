@@ -4,8 +4,8 @@
 
 - Date: 2026-11-20
 - Current sprint: Sprint 1 (MERN core)
-- Last completed task id: S1-T09
-- Next task id: S1-T10
+- Last completed task id: S1-T10
+- Next task id: S1-T11
 - Blockers: Docker not installed (docker-compose ready but can't run yet)
 - Environment notes: Node 24.18, pnpm 10.11, Python 3.13, TypeScript 5.9, git 2.52
 
@@ -32,10 +32,11 @@
   - S1-T07: Ticket status transition state machine `ALLOWED_STATUS_TRANSITIONS`, `canTransitionStatus`, `validateStatusTransition` enforcing PRD transition rules (NEW -> OPEN|CLOSED, OPEN -> PENDING_CUSTOMER|ON_HOLD|RESOLVED, PENDING_CUSTOMER -> OPEN|RESOLVED|CLOSED, ON_HOLD -> OPEN|RESOLVED, RESOLVED -> OPEN|CLOSED, CLOSED terminal). Integrated transition check in `TicketRepository.updateTicketWithVersion`. Added `fast-check` property-based tests verifying self-transitions, non-reversibility to NEW, CLOSED terminality, invariant table matching, and random path validity (9 tests).
   - S1-T08: Messages and internal notes (`Message` model, `MessageRepository`, `POST /api/v1/tickets/:id/messages`), and ticket activity timeline events (`TicketEvent` model, `TicketEventRepository`, chronological event recording on STATUS/PRIORITY/ASSIGN/TAG changes and MESSAGE/NOTE additions). Updated `GET /api/v1/tickets/:id` to return ticket with timeline and message thread. 8 new integration tests covering message threading, internal note isolation, status/priority/assign/tag event recording, and cross-tenant isolation.
   - S1-T09: Search and filtering compound and text indexes on `ticketSchema` ((tenantId, number) unique, (tenantId, status, priority, updatedAt), (tenantId, assigneeId, status), (tenantId, tags, status), (tenantId, createdAt), weighted compound text index on (tenantId, subject, description)). Implemented `explainListTickets` using `.explain('executionStats')` for query performance audit, recorded M03 benchmark in `docs/10-resume-evidence-tracker.md`. 9 new tests verifying index configurations, query construction, and execution plan output.
-- Tests added / results: 130 tests passing across monorepo (20 in shared-lib, 106 in ticket-service, 4 in validators)
+  - S1-T10: Gateway skeleton with Redis connection manager, Redis sliding window rate limiting middleware (`createRateLimiter` with login 5/15m limit per AUTH-5 and general 100/1m API limit, headers `X-RateLimit-*`, 429 Retry-After RFC 7807 problem details), in-memory JWT auth passthrough (`createAuthPassthrough`), and reverse proxy middleware (`createProxyMiddleware`) forwarding requests with `x-service-token`, `x-request-id`, and `Authorization` to ticket-service with 502 error handling. 8 new integration tests covering health, rate limiting, and proxy behavior.
+- Tests added / results: 138 tests passing across monorepo (20 in shared-lib, 106 in ticket-service, 8 in gateway, 4 in validators)
 - Measurements recorded (M-ids): M03 (Mongo explain executionStats for ticket list compound indexes)
 - Issues found: none
-- Next: S1-T10 (Gateway skeleton: auth passthrough, rate limiting (Redis), request validation, proxy to ticket-service)
+- Next: S1-T11 (Web dashboard: login, inbox list with filters, ticket detail with reply and notes)
   - S0-T04: .env.example + Zod env loader in @supportpilot/validators with 4 passing tests
   - S0-T05: CI skeleton .github/workflows/ci.yml with service containers
   - S0-T06: Logger (pino), request-id middleware, error handler (RFC 7807) in @supportpilot/shared-lib with 7 passing tests
@@ -47,7 +48,7 @@
 
 ## Handoff checklist for the next person or AI
 
-- [x] `pnpm verify` passes on main (36/36 tasks green, 130 tests)
+- [x] `pnpm verify` passes on main (36/36 tasks green, 138 tests)
 - [ ] `docker compose up -d` brings up datastores healthy (Docker not installed yet)
 - [x] README setup steps still accurate
 - [x] Roadmap checkboxes up to date

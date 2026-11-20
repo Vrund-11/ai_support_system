@@ -25,3 +25,19 @@ export type {
   RuleSideEffect,
   RulesExecutionResult,
 } from './rules/engine.js';
+export {
+  MetricsRegistry,
+  defaultRegistry,
+  createMetricsMiddleware,
+  createMetricsHandler,
+} from './observability/metrics.js';
+export type { MetricLabels, MetricValue } from './observability/metrics.js';
+export {
+  Span,
+  createTraceMiddleware,
+  parseTraceparent,
+  formatTraceparent,
+  generateTraceId,
+  generateSpanId,
+} from './observability/tracer.js';
+export type { TraceContext } from './observability/tracer.js';

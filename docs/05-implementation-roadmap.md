@@ -14,7 +14,7 @@ Legend: [ ] todo, [x] done. Task id format `S<sprint>-T<nn>`. Priority P0/P1/P2 
 
 ## Sprint 1: MERN core (weeks 1-2)
 
-- [ ] S1-T01 ticket-service skeleton, Mongoose connection, health endpoints. (FR: TEN-1)
+- [x] S1-T01 ticket-service skeleton, Mongoose connection, health endpoints. (FR: TEN-1)
 - [ ] S1-T02 Tenant + user models, register tenant flow (creates owner, default settings). (TEN-2, AUTH-1)
 - [ ] S1-T03 Auth: bcrypt, JWT access, refresh rotation with Redis hash store, logout revoke. (AUTH-2) Tests: rotation, reuse detection, expiry.
 - [ ] S1-T04 RBAC middleware with deny-by-default and role matrix tests. (AUTH-3)

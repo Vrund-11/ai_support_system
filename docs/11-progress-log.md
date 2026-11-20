@@ -3,9 +3,9 @@
 ## Current state
 
 - Date: 2026-11-20
-- Current sprint: Sprint 0 (Foundations)
-- Last completed task id: S0-T07
-- Next task id: S1-T01
+- Current sprint: Sprint 1 (MERN core)
+- Last completed task id: S1-T01
+- Next task id: S1-T02
 - Blockers: Docker not installed (docker-compose ready but can't run yet)
 - Environment notes: Node 24.18, pnpm 10.11, Python 3.13, TypeScript 5.9, git 2.52
 
@@ -14,15 +14,19 @@
 - ADR-001: Used ESLint flat config (v9) with separate type-aware linting for src vs tests/config files
 - ADR-002: Express 5 (latest) for all Node services
 - ADR-003: Vitest over Jest for Node packages (faster, native ESM support)
+- ADR-004: Separated ticket-service Express app creation from listener for isolated testing
 
 ## Session log
 
 ### 2026-11-20
 
-- Done: Sprint 0 complete (S0-T01 through S0-T07)
-  - S0-T01: Monorepo with pnpm workspaces + Turborepo, 12 packages, TS strict, ESLint flat config, Prettier, Husky pre-commit
-  - S0-T02: docs/ planning pack committed, README updated with links
-  - S0-T03: docker-compose.yml with mongo:7, pgvector:pg16, redis:7, minio, mailhog + init script
+- Done:
+  - Sprint 0 complete (S0-T01 through S0-T07)
+  - S1-T01: ticket-service skeleton, Mongoose connection module with event listeners and retry handling, `/health` and `/ready` endpoints, graceful shutdown on SIGTERM/SIGINT.
+- Tests added / results: 14 tests passing across monorepo (3 new in ticket-service for health and ready endpoints)
+- Measurements recorded (M-ids): none yet
+- Issues found: none
+- Next: S1-T02 (Tenant + user models, register tenant flow)
   - S0-T04: .env.example + Zod env loader in @supportpilot/validators with 4 passing tests
   - S0-T05: CI skeleton .github/workflows/ci.yml with service containers
   - S0-T06: Logger (pino), request-id middleware, error handler (RFC 7807) in @supportpilot/shared-lib with 7 passing tests

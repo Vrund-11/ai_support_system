@@ -8,9 +8,11 @@ import {
   MessageSquare,
   BookOpen,
   BarChart3,
+  Settings,
+  HelpCircle,
 } from 'lucide-react';
 
-export type NavTab = 'inbox' | 'chats' | 'kb' | 'analytics';
+export type NavTab = 'inbox' | 'chats' | 'kb' | 'analytics' | 'settings' | 'help';
 
 interface ShellProps {
   children: React.ReactNode;
@@ -99,6 +101,30 @@ export function Shell({
               >
                 <BarChart3 className="w-4 h-4" />
                 <span>Analytics</span>
+              </button>
+              <button
+                onClick={() => handleNav('settings')}
+                className={`flex items-center space-x-1.5 px-3 py-1.5 text-sm font-medium rounded-md transition-colors ${
+                  activeTab === 'settings'
+                    ? 'text-indigo-600 bg-indigo-50 font-semibold'
+                    : 'text-slate-700 hover:text-indigo-600 hover:bg-slate-100'
+                }`}
+                data-testid="nav-settings"
+              >
+                <Settings className="w-4 h-4" />
+                <span>Settings</span>
+              </button>
+              <button
+                onClick={() => handleNav('help')}
+                className={`flex items-center space-x-1.5 px-3 py-1.5 text-sm font-medium rounded-md transition-colors ${
+                  activeTab === 'help'
+                    ? 'text-indigo-600 bg-indigo-50 font-semibold'
+                    : 'text-slate-700 hover:text-indigo-600 hover:bg-slate-100'
+                }`}
+                data-testid="nav-help"
+              >
+                <HelpCircle className="w-4 h-4" />
+                <span>Help Center</span>
               </button>
             </nav>
           </div>

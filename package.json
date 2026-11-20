@@ -22,6 +22,7 @@
     "test:security": "vitest run apps/ticket-service/tests/security-pass.test.ts apps/gateway/tests/security-headers.test.ts",
     "test:playwright": "playwright test --config tests/e2e/playwright.config.ts",
     "test:cypress": "cypress run --config-file tests/e2e/cypress.config.ts",
+    "db:seed": "pnpm --filter ticket-service exec tsx ../../scripts/seed.ts",
     "verify": "turbo run lint typecheck test",
     "clean": "turbo run clean",
     "prepare": "husky"

@@ -112,6 +112,12 @@ export function createApp(config: GatewayConfig = {}): Express {
   app.use('/api/v1/kb', ticketProxy);
   app.use('/api/v1/users', ticketProxy);
   app.use('/api/v1/analytics', ticketProxy);
+  app.use('/api/v1/rules', ticketProxy);
+  app.use('/api/v1/api-keys', ticketProxy);
+  app.use('/api/v1/webhooks', ticketProxy);
+  app.use('/api/v1/audit-logs', ticketProxy);
+  app.use('/api/v1/feature-flags', ticketProxy);
+  app.use('/api/v1/admin', ticketProxy);
 
   // ── Proxy routes to ai-service (AI-5, AI-6, AI-1) ──
   const aiProxy = createProxyMiddleware({

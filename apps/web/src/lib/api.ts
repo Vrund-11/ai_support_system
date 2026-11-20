@@ -396,4 +396,141 @@ export const api = {
       return res.data;
     },
   },
+
+  apiKeys: {
+    async list(): Promise<ApiKeyItem[]> {
+      const res = await request<{ data: ApiKeyItem[] }>('/api-keys');
+      return res.data;
+    },
+    async create(name: string, scopes?: string[]): Promise<CreatedApiKey> {
+      const res = await request<{ data: CreatedApiKey }>('/api-keys', {
+        method: 'POST',
+        body: JSON.stringify({ name, scopes }),
+      });
+      return res.data;
+    },
+    async revoke(id: string): Promise<void> {
+      await request<void>(`/api-keys/${id}`, { method: 'DELETE' });
+    },
+  },
+
+  webhooks: {
+    async list(): Promise<WebhookItem[]> {
+      const res = await request<{ data: WebhookItem[] }>('/webhooks');
+      return res.data;
+    },
+    async create(url: string, events?: string[], description?: string): Promise<WebhookItem> {
+      const res = await request<{ data: WebhookItem }>('/webhooks', {
+        method: 'POST',
+        body: JSON.stringify({ url, events, description }),
+      });
+      return res.data;
+    },
+    async delete(id: string): Promise<void> {
+      await request<void>(`/webhooks/${id}`, { method: 'DELETE' });
+    },
+    async test(id: string): Promise<{ delivered: boolean; signature: string }> {
+      const res = await request<{ data: { delivered: boolean; signature: string } }>(
+        `/webhooks/${id}/test`,
+        { method: 'POST' },
+      );
+      return res.data;
+    },
+  },
+
+  auditLogs: {
+    async list(limit: number = 50, action?: string): Promise<AuditLogItem[]> {
+      const q = new URLSearchParams();
+      q.set('limit', limit.toString());
+      if (action) q.set('action', action);
+      const res = await request<{ data: AuditLogItem[] }>(`/audit-logs?${q.toString()}`);
+      return res.data;
+    },
+  },
+
+  featureFlags: {
+    async list(): Promise<FeatureFlagItem[]> {
+      const res = await request<{ data: FeatureFlagItem[] }>('/feature-flags');
+      return res.data;
+    },
+    async toggle(key: string, enabled: boolean): Promise<FeatureFlagItem> {
+      const res = await request<{ data: FeatureFlagItem }>(`/feature-flags/${key}`, {
+        method: 'PATCH',
+        body: JSON.stringify({ enabled }),
+      });
+      return res.data;
+    },
+  },
+
+  admin: {
+    async listTenants(): Promise<PlatformTenantItem[]> {
+      const res = await request<{ data: PlatformTenantItem[] }>('/admin/tenants');
+      return res.data;
+    },
+    async updateTenantStatus(id: string, status: 'ACTIVE' | 'SUSPENDED'): Promise<void> {
+      await request<void>(`/admin/tenants/${id}/status`, {
+        method: 'PATCH',
+        body: JSON.stringify({ status }),
+      });
+    },
+    async getHealth(): Promise<{ status: string; database: string; uptimeSeconds: number }> {
+      const res = await request<{
+        data: { status: string; database: string; uptimeSeconds: number };
+      }>('/admin/health');
+      return res.data;
+    },
+  },
 };
+
+export interface ApiKeyItem {
+  id: string;
+  name: string;
+  prefix: string;
+  scopes: string[];
+  lastUsedAt?: string;
+  createdAt: string;
+}
+
+export interface CreatedApiKey extends ApiKeyItem {
+  rawKey: string;
+}
+
+export interface WebhookItem {
+  id: string;
+  url: string;
+  events: string[];
+  active: boolean;
+  description?: string;
+  createdAt: string;
+}
+
+export interface AuditLogItem {
+  id: string;
+  userId?: string;
+  userEmail?: string;
+  action: string;
+  resource: string;
+  resourceId?: string;
+  metadata?: Record<string, unknown>;
+  ipAddress?: string;
+  createdAt: string;
+}
+
+export interface FeatureFlagItem {
+  key: string;
+  name: string;
+  enabled: boolean;
+  description?: string;
+  updatedAt: string;
+}
+
+export interface PlatformTenantItem {
+  id: string;
+  name: string;
+  slug: string;
+  plan: string;
+  status: 'ACTIVE' | 'SUSPENDED';
+  userCount: number;
+  ticketCount: number;
+  createdAt: string;
+}

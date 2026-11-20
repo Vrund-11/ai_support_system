@@ -132,6 +132,54 @@ export interface SummarizeResult {
   latencyMs: number;
 }
 
+export interface AnalyticsOverview {
+  open: number;
+  newToday: number;
+  medianFirstResponseMin: number;
+  medianResolutionMin: number;
+  slaCompliance: number;
+  deflectionRate: number;
+}
+
+export interface VolumeAnalytics {
+  rangeDays: number;
+  totalTickets: number;
+  byCategory: Array<{ category: string; count: number }>;
+  byPriority: Array<{ priority: string; count: number }>;
+  byStatus: Array<{ status: string; count: number }>;
+  timeline: Array<{ date: string; created: number; resolved: number }>;
+}
+
+export interface SlaAnalytics {
+  rangeDays: number;
+  totalEvaluated: number;
+  breachedCount: number;
+  complianceRate: number;
+  firstResponseTimeMin: { p50: number; p90: number; p99: number };
+  resolutionTimeMin: { p50: number; p90: number; p99: number };
+}
+
+export interface AgentPerformance {
+  rangeDays: number;
+  agents: Array<{
+    agentId: string;
+    name: string;
+    email: string;
+    assignedCount: number;
+    resolvedCount: number;
+    avgResolutionTimeMin: number;
+    slaComplianceRate: number;
+  }>;
+}
+
+export interface DeflectionAnalytics {
+  rangeDays: number;
+  totalInquiries: number;
+  botResolvedCount: number;
+  humanEscalatedCount: number;
+  deflectionRate: number;
+}
+
 export const api = {
   auth: {
     async login(email: string, password: string): Promise<{ user: UserDto; accessToken: string }> {
@@ -311,6 +359,41 @@ export const api = {
         method: 'POST',
         body: JSON.stringify(payload),
       });
+    },
+  },
+
+  analytics: {
+    async getOverview(rangeDays: number = 7): Promise<AnalyticsOverview> {
+      const res = await request<{ data: AnalyticsOverview }>(
+        `/analytics/overview?rangeDays=${rangeDays}`,
+      );
+      return res.data;
+    },
+
+    async getVolume(rangeDays: number = 7): Promise<VolumeAnalytics> {
+      const res = await request<{ data: VolumeAnalytics }>(
+        `/analytics/volume?rangeDays=${rangeDays}`,
+      );
+      return res.data;
+    },
+
+    async getSla(rangeDays: number = 30): Promise<SlaAnalytics> {
+      const res = await request<{ data: SlaAnalytics }>(`/analytics/sla?rangeDays=${rangeDays}`);
+      return res.data;
+    },
+
+    async getAgents(rangeDays: number = 30): Promise<AgentPerformance> {
+      const res = await request<{ data: AgentPerformance }>(
+        `/analytics/agents?rangeDays=${rangeDays}`,
+      );
+      return res.data;
+    },
+
+    async getDeflection(rangeDays: number = 30): Promise<DeflectionAnalytics> {
+      const res = await request<{ data: DeflectionAnalytics }>(
+        `/analytics/deflection?rangeDays=${rangeDays}`,
+      );
+      return res.data;
     },
   },
 };

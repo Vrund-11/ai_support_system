@@ -57,7 +57,7 @@ Legend: [ ] todo, [x] done. Task id format `S<sprint>-T<nn>`. Priority P0/P1/P2 
 - [x] S3-T04 Classifier: dataset prep, training notebook, model comparison, artifact export, `/v1/classify`, rules fallback. (AI-4) See `08-ai-ml-plan.md`.
 - [x] S3-T05 Agent assist: suggest-reply and summarize endpoints + UI. (AI-5,6)
 - [x] S3-T06 Email via MailHog/SMTP; verification and reset flows. (AUTH-4, NOTIF-3)
-- [ ] S3-T07 Analytics aggregation pipelines + dashboard charts. (ANL-1..4) Record explain/latency.
+- [x] S3-T07 Analytics aggregation pipelines + dashboard charts. (ANL-1..4) Record explain/latency.
 - [ ] S3-T08 Dockerfiles (multi-stage, non-root) for all services; compose profile for full stack.
 - [ ] S3-T09 Kubernetes: kind config, Kustomize base+overlays, probes, HPA, NetworkPolicy, ingress-nginx. See `07`.
 - [ ] S3-T10 GitHub Actions: ci, e2e, perf (nightly), ai-eval, deploy-staging (to kind in CI or GHCR push), Trivy scan, dependency audit.

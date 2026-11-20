@@ -107,10 +107,24 @@
     - Added REST endpoints in `apps/ticket-service/src/routes/auth.routes.ts`: `POST /forgot-password`, `POST /reset-password`, `POST /verify-email`, `POST /resend-verification`.
     - Added 8 integration tests in `apps/ticket-service/tests/auth-reset-verify.test.ts` (143 tests passing in ticket-service).
     - 353 total automated tests passing monorepo.
-- Tests added / results: 353 tests passing across monorepo (143 in ticket-service, 65 in ai-service pytest, 44 in gateway, 32 in shared-lib, 27 in web, 23 in notification-service, 9 in widget, 4 in validators, 5 hermetic e2e, 1 newman runner with 21 collection assertions)
-- Measurements recorded (M-ids): M02 (test count: 353 tests across services), M03 (Mongo explain executionStats for ticket list compound indexes), M06 (AI Eval golden set baseline: Hit@5 100%, Groundedness 100%, F1 1.0), M07 (Classifier: Priority Accuracy 92.22%, Priority F1 0.9220, Category Accuracy 100%, Category F1 1.0, Overall Macro-F1 0.9610)
+  - S3-T07: Analytics aggregation pipelines + dashboard charts (ANL-1..4):
+    - Implemented `AnalyticsService` (`apps/ticket-service/src/services/analytics.service.ts`) with MongoDB aggregation pipelines:
+      - Volume & Trends (ANL-1): `$facet` grouping by category, priority, status, and daily timeline rollups.
+      - SLA Compliance & Percentiles (ANL-2): computed compliance rate and p50, p90, p99 percentiles for first response and resolution times.
+      - Agent Performance (ANL-3): grouped by `assigneeId` with resolved count, average handle time in minutes, SLA compliance, and `$lookup` for user details.
+      - Deflection Analytics (ANL-4): calculated AI self-service bot deflection rate vs human escalated handoffs.
+      - Strict tenant isolation enforced via `$match: { tenantId }` in stage 0 across all pipelines.
+    - Mounted REST endpoints in `apps/ticket-service/src/routes/analytics.routes.ts`: `GET /overview`, `GET /volume`, `GET /sla`, `GET /agents`, `GET /deflection`.
+    - Added 9 unit and integration tests in `apps/ticket-service/tests/analytics-aggregation.test.ts` (152 tests passing in ticket-service).
+    - Added analytics client methods `api.analytics.getOverview/getVolume/getSla/getAgents/getDeflection` in `apps/web/src/lib/api.ts`.
+    - Implemented `AnalyticsDashboard` (`apps/web/src/components/analytics/AnalyticsDashboard.tsx`) with KPI cards (Open, SLA %, Deflection %, Response time), volume and category charts, percentile panels, and agent leaderboard.
+    - Added `'analytics'` navigation tab to `Shell.tsx` and wired into `App.tsx`.
+    - Added 2 component tests in `apps/web/src/test/analytics-dashboard.test.tsx` (29 tests passing in web).
+    - 364 total automated tests passing monorepo.
+- Tests added / results: 364 tests passing across monorepo (152 in ticket-service, 65 in ai-service pytest, 44 in gateway, 32 in shared-lib, 29 in web, 23 in notification-service, 9 in widget, 4 in validators, 5 hermetic e2e, 1 newman runner with 21 collection assertions)
+- Measurements recorded (M-ids): M02 (test count: 364 tests across services), M03 (Mongo explain executionStats for ticket list compound indexes), M06 (AI Eval golden set baseline: Hit@5 100%, Groundedness 100%, F1 1.0), M07 (Classifier: Priority Accuracy 92.22%, Priority F1 0.9220, Category Accuracy 100%, Category F1 1.0, Overall Macro-F1 0.9610)
 - Issues found: none
-- Next: S3-T07 (Analytics aggregation pipelines + dashboard charts, ANL-1..4)
+- Next: S3-T08 (Dockerfiles: multi-stage, non-root for all services; compose profile for full stack)
   - S0-T04: .env.example + Zod env loader in @supportpilot/validators with 4 passing tests
   - S0-T05: CI skeleton .github/workflows/ci.yml with service containers
   - S0-T06: Logger (pino), request-id middleware, error handler (RFC 7807) in @supportpilot/shared-lib with 7 passing tests

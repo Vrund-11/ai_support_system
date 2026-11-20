@@ -1,8 +1,16 @@
 import { useAuthStore } from '../../store/auth.store';
 import { api } from '../../lib/api';
-import { LogOut, Inbox, PlusCircle, ShieldCheck, MessageSquare, BookOpen } from 'lucide-react';
+import {
+  LogOut,
+  Inbox,
+  PlusCircle,
+  ShieldCheck,
+  MessageSquare,
+  BookOpen,
+  BarChart3,
+} from 'lucide-react';
 
-export type NavTab = 'inbox' | 'chats' | 'kb';
+export type NavTab = 'inbox' | 'chats' | 'kb' | 'analytics';
 
 interface ShellProps {
   children: React.ReactNode;
@@ -79,6 +87,18 @@ export function Shell({
               >
                 <BookOpen className="w-4 h-4" />
                 <span>Knowledge Base</span>
+              </button>
+              <button
+                onClick={() => handleNav('analytics')}
+                className={`flex items-center space-x-1.5 px-3 py-1.5 text-sm font-medium rounded-md transition-colors ${
+                  activeTab === 'analytics'
+                    ? 'text-indigo-600 bg-indigo-50 font-semibold'
+                    : 'text-slate-700 hover:text-indigo-600 hover:bg-slate-100'
+                }`}
+                data-testid="nav-analytics"
+              >
+                <BarChart3 className="w-4 h-4" />
+                <span>Analytics</span>
               </button>
             </nav>
           </div>

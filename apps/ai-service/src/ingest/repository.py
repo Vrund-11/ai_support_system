@@ -10,6 +10,17 @@ from src.config import settings
 from src.ingest.chunker import DocumentChunk
 
 
+def _cosine_similarity(v1: list[float], v2: list[float]) -> float:
+    if not v1 or not v2 or len(v1) != len(v2):
+        return 0.0
+    dot = sum(a * b for a, b in zip(v1, v2, strict=True))
+    norm_a = sum(a * a for a in v1) ** 0.5
+    norm_b = sum(b * b for b in v2) ** 0.5
+    if norm_a == 0.0 or norm_b == 0.0:
+        return 0.0
+    return dot / (norm_a * norm_b)
+
+
 @dataclass
 class StoredDocument:
     id: str
@@ -76,6 +87,16 @@ class BaseIngestRepository:
         raise NotImplementedError
 
     async def get_chunks_for_document(self, tenant_id: str, document_id: str) -> list[StoredChunk]:
+        raise NotImplementedError
+
+    async def vector_search(
+        self, tenant_id: str, query_embedding: list[float], limit: int = 20
+    ) -> list[tuple[StoredChunk, float]]:
+        raise NotImplementedError
+
+    async def text_search(
+        self, tenant_id: str, query_text: str, limit: int = 20
+    ) -> list[tuple[StoredChunk, float]]:
         raise NotImplementedError
 
 
@@ -179,6 +200,50 @@ class MemoryIngestRepository(BaseIngestRepository):
     async def get_chunks_for_document(self, tenant_id: str, document_id: str) -> list[StoredChunk]:
         return self.chunks.get((tenant_id, document_id), [])
 
+    async def vector_search(
+        self, tenant_id: str, query_embedding: list[float], limit: int = 20
+    ) -> list[tuple[StoredChunk, float]]:
+        tenant_chunks: list[StoredChunk] = []
+        for (t_id, _), chunks in self.chunks.items():
+            if t_id == tenant_id:
+                tenant_chunks.extend(chunks)
+
+        scored: list[tuple[StoredChunk, float]] = []
+        for chunk in tenant_chunks:
+            if not chunk.embedding:
+                continue
+            sim = _cosine_similarity(query_embedding, chunk.embedding)
+            scored.append((chunk, sim))
+
+        scored.sort(key=lambda x: x[1], reverse=True)
+        return scored[:limit]
+
+    async def text_search(
+        self, tenant_id: str, query_text: str, limit: int = 20
+    ) -> list[tuple[StoredChunk, float]]:
+        import re
+
+        words = [w.lower() for w in re.findall(r"\w+", query_text) if len(w) > 2]
+        if not words:
+            return []
+
+        tenant_chunks: list[StoredChunk] = []
+        for (t_id, _), chunks in self.chunks.items():
+            if t_id == tenant_id:
+                tenant_chunks.extend(chunks)
+
+        scored: list[tuple[StoredChunk, float]] = []
+        for chunk in tenant_chunks:
+            content_lower = chunk.content.lower()
+            matches = sum(1 for w in words if w in content_lower)
+            if matches > 0:
+                tf = sum(content_lower.count(w) for w in words)
+                score = (matches / len(words)) + (tf / (len(chunk.content.split()) + 1.0))
+                scored.append((chunk, score))
+
+        scored.sort(key=lambda x: x[1], reverse=True)
+        return scored[:limit]
+
 
 class PostgresIngestRepository(BaseIngestRepository):
     """PostgreSQL + pgvector repository enforcing strict tenant isolation."""
@@ -222,6 +287,8 @@ class PostgresIngestRepository(BaseIngestRepository):
                     UNIQUE (document_id, chunk_index)
                 );
                 CREATE INDEX IF NOT EXISTS idx_kb_chunks_tenant ON kb_chunks(tenant_id);
+                CREATE INDEX IF NOT EXISTS idx_kb_chunks_tsv ON kb_chunks USING gin(tsv);
+                CREATE INDEX IF NOT EXISTS idx_kb_chunks_tenant_tsv ON kb_chunks(tenant_id, tsv);
                 """
             )
             await conn.commit()
@@ -395,6 +462,77 @@ class PostgresIngestRepository(BaseIngestRepository):
                         metadata=dict(row[8]) if row[8] is not None else {},
                     )
                 )
+            return results
+
+    async def vector_search(
+        self, tenant_id: str, query_embedding: list[float], limit: int = 20
+    ) -> list[tuple[StoredChunk, float]]:
+        conn = await psycopg.AsyncConnection.connect(self.dsn)
+        emb_str = f"[{','.join(str(x) for x in query_embedding)}]"
+        async with conn, conn.cursor() as cur:
+            await cur.execute(
+                """
+                SELECT id, tenant_id, document_id, chunk_index, content,
+                       section_path, token_count, embedding, metadata,
+                       1 - (embedding <=> %s::vector) AS score
+                FROM kb_chunks
+                WHERE tenant_id = %s
+                ORDER BY embedding <=> %s::vector
+                LIMIT %s;
+                """,
+                (emb_str, tenant_id, emb_str, limit),
+            )
+            rows = await cur.fetchall()
+            results: list[tuple[StoredChunk, float]] = []
+            for row in rows:
+                chunk = StoredChunk(
+                    id=str(row[0]),
+                    tenant_id=str(row[1]),
+                    document_id=str(row[2]),
+                    chunk_index=int(row[3]),
+                    content=str(row[4]),
+                    section_path=str(row[5]),
+                    token_count=int(row[6]),
+                    embedding=list(row[7]) if row[7] is not None else [],
+                    metadata=dict(row[8]) if row[8] is not None else {},
+                )
+                score = float(row[9])
+                results.append((chunk, score))
+            return results
+
+    async def text_search(
+        self, tenant_id: str, query_text: str, limit: int = 20
+    ) -> list[tuple[StoredChunk, float]]:
+        conn = await psycopg.AsyncConnection.connect(self.dsn)
+        async with conn, conn.cursor() as cur:
+            await cur.execute(
+                """
+                SELECT id, tenant_id, document_id, chunk_index, content,
+                       section_path, token_count, embedding, metadata,
+                       ts_rank_cd(tsv, plainto_tsquery('english', %s)) AS score
+                FROM kb_chunks
+                WHERE tenant_id = %s AND tsv @@ plainto_tsquery('english', %s)
+                ORDER BY score DESC
+                LIMIT %s;
+                """,
+                (query_text, tenant_id, query_text, limit),
+            )
+            rows = await cur.fetchall()
+            results: list[tuple[StoredChunk, float]] = []
+            for row in rows:
+                chunk = StoredChunk(
+                    id=str(row[0]),
+                    tenant_id=str(row[1]),
+                    document_id=str(row[2]),
+                    chunk_index=int(row[3]),
+                    content=str(row[4]),
+                    section_path=str(row[5]),
+                    token_count=int(row[6]),
+                    embedding=list(row[7]) if row[7] is not None else [],
+                    metadata=dict(row[8]) if row[8] is not None else {},
+                )
+                score = float(row[9])
+                results.append((chunk, score))
             return results
 
 

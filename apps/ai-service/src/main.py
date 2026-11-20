@@ -12,6 +12,7 @@ from src.ingest.repository import get_ingest_repository
 from src.lib.db import check_db_connection
 from src.lib.redis import check_redis_connection
 from src.providers.factory import get_llm_provider
+from src.retrieval.hybrid import HybridRetriever
 from src.schemas.llm import RagAnswer
 
 app = FastAPI(
@@ -194,4 +195,49 @@ async def get_kb_chunks(document_id: str, tenant_id: str) -> dict[str, Any]:
             for c in chunks
         ],
         "count": len(chunks),
+    }
+
+
+# ── Retrieval Endpoints (AI-1) ──
+class SearchRequest(BaseModel):
+    tenant_id: str = Field(description="Tenant ID for strict isolation")
+    query: str = Field(min_length=1, description="Search query string")
+    top_k: int = Field(default=5, ge=1, le=50)
+    vector_top_k: int = Field(default=20, ge=1, le=100)
+    text_top_k: int = Field(default=20, ge=1, le=100)
+    rrf_k: int = Field(default=60, ge=1)
+
+
+@app.post("/v1/retrieval/search")
+async def search_kb(req: SearchRequest) -> dict[str, Any]:
+    retriever = HybridRetriever()
+    results = await retriever.retrieve(
+        tenant_id=req.tenant_id,
+        query=req.query,
+        top_k=req.top_k,
+        vector_top_k=req.vector_top_k,
+        text_top_k=req.text_top_k,
+        rrf_k=req.rrf_k,
+    )
+    return {
+        "query": req.query,
+        "tenant_id": req.tenant_id,
+        "count": len(results),
+        "results": [
+            {
+                "id": r.id,
+                "document_id": r.document_id,
+                "chunk_index": r.chunk_index,
+                "content": r.content,
+                "section_path": r.section_path,
+                "token_count": r.token_count,
+                "score": r.score,
+                "rrf_score": r.rrf_score,
+                "vector_rank": r.vector_rank,
+                "text_rank": r.text_rank,
+                "vector_score": r.vector_score,
+                "text_score": r.text_score,
+            }
+            for r in results
+        ],
     }

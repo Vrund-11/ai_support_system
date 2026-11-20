@@ -4,8 +4,8 @@
 
 - Date: 2026-11-20
 - Current sprint: Sprint 3 (Platform and quality)
-- Last completed task id: S2-T15 (Sprint 2 Complete)
-- Next task id: S3-T01
+- Last completed task id: S3-T01
+- Next task id: S3-T02
 - Blockers: Docker not installed (docker-compose ready but can't run yet)
 - Environment notes: Node 24.18, pnpm 10.11, Python 3.12, TypeScript 5.9, git 2.52
 
@@ -56,10 +56,17 @@
     - Playwright tests validate widget mounted on static host (`apps/widget/index.html`), bubble button launcher, greeting messages, customer inquiries, citations display, offline fallback, and programmatic `window.SupportPilot` open/close API.
     - Hermetic runner validates end-to-end Socket.IO connection, sequence numbers, AI response grounding, `WAITING_AGENT` handoff flow on customer escalation, ticket transcript creation, agent takeover via GraphQL & Socket.IO, and strict cross-tenant rejection (TEN-1).
     - **Sprint 2 Exit Gate Complete**: 283 automated tests passing monorepo, AI Eval baseline recorded with 100% groundedness and F1 1.0, customer chats with AI and escalates to agent in real time.
-- Tests added / results: 283 tests passing across monorepo (131 in ticket-service, 50 in ai-service pytest, 43 in gateway, 23 in web, 20 in shared-lib, 9 in widget, 4 in validators, 5 hermetic e2e, 1 newman runner with 21 collection assertions)
-- Measurements recorded (M-ids): M02 (test count & coverage: 283 tests, ticket-service statement coverage 88.06%), M03 (Mongo explain executionStats for ticket list compound indexes), M06 (AI Eval golden set baseline: Hit@5 100%, Groundedness 100%, F1 1.0)
+  - S3-T01: `notification-service` with BullMQ queues, retries, backoff, DLQ, and idempotent consumers (NOTIF-5):
+    - Configured BullMQ queue definitions (`email`, `push`, `webhook`, `sla`, `audit`, `dlq`) with exponential backoff (e.g. 1000ms delay, 3-5 attempts) and DLQ routing.
+    - Implemented `MemoryIdempotencyStore` and `RedisIdempotencyStore` (`idempotency.ts`) preventing duplicate job executions.
+    - Implemented `NotificationDispatchers` (`workers.ts`) and `QueueManager` (`manager.ts`) supporting live BullMQ workers and zero-dependency in-memory mode for hermetic CI.
+    - Implemented DLQ inspection and replay (`routes/dlq.routes.ts`) enforcing strict cross-tenant isolation (`tenantId` filtering and replay ownership checks).
+    - Implemented REST API (`app.ts`, `routes/notification.routes.ts`) with service-token authentication, job enqueuing, and queue metrics.
+    - 11 new tests in `notification-service` verifying backoff, retries, DLQ routing, DLQ replay, tenant isolation, and API endpoints. 294 total automated tests passing monorepo.
+- Tests added / results: 294 tests passing across monorepo (131 in ticket-service, 50 in ai-service pytest, 43 in gateway, 23 in web, 20 in shared-lib, 11 in notification-service, 9 in widget, 4 in validators, 5 hermetic e2e, 1 newman runner with 21 collection assertions)
+- Measurements recorded (M-ids): M02 (test count: 294 tests across services), M03 (Mongo explain executionStats for ticket list compound indexes), M06 (AI Eval golden set baseline: Hit@5 100%, Groundedness 100%, F1 1.0)
 - Issues found: none
-- Next: S3-T01 (`notification-service` with BullMQ queues, retries, backoff, DLQ, idempotent consumers, NOTIF-5)
+- Next: S3-T02 (SLA policy calculator: business hours + delayed BullMQ jobs 75%/100%, skip if resolved, property tests, AUTO-1, 2)
   - S0-T04: .env.example + Zod env loader in @supportpilot/validators with 4 passing tests
   - S0-T05: CI skeleton .github/workflows/ci.yml with service containers
   - S0-T06: Logger (pino), request-id middleware, error handler (RFC 7807) in @supportpilot/shared-lib with 7 passing tests

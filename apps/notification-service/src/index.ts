@@ -1,29 +1,31 @@
-import express, { type Express } from 'express';
-import { createLogger, requestIdMiddleware, errorHandler } from '@supportpilot/shared-lib';
+import { createLogger } from '@supportpilot/shared-lib';
 import { loadEnv, notificationServiceEnvSchema } from '@supportpilot/validators';
+import { MemoryIdempotencyStore } from './idempotency.js';
+import { QueueManager } from './manager.js';
+import { createApp } from './app.js';
 
 const env = loadEnv(notificationServiceEnvSchema);
 const logger = createLogger('notification-service', env.LOG_LEVEL);
-const app: Express = express();
 
-app.use(express.json());
-app.use(requestIdMiddleware);
+const idempotencyStore = new MemoryIdempotencyStore();
 
-// ── Health ──
-app.get('/health', (_req, res) => {
-  res.json({ status: 'ok', service: 'notification-service', timestamp: new Date().toISOString() });
+const queueManager = new QueueManager({
+  connection: { host: 'localhost', port: 6379 },
+  idempotencyStore,
+  logger,
+  enableWorkers: true,
 });
 
-app.get('/ready', (_req, res) => {
-  // TODO: check Redis + Postgres connection
-  res.json({ status: 'ready' });
+const app = createApp({
+  queueManager,
+  logger,
+  serviceToken: env.SERVICE_TOKEN,
 });
 
-// ── Error handler (must be last) ──
-app.use(errorHandler(logger));
+if (process.env.NODE_ENV !== 'test') {
+  app.listen(env.PORT, () => {
+    logger.info({ port: env.PORT }, 'Notification service listening with BullMQ queues');
+  });
+}
 
-app.listen(env.PORT, () => {
-  logger.info({ port: env.PORT }, 'Notification service listening');
-});
-
-export { app };
+export { app, queueManager };

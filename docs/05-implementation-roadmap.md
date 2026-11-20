@@ -51,7 +51,7 @@ Legend: [ ] todo, [x] done. Task id format `S<sprint>-T<nn>`. Priority P0/P1/P2 
 
 ## Sprint 3: Platform and quality (weeks 5-6)
 
-- [ ] S3-T01 notification-service with BullMQ queues, retries, backoff, DLQ, idempotent consumers. (NOTIF-5)
+- [x] S3-T01 notification-service with BullMQ queues, retries, backoff, DLQ, idempotent consumers. (NOTIF-5)
 - [ ] S3-T02 SLA policy calculator (business hours) + delayed jobs 75%/100%; skip if ticket already resolved. (AUTO-1,2) Property tests.
 - [ ] S3-T03 Rules engine (conditions -> actions) with tests. (AUTO-3)
 - [ ] S3-T04 Classifier: dataset prep, training notebook, model comparison, artifact export, `/v1/classify`, rules fallback. (AI-4) See `08-ai-ml-plan.md`.

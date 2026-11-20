@@ -1,0 +1,143 @@
+name: Deploy Production
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Release version tag to deploy (e.g., v1.0.0)'
+        required: false
+        default: 'v1.0.0'
+
+concurrency:
+  group: deploy-prod
+  cancel-in-progress: false
+
+jobs:
+  deploy-prod:
+    name: Production Deployment & Verification
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    environment:
+      name: production
+      url: https://supportpilot.example.com
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Resolve Release Tag
+        id: vars
+        run: |
+          TAG="${{ github.event.inputs.tag }}"
+          if [ -z "$TAG" ]; then
+            TAG="${{ github.ref_name }}"
+          fi
+          if [ -z "$TAG" ] || [ "$TAG" = "main" ]; then
+            TAG="v1.0.0"
+          fi
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+          echo "Deploying release tag: $TAG"
+
+      - name: Set up Kubernetes / Kind Cluster
+        uses: helm/kind-action@v1.10.0
+        with:
+          config: infra/k8s/kind-config.yaml
+          cluster_name: supportpilot-prod
+
+      - name: Install Ingress NGINX
+        run: |
+          kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/kind/deploy.yaml
+          kubectl wait --namespace ingress-nginx \
+            --for=condition=ready pod \
+            --selector=app.kubernetes.io/component=controller \
+            --timeout=120s
+
+      - name: Build Container Images
+        run: |
+          TAG="${{ steps.vars.outputs.tag }}"
+          docker build -t supportpilot/gateway:${TAG} -f apps/gateway/Dockerfile .
+          docker build -t supportpilot/ticket-service:${TAG} -f apps/ticket-service/Dockerfile .
+          docker build -t supportpilot/ai-service:${TAG} -f apps/ai-service/Dockerfile .
+          docker build -t supportpilot/notification-service:${TAG} -f apps/notification-service/Dockerfile .
+          docker build -t supportpilot/web:${TAG} -f apps/web/Dockerfile .
+
+      - name: Load Images into Kind Cluster
+        run: |
+          TAG="${{ steps.vars.outputs.tag }}"
+          kind load docker-image supportpilot/gateway:${TAG} --name supportpilot-prod
+          kind load docker-image supportpilot/ticket-service:${TAG} --name supportpilot-prod
+          kind load docker-image supportpilot/ai-service:${TAG} --name supportpilot-prod
+          kind load docker-image supportpilot/notification-service:${TAG} --name supportpilot-prod
+          kind load docker-image supportpilot/web:${TAG} --name supportpilot-prod
+
+      - name: Set Image Tags in Kustomize Prod Overlay
+        run: |
+          TAG="${{ steps.vars.outputs.tag }}"
+          cd infra/k8s/overlays/prod
+          kustomize edit set image supportpilot/gateway=supportpilot/gateway:${TAG}
+          kustomize edit set image supportpilot/ticket-service=supportpilot/ticket-service:${TAG}
+          kustomize edit set image supportpilot/ai-service=supportpilot/ai-service:${TAG}
+          kustomize edit set image supportpilot/notification-service=supportpilot/notification-service:${TAG}
+          kustomize edit set image supportpilot/web=supportpilot/web:${TAG}
+
+      - name: Apply Kustomize Prod Overlay
+        run: |
+          kubectl apply -k infra/k8s/overlays/prod
+
+      - name: Verify Production Rollouts
+        id: rollout
+        run: |
+          kubectl rollout status deployment/gateway -n supportpilot --timeout=180s
+          kubectl rollout status deployment/ticket-service -n supportpilot --timeout=180s
+          kubectl rollout status deployment/ai-service -n supportpilot --timeout=180s
+          kubectl rollout status deployment/notification-service -n supportpilot --timeout=180s
+          kubectl rollout status deployment/web -n supportpilot --timeout=180s
+
+      - name: Rollback Health Probe & Verification
+        run: |
+          echo "Running post-deployment health probes..."
+          set +e
+          FAILED=0
+
+          SERVICES=("gateway" "ticket-service" "ai-service" "notification-service" "web")
+          for SVC in "${SERVICES[@]}"; do
+            READY=$(kubectl get deployment "$SVC" -n supportpilot -o jsonpath='{.status.readyReplicas}')
+            DESIRED=$(kubectl get deployment "$SVC" -n supportpilot -o jsonpath='{.spec.replicas}')
+            if [ -z "$READY" ] || [ "$READY" -lt 1 ]; then
+              echo "Health probe FAILED for service: $SVC (ready: $READY / desired: $DESIRED)"
+              FAILED=1
+            else
+              echo "Health probe OK for service: $SVC ($READY/$DESIRED replicas ready)"
+            fi
+          done
+
+          if [ $FAILED -ne 0 ]; then
+            echo "Health probe detected failure! Executing automated rollback..."
+            for SVC in "${SERVICES[@]}"; do
+              echo "Rolling back deployment/$SVC..."
+              kubectl rollout undo "deployment/$SVC" -n supportpilot
+            done
+            for SVC in "${SERVICES[@]}"; do
+              kubectl rollout status "deployment/$SVC" -n supportpilot --timeout=120s
+            done
+            echo "Automated rollback completed after probe failure."
+            exit 1
+          fi
+
+          echo "All production health probes passed successfully."
+
+      - name: Emergency Rollback on Rollout Failure
+        if: failure() && steps.rollout.outcome == 'failure'
+        run: |
+          echo "Rollout failed! Initiating emergency rollback..."
+          SERVICES=("gateway" "ticket-service" "ai-service" "notification-service" "web")
+          for SVC in "${SERVICES[@]}"; do
+            kubectl rollout undo "deployment/$SVC" -n supportpilot || true
+          done
+
+      - name: Verify Cluster Resources & Pods
+        run: |
+          kubectl get pods,svc,ingress,hpa,networkpolicy -n supportpilot

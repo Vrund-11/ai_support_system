@@ -3,7 +3,6 @@
 from src.retrieval.hybrid import SearchResultChunk
 from src.schemas.llm import ChatTurn
 
-
 INJECTION_PATTERNS = [
     "ignore previous instructions",
     "ignore all previous instructions",

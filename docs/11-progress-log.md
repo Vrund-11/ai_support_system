@@ -3,9 +3,9 @@
 ## Current state
 
 - Date: 2026-11-20
-- Current sprint: Sprint 4 (Mobile and polish) — ALL SPRINTS COMPLETE (v1.0.0)
-- Last completed task id: S4-T11
-- Next task id: None — All 5 Sprints (0, 1, 2, 3, 4) 100% complete & verified
+- Current sprint: Sprint 4 (Mobile, Polish & PRD Gaps Complete) — ALL SPRINTS & P1 REQUIREMENTS COMPLETE (v1.1.0)
+- Last completed task id: P1-PRD-GAPS-01
+- Next task id: None — All 5 Sprints (0, 1, 2, 3, 4) & all P1 architectural features 100% complete & verified
 - Blockers: None
 - Environment notes: Node 24.18, pnpm 10.11, Python 3.12, TypeScript 5.9, git 2.52
 
@@ -218,10 +218,14 @@
     - Authored `docs/runbook.md` with port mappings, Kubernetes Kind deployment steps, health checks, DLQ recovery, and database maintenance.
     - Updated `README.md` with full Mermaid architecture diagram, benchmarks, and quickstart.
     - Filled `docs/10-resume-evidence-tracker.md` with 417 passing tests, statement coverage 88.06%, k6 p95 latencies, RAG 100% groundedness, and classifier macro-F1 0.9610.
-- Tests added / results: 417 tests passing across monorepo (165 in ticket-service, 67 in ai-service pytest, 47 in gateway, 41 in shared-lib, 35 in web, 23 in notification-service, 14 in mobile, 9 in widget, 4 in validators, 4 lambda dispatcher, 5 hermetic e2e, 2 perf runner, 1 newman runner with 21 collection assertions)
-- Measurements recorded (M-ids): M01 (services & endpoints count), M02 (test count: 417 tests across services), M03 (Mongo explain executionStats for ticket list compound indexes), M04 (k6 ticket list p95 278.09ms at 200 VUs, 1,110.19 RPS), M05 (Chat WebSocket fan-out p95 3.36ms across 30 sockets), M06 (AI Eval golden set baseline: Hit@5 100%, Groundedness 100%, F1 1.0), M07 (Classifier: Priority Accuracy 92.22%, Priority F1 0.9220, Category Accuracy 100%, Category F1 1.0, Overall Macro-F1 0.9610), M11 (Docker multi-stage non-root images & compose profile), M12 (5 agile sprints completed; v1.0.0 production ready)
+  - P1-PRD-GAPS-01: Multi-agent parallel sprint resolving all remaining P1 PRD features & missing views:
+    - Backend: Implemented tenant quota middleware (TEN-4) with Redis/Memory tracking, AssignmentService with round-robin and least-loaded algorithms (TKT-4), bulk ticket actions API `POST /api/v1/tickets/bulk` (TKT-8), ticket customFields & bidirectional linking (TKT-6), user notification preferences `GET/PATCH /api/v1/users/me/preferences` (NOTIF-4), Customers & Team REST routes, and OpenAPI 3.0 / Swagger UI documentation at `/api/v1/docs` (INT-3).
+    - Frontend: Implemented `CustomersView` directory & drawer, `TeamView` roster & invite modal, `AutomationView` for Rules & SLA management, in-app real-time `NotificationBell` with unread badge & alert dropdown (NOTIF-1), ticket inbox multi-select checkbox bar with bulk actions (TKT-8), and dark mode toggle in Shell header.
+    - AI & DevOps: Implemented per-tenant AI call & token quota tracking with graceful degradation to direct chunk retrieval fallback (AI-8), added quota pytest test suite, and authored `.github/workflows/deploy-prod.yml` with manual dispatch, tag trigger, environment approval gate, and automated rollback probe.
+- Tests added / results: 453 tests passing across monorepo (180 ticket-service, 73 ai-service pytest, 50 gateway, 50 web, 41 shared-lib, 23 notification-service, 14 mobile, 9 widget, 4 validators, 4 lambda dispatcher, 5 e2e/perf)
+- Measurements recorded (M-ids): M01, M02 (453 tests across 43 suites), M03, M04, M05, M06, M07, M11, M12
 - Issues found: none
-- Next: All planned tasks complete! Tag v1.0.0 and present deliverables.
+- Next: All necessary PRD P1 features, views, and workflows complete & verified! Production ready v1.1.0.
   - S0-T04: .env.example + Zod env loader in @supportpilot/validators with 4 passing tests
   - S0-T05: CI skeleton .github/workflows/ci.yml with service containers
   - S0-T06: Logger (pino), request-id middleware, error handler (RFC 7807) in @supportpilot/shared-lib with 7 passing tests

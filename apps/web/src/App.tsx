@@ -14,6 +14,9 @@ import { LiveChatView } from './components/chat/LiveChatView';
 import { AnalyticsDashboard } from './components/analytics/AnalyticsDashboard';
 import { SettingsView } from './components/settings/SettingsView';
 import { HelpCenterView } from './components/help/HelpCenterView';
+import { CustomersView } from './components/customers/CustomersView';
+import { TeamView } from './components/team/TeamView';
+import { AutomationView } from './components/automation/AutomationView';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -54,6 +57,12 @@ export function AppContent() {
       {currentTab === 'kb' && <KnowledgeBaseView />}
 
       {currentTab === 'chats' && <LiveChatView />}
+
+      {currentTab === 'customers' && <CustomersView />}
+
+      {currentTab === 'team' && <TeamView />}
+
+      {currentTab === 'automation' && <AutomationView />}
 
       {currentTab === 'analytics' && <AnalyticsDashboard />}
 

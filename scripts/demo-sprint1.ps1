@@ -1,4 +1,4 @@
-﻿# SupportPilot — Sprint 1 Local Demo Script (PowerShell)
+# SupportPilot — Sprint 1 Local Demo Script (PowerShell)
 # Verifies end-to-end P0 ticketing against gateway and ticket-service
 
 $ErrorActionPreference = "Stop"

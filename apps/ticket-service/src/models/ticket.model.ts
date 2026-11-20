@@ -24,6 +24,7 @@ export interface ITicketDocument extends Document {
   tags: string[];
   attachments: Attachment[];
   customFields: Record<string, unknown>;
+  linkedTicketIds: Types.ObjectId[];
   sla: ISlaRecord;
   version: number;
   createdAt: Date;
@@ -101,6 +102,10 @@ const ticketSchema = new Schema<ITicketDocument>(
     customFields: {
       type: Schema.Types.Mixed,
       default: {},
+    },
+    linkedTicketIds: {
+      type: [{ type: Schema.Types.ObjectId, ref: 'Ticket' }],
+      default: [],
     },
     sla: {
       firstResponseDue: { type: Date },

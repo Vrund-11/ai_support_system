@@ -42,8 +42,28 @@ export {
   createTicketSchema,
   updateTicketSchema,
   ticketFilterSchema,
+  bulkTicketActionSchema,
 } from './ticket.js';
-export type { CreateTicketInput, UpdateTicketInput, TicketFilterInput } from './ticket.js';
+export type {
+  CreateTicketInput,
+  UpdateTicketInput,
+  TicketFilterInput,
+  BulkTicketActionInput,
+} from './ticket.js';
+
+export {
+  createCustomerSchema,
+  customerFilterSchema,
+  type CreateCustomerInput,
+  type CustomerFilterInput,
+} from './customer.js';
+
+export {
+  inviteTeamMemberSchema,
+  updateNotificationPrefsSchema,
+  type InviteTeamMemberInput,
+  type UpdateNotificationPrefsInput,
+} from './team.js';
 
 export {
   ALLOWED_STATUS_TRANSITIONS,

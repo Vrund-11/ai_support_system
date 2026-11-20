@@ -6,7 +6,11 @@ import type {
   TicketPriority,
   UserDto,
   ApiResponse,
+  RuleDto,
+  SlaPolicy,
+  Role,
 } from '@supportpilot/shared-types';
+export type { RuleTriggerEvent, RuleCondition, RuleAction } from '@supportpilot/shared-types';
 import { useAuthStore } from '../store/auth.store';
 
 const API_BASE = import.meta.env.VITE_API_URL || '/api/v1';
@@ -263,6 +267,18 @@ export const api = {
       });
       return res.data;
     },
+
+    async bulk(payload: {
+      ticketIds: string[];
+      action: 'ASSIGN' | 'TAG' | 'STATUS';
+      value: string;
+    }): Promise<{ updatedCount: number }> {
+      const res = await request<ApiResponse<{ updatedCount: number }>>('/tickets/bulk', {
+        method: 'POST',
+        body: JSON.stringify(payload),
+      });
+      return res.data;
+    },
   },
 
   kb: {
@@ -480,7 +496,128 @@ export const api = {
       return res.data;
     },
   },
+
+  customers: {
+    async list(params?: { q?: string; limit?: number }): Promise<CustomerItem[]> {
+      const q = new URLSearchParams();
+      if (params?.q) q.set('q', params.q);
+      if (params?.limit) q.set('limit', params.limit.toString());
+      const res = await request<{ data: CustomerItem[] }>(
+        `/customers${q.toString() ? `?${q.toString()}` : ''}`,
+      );
+      return res.data || [];
+    },
+    async get(id: string): Promise<CustomerItem> {
+      const res = await request<{ data: CustomerItem }>(`/customers/${id}`);
+      return res.data;
+    },
+    async create(payload: {
+      name: string;
+      email: string;
+      phone?: string;
+      company?: string;
+    }): Promise<CustomerItem> {
+      const res = await request<{ data: CustomerItem }>('/customers', {
+        method: 'POST',
+        body: JSON.stringify(payload),
+      });
+      return res.data;
+    },
+  },
+
+  team: {
+    async list(): Promise<TeamMemberItem[]> {
+      const res = await request<{ data: TeamMemberItem[] }>('/team');
+      return res.data || [];
+    },
+    async invite(payload: { email: string; name: string; role: Role }): Promise<TeamMemberItem> {
+      const res = await request<{ data: TeamMemberItem }>('/team/invite', {
+        method: 'POST',
+        body: JSON.stringify(payload),
+      });
+      return res.data;
+    },
+  },
+
+  automation: {
+    async listRules(): Promise<RuleDto[]> {
+      const res = await request<{ data: RuleDto[] }>('/automation/rules');
+      return res.data || [];
+    },
+    async createRule(payload: Partial<RuleDto>): Promise<RuleDto> {
+      const res = await request<{ data: RuleDto }>('/automation/rules', {
+        method: 'POST',
+        body: JSON.stringify(payload),
+      });
+      return res.data;
+    },
+    async toggleRule(id: string, enabled: boolean): Promise<RuleDto> {
+      const res = await request<{ data: RuleDto }>(`/automation/rules/${id}`, {
+        method: 'PATCH',
+        body: JSON.stringify({ enabled }),
+      });
+      return res.data;
+    },
+    async deleteRule(id: string): Promise<void> {
+      await request<void>(`/automation/rules/${id}`, { method: 'DELETE' });
+    },
+    async getSlaPolicies(): Promise<Record<TicketPriority, SlaPolicy>> {
+      const res = await request<{ data: Record<TicketPriority, SlaPolicy> }>('/automation/sla');
+      return res.data;
+    },
+    async updateSlaPolicies(
+      policies: Record<TicketPriority, SlaPolicy>,
+    ): Promise<Record<TicketPriority, SlaPolicy>> {
+      const res = await request<{ data: Record<TicketPriority, SlaPolicy> }>('/automation/sla', {
+        method: 'PUT',
+        body: JSON.stringify(policies),
+      });
+      return res.data;
+    },
+  },
+
+  notifications: {
+    async list(): Promise<NotificationItem[]> {
+      const res = await request<{ data: NotificationItem[] }>('/notifications');
+      return res.data || [];
+    },
+    async markAsRead(id: string): Promise<void> {
+      await request<void>(`/notifications/${id}/read`, { method: 'POST' });
+    },
+    async markAllAsRead(): Promise<void> {
+      await request<void>('/notifications/read-all', { method: 'POST' });
+    },
+  },
 };
+
+export interface CustomerItem {
+  id: string;
+  name: string;
+  email: string;
+  phone?: string;
+  company?: string;
+  ticketCount: number;
+  createdAt: string;
+}
+
+export interface TeamMemberItem {
+  id: string;
+  name: string;
+  email: string;
+  role: Role;
+  status: 'ACTIVE' | 'INVITED' | 'SUSPENDED';
+  createdAt: string;
+}
+
+export interface NotificationItem {
+  id: string;
+  title: string;
+  message: string;
+  type: 'TICKET_ASSIGNED' | 'SLA_WARNING' | 'CUSTOMER_REPLY' | 'SYSTEM';
+  read: boolean;
+  ticketId?: string;
+  createdAt: string;
+}
 
 export interface ApiKeyItem {
   id: string;

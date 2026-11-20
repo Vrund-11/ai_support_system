@@ -23,6 +23,9 @@ class Settings(BaseSettings):
     embedding_dim: int = 384
     ai_confidence_threshold: float = 0.55
 
+    daily_call_quota: int = 1000
+    daily_token_quota: int = 1_000_000
+
     model_config = {"env_prefix": "", "case_sensitive": False}
 
 

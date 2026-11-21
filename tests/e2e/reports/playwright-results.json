@@ -1,0 +1,645 @@
+{
+  "config": {
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\vrund\\OneDrive\\Desktop\\ai_project\\node_modules\\@playwright\\test\\cli.js",
+      "test",
+      "--config",
+      "tests/e2e/playwright.config.ts",
+      "tests/e2e/playwright/auth.spec.ts"
+    ],
+    "configFile": "C:\\Users\\vrund\\OneDrive\\Desktop\\ai_project\\tests\\e2e\\playwright.config.ts",
+    "rootDir": "C:/Users/vrund/OneDrive/Desktop/ai_project/tests/e2e/playwright",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 2
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "C:/Users/vrund/OneDrive/Desktop/ai_project/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 2
+        },
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "C:/Users/vrund/OneDrive/Desktop/ai_project/tests/e2e/playwright",
+        "testIgnore": [],
+        "testMatch": ["**/*.@(spec|test).?(c|m)[jt]s?(x)"],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "C:/Users/vrund/OneDrive/Desktop/ai_project/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 2
+        },
+        "id": "firefox",
+        "name": "firefox",
+        "testDir": "C:/Users/vrund/OneDrive/Desktop/ai_project/tests/e2e/playwright",
+        "testIgnore": [],
+        "testMatch": ["**/*.@(spec|test).?(c|m)[jt]s?(x)"],
+        "timeout": 30000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "C:\\Users\\vrund\\OneDrive\\Desktop\\ai_project\\test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 2
+        },
+        "name": "chromium",
+        "testDir": "C:\\Users\\vrund\\OneDrive\\Desktop\\ai_project\\tests\\e2e\\playwright",
+        "snapshotDir": "C:\\Users\\vrund\\OneDrive\\Desktop\\ai_project\\tests\\e2e\\playwright",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 30000,
+        "use": {
+          "baseURL": "http://localhost:5174",
+          "trace": "on-first-retry",
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/159.0.8154.6 Safari/537.36",
+          "viewport": {
+            "width": 1280,
+            "height": 720
+          },
+          "screen": {
+            "width": 1920,
+            "height": 1080
+          },
+          "deviceScaleFactor": 1,
+          "isMobile": false,
+          "hasTouch": false,
+          "defaultBrowserType": "chromium"
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "chromium"
+      },
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "C:\\Users\\vrund\\OneDrive\\Desktop\\ai_project\\test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 2
+        },
+        "name": "firefox",
+        "testDir": "C:\\Users\\vrund\\OneDrive\\Desktop\\ai_project\\tests\\e2e\\playwright",
+        "snapshotDir": "C:\\Users\\vrund\\OneDrive\\Desktop\\ai_project\\tests\\e2e\\playwright",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 30000,
+        "use": {
+          "baseURL": "http://localhost:5174",
+          "trace": "on-first-retry",
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:159.0) Gecko/20100101 Firefox/159.0",
+          "viewport": {
+            "width": 1280,
+            "height": 720
+          },
+          "screen": {
+            "width": 1920,
+            "height": 1080
+          },
+          "deviceScaleFactor": 1,
+          "isMobile": false,
+          "hasTouch": false,
+          "defaultBrowserType": "firefox"
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "firefox"
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      ["list", null],
+      [
+        "json",
+        {
+          "outputFile": "reports/playwright-results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.65.1",
+    "workers": 8,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "auth.spec.ts",
+      "file": "auth.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Agent Authentication & Session Lifecycle (AUTH)",
+          "file": "auth.spec.ts",
+          "line": 6,
+          "column": 6,
+          "specs": [
+            {
+              "title": "TC-T1-AUTH-01: successful agent login navigates to dashboard with session",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 4313,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('text=Alex Vance').or(locator('text=AV'))\nExpected: visible\nError: strict mode violation: locator('text=Alex Vance').or(locator('text=AV')) resolved to 3 elements:\n    1) <div class=\"w-8 h-8 rounded-full bg-primary/10 text-primary font-bold text-xs flex items-center justify-center ring-1 ring-border\">AV</div> aka getByText('AV', { exact: true })\n    2) <span class=\"font-headline-sm text-body-sm text-text-primary font-medium leading-none\">Alex Vance</span> aka getByText('Alex Vance')\n    3) <span class=\"font-body-sm text-body-sm text-text-secondary font-medium\">Avg First Response</span> aka getByText('Avg First Response')\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" locator('text=Alex Vance').or(locator('text=AV')) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('text=Alex Vance').or(locator('text=AV'))\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('text=Alex Vance').or(locator('text=AV'))\nExpected: visible\nError: strict mode violation: locator('text=Alex Vance').or(locator('text=AV')) resolved to 3 elements:\n    1) <div class=\"w-8 h-8 rounded-full bg-primary/10 text-primary font-bold text-xs flex items-center justify-center ring-1 ring-border\">AV</div> aka getByText('AV', { exact: true })\n    2) <span class=\"font-headline-sm text-body-sm text-text-primary font-medium leading-none\">Alex Vance</span> aka getByText('Alex Vance')\n    3) <span class=\"font-body-sm text-body-sm text-text-secondary font-medium\">Avg First Response</span> aka getByText('Avg First Response')\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" locator('text=Alex Vance').or(locator('text=AV')) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('text=Alex Vance').or(locator('text=AV'))\u001b[22m\n\n    at C:\\Users\\vrund\\OneDrive\\Desktop\\ai_project\\tests\\e2e\\playwright\\auth.spec.ts:36:79",
+                        "location": {
+                          "file": "C:\\Users\\vrund\\OneDrive\\Desktop\\ai_project\\tests\\e2e\\playwright\\auth.spec.ts",
+                          "column": 79,
+                          "line": 36
+                        },
+                        "snippet": " \u001b[90m 34 |\u001b[39m\n \u001b[90m 35 |\u001b[39m     \u001b[90m// Verify agent profile display\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 36 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'text=Alex Vance'\u001b[39m)\u001b[33m.\u001b[39mor(page\u001b[33m.\u001b[39mlocator(\u001b[32m'text=AV'\u001b[39m)))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                                                               \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 37 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 38 |\u001b[39m\n \u001b[90m 39 |\u001b[39m   test(\u001b[32m'TC-T1-AUTH-04: agent logout terminates session and returns to login form'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\Users\\vrund\\OneDrive\\Desktop\\ai_project\\tests\\e2e\\playwright\\auth.spec.ts",
+                            "column": 79,
+                            "line": 36
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('text=Alex Vance').or(locator('text=AV'))\nExpected: visible\nError: strict mode violation: locator('text=Alex Vance').or(locator('text=AV')) resolved to 3 elements:\n    1) <div class=\"w-8 h-8 rounded-full bg-primary/10 text-primary font-bold text-xs flex items-center justify-center ring-1 ring-border\">AV</div> aka getByText('AV', { exact: true })\n    2) <span class=\"font-headline-sm text-body-sm text-text-primary font-medium leading-none\">Alex Vance</span> aka getByText('Alex Vance')\n    3) <span class=\"font-body-sm text-body-sm text-text-secondary font-medium\">Avg First Response</span> aka getByText('Avg First Response')\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" locator('text=Alex Vance').or(locator('text=AV')) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('text=Alex Vance').or(locator('text=AV'))\u001b[22m\n\n\n  34 |\n  35 |     // Verify agent profile display\n> 36 |     await expect(page.locator('text=Alex Vance').or(page.locator('text=AV'))).toBeVisible();\n     |                                                                               ^\n  37 |   });\n  38 |\n  39 |   test('TC-T1-AUTH-04: agent logout terminates session and returns to login form', async ({\n    at C:\\Users\\vrund\\OneDrive\\Desktop\\ai_project\\tests\\e2e\\playwright\\auth.spec.ts:36:79"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-21T18:18:43.475Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Users\\vrund\\OneDrive\\Desktop\\ai_project\\test-results\\auth-Agent-Authentication--59ab5-s-to-dashboard-with-session-chromium\\error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\Users\\vrund\\OneDrive\\Desktop\\ai_project\\tests\\e2e\\playwright\\auth.spec.ts",
+                        "column": 79,
+                        "line": 36
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                },
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "failed",
+                      "duration": 6234,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('text=Alex Vance').or(locator('text=AV'))\nExpected: visible\nError: strict mode violation: locator('text=Alex Vance').or(locator('text=AV')) resolved to 3 elements:\n    1) <div class=\"w-8 h-8 rounded-full bg-primary/10 text-primary font-bold text-xs flex items-center justify-center ring-1 ring-border\">AV</div> aka getByText('AV', { exact: true })\n    2) <span class=\"font-headline-sm text-body-sm text-text-primary font-medium leading-none\">Alex Vance</span> aka getByText('Alex Vance')\n    ...\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" locator('text=Alex Vance').or(locator('text=AV')) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('text=Alex Vance').or(locator('text=AV'))\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('text=Alex Vance').or(locator('text=AV'))\nExpected: visible\nError: strict mode violation: locator('text=Alex Vance').or(locator('text=AV')) resolved to 3 elements:\n    1) <div class=\"w-8 h-8 rounded-full bg-primary/10 text-primary font-bold text-xs flex items-center justify-center ring-1 ring-border\">AV</div> aka getByText('AV', { exact: true })\n    2) <span class=\"font-headline-sm text-body-sm text-text-primary font-medium leading-none\">Alex Vance</span> aka getByText('Alex Vance')\n    ...\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" locator('text=Alex Vance').or(locator('text=AV')) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('text=Alex Vance').or(locator('text=AV'))\u001b[22m\n\n    at C:\\Users\\vrund\\OneDrive\\Desktop\\ai_project\\tests\\e2e\\playwright\\auth.spec.ts:36:79",
+                        "location": {
+                          "file": "C:\\Users\\vrund\\OneDrive\\Desktop\\ai_project\\tests\\e2e\\playwright\\auth.spec.ts",
+                          "column": 79,
+                          "line": 36
+                        },
+                        "snippet": " \u001b[90m 34 |\u001b[39m\n \u001b[90m 35 |\u001b[39m     \u001b[90m// Verify agent profile display\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 36 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'text=Alex Vance'\u001b[39m)\u001b[33m.\u001b[39mor(page\u001b[33m.\u001b[39mlocator(\u001b[32m'text=AV'\u001b[39m)))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                                                               \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 37 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 38 |\u001b[39m\n \u001b[90m 39 |\u001b[39m   test(\u001b[32m'TC-T1-AUTH-04: agent logout terminates session and returns to login form'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\Users\\vrund\\OneDrive\\Desktop\\ai_project\\tests\\e2e\\playwright\\auth.spec.ts",
+                            "column": 79,
+                            "line": 36
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('text=Alex Vance').or(locator('text=AV'))\nExpected: visible\nError: strict mode violation: locator('text=Alex Vance').or(locator('text=AV')) resolved to 3 elements:\n    1) <div class=\"w-8 h-8 rounded-full bg-primary/10 text-primary font-bold text-xs flex items-center justify-center ring-1 ring-border\">AV</div> aka getByText('AV', { exact: true })\n    2) <span class=\"font-headline-sm text-body-sm text-text-primary font-medium leading-none\">Alex Vance</span> aka getByText('Alex Vance')\n    ...\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" locator('text=Alex Vance').or(locator('text=AV')) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('text=Alex Vance').or(locator('text=AV'))\u001b[22m\n\n\n  34 |\n  35 |     // Verify agent profile display\n> 36 |     await expect(page.locator('text=Alex Vance').or(page.locator('text=AV'))).toBeVisible();\n     |                                                                               ^\n  37 |   });\n  38 |\n  39 |   test('TC-T1-AUTH-04: agent logout terminates session and returns to login form', async ({\n    at C:\\Users\\vrund\\OneDrive\\Desktop\\ai_project\\tests\\e2e\\playwright\\auth.spec.ts:36:79"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-21T18:18:43.459Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Users\\vrund\\OneDrive\\Desktop\\ai_project\\test-results\\auth-Agent-Authentication--59ab5-s-to-dashboard-with-session-firefox\\error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\Users\\vrund\\OneDrive\\Desktop\\ai_project\\tests\\e2e\\playwright\\auth.spec.ts",
+                        "column": 79,
+                        "line": 36
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "d748ac400d08b85935ef-4a529620a8b973984839",
+              "file": "auth.spec.ts",
+              "line": 15,
+              "column": 3
+            },
+            {
+              "title": "TC-T1-AUTH-04: agent logout terminates session and returns to login form",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1425,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-21T18:18:48.952Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                },
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 6344,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-21T18:18:52.335Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "d748ac400d08b85935ef-40a27632363b2d240223",
+              "file": "auth.spec.ts",
+              "line": 39,
+              "column": 3
+            },
+            {
+              "title": "TC-T2-AUTH-02: invalid credentials display RFC 7807 problem details error banner",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 6067,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"login-error\"]')\nExpected pattern: \u001b[32m/Invalid email or password/i\u001b[39m\nReceived string:  \u001b[31m\"errorUnauthorized\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" locator('[data-testid=\"login-error\"]') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"login-error\"]')\u001b[22m\n\u001b[2m    14 × locator resolved to <div data-testid=\"login-error\" class=\"p-3 bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900/60 rounded-xl flex items-start gap-2 text-error text-sm font-medium\">…</div>\u001b[22m\n\u001b[2m       - unexpected value \"errorUnauthorized\"\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"login-error\"]')\nExpected pattern: \u001b[32m/Invalid email or password/i\u001b[39m\nReceived string:  \u001b[31m\"errorUnauthorized\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" locator('[data-testid=\"login-error\"]') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"login-error\"]')\u001b[22m\n\u001b[2m    14 × locator resolved to <div data-testid=\"login-error\" class=\"p-3 bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900/60 rounded-xl flex items-start gap-2 text-error text-sm font-medium\">…</div>\u001b[22m\n\u001b[2m       - unexpected value \"errorUnauthorized\"\u001b[22m\n\n    at C:\\Users\\vrund\\OneDrive\\Desktop\\ai_project\\tests\\e2e\\playwright\\auth.spec.ts:70:31",
+                        "location": {
+                          "file": "C:\\Users\\vrund\\OneDrive\\Desktop\\ai_project\\tests\\e2e\\playwright\\auth.spec.ts",
+                          "column": 31,
+                          "line": 70
+                        },
+                        "snippet": " \u001b[90m 68 |\u001b[39m     \u001b[36mconst\u001b[39m errorBanner \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[32m'[data-testid=\"login-error\"]'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 69 |\u001b[39m     \u001b[36mawait\u001b[39m expect(errorBanner)\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 70 |\u001b[39m     \u001b[36mawait\u001b[39m expect(errorBanner)\u001b[33m.\u001b[39mtoContainText(\u001b[35m/Invalid email or password/i\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                               \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 71 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 72 |\u001b[39m\n \u001b[90m 73 |\u001b[39m   test(\u001b[32m'TC-T2-AUTH-03: rate limited login displays 429 problem details message'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\Users\\vrund\\OneDrive\\Desktop\\ai_project\\tests\\e2e\\playwright\\auth.spec.ts",
+                            "column": 31,
+                            "line": 70
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"login-error\"]')\nExpected pattern: \u001b[32m/Invalid email or password/i\u001b[39m\nReceived string:  \u001b[31m\"errorUnauthorized\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" locator('[data-testid=\"login-error\"]') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"login-error\"]')\u001b[22m\n\u001b[2m    14 × locator resolved to <div data-testid=\"login-error\" class=\"p-3 bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900/60 rounded-xl flex items-start gap-2 text-error text-sm font-medium\">…</div>\u001b[22m\n\u001b[2m       - unexpected value \"errorUnauthorized\"\u001b[22m\n\n\n  68 |     const errorBanner = page.locator('[data-testid=\"login-error\"]');\n  69 |     await expect(errorBanner).toBeVisible();\n> 70 |     await expect(errorBanner).toContainText(/Invalid email or password/i);\n     |                               ^\n  71 |   });\n  72 |\n  73 |   test('TC-T2-AUTH-03: rate limited login displays 429 problem details message', async ({\n    at C:\\Users\\vrund\\OneDrive\\Desktop\\ai_project\\tests\\e2e\\playwright\\auth.spec.ts:70:31"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-21T18:18:50.546Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Users\\vrund\\OneDrive\\Desktop\\ai_project\\test-results\\auth-Agent-Authentication--d38a1-roblem-details-error-banner-chromium\\error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\Users\\vrund\\OneDrive\\Desktop\\ai_project\\tests\\e2e\\playwright\\auth.spec.ts",
+                        "column": 31,
+                        "line": 70
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                },
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 1,
+                      "status": "failed",
+                      "duration": 8433,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"login-error\"]')\nExpected pattern: \u001b[32m/Invalid email or password/i\u001b[39m\nReceived string:  \u001b[31m\"errorUnauthorized\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" locator('[data-testid=\"login-error\"]') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"login-error\"]')\u001b[22m\n\u001b[2m    14 × locator resolved to <div data-testid=\"login-error\" class=\"p-3 bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900/60 rounded-xl flex items-start gap-2 text-error text-sm font-medium\">…</div>\u001b[22m\n\u001b[2m       - unexpected value \"errorUnauthorized\"\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"login-error\"]')\nExpected pattern: \u001b[32m/Invalid email or password/i\u001b[39m\nReceived string:  \u001b[31m\"errorUnauthorized\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" locator('[data-testid=\"login-error\"]') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"login-error\"]')\u001b[22m\n\u001b[2m    14 × locator resolved to <div data-testid=\"login-error\" class=\"p-3 bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900/60 rounded-xl flex items-start gap-2 text-error text-sm font-medium\">…</div>\u001b[22m\n\u001b[2m       - unexpected value \"errorUnauthorized\"\u001b[22m\n\n    at C:\\Users\\vrund\\OneDrive\\Desktop\\ai_project\\tests\\e2e\\playwright\\auth.spec.ts:70:31",
+                        "location": {
+                          "file": "C:\\Users\\vrund\\OneDrive\\Desktop\\ai_project\\tests\\e2e\\playwright\\auth.spec.ts",
+                          "column": 31,
+                          "line": 70
+                        },
+                        "snippet": " \u001b[90m 68 |\u001b[39m     \u001b[36mconst\u001b[39m errorBanner \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[32m'[data-testid=\"login-error\"]'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 69 |\u001b[39m     \u001b[36mawait\u001b[39m expect(errorBanner)\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 70 |\u001b[39m     \u001b[36mawait\u001b[39m expect(errorBanner)\u001b[33m.\u001b[39mtoContainText(\u001b[35m/Invalid email or password/i\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                               \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 71 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 72 |\u001b[39m\n \u001b[90m 73 |\u001b[39m   test(\u001b[32m'TC-T2-AUTH-03: rate limited login displays 429 problem details message'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\Users\\vrund\\OneDrive\\Desktop\\ai_project\\tests\\e2e\\playwright\\auth.spec.ts",
+                            "column": 31,
+                            "line": 70
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"login-error\"]')\nExpected pattern: \u001b[32m/Invalid email or password/i\u001b[39m\nReceived string:  \u001b[31m\"errorUnauthorized\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" locator('[data-testid=\"login-error\"]') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"login-error\"]')\u001b[22m\n\u001b[2m    14 × locator resolved to <div data-testid=\"login-error\" class=\"p-3 bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900/60 rounded-xl flex items-start gap-2 text-error text-sm font-medium\">…</div>\u001b[22m\n\u001b[2m       - unexpected value \"errorUnauthorized\"\u001b[22m\n\n\n  68 |     const errorBanner = page.locator('[data-testid=\"login-error\"]');\n  69 |     await expect(errorBanner).toBeVisible();\n> 70 |     await expect(errorBanner).toContainText(/Invalid email or password/i);\n     |                               ^\n  71 |   });\n  72 |\n  73 |   test('TC-T2-AUTH-03: rate limited login displays 429 problem details message', async ({\n    at C:\\Users\\vrund\\OneDrive\\Desktop\\ai_project\\tests\\e2e\\playwright\\auth.spec.ts:70:31"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-21T18:18:59.526Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Users\\vrund\\OneDrive\\Desktop\\ai_project\\test-results\\auth-Agent-Authentication--d38a1-roblem-details-error-banner-firefox\\error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\Users\\vrund\\OneDrive\\Desktop\\ai_project\\tests\\e2e\\playwright\\auth.spec.ts",
+                        "column": 31,
+                        "line": 70
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "d748ac400d08b85935ef-1f032a402354072bb1aa",
+              "file": "auth.spec.ts",
+              "line": 60,
+              "column": 3
+            },
+            {
+              "title": "TC-T2-AUTH-03: rate limited login displays 429 problem details message",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 6091,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"login-error\"]')\nExpected pattern: \u001b[32m/Rate limit exceeded/i\u001b[39m\nReceived string:  \u001b[31m\"errorToo Many Requests\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" locator('[data-testid=\"login-error\"]') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"login-error\"]')\u001b[22m\n\u001b[2m    14 × locator resolved to <div data-testid=\"login-error\" class=\"p-3 bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900/60 rounded-xl flex items-start gap-2 text-error text-sm font-medium\">…</div>\u001b[22m\n\u001b[2m       - unexpected value \"errorToo Many Requests\"\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"login-error\"]')\nExpected pattern: \u001b[32m/Rate limit exceeded/i\u001b[39m\nReceived string:  \u001b[31m\"errorToo Many Requests\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" locator('[data-testid=\"login-error\"]') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"login-error\"]')\u001b[22m\n\u001b[2m    14 × locator resolved to <div data-testid=\"login-error\" class=\"p-3 bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900/60 rounded-xl flex items-start gap-2 text-error text-sm font-medium\">…</div>\u001b[22m\n\u001b[2m       - unexpected value \"errorToo Many Requests\"\u001b[22m\n\n    at C:\\Users\\vrund\\OneDrive\\Desktop\\ai_project\\tests\\e2e\\playwright\\auth.spec.ts:83:31",
+                        "location": {
+                          "file": "C:\\Users\\vrund\\OneDrive\\Desktop\\ai_project\\tests\\e2e\\playwright\\auth.spec.ts",
+                          "column": 31,
+                          "line": 83
+                        },
+                        "snippet": " \u001b[90m 81 |\u001b[39m     \u001b[36mconst\u001b[39m errorBanner \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[32m'[data-testid=\"login-error\"]'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 82 |\u001b[39m     \u001b[36mawait\u001b[39m expect(errorBanner)\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 83 |\u001b[39m     \u001b[36mawait\u001b[39m expect(errorBanner)\u001b[33m.\u001b[39mtoContainText(\u001b[35m/Rate limit exceeded/i\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                               \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 84 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 85 |\u001b[39m\n \u001b[90m 86 |\u001b[39m   test(\u001b[32m'TC-T2-AUTH-04: toggles password field visibility masking'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\Users\\vrund\\OneDrive\\Desktop\\ai_project\\tests\\e2e\\playwright\\auth.spec.ts",
+                            "column": 31,
+                            "line": 83
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"login-error\"]')\nExpected pattern: \u001b[32m/Rate limit exceeded/i\u001b[39m\nReceived string:  \u001b[31m\"errorToo Many Requests\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" locator('[data-testid=\"login-error\"]') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"login-error\"]')\u001b[22m\n\u001b[2m    14 × locator resolved to <div data-testid=\"login-error\" class=\"p-3 bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900/60 rounded-xl flex items-start gap-2 text-error text-sm font-medium\">…</div>\u001b[22m\n\u001b[2m       - unexpected value \"errorToo Many Requests\"\u001b[22m\n\n\n  81 |     const errorBanner = page.locator('[data-testid=\"login-error\"]');\n  82 |     await expect(errorBanner).toBeVisible();\n> 83 |     await expect(errorBanner).toContainText(/Rate limit exceeded/i);\n     |                               ^\n  84 |   });\n  85 |\n  86 |   test('TC-T2-AUTH-04: toggles password field visibility masking', async ({ page }) => {\n    at C:\\Users\\vrund\\OneDrive\\Desktop\\ai_project\\tests\\e2e\\playwright\\auth.spec.ts:83:31"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-21T18:18:57.626Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Users\\vrund\\OneDrive\\Desktop\\ai_project\\test-results\\auth-Agent-Authentication--55604-429-problem-details-message-chromium\\error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\Users\\vrund\\OneDrive\\Desktop\\ai_project\\tests\\e2e\\playwright\\auth.spec.ts",
+                        "column": 31,
+                        "line": 83
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                },
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 6,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 10275,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"login-error\"]')\nExpected pattern: \u001b[32m/Rate limit exceeded/i\u001b[39m\nReceived string:  \u001b[31m\"errorToo Many Requests\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" locator('[data-testid=\"login-error\"]') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"login-error\"]')\u001b[22m\n\u001b[2m    14 × locator resolved to <div data-testid=\"login-error\" class=\"p-3 bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900/60 rounded-xl flex items-start gap-2 text-error text-sm font-medium\">…</div>\u001b[22m\n\u001b[2m       - unexpected value \"errorToo Many Requests\"\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"login-error\"]')\nExpected pattern: \u001b[32m/Rate limit exceeded/i\u001b[39m\nReceived string:  \u001b[31m\"errorToo Many Requests\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" locator('[data-testid=\"login-error\"]') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"login-error\"]')\u001b[22m\n\u001b[2m    14 × locator resolved to <div data-testid=\"login-error\" class=\"p-3 bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900/60 rounded-xl flex items-start gap-2 text-error text-sm font-medium\">…</div>\u001b[22m\n\u001b[2m       - unexpected value \"errorToo Many Requests\"\u001b[22m\n\n    at C:\\Users\\vrund\\OneDrive\\Desktop\\ai_project\\tests\\e2e\\playwright\\auth.spec.ts:83:31",
+                        "location": {
+                          "file": "C:\\Users\\vrund\\OneDrive\\Desktop\\ai_project\\tests\\e2e\\playwright\\auth.spec.ts",
+                          "column": 31,
+                          "line": 83
+                        },
+                        "snippet": " \u001b[90m 81 |\u001b[39m     \u001b[36mconst\u001b[39m errorBanner \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[32m'[data-testid=\"login-error\"]'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 82 |\u001b[39m     \u001b[36mawait\u001b[39m expect(errorBanner)\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 83 |\u001b[39m     \u001b[36mawait\u001b[39m expect(errorBanner)\u001b[33m.\u001b[39mtoContainText(\u001b[35m/Rate limit exceeded/i\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                               \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 84 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 85 |\u001b[39m\n \u001b[90m 86 |\u001b[39m   test(\u001b[32m'TC-T2-AUTH-04: toggles password field visibility masking'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\Users\\vrund\\OneDrive\\Desktop\\ai_project\\tests\\e2e\\playwright\\auth.spec.ts",
+                            "column": 31,
+                            "line": 83
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"login-error\"]')\nExpected pattern: \u001b[32m/Rate limit exceeded/i\u001b[39m\nReceived string:  \u001b[31m\"errorToo Many Requests\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" locator('[data-testid=\"login-error\"]') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"login-error\"]')\u001b[22m\n\u001b[2m    14 × locator resolved to <div data-testid=\"login-error\" class=\"p-3 bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900/60 rounded-xl flex items-start gap-2 text-error text-sm font-medium\">…</div>\u001b[22m\n\u001b[2m       - unexpected value \"errorToo Many Requests\"\u001b[22m\n\n\n  81 |     const errorBanner = page.locator('[data-testid=\"login-error\"]');\n  82 |     await expect(errorBanner).toBeVisible();\n> 83 |     await expect(errorBanner).toContainText(/Rate limit exceeded/i);\n     |                               ^\n  84 |   });\n  85 |\n  86 |   test('TC-T2-AUTH-04: toggles password field visibility masking', async ({ page }) => {\n    at C:\\Users\\vrund\\OneDrive\\Desktop\\ai_project\\tests\\e2e\\playwright\\auth.spec.ts:83:31"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-21T18:19:09.606Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Users\\vrund\\OneDrive\\Desktop\\ai_project\\test-results\\auth-Agent-Authentication--55604-429-problem-details-message-firefox\\error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\Users\\vrund\\OneDrive\\Desktop\\ai_project\\tests\\e2e\\playwright\\auth.spec.ts",
+                        "column": 31,
+                        "line": 83
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "d748ac400d08b85935ef-ce04fea933c15886db22",
+              "file": "auth.spec.ts",
+              "line": 73,
+              "column": 3
+            },
+            {
+              "title": "TC-T2-AUTH-04: toggles password field visibility masking",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 5,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 936,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-21T18:19:04.666Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                },
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 7,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 5881,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-21T18:19:21.791Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "d748ac400d08b85935ef-b485a8f45a1c52f5390c",
+              "file": "auth.spec.ts",
+              "line": 86,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-11-21T18:18:38.842Z",
+    "duration": 50744.467000000004,
+    "expected": 4,
+    "skipped": 0,
+    "unexpected": 6,
+    "flaky": 0
+  }
+}

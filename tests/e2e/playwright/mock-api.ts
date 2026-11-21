@@ -107,6 +107,19 @@ export async function setupMockApi(page: Page, customStore?: MockStore) {
     });
   });
 
+  // Notifications Route
+  await page.route('**/api/v1/notifications**', async (route: Route) => {
+    if (isRealApi) {
+      await route.fallback();
+      return;
+    }
+    await route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify({ data: [] }),
+    });
+  });
+
   // 2. Auth Routes
   await page.route('**/api/v1/auth/login', async (route: Route) => {
     if (isRealApi) {
@@ -119,7 +132,7 @@ export async function setupMockApi(page: Page, customStore?: MockStore) {
     if (email === 'ratelimit@company.com') {
       await route.fulfill({
         status: 429,
-        contentType: 'application/problem+json',
+        contentType: 'application/json',
         body: JSON.stringify({
           type: 'https://supportpilot.io/errors/too-many-requests',
           title: 'Too Many Requests',
@@ -133,7 +146,7 @@ export async function setupMockApi(page: Page, customStore?: MockStore) {
     if (password === 'WrongPassword!' || email === 'unknown@company.com') {
       await route.fulfill({
         status: 401,
-        contentType: 'application/problem+json',
+        contentType: 'application/json',
         body: JSON.stringify({
           type: 'https://supportpilot.io/errors/unauthorized',
           title: 'Unauthorized',

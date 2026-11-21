@@ -133,6 +133,7 @@ export function createApp(config: GatewayConfig = {}): Express {
   app.use('/api/v1/webhooks', ticketProxy);
   app.use('/api/v1/audit-logs', ticketProxy);
   app.use('/api/v1/feature-flags', ticketProxy);
+  app.use('/api/v1/billing', ticketProxy);
   app.use('/api/v1/admin', ticketProxy);
 
   // ── Proxy routes to ai-service (AI-5, AI-6, AI-1) ──

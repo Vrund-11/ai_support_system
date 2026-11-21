@@ -1,26 +1,16 @@
 import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import {
-  BookOpen,
   UploadCloud,
   FileText,
-  Search,
+  FileCode,
+  FileSpreadsheet,
   CheckCircle2,
   Clock,
-  AlertTriangle,
   XCircle,
   HelpCircle,
   Layers,
-  Sparkles,
-  FileCode,
-  FileSpreadsheet,
   ChevronRight,
-  X,
-  Copy,
-  Check,
-  Hash,
-  Database,
-  ExternalLink,
 } from 'lucide-react';
 import { api } from '../../lib/api';
 
@@ -225,33 +215,34 @@ export function KnowledgeBaseView() {
   };
 
   return (
-    <div className="space-y-6">
-      {/* Header and View Switcher */}
-      <div className="relative overflow-hidden rounded-2xl border border-slate-200/80 bg-white p-6 shadow-xs flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+    <div className="space-y-space-lg">
+      {/* Header and View Switcher with Stitch Diagnostics Styling */}
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-space-md bg-surface p-space-lg rounded-xl border border-border shadow-sm">
         <div>
-          <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full text-xs font-semibold bg-indigo-50 text-indigo-700 border border-indigo-100 mb-2">
-            <Database className="w-3.5 h-3.5 text-indigo-600" />
-            <span>pgvector RAG Corpus • 1536-dim Embeddings</span>
+          <div className="flex items-center gap-space-xs font-code-mono text-code-mono text-primary font-medium tracking-tight mb-1">
+            <span className="inline-block w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+            <span>VECTOR_NAMESPACE: PROD-SUPPORT-RAG</span>
+            <span className="text-outline-variant">/</span>
+            <span className="text-text-secondary">v2.4-hybrid</span>
           </div>
-          <h1 className="text-xl font-bold tracking-tight text-slate-900 flex items-center gap-2">
-            <BookOpen className="w-5 h-5 text-indigo-600" />
-            Knowledge Base
+          <h1 className="font-headline-lg text-headline-lg text-text-primary tracking-tight">
+            Knowledge Base &amp; Vector Store
           </h1>
-          <p className="text-xs text-slate-500 mt-1 max-w-xl">
+          <p className="font-body-md text-body-md text-text-secondary mt-0.5 max-w-3xl">
             Manage documentation, verify chunk embeddings, inspect token distributions, and test RAG
             answer retrieval.
           </p>
         </div>
 
-        <div className="flex items-center gap-3">
-          <div className="inline-flex rounded-xl bg-slate-100 p-1 border border-slate-200/80 text-xs font-semibold">
+        <div className="flex items-center gap-space-sm flex-wrap">
+          <div className="inline-flex rounded-xl bg-surface-subtle p-1 border border-border text-body-sm font-semibold">
             <button
               type="button"
               onClick={() => setActiveTab('documents')}
-              className={`px-3.5 py-1.5 rounded-lg transition-all ${
+              className={`px-3.5 py-1.5 rounded-lg transition-all cursor-pointer ${
                 activeTab === 'documents'
-                  ? 'bg-white text-slate-900 shadow-xs'
-                  : 'text-slate-600 hover:text-slate-900'
+                  ? 'bg-surface text-text-primary shadow-xs font-semibold'
+                  : 'text-text-secondary hover:text-text-primary'
               }`}
             >
               Documents ({documents.length})
@@ -259,94 +250,117 @@ export function KnowledgeBaseView() {
             <button
               type="button"
               onClick={() => setActiveTab('test')}
-              className={`px-3.5 py-1.5 rounded-lg transition-all flex items-center gap-1.5 ${
+              className={`px-3.5 py-1.5 rounded-lg transition-all flex items-center gap-1.5 cursor-pointer ${
                 activeTab === 'test'
-                  ? 'bg-white text-slate-900 shadow-xs'
-                  : 'text-slate-600 hover:text-slate-900'
+                  ? 'bg-surface text-text-primary shadow-xs font-semibold'
+                  : 'text-text-secondary hover:text-text-primary'
               }`}
             >
-              <Sparkles className="w-3.5 h-3.5 text-indigo-600" />
-              Test Console
+              <span className="material-symbols-outlined text-[16px] text-primary">
+                auto_awesome
+              </span>
+              <span>Test Console</span>
             </button>
           </div>
 
           <button
             type="button"
             onClick={() => setIsUploadModalOpen(true)}
-            className="inline-flex items-center gap-1.5 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold px-4 py-2 rounded-xl shadow-xs transition-colors"
+            className="inline-flex items-center gap-1.5 bg-primary hover:bg-primary-container text-on-primary font-body-md text-body-md font-semibold px-4 py-2 rounded-xl shadow-xs transition-colors cursor-pointer"
           >
-            <UploadCloud className="w-4 h-4" />
-            Add Document
+            <span className="material-symbols-outlined text-[18px]">add_circle</span>
+            <span>Add Document</span>
           </button>
         </div>
       </div>
 
       {/* Stitch MCP Summary Metrics Bento Grid */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="p-4 rounded-2xl bg-white border border-slate-200/80 shadow-xs flex items-center justify-between">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-space-md">
+        <div className="p-space-md rounded-xl bg-surface border border-border shadow-sm flex items-center justify-between">
           <div>
-            <div className="text-xs text-slate-500 font-medium">Total Articles</div>
-            <div className="text-xl font-bold text-slate-900 mt-1">{documents.length}</div>
-            <div className="text-[11px] text-emerald-600 font-medium flex items-center gap-1 mt-1">
-              <span>▲</span> Active in index
+            <div className="font-body-sm text-body-sm text-text-secondary font-medium">
+              Total Articles
+            </div>
+            <div className="font-headline-lg text-headline-lg font-bold text-text-primary mt-1">
+              {documents.length}
+            </div>
+            <div className="font-body-sm text-body-sm text-ticket-open-text font-medium flex items-center gap-1 mt-1">
+              <span className="material-symbols-outlined text-[14px]">trending_up</span>
+              <span>Active in index</span>
             </div>
           </div>
-          <div className="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center shrink-0">
-            <BookOpen className="w-5 h-5" />
+          <div className="w-10 h-10 rounded-xl bg-primary-fixed text-primary flex items-center justify-center shrink-0">
+            <span className="material-symbols-outlined text-[22px]">article</span>
           </div>
         </div>
-        <div className="p-4 rounded-2xl bg-white border border-slate-200/80 shadow-xs flex items-center justify-between">
+        <div className="p-space-md rounded-xl bg-surface border border-border shadow-sm flex items-center justify-between">
           <div>
-            <div className="text-xs text-slate-500 font-medium">Embedded Chunks</div>
-            <div className="text-xl font-bold text-slate-900 mt-1">
+            <div className="font-body-sm text-body-sm text-text-secondary font-medium">
+              Embedded Chunks
+            </div>
+            <div className="font-headline-lg text-headline-lg font-bold text-text-primary mt-1">
               {documents.reduce((acc, d) => acc + (d.chunksCount || 0), 0)}
             </div>
-            <div className="text-[11px] text-slate-400 font-mono mt-1">384d · all-MiniLM-L6-v2</div>
+            <div className="font-code-mono text-code-mono text-text-secondary mt-1">
+              1536-dim · text-embedding-3
+            </div>
           </div>
-          <div className="w-10 h-10 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center shrink-0">
-            <Layers className="w-5 h-5" />
+          <div className="w-10 h-10 rounded-xl bg-surface-container-high text-secondary flex items-center justify-center shrink-0">
+            <span className="material-symbols-outlined text-[22px]">layers</span>
           </div>
         </div>
-        <div className="p-4 rounded-2xl bg-white border border-slate-200/80 shadow-xs flex items-center justify-between">
+        <div className="p-space-md rounded-xl bg-surface border border-border shadow-sm flex items-center justify-between">
           <div>
-            <div className="text-xs text-slate-500 font-medium">Index Sync</div>
-            <div className="text-xl font-bold text-slate-900 mt-1">99.9%</div>
-            <div className="text-[11px] text-emerald-600 font-medium flex items-center gap-1 mt-1">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+            <div className="font-body-sm text-body-sm text-text-secondary font-medium">
+              Index Sync
+            </div>
+            <div className="font-headline-lg text-headline-lg font-bold text-text-primary mt-1">
+              99.9%
+            </div>
+            <div className="font-body-sm text-body-sm text-ticket-open-text font-medium flex items-center gap-1 mt-1">
+              <span className="w-1.5 h-1.5 rounded-full bg-ticket-open-text animate-pulse" />
               Live pgvector
             </div>
           </div>
-          <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
-            <CheckCircle2 className="w-5 h-5" />
+          <div className="w-10 h-10 rounded-xl bg-ticket-open-bg text-ticket-open-text flex items-center justify-center shrink-0">
+            <span className="material-symbols-outlined text-[22px]">verified</span>
           </div>
         </div>
-        <div className="p-4 rounded-2xl bg-white border border-slate-200/80 shadow-xs flex items-center justify-between">
+        <div className="p-space-md rounded-xl bg-surface border border-border shadow-sm flex items-center justify-between">
           <div>
-            <div className="text-xs text-slate-500 font-medium">Avg Retrieval Latency</div>
-            <div className="text-xl font-bold text-slate-900 mt-1">34ms</div>
-            <div className="text-[11px] text-indigo-600 font-medium mt-1">P95 hybrid search</div>
+            <div className="font-body-sm text-body-sm text-text-secondary font-medium">
+              Avg Retrieval Latency
+            </div>
+            <div className="font-headline-lg text-headline-lg font-bold text-text-primary mt-1">
+              34ms
+            </div>
+            <div className="font-body-sm text-body-sm text-primary font-medium mt-1">
+              P95 hybrid search
+            </div>
           </div>
-          <div className="w-10 h-10 rounded-xl bg-sky-50 text-sky-600 flex items-center justify-center shrink-0">
-            <Clock className="w-5 h-5" />
+          <div className="w-10 h-10 rounded-xl bg-primary-fixed/40 text-primary flex items-center justify-center shrink-0">
+            <span className="material-symbols-outlined text-[22px]">speed</span>
           </div>
         </div>
       </div>
 
       {/* Tab: Documents Table */}
       {activeTab === 'documents' && (
-        <div className="bg-white rounded-2xl border border-slate-200/80 shadow-xs overflow-hidden">
+        <div className="bg-surface rounded-xl border border-border shadow-sm overflow-hidden">
           {isLoading ? (
-            <div className="p-12 text-center text-slate-500 space-y-2">
-              <Clock className="w-6 h-6 animate-spin mx-auto text-indigo-600" />
-              <p className="text-sm font-medium">Loading knowledge base documents...</p>
+            <div className="p-12 text-center text-text-secondary space-y-2">
+              <Clock className="w-6 h-6 animate-spin mx-auto text-primary" />
+              <p className="font-body-sm font-medium">Loading knowledge base documents...</p>
             </div>
           ) : documents.length === 0 ? (
             <div className="p-12 text-center space-y-3">
-              <div className="w-14 h-14 rounded-2xl bg-indigo-50 border border-indigo-100 flex items-center justify-center mx-auto text-indigo-600">
-                <BookOpen className="w-7 h-7" />
+              <div className="w-14 h-14 rounded-2xl bg-primary-fixed text-primary flex items-center justify-center mx-auto">
+                <span className="material-symbols-outlined text-[32px]">article</span>
               </div>
-              <h3 className="text-base font-bold text-slate-900">No documents in Knowledge Base</h3>
-              <p className="text-xs text-slate-500 max-w-sm mx-auto">
+              <h3 className="font-headline-md text-headline-sm font-bold text-text-primary">
+                No documents in Knowledge Base
+              </h3>
+              <p className="font-body-sm text-body-sm text-text-secondary max-w-sm mx-auto">
                 Upload markdown guides or articles to power automated customer answers with grounded
                 citations.
               </p>
@@ -354,7 +368,7 @@ export function KnowledgeBaseView() {
                 <button
                   type="button"
                   onClick={() => setIsUploadModalOpen(true)}
-                  className="inline-flex items-center gap-1.5 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold px-4 py-2 rounded-xl shadow-xs transition-colors"
+                  className="inline-flex items-center gap-1.5 bg-primary hover:bg-primary-container text-on-primary font-body-sm text-body-sm font-semibold px-4 py-2 rounded-xl shadow-xs transition-colors cursor-pointer"
                 >
                   <UploadCloud className="w-4 h-4" />
                   Upload First Article
@@ -363,8 +377,8 @@ export function KnowledgeBaseView() {
             </div>
           ) : (
             <div className="overflow-x-auto">
-              <table className="min-w-full divide-y divide-slate-200/80 text-left text-xs">
-                <thead className="bg-slate-50/80 text-slate-500 font-semibold uppercase text-[11px]">
+              <table className="min-w-full divide-y divide-border text-left font-body-sm text-body-sm">
+                <thead className="bg-surface-subtle text-text-secondary font-code-mono uppercase text-[11px]">
                   <tr>
                     <th className="py-3.5 px-6">Document Title</th>
                     <th className="py-3.5 px-4">Source Type</th>
@@ -374,37 +388,39 @@ export function KnowledgeBaseView() {
                     <th className="py-3.5 px-6 text-right">Actions</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-100">
+                <tbody className="divide-y divide-border text-text-primary">
                   {documents.map((doc) => (
                     <tr
                       key={doc.id}
-                      className="hover:bg-slate-50/70 transition-colors group cursor-pointer"
+                      className="hover:bg-surface-subtle transition-colors group cursor-pointer"
                       onClick={() => setSelectedDocForInspect(doc)}
                     >
-                      <td className="py-3.5 px-6 font-medium text-slate-900">
+                      <td className="py-3.5 px-6 font-medium">
                         <div className="flex items-center gap-3">
                           {getDocTypeIcon(doc.title, doc.source)}
                           <div>
-                            <div className="font-bold text-slate-900 group-hover:text-indigo-600 transition-colors">
+                            <div className="font-bold text-text-primary group-hover:text-primary transition-colors">
                               {doc.title}
                             </div>
-                            <div className="text-[11px] text-slate-400 font-mono">id: {doc.id}</div>
+                            <div className="text-[11px] text-text-secondary font-code-mono">
+                              id: {doc.id}
+                            </div>
                           </div>
                         </div>
                       </td>
-                      <td className="py-3.5 px-4 text-slate-600">
-                        <span className="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 font-mono uppercase text-[10px] font-semibold border border-slate-200/60">
+                      <td className="py-3.5 px-4 text-text-secondary">
+                        <span className="px-2 py-0.5 rounded bg-surface-subtle text-text-primary font-code-mono uppercase text-[10px] font-semibold border border-border">
                           {doc.source}
                         </span>
                       </td>
                       <td className="py-3.5 px-4">{renderStatusChip(doc.status)}</td>
-                      <td className="py-3.5 px-4 text-slate-700 font-mono text-xs">
-                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-indigo-50/60 text-indigo-700 border border-indigo-100 font-semibold">
-                          <Layers className="w-3.5 h-3.5 text-indigo-500" />
+                      <td className="py-3.5 px-4 text-text-primary font-code-mono text-xs">
+                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-primary-fixed/40 text-primary border border-primary/20 font-semibold">
+                          <Layers className="w-3.5 h-3.5 text-primary" />
                           {doc.chunksCount} chunks
                         </span>
                       </td>
-                      <td className="py-3.5 px-4 text-slate-400 text-xs">
+                      <td className="py-3.5 px-4 text-text-secondary text-xs">
                         {new Date(doc.updatedAt).toLocaleDateString()}
                       </td>
                       <td className="py-3.5 px-6 text-right">
@@ -414,7 +430,7 @@ export function KnowledgeBaseView() {
                             e.stopPropagation();
                             setSelectedDocForInspect(doc);
                           }}
-                          className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg border border-slate-200 text-slate-700 text-xs font-semibold hover:bg-slate-50 hover:text-indigo-600 hover:border-indigo-200 transition-all shadow-2xs"
+                          className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg border border-border text-text-primary text-xs font-semibold hover:bg-surface-subtle hover:text-primary transition-all shadow-2xs cursor-pointer"
                         >
                           <span>Inspect Chunks</span>
                           <ChevronRight className="w-3.5 h-3.5" />
@@ -431,25 +447,25 @@ export function KnowledgeBaseView() {
 
       {/* Tab: Test Retrieval Console */}
       {activeTab === 'test' && (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-space-lg">
           {/* Query Console */}
-          <div className="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-xs space-y-4">
-            <div className="border-b border-slate-100 pb-3">
-              <h2 className="text-sm font-bold text-slate-900 flex items-center gap-2">
-                <div className="p-1 rounded-lg bg-indigo-50 text-indigo-600">
-                  <Search className="w-4 h-4" />
+          <div className="bg-surface p-space-lg rounded-xl border border-border shadow-sm space-y-space-md">
+            <div className="border-b border-border pb-3">
+              <h2 className="font-headline-sm text-body-md font-bold text-text-primary flex items-center gap-2">
+                <div className="p-1 rounded-lg bg-primary-fixed text-primary">
+                  <span className="material-symbols-outlined text-[18px]">search</span>
                 </div>
                 <span>Ask Knowledge Base</span>
               </h2>
-              <p className="text-xs text-slate-400 mt-0.5">
+              <p className="font-body-sm text-body-sm text-text-secondary mt-0.5">
                 Query the pgvector index with reciprocal rank fusion. Inspect citations and
                 confidence threshold gates.
               </p>
             </div>
 
-            <form onSubmit={handleRunTest} className="space-y-4">
+            <form onSubmit={handleRunTest} className="space-y-space-md">
               <div className="space-y-1.5">
-                <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+                <label className="font-code-mono text-[11px] font-bold text-text-secondary uppercase tracking-wider">
                   Test Retrieval Query
                 </label>
                 <textarea
@@ -457,13 +473,13 @@ export function KnowledgeBaseView() {
                   onChange={(e) => setTestQuestion(e.target.value)}
                   placeholder="e.g. How do I configure SAML SSO in SupportPilot?"
                   rows={4}
-                  className="w-full rounded-xl border border-slate-200/80 p-3.5 text-xs text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all shadow-2xs resize-none"
+                  className="w-full rounded-xl border border-border bg-surface-subtle p-3.5 font-body-md text-body-md text-text-primary placeholder:text-text-secondary focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary transition-all shadow-2xs resize-none"
                 />
               </div>
 
               {/* Sample Prompts */}
               <div className="space-y-1.5">
-                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+                <span className="font-code-mono text-[10px] font-bold text-text-secondary uppercase tracking-wider">
                   Quick Examples
                 </span>
                 <div className="flex flex-wrap gap-1.5">
@@ -476,7 +492,7 @@ export function KnowledgeBaseView() {
                       key={sample}
                       type="button"
                       onClick={() => setTestQuestion(sample)}
-                      className="text-[11px] px-2.5 py-1 rounded-lg bg-slate-50 border border-slate-200/80 text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-colors text-left"
+                      className="font-body-sm text-body-sm px-2.5 py-1 rounded-lg bg-surface-subtle border border-border text-text-secondary hover:text-text-primary transition-colors text-left cursor-pointer"
                     >
                       {sample}
                     </button>
@@ -487,60 +503,58 @@ export function KnowledgeBaseView() {
               <button
                 type="submit"
                 disabled={isTesting || !testQuestion.trim()}
-                className="w-full bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 disabled:opacity-50 text-white font-semibold py-2.5 rounded-xl text-xs transition-all flex items-center justify-center gap-2 shadow-xs cursor-pointer"
+                className="w-full bg-primary hover:bg-primary-container disabled:opacity-50 text-on-primary font-semibold py-2.5 rounded-xl font-body-md text-body-md transition-all flex items-center justify-center gap-2 shadow-xs cursor-pointer"
               >
                 {isTesting ? (
                   <Clock className="w-4 h-4 animate-spin" />
                 ) : (
-                  <Sparkles className="w-4 h-4" />
+                  <span className="material-symbols-outlined text-[18px]">auto_awesome</span>
                 )}
-                <span>Run RAG Search • Run Retrieval & Synthesis</span>
+                <span>Run Retrieval &amp; Synthesis</span>
               </button>
             </form>
           </div>
 
           {/* Synthesis & Verification Output */}
-          <div className="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-xs space-y-4">
-            <div className="border-b border-slate-100 pb-3 flex items-center justify-between">
+          <div className="bg-surface p-space-lg rounded-xl border border-border shadow-sm space-y-space-md">
+            <div className="border-b border-border pb-3 flex items-center justify-between">
               <div>
-                <h2 className="text-sm font-bold text-slate-900 flex items-center gap-2">
-                  <div className="p-1 rounded-lg bg-indigo-50 text-indigo-600">
-                    <Layers className="w-4 h-4" />
+                <h2 className="font-headline-sm text-body-md font-bold text-text-primary flex items-center gap-2">
+                  <div className="p-1 rounded-lg bg-primary-fixed text-primary">
+                    <span className="material-symbols-outlined text-[18px]">layers</span>
                   </div>
-                  <span>Synthesis & Verification Output</span>
+                  <span>Synthesis &amp; Verification Output</span>
                 </h2>
-                <p className="text-xs text-slate-400 mt-0.5">
-                  Calibrated grounding evaluation & citation provenance
+                <p className="font-body-sm text-body-sm text-text-secondary mt-0.5">
+                  Calibrated grounding evaluation &amp; citation provenance
                 </p>
               </div>
               {testResult && (
-                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-100 text-slate-600 font-semibold">
+                <span className="font-code-mono text-[10px] px-2 py-0.5 rounded bg-surface-subtle text-text-secondary font-semibold">
                   pgvector RRF
                 </span>
               )}
             </div>
 
             {testResult ? (
-              <div className="space-y-4">
+              <div className="space-y-space-md">
                 {/* Confidence Meter */}
-                <div className="p-4 rounded-xl bg-slate-50/80 border border-slate-200/60 space-y-2">
-                  <div className="flex items-center justify-between text-xs">
-                    <span className="font-semibold text-slate-600">Calibrated Confidence</span>
-                    <span className="font-mono font-bold text-slate-900">
+                <div className="p-space-md rounded-xl bg-surface-subtle border border-border space-y-2">
+                  <div className="flex items-center justify-between font-body-sm">
+                    <span className="font-semibold text-text-primary">Calibrated Confidence</span>
+                    <span className="font-code-mono font-bold text-text-primary">
                       {Math.round(testResult.confidence * 100)}%
                     </span>
                   </div>
-                  <div className="w-full bg-slate-200/80 rounded-full h-2 overflow-hidden">
+                  <div className="w-full bg-surface-container rounded-full h-2 overflow-hidden">
                     <div
                       className={`h-full rounded-full transition-all duration-500 ${
-                        testResult.confidence >= 0.55
-                          ? 'bg-gradient-to-r from-emerald-500 to-emerald-600'
-                          : 'bg-gradient-to-r from-rose-500 to-rose-600'
+                        testResult.confidence >= 0.55 ? 'bg-ticket-open-text' : 'bg-priority-urgent'
                       }`}
                       style={{ width: `${Math.min(100, testResult.confidence * 100)}%` }}
                     />
                   </div>
-                  <div className="flex justify-between text-[10px] text-slate-400">
+                  <div className="flex justify-between font-code-mono text-[10px] text-text-secondary">
                     <span>Gate threshold: 55%</span>
                     <span>
                       {testResult.confidence >= 0.55
@@ -551,9 +565,9 @@ export function KnowledgeBaseView() {
                 </div>
 
                 {/* Synthesized Answer Box */}
-                <div className="relative p-4 bg-gradient-to-br from-indigo-50/30 via-slate-50/40 to-white rounded-xl border border-indigo-100/70 text-xs text-slate-800 leading-relaxed shadow-2xs">
-                  <div className="flex items-center gap-1.5 text-indigo-700 font-bold text-[11px] mb-2 uppercase tracking-wide">
-                    <Sparkles className="w-3.5 h-3.5" />
+                <div className="p-space-md bg-surface-container-low rounded-xl border border-border text-body-md text-text-primary leading-relaxed shadow-2xs">
+                  <div className="flex items-center gap-1.5 text-primary font-bold font-code-mono text-[11px] mb-2 uppercase tracking-wide">
+                    <span className="material-symbols-outlined text-[14px]">auto_awesome</span>
                     <span>Synthesized RAG Response</span>
                   </div>
                   <p>{testResult.answer}</p>
@@ -562,7 +576,7 @@ export function KnowledgeBaseView() {
                 {/* Citations */}
                 {testResult.citations.length > 0 && (
                   <div className="space-y-2">
-                    <h4 className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+                    <h4 className="font-code-mono text-[11px] font-bold text-text-secondary uppercase tracking-wider">
                       Verified Citations (T-AI-02)
                     </h4>
                     <div className="flex flex-wrap gap-2">
@@ -573,23 +587,29 @@ export function KnowledgeBaseView() {
                           onClick={() =>
                             setSelectedCitation(selectedCitation === c.chunkId ? null : c.chunkId)
                           }
-                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 border border-indigo-200 text-xs font-medium hover:bg-indigo-100 transition-colors shadow-2xs"
+                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-ticket-new-bg text-ticket-new-text border border-ticket-new-text/20 font-body-sm text-body-sm font-medium hover:bg-ticket-new-bg/80 transition-colors shadow-2xs cursor-pointer"
                         >
-                          <BookOpen className="w-3.5 h-3.5 text-indigo-600" />
+                          <span className="material-symbols-outlined text-[14px]">menu_book</span>
                           <span>{c.title}</span>
-                          <span className="font-mono text-[10px] opacity-75">({c.chunkId})</span>
-                          <ExternalLink className="w-3 h-3 ml-0.5 opacity-60" />
+                          <span className="font-code-mono text-[10px] opacity-75">
+                            ({c.chunkId})
+                          </span>
+                          <span className="material-symbols-outlined text-[14px] ml-0.5 opacity-60">
+                            open_in_new
+                          </span>
                         </button>
                       ))}
                     </div>
 
                     {selectedCitation && (
-                      <div className="p-3 bg-slate-900 text-slate-200 rounded-lg text-[11px] font-mono border border-slate-800 mt-2 space-y-1">
-                        <div className="flex justify-between text-slate-400 text-[10px]">
+                      <div className="p-3 bg-neutral text-on-primary rounded-xl text-[11px] font-code-mono border border-border mt-2 space-y-1">
+                        <div className="flex justify-between text-text-secondary text-[10px]">
                           <span>Citation Chunk Inspector: {selectedCitation}</span>
-                          <span className="text-emerald-400">Score: 0.942 (Cosine)</span>
+                          <span className="text-ticket-open-text font-bold">
+                            Score: 0.942 (Cosine)
+                          </span>
                         </div>
-                        <p className="text-slate-300">
+                        <p className="text-surface">
                           SupportPilot supports SAML 2.0 / OIDC enterprise authentication with Okta,
                           Azure AD, and Google Workspace.
                         </p>
@@ -599,24 +619,26 @@ export function KnowledgeBaseView() {
                 )}
 
                 {/* Escalation Gate Badge */}
-                <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
-                  <span className="text-slate-500 font-medium">Escalation Gate</span>
+                <div className="pt-3 border-t border-border flex items-center justify-between font-body-sm">
+                  <span className="text-text-secondary font-medium">Escalation Gate</span>
                   {testResult.shouldEscalate ? (
-                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-rose-700 bg-rose-50 border border-rose-200 font-bold text-[11px]">
-                      <AlertTriangle className="w-3.5 h-3.5" />
+                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-priority-urgent bg-priority-urgent/10 border border-priority-urgent/20 font-bold font-code-mono text-[11px]">
+                      <span className="material-symbols-outlined text-[14px]">warning</span>
                       ESCALATE TO HUMAN AGENT
                     </span>
                   ) : (
-                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-emerald-700 bg-emerald-50 border border-emerald-200 font-bold text-[11px]">
-                      <CheckCircle2 className="w-3.5 h-3.5" />
-                      GROUNDED & DEFLECTED
+                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-ticket-open-text bg-ticket-open-bg border border-ticket-open-text/20 font-bold font-code-mono text-[11px]">
+                      <span className="material-symbols-outlined text-[14px]">check_circle</span>
+                      GROUNDED &amp; DEFLECTED
                     </span>
                   )}
                 </div>
               </div>
             ) : (
-              <div className="p-12 text-center text-slate-400 text-xs space-y-2">
-                <Search className="w-8 h-8 mx-auto text-slate-300 stroke-1" />
+              <div className="p-12 text-center text-text-secondary font-body-sm space-y-2">
+                <span className="material-symbols-outlined text-[32px] text-outline-variant">
+                  search
+                </span>
                 <p>
                   Enter a query in the console and run retrieval to test pgvector RAG synthesis.
                 </p>
@@ -628,75 +650,77 @@ export function KnowledgeBaseView() {
 
       {/* Chunk Inspector Drawer / Modal */}
       {selectedDocForInspect && (
-        <div className="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-xs flex justify-end">
-          <div className="bg-white w-full max-w-xl h-full shadow-2xl border-l border-slate-200 flex flex-col animate-in slide-in-from-right duration-200">
+        <div className="fixed inset-0 z-50 bg-neutral/50 backdrop-blur-xs flex justify-end">
+          <div className="bg-surface w-full max-w-xl h-full shadow-2xl border-l border-border flex flex-col animate-in slide-in-from-right duration-200">
             {/* Drawer Header */}
-            <div className="p-5 border-b border-slate-200 flex items-center justify-between bg-slate-50/80">
+            <div className="p-space-md border-b border-border flex items-center justify-between bg-surface-subtle">
               <div className="space-y-0.5">
                 <div className="flex items-center gap-2">
-                  <Layers className="w-4 h-4 text-indigo-600" />
-                  <h3 className="font-bold text-slate-900 text-sm">Chunk Vector Inspector</h3>
+                  <span className="material-symbols-outlined text-primary text-[20px]">layers</span>
+                  <h3 className="font-bold text-text-primary font-headline-sm text-body-md">
+                    Chunk Vector Inspector
+                  </h3>
                 </div>
-                <p className="text-xs text-slate-500 truncate max-w-md">
+                <p className="font-body-sm text-body-sm text-text-secondary truncate max-w-md">
                   {selectedDocForInspect.title}
                 </p>
               </div>
               <button
                 type="button"
                 onClick={() => setSelectedDocForInspect(null)}
-                className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-200/60 transition-colors"
+                className="p-1.5 rounded-lg text-text-secondary hover:text-text-primary hover:bg-surface transition-colors cursor-pointer"
               >
-                <X className="w-5 h-5" />
+                <span className="material-symbols-outlined text-[20px]">close</span>
               </button>
             </div>
 
             {/* Document metadata summary */}
-            <div className="p-4 bg-indigo-50/50 border-b border-indigo-100 flex items-center justify-between text-xs">
+            <div className="p-space-md bg-primary-fixed/20 border-b border-border flex items-center justify-between font-body-sm text-body-sm">
               <div className="flex items-center gap-4">
-                <span className="text-indigo-900 font-semibold">
+                <span className="text-text-primary font-semibold">
                   {selectedDocForInspect.chunksCount} chunks generated
                 </span>
-                <span className="text-slate-400">•</span>
-                <span className="text-slate-600 font-mono">1536 dim</span>
+                <span className="text-outline-variant">•</span>
+                <span className="text-text-secondary font-code-mono">1536 dim</span>
               </div>
               {renderStatusChip(selectedDocForInspect.status)}
             </div>
 
             {/* Chunks List */}
-            <div className="flex-1 overflow-y-auto p-5 space-y-4">
+            <div className="flex-1 overflow-y-auto p-space-md space-y-space-md">
               {getSampleChunksForDoc(selectedDocForInspect).map((chunk) => (
                 <div
                   key={chunk.id}
-                  className="rounded-xl border border-slate-200 bg-white p-4 shadow-2xs space-y-3"
+                  className="rounded-xl border border-border bg-surface p-space-md shadow-2xs space-y-3"
                 >
                   <div className="flex items-center justify-between">
-                    <span className="inline-flex items-center gap-1 font-mono text-xs font-bold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded border border-indigo-100">
-                      <Hash className="w-3 h-3" />
+                    <span className="inline-flex items-center gap-1 font-code-mono text-body-sm font-bold text-primary bg-primary-fixed/40 px-2 py-0.5 rounded border border-primary/20">
+                      <span className="material-symbols-outlined text-[13px]">tag</span>
                       {chunk.id}
                     </span>
-                    <div className="flex items-center gap-2 text-[11px] text-slate-500">
-                      <span className="font-mono bg-slate-100 px-2 py-0.5 rounded text-slate-700">
+                    <div className="flex items-center gap-2 font-body-sm text-text-secondary">
+                      <span className="font-code-mono bg-surface-subtle px-2 py-0.5 rounded text-text-primary">
                         {chunk.tokens} tokens
                       </span>
                       <button
                         type="button"
                         onClick={() => copyChunk(chunk.id, chunk.content)}
-                        className="p-1 rounded text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors"
+                        className="p-1 rounded text-text-secondary hover:text-text-primary hover:bg-surface-subtle transition-colors cursor-pointer"
                         title="Copy chunk markdown"
                       >
-                        {copiedChunkId === chunk.id ? (
-                          <Check className="w-3.5 h-3.5 text-emerald-600" />
-                        ) : (
-                          <Copy className="w-3.5 h-3.5" />
-                        )}
+                        <span className="material-symbols-outlined text-[16px]">
+                          {copiedChunkId === chunk.id ? 'check' : 'content_copy'}
+                        </span>
                       </button>
                     </div>
                   </div>
 
-                  <div className="text-xs font-semibold text-slate-800">{chunk.heading}</div>
+                  <div className="font-headline-sm text-body-md font-semibold text-text-primary">
+                    {chunk.heading}
+                  </div>
 
                   {/* Code block preview */}
-                  <pre className="p-3 bg-slate-900 text-slate-100 rounded-lg text-[11px] font-mono overflow-x-auto whitespace-pre-wrap leading-relaxed border border-slate-800">
+                  <pre className="p-3 bg-inverse-surface text-inverse-on-surface rounded-xl font-code-mono text-[11px] overflow-x-auto whitespace-pre-wrap leading-relaxed border border-border">
                     {chunk.content}
                   </pre>
                 </div>
@@ -704,11 +728,11 @@ export function KnowledgeBaseView() {
             </div>
 
             {/* Drawer Footer */}
-            <div className="p-4 border-t border-slate-200 bg-slate-50 flex justify-end">
+            <div className="p-space-md border-t border-border bg-surface flex justify-end">
               <button
                 type="button"
                 onClick={() => setSelectedDocForInspect(null)}
-                className="px-4 py-2 rounded-xl bg-white border border-slate-300 text-slate-700 text-xs font-semibold hover:bg-slate-50 transition-colors"
+                className="px-4 py-2 rounded-xl bg-surface-subtle hover:bg-surface-container border border-border text-text-primary font-body-sm text-body-sm font-semibold transition-colors cursor-pointer"
               >
                 Close Inspector
               </button>
@@ -719,34 +743,34 @@ export function KnowledgeBaseView() {
 
       {/* Upload/Paste Modal */}
       {isUploadModalOpen && (
-        <div className="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl shadow-xl border border-slate-200 max-w-lg w-full p-6 space-y-4 animate-in fade-in zoom-in-95 duration-150">
-            <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-              <h3 className="text-base font-bold text-slate-900 flex items-center gap-2">
-                <div className="p-1.5 rounded-lg bg-indigo-50 text-indigo-600">
-                  <UploadCloud className="w-4 h-4" />
+        <div className="fixed inset-0 z-50 bg-neutral/50 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="bg-surface rounded-2xl shadow-xl border border-border max-w-lg w-full p-space-lg space-y-space-md animate-in fade-in zoom-in-95 duration-150">
+            <div className="flex items-center justify-between border-b border-border pb-3">
+              <h3 className="font-headline-sm text-headline-sm font-bold text-text-primary flex items-center gap-2">
+                <div className="p-1.5 rounded-lg bg-primary-fixed text-primary">
+                  <span className="material-symbols-outlined text-[18px]">upload</span>
                 </div>
                 <span>Add Article to Knowledge Base</span>
               </h3>
               <button
                 type="button"
                 onClick={() => setIsUploadModalOpen(false)}
-                className="text-slate-400 hover:text-slate-600 p-1"
+                className="text-text-secondary hover:text-text-primary p-1 cursor-pointer"
               >
-                ✕
+                <span className="material-symbols-outlined text-[20px]">close</span>
               </button>
             </div>
 
             {uploadError && (
-              <div className="p-3 bg-rose-50 border border-rose-200 rounded-xl text-rose-700 text-xs flex items-center gap-2">
-                <AlertTriangle className="w-4 h-4 shrink-0" />
+              <div className="p-3 bg-priority-urgent/10 border border-priority-urgent/30 rounded-xl text-priority-urgent font-body-sm text-body-sm flex items-center gap-2">
+                <span className="material-symbols-outlined text-[16px]">warning</span>
                 <span>{uploadError}</span>
               </div>
             )}
 
-            <form onSubmit={handleCreateDocument} className="space-y-4">
+            <form onSubmit={handleCreateDocument} className="space-y-space-md">
               <div>
-                <label className="block text-[11px] font-bold text-slate-700 uppercase mb-1">
+                <label className="block font-code-mono text-[11px] font-bold text-text-secondary uppercase mb-1">
                   Article Title
                 </label>
                 <input
@@ -755,12 +779,12 @@ export function KnowledgeBaseView() {
                   value={newTitle}
                   onChange={(e) => setNewTitle(e.target.value)}
                   placeholder="e.g. Account Security and SAML Configuration"
-                  className="w-full rounded-xl border border-slate-300 p-2.5 text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 shadow-2xs"
+                  className="w-full rounded-xl border border-border bg-surface-subtle p-2.5 font-body-md text-body-md text-text-primary focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary shadow-2xs"
                 />
               </div>
 
               <div>
-                <label className="block text-[11px] font-bold text-slate-700 uppercase mb-1">
+                <label className="block font-code-mono text-[11px] font-bold text-text-secondary uppercase mb-1">
                   Article Markdown Content
                 </label>
                 <textarea
@@ -768,7 +792,7 @@ export function KnowledgeBaseView() {
                   value={newContent}
                   onChange={(e) => setNewContent(e.target.value)}
                   placeholder="Paste markdown content here with # and ## section headings..."
-                  className="w-full rounded-xl border border-slate-300 p-2.5 text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 shadow-2xs font-mono"
+                  className="w-full rounded-xl border border-border bg-surface-subtle p-2.5 font-body-md text-body-md text-text-primary focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary shadow-2xs font-code-mono resize-none"
                 />
               </div>
 
@@ -776,14 +800,14 @@ export function KnowledgeBaseView() {
                 <button
                   type="button"
                   onClick={() => setIsUploadModalOpen(false)}
-                  className="px-4 py-2 rounded-xl border border-slate-200 text-slate-600 text-xs font-semibold hover:bg-slate-50 transition-colors"
+                  className="px-4 py-2 rounded-xl border border-border text-text-secondary font-body-sm text-body-sm font-semibold hover:bg-surface-subtle transition-colors cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={registerMutation.isPending}
-                  className="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 text-white text-xs font-semibold transition-colors shadow-xs"
+                  className="px-4 py-2 rounded-xl bg-primary hover:bg-primary-container disabled:opacity-50 text-on-primary font-body-sm text-body-sm font-semibold transition-colors shadow-xs cursor-pointer"
                 >
                   {registerMutation.isPending ? 'Processing...' : 'Ingest Document'}
                 </button>

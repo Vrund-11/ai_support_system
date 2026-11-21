@@ -10,6 +10,7 @@ declare global {
       init: (config: WidgetConfig) => void;
       open: () => void;
       close: () => void;
+      openWithTopic?: (topic: string) => void;
     };
   }
 }
@@ -60,16 +61,32 @@ if (typeof document !== 'undefined') {
   window.SupportPilot = {
     init: mountWidget,
     open: () => {
-      const bubble = document.querySelector<HTMLButtonElement>(
-        '[data-testid="widget-bubble-button"]',
-      );
-      bubble?.click();
+      const chatWindow = document.querySelector('[data-testid="widget-chat-window"]');
+      if (!chatWindow) {
+        const bubble = document.querySelector<HTMLButtonElement>(
+          '[data-testid="widget-bubble-button"]',
+        );
+        bubble?.click();
+      }
     },
     close: () => {
       const closeBtn = document.querySelector<HTMLButtonElement>(
         '[data-testid="widget-close-button"]',
       );
       closeBtn?.click();
+    },
+    openWithTopic: (topic: string) => {
+      window.SupportPilot?.open();
+      setTimeout(() => {
+        const input = document.querySelector<HTMLInputElement>(
+          '[data-testid="widget-composer-input"]',
+        );
+        if (input) {
+          input.value = topic;
+          input.dispatchEvent(new Event('input', { bubbles: true }));
+          input.focus();
+        }
+      }, 100);
     },
   };
 }

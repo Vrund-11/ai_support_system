@@ -7,6 +7,7 @@ import {
   type AuditLogItem,
   type FeatureFlagItem,
   type PlatformTenantItem,
+  type SubscriptionInfo,
 } from '../../lib/api';
 import { useAuthStore } from '../../store/auth.store';
 import { toast } from '../../store/toast.store';
@@ -29,10 +30,17 @@ import {
   ChevronUp,
   Sparkles,
   SlidersHorizontal,
+  CreditCard,
+  Zap,
+  Database,
+  MessageSquare,
+  Bot,
+  X,
 } from 'lucide-react';
 import { ConfirmDialog } from '../common/ConfirmDialog';
 
-export type SettingsSubTab = 'general' | 'api-keys' | 'webhooks' | 'audit' | 'flags' | 'admin';
+export type SettingsSubTab =
+  'general' | 'billing' | 'api-keys' | 'webhooks' | 'audit' | 'flags' | 'admin';
 
 export function SettingsView() {
   const user = useAuthStore((s) => s.user);
@@ -42,6 +50,11 @@ export function SettingsView() {
   const [activeTab, setActiveTab] = useState<SettingsSubTab>('api-keys');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  // Billing state
+  const [subscription, setSubscription] = useState<SubscriptionInfo | null>(null);
+  const [isUpgradeModalOpen, setIsUpgradeModalOpen] = useState(false);
+  const [upgrading, setUpgrading] = useState(false);
 
   // API Keys state
   const [apiKeys, setApiKeys] = useState<ApiKeyItem[]>([]);

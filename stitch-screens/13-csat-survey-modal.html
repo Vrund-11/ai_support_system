@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_standard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+          "inverse-surface": "#302f39",
+          "surface-container-high": "#eae6f4",
+          "inverse-primary": "#c3c0ff",
+          "priority-high": "#f59e0b",
+          "surface": "#ffffff",
+          "tertiary-container": "#a44100",
+          "surface-bright": "#fcf8ff",
+          "on-background": "#1b1b24",
+          "error-container": "#ffdad6",
+          "tertiary-fixed": "#ffdbcc",
+          "on-secondary-fixed-variant": "#004c6e",
+          "primary-fixed": "#e2dfff",
+          "on-secondary-container": "#004666",
+          "secondary": "#006591",
+          "surface-subtle": "#f1f5f9",
+          "on-error-container": "#93000a",
+          "on-primary": "#ffffff",
+          "background": "#fcf8ff",
+          "ticket-pending-text": "#b45309",
+          "ticket-new-bg": "#eff6ff",
+          "border": "#e2e8f0",
+          "on-tertiary-fixed": "#351000",
+          "surface-container": "#f0ecf9",
+          "error": "#ba1a1a",
+          "inverse-on-surface": "#f3effc",
+          "on-tertiary-fixed-variant": "#7b2f00",
+          "surface-tint": "#4d44e3",
+          "ticket-open-bg": "#f0fdf4",
+          "ticket-onhold-text": "#7e22ce",
+          "on-primary-container": "#dad7ff",
+          "priority-low": "#64748b",
+          "surface-dim": "#dcd8e5",
+          "ticket-open-text": "#15803d",
+          "secondary-fixed": "#c9e6ff",
+          "tertiary": "#8b5cf6",
+          "on-surface-variant": "#464555",
+          "surface-container-low": "#f5f2ff",
+          "tertiary-fixed-dim": "#ffb695",
+          "ticket-new-text": "#1d4ed8",
+          "priority-urgent": "#ef4444",
+          "secondary-fixed-dim": "#89ceff",
+          "on-surface": "#1b1b24",
+          "surface-variant": "#e4e1ee",
+          "on-primary-fixed-variant": "#3323cc",
+          "secondary-container": "#39b8fd",
+          "surface-container-lowest": "#ffffff",
+          "on-primary-fixed": "#0f0069",
+          "on-secondary-fixed": "#001e2f",
+          "ticket-onhold-bg": "#faf5ff",
+          "primary-container": "#4f46e5",
+          "priority-medium": "#3b82f6",
+          "outline-variant": "#c7c4d8",
+          "on-tertiary": "#ffffff",
+          "on-secondary": "#ffffff",
+          "on-tertiary-container": "#ffd2be",
+          "neutral": "#09090b",
+          "text-secondary": "#64748b",
+          "surface-container-highest": "#e4e1ee",
+          "text-primary": "#0f172a",
+          "primary-fixed-dim": "#c3c0ff",
+          "primary": "#3525cd",
+          "ticket-pending-bg": "#fffbeb",
+          "outline": "#777587",
+          "on-error": "#ffffff"
+        },
+        "borderRadius": {
+          "DEFAULT": "0.125rem",
+          "lg": "0.25rem",
+          "xl": "0.5rem",
+          "full": "0.75rem"
+        },
+        "spacing": {
+          "space-xs": "0.25rem",
+          "space-md": "1rem",
+          "margin": "1.5rem",
+          "space-xl": "2rem",
+          "space-sm": "0.5rem",
+          "space-lg": "1.5rem",
+          "gutter": "1rem"
+        },
+        "fontFamily": {
+          "body-md": [
+            "Inter"
+          ],
+          "code-mono": [
+            "JetBrains Mono"
+          ],
+          "display-hero": [
+            "Inter"
+          ],
+          "headline-md": [
+            "Inter"
+          ],
+          "headline-lg": [
+            "Inter"
+          ],
+          "body-lg": [
+            "Inter"
+          ],
+          "headline-sm": [
+            "Inter"
+          ],
+          "body-sm": [
+            "Inter"
+          ]
+        },
+        "fontSize": {
+          "body-md": [
+            "14px",
+            {
+              "lineHeight": "20px",
+              "fontWeight": "400"
+            }
+          ],
+          "code-mono": [
+            "12px",
+            {
+              "lineHeight": "16px",
+              "fontWeight": "400"
+            }
+          ],
+          "display-hero": [
+            "36px",
+            {
+              "lineHeight": "44px",
+              "letterSpacing": "-0.03em",
+              "fontWeight": "700"
+            }
+          ],
+          "headline-md": [
+            "20px",
+            {
+              "lineHeight": "28px",
+              "letterSpacing": "-0.01em",
+              "fontWeight": "600"
+            }
+          ],
+          "headline-lg": [
+            "28px",
+            {
+              "lineHeight": "36px",
+              "letterSpacing": "-0.02em",
+              "fontWeight": "600"
+            }
+          ],
+          "body-lg": [
+            "16px",
+            {
+              "lineHeight": "24px",
+              "fontWeight": "400"
+            }
+          ],
+          "headline-sm": [
+            "16px",
+            {
+              "lineHeight": "24px",
+              "fontWeight": "500"
+            }
+          ],
+          "body-sm": [
+            "12px",
+            {
+              "lineHeight": "16px",
+              "fontWeight": "400"
+            }
+          ]
+        }
+      },
+    },
+  }</script></head><body class="bg-background font-body-md text-body-md text-on-surface antialiased min-h-screen"><header class="fixed top-0 w-full z-40 bg-surface/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 w-full px-space-lg flex items-center justify-between gap-space-md"><div class="flex items-center gap-space-lg"><div class="flex items-center gap-space-sm"><div class="w-8 h-8 rounded-lg bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[20px]">support_agent</span></div><span class="font-headline-sm text-headline-sm text-on-surface">SupportPilot <span class="font-body-sm text-body-sm text-on-surface-variant font-normal">Customer Care</span></span></div><div class="hidden lg:flex items-center gap-space-xs text-on-surface-variant font-body-sm text-body-sm"><span class="hover:text-on-surface transition-colors cursor-pointer">Support Portal</span><span class="material-symbols-outlined text-[16px] text-outline">chevron_right</span><span class="hover:text-on-surface transition-colors cursor-pointer">Tickets</span><span class="material-symbols-outlined text-[16px] text-outline">chevron_right</span><span class="font-code-mono text-code-mono text-primary font-medium">#TK-8492</span></div></div><div class="flex items-center gap-space-md"><div class="hidden sm:flex items-center gap-space-xs px-space-sm py-1 rounded-full bg-ticket-open-bg text-ticket-open-text font-body-sm text-body-sm"><span class="w-2 h-2 rounded-full bg-ticket-open-text"></span><span>Systems Operational</span></div><nav class="hidden md:flex items-center gap-space-xs" data-active-classes="bg-primary-container text-on-primary-container font-medium rounded-lg"><a aria-current="page" class="px-space-sm py-1.5 transition-all bg-primary-container text-on-primary-container font-medium rounded-lg" data-path="ticket-details" href="#">Tickets</a><a class="px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="knowledge-base" href="#">Knowledge Base</a><a class="px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="community" href="#">Community</a></nav><div class="flex items-center gap-space-sm pl-space-xs"><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></div></header><main class="w-full pt-16 bg-background relative min-h-screen"><div class="flex flex-col w-full relative">
+<!-- Underlying Blurred Ticket View (Simulated Background) -->
+<div class="w-full max-w-7xl mx-auto px-space-lg py-space-xl opacity-40 blur-[2px] pointer-events-none select-none">
+<div class="flex flex-col gap-space-lg">
+<!-- Breadcrumb & Top Bar -->
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<span class="font-code-mono text-code-mono text-primary font-medium px-space-sm py-1 bg-surface-container rounded-lg">#TK-8492</span>
+<span class="px-space-sm py-1 rounded-full bg-ticket-open-bg text-ticket-open-text font-body-sm text-body-sm flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-ticket-open-text"></span> Resolved &amp; Verified
+          </span>
+<span class="text-on-surface-variant font-body-sm text-body-sm">• Updated 4 minutes ago</span>
+</div>
+<div class="flex items-center gap-space-sm">
+<span class="px-space-sm py-1 bg-surface-container text-on-surface-variant rounded-lg font-body-sm text-body-sm">Priority: Urgent</span>
+<span class="px-space-sm py-1 bg-surface-container text-on-surface-variant rounded-lg font-body-sm text-body-sm">Queue: Payments &amp; Invoicing</span>
+</div>
+</div>
+<!-- Ticket Main Title Card -->
+<div class="bg-surface rounded-xl p-space-lg shadow-sm">
+<h1 class="font-headline-lg text-headline-lg text-on-surface mb-2">Payment gateway webhook failures during subscription renewal</h1>
+<p class="font-body-md text-body-md text-on-surface-variant mb-space-md">
+          Customers are reporting intermittent 504 gateway timeouts when processing Stripe v3 webhook listener endpoints for enterprise tier auto-renewals.
+        </p>
+<div class="flex items-center gap-space-lg text-on-surface-variant font-body-sm text-body-sm">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">person</span> Requester: Alex Rivera</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">schedule</span> Total TTR: 1h 4m</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">verified</span> SLA Target: 2h 00m (Met)</span>
+</div>
+</div>
+<!-- Conversation Thread Placeholder Snippet -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-space-lg">
+<div class="lg:col-span-2 flex flex-col gap-space-md">
+<div class="bg-surface rounded-xl p-space-md shadow-sm flex gap-space-md">
+<div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-on-primary font-headline-sm text-headline-sm">SJ</div>
+<div class="flex-1">
+<div class="flex items-center justify-between mb-1">
+<span class="font-headline-sm text-headline-sm text-on-surface">Sarah Jenkins <span class="font-body-sm text-body-sm text-on-surface-variant font-normal">Lead Solutions Specialist</span></span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">12:38 PM</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                We have verified the signature validation retry threshold and applied the hotfix on cluster node us-east-2b. Webhook receipts are back to 100% success rate with zero dropped payloads.
+              </p>
+</div>
+</div>
+</div>
+<div class="bg-surface rounded-xl p-space-md shadow-sm flex flex-col gap-space-sm">
+<span class="font-headline-sm text-headline-sm text-on-surface">Customer Attributes</span>
+<div class="h-4 bg-surface-container rounded w-3/4"></div>
+<div class="h-4 bg-surface-container rounded w-1/2"></div>
+<div class="h-4 bg-surface-container rounded w-2/3"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Focused Modal Overlay -->
+<div class="fixed inset-0 z-50 bg-neutral/60 backdrop-blur-md flex items-center justify-center p-space-md overflow-y-auto">
+<!-- Modal Card Container (max-w-2xl ~ 640px) -->
+<div class="w-full max-w-[640px] my-auto bg-surface rounded-xl shadow-[0_20px_25px_-5px_rgba(0,0,0,0.1),0_8px_10px_-6px_rgba(0,0,0,0.1)] overflow-hidden flex flex-col relative transition-all duration-300">
+<!-- Top Subtle Gradient Glow Line -->
+<div class="h-1.5 w-full bg-gradient-to-r from-primary via-tertiary to-ticket-open-text"></div>
+<!-- Close Action -->
+<button aria-label="Close survey dialog" class="absolute top-4 right-4 z-10 w-8 h-8 rounded-full bg-surface-container hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface flex items-center justify-center transition-colors" type="button">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+<!-- Scrollable Modal Content -->
+<div class="p-space-lg md:p-space-xl flex flex-col max-h-[870px] overflow-y-auto">
+<!-- Celebration / Badge Header -->
+<div class="flex flex-col items-center text-center mb-space-md">
+<div class="relative mb-space-sm flex items-center justify-center">
+<!-- Ambient Glow -->
+<div class="absolute w-20 h-20 rounded-full bg-primary/10 blur-xl"></div>
+<!-- Badge Icon -->
+<div class="relative w-16 h-16 rounded-full bg-gradient-to-br from-primary-container via-primary to-ticket-open-text flex items-center justify-center shadow-lg shadow-primary/20 text-on-primary">
+<span class="material-symbols-outlined text-[32px]" style="font-variation-settings: 'FILL' 1;">verified</span>
+<!-- Sparkle Starbursts (Inline SVG) -->
+<svg class="absolute -top-1 -right-1 w-5 h-5 text-priority-high animate-pulse" fill="currentColor" viewbox="0 0 24 24">
+<path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"></path>
+</svg>
+<svg class="absolute -bottom-1 -left-1 w-4 h-4 text-secondary-container" fill="currentColor" viewbox="0 0 24 24">
+<path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"></path>
+</svg>
+</div>
+</div>
+<span class="font-code-mono text-code-mono uppercase tracking-wider text-primary font-semibold mb-1">Feedback &amp; CSAT</span>
+<h2 class="font-headline-lg text-headline-md sm:text-headline-lg text-on-surface mb-2">How did we do? Rate your experience</h2>
+<!-- Ticket Context Meta Pill -->
+<div class="inline-flex flex-wrap items-center justify-center gap-space-xs text-on-surface-variant font-body-sm text-body-sm bg-surface-container-low px-space-md py-1.5 rounded-full max-w-full">
+<span class="font-code-mono text-primary font-medium">#TK-8492</span>
+<span class="text-outline">•</span>
+<span class="truncate max-w-[220px] font-medium text-on-surface">Payment gateway webhook failures</span>
+<span class="text-outline">•</span>
+<span class="inline-flex items-center gap-1 font-medium text-ticket-open-text bg-ticket-open-bg px-2 py-0.5 rounded-full">
+<span class="w-1.5 h-1.5 rounded-full bg-ticket-open-text"></span> Resolved (1h 4m SLA Met)
+            </span>
+</div>
+</div>
+<!-- Primary 1-to-5 Star Interactive Rating -->
+<div class="flex flex-col items-center bg-surface-bright rounded-xl p-space-md mb-space-lg shadow-sm">
+<div aria-label="Customer Satisfaction Rating" class="flex items-center justify-center gap-2 sm:gap-3 mb-2" id="star-rating-container" role="radiogroup">
+<!-- Star 1 -->
+<button aria-label="1 star - Terrible" class="star-btn group relative p-1 transition-transform hover:scale-110 focus:outline-none" data-val="1" type="button">
+<svg class="w-9 h-9 sm:w-11 sm:h-11 text-priority-high transition-colors drop-shadow-sm" fill="currentColor" viewbox="0 0 24 24">
+<path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"></path>
+</svg>
+</button>
+<!-- Star 2 -->
+<button aria-label="2 stars - Bad" class="star-btn group relative p-1 transition-transform hover:scale-110 focus:outline-none" data-val="2" type="button">
+<svg class="w-9 h-9 sm:w-11 sm:h-11 text-priority-high transition-colors drop-shadow-sm" fill="currentColor" viewbox="0 0 24 24">
+<path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"></path>
+</svg>
+</button>
+<!-- Star 3 -->
+<button aria-label="3 stars - Okay" class="star-btn group relative p-1 transition-transform hover:scale-110 focus:outline-none" data-val="3" type="button">
+<svg class="w-9 h-9 sm:w-11 sm:h-11 text-priority-high transition-colors drop-shadow-sm" fill="currentColor" viewbox="0 0 24 24">
+<path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"></path>
+</svg>
+</button>
+<!-- Star 4 -->
+<button aria-label="4 stars - Good" class="star-btn group relative p-1 transition-transform hover:scale-110 focus:outline-none" data-val="4" type="button">
+<svg class="w-9 h-9 sm:w-11 sm:h-11 text-priority-high transition-colors drop-shadow-sm" fill="currentColor" viewbox="0 0 24 24">
+<path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"></path>
+</svg>
+</button>
+<!-- Star 5 (Active/Gleaming) -->
+<button aria-label="5 stars - Amazing" class="star-btn group relative p-1 transition-transform hover:scale-110 focus:outline-none" data-val="5" type="button">
+<svg class="w-9 h-9 sm:w-11 sm:h-11 text-priority-high transition-colors filter drop-shadow-[0_2px_8px_rgba(245,158,11,0.4)]" fill="currentColor" viewbox="0 0 24 24">
+<path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"></path>
+</svg>
+</button>
+</div>
+<!-- Active Rating Sentiment Badge -->
+<div class="px-space-md py-1 rounded-full bg-ticket-pending-bg text-ticket-pending-text font-headline-sm text-body-sm sm:text-headline-sm flex items-center gap-1.5 shadow-sm" id="sentiment-badge">
+<span>⭐️⭐️⭐️⭐️⭐️</span>
+<span class="font-semibold text-on-surface">5.0</span>
+<span class="text-ticket-pending-text font-medium">— Amazing! Outstanding resolution</span>
+</div>
+<!-- Descriptive Helper Labels -->
+<div class="grid grid-cols-5 w-full max-w-md mt-space-sm text-center font-body-sm text-body-sm text-on-surface-variant">
+<span>1 · Terrible</span>
+<span>2 · Bad</span>
+<span>3 · Okay</span>
+<span>4 · Good</span>
+<span class="font-medium text-priority-high">5 · Amazing!</span>
+</div>
+</div>
+<!-- Sub-dimension Rating Criteria Matrix -->
+<div class="bg-surface-subtle rounded-xl p-space-md mb-space-lg flex flex-col gap-space-sm">
+<span class="font-code-mono text-code-mono uppercase tracking-wider text-on-surface-variant font-medium">Evaluation Breakdown</span>
+<!-- Dimension 1: Resolution Speed -->
+<div class="flex items-center justify-between p-space-sm rounded-lg bg-surface shadow-sm">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-lg bg-secondary/10 text-secondary flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]">bolt</span>
+</div>
+<div>
+<div class="font-headline-sm text-body-md font-medium text-on-surface">Resolution Speed &amp; SLA</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">Target: &lt;2h • Solved in 1h 4m</div>
+</div>
+</div>
+<div class="flex items-center gap-1 bg-ticket-open-bg text-ticket-open-text font-body-sm text-body-sm font-medium px-space-sm py-1 rounded-full">
+<span class="material-symbols-outlined text-[16px]">check_circle</span> Fast &amp; proactive
+            </div>
+</div>
+<!-- Dimension 2: Agent Sarah Jenkins -->
+<div class="flex items-center justify-between p-space-sm rounded-lg bg-surface shadow-sm">
+<div class="flex items-center gap-space-sm">
+<div class="relative">
+<img class="w-9 h-9 rounded-full object-cover" data-alt="Portrait photo of Sarah Jenkins, professional solutions specialist wearing glasses with warm smile and navy blazer in bright modern workspace" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCCxobfyHUFoM6F9PoF4zFLG04xofX5i9j8z3H1JDWJAp9Ihx8pd2Vb1KkLG-xktAqFdxMruSdkNYNS-erFsn7fUyjD2dNBu8AzMztxgZqeXGIPNs32Z1YqZNmOM3FnPXTyKytMJ203H6cYUbKf45XqAczxZjhVUT-0Ni2n2T2iOSMe8442xqAz3duIq_ZVvUgOAayItSJxfnc98Fp5dzy2M8P5y0D3BDljfiggF2nmZ8VAiHPqIO4OCSeBgE8N-xE1EAu92zcoQWM"/>
+<span class="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full bg-ticket-open-text ring-2 ring-surface flex items-center justify-center text-[9px] text-on-primary">
+                  ✓
+                </span>
+</div>
+<div>
+<div class="font-headline-sm text-body-md font-medium text-on-surface">Sarah Jenkins</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">Lead Solutions Specialist • Empathy &amp; Knowledge</div>
+</div>
+</div>
+<div class="flex items-center gap-0.5 text-priority-high font-body-sm text-body-sm font-semibold bg-surface-bright px-space-sm py-1 rounded-full">
+<span>★ 5.0</span>
+</div>
+</div>
+<!-- Dimension 3: AI Copilot Quality -->
+<div class="flex items-center justify-between p-space-sm rounded-lg bg-surface shadow-sm">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-lg bg-primary/10 text-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]">smart_toy</span>
+</div>
+<div>
+<div class="font-headline-sm text-body-md font-medium text-on-surface">AI Copilot Diagnostic</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">Suggested signature header workaround</div>
+</div>
+</div>
+<div class="flex items-center gap-1 bg-ticket-new-bg text-ticket-new-text font-body-sm text-body-sm font-medium px-space-sm py-1 rounded-full">
+<span class="material-symbols-outlined text-[16px]">auto_awesome</span> Highly accurate
+            </div>
+</div>
+</div>
+<!-- Multi-Select Feedback Tag Chips -->
+<div class="mb-space-lg">
+<div class="flex items-center justify-between mb-space-sm">
+<span class="font-headline-sm text-headline-sm text-on-surface">What went especially well?</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant bg-surface-container px-2 py-0.5 rounded-full">Select all that apply</span>
+</div>
+<div class="flex flex-wrap gap-2" id="feedback-chips-group">
+<!-- Chip: Fast Resolution (Selected) -->
+<button class="chip-item active px-3.5 py-2 rounded-full font-body-sm text-body-sm font-medium transition-all flex items-center gap-1.5 bg-primary/10 text-primary ring-1 ring-primary" type="button">
+<span class="material-symbols-outlined text-[16px] text-primary">check_circle</span>
+<span>✨ Fast Resolution</span>
+</button>
+<!-- Chip: Knowledgeable Specialist (Selected) -->
+<button class="chip-item active px-3.5 py-2 rounded-full font-body-sm text-body-sm font-medium transition-all flex items-center gap-1.5 bg-primary/10 text-primary ring-1 ring-primary" type="button">
+<span class="material-symbols-outlined text-[16px] text-primary">check_circle</span>
+<span>🎯 Knowledgeable Specialist</span>
+</button>
+<!-- Chip: Clear Explanation & Docs (Selected) -->
+<button class="chip-item active px-3.5 py-2 rounded-full font-body-sm text-body-sm font-medium transition-all flex items-center gap-1.5 bg-primary/10 text-primary ring-1 ring-primary" type="button">
+<span class="material-symbols-outlined text-[16px] text-primary">check_circle</span>
+<span>📘 Clear Explanation &amp; Docs</span>
+</button>
+<!-- Chip: Helpful Code Snippets (Selected) -->
+<button class="chip-item active px-3.5 py-2 rounded-full font-body-sm text-body-sm font-medium transition-all flex items-center gap-1.5 bg-primary/10 text-primary ring-1 ring-primary" type="button">
+<span class="material-symbols-outlined text-[16px] text-primary">check_circle</span>
+<span>💡 Helpful Code Snippets</span>
+</button>
+<!-- Chip: Took Too Long (Unselected) -->
+<button class="chip-item px-3.5 py-2 rounded-full font-body-sm text-body-sm font-normal text-on-surface-variant bg-surface-container-high hover:bg-surface-container transition-all flex items-center gap-1.5" type="button">
+<span class="material-symbols-outlined text-[16px] opacity-40">add</span>
+<span>Took Too Long</span>
+</button>
+<!-- Chip: Too Many Steps (Unselected) -->
+<button class="chip-item px-3.5 py-2 rounded-full font-body-sm text-body-sm font-normal text-on-surface-variant bg-surface-container-high hover:bg-surface-container transition-all flex items-center gap-1.5" type="button">
+<span class="material-symbols-outlined text-[16px] opacity-40">add</span>
+<span>Too Many Steps</span>
+</button>
+<!-- Chip: Friendly Tone -->
+<button class="chip-item px-3.5 py-2 rounded-full font-body-sm text-body-sm font-normal text-on-surface-variant bg-surface-container-high hover:bg-surface-container transition-all flex items-center gap-1.5" type="button">
+<span class="material-symbols-outlined text-[16px] opacity-40">add</span>
+<span>💬 Friendly &amp; Patient Tone</span>
+</button>
+</div>
+</div>
+<!-- Free-Form Feedback Text Area -->
+<div class="mb-space-lg">
+<div class="flex items-center justify-between mb-1.5">
+<label class="font-headline-sm text-body-md font-medium text-on-surface" for="feedback-textarea">
+              Additional comments <span class="text-on-surface-variant font-normal">(optional)</span>
+</label>
+<span class="font-code-mono text-body-sm text-on-surface-variant" id="char-counter">0 / 500</span>
+</div>
+<div class="relative">
+<textarea class="w-full rounded-xl bg-surface-bright p-space-md text-on-surface font-body-md text-body-md placeholder-on-surface-variant/50 shadow-inner focus:outline-none focus:ring-2 focus:ring-primary focus:bg-surface transition-all resize-none" id="feedback-textarea" maxlength="500" placeholder="Tell us more about your support experience or anything we can improve..." rows="3"></textarea>
+</div>
+<div class="flex items-center justify-between mt-1 text-on-surface-variant font-body-sm text-body-sm">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">lock</span> Only shared with the SupportPilot quality team
+            </span>
+<span class="text-primary font-medium cursor-pointer hover:underline">Formatting tips</span>
+</div>
+</div>
+<!-- Agent Recognition Celebration Strip -->
+<div class="bg-gradient-to-r from-primary-fixed/30 via-surface-container-low to-tertiary-fixed/20 rounded-xl p-space-md flex items-center gap-space-md mb-space-sm">
+<div class="relative flex-shrink-0">
+<img class="w-12 h-12 rounded-full object-cover ring-2 ring-primary" data-alt="Close-up headshot of customer specialist Sarah Jenkins smiling warmly with company badge visible on lapel in tech support headquarters" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDXLOyI29hyGNg0u99btj9a6WKdbRO8OXZ8xCtH-p-2zcHAeF-wNuh8qB5_89LtHeouKaLtu-JlXh7PqLG5jjEk6bG01Ao-xmlwi--WWY-48j1pU2_snIUvEWBsJ1G4widMzjQc1SDSWuxUbj3-meSNOuvxUBB_-AgpfrZJj3_zQt0LrFtxYtV6dBiTfarGa3s4FqBxudk6zpup7mFXDjvTyyy2N5TXjJ_g75SXtXgqoA9AZV6wt1nJQvuyEvcapeIlH6iZ2eRvtmM"/>
+<span class="absolute -top-1 -right-1 text-base">🎉</span>
+</div>
+<div class="flex-1 min-w-0">
+<p class="font-headline-sm text-body-md font-semibold text-on-surface truncate">
+              Your feedback goes directly to Sarah Jenkins!
+            </p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+              Customer operations specialists receive 100% of recognition and peer bonus points from 5-star ratings.
+            </p>
+</div>
+</div>
+</div>
+<!-- Action Modal Footer -->
+<div class="bg-surface-bright px-space-lg py-space-md flex flex-col gap-space-sm">
+<div class="flex items-center justify-between gap-space-md">
+<!-- Left Ghost Action -->
+<button class="font-headline-sm text-body-md text-on-surface-variant hover:text-on-surface transition-colors font-medium" type="button">
+            Skip for now
+          </button>
+<!-- Right Actions -->
+<div class="flex items-center gap-space-sm">
+<button class="hidden sm:inline-flex px-space-md py-2 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-headline-sm text-body-md font-medium transition-colors" type="button">
+              Save Draft
+            </button>
+<button class="px-space-lg py-2.5 rounded-lg bg-primary hover:bg-primary-container text-on-primary font-headline-sm text-body-md font-semibold shadow-md shadow-primary/25 flex items-center gap-2 transition-all transform active:scale-95" id="submit-feedback-btn" type="button">
+<span>Submit Feedback</span>
+<span class="material-symbols-outlined text-[18px]">send</span>
+</button>
+</div>
+</div>
+<!-- Guarantee Subtext -->
+<div class="flex items-center justify-center gap-2 pt-1 font-body-sm text-body-sm text-on-surface-variant text-center">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px] text-ticket-open-text">verified_user</span> 256-Bit Encrypted</span>
+<span>•</span>
+<span>Verified Customer Session</span>
+<span>•</span>
+<span class="font-code-mono text-primary truncate max-w-[180px]">alex.rivera@example.com</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script>
+  // Interactive Star Rating Logic
+  (function () {
+    const starContainer = document.getElementById('star-rating-container');
+    const sentimentBadge = document.getElementById('sentiment-badge');
+    if (!starContainer || !sentimentBadge) return;
+
+    const stars = starContainer.querySelectorAll('.star-btn');
+    const sentiments = {
+      1: { text: "1.0 — Terrible. Significant issues", stars: "⭐️", badgeClass: "bg-error-container text-on-error-container" },
+      2: { text: "2.0 — Bad. Needs drastic improvement", stars: "⭐️⭐️", badgeClass: "bg-error-container text-on-error-container" },
+      3: { text: "3.0 — Okay. Met bare expectations", stars: "⭐️⭐️⭐️", badgeClass: "bg-surface-container-high text-on-surface" },
+      4: { text: "4.0 — Good! Smooth resolution", stars: "⭐️⭐️⭐️⭐️", badgeClass: "bg-ticket-open-bg text-ticket-open-text" },
+      5: { text: "5.0 — Amazing! Outstanding resolution", stars: "⭐️⭐️⭐️⭐️⭐️", badgeClass: "bg-ticket-pending-bg text-ticket-pending-text" }
+    };
+
+    function updateStars(val) {
+      stars.forEach(btn => {
+        const btnVal = parseInt(btn.getAttribute('data-val'), 10);
+        const svg = btn.querySelector('svg');
+        if (btnVal <= val) {
+          svg.classList.remove('text-outline-variant');
+          svg.classList.add('text-priority-high');
+          if (btnVal === val && val === 5) {
+            svg.classList.add('filter', 'drop-shadow-[0_2px_8px_rgba(245,158,11,0.4)]');
+          } else {
+            svg.classList.remove('filter', 'drop-shadow-[0_2px_8px_rgba(245,158,11,0.4)]');
+          }
+        } else {
+          svg.classList.remove('text-priority-high', 'filter', 'drop-shadow-[0_2px_8px_rgba(245,158,11,0.4)]');
+          svg.classList.add('text-outline-variant');
+        }
+      });
+
+      const sentiment = sentiments[val] || sentiments[5];
+      sentimentBadge.className = `px-space-md py-1 rounded-full font-headline-sm text-body-sm sm:text-headline-sm flex items-center gap-1.5 shadow-sm ${sentiment.badgeClass}`;
+      sentimentBadge.innerHTML = `<span>${sentiment.stars}</span> <span class="font-semibold">${sentiment.text.split('—')[0]}</span> <span>— ${sentiment.text.split('—')[1]}</span>`;
+    }
+
+    stars.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const rating = parseInt(btn.getAttribute('data-val'), 10);
+        updateStars(rating);
+      });
+    });
+
+    // Character Counter
+    const textarea = document.getElementById('feedback-textarea');
+    const counter = document.getElementById('char-counter');
+    if (textarea && counter) {
+      textarea.addEventListener('input', () => {
+        counter.textContent = `${textarea.value.length} / 500`;
+      });
+    }
+
+    // Toggle Tag Chips
+    const chipsGroup = document.getElementById('feedback-chips-group');
+    if (chipsGroup) {
+      chipsGroup.addEventListener('click', (e) => {
+        const btn = e.target.closest('.chip-item');
+        if (!btn) return;
+        const isActive = btn.classList.contains('active');
+        const icon = btn.querySelector('.material-symbols-outlined');
+
+        if (isActive) {
+          btn.classList.remove('active', 'bg-primary/10', 'text-primary', 'ring-1', 'ring-primary', 'font-medium');
+          btn.classList.add('text-on-surface-variant', 'bg-surface-container-high', 'font-normal');
+          if (icon) {
+            icon.textContent = 'add';
+            icon.classList.remove('text-primary');
+            icon.classList.add('opacity-40');
+          }
+        } else {
+          btn.classList.add('active', 'bg-primary/10', 'text-primary', 'ring-1', 'ring-primary', 'font-medium');
+          btn.classList.remove('text-on-surface-variant', 'bg-surface-container-high', 'font-normal');
+          if (icon) {
+            icon.textContent = 'check_circle';
+            icon.classList.add('text-primary');
+            icon.classList.remove('opacity-40');
+          }
+        }
+      });
+    }
+
+    // Submit animation micro-interaction
+    const submitBtn = document.getElementById('submit-feedback-btn');
+    if (submitBtn) {
+      submitBtn.addEventListener('click', () => {
+        submitBtn.innerHTML = `<span class="material-symbols-outlined text-[18px] animate-spin">refresh</span><span>Submitting...</span>`;
+        submitBtn.disabled = true;
+        setTimeout(() => {
+          submitBtn.innerHTML = `<span class="material-symbols-outlined text-[18px]">done_all</span><span>Thank You!</span>`;
+          submitBtn.classList.remove('bg-primary', 'hover:bg-primary-container');
+          submitBtn.classList.add('bg-ticket-open-text');
+        }, 800);
+      });
+    }
+  })();
+</script><div class="fixed inset-0 z-50 bg-neutral/40 backdrop-blur-sm flex items-center justify-center p-space-md pointer-events-auto" id="modal-overlay-backdrop"><div class="w-full max-w-2xl bg-surface rounded-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] overflow-hidden flex flex-col max-h-[921px]" id="portal-modal-container"></div></div></main><footer class="w-full bg-surface-container-low py-space-xl"><div class="w-full px-space-lg flex flex-col sm:flex-row items-center justify-between gap-space-md text-on-surface-variant font-body-sm text-body-sm"><span>© 2025 SupportPilot Inc. Customer Operations. All rights reserved.</span><div class="flex items-center gap-space-lg"><a class="hover:text-on-surface transition-colors" data-path="system-status" href="#">Status Page</a><a class="hover:text-on-surface transition-colors" data-path="security" href="#">Security &amp; Compliance</a><a class="hover:text-on-surface transition-colors" data-path="privacy-policy" href="#">Privacy Policy</a></div></div></footer></body></html>

@@ -1,40 +1,9 @@
 import { useState, useRef } from 'react';
 import { useTicketDetail, useUpdateTicket, useAddMessage } from '../../hooks/useTickets';
-import { StatusChip } from './StatusChip';
-import { PriorityChip } from './PriorityChip';
 import { TransferTicketModal } from './TransferTicketModal';
 import { MergeTicketModal } from './MergeTicketModal';
 import { api, type SummarizeResult } from '../../lib/api';
 import type { TicketStatus, TicketPriority } from '@supportpilot/shared-types';
-import {
-  ArrowLeft,
-  Send,
-  Lock,
-  MessageSquare,
-  History,
-  AlertTriangle,
-  Loader2,
-  CheckCircle2,
-  Sparkles,
-  FileText,
-  Lightbulb,
-  Bold,
-  Italic,
-  Code,
-  List,
-  Link as LinkIcon,
-  Quote,
-  Clock,
-  User,
-  Bot,
-  UserCheck,
-  ShieldAlert,
-  ArrowRightCircle,
-  Tag,
-  Hash,
-  ArrowRightLeft,
-  GitMerge,
-} from 'lucide-react';
 
 interface TicketDetailProps {
   ticketId: string;
@@ -96,26 +65,25 @@ export function TicketDetail({ ticketId, onBack }: TicketDetailProps) {
   if (isLoading) {
     return (
       <div
-        className="bg-white dark:bg-zinc-900 rounded-xl border border-slate-200/80 dark:border-zinc-800 p-8 space-y-4 transition-colors"
+        className="bg-surface rounded-xl border border-border p-8 space-y-4 shadow-xs"
         data-testid="detail-loading"
       >
-        <div className="h-6 bg-slate-100 dark:bg-zinc-800 rounded w-1/3 animate-pulse"></div>
-        <div className="h-20 bg-slate-100/70 dark:bg-zinc-800/70 rounded animate-pulse"></div>
-        <div className="h-40 bg-slate-100/70 dark:bg-zinc-800/70 rounded animate-pulse"></div>
+        <div className="h-6 bg-surface-subtle rounded w-1/3 animate-pulse"></div>
+        <div className="h-20 bg-surface-subtle rounded animate-pulse"></div>
+        <div className="h-40 bg-surface-subtle rounded animate-pulse"></div>
       </div>
     );
   }
 
   if (isError || !data) {
     return (
-      <div className="bg-white dark:bg-zinc-900 rounded-xl border border-slate-200/80 dark:border-zinc-800 p-8 text-center text-rose-600 dark:text-rose-400 transition-colors">
+      <div className="bg-surface rounded-xl border border-border p-8 text-center text-error shadow-xs">
+        <span className="material-symbols-outlined text-[36px] mb-2">error</span>
         <p className="font-semibold text-sm">Failed to load ticket details</p>
-        <p className="text-xs text-slate-500 dark:text-zinc-400 mt-1">
-          {(error as Error)?.message}
-        </p>
+        <p className="text-xs text-text-secondary mt-1">{(error as Error)?.message}</p>
         <button
           onClick={onBack}
-          className="mt-4 px-4 py-2 bg-slate-100 dark:bg-zinc-800 text-slate-700 dark:text-zinc-300 text-xs font-semibold rounded-lg hover:bg-slate-200 dark:hover:bg-zinc-700 transition-colors cursor-pointer"
+          className="mt-4 px-4 py-2 bg-surface-subtle text-text-primary text-xs font-semibold rounded-lg hover:bg-surface-variant transition-colors border border-border cursor-pointer"
         >
           Back to Inbox
         </button>
@@ -232,556 +200,610 @@ export function TicketDetail({ ticketId, onBack }: TicketDetailProps) {
     }
   };
 
-  const getTimelineIcon = (type: string) => {
-    switch (type) {
-      case 'STATUS':
-        return <ArrowRightCircle className="w-3.5 h-3.5 text-indigo-600" />;
-      case 'PRIORITY':
-        return <ShieldAlert className="w-3.5 h-3.5 text-amber-600" />;
-      case 'ASSIGN':
-        return <UserCheck className="w-3.5 h-3.5 text-emerald-600" />;
-      case 'NOTE':
-        return <Lock className="w-3.5 h-3.5 text-amber-600" />;
-      case 'TAG':
-        return <Tag className="w-3.5 h-3.5 text-purple-600" />;
-      case 'MESSAGE':
-        return <MessageSquare className="w-3.5 h-3.5 text-sky-600" />;
-      default:
-        return <CheckCircle2 className="w-3.5 h-3.5 text-indigo-600" />;
-    }
-  };
-
   return (
-    <div className="space-y-5" data-testid="ticket-detail-view">
-      {/* Top action bar: Linear & Stitch grade navigation & controls */}
-      <div className="flex flex-wrap items-center justify-between gap-3 bg-white dark:bg-zinc-900 p-3.5 rounded-2xl border border-slate-200/80 dark:border-zinc-800 shadow-xs transition-colors">
-        <div className="flex items-center gap-3">
-          <button
-            onClick={onBack}
-            className="inline-flex items-center gap-2 text-xs font-semibold text-slate-700 dark:text-zinc-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors px-2.5 py-1.5 rounded-xl hover:bg-slate-100 dark:hover:bg-zinc-800 cursor-pointer"
-            data-testid="back-button"
-          >
-            <ArrowLeft className="w-4 h-4" />
-            <span>Back to Queue</span>
-          </button>
-
-          <div className="hidden sm:flex items-center gap-2 text-xs font-medium text-slate-400 dark:text-zinc-500">
-            <span>/</span>
-            <span className="font-mono text-slate-700 dark:text-zinc-300 font-semibold">
-              #{ticket.number}
-            </span>
-          </div>
-
-          {/* Live SLA Alert Chip */}
-          <div className="hidden md:inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-50 dark:bg-rose-950/40 text-rose-700 dark:text-rose-400 border border-rose-200/80 dark:border-rose-900/60 font-mono text-xs font-semibold shadow-2xs animate-pulse">
-            <Clock className="w-3.5 h-3.5 text-rose-600 dark:text-rose-400" />
-            <span>SLA: 23m 48s</span>
-            <span className="w-1.5 h-1.5 rounded-full bg-rose-500" />
-          </div>
-
-          <span className="hidden lg:inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-indigo-50 dark:bg-indigo-950/50 text-indigo-700 dark:text-indigo-400 border border-indigo-100 dark:border-indigo-900/40 font-medium text-xs">
-            <CheckCircle2 className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" />
-            <span>Enterprise Tier</span>
-          </span>
-        </div>
-
-        <div className="flex items-center gap-3">
-          {/* Version badge */}
-          <div
-            className="inline-flex items-center gap-1 font-mono text-[11px] text-slate-500 dark:text-zinc-400 bg-slate-50 dark:bg-zinc-800 px-2.5 py-1 rounded-lg border border-slate-200 dark:border-zinc-700"
-            title={`Revision version ${ticket.version}`}
-          >
-            <Hash className="w-3 h-3 text-slate-400 dark:text-zinc-500" />
-            <span>v{ticket.version}</span>
-          </div>
-
-          <div className="h-4 w-px bg-slate-200 dark:bg-zinc-700" />
-
-          {/* Status selector */}
-          <div className="flex items-center space-x-1.5">
-            <span className="text-[11px] font-semibold text-slate-400 dark:text-zinc-400 uppercase tracking-wider">
-              Status:
-            </span>
-            <select
-              value={ticket.status}
-              disabled={ticket.status === 'CLOSED' || updateTicket.isPending}
-              onChange={(e) => handleStatusChange(e.target.value as TicketStatus)}
-              className="text-xs bg-slate-50 dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 rounded-lg px-2.5 py-1 font-medium text-slate-800 dark:text-zinc-200 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 focus:outline-none disabled:opacity-50 cursor-pointer"
-              data-testid="detail-status-select"
+    <div
+      className="w-full flex flex-col font-body-md text-on-surface"
+      data-testid="ticket-detail-view"
+    >
+      {/* Top Workspace Context & Sub-header Bar */}
+      <div className="w-full bg-surface shadow-xs px-margin py-3 border-b border-border">
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3">
+          {/* Breadcrumb & Navigation */}
+          <div className="flex items-center gap-space-sm min-w-0">
+            <button
+              onClick={onBack}
+              className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-surface-subtle hover:bg-surface-variant text-text-secondary hover:text-text-primary font-headline-sm text-body-sm transition-colors border border-border cursor-pointer group"
+              data-testid="back-button"
             >
-              <option value="NEW">New</option>
-              <option value="OPEN">Open</option>
-              <option value="PENDING_CUSTOMER">Pending Customer</option>
-              <option value="ON_HOLD">On Hold</option>
-              <option value="RESOLVED">Resolved</option>
-              <option value="CLOSED">Closed</option>
-            </select>
-          </div>
-
-          {/* Priority selector */}
-          <div className="flex items-center space-x-1.5">
-            <span className="text-[11px] font-semibold text-slate-400 dark:text-zinc-400 uppercase tracking-wider">
-              Priority:
+              <span className="material-symbols-outlined text-[18px] group-hover:-translate-x-0.5 transition-transform">
+                arrow_back
+              </span>
+              <span>Back to queue</span>
+            </button>
+            <div className="h-4 w-px bg-border mx-1" />
+            <nav className="flex items-center gap-1.5 font-headline-sm text-body-sm text-text-secondary truncate">
+              <span
+                onClick={onBack}
+                className="hover:text-primary transition-colors cursor-pointer"
+              >
+                Tickets (Inbox)
+              </span>
+              <span className="material-symbols-outlined text-[16px] text-text-secondary">
+                chevron_right
+              </span>
+              <span className="font-code-mono text-code-mono text-text-primary font-semibold">
+                #{ticket.number}
+              </span>
+            </nav>
+            <span className="hidden sm:inline-flex items-center px-2 py-0.5 rounded-full text-xs font-code-mono bg-ticket-new-bg text-ticket-new-text font-medium">
+              v{ticket.version}
             </span>
-            <select
-              value={ticket.priority}
-              disabled={ticket.status === 'CLOSED' || updateTicket.isPending}
-              onChange={(e) => handlePriorityChange(e.target.value as TicketPriority)}
-              className="text-xs bg-slate-50 dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 rounded-lg px-2.5 py-1 font-medium text-slate-800 dark:text-zinc-200 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 focus:outline-none disabled:opacity-50 cursor-pointer"
-              data-testid="detail-priority-select"
-            >
-              <option value="LOW">Low</option>
-              <option value="MEDIUM">Medium</option>
-              <option value="HIGH">High</option>
-              <option value="URGENT">Urgent</option>
-            </select>
           </div>
 
-          <div className="h-4 w-px bg-slate-200 dark:bg-zinc-700" />
-
-          {/* Transfer button */}
-          <button
-            type="button"
-            onClick={() => setIsTransferOpen(true)}
-            className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium text-slate-700 dark:text-zinc-300 hover:text-indigo-600 dark:hover:text-indigo-400 bg-slate-50 dark:bg-zinc-800 hover:bg-slate-100 dark:hover:bg-zinc-700 border border-slate-200 dark:border-zinc-700 rounded-lg transition-colors cursor-pointer"
-            data-testid="detail-transfer-button"
-            title="Transfer ticket to another agent"
-          >
-            <ArrowRightLeft className="w-3.5 h-3.5 text-slate-500 dark:text-zinc-400" />
-            <span>Transfer</span>
-          </button>
-
-          {/* Merge button */}
-          <button
-            type="button"
-            onClick={() => setIsMergeOpen(true)}
-            className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium text-slate-700 dark:text-zinc-300 hover:text-amber-600 dark:hover:text-amber-400 bg-slate-50 dark:bg-zinc-800 hover:bg-slate-100 dark:hover:bg-zinc-700 border border-slate-200 dark:border-zinc-700 rounded-lg transition-colors cursor-pointer"
-            data-testid="detail-merge-button"
-            title="Merge duplicate ticket"
-          >
-            <GitMerge className="w-3.5 h-3.5 text-slate-500 dark:text-zinc-400" />
-            <span>Merge</span>
-          </button>
+          {/* Action Controls Quick Bar */}
+          <div className="flex items-center gap-1.5 flex-wrap sm:flex-nowrap">
+            <button
+              onClick={() => setIsMergeOpen(true)}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface-subtle hover:bg-surface-variant text-text-primary font-headline-sm text-body-sm transition-colors border border-border shadow-xs cursor-pointer"
+              type="button"
+            >
+              <span className="material-symbols-outlined text-[18px] text-text-secondary">
+                merge
+              </span>
+              <span>Merge</span>
+            </button>
+            <button
+              onClick={() => setIsTransferOpen(true)}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface-subtle hover:bg-surface-variant text-text-primary font-headline-sm text-body-sm transition-colors border border-border shadow-xs cursor-pointer"
+              type="button"
+            >
+              <span className="material-symbols-outlined text-[18px] text-text-secondary">
+                sync_alt
+              </span>
+              <span>Transfer</span>
+            </button>
+            <button
+              onClick={() => handleStatusChange('RESOLVED')}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-ticket-open-bg hover:bg-emerald-100 text-ticket-open-text font-headline-sm text-body-sm transition-colors border border-emerald-200 shadow-xs cursor-pointer"
+              type="button"
+            >
+              <span className="material-symbols-outlined text-[18px]">check_circle</span>
+              <span>Resolve</span>
+            </button>
+          </div>
         </div>
       </div>
 
+      {/* 409 Conflict Warning Banner */}
       {conflictWarning && (
         <div
-          className="p-3.5 bg-amber-50 border border-amber-300 text-amber-900 text-xs rounded-xl flex items-center space-x-2.5 shadow-xs animate-in fade-in duration-200"
+          className="mx-margin mt-3 p-3 bg-amber-50 dark:bg-amber-950/40 border border-amber-300 dark:border-amber-800 text-amber-900 dark:text-amber-200 text-xs rounded-xl flex items-center justify-between shadow-xs animate-in fade-in"
           data-testid="conflict-warning"
         >
-          <AlertTriangle className="w-4 h-4 text-amber-600 shrink-0" />
-          <span className="font-medium">
-            Ticket was modified concurrently by another user. Latest version has been reloaded.
-          </span>
+          <div className="flex items-center gap-2">
+            <span className="material-symbols-outlined text-[18px] text-amber-600">warning</span>
+            <span className="font-medium">
+              This ticket was updated by another agent. Data has been reloaded to latest version.
+            </span>
+          </div>
+          <button
+            onClick={() => setConflictWarning(false)}
+            className="text-amber-700 hover:text-amber-900 font-bold"
+          >
+            ✕
+          </button>
         </div>
       )}
 
-      {/* Ticket Header & Description Card */}
-      <div className="bg-white dark:bg-zinc-900 rounded-xl border border-slate-200/80 dark:border-zinc-800 p-6 shadow-xs transition-colors">
-        <div className="flex flex-wrap items-center gap-2.5 mb-3">
-          <span className="font-mono text-sm font-bold text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/50 px-2 py-0.5 rounded border border-indigo-100 dark:border-indigo-900/50">
-            #{ticket.number}
-          </span>
-          <h1 className="text-xl font-bold text-slate-900 dark:text-zinc-100 tracking-tight">
-            {ticket.subject}
-          </h1>
-          <div className="flex items-center gap-1.5 ml-auto">
-            <StatusChip status={ticket.status} />
-            <PriorityChip priority={ticket.priority} />
+      {/* Ticket Header Hero Panel */}
+      <div className="w-full bg-surface-container-low px-margin py-4 border-b border-border">
+        <div className="max-w-[1720px] mx-auto flex flex-col gap-3">
+          <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-3">
+            <div className="flex items-start gap-2.5 min-w-0">
+              <span className="mt-1 font-code-mono text-headline-sm text-primary font-bold bg-primary-fixed px-2 py-0.5 rounded-md">
+                #{ticket.number}
+              </span>
+              <div className="flex flex-col min-w-0">
+                <h1 className="font-headline-lg text-headline-lg text-text-primary tracking-tight font-bold truncate">
+                  {ticket.subject}
+                </h1>
+                <p className="font-body-sm text-body-sm text-text-secondary mt-0.5">
+                  {(ticket as any).customerEmail || ticket.customerId || 'Registered Requester'} •
+                  Channel:{' '}
+                  <span className="font-code-mono text-text-primary">
+                    {(ticket as any).channel || 'WEB'}
+                  </span>
+                </p>
+              </div>
+            </div>
+
+            {/* Live SLA Alert Chip */}
+            <div className="flex items-center gap-2 self-start xl:self-center">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-error-container text-on-error-container shadow-xs animate-pulse">
+                <span className="material-symbols-outlined text-[18px]">timer</span>
+                <span className="font-code-mono text-body-sm font-semibold tracking-wide">
+                  SLA: 23m 48s remaining
+                </span>
+                <span className="w-2 h-2 rounded-full bg-priority-urgent"></span>
+              </div>
+            </div>
           </div>
-        </div>
 
-        <div className="text-xs text-slate-400 dark:text-zinc-500 mb-4 flex flex-wrap items-center gap-4 border-b border-slate-100 dark:border-zinc-800 pb-3">
-          <span className="inline-flex items-center gap-1">
-            <User className="w-3.5 h-3.5 text-slate-400 dark:text-zinc-500" />
-            <span>Customer ID: {ticket.customerId}</span>
-          </span>
-          <span className="text-slate-200 dark:text-zinc-700">•</span>
-          <span>Version: {ticket.version}</span>
-          <span className="text-slate-200 dark:text-zinc-700">•</span>
-          <span className="inline-flex items-center gap-1">
-            <Clock className="w-3.5 h-3.5 text-slate-400 dark:text-zinc-500" />
-            <span>Created: {new Date(ticket.createdAt).toLocaleString()}</span>
-          </span>
-        </div>
+          {/* Metadata Badges & Dropdown Strip */}
+          <div className="flex items-center gap-2.5 flex-wrap font-body-sm text-body-sm pt-1">
+            {/* Status Dropdown Pill */}
+            <div className="relative inline-flex items-center">
+              <select
+                id="status-selector"
+                value={ticket.status}
+                onChange={(e) => handleStatusChange(e.target.value as TicketStatus)}
+                className="inline-flex items-center px-3 py-1 rounded-full font-headline-sm text-body-sm font-semibold bg-ticket-open-bg text-ticket-open-text border border-emerald-200 cursor-pointer hover:bg-emerald-100 transition-colors shadow-xs focus:outline-none"
+                data-testid="detail-status-select"
+              >
+                <option value="NEW">● NEW</option>
+                <option value="OPEN">● OPEN</option>
+                <option value="PENDING_CUSTOMER">● PENDING CUSTOMER</option>
+                <option value="ON_HOLD">● ON HOLD</option>
+                <option value="RESOLVED">● RESOLVED</option>
+                <option value="CLOSED">● CLOSED</option>
+              </select>
+            </div>
 
-        <div className="bg-slate-50/70 dark:bg-zinc-800/40 p-4 rounded-xl border border-slate-200/60 dark:border-zinc-700/60 text-sm text-slate-700 dark:text-zinc-300 leading-relaxed whitespace-pre-wrap">
-          {ticket.description}
+            {/* Priority Dropdown Pill */}
+            <div className="relative inline-flex items-center">
+              <select
+                id="priority-selector"
+                value={ticket.priority}
+                onChange={(e) => handlePriorityChange(e.target.value as TicketPriority)}
+                className="inline-flex items-center px-3 py-1 rounded-full font-headline-sm text-body-sm font-semibold bg-amber-50 dark:bg-amber-950/40 text-priority-high border border-amber-200 cursor-pointer hover:bg-amber-100 transition-colors shadow-xs focus:outline-none"
+                data-testid="detail-priority-select"
+              >
+                <option value="LOW">● LOW PRIORITY</option>
+                <option value="MEDIUM">● MEDIUM PRIORITY</option>
+                <option value="HIGH">● HIGH PRIORITY</option>
+                <option value="URGENT">● URGENT PRIORITY</option>
+              </select>
+            </div>
+
+            {/* Customer Tier */}
+            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-primary-fixed text-on-primary-fixed font-headline-sm text-body-sm font-medium">
+              <span className="material-symbols-outlined text-[16px] text-primary">verified</span>
+              Enterprise Tier
+            </span>
+
+            {/* Assignee Badge */}
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface border border-border text-text-primary shadow-xs">
+              <span className="material-symbols-outlined text-[16px] text-text-secondary">
+                person
+              </span>
+              <span>{ticket.assigneeId || 'Unassigned'}</span>
+            </span>
+          </div>
         </div>
       </div>
 
-      {/* Grid: Message thread (left 2/3) + Activity Timeline (right 1/3) */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Messages Thread and Composer */}
-        <div className="lg:col-span-2 space-y-6">
-          <div className="bg-white dark:bg-zinc-900 rounded-xl border border-slate-200/80 dark:border-zinc-800 p-6 shadow-xs transition-colors">
-            <div className="flex items-center justify-between mb-4 border-b border-slate-100 dark:border-zinc-800 pb-3">
-              <h2 className="text-sm font-bold text-slate-900 dark:text-zinc-100 flex items-center space-x-2">
-                <MessageSquare className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
-                <span>Conversation Thread ({messages.length})</span>
-              </h2>
-              <button
-                type="button"
-                onClick={handleSummarizeThread}
-                disabled={isSummarizing}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg border border-indigo-200 dark:border-indigo-800 bg-indigo-50 dark:bg-indigo-950/50 hover:bg-indigo-100 dark:hover:bg-indigo-900/50 text-indigo-700 dark:text-indigo-300 transition-colors cursor-pointer shadow-2xs"
-                data-testid="summarize-thread-button"
-              >
-                {isSummarizing ? (
-                  <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                ) : (
-                  <Sparkles className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" />
-                )}
-                <span>{isSummarizing ? 'Summarizing...' : 'Summarize Thread'}</span>
-              </button>
-            </div>
-
-            {summary && (
-              <div
-                className="mb-5 p-4 rounded-xl border border-indigo-200/80 dark:border-indigo-900/60 bg-indigo-50/40 dark:bg-indigo-950/20 space-y-2.5 text-xs shadow-2xs"
-                data-testid="ai-summary-card"
-              >
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-1.5 font-bold text-indigo-900 dark:text-indigo-200">
-                    <FileText className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" />
-                    <span>AI Thread Summary</span>
-                  </div>
-                  <span
-                    className={`px-2 py-0.5 rounded text-[10px] font-bold ${
-                      summary.sentiment === 'URGENT'
-                        ? 'bg-rose-100 text-rose-800 border border-rose-200'
-                        : summary.sentiment === 'FRUSTRATED'
-                          ? 'bg-amber-100 text-amber-800 border border-amber-200'
-                          : summary.sentiment === 'POSITIVE'
-                            ? 'bg-emerald-100 text-emerald-800 border border-emerald-200'
-                            : 'bg-slate-100 text-slate-800 border border-slate-200'
-                    }`}
-                    data-testid="summary-sentiment-badge"
-                  >
-                    {summary.sentiment}
-                  </span>
-                </div>
-                <p className="text-slate-700 dark:text-zinc-300 leading-relaxed font-normal">
-                  {summary.summary}
-                </p>
-                {summary.keyPoints.length > 0 && (
-                  <ul className="list-disc list-inside space-y-0.5 text-slate-600 dark:text-zinc-400">
-                    {summary.keyPoints.map((pt, i) => (
-                      <li key={i}>{pt}</li>
-                    ))}
-                  </ul>
-                )}
-                {summary.recommendedAction && (
-                  <div className="pt-2 border-t border-indigo-100 dark:border-indigo-900/40 flex items-start gap-1.5 text-indigo-900 dark:text-indigo-200 font-medium">
-                    <Lightbulb className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400 shrink-0 mt-0.5" />
-                    <span>
-                      <strong>Next:</strong> {summary.recommendedAction}
-                    </span>
-                  </div>
-                )}
-              </div>
-            )}
-
-            {messages.length === 0 ? (
-              <p className="text-xs text-slate-400 dark:text-zinc-500 italic py-6 text-center">
-                No messages yet. Add a reply or internal note below.
-              </p>
-            ) : (
-              <div className="space-y-3.5" data-testid="message-thread">
-                {messages.map((msg) => {
-                  const isInternalNote = msg.isInternal;
-                  const isCustomer = msg.senderType === 'CUSTOMER';
-                  const isAi = msg.senderType === 'AI';
-
-                  return (
-                    <div
-                      key={msg.id}
-                      className={`p-4 rounded-xl border text-sm transition-all ${
-                        isInternalNote
-                          ? 'bg-amber-50/80 dark:bg-amber-950/30 border-amber-300/80 dark:border-amber-900/60 text-amber-950 dark:text-amber-200 shadow-xs'
-                          : isCustomer
-                            ? 'bg-slate-50/80 dark:bg-zinc-800/60 border-slate-200 dark:border-zinc-700 text-slate-800 dark:text-zinc-200'
-                            : isAi
-                              ? 'bg-purple-50/70 dark:bg-purple-950/30 border-purple-200 dark:border-purple-900/60 text-purple-950 dark:text-purple-200'
-                              : 'bg-indigo-50/70 dark:bg-indigo-950/30 border-indigo-200 dark:border-indigo-900/60 text-indigo-950 dark:text-indigo-200'
-                      }`}
-                      data-testid={`message-${msg.id}`}
-                    >
-                      <div className="flex items-center justify-between mb-2">
-                        <div className="flex items-center space-x-2">
-                          {isInternalNote && (
-                            <span className="flex items-center space-x-1 bg-amber-200/90 dark:bg-amber-900/80 text-amber-900 dark:text-amber-100 text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded shadow-2xs">
-                              <Lock className="w-2.5 h-2.5" />
-                              <span>Internal Note</span>
-                            </span>
-                          )}
-                          <span className="flex items-center gap-1.5 text-xs font-semibold text-slate-800 dark:text-zinc-200">
-                            {isCustomer ? (
-                              <User className="w-3.5 h-3.5 text-slate-500 dark:text-zinc-400" />
-                            ) : isAi ? (
-                              <Bot className="w-3.5 h-3.5 text-purple-600 dark:text-purple-400" />
-                            ) : (
-                              <UserCheck className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" />
-                            )}
-                            <span>{msg.senderType}</span>
-                          </span>
-                          <span className="text-[10px] font-mono text-slate-400 dark:text-zinc-500 bg-white/70 dark:bg-zinc-800 px-1.5 py-0.2 rounded border border-slate-200/60 dark:border-zinc-700">
-                            seq #{msg.seq}
-                          </span>
-                        </div>
-                        <span className="text-[11px] text-slate-400 dark:text-zinc-500 font-mono">
-                          {new Date(msg.createdAt).toLocaleTimeString([], {
-                            hour: '2-digit',
-                            minute: '2-digit',
-                          })}
+      {/* Main Content Layout (70% Left / 30% Right) */}
+      <div className="w-full px-margin py-6">
+        <div className="max-w-[1720px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+          {/* LEFT COLUMN: Conversation Timeline & Composer (8 cols) */}
+          <section
+            aria-label="Ticket Conversation Timeline"
+            className="lg:col-span-8 flex flex-col gap-6"
+          >
+            {/* Conversation Stream */}
+            <div className="flex flex-col gap-5">
+              {/* Original Ticket Description Card */}
+              <article className="relative flex flex-col bg-surface rounded-xl p-5 shadow-xs border border-border">
+                <div className="flex items-start justify-between gap-4 pb-3 border-b border-border">
+                  <div className="flex items-center gap-3">
+                    <div className="w-11 h-11 rounded-full bg-primary-fixed text-primary flex items-center justify-center font-bold text-sm">
+                      {(ticket as any).customerEmail
+                        ? (ticket as any).customerEmail.slice(0, 2).toUpperCase()
+                        : 'CU'}
+                    </div>
+                    <div className="flex flex-col">
+                      <div className="flex items-center gap-2">
+                        <span className="font-headline-md text-headline-sm text-text-primary font-bold">
+                          {(ticket as any).customerEmail
+                            ? (ticket as any).customerEmail.split('@')[0]
+                            : 'Customer'}
+                        </span>
+                        <span className="px-1.5 py-0.5 rounded text-code-mono font-code-mono bg-primary-fixed text-primary font-medium text-xs">
+                          Customer
                         </span>
                       </div>
-                      <div className="whitespace-pre-wrap leading-relaxed text-sm">{msg.body}</div>
+                      <span className="font-body-sm text-body-sm text-text-secondary">
+                        {(ticket as any).customerEmail ||
+                          ticket.customerId ||
+                          'customer@company.com'}
+                      </span>
                     </div>
-                  );
-                })}
-              </div>
-            )}
-          </div>
-
-          {/* Modern Composer with Tabs, Markdown Shortcuts & 1-Click AI Draft */}
-          <div className="bg-white dark:bg-zinc-900 rounded-xl border border-slate-200/80 dark:border-zinc-800 p-5 shadow-xs transition-colors">
-            {ticket.status === 'CLOSED' ? (
-              <div className="p-4 bg-slate-50 dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 rounded-xl text-xs text-slate-500 dark:text-zinc-400 text-center">
-                This ticket is closed. Reopen or create a new ticket to continue conversation.
-              </div>
-            ) : (
-              <form onSubmit={handleSendMessage} className="space-y-3.5">
-                {/* Header: Tabs + 1-Click Draft with AI */}
-                <div className="flex items-center justify-between border-b border-slate-100 dark:border-zinc-800 pb-2.5">
-                  <div className="flex items-center space-x-2">
-                    <button
-                      type="button"
-                      onClick={() => setIsInternal(false)}
-                      className={`inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg transition-all cursor-pointer ${
-                        !isInternal
-                          ? 'bg-indigo-600 text-white shadow-xs'
-                          : 'bg-slate-100 dark:bg-zinc-800 text-slate-600 dark:text-zinc-300 hover:bg-slate-200/70 dark:hover:bg-zinc-700'
-                      }`}
-                      data-testid="composer-public-tab"
-                    >
-                      <MessageSquare className="w-3.5 h-3.5" />
-                      <span>Public Reply</span>
-                    </button>
-
-                    <button
-                      type="button"
-                      onClick={() => setIsInternal(true)}
-                      className={`inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg transition-all cursor-pointer ${
-                        isInternal
-                          ? 'bg-amber-600 text-white shadow-xs'
-                          : 'bg-slate-100 dark:bg-zinc-800 text-slate-600 dark:text-zinc-300 hover:bg-slate-200/70 dark:hover:bg-zinc-700'
-                      }`}
-                      data-testid="composer-internal-tab"
-                    >
-                      <Lock className="w-3.5 h-3.5" />
-                      <span>Internal Note</span>
-                    </button>
                   </div>
+                  <div className="flex items-center gap-1.5 text-text-secondary font-code-mono text-body-sm">
+                    <span className="material-symbols-outlined text-[16px]">schedule</span>
+                    <span>{formatRelativeTime(ticket.createdAt)}</span>
+                  </div>
+                </div>
+                <div className="pt-3 font-body-md text-body-md text-text-primary leading-relaxed whitespace-pre-wrap">
+                  {ticket.description}
+                </div>
+              </article>
 
+              {/* Message Thread */}
+              {messages.map((m) => {
+                const isInternalNote = m.isInternal;
+                return (
+                  <article
+                    key={m.id}
+                    className={`relative flex flex-col rounded-xl p-5 shadow-xs border transition-all ${
+                      isInternalNote
+                        ? 'bg-ticket-pending-bg border-amber-200 text-ticket-pending-text'
+                        : 'bg-surface border-border text-text-primary'
+                    }`}
+                  >
+                    <div className="flex items-start justify-between gap-4 pb-3 border-b border-border/60">
+                      <div className="flex items-center gap-3">
+                        <div
+                          className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm ${
+                            isInternalNote
+                              ? 'bg-amber-200 text-ticket-pending-text'
+                              : m.senderType === 'AGENT'
+                                ? 'bg-primary-fixed text-primary'
+                                : 'bg-surface-subtle text-text-secondary'
+                          }`}
+                        >
+                          {m.senderType === 'AGENT' ? 'AG' : m.senderType === 'AI' ? 'AI' : 'CU'}
+                        </div>
+                        <div className="flex flex-col">
+                          <div className="flex items-center gap-2">
+                            <span className="font-headline-sm text-headline-sm font-bold">
+                              {m.senderType === 'AGENT'
+                                ? 'Support Agent'
+                                : m.senderType === 'AI'
+                                  ? 'SupportPilot AI'
+                                  : 'Customer'}
+                            </span>
+                            {isInternalNote ? (
+                              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber-200 text-ticket-pending-text font-headline-sm text-xs font-bold">
+                                <span className="material-symbols-outlined text-[14px]">lock</span>
+                                Internal Note
+                              </span>
+                            ) : (
+                              <span className="px-2 py-0.5 rounded text-xs font-medium bg-surface-subtle text-text-secondary">
+                                {m.senderType}
+                              </span>
+                            )}
+                          </div>
+                          <span className="font-body-sm text-body-sm opacity-80">Seq #{m.seq}</span>
+                        </div>
+                      </div>
+                      <span className="font-code-mono text-body-sm opacity-80">
+                        {formatRelativeTime(m.createdAt)}
+                      </span>
+                    </div>
+                    <div className="pt-3 font-body-md text-body-md leading-relaxed whitespace-pre-wrap">
+                      {m.body}
+                    </div>
+                  </article>
+                );
+              })}
+
+              {/* Activity Timeline Events */}
+              {timeline.length > 0 && (
+                <div
+                  className="bg-surface rounded-xl p-4 border border-border shadow-xs flex flex-col gap-3"
+                  data-testid="activity-timeline"
+                >
+                  <div className="flex items-center gap-2 text-text-secondary font-headline-sm text-body-sm font-semibold pb-1 border-b border-border">
+                    <span className="material-symbols-outlined text-[18px]">history</span>
+                    <span>Audit & Activity Timeline ({timeline.length} events)</span>
+                  </div>
+                  <div className="space-y-2">
+                    {timeline.map((event) => (
+                      <div
+                        key={event.id}
+                        className="flex items-center gap-3 text-body-sm text-text-secondary font-code-mono"
+                      >
+                        <span className="material-symbols-outlined text-[16px] text-primary">
+                          alt_route
+                        </span>
+                        <span className="font-medium text-text-primary">{event.type}</span>
+                        <span>•</span>
+                        <span>{formatRelativeTime(event.createdAt)}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* RICH MESSAGE COMPOSER BOX */}
+            <div className="sticky bottom-4 z-20 flex flex-col bg-surface rounded-xl shadow-xl border border-border overflow-hidden">
+              {/* Mode Tabs & AI Copilot Spark Header */}
+              <div className="flex items-center justify-between bg-surface-subtle border-b border-border px-4 pt-2">
+                <div className="flex items-center gap-1">
                   <button
                     type="button"
-                    onClick={handleDraftAiReply}
-                    disabled={isSuggesting}
-                    className="inline-flex items-center gap-1.5 text-xs font-semibold text-indigo-700 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-950/50 hover:bg-indigo-100 dark:hover:bg-indigo-900/50 px-3 py-1.5 rounded-lg border border-indigo-200 dark:border-indigo-800 disabled:opacity-50 transition-colors cursor-pointer shadow-2xs"
-                    data-testid="draft-with-ai-button"
+                    onClick={() => setIsInternal(false)}
+                    className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-t-lg font-headline-sm text-body-sm font-semibold transition-all cursor-pointer ${
+                      !isInternal
+                        ? 'bg-surface text-primary shadow-xs border-t border-x border-border -mb-px'
+                        : 'text-text-secondary hover:text-text-primary'
+                    }`}
+                    data-testid="composer-public-tab"
                   >
-                    {isSuggesting ? (
-                      <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                    ) : (
-                      <Sparkles className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" />
-                    )}
-                    <span>{isSuggesting ? 'Drafting...' : 'Draft with AI'}</span>
+                    <span className="material-symbols-outlined text-[18px]">reply</span>
+                    <span>Public Reply</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setIsInternal(true)}
+                    className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-t-lg font-headline-sm text-body-sm font-semibold transition-all cursor-pointer ${
+                      isInternal
+                        ? 'bg-surface text-amber-700 dark:text-amber-400 shadow-xs border-t border-x border-border -mb-px'
+                        : 'text-text-secondary hover:text-text-primary'
+                    }`}
+                    data-testid="composer-internal-tab"
+                  >
+                    <span className="material-symbols-outlined text-[18px]">lock</span>
+                    <span>Internal Note</span>
                   </button>
                 </div>
 
-                {/* Markdown Shortcut Bar */}
-                <div className="flex items-center gap-1 py-1 px-1 bg-slate-50 dark:bg-zinc-800 border border-slate-200/60 dark:border-zinc-700 rounded-lg text-slate-500 dark:text-zinc-400">
+                {/* AI Draft Button */}
+                <button
+                  type="button"
+                  onClick={handleDraftAiReply}
+                  disabled={isSuggesting}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gradient-to-r from-primary via-primary-container to-tertiary text-white font-headline-sm text-body-sm font-medium shadow-md hover:brightness-110 active:scale-95 transition-all cursor-pointer disabled:opacity-50"
+                  data-testid="draft-with-ai-button"
+                >
+                  <span className="material-symbols-outlined text-[18px]">auto_awesome</span>
+                  <span>Draft with AI Copilot</span>
+                </button>
+              </div>
+
+              {/* Formatting Toolbar */}
+              <div className="flex items-center justify-between px-4 py-2 bg-surface text-text-secondary border-b border-border">
+                <div className="flex items-center gap-1 flex-wrap">
                   <button
                     type="button"
                     onClick={() => insertMarkdownShortcut('**', '**')}
+                    className="p-1.5 rounded hover:bg-surface-subtle hover:text-text-primary transition-colors cursor-pointer"
                     title="Bold"
-                    className="p-1.5 hover:bg-white dark:hover:bg-zinc-700 hover:text-slate-900 dark:hover:text-zinc-100 rounded transition-colors cursor-pointer"
                   >
-                    <Bold className="w-3.5 h-3.5" />
+                    <span className="material-symbols-outlined text-[18px]">format_bold</span>
                   </button>
                   <button
                     type="button"
                     onClick={() => insertMarkdownShortcut('*', '*')}
+                    className="p-1.5 rounded hover:bg-surface-subtle hover:text-text-primary transition-colors cursor-pointer"
                     title="Italic"
-                    className="p-1.5 hover:bg-white dark:hover:bg-zinc-700 hover:text-slate-900 dark:hover:text-zinc-100 rounded transition-colors cursor-pointer"
                   >
-                    <Italic className="w-3.5 h-3.5" />
+                    <span className="material-symbols-outlined text-[18px]">format_italic</span>
                   </button>
                   <button
                     type="button"
                     onClick={() => insertMarkdownShortcut('`', '`')}
-                    title="Inline Code"
-                    className="p-1.5 hover:bg-white dark:hover:bg-zinc-700 hover:text-slate-900 dark:hover:text-zinc-100 rounded transition-colors cursor-pointer"
+                    className="p-1.5 rounded hover:bg-surface-subtle hover:text-text-primary transition-colors cursor-pointer"
+                    title="Code"
                   >
-                    <Code className="w-3.5 h-3.5" />
+                    <span className="material-symbols-outlined text-[18px]">code</span>
                   </button>
                   <button
                     type="button"
-                    onClick={() => insertMarkdownShortcut('- ')}
-                    title="Bullet List"
-                    className="p-1.5 hover:bg-white dark:hover:bg-zinc-700 hover:text-slate-900 dark:hover:text-zinc-100 rounded transition-colors cursor-pointer"
+                    onClick={() => insertMarkdownShortcut('\n- ')}
+                    className="p-1.5 rounded hover:bg-surface-subtle hover:text-text-primary transition-colors cursor-pointer"
+                    title="List"
                   >
-                    <List className="w-3.5 h-3.5" />
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => insertMarkdownShortcut('> ')}
-                    title="Quote"
-                    className="p-1.5 hover:bg-white dark:hover:bg-zinc-700 hover:text-slate-900 dark:hover:text-zinc-100 rounded transition-colors cursor-pointer"
-                  >
-                    <Quote className="w-3.5 h-3.5" />
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => insertMarkdownShortcut('[', '](https://)')}
-                    title="Insert Link"
-                    className="p-1.5 hover:bg-white dark:hover:bg-zinc-700 hover:text-slate-900 dark:hover:text-zinc-100 rounded transition-colors cursor-pointer"
-                  >
-                    <LinkIcon className="w-3.5 h-3.5" />
+                    <span className="material-symbols-outlined text-[18px]">
+                      format_list_bulleted
+                    </span>
                   </button>
                 </div>
+              </div>
 
-                {/* Textarea */}
-                <textarea
-                  ref={textareaRef}
-                  rows={4}
-                  required
-                  value={messageBody}
-                  onChange={(e) => setMessageBody(e.target.value)}
-                  placeholder={
-                    isInternal
-                      ? 'Add an internal note visible only to agents and leads...'
-                      : 'Type a customer reply...'
-                  }
-                  className={`w-full p-3.5 border rounded-xl text-sm focus:outline-none focus:ring-2 transition-all ${
-                    isInternal
-                      ? 'bg-amber-50/40 dark:bg-amber-950/20 border-amber-300 dark:border-amber-800/60 text-amber-950 dark:text-amber-100 focus:ring-amber-500/20 focus:border-amber-500 placeholder:text-amber-700/50 dark:placeholder:text-amber-400/40'
-                      : 'bg-white dark:bg-zinc-800/80 border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-zinc-100 focus:ring-indigo-500/20 focus:border-indigo-500 placeholder:text-slate-400 dark:placeholder:text-zinc-500'
-                  }`}
-                  data-testid="message-textarea"
-                />
+              {/* Textarea */}
+              <form onSubmit={handleSendMessage} className="flex flex-col">
+                <div className="px-4 py-2 bg-surface">
+                  <textarea
+                    ref={textareaRef}
+                    rows={4}
+                    value={messageBody}
+                    onChange={(e) => setMessageBody(e.target.value)}
+                    placeholder={
+                      isInternal
+                        ? 'Write an internal team note (not visible to customer)...'
+                        : `Type your public reply to ${(ticket as any).customerEmail || 'customer'}...`
+                    }
+                    className="w-full p-2 bg-transparent text-text-primary font-body-md text-body-md placeholder:text-text-secondary focus:outline-none resize-none"
+                    data-testid="message-textarea"
+                  />
+                </div>
 
-                <div className="flex items-center justify-between pt-1">
-                  <span className="text-[11px] text-slate-400 dark:text-zinc-500">
-                    Supports Markdown formatting (Ctrl+Enter to send)
-                  </span>
+                {/* Bottom Delivery Bar */}
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 px-4 py-3 bg-surface-subtle border-t border-border">
+                  <div className="flex items-center gap-2 font-body-sm text-body-sm text-text-secondary">
+                    <span className="font-headline-sm text-text-primary">Mode:</span>
+                    <span>
+                      {isInternal ? 'Internal Note (Team only)' : 'Public Customer Reply'}
+                    </span>
+                  </div>
+
                   <button
                     type="submit"
                     disabled={addMessage.isPending || !messageBody.trim()}
-                    className={`px-4 py-2 text-xs font-semibold text-white rounded-lg shadow-xs disabled:opacity-40 flex items-center space-x-1.5 cursor-pointer transition-colors ${
+                    className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg font-headline-sm text-body-sm font-semibold shadow-md active:scale-95 transition-all cursor-pointer disabled:opacity-50 text-white ${
                       isInternal
-                        ? 'bg-amber-600 hover:bg-amber-700'
-                        : 'bg-indigo-600 hover:bg-indigo-700'
+                        ? 'bg-amber-600 hover:bg-amber-500'
+                        : 'bg-primary hover:bg-primary-container'
                     }`}
                     data-testid="send-message-button"
                   >
                     {addMessage.isPending ? (
-                      <>
-                        <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                        <span>Sending...</span>
-                      </>
-                    ) : (
-                      <>
-                        <Send className="w-3.5 h-3.5" />
-                        <span>{isInternal ? 'Post Note' : 'Send Reply'}</span>
-                      </>
-                    )}
+                      <span className="inline-block w-4 h-4 rounded-full border-2 border-white border-t-transparent animate-spin mr-1" />
+                    ) : null}
+                    <span>{isInternal ? 'Post Internal Note' : 'Send Public Reply'}</span>
+                    <span className="material-symbols-outlined text-[18px]">send</span>
                   </button>
                 </div>
               </form>
-            )}
-          </div>
-        </div>
+            </div>
+          </section>
 
-        {/* Activity Timeline (right column) */}
-        <div className="bg-white dark:bg-zinc-900 rounded-xl border border-slate-200/80 dark:border-zinc-800 p-5 shadow-xs h-fit transition-colors">
-          <div className="flex items-center justify-between mb-4 border-b border-slate-100 dark:border-zinc-800 pb-3">
-            <h2 className="text-sm font-bold text-slate-900 dark:text-zinc-100 flex items-center space-x-2">
-              <History className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
-              <span>Activity Timeline</span>
-            </h2>
-            <span className="text-[11px] font-mono text-slate-400 dark:text-zinc-400 bg-slate-100 dark:bg-zinc-800 px-2 py-0.5 rounded">
-              {timeline.length} events
-            </span>
-          </div>
+          {/* RIGHT COLUMN: AI Copilot Assist & Inspector (4 cols) */}
+          <aside
+            aria-label="Context and Intelligence Inspector"
+            className="lg:col-span-4 flex flex-col gap-6"
+          >
+            {/* AI Copilot Card */}
+            <div className="flex flex-col bg-surface rounded-xl shadow-md border border-border overflow-hidden">
+              <div className="flex items-center justify-between p-4 bg-surface-container-low border-b border-border">
+                <div className="flex items-center gap-2">
+                  <span className="material-symbols-outlined text-primary text-[22px]">
+                    auto_awesome
+                  </span>
+                  <h2 className="font-headline-md text-headline-sm text-text-primary font-bold">
+                    AI Copilot Assist
+                  </h2>
+                </div>
+                <button
+                  type="button"
+                  onClick={handleSummarizeThread}
+                  disabled={isSummarizing}
+                  className="px-2.5 py-1 rounded-lg bg-surface-subtle hover:bg-surface-variant text-primary text-xs font-semibold border border-border transition-colors cursor-pointer"
+                  data-testid="summarize-thread-button"
+                >
+                  {isSummarizing ? 'Summarizing...' : 'Summarize Thread'}
+                </button>
+              </div>
 
-          <div className="relative pl-6 space-y-6" data-testid="activity-timeline">
-            {timeline.length === 0 ? (
-              <p className="text-xs text-slate-400 dark:text-zinc-500 italic py-4">
-                No events recorded yet.
-              </p>
-            ) : (
-              <>
-                {/* Connected vertical line */}
-                <div className="absolute left-2.5 top-2 bottom-3 w-0.5 bg-slate-200 dark:bg-zinc-800 -z-0" />
-
-                {timeline.map((event) => (
-                  <div key={event.id} className="relative text-xs group">
-                    {/* Node Icon */}
-                    <div className="absolute -left-6 top-0 w-5 h-5 bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-700 rounded-full flex items-center justify-center shadow-2xs z-10">
-                      {getTimelineIcon(event.type)}
-                    </div>
-
-                    <div className="flex items-center justify-between gap-1">
-                      <span className="font-semibold text-slate-800 dark:text-zinc-200 uppercase tracking-wider text-[10px] bg-slate-100 dark:bg-zinc-800 px-1.5 py-0.5 rounded border border-slate-200/60 dark:border-zinc-700">
-                        {event.type}
+              <div className="p-4 flex flex-col gap-4">
+                {/* Summary Box */}
+                {summary && (
+                  <div
+                    className="flex flex-col gap-2 bg-surface-subtle p-3.5 rounded-xl border border-border"
+                    data-testid="ai-summary-card"
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className="font-headline-sm text-body-sm text-text-primary font-bold">
+                        Executive Summary
                       </span>
-                      <span className="text-[10px] text-slate-400 dark:text-zinc-500 font-mono">
-                        {formatRelativeTime(event.createdAt)}
+                      <span
+                        className="px-2 py-0.5 rounded-full text-xs font-mono font-bold bg-error-container text-on-error-container"
+                        data-testid="summary-sentiment-badge"
+                      >
+                        {summary.sentiment}
                       </span>
                     </div>
-
-                    <div className="text-slate-600 dark:text-zinc-400 mt-1 text-[11px] bg-slate-50/70 dark:bg-zinc-800/40 p-2 rounded-lg border border-slate-100 dark:border-zinc-800 font-mono break-all">
-                      {JSON.stringify(event.payload || {})}
-                    </div>
-
-                    <div className="text-slate-400 dark:text-zinc-500 text-[10px] mt-1 flex items-center gap-1">
-                      <Clock className="w-3 h-3 text-slate-300 dark:text-zinc-600" />
-                      <span>
-                        {new Date(event.createdAt).toLocaleTimeString([], {
-                          hour: '2-digit',
-                          minute: '2-digit',
-                        })}
+                    <p className="font-body-sm text-body-sm text-text-primary leading-relaxed">
+                      {summary.summary}
+                    </p>
+                    <div className="mt-2 pt-2 border-t border-border">
+                      <span className="font-headline-sm text-xs font-semibold text-text-secondary">
+                        Recommended Action:
                       </span>
+                      <p className="font-body-sm text-body-sm text-primary font-medium mt-0.5">
+                        {summary.recommendedAction}
+                      </p>
                     </div>
                   </div>
-                ))}
-              </>
-            )}
-          </div>
+                )}
+
+                {/* Customer Sentiment Box */}
+                <div className="flex flex-col gap-2 p-3.5 rounded-xl bg-surface-subtle border border-border">
+                  <div className="flex items-center justify-between">
+                    <span className="font-headline-sm text-body-sm text-text-primary font-semibold">
+                      Customer Sentiment
+                    </span>
+                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-error-container text-on-error-container font-headline-sm text-xs font-bold">
+                      <span className="material-symbols-outlined text-[14px]">warning</span>
+                      HIGH RISK
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-3 pt-1">
+                    <div className="flex-1 bg-surface-container rounded-full h-2.5 overflow-hidden">
+                      <div
+                        className="bg-gradient-to-r from-priority-urgent to-priority-high h-full rounded-full"
+                        style={{ width: '35%' }}
+                      />
+                    </div>
+                    <span className="font-code-mono text-xs font-bold text-priority-urgent">
+                      3.5 / 10
+                    </span>
+                  </div>
+                </div>
+
+                {/* Grounded Citations & Knowledge Assist */}
+                <div className="flex flex-col gap-2 p-3.5 rounded-xl bg-primary-fixed/20 border border-primary/20">
+                  <span className="font-headline-sm text-body-sm text-text-primary font-bold flex items-center gap-1.5">
+                    <span className="material-symbols-outlined text-[18px] text-primary">
+                      menu_book
+                    </span>
+                    RAG Knowledge Base Grounding
+                  </span>
+                  <p className="font-body-sm text-body-sm text-text-secondary">
+                    Grounding model active:{' '}
+                    <code className="font-code-mono text-primary font-semibold">
+                      all-MiniLM-L6-v2
+                    </code>
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Customer CRM Profile Card */}
+            <div className="flex flex-col bg-surface rounded-xl shadow-xs border border-border p-4 gap-3">
+              <span className="font-headline-sm text-body-sm text-text-primary font-bold border-b border-border pb-2">
+                Customer Profile
+              </span>
+              <div className="flex flex-col gap-2 font-body-sm text-body-sm text-text-secondary">
+                <div>
+                  <span className="font-medium text-text-primary">Email: </span>
+                  <span>
+                    {(ticket as any).customerEmail || ticket.customerId || 'customer@company.com'}
+                  </span>
+                </div>
+                <div>
+                  <span className="font-medium text-text-primary">Tenant: </span>
+                  <span className="font-code-mono">{ticket.tenantId}</span>
+                </div>
+                <div>
+                  <span className="font-medium text-text-primary">SLA Policy: </span>
+                  <span className="font-semibold text-ticket-open-text">Gold 99.9%</span>
+                </div>
+              </div>
+            </div>
+          </aside>
         </div>
       </div>
 
-      <TransferTicketModal
-        isOpen={isTransferOpen}
-        ticketId={ticket.id}
-        ticketNumber={ticket.number}
-        currentAssigneeId={ticket.assigneeId}
-        version={ticket.version}
-        onClose={() => setIsTransferOpen(false)}
-        onTransferred={() => refetch()}
-      />
+      {isTransferOpen && (
+        <TransferTicketModal
+          isOpen={isTransferOpen}
+          ticketId={ticket.id}
+          ticketNumber={ticket.number}
+          currentAssigneeId={ticket.assigneeId}
+          onClose={() => setIsTransferOpen(false)}
+          onTransferred={() => {
+            setIsTransferOpen(false);
+            void refetch();
+          }}
+        />
+      )}
 
-      <MergeTicketModal
-        isOpen={isMergeOpen}
-        ticketId={ticket.id}
-        ticketNumber={ticket.number}
-        version={ticket.version}
-        onClose={() => setIsMergeOpen(false)}
-        onMerged={() => refetch()}
-      />
+      {isMergeOpen && (
+        <MergeTicketModal
+          isOpen={isMergeOpen}
+          ticketId={ticket.id}
+          ticketNumber={ticket.number}
+          onClose={() => setIsMergeOpen(false)}
+          onMerged={() => {
+            setIsMergeOpen(false);
+            onBack();
+          }}
+        />
+      )}
     </div>
   );
 }

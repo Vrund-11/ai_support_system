@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_standard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base { html, body { margin: 0; padding: 0; } body { overscroll-behavior: none; } main > :first-child { margin-top: 0 !important; } main > :last-child { margin-bottom: 0 !important; } } ::-webkit-scrollbar { display: none; }</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "on-error-container": "#93000a", "ticket-pending-text": "#b45309", "on-error": "#ffffff", "on-secondary-fixed-variant": "#004c6e", "tertiary-fixed": "#ffdbcc", "on-primary": "#ffffff", "on-tertiary-container": "#ffd2be", "ticket-open-text": "#15803d", "surface-container": "#f0ecf9", "outline": "#777587", "inverse-primary": "#c3c0ff", "secondary": "#006591", "border": "#e2e8f0", "ticket-new-text": "#1d4ed8", "priority-low": "#64748b", "primary-fixed-dim": "#c3c0ff", "inverse-surface": "#302f39", "background": "#fcf8ff", "surface-container-low": "#f5f2ff", "text-primary": "#0f172a", "on-surface": "#1b1b24", "secondary-fixed": "#c9e6ff", "priority-urgent": "#ef4444", "on-tertiary": "#ffffff", "surface-container-highest": "#e4e1ee", "surface-dim": "#dcd8e5", "on-primary-container": "#dad7ff", "priority-high": "#f59e0b", "text-secondary": "#64748b", "outline-variant": "#c7c4d8", "on-primary-fixed": "#0f0069", "inverse-on-surface": "#f3effc", "ticket-open-bg": "#f0fdf4", "surface-variant": "#e4e1ee", "surface-tint": "#4d44e3", "ticket-new-bg": "#eff6ff", "neutral": "#09090b", "ticket-pending-bg": "#fffbeb", "on-tertiary-fixed-variant": "#7b2f00", "primary-container": "#4f46e5", "primary-fixed": "#e2dfff", "secondary-fixed-dim": "#89ceff", "on-background": "#1b1b24", "tertiary": "#8b5cf6", "on-secondary": "#ffffff", "surface-bright": "#fcf8ff", "surface-container-lowest": "#ffffff", "on-surface-variant": "#464555", "secondary-container": "#39b8fd", "on-tertiary-fixed": "#351000", "ticket-onhold-bg": "#faf5ff", "surface-subtle": "#f1f5f9", "surface-container-high": "#eae6f4", "ticket-onhold-text": "#7e22ce", "primary": "#3525cd", "on-secondary-container": "#004666", "on-primary-fixed-variant": "#3323cc", "error": "#ba1a1a", "tertiary-fixed-dim": "#ffb695", "tertiary-container": "#a44100", "error-container": "#ffdad6", "surface": "#ffffff", "on-secondary-fixed": "#001e2f", "priority-medium": "#3b82f6" }, "borderRadius": { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" }, "spacing": { "gutter": "1rem", "space-xl": "2rem", "margin": "1.5rem", "space-xs": "0.25rem", "space-md": "1rem", "space-sm": "0.5rem", "space-lg": "1.5rem" }, "fontFamily": { "body-sm": [ "Inter" ], "body-md": [ "Inter" ], "body-lg": [ "Inter" ], "headline-md": [ "Inter" ], "headline-lg": [ "Inter" ], "display-hero": [ "Inter" ], "code-mono": [ "JetBrains Mono" ], "headline-sm": [ "Inter" ] }, "fontSize": { "body-sm": [ "12px", { "lineHeight": "16px", "fontWeight": "400" } ], "body-md": [ "14px", { "lineHeight": "20px", "fontWeight": "400" } ], "body-lg": [ "16px", { "lineHeight": "24px", "fontWeight": "400" } ], "headline-md": [ "20px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600" } ], "headline-lg": [ "28px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "600" } ], "display-hero": [ "36px", { "lineHeight": "44px", "letterSpacing": "-0.03em", "fontWeight": "700" } ], "code-mono": [ "12px", { "lineHeight": "16px", "fontWeight": "400" } ], "headline-sm": [ "16px", { "lineHeight": "24px", "fontWeight": "500" } ] } } } };</script></head><body class="bg-background font-body-md text-body-md text-on-surface antialiased"><header class="fixed top-0 left-0 right-0 z-50 bg-surface/90 backdrop-blur-xl border-b border-border shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 w-full px-margin flex items-center justify-between gap-gutter"><div class="flex items-center gap-space-md"><img alt="SupportPilot Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/ALJJyrA4IIIEgfigW6vF6b08MRr5Fm1ZTWWz21w2ZceNEpidcJUFnMJNc3WonM1i3qLmzdmU3aI4e_gq4UJ6Kbar-AEZ-tie9gPQZY9zwe8WwXiigHlqCi-NNPLLkm14Wt-oZbX3Jr9vD01Vmri81BpCHVdxrEpkFuMrWbTRcDdiSRVyFq2fUn3ECj76DX1gQ0HIR0e9ZvHR2gK_jlAu_Uw62E1Rq2ggow5RZ07oP58T6UsRrGHrA3Rbyzacqg"/><span class="font-headline-sm text-headline-sm text-text-primary tracking-tight font-semibold">SupportPilot Console</span></div><div class="flex-1 max-w-xl mx-auto"><div class="relative flex items-center w-full"><span class="material-symbols-outlined absolute left-space-md text-text-secondary pointer-events-none text-[20px]">search</span><input class="w-full h-10 pl-10 pr-20 bg-surface-subtle border border-border rounded-xl font-body-md text-body-md text-text-primary placeholder:text-text-secondary focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary transition-all" placeholder="Search tickets, customers, or articles..." type="text"/><span class="absolute right-space-sm px-space-xs py-0.5 bg-surface border border-border rounded font-code-mono text-code-mono text-text-secondary shadow-sm">⌘K</span></div></div><div class="flex items-center gap-space-md"><button aria-label="Notifications" class="relative p-space-sm rounded-lg hover:bg-surface-subtle text-text-secondary hover:text-on-surface transition-colors" type="button"><span class="material-symbols-outlined text-[22px]">notifications</span><span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-priority-urgent"></span></button><button aria-label="Help" class="p-space-sm rounded-lg hover:bg-surface-subtle text-text-secondary hover:text-on-surface transition-colors" type="button"><span class="material-symbols-outlined text-[22px]">help_outline</span></button><div class="h-6 w-[1px] bg-border"></div><div class="flex items-center gap-space-sm pl-space-xs"><div class="relative flex-shrink-0"><img alt="Elena Vance Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDSIZkv8Jhj9mZGK5_-fgFg6cO4AvfyrI8QSo0aVJNlZepZ0qHKF2_a16lMv8cmXOdaVl6xuUkAqDGRbFawLJvpKpdk0AEPVSB_MA74V5MMDnh0mDEfTdOWR1kVsuRDapFrA-sObfdcRIm6T59gkmTqKl8dl8p6VYWBnq4URYlTjC-NaFcXCi2hZrGnGtV5eetZsGEnzu4fa9TXGK5Hck9gPq24qYH-0_seLUTv7qfiu-5rop8frXBWojAwYYgHP_mYDO_6Cifbwdo"/><span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-ticket-open-text ring-2 ring-surface"></span></div><div class="hidden lg:flex flex-col text-left"><span class="font-headline-sm text-body-sm text-text-primary font-medium leading-none">Elena Vance</span><span class="font-body-sm text-code-mono text-text-secondary mt-0.5">Lead Admin</span></div></div></div></div><div class="h-12 w-full px-margin border-t border-border bg-surface flex items-center overflow-x-auto"><nav class="flex items-center gap-space-lg h-full" data-active-classes="text-primary font-semibold border-b-2 border-primary -mb-px"><a class="h-full inline-flex items-center text-text-secondary hover:text-on-surface font-body-md text-body-md transition-colors whitespace-nowrap" data-path="tickets" href="#">Tickets</a><a class="h-full inline-flex items-center text-text-secondary hover:text-on-surface font-body-md text-body-md transition-colors whitespace-nowrap" data-path="live-chat" href="#">Live Chat</a><a class="h-full inline-flex items-center text-text-secondary hover:text-on-surface font-body-md text-body-md transition-colors whitespace-nowrap" data-path="analytics" href="#">Analytics</a><a class="h-full inline-flex items-center text-text-secondary hover:text-on-surface font-body-md text-body-md transition-colors whitespace-nowrap" data-path="customers" href="#">Customers</a><a class="h-full inline-flex items-center text-text-secondary hover:text-on-surface font-body-md text-body-md transition-colors whitespace-nowrap" data-path="knowledge-base" href="#">Knowledge Base</a><a class="h-full inline-flex items-center text-text-secondary hover:text-on-surface font-body-md text-body-md transition-colors whitespace-nowrap" data-path="team-roles" href="#">Team &amp; Roles</a><a class="h-full inline-flex items-center text-text-secondary hover:text-on-surface font-body-md text-body-md transition-colors whitespace-nowrap" data-path="usage-quotas" href="#">Usage &amp; Quotas</a><a class="h-full inline-flex items-center text-text-secondary hover:text-on-surface font-body-md text-body-md transition-colors whitespace-nowrap" data-path="settings" href="#">Settings</a></nav></div></header><main class="w-full pt-28 bg-background min-h-screen"><div class="flex flex-col w-full">
+<!-- Top Command Ribbon & Header Context -->
+<section class="w-full px-margin py-space-md bg-surface border-b border-border">
+<div class="max-w-7xl mx-auto flex flex-col gap-space-md">
+<!-- Breadcrumb Navigation -->
+<nav aria-label="Breadcrumb" class="flex items-center gap-space-xs font-body-sm text-body-sm text-text-secondary">
+<a class="hover:text-primary transition-colors" href="#">Settings</a>
+<span class="material-symbols-outlined text-[16px] text-outline-variant">chevron_right</span>
+<a class="hover:text-primary transition-colors" href="#">Organization</a>
+<span class="material-symbols-outlined text-[16px] text-outline-variant">chevron_right</span>
+<span class="text-text-primary font-medium">Usage &amp; Quotas</span>
+</nav>
+<!-- Main Cockpit Bar -->
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-md">
+<div class="flex flex-col sm:flex-row sm:items-center gap-space-md">
+<div>
+<h1 class="font-headline-lg text-headline-lg text-text-primary tracking-tight">Tenant Usage &amp; Quotas</h1>
+<p class="font-body-md text-body-md text-text-secondary mt-0.5">Real-time resource provisioning, LLM inference volume, and automated cap enforcement.</p>
+</div>
+<!-- Tenant Switcher Dropdown Capsule -->
+<div class="inline-flex items-center gap-space-sm px-space-md py-1.5 bg-surface-subtle border border-border rounded-xl shadow-sm">
+<span class="w-2.5 h-2.5 rounded-full bg-ticket-open-text shadow-[0_0_8px_rgba(21,128,61,0.4)]"></span>
+<div class="flex flex-col">
+<span class="font-headline-sm text-body-sm text-text-primary font-semibold leading-tight">Acme Corp (Enterprise Tier)</span>
+<span class="font-code-mono text-code-mono text-text-secondary">tenant-acme-9821</span>
+</div>
+<button class="p-1 hover:bg-surface rounded text-text-secondary hover:text-text-primary transition-colors ml-1" title="Switch Tenant">
+<span class="material-symbols-outlined text-[18px]">unfold_more</span>
+</button>
+</div>
+</div>
+<!-- Billing Cycle & Primary Actions -->
+<div class="flex flex-wrap items-center gap-space-md">
+<div class="flex items-center gap-space-sm px-space-md py-2 bg-surface-container-low rounded-xl border border-border">
+<span class="material-symbols-outlined text-primary text-[20px]">calendar_today</span>
+<div class="flex flex-col">
+<div class="flex items-center gap-space-xs font-body-sm text-body-sm">
+<span class="font-semibold text-text-primary">18 days</span>
+<span class="text-text-secondary">left in cycle</span>
+<span class="w-1.5 h-1.5 rounded-full bg-outline-variant"></span>
+<span class="text-text-secondary font-code-mono text-code-mono">Renews Nov 15</span>
+</div>
+<!-- Mini progress pill -->
+<div class="w-36 h-1.5 bg-surface-variant rounded-full mt-1 overflow-hidden">
+<div class="h-full bg-primary rounded-full transition-all" style="width: 40%;"></div>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-space-sm">
+<button class="inline-flex items-center gap-space-xs px-space-md py-2 bg-surface border border-border hover:bg-surface-subtle text-text-primary rounded-xl font-headline-sm text-body-sm shadow-sm transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px] text-text-secondary">notification_add</span>
+              Set Alert Thresholds
+            </button>
+<button class="inline-flex items-center gap-space-xs px-space-md py-2 bg-primary hover:bg-primary-container text-on-primary rounded-xl font-headline-sm text-body-sm shadow-sm transition-all hover:shadow" type="button">
+<span class="material-symbols-outlined text-[18px]">upgrade</span>
+              Upgrade Plan
+            </button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Main Cockpit Body -->
+<div class="w-full px-margin py-space-lg">
+<div class="max-w-7xl mx-auto flex flex-col gap-space-xl">
+<!-- 1. Top Stat & Quota Overview (4 Grid Columns) -->
+<section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-space-md">
+<!-- Metric Card 1: AI Token Volume (Critical / Near Cap) -->
+<div class="bg-surface border border-border rounded-xl p-space-md shadow-sm flex flex-col justify-between hover:border-outline-variant transition-colors">
+<div>
+<div class="flex items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-xs">
+<div class="w-8 h-8 rounded-lg bg-primary-fixed flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[20px]">psychology</span>
+</div>
+<span class="font-headline-sm text-body-sm text-text-secondary">AI Token Volume</span>
+</div>
+<span class="px-2 py-0.5 rounded-full font-body-sm text-code-mono bg-ticket-pending-bg text-ticket-pending-text font-medium flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-priority-high"></span> 84.0%
+              </span>
+</div>
+<div class="mt-space-md flex items-baseline justify-between">
+<div class="font-code-mono text-headline-lg font-bold text-text-primary tracking-tight">8.4M <span class="font-body-md text-text-secondary text-body-md font-normal">/ 10M</span></div>
+</div>
+<!-- Multi-segment visual bar -->
+<div class="w-full bg-surface-subtle h-2.5 rounded-full mt-space-sm overflow-hidden flex">
+<div class="h-full bg-primary" style="width: 69%;" title="Prompt Tokens (5.8M)"></div>
+<div class="h-full bg-tertiary" style="width: 15%;" title="Completion Tokens (2.6M)"></div>
+<div class="h-full bg-surface-variant" style="width: 16%;" title="Remaining Quota (1.6M)"></div>
+</div>
+<div class="mt-space-xs flex items-center justify-between text-code-mono font-code-mono text-text-secondary">
+<span class="flex items-center gap-1"><span class="w-2 h-2 rounded bg-primary"></span> 5.8M Prompt</span>
+<span class="flex items-center gap-1"><span class="w-2 h-2 rounded bg-tertiary"></span> 2.6M Compl.</span>
+</div>
+</div>
+<div class="pt-space-md mt-space-sm border-t border-border flex items-center justify-between font-body-sm text-body-sm">
+<span class="text-text-secondary">Velocity: <strong class="text-text-primary font-code-mono">280k/day</strong></span>
+<span class="text-ticket-pending-text font-medium">Proj: 9.8M (98%)</span>
+</div>
+</div>
+<!-- Metric Card 2: Active Seats & Agents -->
+<div class="bg-surface border border-border rounded-xl p-space-md shadow-sm flex flex-col justify-between hover:border-outline-variant transition-colors">
+<div>
+<div class="flex items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-xs">
+<div class="w-8 h-8 rounded-lg bg-ticket-open-bg flex items-center justify-center text-ticket-open-text">
+<span class="material-symbols-outlined text-[20px]">badge</span>
+</div>
+<span class="font-headline-sm text-body-sm text-text-secondary">Agent Seats</span>
+</div>
+<span class="px-2 py-0.5 rounded-full font-body-sm text-code-mono bg-ticket-open-bg text-ticket-open-text font-medium flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-ticket-open-text"></span> Healthy
+              </span>
+</div>
+<div class="mt-space-md flex items-baseline justify-between">
+<div class="font-code-mono text-headline-lg font-bold text-text-primary tracking-tight">24 <span class="font-body-md text-text-secondary text-body-md font-normal">/ 30 seats</span></div>
+<span class="font-code-mono text-body-sm text-text-secondary">80.0%</span>
+</div>
+<div class="w-full bg-surface-subtle h-2.5 rounded-full mt-space-sm overflow-hidden">
+<div class="h-full bg-secondary rounded-full" style="width: 80%;"></div>
+</div>
+<div class="mt-space-xs font-body-sm text-body-sm text-text-secondary flex justify-between">
+<span>20 Full Agents</span>
+<span>4 Lead Admins</span>
+</div>
+</div>
+<div class="pt-space-md mt-space-sm border-t border-border flex items-center justify-between font-body-sm text-body-sm">
+<span class="text-text-secondary">Available slots:</span>
+<span class="font-code-mono font-medium text-text-primary">6 seats remaining</span>
+</div>
+</div>
+<!-- Metric Card 3: Monthly Ticket Ingress -->
+<div class="bg-surface border border-border rounded-xl p-space-md shadow-sm flex flex-col justify-between hover:border-outline-variant transition-colors">
+<div>
+<div class="flex items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-xs">
+<div class="w-8 h-8 rounded-lg bg-ticket-new-bg flex items-center justify-center text-ticket-new-text">
+<span class="material-symbols-outlined text-[20px]">inbox</span>
+</div>
+<span class="font-headline-sm text-body-sm text-text-secondary">Ticket Ingress</span>
+</div>
+<span class="px-2 py-0.5 rounded-full font-body-sm text-code-mono bg-ticket-open-bg text-ticket-open-text font-medium flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-ticket-open-text"></span> Normal
+              </span>
+</div>
+<div class="mt-space-md flex items-baseline justify-between">
+<div class="font-code-mono text-headline-lg font-bold text-text-primary tracking-tight">14,250 <span class="font-body-md text-text-secondary text-body-md font-normal">/ 20k</span></div>
+<span class="font-code-mono text-body-sm text-text-secondary">71.2%</span>
+</div>
+<div class="w-full bg-surface-subtle h-2.5 rounded-full mt-space-sm overflow-hidden">
+<div class="h-full bg-primary-container rounded-full" style="width: 71.2%;"></div>
+</div>
+<div class="mt-space-xs font-body-sm text-body-sm text-text-secondary flex justify-between">
+<span>Email: 8.4k</span>
+<span>Chat: 4.1k</span>
+<span>API: 1.7k</span>
+</div>
+</div>
+<div class="pt-space-md mt-space-sm border-t border-border flex items-center justify-between font-body-sm text-body-sm">
+<span class="text-text-secondary">Ingress Rate:</span>
+<span class="font-code-mono text-text-primary font-medium">~475 tickets / day</span>
+</div>
+</div>
+<!-- Metric Card 4: Vector Store & Embeddings -->
+<div class="bg-surface border border-border rounded-xl p-space-md shadow-sm flex flex-col justify-between hover:border-outline-variant transition-colors">
+<div>
+<div class="flex items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-xs">
+<div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-tertiary">
+<span class="material-symbols-outlined text-[20px]">database</span>
+</div>
+<span class="font-headline-sm text-body-sm text-text-secondary">Vector Store</span>
+</div>
+<span class="px-2 py-0.5 rounded-full font-body-sm text-code-mono bg-ticket-open-bg text-ticket-open-text font-medium flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-ticket-open-text"></span> 42.0%
+              </span>
+</div>
+<div class="mt-space-md flex items-baseline justify-between">
+<div class="font-code-mono text-headline-lg font-bold text-text-primary tracking-tight">4.2 GB <span class="font-body-md text-text-secondary text-body-md font-normal">/ 10 GB</span></div>
+<span class="font-code-mono text-body-sm text-text-secondary">Pinecone</span>
+</div>
+<div class="w-full bg-surface-subtle h-2.5 rounded-full mt-space-sm overflow-hidden">
+<div class="h-full bg-tertiary rounded-full" style="width: 42%;"></div>
+</div>
+<div class="mt-space-xs font-body-sm text-body-sm text-text-secondary flex justify-between">
+<span>18,400 Chunks</span>
+<span class="font-code-mono">1536-dim</span>
+</div>
+</div>
+<div class="pt-space-md mt-space-sm border-t border-border flex items-center justify-between font-body-sm text-body-sm">
+<span class="text-text-secondary">Index Health:</span>
+<span class="text-ticket-open-text font-medium flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">check_circle</span> 99.98% Synced
+            </span>
+</div>
+</div>
+</section>
+<!-- 2. AI Token Consumption Deep-Dive Section -->
+<section class="grid grid-cols-1 lg:grid-cols-3 gap-space-md">
+<!-- Left 2/3: Time-Series Daily Consumption Chart -->
+<div class="lg:col-span-2 bg-surface border border-border rounded-xl p-space-lg shadow-sm flex flex-col justify-between">
+<div>
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm pb-space-md border-b border-border">
+<div>
+<h2 class="font-headline-md text-headline-md text-text-primary tracking-tight">Daily AI Token Consumption</h2>
+<p class="font-body-sm text-body-sm text-text-secondary mt-0.5">Tracking LLM call distribution across Tier-1 models &amp; local embeddings.</p>
+</div>
+<div class="flex items-center gap-space-xs">
+<div class="inline-flex p-1 bg-surface-subtle rounded-lg border border-border font-body-sm text-body-sm">
+<button class="px-2.5 py-1 rounded text-text-secondary hover:text-text-primary" type="button">7D</button>
+<button class="px-2.5 py-1 rounded text-text-secondary hover:text-text-primary" type="button">14D</button>
+<button class="px-2.5 py-1 rounded bg-surface font-semibold text-primary shadow-xs" type="button">30D</button>
+<button class="px-2.5 py-1 rounded text-text-secondary hover:text-text-primary" type="button">Cycle</button>
+</div>
+<button class="p-2 border border-border hover:bg-surface-subtle text-text-secondary hover:text-text-primary rounded-lg transition-colors" title="Export CSV Data" type="button">
+<span class="material-symbols-outlined text-[18px]">download</span>
+</button>
+</div>
+</div>
+<!-- Model Legend -->
+<div class="flex flex-wrap items-center gap-space-md my-space-md font-body-sm text-body-sm">
+<div class="flex items-center gap-1.5">
+<span class="w-3 h-3 rounded-sm bg-primary"></span>
+<span class="font-medium text-text-primary">Claude 3.5 Sonnet</span>
+<span class="font-code-mono text-text-secondary text-code-mono">(48%)</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="w-3 h-3 rounded-sm bg-ticket-open-text"></span>
+<span class="font-medium text-text-primary">GPT-4o</span>
+<span class="font-code-mono text-text-secondary text-code-mono">(28%)</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="w-3 h-3 rounded-sm bg-secondary"></span>
+<span class="font-medium text-text-primary">Gemini 1.5 Pro</span>
+<span class="font-code-mono text-text-secondary text-code-mono">(16%)</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="w-3 h-3 rounded-sm bg-tertiary"></span>
+<span class="font-medium text-text-primary">Embeddings &amp; Rerank</span>
+<span class="font-code-mono text-text-secondary text-code-mono">(8%)</span>
+</div>
+</div>
+<!-- Rich Inline SVG Time Series Graphic -->
+<div class="relative w-full h-64 mt-space-sm bg-surface-subtle/50 rounded-lg p-2 border border-border/50">
+<!-- Threshold guideline lines -->
+<div class="absolute inset-x-8 top-8 border-b border-dashed border-priority-urgent/60 flex items-center justify-between text-code-mono text-[10px] text-priority-urgent pointer-events-none z-10">
+<span class="bg-surface px-1 -mt-2">RECOMMENDED DAILY SOFT CAP (333k)</span>
+<span>333,000</span>
+</div>
+<div class="absolute inset-x-8 top-16 border-b border-dashed border-outline/40 flex items-center justify-between text-code-mono text-[10px] text-text-secondary pointer-events-none z-10">
+<span class="bg-surface px-1 -mt-2">30-DAY DAILY AVERAGE (280k)</span>
+<span>280,000</span>
+</div>
+<!-- Main Graph SVG -->
+<svg class="w-full h-full overflow-visible" preserveaspectratio="none" viewbox="0 0 760 220">
+<defs>
+<lineargradient id="claudeGradient" x1="0" x2="0" y1="0" y2="1">
+<stop offset="0%" stop-color="#3525cd" stop-opacity="0.25"></stop>
+<stop offset="100%" stop-color="#3525cd" stop-opacity="0.0"></stop>
+</lineargradient>
+<lineargradient id="gptGradient" x1="0" x2="0" y1="0" y2="1">
+<stop offset="0%" stop-color="#15803d" stop-opacity="0.2"></stop>
+<stop offset="100%" stop-color="#15803d" stop-opacity="0.0"></stop>
+</lineargradient>
+</defs>
+<!-- Grid Horizontal Lines -->
+<line stroke="#e2e8f0" stroke-width="1" x1="40" x2="740" y1="20" y2="20"></line>
+<line stroke="#e2e8f0" stroke-width="1" x1="40" x2="740" y1="70" y2="70"></line>
+<line stroke="#e2e8f0" stroke-width="1" x1="40" x2="740" y1="120" y2="120"></line>
+<line stroke="#e2e8f0" stroke-width="1" x1="40" x2="740" y1="170" y2="170"></line>
+<!-- Stacked Bars / Layered daily bars simulation for 30 bars -->
+<!-- Sample Days (Rendering representative segments across the timeline) -->
+<!-- Day 1-28 Bars generated with deliberate height variations -->
+<g class="transition-opacity hover:opacity-90">
+<!-- Bar 1 -->
+<rect fill="#3525cd" height="70" rx="2" width="14" x="50" y="110"></rect>
+<rect fill="#15803d" height="28" rx="2" width="14" x="50" y="80"></rect>
+<rect fill="#006591" height="18" rx="2" width="14" x="50" y="60"></rect>
+<rect fill="#8b5cf6" height="6" rx="2" width="14" x="50" y="52"></rect>
+<!-- Bar 2 -->
+<rect fill="#3525cd" height="75" rx="2" width="14" x="74" y="105"></rect>
+<rect fill="#15803d" height="21" rx="2" width="14" x="74" y="82"></rect>
+<rect fill="#006591" height="14" rx="2" width="14" x="74" y="66"></rect>
+<!-- Bar 3 -->
+<rect fill="#3525cd" height="85" rx="2" width="14" x="98" y="95"></rect>
+<rect fill="#15803d" height="23" rx="2" width="14" x="98" y="70"></rect>
+<rect fill="#006591" height="13" rx="2" width="14" x="98" y="55"></rect>
+<!-- Bar 4 Weekend Dip -->
+<rect fill="#3525cd" height="35" rx="2" width="14" x="122" y="145"></rect>
+<rect fill="#15803d" height="13" rx="2" width="14" x="122" y="130"></rect>
+<!-- Bar 5 Weekend Dip -->
+<rect fill="#3525cd" height="30" rx="2" width="14" x="146" y="150"></rect>
+<rect fill="#15803d" height="10" rx="2" width="14" x="146" y="138"></rect>
+<!-- Bar 6 Mon surge -->
+<rect fill="#3525cd" height="95" rx="2" width="14" x="170" y="85"></rect>
+<rect fill="#15803d" height="28" rx="2" width="14" x="170" y="55"></rect>
+<rect fill="#006591" height="15" rx="2" width="14" x="170" y="38"></rect>
+<!-- Bar 7 -->
+<rect fill="#3525cd" height="100" rx="2" width="14" x="194" y="80"></rect>
+<rect fill="#15803d" height="26" rx="2" width="14" x="194" y="52"></rect>
+<rect fill="#006591" height="15" rx="2" width="14" x="194" y="35"></rect>
+<!-- Bar 8 -->
+<rect fill="#3525cd" height="105" rx="2" width="14" x="218" y="75"></rect>
+<rect fill="#15803d" height="23" rx="2" width="14" x="218" y="50"></rect>
+<rect fill="#006591" height="16" rx="2" width="14" x="218" y="32"></rect>
+<!-- Bar 9 -->
+<rect fill="#3525cd" height="90" rx="2" width="14" x="242" y="90"></rect>
+<rect fill="#15803d" height="20" rx="2" width="14" x="242" y="68"></rect>
+<!-- Bar 10 -->
+<rect fill="#3525cd" height="80" rx="2" width="14" x="266" y="100"></rect>
+<rect fill="#15803d" height="20" rx="2" width="14" x="266" y="78"></rect>
+<!-- Bar 11 Weekend Dip -->
+<rect fill="#3525cd" height="40" rx="2" width="14" x="290" y="140"></rect>
+<rect fill="#15803d" height="13" rx="2" width="14" x="290" y="125"></rect>
+<!-- Bar 12 Weekend Dip -->
+<rect fill="#3525cd" height="35" rx="2" width="14" x="314" y="145"></rect>
+<rect fill="#15803d" height="11" rx="2" width="14" x="314" y="132"></rect>
+<!-- Bar 13 High Workload Surge -->
+<rect fill="#3525cd" height="115" rx="2" width="14" x="338" y="65"></rect>
+<rect fill="#15803d" height="23" rx="2" width="14" x="338" y="40"></rect>
+<rect fill="#006591" height="14" rx="2" width="14" x="338" y="24"></rect>
+<!-- Bar 14 -->
+<rect fill="#3525cd" height="110" rx="2" width="14" x="362" y="70"></rect>
+<rect fill="#15803d" height="24" rx="2" width="14" x="362" y="44"></rect>
+<rect fill="#006591" height="14" rx="2" width="14" x="362" y="28"></rect>
+<!-- Bar 15 -->
+<rect fill="#3525cd" height="100" rx="2" width="14" x="386" y="80"></rect>
+<rect fill="#15803d" height="23" rx="2" width="14" x="386" y="55"></rect>
+<!-- Bar 16 -->
+<rect fill="#3525cd" height="105" rx="2" width="14" x="410" y="75"></rect>
+<rect fill="#15803d" height="25" rx="2" width="14" x="410" y="48"></rect>
+<rect fill="#006591" height="16" rx="2" width="14" x="410" y="30"></rect>
+<!-- Bar 17 -->
+<rect fill="#3525cd" height="88" rx="2" width="14" x="434" y="92"></rect>
+<rect fill="#15803d" height="22" rx="2" width="14" x="434" y="68"></rect>
+<!-- Bar 18 Weekend Dip -->
+<rect fill="#3525cd" height="38" rx="2" width="14" x="458" y="142"></rect>
+<rect fill="#15803d" height="12" rx="2" width="14" x="458" y="128"></rect>
+<!-- Bar 19 Weekend Dip -->
+<rect fill="#3525cd" height="32" rx="2" width="14" x="482" y="148"></rect>
+<rect fill="#15803d" height="10" rx="2" width="14" x="482" y="136"></rect>
+<!-- Bar 20 Spike Day -->
+<rect fill="#3525cd" height="122" rx="2" width="14" x="506" y="58"></rect>
+<rect fill="#15803d" height="24" rx="2" width="14" x="506" y="32"></rect>
+<rect fill="#006591" height="15" rx="2" width="14" x="506" y="15"></rect>
+<rect fill="#8b5cf6" height="6" rx="2" width="14" x="506" y="7"></rect>
+<!-- Bar 21 Oct 24 Peak Tooltip Day -->
+<g class="cursor-pointer">
+<rect fill="#3525cd" height="130" rx="2" width="14" x="530" y="50"></rect>
+<rect fill="#15803d" height="24" rx="2" width="14" x="530" y="24"></rect>
+<rect fill="#006591" height="14" rx="2" width="14" x="530" y="8"></rect>
+<rect fill="#8b5cf6" height="5" rx="2" width="14" x="530" y="2"></rect>
+<!-- Highlight ring indicator -->
+<circle cx="537" cy="2" fill="#ef4444" r="4" stroke="#ffffff" stroke-width="1.5"></circle>
+</g>
+<!-- Bar 22 -->
+<rect fill="#3525cd" height="112" rx="2" width="14" x="554" y="68"></rect>
+<rect fill="#15803d" height="22" rx="2" width="14" x="554" y="44"></rect>
+<rect fill="#006591" height="14" rx="2" width="14" x="554" y="28"></rect>
+<!-- Bar 23 -->
+<rect fill="#3525cd" height="100" rx="2" width="14" x="578" y="80"></rect>
+<rect fill="#15803d" height="24" rx="2" width="14" x="578" y="54"></rect>
+<!-- Bar 24 -->
+<rect fill="#3525cd" height="94" rx="2" width="14" x="602" y="86"></rect>
+<rect fill="#15803d" height="22" rx="2" width="14" x="602" y="62"></rect>
+<!-- Bar 25 Weekend Dip -->
+<rect fill="#3525cd" height="40" rx="2" width="14" x="626" y="140"></rect>
+<rect fill="#15803d" height="12" rx="2" width="14" x="626" y="126"></rect>
+<!-- Bar 26 Weekend Dip -->
+<rect fill="#3525cd" height="34" rx="2" width="14" x="650" y="146"></rect>
+<rect fill="#15803d" height="10" rx="2" width="14" x="650" y="134"></rect>
+<!-- Bar 27 -->
+<rect fill="#3525cd" height="110" rx="2" width="14" x="674" y="70"></rect>
+<rect fill="#15803d" height="22" rx="2" width="14" x="674" y="46"></rect>
+<rect fill="#006591" height="14" rx="2" width="14" x="674" y="30"></rect>
+<!-- Bar 28 (Yesterday) -->
+<rect fill="#3525cd" height="116" rx="2" width="14" x="698" y="64"></rect>
+<rect fill="#15803d" height="24" rx="2" width="14" x="698" y="38"></rect>
+<rect fill="#006591" height="14" rx="2" width="14" x="698" y="22"></rect>
+<!-- Bar 29 (Today Partial) -->
+<rect fill="#3525cd" fill-opacity="0.6" height="70" rx="2" width="14" x="722" y="110"></rect>
+<rect fill="#15803d" fill-opacity="0.6" height="18" rx="2" width="14" x="722" y="90"></rect>
+</g>
+<!-- Axis Labels -->
+<text fill="#777587" font-family="JetBrains Mono" font-size="10" x="50" y="200">Oct 01</text>
+<text fill="#777587" font-family="JetBrains Mono" font-size="10" x="218" y="200">Oct 08</text>
+<text fill="#777587" font-family="JetBrains Mono" font-size="10" x="386" y="200">Oct 16</text>
+<text fill="#0f172a" font-family="JetBrains Mono" font-size="10" font-weight="600" x="530" y="200">Oct 24</text>
+<text fill="#777587" font-family="JetBrains Mono" font-size="10" x="698" y="200">Today</text>
+</svg>
+<!-- Hover Tooltip Simulation on Oct 24 -->
+<div class="absolute top-2 left-[58%] -translate-x-1/2 bg-surface/95 backdrop-blur-md border border-border p-space-sm rounded-lg shadow-xl pointer-events-none text-left z-20 w-64">
+<div class="flex items-center justify-between border-b border-border pb-1 mb-1.5">
+<span class="font-headline-sm text-body-sm font-semibold text-text-primary">Oct 24, 2025</span>
+<span class="font-code-mono text-[11px] font-bold text-priority-urgent bg-error-container/40 text-on-error-container px-1.5 py-0.5 rounded">342.8k total</span>
+</div>
+<div class="space-y-1 font-body-sm text-code-mono text-[11px]">
+<div class="flex items-center justify-between text-text-primary">
+<span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-primary"></span> Claude 3.5 Sonnet:</span>
+<span class="font-semibold">165,000</span>
+</div>
+<div class="flex items-center justify-between text-text-primary">
+<span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-ticket-open-text"></span> GPT-4o:</span>
+<span class="font-semibold">95,000</span>
+</div>
+<div class="flex items-center justify-between text-text-primary">
+<span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-secondary"></span> Gemini 1.5 Pro:</span>
+<span class="font-semibold">55,000</span>
+</div>
+<div class="flex items-center justify-between text-text-secondary">
+<span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-tertiary"></span> Embeddings:</span>
+<span>27,800</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-space-md pt-space-sm border-t border-border flex flex-wrap items-center justify-between gap-space-sm font-body-sm text-body-sm text-text-secondary">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-[18px] text-ticket-pending-text">info</span>
+<span>Tokens refreshed every 60 seconds from billing stream.</span>
+</div>
+<a class="text-primary hover:underline font-medium inline-flex items-center gap-0.5" href="#">
+              View raw audit log stream <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+</div>
+<!-- Right 1/3: Per-Feature AI Breakdown Card -->
+<div class="bg-surface border border-border rounded-xl p-space-lg shadow-sm flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between pb-space-md border-b border-border">
+<h2 class="font-headline-md text-headline-md text-text-primary tracking-tight">Feature Pipelines</h2>
+<span class="px-2 py-0.5 rounded-full font-code-mono text-code-mono bg-surface-subtle text-text-secondary">3 Active</span>
+</div>
+<div class="mt-space-md flex flex-col gap-space-md">
+<!-- Feature 1 -->
+<div class="p-space-sm rounded-lg bg-surface-subtle border border-border/70">
+<div class="flex items-start justify-between gap-space-sm">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[20px]">auto_fix_high</span>
+<div>
+<div class="font-headline-sm text-body-sm text-text-primary font-semibold">Autonomous Drafting</div>
+<div class="font-body-sm text-body-sm text-text-secondary">Agent copilot suggestions</div>
+</div>
+</div>
+<span class="font-code-mono text-body-sm font-bold text-text-primary">4.1M</span>
+</div>
+<div class="w-full bg-surface h-1.5 rounded-full mt-space-sm overflow-hidden">
+<div class="h-full bg-primary rounded-full" style="width: 48.8%;"></div>
+</div>
+<div class="mt-1.5 flex items-center justify-between text-code-mono font-code-mono text-[11px] text-text-secondary">
+<span>48.8% volume • $61.50</span>
+<span>Avg Latency 620ms</span>
+</div>
+</div>
+<!-- Feature 2 -->
+<div class="p-space-sm rounded-lg bg-surface-subtle border border-border/70">
+<div class="flex items-start justify-between gap-space-sm">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-ticket-open-text text-[20px]">account_tree</span>
+<div>
+<div class="font-headline-sm text-body-sm text-text-primary font-semibold">Auto-Triage &amp; Classify</div>
+<div class="font-body-sm text-body-sm text-text-secondary">Ingress sentiment &amp; routing</div>
+</div>
+</div>
+<span class="font-code-mono text-body-sm font-bold text-text-primary">3.2M</span>
+</div>
+<div class="w-full bg-surface h-1.5 rounded-full mt-space-sm overflow-hidden">
+<div class="h-full bg-ticket-open-text rounded-full" style="width: 38.1%;"></div>
+</div>
+<div class="mt-1.5 flex items-center justify-between text-code-mono font-code-mono text-[11px] text-text-secondary">
+<span>38.1% volume • 14,250 runs</span>
+<span>99.4% Accuracy</span>
+</div>
+</div>
+<!-- Feature 3 -->
+<div class="p-space-sm rounded-lg bg-surface-subtle border border-border/70">
+<div class="flex items-start justify-between gap-space-sm">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-tertiary text-[20px]">manage_search</span>
+<div>
+<div class="font-headline-sm text-body-sm text-text-primary font-semibold">Semantic Search &amp; RAG</div>
+<div class="font-body-sm text-body-sm text-text-secondary">KB retrieval &amp; re-ranking</div>
+</div>
+</div>
+<span class="font-code-mono text-body-sm font-bold text-text-primary">1.1M</span>
+</div>
+<div class="w-full bg-surface h-1.5 rounded-full mt-space-sm overflow-hidden">
+<div class="h-full bg-tertiary rounded-full" style="width: 13.1%;"></div>
+</div>
+<div class="mt-1.5 flex items-center justify-between text-code-mono font-code-mono text-[11px] text-text-secondary">
+<span>13.1% volume</span>
+<span>38,400 queries</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Bottom Cost Progress Capsule -->
+<div class="mt-space-md pt-space-md border-t border-border bg-surface-container-low p-space-sm rounded-xl">
+<div class="flex items-center justify-between">
+<span class="font-body-sm text-body-sm text-text-secondary">AI Credit Budget</span>
+<span class="font-code-mono text-body-sm font-semibold text-text-primary">$126.00 <span class="font-normal text-text-secondary">/ $150.00</span></span>
+</div>
+<div class="w-full bg-surface-variant h-2 rounded-full mt-2 overflow-hidden">
+<div class="h-full bg-primary" style="width: 84%;"></div>
+</div>
+<div class="mt-1.5 flex justify-between font-body-sm text-[11px] text-text-secondary">
+<span>$24.00 remaining credit</span>
+<span class="text-ticket-pending-text font-medium">Auto-renew Nov 15</span>
+</div>
+</div>
+</div>
+</section>
+<!-- 3. Resource Quotas & Limits Detailed Management Table -->
+<section class="bg-surface border border-border rounded-xl shadow-sm overflow-hidden">
+<div class="p-space-lg border-b border-border flex flex-col md:flex-row md:items-center justify-between gap-space-md">
+<div>
+<h2 class="font-headline-md text-headline-md text-text-primary tracking-tight">Workspace Resource Hard &amp; Soft Limits</h2>
+<p class="font-body-sm text-body-sm text-text-secondary mt-0.5">Enforced threshold matrix, current billing cycle consumption, and dynamic burst policies.</p>
+</div>
+<!-- Search & Filter Controls -->
+<div class="flex items-center gap-space-sm">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-2.5 top-2 text-text-secondary text-[18px]">filter_list</span>
+<input class="pl-8 pr-3 py-1.5 bg-surface-subtle border border-border rounded-lg font-body-sm text-body-sm text-text-primary focus:outline-none focus:ring-1 focus:ring-primary w-48" placeholder="Filter quotas..." type="text"/>
+</div>
+<button class="px-space-md py-1.5 bg-surface border border-border hover:bg-surface-subtle rounded-lg font-body-sm text-body-sm font-medium text-text-secondary hover:text-text-primary transition-colors flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">tune</span> Filter
+            </button>
+</div>
+</div>
+<div class="w-full overflow-x-auto">
+<table class="w-full text-left border-collapse font-body-md text-body-md">
+<thead>
+<tr class="bg-surface-subtle border-b border-border text-text-secondary font-headline-sm text-body-sm uppercase tracking-wider text-[11px]">
+<th class="py-3 px-space-lg">Resource / Service</th>
+<th class="py-3 px-space-md">Scope &amp; Engine</th>
+<th class="py-3 px-space-md">Included Quota</th>
+<th class="py-3 px-space-md">Current Usage</th>
+<th class="py-3 px-space-md w-48">Consumption</th>
+<th class="py-3 px-space-md">State</th>
+<th class="py-3 px-space-lg text-right">Policy Action</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-border">
+<!-- Row 1: AI Model Tokens -->
+<tr class="hover:bg-surface-subtle/50 transition-colors">
+<td class="py-3.5 px-space-lg">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-primary text-[20px]">psychology</span>
+<div>
+<div class="font-semibold text-text-primary">AI Foundation Tokens</div>
+<div class="font-body-sm text-text-secondary text-body-sm">GPT-4o, Claude 3.5, Gemini 1.5</div>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-space-md text-text-secondary font-body-sm">Inference Pipeline</td>
+<td class="py-3.5 px-space-md font-code-mono text-body-sm text-text-primary font-medium">10,000,000</td>
+<td class="py-3.5 px-space-md font-code-mono text-body-sm text-text-primary font-bold">8,402,190</td>
+<td class="py-3.5 px-space-md">
+<div class="flex items-center gap-2">
+<div class="flex-1 bg-surface-subtle h-2 rounded-full overflow-hidden">
+<div class="h-full bg-priority-high rounded-full" style="width: 84%;"></div>
+</div>
+<span class="font-code-mono text-[11px] font-semibold text-ticket-pending-text w-10 text-right">84.0%</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-code-mono font-code-mono text-[11px] bg-ticket-pending-bg text-ticket-pending-text font-medium">
+<span class="w-1.5 h-1.5 rounded-full bg-priority-high"></span> Warning &gt;80%
+                  </span>
+</td>
+<td class="py-3.5 px-space-lg text-right">
+<button class="px-space-md py-1 bg-surface border border-border hover:bg-surface-subtle rounded font-body-sm text-body-sm font-medium text-primary shadow-xs transition-colors" type="button">
+                    Configure Burst
+                  </button>
+</td>
+</tr>
+<!-- Row 2: Active Agent Seats -->
+<tr class="hover:bg-surface-subtle/50 transition-colors">
+<td class="py-3.5 px-space-lg">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-secondary text-[20px]">groups</span>
+<div>
+<div class="font-semibold text-text-primary">Active Agent Seats</div>
+<div class="font-body-sm text-text-secondary text-body-sm">Full seat provisioning</div>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-space-md text-text-secondary font-body-sm">Workspace Access</td>
+<td class="py-3.5 px-space-md font-code-mono text-body-sm text-text-primary font-medium">30 Seats</td>
+<td class="py-3.5 px-space-md font-code-mono text-body-sm text-text-primary font-bold">24 Seats</td>
+<td class="py-3.5 px-space-md">
+<div class="flex items-center gap-2">
+<div class="flex-1 bg-surface-subtle h-2 rounded-full overflow-hidden">
+<div class="h-full bg-secondary rounded-full" style="width: 80%;"></div>
+</div>
+<span class="font-code-mono text-[11px] font-semibold text-text-primary w-10 text-right">80.0%</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-code-mono font-code-mono text-[11px] bg-ticket-pending-bg text-ticket-pending-text font-medium">
+<span class="w-1.5 h-1.5 rounded-full bg-priority-high"></span> 6 Left
+                  </span>
+</td>
+<td class="py-3.5 px-space-lg text-right">
+<button class="px-space-md py-1 bg-surface border border-border hover:bg-surface-subtle rounded font-body-sm text-body-sm font-medium text-text-primary shadow-xs transition-colors" type="button">
+                    Add Seats
+                  </button>
+</td>
+</tr>
+<!-- Row 3: Monthly Ticket Ingress -->
+<tr class="hover:bg-surface-subtle/50 transition-colors">
+<td class="py-3.5 px-space-lg">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-ticket-open-text text-[20px]">move_to_inbox</span>
+<div>
+<div class="font-semibold text-text-primary">Monthly Ticket Ingress</div>
+<div class="font-body-sm text-text-secondary text-body-sm">All incoming omnichannel records</div>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-space-md text-text-secondary font-body-sm">Ingress Gateway</td>
+<td class="py-3.5 px-space-md font-code-mono text-body-sm text-text-primary font-medium">20,000</td>
+<td class="py-3.5 px-space-md font-code-mono text-body-sm text-text-primary font-bold">14,250</td>
+<td class="py-3.5 px-space-md">
+<div class="flex items-center gap-2">
+<div class="flex-1 bg-surface-subtle h-2 rounded-full overflow-hidden">
+<div class="h-full bg-ticket-open-text rounded-full" style="width: 71.2%;"></div>
+</div>
+<span class="font-code-mono text-[11px] font-semibold text-text-primary w-10 text-right">71.2%</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-code-mono font-code-mono text-[11px] bg-ticket-open-bg text-ticket-open-text font-medium">
+<span class="w-1.5 h-1.5 rounded-full bg-ticket-open-text"></span> Normal
+                  </span>
+</td>
+<td class="py-3.5 px-space-lg text-right">
+<button class="px-space-md py-1 bg-surface border border-border hover:bg-surface-subtle rounded font-body-sm text-body-sm font-medium text-text-secondary hover:text-text-primary shadow-xs transition-colors" type="button">
+                    Manage
+                  </button>
+</td>
+</tr>
+<!-- Row 4: Vector Store Memory -->
+<tr class="hover:bg-surface-subtle/50 transition-colors">
+<td class="py-3.5 px-space-lg">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-tertiary text-[20px]">memory</span>
+<div>
+<div class="font-semibold text-text-primary">Vector Store Storage</div>
+<div class="font-body-sm text-text-secondary text-body-sm">Pinecone serverless pod memory</div>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-space-md text-text-secondary font-body-sm">Knowledge Base</td>
+<td class="py-3.5 px-space-md font-code-mono text-body-sm text-text-primary font-medium">10.0 GB</td>
+<td class="py-3.5 px-space-md font-code-mono text-body-sm text-text-primary font-bold">4.2 GB</td>
+<td class="py-3.5 px-space-md">
+<div class="flex items-center gap-2">
+<div class="flex-1 bg-surface-subtle h-2 rounded-full overflow-hidden">
+<div class="h-full bg-tertiary rounded-full" style="width: 42%;"></div>
+</div>
+<span class="font-code-mono text-[11px] font-semibold text-text-primary w-10 text-right">42.0%</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-code-mono font-code-mono text-[11px] bg-ticket-open-bg text-ticket-open-text font-medium">
+<span class="w-1.5 h-1.5 rounded-full bg-ticket-open-text"></span> Normal
+                  </span>
+</td>
+<td class="py-3.5 px-space-lg text-right">
+<button class="px-space-md py-1 bg-surface border border-border hover:bg-surface-subtle rounded font-body-sm text-body-sm font-medium text-text-secondary hover:text-text-primary shadow-xs transition-colors" type="button">
+                    Optimize
+                  </button>
+</td>
+</tr>
+<!-- Row 5: Webhook Event Dispatches -->
+<tr class="hover:bg-surface-subtle/50 transition-colors">
+<td class="py-3.5 px-space-lg">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-text-secondary text-[20px]">webhook</span>
+<div>
+<div class="font-semibold text-text-primary">Webhook Event Dispatches</div>
+<div class="font-body-sm text-text-secondary text-body-sm">Zapier, Jira, Salesforce sync</div>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-space-md text-text-secondary font-body-sm">Integrations</td>
+<td class="py-3.5 px-space-md font-code-mono text-body-sm text-text-primary font-medium">500,000</td>
+<td class="py-3.5 px-space-md font-code-mono text-body-sm text-text-primary font-bold">312,400</td>
+<td class="py-3.5 px-space-md">
+<div class="flex items-center gap-2">
+<div class="flex-1 bg-surface-subtle h-2 rounded-full overflow-hidden">
+<div class="h-full bg-secondary-fixed-dim rounded-full" style="width: 62.5%;"></div>
+</div>
+<span class="font-code-mono text-[11px] font-semibold text-text-primary w-10 text-right">62.5%</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-code-mono font-code-mono text-[11px] bg-ticket-open-bg text-ticket-open-text font-medium">
+<span class="w-1.5 h-1.5 rounded-full bg-ticket-open-text"></span> Normal
+                  </span>
+</td>
+<td class="py-3.5 px-space-lg text-right">
+<button class="px-space-md py-1 bg-surface border border-border hover:bg-surface-subtle rounded font-body-sm text-body-sm font-medium text-text-secondary hover:text-text-primary shadow-xs transition-colors" type="button">
+                    Manage
+                  </button>
+</td>
+</tr>
+<!-- Row 6: Live Concurrent Chat Sessions -->
+<tr class="hover:bg-surface-subtle/50 transition-colors">
+<td class="py-3.5 px-space-lg">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-secondary text-[20px]">forum</span>
+<div>
+<div class="font-semibold text-text-primary">Concurrent Live Chat Sessions</div>
+<div class="font-body-sm text-text-secondary text-body-sm">WebSocket live socket bandwidth</div>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-space-md text-text-secondary font-body-sm">Real-Time Core</td>
+<td class="py-3.5 px-space-md font-code-mono text-body-sm text-text-primary font-medium">50 Concurr.</td>
+<td class="py-3.5 px-space-md font-code-mono text-body-sm text-text-primary font-bold">38 Peak</td>
+<td class="py-3.5 px-space-md">
+<div class="flex items-center gap-2">
+<div class="flex-1 bg-surface-subtle h-2 rounded-full overflow-hidden">
+<div class="h-full bg-secondary rounded-full" style="width: 76%;"></div>
+</div>
+<span class="font-code-mono text-[11px] font-semibold text-text-primary w-10 text-right">76.0%</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-code-mono font-code-mono text-[11px] bg-ticket-open-bg text-ticket-open-text font-medium">
+<span class="w-1.5 h-1.5 rounded-full bg-ticket-open-text"></span> Normal
+                  </span>
+</td>
+<td class="py-3.5 px-space-lg text-right">
+<button class="px-space-md py-1 bg-surface border border-border hover:bg-surface-subtle rounded font-body-sm text-body-sm font-medium text-text-secondary hover:text-text-primary shadow-xs transition-colors" type="button">
+                    Manage
+                  </button>
+</td>
+</tr>
+<!-- Row 7: Audit Log Cold Storage -->
+<tr class="hover:bg-surface-subtle/50 transition-colors">
+<td class="py-3.5 px-space-lg">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-text-secondary text-[20px]">lock_clock</span>
+<div>
+<div class="font-semibold text-text-primary">Audit Log Retention Period</div>
+<div class="font-body-sm text-text-secondary text-body-sm">SOC-2 immutable audit trails</div>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-space-md text-text-secondary font-body-sm">Compliance</td>
+<td class="py-3.5 px-space-md font-code-mono text-body-sm text-text-primary font-medium">90 Days</td>
+<td class="py-3.5 px-space-md font-code-mono text-body-sm text-text-primary font-bold">90 Days Enforced</td>
+<td class="py-3.5 px-space-md">
+<div class="flex items-center gap-2">
+<div class="flex-1 bg-surface-subtle h-2 rounded-full overflow-hidden">
+<div class="h-full bg-outline rounded-full" style="width: 100%;"></div>
+</div>
+<span class="font-code-mono text-[11px] font-semibold text-text-primary w-10 text-right">100%</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-code-mono font-code-mono text-[11px] bg-surface-container text-on-surface-variant font-medium">
+<span class="material-symbols-outlined text-[13px]">verified</span> Enforced
+                  </span>
+</td>
+<td class="py-3.5 px-space-lg text-right">
+<button class="px-space-md py-1 bg-surface border border-border hover:bg-surface-subtle rounded font-body-sm text-body-sm font-medium text-primary shadow-xs transition-colors" type="button">
+                    Extend
+                  </button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<!-- 4. Overage Policies & Automated Alert Configuration Panel -->
+<section class="grid grid-cols-1 lg:grid-cols-2 gap-space-md">
+<!-- Left Panel: Overage Billing & Throttling Policy -->
+<div class="bg-surface border border-border rounded-xl p-space-lg shadow-sm flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between pb-space-sm border-b border-border">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[22px]">shield</span>
+<h3 class="font-headline-md text-headline-md text-text-primary tracking-tight">Overage &amp; Throttling Policy</h3>
+</div>
+<span class="font-body-sm text-code-mono text-ticket-open-text bg-ticket-open-bg px-2 py-0.5 rounded font-semibold">Active</span>
+</div>
+<p class="font-body-sm text-body-sm text-text-secondary mt-space-sm">Define automated behavior when monthly AI token volume or ticket limits surpass 100%.</p>
+<div class="mt-space-md flex flex-col gap-space-sm">
+<!-- Option A (Selected) -->
+<label class="relative flex items-start gap-space-md p-space-md rounded-xl border-2 border-primary bg-primary-fixed/20 cursor-pointer transition-all">
+<input checked="" class="mt-1 text-primary focus:ring-primary w-4 h-4 border-border" name="overage_policy" type="radio"/>
+<div class="flex flex-col">
+<div class="flex items-center gap-space-sm">
+<span class="font-headline-sm text-body-md font-bold text-text-primary">Allow Automated Overage Burst</span>
+<span class="px-2 py-0.2 rounded font-code-mono text-[10px] bg-primary text-on-primary font-medium">Recommended</span>
+</div>
+<p class="font-body-sm text-body-sm text-text-secondary mt-1">Zero downtime for customer interactions. Tokens beyond 10M are billed automatically at <strong>$15.00 per 1M additional tokens</strong>.</p>
+<div class="mt-2 flex items-center gap-space-sm text-code-mono font-code-mono text-body-sm text-primary font-medium">
+<span class="material-symbols-outlined text-[16px]">verified_user</span> Max Burst Cap: 5,000,000 tokens / cycle
+                  </div>
+</div>
+</label>
+<!-- Option B -->
+<label class="relative flex items-start gap-space-md p-space-md rounded-xl border border-border hover:border-outline-variant bg-surface cursor-pointer transition-all">
+<input class="mt-1 text-primary focus:ring-primary w-4 h-4 border-border" name="overage_policy" type="radio"/>
+<div class="flex flex-col">
+<span class="font-headline-sm text-body-md font-semibold text-text-primary">Strict Hard Cap (Throttle on Limit)</span>
+<p class="font-body-sm text-body-sm text-text-secondary mt-1">Immediately halt generative AI drafting and fallback to static template replies once 10,000,000 tokens are reached. No additional burst fees.</p>
+</div>
+</label>
+</div>
+<!-- Spend Safeguard Slider -->
+<div class="mt-space-md pt-space-md border-t border-border">
+<div class="flex items-center justify-between">
+<label class="font-headline-sm text-body-sm text-text-primary font-semibold" for="spend-limit">Monthly Overage Spend Safeguard</label>
+<span class="font-code-mono text-body-sm font-bold text-primary bg-surface-subtle px-2 py-0.5 rounded border border-border">$150.00 / mo</span>
+</div>
+<input class="w-full accent-primary mt-2 cursor-pointer" id="spend-limit" max="500" min="50" step="25" type="range" value="150"/>
+<div class="flex justify-between font-code-mono text-code-mono text-text-secondary mt-1">
+<span>$50 Min</span>
+<span>$250 Soft Limit</span>
+<span>$500 Maximum</span>
+</div>
+</div>
+</div>
+<div class="mt-space-md pt-space-md border-t border-border flex justify-end">
+<button class="px-space-md py-1.5 bg-surface-subtle hover:bg-surface border border-border text-text-primary rounded-lg font-headline-sm text-body-sm font-medium transition-colors" type="button">
+              Update Billing Safeguards
+            </button>
+</div>
+</div>
+<!-- Right Panel: Threshold Alert Notifications -->
+<div class="bg-surface border border-border rounded-xl p-space-lg shadow-sm flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between pb-space-sm border-b border-border">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[22px]">notifications_active</span>
+<h3 class="font-headline-md text-headline-md text-text-primary tracking-tight">Threshold Alert Dispatches</h3>
+</div>
+<span class="font-body-sm text-code-mono text-text-secondary bg-surface-subtle px-2 py-0.5 rounded">3 Active Triggers</span>
+</div>
+<p class="font-body-sm text-body-sm text-text-secondary mt-space-sm">Broadcast proactive warning events to developer webhooks, Slack, and billing managers.</p>
+<div class="mt-space-md flex flex-col gap-space-sm">
+<!-- Trigger 1: 80% Soft Cap -->
+<div class="flex items-center justify-between p-space-sm rounded-xl border border-border bg-surface-subtle/50">
+<div class="flex items-start gap-space-sm">
+<div class="w-8 h-8 rounded-lg bg-ticket-pending-bg text-ticket-pending-text flex items-center justify-center flex-shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[18px]">warning</span>
+</div>
+<div>
+<div class="flex items-center gap-space-xs">
+<span class="font-headline-sm text-body-sm font-semibold text-text-primary">80% Soft Limit Warning</span>
+<span class="px-1.5 py-0.2 rounded font-code-mono text-[10px] bg-ticket-pending-bg text-ticket-pending-text font-bold">Triggered Oct 24</span>
+</div>
+<div class="font-body-sm text-body-sm text-text-secondary mt-0.5">Dispatches to: <strong class="text-text-primary">#ops-billing-alerts</strong> &amp; <span class="font-code-mono text-code-mono">billing@acme.com</span></div>
+</div>
+</div>
+<!-- Toggle switch -->
+<button aria-label="Toggle 80% Alert" class="w-10 h-6 bg-primary rounded-full relative p-0.5 flex items-center justify-end transition-colors cursor-pointer" type="button">
+<span class="w-5 h-5 rounded-full bg-surface shadow"></span>
+</button>
+</div>
+<!-- Trigger 2: 90% Critical Threshold -->
+<div class="flex items-center justify-between p-space-sm rounded-xl border border-border bg-surface-subtle/50">
+<div class="flex items-start gap-space-sm">
+<div class="w-8 h-8 rounded-lg bg-priority-high/20 text-priority-high flex items-center justify-center flex-shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[18px]">crisis_alert</span>
+</div>
+<div>
+<div class="flex items-center gap-space-xs">
+<span class="font-headline-sm text-body-sm font-semibold text-text-primary">90% Critical Warning</span>
+<span class="px-1.5 py-0.2 rounded font-code-mono text-[10px] bg-surface text-text-secondary">Pending</span>
+</div>
+<div class="font-body-sm text-body-sm text-text-secondary mt-0.5">Dispatches to: PagerDuty Sev-3 &amp; Slack <strong class="text-text-primary">#eng-incident-billing</strong></div>
+</div>
+</div>
+<!-- Toggle switch -->
+<button aria-label="Toggle 90% Alert" class="w-10 h-6 bg-primary rounded-full relative p-0.5 flex items-center justify-end transition-colors cursor-pointer" type="button">
+<span class="w-5 h-5 rounded-full bg-surface shadow"></span>
+</button>
+</div>
+<!-- Trigger 3: 100% Quota Exhaustion -->
+<div class="flex items-center justify-between p-space-sm rounded-xl border border-border bg-surface-subtle/50">
+<div class="flex items-start gap-space-sm">
+<div class="w-8 h-8 rounded-lg bg-error-container text-on-error-container flex items-center justify-center flex-shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[18px]">error</span>
+</div>
+<div>
+<div class="flex items-center gap-space-xs">
+<span class="font-headline-sm text-body-sm font-semibold text-text-primary">100% Quota Exhaustion Alert</span>
+<span class="px-1.5 py-0.2 rounded font-code-mono text-[10px] bg-surface text-text-secondary">Pending</span>
+</div>
+<div class="font-body-sm text-body-sm text-text-secondary mt-0.5">Instant SMS to Tenant Admins &amp; Webhook payload dispatch</div>
+</div>
+</div>
+<!-- Toggle switch -->
+<button aria-label="Toggle 100% Alert" class="w-10 h-6 bg-primary rounded-full relative p-0.5 flex items-center justify-end transition-colors cursor-pointer" type="button">
+<span class="w-5 h-5 rounded-full bg-surface shadow"></span>
+</button>
+</div>
+</div>
+</div>
+<!-- Bottom Action Buttons -->
+<div class="mt-space-md pt-space-md border-t border-border flex items-center justify-between">
+<button class="inline-flex items-center gap-1 font-body-sm text-body-sm text-text-secondary hover:text-text-primary transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px]">send</span> Test Notification Dispatch
+            </button>
+<button class="px-space-md py-1.5 bg-primary hover:bg-primary-container text-on-primary rounded-lg font-headline-sm text-body-sm font-medium shadow-sm transition-colors" type="button">
+              Save Preferences
+            </button>
+</div>
+</div>
+</section>
+</div>
+</div>
+</div></main><footer class="w-full bg-surface border-t border-border py-space-lg"><div class="w-full px-margin flex flex-col md:flex-row items-center justify-between gap-space-md text-text-secondary font-body-sm text-body-sm"><div>© 2025 SupportPilot Inc. All rights reserved. System Operational.</div><div class="flex items-center gap-space-lg"><a class="hover:text-on-surface transition-colors" href="#">Security Status</a><a class="hover:text-on-surface transition-colors" href="#">API Reference</a><a class="hover:text-on-surface transition-colors" href="#">Privacy Policy</a></div></div></footer></body></html>

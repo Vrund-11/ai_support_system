@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_stack" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{width:100vw;margin:0;padding:0;background-color:#ffffff;}body{overscroll-behavior:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "primary": "#3525cd", "inverse-on-surface": "#f3effc", "surface-variant": "#e4e1ee", "on-background": "#1b1b24", "on-secondary-fixed-variant": "#004c6e", "on-secondary-fixed": "#001e2f", "background": "#fcf8ff", "inverse-primary": "#c3c0ff", "primary-fixed-dim": "#c3c0ff", "ticket-pending-text": "#b45309", "surface-container": "#f0ecf9", "surface-container-high": "#eae6f4", "neutral": "#09090b", "primary-fixed": "#e2dfff", "on-tertiary-container": "#ffd2be", "secondary": "#006591", "outline-variant": "#c7c4d8", "on-tertiary-fixed-variant": "#7b2f00", "surface-tint": "#4d44e3", "surface-subtle": "#f1f5f9", "priority-urgent": "#ef4444", "ticket-new-text": "#1d4ed8", "on-error-container": "#93000a", "ticket-pending-bg": "#fffbeb", "tertiary-fixed": "#ffdbcc", "surface-dim": "#dcd8e5", "error": "#ba1a1a", "on-secondary": "#ffffff", "on-error": "#ffffff", "secondary-fixed-dim": "#89ceff", "tertiary-fixed-dim": "#ffb695", "secondary-fixed": "#c9e6ff", "ticket-open-bg": "#f0fdf4", "priority-high": "#f59e0b", "on-primary-container": "#dad7ff", "tertiary": "#8b5cf6", "priority-low": "#64748b", "surface": "#ffffff", "on-primary": "#ffffff", "surface-container-lowest": "#ffffff", "inverse-surface": "#302f39", "border": "#e2e8f0", "ticket-onhold-text": "#7e22ce", "surface-container-highest": "#e4e1ee", "secondary-container": "#39b8fd", "on-tertiary-fixed": "#351000", "outline": "#777587", "ticket-new-bg": "#eff6ff", "text-primary": "#0f172a", "ticket-open-text": "#15803d", "priority-medium": "#3b82f6", "surface-container-low": "#f5f2ff", "on-tertiary": "#ffffff", "primary-container": "#4f46e5", "tertiary-container": "#a44100", "error-container": "#ffdad6", "on-primary-fixed": "#0f0069", "on-secondary-container": "#004666", "on-surface-variant": "#464555", "on-surface": "#1b1b24", "ticket-onhold-bg": "#faf5ff", "surface-bright": "#fcf8ff", "text-secondary": "#64748b", "on-primary-fixed-variant": "#3323cc" }, "borderRadius": { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" }, "spacing": { "space-xs": "0.25rem", "space-lg": "1.5rem", "margin": "1.5rem", "gutter": "1rem", "space-md": "1rem", "space-sm": "0.5rem", "space-xl": "2rem" }, "fontFamily": { "headline-md": ["Inter"], "body-sm": ["Inter"], "display-hero": ["Inter"], "headline-sm": ["Inter"], "body-md": ["Inter"], "code-mono": ["JetBrains Mono"], "body-lg": ["Inter"], "headline-lg": ["Inter"] }, "fontSize": { "headline-md": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600" }], "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }], "display-hero": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.03em", "fontWeight": "700" }], "headline-sm": ["16px", { "lineHeight": "24px", "fontWeight": "500" }], "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }], "code-mono": ["12px", { "lineHeight": "16px", "fontWeight": "400" }], "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }], "headline-lg": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "600" }] } } } };</script><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head><body class="bg-surface font-body-md text-on-surface antialiased flex flex-col min-h-screen"><header class="fixed top-0 w-full z-50 pt-safe bg-surface/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 px-space-sm flex items-center justify-between"><div class="flex items-center gap-space-xs"><button aria-label="Go back" class="w-11 h-11 flex items-center justify-center rounded-xl text-on-surface hover:bg-surface-subtle transition-colors" onclick="history.back()"><span class="material-symbols-outlined text-[22px]">arrow_back</span></button><div class="flex flex-col"><h1 class="font-headline-sm text-headline-sm text-on-surface truncate max-w-[210px]">Active Chat Session</h1><span class="font-body-sm text-[11px] text-text-secondary leading-none">SupportPilot Agent Console</span></div></div><div class="flex items-center gap-space-xs"><button aria-label="Actions" class="w-11 h-11 flex items-center justify-center rounded-xl hover:bg-surface-subtle transition-colors text-on-surface-variant"><span class="material-symbols-outlined text-[22px]">more_vert</span></button><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="flex-1 flex flex-col relative w-full pt-16 bg-surface"><div class="flex flex-col w-full pb-safe">
+<!-- Visitor Session Context Header -->
+<section class="w-full bg-surface-container-low px-space-md py-space-sm shadow-sm flex flex-col gap-space-sm">
+<div class="flex items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm min-w-0">
+<div class="relative shrink-0">
+<img class="w-10 h-10 rounded-full object-cover" data-alt="Portrait photo of Sarah Jenkins, an enterprise VP of engineering with warm executive styling and friendly tech leadership demeanor, soft office background, natural daylight" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAb2WlBF0SV9GhiUrIEe8LNMurwUqrN2GdJf8EBsTslYEDC2_oo3HRsXuYKHFnQ5gixbtQdaUpmuyXPcRBaJGhWT6ZTAVzD7KwHxixU4Wv6yPjD8wX75Kt4aEds2SLvI4yT_3e_vc0Qy7FinG6OSeFhdeZXcFUSYUHOJs_SnzVryQ2qZhF37TLfT_KUwy09WhDBBeICA4cfSeEd19HMUx7ejJ4QIQwlsPILQ-wTCfY-3mRuIhuCnTyw3lJ2DyXxXvqe9oIgw0iNhfQ"/>
+<span class="absolute bottom-0 right-0 w-3 h-3 rounded-full bg-ticket-open-text ring-2 ring-surface"></span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1.5">
+<span class="font-headline-sm text-[15px] font-semibold text-text-primary truncate">Sarah Jenkins</span>
+<span class="px-1.5 py-0.5 rounded-full bg-surface-container font-code-mono text-[10px] text-text-secondary">#SP-992</span>
+</div>
+<span class="font-body-sm text-[11px] text-text-secondary truncate">VP of Eng, ApexCloud Enterprise</span>
+</div>
+</div>
+<div class="flex items-center gap-1.5 shrink-0">
+<span class="px-2 py-1 rounded-full bg-ticket-open-bg text-ticket-open-text font-body-sm text-[11px] font-medium flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">timer</span> 24m SLA
+        </span>
+<span class="px-2 py-1 rounded-full bg-ticket-new-bg text-ticket-new-text font-body-sm text-[11px] font-medium flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px]">forum</span> Web Chat
+        </span>
+</div>
+</div>
+<!-- Tier & Quick Actions Bar -->
+<div class="flex items-center justify-between gap-2 pt-0.5">
+<div class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary-fixed text-on-primary-fixed font-body-sm text-[11px] font-medium">
+<span class="material-symbols-outlined text-[13px]">verified</span>
+<span>ARR $148k • Platinum Tier</span>
+</div>
+<div class="flex items-center gap-1.5">
+<button class="px-2.5 py-1 rounded-lg bg-surface text-on-surface text-[12px] font-body-sm font-medium shadow-sm hover:bg-surface-subtle transition-colors flex items-center gap-1" id="transferBtn">
+<span class="material-symbols-outlined text-[14px]">move_item</span> Transfer
+        </button>
+<button class="px-2.5 py-1 rounded-lg bg-surface text-ticket-pending-text text-[12px] font-body-sm font-medium shadow-sm hover:bg-ticket-pending-bg transition-colors flex items-center gap-1" id="resolveBtn">
+<span class="material-symbols-outlined text-[14px]">check_circle</span> End
+        </button>
+</div>
+</div>
+</section>
+<!-- Message Stream -->
+<section class="flex flex-col px-space-md py-space-md gap-y-4">
+<!-- Timestamp Divider -->
+<div class="flex items-center justify-center my-1">
+<span class="px-3 py-1 rounded-full bg-surface-container text-text-secondary font-body-sm text-[11px]">Today • 10:41 AM</span>
+</div>
+<!-- Customer Incoming Message -->
+<div class="flex items-start gap-2.5 max-w-[90%]">
+<img class="w-7 h-7 rounded-full object-cover shrink-0 mt-0.5" data-alt="Close portrait of Sarah Jenkins smiling softly, tech executive customer in professional casual attire with subtle studio lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCMwoDAtsG3SKVCcumQJGfBTbrxfDgWn3kk-ZGL71ggK5I4FMW8hXZhmh9YnYL3XPxwhLsCGbVmSbUaavc4d2MKxF7Z6849zUlI8GzaGq3hbuxHNvba-7WfYcyeCWDflbd1uM_lnvOkxF4hHf5Hbg8UfkUAfEPH7O1TkG06sPx5EbawpMP6nA4xxiP4fVVE2PbYIhU2ju_8ctAR7XNi9dfIj7APfrMpktf7OPyR1Nf5_jqo2de4ZG7mfjtk7Iujp5a4OagCyPy-RLA"/>
+<div class="flex flex-col gap-1 min-w-0">
+<div class="flex items-center gap-2">
+<span class="font-body-sm text-[11px] font-medium text-text-secondary">Sarah Jenkins</span>
+<span class="font-body-sm text-[10px] text-text-secondary">10:41 AM</span>
+</div>
+<div class="p-3.5 rounded-2xl rounded-tl-sm bg-surface-container shadow-sm text-text-primary font-body-md text-[13px] leading-relaxed">
+          Hi team! We're migrating our Okta tenant to a new org and trying to re-sync our SAML 2.0 SSO metadata URL in SupportPilot, but the validation keeps returning a <span class="font-code-mono text-[12px] font-medium bg-surface px-1.5 py-0.5 rounded text-error">403 Forbidden</span>.
+        </div>
+</div>
+</div>
+<!-- SupportPilot AI Copilot Automated Assistance Bubble -->
+<div class="flex items-start gap-2.5 max-w-[92%]">
+<div class="w-7 h-7 rounded-full bg-tertiary flex items-center justify-center shrink-0 mt-0.5 shadow-sm">
+<span class="material-symbols-outlined text-on-tertiary text-[16px]">smart_toy</span>
+</div>
+<div class="flex flex-col gap-1.5 min-w-0 w-full">
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 rounded-full bg-tertiary text-on-tertiary font-body-sm text-[10px] font-semibold flex items-center gap-1">
+<span class="material-symbols-outlined text-[11px]">auto_awesome</span> SupportPilot AI
+          </span>
+<span class="font-body-sm text-[10px] text-text-secondary">10:42 AM</span>
+</div>
+<div class="p-3.5 rounded-2xl rounded-tl-sm bg-surface-container-low shadow-sm text-text-primary font-body-md text-[13px] leading-relaxed flex flex-col gap-2.5">
+<p>Hi Sarah! A <span class="font-code-mono text-[11px] bg-surface px-1 py-0.5 rounded">403</span> during Okta metadata sync usually happens when the IdP endpoint requires an active admin session or egress IP allowlisting. You can review our setup steps here:</p>
+<div class="flex flex-wrap gap-1.5">
+<button class="px-2.5 py-1 rounded-full bg-surface text-primary font-code-mono text-[11px] font-medium shadow-sm flex items-center gap-1 hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-[13px]">menu_book</span> KB-104: SAML 2.0
+            </button>
+<button class="px-2.5 py-1 rounded-full bg-surface text-primary font-code-mono text-[11px] font-medium shadow-sm flex items-center gap-1 hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-[13px]">description</span> Doc: Okta IdP Config
+            </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Agent Outgoing Reply Bubble -->
+<div class="flex items-start justify-end gap-2.5 max-w-[90%] self-end">
+<div class="flex flex-col items-end gap-1 min-w-0">
+<div class="flex items-center gap-2">
+<span class="font-body-sm text-[10px] text-text-secondary">10:43 AM</span>
+<span class="font-body-sm text-[11px] font-medium text-text-secondary">Elena Vance (You)</span>
+</div>
+<div class="p-3.5 rounded-2xl rounded-tr-sm bg-primary text-on-primary shadow-sm font-body-md text-[13px] leading-relaxed">
+          Hi Sarah, Elena here! I'm checking your ApexCloud Enterprise tenant logs now. Could you confirm if you're using the new Okta <span class="font-code-mono text-[11px] bg-primary-container text-on-primary-container px-1.5 py-0.5 rounded">/app/exk.../sso/saml/metadata</span> URL?
+        </div>
+<div class="flex items-center gap-1 text-text-secondary font-body-sm text-[10px]">
+<span>Delivered</span>
+<span class="material-symbols-outlined text-[13px] text-ticket-open-text">done_all</span>
+</div>
+</div>
+<div class="w-7 h-7 rounded-full bg-primary flex items-center justify-center text-on-primary font-headline-sm text-[11px] font-bold shrink-0 mt-0.5">
+        EV
+      </div>
+</div>
+<!-- Live Customer Typing Indicator -->
+<div class="flex items-center gap-2 max-w-[85%] mt-1">
+<img class="w-6 h-6 rounded-full object-cover shrink-0" data-alt="Avatar thumbnail of Sarah Jenkins tech director with glasses and professional navy blazer" src="https://lh3.googleusercontent.com/aida-public/AB6AXuATtFqaZLhauXlS-_V811R9zRbOvfJP_FyTBQgQLcpe82DAuoxS2utpdUgPSlrMcdC4DmJv-JXaGPlO5cBtTF9txgUoN7MBtt6PGJeAEPfDAVN2upDbshO9Xz3ACEvfIsTzg0AZac5y4BVKwL9KdY7XZooWVxcILrL9RcU_sJWMYtUSfoq9OwEVNh1FzuyO922TFL0xkjlxiPjiDjhWwPbld3KQ8WaWiVvI87qkASvY8XcPtz8mvCRyimdfcN270TtahcV7bnAOZ9U"/>
+<div class="px-3 py-2 rounded-2xl bg-surface-container shadow-sm flex items-center gap-2">
+<div class="flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-text-secondary animate-bounce"></span>
+<span class="w-1.5 h-1.5 rounded-full bg-text-secondary animate-bounce [animation-delay:0.2s]"></span>
+<span class="w-1.5 h-1.5 rounded-full bg-text-secondary animate-bounce [animation-delay:0.4s]"></span>
+</div>
+<span class="font-body-sm text-[11px] text-text-secondary">Sarah is typing...</span>
+</div>
+</div>
+</section>
+<!-- Sticky Bottom AI Copilot Suggestion Card & Composer Area -->
+<section class="sticky bottom-0 w-full bg-surface shadow-[0_-4px_16px_rgba(0,0,0,0.06)] px-space-md pt-space-xs pb-space-sm flex flex-col gap-2">
+<!-- Copilot Live Floating Suggestion Drawer -->
+<div class="w-full bg-surface-container-low rounded-xl p-3 shadow-sm transition-all duration-200" id="aiSuggestionBox">
+<div class="flex items-center justify-between pb-1.5">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-primary text-[17px]">spark</span>
+<span class="font-headline-sm text-[12px] font-semibold text-text-primary">AI Copilot Suggested Answer</span>
+<span class="px-1.5 py-0.5 rounded-full bg-ticket-open-bg text-ticket-open-text font-code-mono text-[10px] font-medium">96% Conf.</span>
+</div>
+<button aria-label="Collapse suggestion" class="text-text-secondary hover:text-text-primary" id="toggleAiBtn">
+<span class="material-symbols-outlined text-[18px]">keyboard_arrow_down</span>
+</button>
+</div>
+<div class="flex flex-col gap-2" id="aiSnippetBody">
+<p class="font-body-sm text-[12px] text-text-primary leading-normal">
+          You can upload the XML metadata file directly under <span class="font-code-mono text-[11px] bg-surface px-1 py-0.5 rounded">Settings → Security → SAML 2.0</span>, or whitelist our static egress IPs (<span class="font-code-mono text-[11px] text-primary">54.210.14.0/24</span>) in your Okta tenant security rules.
+        </p>
+<div class="flex items-center justify-between gap-1.5 pt-1">
+<button class="px-3 py-1.5 rounded-lg bg-primary text-on-primary font-body-sm text-[11px] font-medium shadow-sm hover:bg-primary-container transition-colors flex items-center gap-1" id="insertSnippetBtn">
+<span class="material-symbols-outlined text-[14px]">add_circle</span> Insert into Composer
+          </button>
+<div class="flex items-center gap-1">
+<button class="w-7 h-7 rounded-lg bg-surface text-text-secondary flex items-center justify-center shadow-sm hover:text-text-primary" title="Regenerate">
+<span class="material-symbols-outlined text-[15px]">refresh</span>
+</button>
+<button class="w-7 h-7 rounded-lg bg-surface text-text-secondary flex items-center justify-center shadow-sm hover:text-text-primary" title="View citation">
+<span class="material-symbols-outlined text-[15px]">link</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Reply / Internal Mode Switcher -->
+<div class="flex items-center justify-between pt-1">
+<div class="flex items-center p-0.5 rounded-lg bg-surface-container">
+<button class="px-3 py-1 rounded-md text-[12px] font-body-sm font-semibold transition-all bg-surface text-primary shadow-sm" id="tabPublic">
+          Public Reply
+        </button>
+<button class="px-3 py-1 rounded-md text-[12px] font-body-sm font-medium text-text-secondary hover:text-text-primary transition-all" id="tabInternal">
+          Internal Note
+        </button>
+</div>
+<button class="text-text-secondary hover:text-text-primary text-[12px] font-body-sm flex items-center gap-1 px-1">
+<span class="material-symbols-outlined text-[15px]">bolt</span> Macros (/)
+      </button>
+</div>
+<!-- Active Input Field Container -->
+<div class="w-full bg-surface-container-low rounded-xl p-2.5 shadow-sm flex flex-col gap-2" id="composerCard">
+<textarea class="w-full bg-transparent text-text-primary font-body-md text-[13px] placeholder:text-text-secondary focus:outline-none resize-none" id="replyInput" placeholder="Type your reply to Sarah... (Use / for macros)" rows="2"></textarea>
+<div class="flex items-center justify-between pt-1">
+<div class="flex items-center gap-1 text-text-secondary">
+<button class="w-7 h-7 rounded-lg hover:bg-surface flex items-center justify-center transition-colors" title="Bold">
+<span class="material-symbols-outlined text-[17px]">format_bold</span>
+</button>
+<button class="w-7 h-7 rounded-lg hover:bg-surface flex items-center justify-center transition-colors" title="Code snippet">
+<span class="material-symbols-outlined text-[17px]">code</span>
+</button>
+<button class="w-7 h-7 rounded-lg hover:bg-surface flex items-center justify-center transition-colors" title="Attach file">
+<span class="material-symbols-outlined text-[17px]">attach_file</span>
+</button>
+<button class="w-7 h-7 rounded-lg hover:bg-surface flex items-center justify-center transition-colors" title="Insert canned snippet">
+<span class="material-symbols-outlined text-[17px]">find_replace</span>
+</button>
+</div>
+<button class="px-3.5 py-1.5 rounded-lg bg-primary text-on-primary font-body-sm text-[12px] font-semibold shadow-sm flex items-center gap-1.5 hover:bg-primary-container transition-transform active:scale-95" id="sendBtn">
+<span>Send</span>
+<span class="material-symbols-outlined text-[15px]">send</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Inline Script for Micro-interactions -->
+<script>
+    (function() {
+      const toggleAiBtn = document.getElementById('toggleAiBtn');
+      const aiSnippetBody = document.getElementById('aiSnippetBody');
+      const insertSnippetBtn = document.getElementById('insertSnippetBtn');
+      const replyInput = document.getElementById('replyInput');
+      const tabPublic = document.getElementById('tabPublic');
+      const tabInternal = document.getElementById('tabInternal');
+      const composerCard = document.getElementById('composerCard');
+
+      // Expand / Collapse AI Suggestion Drawer
+      if (toggleAiBtn && aiSnippetBody) {
+        let isExpanded = true;
+        toggleAiBtn.addEventListener('click', () => {
+          isExpanded = !isExpanded;
+          aiSnippetBody.style.display = isExpanded ? 'flex' : 'none';
+          toggleAiBtn.innerHTML = `<span class="material-symbols-outlined text-[18px]">${isExpanded ? 'keyboard_arrow_down' : 'keyboard_arrow_up'}</span>`;
+        });
+      }
+
+      // Quick Insert AI Suggestion into Reply Box
+      if (insertSnippetBtn && replyInput) {
+        insertSnippetBtn.addEventListener('click', () => {
+          const suggestion = "You can upload the XML metadata file directly under Settings → Security → SAML 2.0, or whitelist our static egress IPs (54.210.14.0/24) in your Okta tenant security rules.";
+          replyInput.value = suggestion;
+          replyInput.focus();
+        });
+      }
+
+      // Toggle Public Reply vs Internal Note Mode
+      if (tabPublic && tabInternal && composerCard && replyInput) {
+        tabPublic.addEventListener('click', () => {
+          tabPublic.className = 'px-3 py-1 rounded-md text-[12px] font-body-sm font-semibold transition-all bg-surface text-primary shadow-sm';
+          tabInternal.className = 'px-3 py-1 rounded-md text-[12px] font-body-sm font-medium text-text-secondary hover:text-text-primary transition-all';
+          composerCard.className = 'w-full bg-surface-container-low rounded-xl p-2.5 shadow-sm flex flex-col gap-2';
+          replyInput.placeholder = 'Type your reply to Sarah... (Use / for macros)';
+        });
+
+        tabInternal.addEventListener('click', () => {
+          tabInternal.className = 'px-3 py-1 rounded-md text-[12px] font-body-sm font-semibold transition-all bg-ticket-pending-bg text-ticket-pending-text shadow-sm';
+          tabPublic.className = 'px-3 py-1 rounded-md text-[12px] font-body-sm font-medium text-text-secondary hover:text-text-primary transition-all';
+          composerCard.className = 'w-full bg-ticket-pending-bg/50 rounded-xl p-2.5 shadow-sm flex flex-col gap-2';
+          replyInput.placeholder = 'Write an internal note visible only to your team...';
+        });
+      }
+    })();
+  </script>
+</div></main></body></html>

@@ -8,7 +8,7 @@ import type {
   SlaPolicy,
   TicketPriority,
 } from '@supportpilot/shared-types';
-import { Zap, Clock, Plus, Trash2, CheckCircle2, AlertCircle } from 'lucide-react';
+import { Trash2, AlertCircle } from 'lucide-react';
 
 const DEFAULT_SLA_POLICIES: Record<TicketPriority, SlaPolicy> = {
   URGENT: { firstResponseMin: 15, resolveMin: 120 },
@@ -166,87 +166,142 @@ export function AutomationView() {
   };
 
   return (
-    <div className="space-y-6" data-testid="automation-view">
-      {/* Header */}
-      <div>
-        <h1 className="text-xl font-bold text-slate-900">Automation & SLAs</h1>
-        <p className="text-sm text-slate-500">
-          Streamline ticket routing, tagging, and establish target response times.
-        </p>
-      </div>
-
-      {/* Top KPI & Operational Summary Strip (Stitch MCP Integration) */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="p-4 rounded-2xl bg-white border border-slate-200/80 shadow-xs flex items-center justify-between">
-          <div>
-            <div className="text-xs text-slate-500 font-medium">Overall SLA Adherence</div>
-            <div className="text-xl font-bold text-slate-900 mt-1">98.42%</div>
-            <div className="text-[11px] text-emerald-600 font-medium flex items-center gap-1 mt-1">
-              <span>▲</span> +0.8% past 30 days
+    <div className="space-y-space-lg" data-testid="automation-view">
+      {/* Top Command & Breadcrumb Strip */}
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-space-md p-space-lg rounded-xl bg-surface border border-border shadow-sm">
+        <div className="flex flex-col gap-1 min-w-0">
+          <div className="flex items-center gap-space-xs font-body-sm text-body-sm text-text-secondary">
+            <span>Settings</span>
+            <span className="material-symbols-outlined text-[14px]">chevron_right</span>
+            <span className="text-text-primary font-medium">Automations &amp; SLA Policies</span>
+          </div>
+          <div className="flex items-center flex-wrap gap-space-sm mt-0.5">
+            <h1 className="font-headline-lg text-headline-lg text-text-primary tracking-tight">
+              Automations &amp; SLA Policies
+            </h1>
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-ticket-open-bg text-ticket-open-text font-body-sm text-body-sm font-medium border border-ticket-open-text/20">
+              <span className="w-1.5 h-1.5 rounded-full bg-ticket-open-text animate-pulse"></span>
+              Policy Engine: Active (v3.2)
             </div>
           </div>
-          <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
-            <CheckCircle2 className="w-5 h-5" />
+          <p className="font-body-md text-body-md text-text-secondary max-w-3xl">
+            Configure automated routing, priority response time commitments, escalation triggers,
+            and operational calendars across all enterprise channels.
+          </p>
+        </div>
+
+        {/* Action Toolbar */}
+        <div className="flex items-center gap-space-sm shrink-0 flex-wrap">
+          <button
+            type="button"
+            onClick={() => setIsCreateRuleOpen(true)}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-primary hover:bg-primary-container text-on-primary font-headline-sm text-headline-sm transition-all shadow-sm cursor-pointer"
+            data-testid="create-rule-btn"
+          >
+            <span className="material-symbols-outlined text-[18px]">add</span>
+            <span>Create Rule</span>
+          </button>
+        </div>
+      </div>
+
+      {/* Top KPI & Operational Summary Strip */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-md">
+        <div className="p-space-md rounded-xl bg-surface border border-border shadow-sm flex items-center justify-between">
+          <div>
+            <div className="font-body-sm text-body-sm text-text-secondary">
+              Overall SLA Adherence
+            </div>
+            <div className="font-headline-lg text-headline-lg text-text-primary font-bold mt-1">
+              98.42%
+            </div>
+            <div className="font-body-sm text-body-sm text-ticket-open-text flex items-center gap-1 mt-1 font-medium">
+              <span className="material-symbols-outlined text-[16px]">trending_up</span> +0.8% past
+              30 days
+            </div>
+          </div>
+          <div className="w-12 h-12 rounded-xl bg-ticket-open-bg text-ticket-open-text flex items-center justify-center shrink-0">
+            <span className="material-symbols-outlined text-[24px]">verified</span>
           </div>
         </div>
-        <div className="p-4 rounded-2xl bg-white border border-slate-200/80 shadow-xs flex items-center justify-between">
+        <div className="p-space-md rounded-xl bg-surface border border-border shadow-sm flex items-center justify-between">
           <div>
-            <div className="text-xs text-slate-500 font-medium">Urgent Target</div>
-            <div className="text-xl font-bold text-slate-900 mt-1">&lt; 15m</div>
-            <div className="text-[11px] text-slate-400 mt-1">First response SLA</div>
+            <div className="font-body-sm text-body-sm text-text-secondary">Avg Target Headroom</div>
+            <div className="font-headline-lg text-headline-lg text-text-primary font-bold mt-1">
+              42.6%
+            </div>
+            <div className="font-body-sm text-body-sm text-text-secondary mt-1">
+              SLA buffer before breach
+            </div>
           </div>
-          <div className="w-10 h-10 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center shrink-0">
-            <Clock className="w-5 h-5" />
+          <div className="w-12 h-12 rounded-xl bg-ticket-new-bg text-ticket-new-text flex items-center justify-center shrink-0">
+            <span className="material-symbols-outlined text-[24px]">speed</span>
           </div>
         </div>
-        <div className="p-4 rounded-2xl bg-white border border-slate-200/80 shadow-xs flex items-center justify-between">
+        <div className="p-space-md rounded-xl bg-surface border border-border shadow-sm flex items-center justify-between">
           <div>
-            <div className="text-xs text-slate-500 font-medium">Resolution Compliance</div>
-            <div className="text-xl font-bold text-slate-900 mt-1">96.5%</div>
-            <div className="text-[11px] text-emerald-600 mt-1">Within business hours</div>
+            <div className="font-body-sm text-body-sm text-text-secondary">Active Breaches</div>
+            <div className="font-headline-lg text-headline-lg text-ticket-open-text font-bold mt-1">
+              0
+            </div>
+            <div className="font-body-sm text-body-sm text-text-secondary mt-1">
+              Zero pending escalations
+            </div>
           </div>
-          <div className="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center shrink-0">
-            <Zap className="w-5 h-5" />
+          <div className="w-12 h-12 rounded-xl bg-surface-subtle text-text-secondary flex items-center justify-center shrink-0 border border-border">
+            <span className="material-symbols-outlined text-[24px]">shield</span>
           </div>
         </div>
-        <div className="p-4 rounded-2xl bg-white border border-slate-200/80 shadow-xs flex items-center justify-between">
+        <div className="p-space-md rounded-xl bg-surface border border-border shadow-sm flex items-center justify-between">
           <div>
-            <div className="text-xs text-slate-500 font-medium">Policy Engine</div>
-            <div className="text-xl font-bold text-slate-900 mt-1">Active v3.2</div>
-            <div className="text-[11px] text-indigo-600 mt-1">Automated dispatching</div>
+            <div className="font-body-sm text-body-sm text-text-secondary">
+              Automations Fired (7d)
+            </div>
+            <div className="font-headline-lg text-headline-lg text-text-primary font-bold mt-1">
+              14,290
+            </div>
+            <div className="font-body-sm text-body-sm text-primary flex items-center gap-1 mt-1 font-medium">
+              <span className="material-symbols-outlined text-[16px]">bolt</span> 89.2h rep time
+              saved
+            </div>
           </div>
-          <div className="w-10 h-10 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center shrink-0">
-            <Zap className="w-5 h-5" />
+          <div className="w-12 h-12 rounded-xl bg-primary-fixed text-primary flex items-center justify-center shrink-0">
+            <span className="material-symbols-outlined text-[24px]">smart_toy</span>
           </div>
         </div>
       </div>
 
-      {/* Tabs */}
-      <div className="border-b border-slate-200">
-        <nav className="flex space-x-4" data-testid="automation-tabs">
+      {/* Primary Sub-Navigation Tabs Bar */}
+      <div className="w-full px-space-sm bg-surface border border-border rounded-xl flex items-center justify-between overflow-x-auto shadow-xs">
+        <nav className="flex items-center gap-space-lg" data-testid="automation-tabs">
           <button
             onClick={() => setActiveTab('rules')}
-            className={`flex items-center space-x-2 py-3 px-1 border-b-2 font-medium text-sm transition-colors ${
+            className={`inline-flex items-center gap-2 py-3.5 border-b-2 font-headline-sm text-headline-sm font-semibold transition-colors cursor-pointer whitespace-nowrap ${
               activeTab === 'rules'
-                ? 'border-indigo-600 text-indigo-600'
-                : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300'
+                ? 'border-primary text-primary'
+                : 'border-transparent text-text-secondary hover:text-text-primary'
             }`}
             data-testid="tab-rules"
           >
-            <Zap className="w-4 h-4" />
+            <span className="material-symbols-outlined text-[20px]">alt_route</span>
             <span>Rules Engine</span>
+            <span className="px-2 py-0.5 rounded-full bg-primary-fixed text-primary font-code-mono text-code-mono font-medium">
+              {rules.length} Rules
+            </span>
           </button>
           <button
             onClick={() => setActiveTab('sla')}
-            className={`flex items-center space-x-2 py-3 px-1 border-b-2 font-medium text-sm transition-colors ${
+            className={`inline-flex items-center gap-2 py-3.5 border-b-2 font-headline-sm text-headline-sm font-semibold transition-colors cursor-pointer whitespace-nowrap ${
               activeTab === 'sla'
-                ? 'border-indigo-600 text-indigo-600'
-                : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300'
+                ? 'border-primary text-primary'
+                : 'border-transparent text-text-secondary hover:text-text-primary'
             }`}
             data-testid="tab-sla"
           >
-            <Clock className="w-4 h-4" />
+            <span className="material-symbols-outlined text-[20px]">timer</span>
             <span>SLA Policies</span>
+            <span className="px-2 py-0.5 rounded-full bg-surface-subtle text-text-secondary font-code-mono text-code-mono">
+              4 Active Tiers
+            </span>
           </button>
         </nav>
       </div>
@@ -254,98 +309,89 @@ export function AutomationView() {
       {/* Tab Content: Rules Engine */}
       {activeTab === 'rules' && (
         <div className="space-y-4">
-          <div className="flex items-center justify-between">
-            <h2 className="text-sm font-semibold text-slate-700 uppercase tracking-wider">
-              Trigger Rules
-            </h2>
-            <button
-              onClick={() => setIsCreateRuleOpen(true)}
-              className="inline-flex items-center space-x-1.5 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-medium px-3 py-1.5 rounded-lg shadow-sm transition-colors"
-              data-testid="create-rule-btn"
-            >
-              <Plus className="w-3.5 h-3.5" />
-              <span>Create Rule</span>
-            </button>
-          </div>
-
-          <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+          <div className="bg-surface rounded-xl border border-border shadow-sm overflow-hidden">
             {loadingRules ? (
-              <div className="p-8 text-center text-slate-500" data-testid="rules-loading">
+              <div className="p-8 text-center text-text-secondary" data-testid="rules-loading">
                 <div className="animate-pulse space-y-3">
                   {[1, 2, 3].map((i) => (
-                    <div key={i} className="h-6 bg-slate-200 rounded w-full"></div>
+                    <div key={i} className="h-6 bg-surface-subtle rounded w-full"></div>
                   ))}
                 </div>
               </div>
             ) : rulesError ? (
-              <div className="p-8 text-center text-rose-600">
-                <p className="text-sm font-semibold">{rulesError}</p>
+              <div className="p-8 text-center text-priority-urgent">
+                <p className="font-body-md font-semibold">{rulesError}</p>
                 <button
                   onClick={fetchRules}
-                  className="mt-3 px-3 py-1 bg-rose-50 text-rose-700 text-xs rounded border border-rose-200 hover:bg-rose-100"
+                  className="mt-3 px-3 py-1 bg-priority-urgent/10 text-priority-urgent text-body-sm rounded-lg border border-priority-urgent/20 hover:bg-priority-urgent/20 cursor-pointer"
                 >
                   Retry
                 </button>
               </div>
             ) : rules.length === 0 ? (
-              <div className="p-12 text-center text-slate-500" data-testid="rules-empty">
-                <p className="font-medium text-sm">No automation rules configured</p>
-                <p className="text-xs text-slate-400 mt-1">
+              <div className="p-12 text-center text-text-secondary" data-testid="rules-empty">
+                <p className="font-medium font-body-md">No automation rules configured</p>
+                <p className="font-body-sm text-body-sm text-text-secondary mt-1">
                   Create a rule to automatically triage, route, or tag incoming tickets.
                 </p>
               </div>
             ) : (
-              <table className="w-full text-left text-sm" data-testid="rules-table">
-                <thead className="bg-slate-50 border-b border-slate-200 text-xs font-semibold text-slate-500 uppercase tracking-wider">
+              <table
+                className="w-full text-left font-body-sm text-body-sm"
+                data-testid="rules-table"
+              >
+                <thead className="bg-surface-subtle border-b border-border font-code-mono text-text-secondary uppercase text-[11px]">
                   <tr>
-                    <th className="px-4 py-3">Rule</th>
-                    <th className="px-4 py-3">Trigger Event</th>
-                    <th className="px-4 py-3">Conditions</th>
-                    <th className="px-4 py-3">Actions</th>
-                    <th className="px-4 py-3 text-center">Status</th>
-                    <th className="px-4 py-3 text-right">Delete</th>
+                    <th className="px-space-lg py-3 font-medium">Rule</th>
+                    <th className="px-space-md py-3 font-medium">Trigger Event</th>
+                    <th className="px-space-md py-3 font-medium">Conditions</th>
+                    <th className="px-space-md py-3 font-medium">Actions</th>
+                    <th className="px-space-md py-3 font-medium text-center">Status</th>
+                    <th className="px-space-lg py-3 font-medium text-right">Delete</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-100">
+                <tbody className="divide-y divide-border text-text-primary">
                   {rules.map((rule) => (
                     <tr
                       key={rule.id}
-                      className="hover:bg-slate-50 transition-colors"
+                      className="hover:bg-surface-subtle transition-colors"
                       data-testid={`rule-row-${rule.id}`}
                     >
-                      <td className="px-4 py-3.5">
-                        <div className="font-medium text-slate-900">{rule.name}</div>
+                      <td className="px-space-lg py-3.5">
+                        <div className="font-semibold text-text-primary">{rule.name}</div>
                         {rule.description && (
-                          <div className="text-xs text-slate-400">{rule.description}</div>
+                          <div className="font-body-sm text-[11px] text-text-secondary">
+                            {rule.description}
+                          </div>
                         )}
                       </td>
-                      <td className="px-4 py-3.5">
-                        <span className="font-mono text-[11px] bg-slate-100 text-slate-700 px-2 py-0.5 rounded">
+                      <td className="px-space-md py-3.5">
+                        <span className="font-code-mono text-[11px] bg-primary-fixed/40 text-primary px-2 py-0.5 rounded border border-primary/20 font-medium">
                           {rule.event}
                         </span>
                       </td>
-                      <td className="px-4 py-3.5 text-xs text-slate-600">
+                      <td className="px-space-md py-3.5 font-code-mono text-[11px]">
                         {rule.conditions.map((c, i) => (
-                          <div key={i} className="font-mono text-[11px]">
-                            <span className="text-indigo-600 font-semibold">{c.field}</span>{' '}
-                            <span className="text-slate-400">{c.operator}</span>{' '}
-                            <span className="text-slate-900">{String(c.value)}</span>
+                          <div key={i} className="flex items-center gap-1">
+                            <span className="text-primary font-semibold">{c.field}</span>
+                            <span className="text-text-secondary">{c.operator}</span>
+                            <span className="text-text-primary font-bold">{String(c.value)}</span>
                           </div>
                         ))}
                       </td>
-                      <td className="px-4 py-3.5 text-xs text-slate-600">
+                      <td className="px-space-md py-3.5 font-code-mono text-[11px]">
                         {rule.actions.map((a, i) => (
-                          <div key={i} className="font-mono text-[11px]">
-                            <span className="text-emerald-600 font-semibold">{a.type}</span>{' '}
-                            <span className="text-slate-900">{a.target || ''}</span>
+                          <div key={i} className="flex items-center gap-1">
+                            <span className="text-ticket-open-text font-semibold">{a.type}</span>
+                            <span className="text-text-primary">{a.target || ''}</span>
                           </div>
                         ))}
                       </td>
-                      <td className="px-4 py-3.5 text-center">
+                      <td className="px-space-md py-3.5 text-center">
                         <button
                           onClick={() => handleToggleRule(rule)}
-                          className={`relative inline-flex h-5 w-9 items-center rounded-full transition-colors ${
-                            rule.enabled ? 'bg-indigo-600' : 'bg-slate-300'
+                          className={`relative inline-flex h-5 w-9 items-center rounded-full transition-colors cursor-pointer ${
+                            rule.enabled ? 'bg-primary' : 'bg-slate-300'
                           }`}
                           data-testid={`toggle-rule-${rule.id}`}
                         >
@@ -356,10 +402,10 @@ export function AutomationView() {
                           />
                         </button>
                       </td>
-                      <td className="px-4 py-3.5 text-right">
+                      <td className="px-space-lg py-3.5 text-right">
                         <button
                           onClick={() => handleDeleteRule(rule.id)}
-                          className="p-1 text-slate-400 hover:text-rose-600 transition-colors"
+                          className="p-1 text-text-secondary hover:text-priority-urgent transition-colors cursor-pointer"
                           data-testid={`delete-rule-${rule.id}`}
                         >
                           <Trash2 className="w-4 h-4" />
@@ -377,49 +423,68 @@ export function AutomationView() {
       {/* Tab Content: SLA Policies */}
       {activeTab === 'sla' && (
         <div className="space-y-6" data-testid="sla-policies-tab">
-          <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-6">
-            <div>
-              <h2 className="text-base font-semibold text-slate-900">
-                Target Response & Resolution Times
-              </h2>
-              <p className="text-xs text-slate-500 mt-0.5">
-                Configure maximum allowed minutes before an SLA target is breached.
-              </p>
+          <div className="bg-surface p-space-lg rounded-xl border border-border shadow-sm space-y-6">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border pb-4">
+              <div>
+                <h2 className="font-headline-md text-headline-md font-bold text-text-primary">
+                  Default Enterprise SLA Policy Matrix
+                </h2>
+                <p className="font-body-sm text-body-sm text-text-secondary mt-0.5">
+                  Configure maximum allowed minutes before an SLA target is breached.
+                </p>
+              </div>
+              <button
+                onClick={handleSaveSla}
+                className="inline-flex items-center gap-2 px-4 py-2 bg-primary hover:bg-primary-container text-on-primary font-body-sm text-body-sm font-semibold rounded-xl shadow-sm transition-all cursor-pointer"
+                data-testid="save-sla-btn"
+              >
+                <span className="material-symbols-outlined text-[18px]">save</span>
+                <span>{slaSaved ? 'Policies Saved!' : 'Save SLA Policies'}</span>
+              </button>
             </div>
 
             {loadingSla ? (
-              <div className="p-8 text-center text-slate-500">Loading SLA policies...</div>
+              <div className="p-8 text-center text-text-secondary font-body-sm">
+                Loading SLA policies...
+              </div>
             ) : (
               <div className="overflow-x-auto">
-                <table className="w-full text-left text-sm" data-testid="sla-policies-table">
-                  <thead className="bg-slate-50 border-b border-slate-200 text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                <table
+                  className="w-full text-left font-body-sm text-body-sm"
+                  data-testid="sla-policies-table"
+                >
+                  <thead className="bg-surface-subtle border-b border-border font-code-mono uppercase text-[11px] text-text-secondary">
                     <tr>
-                      <th className="px-4 py-3">Priority Level</th>
-                      <th className="px-4 py-3">First Response Target (minutes)</th>
-                      <th className="px-4 py-3">Resolution Target (minutes)</th>
+                      <th className="px-space-lg py-3 font-medium">Priority Tier</th>
+                      <th className="px-space-md py-3 font-medium">First Response Target</th>
+                      <th className="px-space-md py-3 font-medium">Resolution Target</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-slate-100">
+                  <tbody className="divide-y divide-border text-text-primary">
                     {(['URGENT', 'HIGH', 'MEDIUM', 'LOW'] as TicketPriority[]).map((p) => {
                       const policy = slaPolicies[p] || DEFAULT_SLA_POLICIES[p];
                       return (
-                        <tr key={p} data-testid={`sla-row-${p}`}>
-                          <td className="px-4 py-3 font-semibold text-xs">
+                        <tr
+                          key={p}
+                          data-testid={`sla-row-${p}`}
+                          className="hover:bg-surface-subtle transition-colors"
+                        >
+                          <td className="px-space-lg py-3.5 font-semibold">
                             <span
-                              className={`px-2 py-0.5 rounded font-mono ${
+                              className={`px-2.5 py-1 rounded-full font-code-mono text-xs font-semibold ${
                                 p === 'URGENT'
-                                  ? 'bg-rose-50 text-rose-700'
+                                  ? 'bg-priority-urgent/10 text-priority-urgent border border-priority-urgent/20'
                                   : p === 'HIGH'
-                                    ? 'bg-amber-50 text-amber-700'
+                                    ? 'bg-priority-high/10 text-priority-high border border-priority-high/20'
                                     : p === 'MEDIUM'
-                                      ? 'bg-blue-50 text-blue-700'
-                                      : 'bg-slate-100 text-slate-700'
+                                      ? 'bg-primary-fixed/40 text-primary border border-primary/20'
+                                      : 'bg-surface-subtle text-text-secondary border border-border'
                               }`}
                             >
                               {p}
                             </span>
                           </td>
-                          <td className="px-4 py-3">
+                          <td className="px-space-md py-3.5">
                             <div className="flex items-center space-x-2">
                               <input
                                 type="number"
@@ -434,15 +499,15 @@ export function AutomationView() {
                                     },
                                   })
                                 }
-                                className="w-24 px-2 py-1 text-sm border border-slate-300 rounded focus:ring-1 focus:ring-indigo-500 focus:outline-none"
+                                className="w-24 px-2.5 py-1 text-body-md border border-border rounded-lg bg-surface-subtle text-text-primary focus:ring-1 focus:ring-primary focus:outline-none"
                                 data-testid={`sla-response-${p}`}
                               />
-                              <span className="text-xs text-slate-400">
+                              <span className="font-code-mono text-[11px] text-text-secondary">
                                 mins ({Math.round((policy.firstResponseMin / 60) * 10) / 10}h)
                               </span>
                             </div>
                           </td>
-                          <td className="px-4 py-3">
+                          <td className="px-space-md py-3.5">
                             <div className="flex items-center space-x-2">
                               <input
                                 type="number"
@@ -473,24 +538,17 @@ export function AutomationView() {
               </div>
             )}
 
-            <div className="pt-4 flex items-center justify-between border-t border-slate-100">
+            <div className="pt-4 flex items-center justify-between border-t border-border">
               {slaSaved ? (
-                <div className="flex items-center space-x-1.5 text-xs text-emerald-600 font-semibold">
-                  <CheckCircle2 className="w-4 h-4" />
+                <div className="flex items-center gap-2 text-body-sm font-body-sm text-ticket-open-text font-semibold">
+                  <span className="material-symbols-outlined text-[18px]">check_circle</span>
                   <span>SLA Policies saved successfully</span>
                 </div>
               ) : (
-                <div className="text-xs text-slate-400">
-                  Values are evaluated automatically upon ticket creation.
+                <div className="font-body-sm text-body-sm text-text-secondary">
+                  Values are evaluated automatically upon ticket creation across enterprise queues.
                 </div>
               )}
-              <button
-                onClick={handleSaveSla}
-                className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold rounded-lg shadow-sm transition-colors"
-                data-testid="save-sla-btn"
-              >
-                Save SLA Policies
-              </button>
             </div>
           </div>
         </div>

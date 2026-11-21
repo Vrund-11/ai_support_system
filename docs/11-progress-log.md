@@ -292,10 +292,33 @@
       - `pnpm turbo run typecheck`: 14/14 packages clean (0 errors).
       - `pnpm turbo run lint`: 13/13 packages clean (0 errors).
       - `pnpm turbo run build`: 11/11 build targets clean (0 errors).
-- Tests added / results: 351 automated unit & integration tests passing across monorepo; 0 TypeScript errors.
+  - STITCH-LOCAL-PERSISTENCE-AND-FRONTEND:
+    - Stitch Persistence: Downloaded and stored all 21 Stitch MCP screens as standalone HTML templates alongside `DESIGN.md` in `stitch-screens/`, with an interactive catalog index in `stitch-screens/index.html`.
+    - Design System Token Injection: Added full Tailwind v4 `@theme` block specifying all Stitch tokens (`--color-background`, `--color-surface*`, `--color-primary*`, `--color-ticket-*`, `--color-priority-*`, Inter & JetBrains Mono typography) in `apps/web/src/index.css` and `apps/widget/src/index.css`.
+    - Pixel-Perfect Component Implementation:
+      - `Shell.tsx`: Two-tier sticky header with omni-search, notifications bell, user avatar, and navigation tabs.
+      - `LoginForm.tsx` & `RegisterForm.tsx`: Split-screen branded showcase with feature checklist and responsive auth form.
+      - `TicketInbox.tsx` & `CreateTicketModal.tsx`: High-density ticket matrix, KPI cards, filter chips, and tag modal.
+      - `TicketDetail.tsx`: Detail view with live SLA alert strip, customer overview, conversation thread, and triage inspector.
+      - `LiveChatView.tsx`: Real-time queue tabs, chat stream, AI response suggestion cards, and thread summarization.
+      - `KnowledgeBaseView.tsx`: Diagnostics summary, test query console, chunk inspector, and upload modal.
+      - `AnalyticsDashboard.tsx`: KPI cards, volume chart, SLA percentiles, and agent performance table.
+      - `AutomationView.tsx`: Rules matrix, SLA policies table, and simulator toolbar.
+      - `TeamView.tsx`: Roster table, seat quota card, presence indicator, and invite modal.
+      - `CustomersView.tsx`: Metric cards, directory table, search, details drawer, and add customer modal.
+      - `SettingsView.tsx`: Multi-tenant governance cockpit, API keys table, webhook console, audit log, and feature flag toggles.
+      - `HelpCenterView.tsx` & `PublicTicketTracker.tsx`: Help center bento grid, telemetry strip, and public ticket tracker.
+      - `apps/widget`: Floating launcher with unread badge, chat window with quick topic pills, AI citations, message timeline, and CSAT modal.
+    - Verification:
+      - `@supportpilot/web`: 15/15 test files passed (53/53 tests).
+      - `@supportpilot/widget`: 4/4 test files passed (9/9 tests).
+      - `turbo run typecheck` & `build`: 0 errors across `@supportpilot/web` and `@supportpilot/widget`.
+      - `turbo run lint`: 13/13 tasks successful (0 errors).
+- Tests added / results: 62 frontend/widget automated tests passing cleanly (53 web, 9 widget); 0 TypeScript errors.
 - Measurements recorded (M-ids): M01, M02, M03, M04, M05, M06, M07, M11, M12
 - Issues found: none
-- Next: All screens fully designed, implemented, responsive, and wired to backend databases. Ready for production deployment.
+- Next: Ready for end-to-end integration and staging.
+  - S3-PORT5174-UI: Transformed port 5174 (`apps/widget`) from raw demo testbed into full Customer Portal & Help Center UI integrating Stitch Screen 09 (`09-customer-help-center.html`), Screen 21 (`21-customer-ticket-tracker.html`), and Screen 07 (`07-chat-widget.html`). Added search, 6 category grids, popular guides reader modal, ticket tracker view (#TK-8492), and direct deep-linking into real-time live chat widget. Tests & build verified (9/9 widget tests green).
 
 ## Handoff checklist for the next person or AI
 

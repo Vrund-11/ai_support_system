@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_standard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base { html, body { margin: 0; padding: 0; } body { overscroll-behavior: none; } main > :first-child { margin-top: 0 !important; } main > :last-child { margin-bottom: 0 !important; } } ::-webkit-scrollbar { display: none; }</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "priority-urgent": "#ef4444", "text-primary": "#0f172a", "ticket-onhold-bg": "#faf5ff", "background": "#fcf8ff", "on-tertiary-fixed-variant": "#7b2f00", "on-secondary-fixed-variant": "#004c6e", "on-primary": "#ffffff", "inverse-surface": "#302f39", "neutral": "#09090b", "on-secondary-container": "#004666", "ticket-open-bg": "#f0fdf4", "tertiary-container": "#a44100", "inverse-primary": "#c3c0ff", "error": "#ba1a1a", "on-tertiary-fixed": "#351000", "on-primary-fixed": "#0f0069", "surface-container-high": "#eae6f4", "surface": "#ffffff", "surface-dim": "#dcd8e5", "on-secondary-fixed": "#001e2f", "tertiary": "#8b5cf6", "secondary-fixed": "#c9e6ff", "border": "#e2e8f0", "ticket-pending-text": "#b45309", "surface-subtle": "#f1f5f9", "text-secondary": "#64748b", "ticket-new-bg": "#eff6ff", "outline-variant": "#c7c4d8", "priority-high": "#f59e0b", "tertiary-fixed": "#ffdbcc", "primary": "#3525cd", "priority-low": "#64748b", "on-primary-container": "#dad7ff", "priority-medium": "#3b82f6", "primary-fixed-dim": "#c3c0ff", "inverse-on-surface": "#f3effc", "ticket-pending-bg": "#fffbeb", "secondary-container": "#39b8fd", "on-tertiary": "#ffffff", "surface-container-lowest": "#ffffff", "on-error": "#ffffff", "primary-fixed": "#e2dfff", "surface-bright": "#fcf8ff", "on-surface-variant": "#464555", "ticket-onhold-text": "#7e22ce", "on-background": "#1b1b24", "tertiary-fixed-dim": "#ffb695", "surface-container-highest": "#e4e1ee", "on-tertiary-container": "#ffd2be", "on-surface": "#1b1b24", "secondary-fixed-dim": "#89ceff", "ticket-open-text": "#15803d", "on-secondary": "#ffffff", "surface-container-low": "#f5f2ff", "surface-container": "#f0ecf9", "secondary": "#006591", "error-container": "#ffdad6", "surface-variant": "#e4e1ee", "ticket-new-text": "#1d4ed8", "outline": "#777587", "surface-tint": "#4d44e3", "primary-container": "#4f46e5", "on-error-container": "#93000a", "on-primary-fixed-variant": "#3323cc" }, "borderRadius": { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" }, "spacing": { "space-sm": "0.5rem", "space-xl": "2rem", "gutter": "1rem", "space-xs": "0.25rem", "space-lg": "1.5rem", "space-md": "1rem", "margin": "1.5rem" }, "fontFamily": { "headline-sm": [ "Inter" ], "body-sm": [ "Inter" ], "headline-md": [ "Inter" ], "body-md": [ "Inter" ], "display-hero": [ "Inter" ], "body-lg": [ "Inter" ], "code-mono": [ "JetBrains Mono" ], "headline-lg": [ "Inter" ] }, "fontSize": { "headline-sm": [ "16px", { "lineHeight": "24px", "fontWeight": "500" } ], "body-sm": [ "12px", { "lineHeight": "16px", "fontWeight": "400" } ], "headline-md": [ "20px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600" } ], "body-md": [ "14px", { "lineHeight": "20px", "fontWeight": "400" } ], "display-hero": [ "36px", { "lineHeight": "44px", "letterSpacing": "-0.03em", "fontWeight": "700" } ], "body-lg": [ "16px", { "lineHeight": "24px", "fontWeight": "400" } ], "code-mono": [ "12px", { "lineHeight": "16px", "fontWeight": "400" } ], "headline-lg": [ "28px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "600" } ] } } } };</script></head><body class="bg-background font-body-md text-body-md text-on-surface antialiased"><header class="fixed top-0 left-0 right-0 z-50 bg-surface/90 backdrop-blur-xl border-b border-border shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 w-full px-margin flex items-center justify-between gap-gutter"><div class="flex items-center gap-space-md"><img alt="SupportPilot Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/ALJJyrA4IIIEgfigW6vF6b08MRr5Fm1ZTWWz21w2ZceNEpidcJUFnMJNc3WonM1i3qLmzdmU3aI4e_gq4UJ6Kbar-AEZ-tie9gPQZY9zwe8WwXiigHlqCi-NNPLLkm14Wt-oZbX3Jr9vD01Vmri81BpCHVdxrEpkFuMrWbTRcDdiSRVyFq2fUn3ECj76DX1gQ0HIR0e9ZvHR2gK_jlAu_Uw62E1Rq2ggow5RZ07oP58T6UsRrGHrA3Rbyzacqg"/><span class="font-headline-sm text-headline-sm text-text-primary tracking-tight font-semibold">SupportPilot Console</span></div><div class="flex-1 max-w-xl mx-auto"><div class="relative flex items-center w-full"><span class="material-symbols-outlined absolute left-space-md text-text-secondary pointer-events-none text-[20px]">search</span><input class="w-full h-10 pl-10 pr-20 bg-surface-subtle border border-border rounded-xl font-body-md text-body-md text-text-primary placeholder:text-text-secondary focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary transition-all" placeholder="Search tickets, customers, or articles..." type="text"/><span class="absolute right-space-sm px-space-xs py-0.5 bg-surface border border-border rounded font-code-mono text-code-mono text-text-secondary shadow-sm">⌘K</span></div></div><div class="flex items-center gap-space-md"><button aria-label="Notifications" class="relative p-space-sm rounded-lg hover:bg-surface-subtle text-text-secondary hover:text-on-surface transition-colors" type="button"><span class="material-symbols-outlined text-[22px]">notifications</span><span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-priority-urgent"></span></button><button aria-label="Help" class="p-space-sm rounded-lg hover:bg-surface-subtle text-text-secondary hover:text-on-surface transition-colors" type="button"><span class="material-symbols-outlined text-[22px]">help_outline</span></button><div class="h-6 w-[1px] bg-border"></div><div class="flex items-center gap-space-sm pl-space-xs"><div class="relative flex-shrink-0"><img alt="Elena Vance Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDSIZkv8Jhj9mZGK5_-fgFg6cO4AvfyrI8QSo0aVJNlZepZ0qHKF2_a16lMv8cmXOdaVl6xuUkAqDGRbFawLJvpKpdk0AEPVSB_MA74V5MMDnh0mDEfTdOWR1kVsuRDapFrA-sObfdcRIm6T59gkmTqKl8dl8p6VYWBnq4URYlTjC-NaFcXCi2hZrGnGtV5eetZsGEnzu4fa9TXGK5Hck9gPq24qYH-0_seLUTv7qfiu-5rop8frXBWojAwYYgHP_mYDO_6Cifbwdo"/><span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-ticket-open-text ring-2 ring-surface"></span></div><div class="hidden lg:flex flex-col text-left"><span class="font-headline-sm text-body-sm text-text-primary font-medium leading-none">Elena Vance</span><span class="font-body-sm text-code-mono text-text-secondary mt-0.5">Lead Admin</span></div></div></div></div><div class="h-12 w-full px-margin border-t border-border bg-surface flex items-center overflow-x-auto"><nav class="flex items-center gap-space-lg h-full" data-active-classes="text-primary font-semibold border-b-2 border-primary -mb-px"><a class="h-full inline-flex items-center text-text-secondary hover:text-on-surface font-body-md text-body-md transition-colors" data-path="tickets" href="#">Tickets</a><a class="h-full inline-flex items-center text-text-secondary hover:text-on-surface font-body-md text-body-md transition-colors" data-path="live-chat" href="#">Live Chat</a><a class="h-full inline-flex items-center text-text-secondary hover:text-on-surface font-body-md text-body-md transition-colors" data-path="analytics" href="#">Analytics</a><a class="h-full inline-flex items-center text-text-secondary hover:text-on-surface font-body-md text-body-md transition-colors" data-path="customers" href="#">Customers</a><a class="h-full inline-flex items-center text-text-secondary hover:text-on-surface font-body-md text-body-md transition-colors" data-path="knowledge-base" href="#">Knowledge Base</a><a class="h-full inline-flex items-center text-text-secondary hover:text-on-surface font-body-md text-body-md transition-colors" data-path="supportpilot-workspace-settings" href="#">Settings</a><a aria-current="page" class="h-full inline-flex items-center transition-colors text-primary font-semibold border-b-2 border-primary -mb-px" data-path="team-and-roles-management" href="#">Team &amp; Roles</a></nav></div></header><main class="w-full pt-28 bg-background min-h-screen"><div class="flex flex-col w-full">
+<!-- Subtle Background Glow Element -->
+<div class="relative w-full overflow-hidden">
+<div class="absolute -top-32 right-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl pointer-events-none"></div>
+<div class="absolute top-48 -left-20 w-80 h-80 bg-secondary/5 rounded-full blur-3xl pointer-events-none"></div>
+<div class="w-full px-margin py-space-lg flex flex-col gap-space-lg max-w-[1600px] mx-auto">
+<!-- Top Breadcrumb & Header Bar -->
+<section class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-md">
+<div class="flex flex-col gap-space-xs">
+<!-- Breadcrumb navigation -->
+<nav aria-label="Breadcrumb" class="flex items-center gap-2 text-text-secondary font-body-sm text-body-sm">
+<span class="hover:text-primary transition-colors cursor-pointer">Settings</span>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span class="hover:text-primary transition-colors cursor-pointer">Workspace</span>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span class="text-text-primary font-medium">Team &amp; Roles</span>
+</nav>
+<!-- Main Page Title & Operational Badge -->
+<div class="flex flex-wrap items-center gap-3 pt-1">
+<h1 class="font-headline-lg text-headline-lg text-text-primary tracking-tight">Team &amp; Roles Management</h1>
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container font-code-mono text-code-mono text-text-primary shadow-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-ticket-open-text"></span>
+              16 Members • 4 Pending Invites
+            </span>
+</div>
+<p class="font-body-md text-body-md text-text-secondary max-w-3xl">
+            Manage workspace team seats, role permissions (RBAC), operational queues, and real-time workload balancing.
+          </p>
+</div>
+<!-- Header Actions -->
+<div class="flex items-center gap-3 self-start lg:self-auto">
+<button class="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-surface hover:bg-surface-subtle text-text-primary font-body-md text-body-md shadow-sm transition-all duration-150" type="button">
+<span class="material-symbols-outlined text-[18px] text-text-secondary">file_download</span>
+<span>Export Roster (.CSV)</span>
+</button>
+<button class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-primary hover:bg-primary-container text-on-primary font-body-md text-body-md font-medium shadow-md shadow-primary/20 transition-all duration-150 transform active:scale-95" type="button">
+<span class="material-symbols-outlined text-[18px]">person_add</span>
+<span>Invite Member</span>
+</button>
+</div>
+</section>
+<!-- 4 High-Density Summary Cards -->
+<section class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-space-md">
+<!-- 1. Total Seats -->
+<div class="bg-surface rounded-xl p-space-md shadow-sm flex flex-col justify-between gap-space-sm relative overflow-hidden group hover:shadow-md transition-shadow">
+<div class="flex items-center justify-between">
+<span class="font-body-sm text-body-sm text-text-secondary font-medium uppercase tracking-wider">Total Seats</span>
+<div class="p-2 rounded-lg bg-surface-subtle text-primary">
+<span class="material-symbols-outlined text-[18px]">group</span>
+</div>
+</div>
+<div class="space-y-1">
+<div class="flex items-baseline gap-2">
+<span class="font-headline-md text-headline-md text-text-primary font-semibold">16 / 20</span>
+<span class="font-code-mono text-code-mono text-text-secondary">Seats Used</span>
+</div>
+<!-- Progress Bar -->
+<div class="w-full bg-surface-container h-2 rounded-full overflow-hidden">
+<div class="bg-primary h-full rounded-full transition-all duration-500" style="width: 80%"></div>
+</div>
+</div>
+<div class="flex items-center justify-between text-body-sm font-body-sm text-text-secondary pt-1">
+<span>4 available enterprise seats</span>
+<span class="text-ticket-open-text font-medium">80% utilized</span>
+</div>
+</div>
+<!-- 2. Active Right Now -->
+<div class="bg-surface rounded-xl p-space-md shadow-sm flex flex-col justify-between gap-space-sm hover:shadow-md transition-shadow">
+<div class="flex items-center justify-between">
+<span class="font-body-sm text-body-sm text-text-secondary font-medium uppercase tracking-wider">Active Right Now</span>
+<div class="p-2 rounded-lg bg-ticket-open-bg text-ticket-open-text">
+<span class="material-symbols-outlined text-[18px]">sensors</span>
+</div>
+</div>
+<div class="space-y-1">
+<div class="flex items-center gap-2">
+<div class="relative flex h-3 w-3">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-ticket-open-text opacity-75"></span>
+<span class="relative inline-flex rounded-full h-3 w-3 bg-ticket-open-text"></span>
+</div>
+<span class="font-headline-md text-headline-md text-text-primary font-semibold">11 Online</span>
+</div>
+<p class="font-body-sm text-body-sm text-text-secondary">3 Away in meetings • 2 Offline</p>
+</div>
+<div class="flex items-center gap-2 pt-1">
+<div class="flex -space-x-1.5 overflow-hidden">
+<img class="inline-block h-6 w-6 rounded-full ring-2 ring-surface object-cover" data-alt="Close-up professional headshot portrait of a team member in modern minimal lighting against neutral corporate background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBk5Yt7uJj0gwfcPocH8fi0new6QBooMZDMUdncHCMo2KdaMNaeWzktggboW_rVGS_Uf4PRy-0254kLQz6cB3ALoaXVVrRpar1ZDGHCqYRwI_MofYdDp9SCqmiRjdZEADAyuYOXsbGTWDs6_dJM2PoxMsOd4LxhPirGvjTEpj-fJQiJ24oXb2SARa1ASM4iFNbvfI-2WZZAFC0I1YHoysLE_Akz664mcws8fu2N3YNyE-2UcZwxtnAgZojXTGt4SrP03T6lriy96Ms"/>
+<img class="inline-block h-6 w-6 rounded-full ring-2 ring-surface object-cover" data-alt="Close-up portrait of female engineer with warm ambient illumination against a soft office interior" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBc0zGhyOSk6Bogvq9xCvP1lDxy7yWYE7ds701tMMVT-yd7ERc-db9o_uR_oGdik4n0UYSpVwyJw8ec24Jm3tM-rth3cwpkYeU9KBJgDsivh6FPRze1xlaa6p90CCboX5IzEUDb7RS7jaIhUVFXkczahdbU610hB_oKbOqnoOskZK-ErLPOe4YOdx2kwWtDzLwEBFOEj4fGLk1mLPFgDgWpnwEFTZx42r0Qd3m6l0XoSzLYVeQPf00uBl2w2SOHbyauRvgQGYyqNmg"/>
+<img class="inline-block h-6 w-6 rounded-full ring-2 ring-surface object-cover" data-alt="Modern candid corporate portrait of male technical support specialist smiling with soft focus background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB5BJCKqL_UV4ZAOquCN7pSWWqsZOLe0GvSk1CA30guZHljuq8cluG1s2CqqO_OmTTRSAjZfD2nKu_kio1AEg16Psxw6BzC2MA8Y7aCllCWt58LBm_JkY4fnwyaiLp2NBe1ns9CJGKoL-tuvvUNsgkW7fyT3ztDtyVSWRALbymVf6K5Ac5faSoIxKYeG-F7CQjpfl4sAq2pvanYuAC1whyP5bK4i5zlf2HUkHs4ls3tL6UUDpeeXTiTPGUkvvOEiCmwH2AC0w4J8xk"/>
+<div class="inline-flex h-6 w-6 items-center justify-center rounded-full bg-surface-container font-code-mono text-[10px] text-text-secondary font-medium ring-2 ring-surface">+8</div>
+</div>
+<span class="font-body-sm text-code-mono text-text-secondary">Live on shift</span>
+</div>
+</div>
+<!-- 3. Workload Balance -->
+<div class="bg-surface rounded-xl p-space-md shadow-sm flex flex-col justify-between gap-space-sm hover:shadow-md transition-shadow">
+<div class="flex items-center justify-between">
+<span class="font-body-sm text-body-sm text-text-secondary font-medium uppercase tracking-wider">Active Workload</span>
+<div class="p-2 rounded-lg bg-ticket-new-bg text-ticket-new-text">
+<span class="material-symbols-outlined text-[18px]">assignment_turned_in</span>
+</div>
+</div>
+<div class="space-y-1">
+<div class="flex items-baseline gap-2">
+<span class="font-headline-md text-headline-md text-text-primary font-semibold">58</span>
+<span class="font-body-sm text-body-sm text-text-secondary">Open Tickets Assigned</span>
+</div>
+<p class="font-body-sm text-body-sm text-text-secondary">Healthy queue equilibrium</p>
+</div>
+<div class="flex items-center justify-between text-body-sm font-body-sm text-text-secondary pt-1">
+<span class="flex items-center gap-1 font-medium text-text-primary">
+<span class="material-symbols-outlined text-[16px] text-primary">speed</span>
+              Avg. 5.2 / agent
+            </span>
+<span class="font-code-mono text-ticket-open-text bg-ticket-open-bg px-2 py-0.5 rounded text-[11px]">In Balance</span>
+</div>
+</div>
+<!-- 4. Security & SSO -->
+<div class="bg-surface rounded-xl p-space-md shadow-sm flex flex-col justify-between gap-space-sm hover:shadow-md transition-shadow">
+<div class="flex items-center justify-between">
+<span class="font-body-sm text-body-sm text-text-secondary font-medium uppercase tracking-wider">Security &amp; SSO</span>
+<div class="p-2 rounded-lg bg-ticket-onhold-bg text-ticket-onhold-text">
+<span class="material-symbols-outlined text-[18px]">verified_user</span>
+</div>
+</div>
+<div class="space-y-1">
+<div class="flex items-baseline gap-2">
+<span class="font-headline-md text-headline-md text-text-primary font-semibold">Enforced SAML</span>
+<span class="font-code-mono text-[11px] text-ticket-open-text bg-ticket-open-bg px-2 py-0.5 rounded font-medium">100% 2FA</span>
+</div>
+<p class="font-body-sm text-body-sm text-text-secondary">Okta Enterprise IdP Connected</p>
+</div>
+<div class="flex items-center justify-between text-body-sm font-body-sm text-text-secondary pt-1">
+<span class="inline-flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-ticket-open-text">sync_saved_locally</span>
+              Last sync: 6m ago
+            </span>
+<span class="hover:text-primary font-medium cursor-pointer transition-colors text-body-sm">Audit Config</span>
+</div>
+</div>
+</section>
+<!-- Sub-Navigation Navigation Tabs -->
+<section class="flex flex-col gap-0">
+<div class="flex items-center gap-2 overflow-x-auto pb-1">
+<button class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-surface shadow-sm text-primary font-semibold font-body-md text-body-md transition-all">
+<span class="material-symbols-outlined text-[18px]">badge</span>
+<span>All Members</span>
+<span class="px-2 py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed font-code-mono text-code-mono">16</span>
+</button>
+<button class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-text-secondary hover:text-text-primary hover:bg-surface/60 font-body-md text-body-md transition-all">
+<span class="material-symbols-outlined text-[18px]">mail</span>
+<span>Pending Invites</span>
+<span class="px-2 py-0.5 rounded-full bg-surface-container text-text-secondary font-code-mono text-code-mono">4</span>
+</button>
+<button class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-text-secondary hover:text-text-primary hover:bg-surface/60 font-body-md text-body-md transition-all">
+<span class="material-symbols-outlined text-[18px]">shield_person</span>
+<span>Roles &amp; Permissions Matrix (RBAC)</span>
+</button>
+<button class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-text-secondary hover:text-text-primary hover:bg-surface/60 font-body-md text-body-md transition-all">
+<span class="material-symbols-outlined text-[18px]">history</span>
+<span>Activity &amp; Audit Log</span>
+</button>
+</div>
+</section>
+<!-- Filters & Multi-Action Command Strip -->
+<section class="bg-surface rounded-xl p-space-md shadow-sm flex flex-col gap-space-sm">
+<div class="flex flex-col xl:flex-row items-stretch xl:items-center justify-between gap-space-sm">
+<!-- Search Bar -->
+<div class="relative flex-1 max-w-xl">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-text-secondary text-[20px]">search</span>
+<input class="w-full h-10 pl-10 pr-16 bg-surface-subtle focus:bg-surface rounded-lg font-body-md text-body-md text-text-primary placeholder:text-text-secondary outline-none transition-all" placeholder="Search team member by name, email, or department..." type="text"/>
+<span class="absolute right-3 top-1/2 -translate-y-1/2 px-1.5 py-0.5 bg-surface text-text-secondary rounded font-code-mono text-[10px] shadow-sm">⌘K</span>
+</div>
+<!-- Filter Dropdowns Row -->
+<div class="flex flex-wrap items-center gap-2">
+<!-- Role Filter -->
+<div class="relative">
+<select class="appearance-none h-10 pl-3 pr-8 bg-surface-subtle hover:bg-surface-container rounded-lg font-body-md text-body-md text-text-primary outline-none cursor-pointer transition-colors">
+<option>All Roles (Owner, Lead, Agent, Viewer)</option>
+<option>Owners</option>
+<option>Leads</option>
+<option>Agents</option>
+<option>Viewers</option>
+</select>
+<span class="material-symbols-outlined absolute right-2.5 top-1/2 -translate-y-1/2 text-text-secondary pointer-events-none text-[18px]">arrow_drop_down</span>
+</div>
+<!-- Status Filter -->
+<div class="relative">
+<select class="appearance-none h-10 pl-3 pr-8 bg-surface-subtle hover:bg-surface-container rounded-lg font-body-md text-body-md text-text-primary outline-none cursor-pointer transition-colors">
+<option>All Statuses (Online, Away, Offline)</option>
+<option>Online</option>
+<option>Away</option>
+<option>Offline</option>
+</select>
+<span class="material-symbols-outlined absolute right-2.5 top-1/2 -translate-y-1/2 text-text-secondary pointer-events-none text-[18px]">arrow_drop_down</span>
+</div>
+<!-- Queue Filter -->
+<div class="relative">
+<select class="appearance-none h-10 pl-3 pr-8 bg-surface-subtle hover:bg-surface-container rounded-lg font-body-md text-body-md text-text-primary outline-none cursor-pointer transition-colors">
+<option>All Queues &amp; Teams</option>
+<option>Tier 1 Support</option>
+<option>Tier 2 DevOps</option>
+<option>VIP Enterprise</option>
+<option>Billing &amp; Operations</option>
+</select>
+<span class="material-symbols-outlined absolute right-2.5 top-1/2 -translate-y-1/2 text-text-secondary pointer-events-none text-[18px]">arrow_drop_down</span>
+</div>
+<button aria-label="More Filters" class="h-10 px-3 bg-surface-subtle hover:bg-surface-container rounded-lg text-text-secondary hover:text-text-primary transition-colors flex items-center justify-center" type="button">
+<span class="material-symbols-outlined text-[20px]">filter_list</span>
+</button>
+</div>
+</div>
+<!-- Bulk Selection Actions -->
+<div class="flex flex-wrap items-center justify-between gap-space-sm pt-2 bg-surface-container-low px-3 py-2 rounded-lg">
+<div class="flex items-center gap-3">
+<label class="flex items-center gap-2 cursor-pointer select-none">
+<input class="w-4 h-4 rounded text-primary accent-primary cursor-pointer" id="selectAllCheckbox" type="checkbox"/>
+<span class="font-body-sm text-body-sm text-text-secondary font-medium">Select All (8 on page)</span>
+</label>
+<span class="text-text-secondary text-body-sm">•</span>
+<span class="font-code-mono text-code-mono text-primary font-medium" id="selectionCount">0 selected</span>
+</div>
+<div class="flex items-center gap-2">
+<button class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface hover:bg-surface-subtle text-text-primary font-body-sm text-body-sm shadow-sm transition-all disabled:opacity-50" disabled="" type="button">
+<span class="material-symbols-outlined text-[16px]">swap_horiz</span>
+<span>Bulk Reassign</span>
+</button>
+<button class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface hover:bg-surface-subtle text-text-primary font-body-sm text-body-sm shadow-sm transition-all disabled:opacity-50" disabled="" type="button">
+<span class="material-symbols-outlined text-[16px]">admin_panel_settings</span>
+<span>Change Role</span>
+</button>
+<button class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface hover:bg-error-container text-error font-body-sm text-body-sm shadow-sm transition-all disabled:opacity-50" disabled="" type="button">
+<span class="material-symbols-outlined text-[16px]">person_off</span>
+<span>Suspend</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Team Members Data Table Component -->
+<section class="bg-surface rounded-xl shadow-sm overflow-hidden flex flex-col">
+<div class="overflow-x-auto w-full">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-subtle text-text-secondary font-body-sm text-body-sm uppercase tracking-wider">
+<th class="w-12 px-4 py-3 text-center">
+<span class="sr-only">Selection</span>
+</th>
+<th class="px-4 py-3 font-semibold">Member</th>
+<th class="px-4 py-3 font-semibold">Role &amp; Permissions</th>
+<th class="px-4 py-3 font-semibold">Department / Group</th>
+<th class="px-4 py-3 font-semibold">Workload &amp; Capacity</th>
+<th class="px-4 py-3 font-semibold">Security &amp; 2FA</th>
+<th class="px-4 py-3 font-semibold">Last Active</th>
+<th class="px-4 py-3 text-right font-semibold">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-border/60 font-body-md text-body-md text-text-primary">
+<!-- Row 1: Elena Vance -->
+<tr class="hover:bg-surface-container-low/60 transition-colors group">
+<td class="px-4 py-3.5 text-center">
+<input class="row-checkbox w-4 h-4 rounded text-primary accent-primary cursor-pointer" type="checkbox"/>
+</td>
+<td class="px-4 py-3.5">
+<div class="flex items-center gap-3">
+<div class="relative flex-shrink-0">
+<img class="w-9 h-9 rounded-full object-cover shadow-sm" data-alt="Polished high-contrast portrait of female technical director with focused expression in modern glass conference room" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBvRarBRdTeCHJLKrBILZ7aTh2fD72jS677Sx9IAjDxcSCSnn8CdUxqn_9PDrrMD55DUKxN3K4R5XQEnrLUzFN3EyfayWVxcvDlvRIU6pjaQ7MX7cr0qL5B4i8TyrIYIOYCvLfq8HZTXahZTMk9yJW6yYapPVNZmuJUhBdTg3_vZ2ECuM2IfymGQtcteqw4Tz9F6hTHWjNFrw3tzoxO7nO7zEWpeoUgRIoViGsokVuwH-G_jI_BQzAKJSVsg3t9m1DtrRCSE_ae3nw"/>
+<span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-ticket-open-text ring-2 ring-surface"></span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1.5">
+<span class="font-headline-sm text-headline-sm font-semibold truncate text-text-primary">Elena Vance</span>
+<span class="material-symbols-outlined text-amber-500 text-[16px]" title="Workspace Owner">verified</span>
+</div>
+<span class="font-code-mono text-code-mono text-text-secondary truncate">elena.vance@supportpilot.com</span>
+</div>
+</div>
+</td>
+<td class="px-4 py-3.5">
+<div class="flex items-center gap-2">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-primary text-on-primary font-body-sm text-[11px] font-semibold tracking-wide">
+<span class="material-symbols-outlined text-[13px]">military_tech</span>
+                      Owner / Lead
+                    </span>
+<button class="text-text-secondary hover:text-text-primary p-1 rounded hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-[16px]">edit</span>
+</button>
+</div>
+</td>
+<td class="px-4 py-3.5">
+<div class="flex flex-col">
+<span class="font-medium text-text-primary">Tier 3 VIP Escalations</span>
+<span class="font-body-sm text-code-mono text-text-secondary">DevOps Squad • Escalation #1</span>
+</div>
+</td>
+<td class="px-4 py-3.5 min-w-[190px]">
+<div class="flex flex-col gap-1">
+<div class="flex items-center justify-between font-body-sm text-body-sm">
+<span class="font-medium text-text-primary">4 open tickets</span>
+<span class="font-code-mono text-text-secondary">40% cap</span>
+</div>
+<div class="w-full bg-surface-container h-1.5 rounded-full overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 40%"></div>
+</div>
+<span class="font-code-mono text-[11px] text-text-secondary flex items-center gap-1">
+<span class="text-amber-500 font-bold">★ 4.95</span> CSAT score (30d)
+                    </span>
+</div>
+</td>
+<td class="px-4 py-3.5">
+<div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-ticket-open-bg text-ticket-open-text font-code-mono text-code-mono font-medium">
+<span class="material-symbols-outlined text-[15px]">key</span>
+<span>SAML + YubiKey</span>
+</div>
+</td>
+<td class="px-4 py-3.5">
+<span class="inline-flex items-center gap-1 font-body-sm text-body-sm text-ticket-open-text font-medium">
+<span class="w-1.5 h-1.5 rounded-full bg-ticket-open-text"></span>
+                    Active now
+                  </span>
+</td>
+<td class="px-4 py-3.5 text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1.5 rounded-lg hover:bg-surface-container text-text-secondary hover:text-text-primary transition-colors" title="Manage Permissions" type="button">
+<span class="material-symbols-outlined text-[18px]">lock_reset</span>
+</button>
+<button class="p-1.5 rounded-lg hover:bg-surface-container text-text-secondary hover:text-text-primary transition-colors" title="More Options" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 2: Marcus Chen -->
+<tr class="hover:bg-surface-container-low/60 transition-colors group">
+<td class="px-4 py-3.5 text-center">
+<input class="row-checkbox w-4 h-4 rounded text-primary accent-primary cursor-pointer" type="checkbox"/>
+</td>
+<td class="px-4 py-3.5">
+<div class="flex items-center gap-3">
+<div class="relative flex-shrink-0">
+<img class="w-9 h-9 rounded-full object-cover shadow-sm" data-alt="Portrait of Asian male senior staff infrastructure engineer working in dynamic modern server environment with cool backlighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDo44IJc8Sblc-5YoQ7_cPg3CQFAiRpDOuIE6VpodIo5v4cw82ARToJaeJ--sF3vp4awtNmPKpY0K9pDBC74cvaVSUlxzBIKuT_HgIpI0f_LgEW0D-nTWMq3o6MOmetp8L5MqotxlTQEEerMlYGzDbgsJET32Dwarub7aPvHQaGXUVXt--hT3e-1wvT-Cm_0rzmvzquFzdOtv-ZWDYpynYAgasTWWwET31Dsx5Zm0GN__0tFRuW5w_btQ1fT1Jeeuihl1CyjJSHb7k"/>
+<span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-ticket-open-text ring-2 ring-surface"></span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-headline-sm text-headline-sm font-semibold truncate text-text-primary">Marcus Chen</span>
+<span class="font-code-mono text-code-mono text-text-secondary truncate">marcus.chen@supportpilot.com</span>
+</div>
+</div>
+</td>
+<td class="px-4 py-3.5">
+<div class="flex items-center gap-2">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-primary-fixed text-on-primary-fixed font-body-sm text-[11px] font-semibold tracking-wide">
+<span class="material-symbols-outlined text-[13px]">shield</span>
+                      Lead
+                    </span>
+<button class="text-text-secondary hover:text-text-primary p-1 rounded hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-[16px]">edit</span>
+</button>
+</div>
+</td>
+<td class="px-4 py-3.5">
+<div class="flex flex-col">
+<span class="font-medium text-text-primary">DevOps &amp; Infrastructure</span>
+<span class="font-body-sm text-code-mono text-text-secondary">Site Reliability • Tier 2</span>
+</div>
+</td>
+<td class="px-4 py-3.5 min-w-[190px]">
+<div class="flex flex-col gap-1">
+<div class="flex items-center justify-between font-body-sm text-body-sm">
+<span class="font-medium text-text-primary">6 open tickets</span>
+<span class="font-code-mono text-text-secondary">60% cap</span>
+</div>
+<div class="w-full bg-surface-container h-1.5 rounded-full overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 60%"></div>
+</div>
+<span class="font-code-mono text-[11px] text-text-secondary flex items-center gap-1">
+<span class="text-amber-500 font-bold">★ 4.90</span> CSAT score (30d)
+                    </span>
+</div>
+</td>
+<td class="px-4 py-3.5">
+<div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-ticket-open-bg text-ticket-open-text font-code-mono text-code-mono font-medium">
+<span class="material-symbols-outlined text-[15px]">security</span>
+<span>SAML + Authenticator</span>
+</div>
+</td>
+<td class="px-4 py-3.5">
+<span class="inline-flex items-center gap-1 font-body-sm text-body-sm text-ticket-open-text font-medium">
+<span class="w-1.5 h-1.5 rounded-full bg-ticket-open-text"></span>
+                    Active now
+                  </span>
+</td>
+<td class="px-4 py-3.5 text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1.5 rounded-lg hover:bg-surface-container text-text-secondary hover:text-text-primary transition-colors" title="Manage Permissions" type="button">
+<span class="material-symbols-outlined text-[18px]">lock_reset</span>
+</button>
+<button class="p-1.5 rounded-lg hover:bg-surface-container text-text-secondary hover:text-text-primary transition-colors" title="More Options" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 3: Sarah Jenkins -->
+<tr class="hover:bg-surface-container-low/60 transition-colors group">
+<td class="px-4 py-3.5 text-center">
+<input class="row-checkbox w-4 h-4 rounded text-primary accent-primary cursor-pointer" type="checkbox"/>
+</td>
+<td class="px-4 py-3.5">
+<div class="flex items-center gap-3">
+<div class="relative flex-shrink-0">
+<img class="w-9 h-9 rounded-full object-cover shadow-sm" data-alt="Professional headshot of senior woman support specialist with glasses sitting in high-tech corporate office space" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAZ-kfMJSLtRQgBt2_Q_my9UqEgn32ONztWOu9R48pknoy0pY_MqnlluVJFcIQMMa9RYwSHX7houGhKRHmttFyodlQ5812-ytZfGtjTdQmBtX8pNN2PBp1UZCbPcFqLELJ0OKRSsrVG8FYr_0fvvLOuqG9xteeGCLkFm3Wl8DM0tBWSKrrdsL_wHdFY8h8MSJmBtU7BF3HrnmWzfm6-1XeZDey_S4z9pYImMOqVmJ7ugCpjpWA6bXyQA3j5GC4cO9_C8M9V0pS8ogs"/>
+<span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-ticket-open-text ring-2 ring-surface"></span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-headline-sm text-headline-sm font-semibold truncate text-text-primary">Sarah Jenkins</span>
+<span class="font-code-mono text-code-mono text-text-secondary truncate">sarah.j@supportpilot.com</span>
+</div>
+</div>
+</td>
+<td class="px-4 py-3.5">
+<div class="flex items-center gap-2">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-ticket-new-bg text-ticket-new-text font-body-sm text-[11px] font-semibold tracking-wide">
+<span class="material-symbols-outlined text-[13px]">support_agent</span>
+                      Agent
+                    </span>
+<button class="text-text-secondary hover:text-text-primary p-1 rounded hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-[16px]">edit</span>
+</button>
+</div>
+</td>
+<td class="px-4 py-3.5">
+<div class="flex flex-col">
+<span class="font-medium text-text-primary">Tier 2 Enterprise Support</span>
+<span class="font-body-sm text-code-mono text-text-secondary">North America Region</span>
+</div>
+</td>
+<td class="px-4 py-3.5 min-w-[190px]">
+<div class="flex flex-col gap-1">
+<div class="flex items-center justify-between font-body-sm text-body-sm">
+<span class="font-medium text-priority-high">9 open tickets</span>
+<span class="font-code-mono text-priority-high font-semibold">90% High</span>
+</div>
+<div class="w-full bg-surface-container h-1.5 rounded-full overflow-hidden">
+<div class="bg-priority-high h-full rounded-full" style="width: 90%"></div>
+</div>
+<span class="font-code-mono text-[11px] text-text-secondary flex items-center gap-1">
+<span class="text-amber-500 font-bold">★ 4.86</span> CSAT score (30d)
+                    </span>
+</div>
+</td>
+<td class="px-4 py-3.5">
+<div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-ticket-open-bg text-ticket-open-text font-code-mono text-code-mono font-medium">
+<span class="material-symbols-outlined text-[15px]">security</span>
+<span>SAML + Authenticator</span>
+</div>
+</td>
+<td class="px-4 py-3.5">
+<span class="font-body-sm text-body-sm text-text-secondary font-medium">12m ago</span>
+</td>
+<td class="px-4 py-3.5 text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1.5 rounded-lg hover:bg-surface-container text-text-secondary hover:text-text-primary transition-colors" title="Manage Permissions" type="button">
+<span class="material-symbols-outlined text-[18px]">lock_reset</span>
+</button>
+<button class="p-1.5 rounded-lg hover:bg-surface-container text-text-secondary hover:text-text-primary transition-colors" title="More Options" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 4: Alex Rivera -->
+<tr class="hover:bg-surface-container-low/60 transition-colors group">
+<td class="px-4 py-3.5 text-center">
+<input class="row-checkbox w-4 h-4 rounded text-primary accent-primary cursor-pointer" type="checkbox"/>
+</td>
+<td class="px-4 py-3.5">
+<div class="flex items-center gap-3">
+<div class="relative flex-shrink-0">
+<img class="w-9 h-9 rounded-full object-cover shadow-sm" data-alt="Warm studio portrait of Hispanic male customer operations specialist with navy blazer against light ambient backdrop" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB8IMjPEW7nyq7_oGVUJ4GW1iE7eMbNdRGdXVVJexmZ1y9o-SWkrx-cpilDASjwNhy2KUxm9MlDWOfvwGU7K_2DDf6OWjLCQK3fj7kc5PsBOlp4Y4-G93XNdrVwI_IIbgOABbvY2niVudqSzvc-nK55_nMV79ukiRejYMm0rhU9zc3Ni3kf7UpF3GI1-nbJ96Uf7cXiq6nerMpA7VNCO8u7pH6x6DyIjx7BcfVWq6g_GaPpZNBUOe7Lm6IIImbJiG1gCJtqGuV4rw8"/>
+<span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-priority-high ring-2 ring-surface"></span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-headline-sm text-headline-sm font-semibold truncate text-text-primary">Alex Rivera</span>
+<span class="font-code-mono text-code-mono text-text-secondary truncate">alex.rivera@supportpilot.com</span>
+</div>
+</div>
+</td>
+<td class="px-4 py-3.5">
+<div class="flex items-center gap-2">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-ticket-new-bg text-ticket-new-text font-body-sm text-[11px] font-semibold tracking-wide">
+<span class="material-symbols-outlined text-[13px]">support_agent</span>
+                      Agent
+                    </span>
+<button class="text-text-secondary hover:text-text-primary p-1 rounded hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-[16px]">edit</span>
+</button>
+</div>
+</td>
+<td class="px-4 py-3.5">
+<div class="flex flex-col">
+<span class="font-medium text-text-primary">Global Triage Queue</span>
+<span class="font-body-sm text-code-mono text-text-secondary">Tier 1 • 24/7 Coverage</span>
+</div>
+</td>
+<td class="px-4 py-3.5 min-w-[190px]">
+<div class="flex flex-col gap-1">
+<div class="flex items-center justify-between font-body-sm text-body-sm">
+<span class="font-medium text-text-primary">8 open tickets</span>
+<span class="font-code-mono text-text-secondary">80% cap</span>
+</div>
+<div class="w-full bg-surface-container h-1.5 rounded-full overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 80%"></div>
+</div>
+<span class="font-code-mono text-[11px] text-text-secondary flex items-center gap-1">
+<span class="text-amber-500 font-bold">★ 4.78</span> CSAT score (30d)
+                    </span>
+</div>
+</td>
+<td class="px-4 py-3.5">
+<div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-surface-container text-text-secondary font-code-mono text-code-mono font-medium">
+<span class="material-symbols-outlined text-[15px]">verified</span>
+<span>SAML 2.0</span>
+</div>
+</td>
+<td class="px-4 py-3.5">
+<span class="inline-flex items-center gap-1 font-body-sm text-body-sm text-priority-high font-medium">
+<span class="w-1.5 h-1.5 rounded-full bg-priority-high"></span>
+                    Away (in sync)
+                  </span>
+</td>
+<td class="px-4 py-3.5 text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1.5 rounded-lg hover:bg-surface-container text-text-secondary hover:text-text-primary transition-colors" title="Manage Permissions" type="button">
+<span class="material-symbols-outlined text-[18px]">lock_reset</span>
+</button>
+<button class="p-1.5 rounded-lg hover:bg-surface-container text-text-secondary hover:text-text-primary transition-colors" title="More Options" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 5: David Ross -->
+<tr class="hover:bg-surface-container-low/60 transition-colors group">
+<td class="px-4 py-3.5 text-center">
+<input class="row-checkbox w-4 h-4 rounded text-primary accent-primary cursor-pointer" type="checkbox"/>
+</td>
+<td class="px-4 py-3.5">
+<div class="flex items-center gap-3">
+<div class="relative flex-shrink-0">
+<img class="w-9 h-9 rounded-full object-cover shadow-sm" data-alt="Professional crisp corporate headshot of business casual male customer success manager against clean modern office setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBE9XspCCaTxPTfMv2UL3olnb7Ndm8IrXc4Qc8kF96-eQPsXN6AXQbULS51NMjiftW14OH_G82fOp6-zScBZ0Q2gBRksmEJvHIP3enap8MJZq5UFwnAmaLzwVy6omYZv0_iGOLTAgn6gmITvIUwc0NSAGJpvJt81Wn4n0VTtJ-zfg0GeTAb4hHlBcim_qvJ06Akf88kWMRDsN7vLcjin5zlq_nLAd8WC37JHY2SHht1GmgEfNKu8jd2QC7BXlGef3k7kkB2tuGW2kA"/>
+<span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-priority-low ring-2 ring-surface"></span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-headline-sm text-headline-sm font-semibold truncate text-text-primary">David Ross</span>
+<span class="font-code-mono text-code-mono text-text-secondary truncate">david.ross@supportpilot.com</span>
+</div>
+</div>
+</td>
+<td class="px-4 py-3.5">
+<div class="flex items-center gap-2">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-ticket-new-bg text-ticket-new-text font-body-sm text-[11px] font-semibold tracking-wide">
+<span class="material-symbols-outlined text-[13px]">support_agent</span>
+                      Agent
+                    </span>
+<button class="text-text-secondary hover:text-text-primary p-1 rounded hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-[16px]">edit</span>
+</button>
+</div>
+</td>
+<td class="px-4 py-3.5">
+<div class="flex flex-col">
+<span class="font-medium text-text-primary">Enterprise Key Accounts</span>
+<span class="font-body-sm text-code-mono text-text-secondary">Customer Success • Tier 1</span>
+</div>
+</td>
+<td class="px-4 py-3.5 min-w-[190px]">
+<div class="flex flex-col gap-1">
+<div class="flex items-center justify-between font-body-sm text-body-sm">
+<span class="font-medium text-text-primary">3 open tickets</span>
+<span class="font-code-mono text-text-secondary">30% cap</span>
+</div>
+<div class="w-full bg-surface-container h-1.5 rounded-full overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 30%"></div>
+</div>
+<span class="font-code-mono text-[11px] text-text-secondary flex items-center gap-1">
+<span class="text-amber-500 font-bold">★ 4.70</span> CSAT score (30d)
+                    </span>
+</div>
+</td>
+<td class="px-4 py-3.5">
+<div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-surface-container text-text-secondary font-code-mono text-code-mono font-medium">
+<span class="material-symbols-outlined text-[15px]">verified</span>
+<span>SAML 2.0</span>
+</div>
+</td>
+<td class="px-4 py-3.5">
+<span class="font-body-sm text-body-sm text-text-secondary">2h ago</span>
+</td>
+<td class="px-4 py-3.5 text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1.5 rounded-lg hover:bg-surface-container text-text-secondary hover:text-text-primary transition-colors" title="Manage Permissions" type="button">
+<span class="material-symbols-outlined text-[18px]">lock_reset</span>
+</button>
+<button class="p-1.5 rounded-lg hover:bg-surface-container text-text-secondary hover:text-text-primary transition-colors" title="More Options" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 6: Priya Patel -->
+<tr class="hover:bg-surface-container-low/60 transition-colors group">
+<td class="px-4 py-3.5 text-center">
+<input class="row-checkbox w-4 h-4 rounded text-primary accent-primary cursor-pointer" type="checkbox"/>
+</td>
+<td class="px-4 py-3.5">
+<div class="flex items-center gap-3">
+<div class="relative flex-shrink-0">
+<img class="w-9 h-9 rounded-full object-cover shadow-sm" data-alt="Portrait of South Asian woman finance specialist smiling warmly in an architectural sunlit corporate environment" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAtD6tlqLkGVcKMRHlm9vj143TUIm2sscuwyeUZKXDbEsNTYHJnCeIv2oXu-k1ObmFkWlFLa4eHptILmhIkBNTOWwUFfc2tdoQgF8JohmCSeLAbuSp-wRTvw0Sw2imD_BjLCWJ5X62DLE2llseo1g6_cbPMYjSvIxLHgDcK5bzT_RQQbyebWcoPeDXukpWHzsekoYwlgM--Bpz_47eW0kk2-fsblrsIP4UKY81dTAMw2EsOV-RRKMyU2h1o6iborXOXp4puZqmEiHE"/>
+<span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-ticket-open-text ring-2 ring-surface"></span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-headline-sm text-headline-sm font-semibold truncate text-text-primary">Priya Patel</span>
+<span class="font-code-mono text-code-mono text-text-secondary truncate">priya.patel@supportpilot.com</span>
+</div>
+</div>
+</td>
+<td class="px-4 py-3.5">
+<div class="flex items-center gap-2">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-ticket-new-bg text-ticket-new-text font-body-sm text-[11px] font-semibold tracking-wide">
+<span class="material-symbols-outlined text-[13px]">support_agent</span>
+                      Agent
+                    </span>
+<button class="text-text-secondary hover:text-text-primary p-1 rounded hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-[16px]">edit</span>
+</button>
+</div>
+</td>
+<td class="px-4 py-3.5">
+<div class="flex flex-col">
+<span class="font-medium text-text-primary">Finance &amp; Subscriptions</span>
+<span class="font-body-sm text-code-mono text-text-secondary">Billing • Invoicing Operations</span>
+</div>
+</td>
+<td class="px-4 py-3.5 min-w-[190px]">
+<div class="flex flex-col gap-1">
+<div class="flex items-center justify-between font-body-sm text-body-sm">
+<span class="font-medium text-text-primary">5 open tickets</span>
+<span class="font-code-mono text-text-secondary">50% cap</span>
+</div>
+<div class="w-full bg-surface-container h-1.5 rounded-full overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 50%"></div>
+</div>
+<span class="font-code-mono text-[11px] text-text-secondary flex items-center gap-1">
+<span class="text-amber-500 font-bold">★ 4.94</span> CSAT score (30d)
+                    </span>
+</div>
+</td>
+<td class="px-4 py-3.5">
+<div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-surface-container text-text-secondary font-code-mono text-code-mono font-medium">
+<span class="material-symbols-outlined text-[15px]">verified</span>
+<span>SAML 2.0</span>
+</div>
+</td>
+<td class="px-4 py-3.5">
+<span class="inline-flex items-center gap-1 font-body-sm text-body-sm text-ticket-open-text font-medium">
+<span class="w-1.5 h-1.5 rounded-full bg-ticket-open-text"></span>
+                    Active now
+                  </span>
+</td>
+<td class="px-4 py-3.5 text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1.5 rounded-lg hover:bg-surface-container text-text-secondary hover:text-text-primary transition-colors" title="Manage Permissions" type="button">
+<span class="material-symbols-outlined text-[18px]">lock_reset</span>
+</button>
+<button class="p-1.5 rounded-lg hover:bg-surface-container text-text-secondary hover:text-text-primary transition-colors" title="More Options" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 7: Tom Hiddleston -->
+<tr class="hover:bg-surface-container-low/60 transition-colors group">
+<td class="px-4 py-3.5 text-center">
+<input class="row-checkbox w-4 h-4 rounded text-primary accent-primary cursor-pointer" type="checkbox"/>
+</td>
+<td class="px-4 py-3.5">
+<div class="flex items-center gap-3">
+<div class="relative flex-shrink-0">
+<img class="w-9 h-9 rounded-full object-cover shadow-sm" data-alt="Executive male compliance and cybersecurity officer professional photo with soft slate grey tones and natural illumination" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDu6mj8oj8O1O-UZvylwE4NHsz0cGflDRma-J8v16FV2y7DX3Xq1pi_xwwT1ttcAn_L7PPkaPU7e-J5tknoQ1mgoVa2ONB1b4Ph1n-5qAq560u2NbQeCWIqvn-m-9jUMp9cqHQfiivURpLcDLWEgC9fvL2AYJtl1jRV9AjxLOL5eTlGyWsF933regTTmAFtmW2W72c8PXNrQ869k4_vLXK-GPu7jpvkGezw9RIX78WHFt_qUoG5VU9WkInr09JDjZvVR2JRj6RwU0k"/>
+<span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-ticket-open-text ring-2 ring-surface"></span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-headline-sm text-headline-sm font-semibold truncate text-text-primary">Tom Hiddleston</span>
+<span class="font-code-mono text-code-mono text-text-secondary truncate">tom.h@supportpilot.com</span>
+</div>
+</div>
+</td>
+<td class="px-4 py-3.5">
+<div class="flex items-center gap-2">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-ticket-new-bg text-ticket-new-text font-body-sm text-[11px] font-semibold tracking-wide">
+<span class="material-symbols-outlined text-[13px]">support_agent</span>
+                      Agent
+                    </span>
+<button class="text-text-secondary hover:text-text-primary p-1 rounded hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-[16px]">edit</span>
+</button>
+</div>
+</td>
+<td class="px-4 py-3.5">
+<div class="flex flex-col">
+<span class="font-medium text-text-primary">SecOps &amp; Compliance</span>
+<span class="font-body-sm text-code-mono text-text-secondary">Security Incident Team</span>
+</div>
+</td>
+<td class="px-4 py-3.5 min-w-[190px]">
+<div class="flex flex-col gap-1">
+<div class="flex items-center justify-between font-body-sm text-body-sm">
+<span class="font-medium text-text-primary">2 open tickets</span>
+<span class="font-code-mono text-text-secondary">20% cap</span>
+</div>
+<div class="w-full bg-surface-container h-1.5 rounded-full overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 20%"></div>
+</div>
+<span class="font-code-mono text-[11px] text-text-secondary flex items-center gap-1">
+<span class="text-amber-500 font-bold">★ 4.88</span> CSAT score (30d)
+                    </span>
+</div>
+</td>
+<td class="px-4 py-3.5">
+<div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-ticket-open-bg text-ticket-open-text font-code-mono text-code-mono font-medium">
+<span class="material-symbols-outlined text-[15px]">key</span>
+<span>SAML + YubiKey</span>
+</div>
+</td>
+<td class="px-4 py-3.5">
+<span class="inline-flex items-center gap-1 font-body-sm text-body-sm text-ticket-open-text font-medium">
+<span class="w-1.5 h-1.5 rounded-full bg-ticket-open-text"></span>
+                    Active now
+                  </span>
+</td>
+<td class="px-4 py-3.5 text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1.5 rounded-lg hover:bg-surface-container text-text-secondary hover:text-text-primary transition-colors" title="Manage Permissions" type="button">
+<span class="material-symbols-outlined text-[18px]">lock_reset</span>
+</button>
+<button class="p-1.5 rounded-lg hover:bg-surface-container text-text-secondary hover:text-text-primary transition-colors" title="More Options" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 8: Linda Zhao -->
+<tr class="hover:bg-surface-container-low/60 transition-colors group">
+<td class="px-4 py-3.5 text-center">
+<input class="row-checkbox w-4 h-4 rounded text-primary accent-primary cursor-pointer" type="checkbox"/>
+</td>
+<td class="px-4 py-3.5">
+<div class="flex items-center gap-3">
+<div class="relative flex-shrink-0">
+<img class="w-9 h-9 rounded-full object-cover shadow-sm" data-alt="Professional studio portrait of product architect woman with minimalist style in neutral tech headquarters" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8CtsNtH0bxWrCJgtecO9o3ayOceTaZG_GBkURk3yQrbFRr6q_mr6Tujht7k_s2JFSa3WAi0X9x9YqqleXdTcTLOAGFHr5V_4j2fVnpn21AcoqeFZiTumSI-ynfJJ56prJ05Jc-pXIEJ_znJ13NqGrsgzZqqPrAJgn02QC8GSg3v61HkKL7Gl0p3wHEV4dgYPWLSlO2esurmCO6lhOV-CbcphDLve0gK9qRnphCKlm2NDja_nXX-x-TLPpd_ghOPwJMI9QAqT9gGE"/>
+<span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-priority-low ring-2 ring-surface"></span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-headline-sm text-headline-sm font-semibold truncate text-text-primary">Linda Zhao</span>
+<span class="font-code-mono text-code-mono text-text-secondary truncate">linda.zhao@supportpilot.com</span>
+</div>
+</div>
+</td>
+<td class="px-4 py-3.5">
+<div class="flex items-center gap-2">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-surface-container text-text-secondary font-body-sm text-[11px] font-semibold tracking-wide">
+<span class="material-symbols-outlined text-[13px]">visibility</span>
+                      Viewer
+                    </span>
+<button class="text-text-secondary hover:text-text-primary p-1 rounded hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-[16px]">edit</span>
+</button>
+</div>
+</td>
+<td class="px-4 py-3.5">
+<div class="flex flex-col">
+<span class="font-medium text-text-primary">Core Platform</span>
+<span class="font-body-sm text-code-mono text-text-secondary">Product Architecture (Read-Only)</span>
+</div>
+</td>
+<td class="px-4 py-3.5 min-w-[190px]">
+<div class="flex flex-col gap-1">
+<div class="flex items-center justify-between font-body-sm text-body-sm">
+<span class="text-text-secondary italic">0 tickets (Observer)</span>
+<span class="font-code-mono text-text-secondary">0%</span>
+</div>
+<div class="w-full bg-surface-container h-1.5 rounded-full overflow-hidden">
+<div class="bg-surface-variant h-full rounded-full" style="width: 0%"></div>
+</div>
+<span class="font-code-mono text-[11px] text-text-secondary">
+                      Non-operational observer
+                    </span>
+</div>
+</td>
+<td class="px-4 py-3.5">
+<div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-surface-container text-text-secondary font-code-mono text-code-mono font-medium">
+<span class="material-symbols-outlined text-[15px]">verified</span>
+<span>SAML 2.0</span>
+</div>
+</td>
+<td class="px-4 py-3.5">
+<span class="font-body-sm text-body-sm text-text-secondary">1d ago</span>
+</td>
+<td class="px-4 py-3.5 text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1.5 rounded-lg hover:bg-surface-container text-text-secondary hover:text-text-primary transition-colors" title="Manage Permissions" type="button">
+<span class="material-symbols-outlined text-[18px]">lock_reset</span>
+</button>
+<button class="p-1.5 rounded-lg hover:bg-surface-container text-text-secondary hover:text-text-primary transition-colors" title="More Options" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination & Summary Footer -->
+<div class="p-space-md bg-surface-subtle flex flex-col sm:flex-row items-center justify-between gap-space-sm text-body-sm font-body-sm text-text-secondary">
+<div class="flex items-center gap-3">
+<span>Showing <span class="font-semibold text-text-primary">1 to 8</span> of <span class="font-semibold text-text-primary">16</span> members</span>
+<div class="h-4 w-[1px] bg-border"></div>
+<div class="flex items-center gap-1.5">
+<span>Show</span>
+<select class="bg-surface rounded px-2 py-1 text-text-primary outline-none text-body-sm shadow-sm">
+<option>8 per page</option>
+<option selected="">10 per page</option>
+<option>25 per page</option>
+<option>50 per page</option>
+</select>
+</div>
+</div>
+<div class="flex items-center gap-1">
+<button class="px-2.5 py-1.5 rounded-lg bg-surface text-text-secondary hover:text-text-primary shadow-sm disabled:opacity-40 transition-colors" disabled="" type="button">
+<span class="material-symbols-outlined text-[16px] leading-none">chevron_left</span>
+</button>
+<button class="px-3 py-1 rounded-lg bg-primary text-on-primary font-medium text-body-sm shadow-sm" type="button">1</button>
+<button class="px-3 py-1 rounded-lg bg-surface hover:bg-surface-container text-text-primary font-body-sm shadow-sm transition-colors" type="button">2</button>
+<button class="px-2.5 py-1.5 rounded-lg bg-surface text-text-secondary hover:text-text-primary shadow-sm transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px] leading-none">chevron_right</span>
+</button>
+</div>
+</div>
+</section>
+<!-- RBAC Quick Permissions Drawer / Explanatory Footer Card -->
+<section class="bg-surface rounded-xl p-space-md shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-space-md">
+<div class="flex items-start gap-space-sm">
+<div class="p-2.5 rounded-xl bg-primary-fixed text-primary flex-shrink-0">
+<span class="material-symbols-outlined text-[24px]">policy</span>
+</div>
+<div>
+<h4 class="font-headline-sm text-headline-sm text-text-primary font-semibold">Custom RBAC Policies Enforced</h4>
+<p class="font-body-sm text-body-sm text-text-secondary mt-0.5">
+              Enterprise role boundaries limit ticket export privileges, live chat eavesdropping, and SLA override permissions to verified Leads &amp; Owners.
+            </p>
+</div>
+</div>
+<div class="flex items-center gap-3 w-full md:w-auto justify-end">
+<button class="px-3.5 py-2 rounded-xl bg-surface-subtle hover:bg-surface-container text-text-primary font-body-sm text-body-sm font-medium transition-colors" type="button">
+            Audit Permission Logs
+          </button>
+<button class="px-3.5 py-2 rounded-xl bg-primary hover:bg-primary-container text-on-primary font-body-sm text-body-sm font-medium shadow-sm transition-colors" type="button">
+            Configure Policy Matrix
+          </button>
+</div>
+</section>
+</div>
+</div>
+</div>
+<script>
+  // Simple interactive selection logic for the roster table
+  document.addEventListener('DOMContentLoaded', () => {
+    const selectAll = document.getElementById('selectAllCheckbox');
+    const rowCheckboxes = document.querySelectorAll('.row-checkbox');
+    const selectionCount = document.getElementById('selectionCount');
+
+    function updateCount() {
+      const checked = document.querySelectorAll('.row-checkbox:checked').length;
+      if (selectionCount) {
+        selectionCount.textContent = `${checked} selected`;
+      }
+      if (selectAll) {
+        selectAll.checked = checked === rowCheckboxes.length && rowCheckboxes.length > 0;
+        selectAll.indeterminate = checked > 0 && checked < rowCheckboxes.length;
+      }
+    }
+
+    if (selectAll) {
+      selectAll.addEventListener('change', (e) => {
+        rowCheckboxes.forEach(cb => cb.checked = e.target.checked);
+        updateCount();
+      });
+    }
+
+    rowCheckboxes.forEach(cb => {
+      cb.addEventListener('change', updateCount);
+    });
+  });
+</script></main><footer class="w-full bg-surface border-t border-border py-space-lg"><div class="w-full px-margin flex flex-col md:flex-row items-center justify-between gap-space-md text-text-secondary font-body-sm text-body-sm"><div>© 2025 SupportPilot Inc. All rights reserved. System Operational.</div><div class="flex items-center gap-space-lg"><a class="hover:text-on-surface transition-colors" href="#">Security Status</a><a class="hover:text-on-surface transition-colors" href="#">API Reference</a><a class="hover:text-on-surface transition-colors" href="#">Privacy Policy</a></div></div></footer></body></html>

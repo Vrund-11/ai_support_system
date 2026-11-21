@@ -1,21 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import {
-  MessageSquare,
-  User,
-  Bot,
-  Send,
-  Sparkles,
-  ArrowRight,
-  CheckCircle,
-  BookOpen,
-  UserCheck,
-  RefreshCw,
-  FileText,
-  Lightbulb,
-  Loader2,
-  ShieldCheck,
-  Zap,
-} from 'lucide-react';
 import { useAuthStore } from '../../store/auth.store';
 import { api, type SummarizeResult } from '../../lib/api';
 
@@ -318,24 +301,24 @@ export function LiveChatView() {
   };
 
   return (
-    <div className="h-[calc(100vh-8.5rem)] flex flex-col bg-white dark:bg-zinc-900 rounded-xl border border-slate-200/80 dark:border-zinc-800 shadow-xs overflow-hidden transition-colors">
-      {/* View Header with Slack/Linear Density & Stitch Live Indicators */}
-      <div className="px-5 py-3 border-b border-slate-200 dark:border-zinc-800 flex flex-wrap items-center justify-between gap-3 bg-slate-50/70 dark:bg-zinc-900/80">
-        <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-lg bg-indigo-600 text-white flex items-center justify-center shadow-xs">
-            <MessageSquare className="w-4 h-4" />
+    <div className="h-[calc(100vh-8.5rem)] flex flex-col bg-surface rounded-xl border border-border shadow-sm overflow-hidden transition-colors">
+      {/* View Header with Stitch Live Indicators & Token Styling */}
+      <div className="px-space-md py-space-sm border-b border-border flex flex-wrap items-center justify-between gap-space-md bg-surface">
+        <div className="flex items-center gap-space-sm">
+          <div className="w-8 h-8 rounded-lg bg-primary text-on-primary flex items-center justify-center shadow-xs">
+            <span className="material-symbols-outlined text-[18px]">forum</span>
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <h1 className="text-sm font-bold text-slate-900 dark:text-zinc-100 tracking-tight">
+              <h1 className="font-headline-sm text-body-md font-semibold text-text-primary tracking-tight">
                 Live Agent Console
               </h1>
-              <span className="hidden sm:inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 font-mono text-[10px] font-semibold border border-emerald-200 dark:border-emerald-800">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+              <span className="hidden sm:inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-ticket-open-bg text-ticket-open-text font-code-mono text-[10px] font-semibold border border-ticket-open-text/20">
+                <span className="w-1.5 h-1.5 rounded-full bg-ticket-open-text animate-pulse" />
                 Live Feed
               </span>
             </div>
-            <p className="text-[11px] text-slate-400 dark:text-zinc-500">
+            <p className="font-body-sm text-[11px] text-text-secondary">
               Real-time omnichannel conversations &amp; AI copilot
             </p>
           </div>
@@ -343,14 +326,14 @@ export function LiveChatView() {
 
         <div className="flex items-center gap-2">
           {/* Mobile pane switcher (lg:hidden) */}
-          <div className="flex lg:hidden rounded-lg bg-slate-200/80 dark:bg-zinc-800 p-0.5 text-xs font-semibold gap-0.5">
+          <div className="flex lg:hidden rounded-lg bg-surface-subtle p-0.5 text-xs font-semibold gap-0.5 border border-border">
             <button
               type="button"
               onClick={() => setMobilePane('queue')}
               className={`px-2.5 py-1 rounded-md transition-all cursor-pointer ${
                 mobilePane === 'queue'
-                  ? 'bg-white dark:bg-zinc-700 text-indigo-700 dark:text-indigo-300 shadow-xs'
-                  : 'text-slate-600 dark:text-zinc-400'
+                  ? 'bg-primary text-on-primary shadow-xs'
+                  : 'text-text-secondary hover:text-text-primary'
               }`}
             >
               Queue
@@ -360,8 +343,8 @@ export function LiveChatView() {
               onClick={() => setMobilePane('chat')}
               className={`px-2.5 py-1 rounded-md transition-all cursor-pointer ${
                 mobilePane === 'chat'
-                  ? 'bg-white dark:bg-zinc-700 text-indigo-700 dark:text-indigo-300 shadow-xs'
-                  : 'text-slate-600 dark:text-zinc-400'
+                  ? 'bg-primary text-on-primary shadow-xs'
+                  : 'text-text-secondary hover:text-text-primary'
               }`}
             >
               Chat
@@ -371,8 +354,8 @@ export function LiveChatView() {
               onClick={() => setMobilePane('copilot')}
               className={`px-2.5 py-1 rounded-md transition-all cursor-pointer ${
                 mobilePane === 'copilot'
-                  ? 'bg-white dark:bg-zinc-700 text-indigo-700 dark:text-indigo-300 shadow-xs'
-                  : 'text-slate-600 dark:text-zinc-400'
+                  ? 'bg-primary text-on-primary shadow-xs'
+                  : 'text-text-secondary hover:text-text-primary'
               }`}
             >
               AI Panel
@@ -382,22 +365,22 @@ export function LiveChatView() {
           {/* Queue filter tabs with animated pulse badges */}
           <div
             aria-label="Queue filter"
-            className="inline-flex rounded-lg bg-slate-200/80 dark:bg-zinc-800 p-1 text-xs font-semibold gap-1"
+            className="inline-flex rounded-xl bg-surface-subtle p-1 text-xs font-semibold gap-1 border border-border"
           >
             <button
               type="button"
               aria-pressed={activeQueue === 'waiting'}
               onClick={() => setActiveQueue('waiting')}
-              className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-md transition-all cursor-pointer ${
+              className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-lg transition-all cursor-pointer ${
                 activeQueue === 'waiting'
-                  ? 'bg-white dark:bg-zinc-700 text-indigo-700 dark:text-indigo-300 shadow-xs'
-                  : 'text-slate-600 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-zinc-200'
+                  ? 'bg-primary text-on-primary shadow-xs'
+                  : 'text-text-secondary hover:text-text-primary'
               }`}
             >
               {waitingCount > 0 && (
                 <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-priority-high opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-priority-high"></span>
                 </span>
               )}
               <span>Waiting ({waitingCount})</span>
@@ -407,10 +390,10 @@ export function LiveChatView() {
               type="button"
               aria-pressed={activeQueue === 'mine'}
               onClick={() => setActiveQueue('mine')}
-              className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-md transition-all cursor-pointer ${
+              className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-lg transition-all cursor-pointer ${
                 activeQueue === 'mine'
-                  ? 'bg-white dark:bg-zinc-700 text-indigo-700 dark:text-indigo-300 shadow-xs'
-                  : 'text-slate-600 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-zinc-200'
+                  ? 'bg-primary text-on-primary shadow-xs'
+                  : 'text-text-secondary hover:text-text-primary'
               }`}
             >
               <span>Mine ({mineCount})</span>
@@ -420,10 +403,10 @@ export function LiveChatView() {
               type="button"
               aria-pressed={activeQueue === 'all'}
               onClick={() => setActiveQueue('all')}
-              className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-md transition-all cursor-pointer ${
+              className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-lg transition-all cursor-pointer ${
                 activeQueue === 'all'
-                  ? 'bg-white dark:bg-zinc-700 text-indigo-700 dark:text-indigo-300 shadow-xs'
-                  : 'text-slate-600 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-zinc-200'
+                  ? 'bg-primary text-on-primary shadow-xs'
+                  : 'text-text-secondary hover:text-text-primary'
               }`}
             >
               <span>All ({allCount})</span>
@@ -436,14 +419,14 @@ export function LiveChatView() {
       <div className="flex-1 flex overflow-hidden">
         {/* Pane 1: Queue Conversation List */}
         <div
-          className={`${mobilePane === 'queue' ? 'block' : 'hidden'} lg:block w-full lg:w-80 border-r border-slate-200 dark:border-zinc-800 overflow-y-auto bg-slate-50/40 dark:bg-zinc-900/50`}
+          className={`${mobilePane === 'queue' ? 'block' : 'hidden'} lg:block w-full lg:w-80 border-r border-border overflow-y-auto bg-surface-subtle/40`}
         >
           {filteredConversations.length === 0 ? (
-            <div className="p-8 text-center text-slate-400 dark:text-zinc-500 text-xs">
+            <div className="p-8 text-center text-text-secondary font-body-sm">
               No conversations in this queue.
             </div>
           ) : (
-            <div className="divide-y divide-slate-100 dark:divide-zinc-800/80">
+            <div className="divide-y divide-border">
               {filteredConversations.map((c) => {
                 const isSelected = activeConv?.id === c.id;
                 const isWaiting = c.state === 'WAITING_AGENT';
@@ -456,38 +439,40 @@ export function LiveChatView() {
                       setSelectedConvId(c.id);
                       setMobilePane('chat');
                     }}
-                    className={`w-full text-left p-3.5 hover:bg-slate-100/60 dark:hover:bg-zinc-800/60 transition-all cursor-pointer ${
+                    className={`w-full text-left p-space-sm hover:bg-surface-subtle transition-all cursor-pointer relative ${
                       isSelected
-                        ? 'bg-indigo-50/70 dark:bg-indigo-950/30 border-l-4 border-indigo-600'
+                        ? 'bg-primary-fixed/30 border-l-4 border-primary'
                         : 'border-l-4 border-transparent'
                     }`}
                   >
                     <div className="flex items-center justify-between mb-1">
-                      <span className="font-semibold text-slate-900 dark:text-zinc-100 text-xs truncate max-w-[130px]">
+                      <span className="font-semibold text-text-primary text-body-md truncate max-w-[140px]">
                         {c.customerName}
                       </span>
                       {isWaiting ? (
-                        <span className="inline-flex items-center gap-1 text-[10px] font-bold text-amber-800 dark:text-amber-300 bg-amber-100/80 dark:bg-amber-950/60 px-2 py-0.5 rounded-full border border-amber-200 dark:border-amber-800">
+                        <span className="inline-flex items-center gap-1 text-code-mono font-bold text-ticket-pending-text bg-ticket-pending-bg px-2 py-0.5 rounded-full border border-ticket-pending-text/20">
                           <span className="relative flex h-1.5 w-1.5">
-                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
-                            <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-amber-500"></span>
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-priority-high opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-priority-high"></span>
                           </span>
                           WAITING
                         </span>
                       ) : (
-                        <span className="inline-flex items-center gap-1 text-[10px] font-bold text-emerald-800 dark:text-emerald-300 bg-emerald-100/80 dark:bg-emerald-950/60 px-2 py-0.5 rounded-full border border-emerald-200 dark:border-emerald-800">
-                          <CheckCircle className="w-2.5 h-2.5 text-emerald-600 dark:text-emerald-400" />
+                        <span className="inline-flex items-center gap-1 text-code-mono font-bold text-ticket-open-text bg-ticket-open-bg px-2 py-0.5 rounded-full border border-ticket-open-text/20">
+                          <span className="material-symbols-outlined text-[13px]">
+                            check_circle
+                          </span>
                           ACTIVE
                         </span>
                       )}
                     </div>
-                    <div className="flex items-center justify-between text-[11px] text-slate-400 dark:text-zinc-500 truncate mb-1">
+                    <div className="flex items-center justify-between font-body-sm text-text-secondary truncate mb-1">
                       <span className="truncate">{c.customerEmail}</span>
-                      <span className="shrink-0 px-1.5 py-0.2 rounded bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-400 font-mono text-[9px] font-semibold border border-indigo-100 dark:border-indigo-900/40">
+                      <span className="shrink-0 px-1.5 py-0.5 rounded bg-ticket-new-bg text-ticket-new-text font-code-mono text-[10px] font-semibold">
                         Web Chat
                       </span>
                     </div>
-                    <div className="text-xs text-slate-600 dark:text-zinc-400 truncate font-normal">
+                    <div className="font-body-sm text-on-surface-variant truncate font-normal">
                       {c.lastMessage}
                     </div>
                   </button>
@@ -499,44 +484,59 @@ export function LiveChatView() {
 
         {/* Pane 2: Active Chat Conversation */}
         <div
-          className={`${mobilePane === 'chat' ? 'flex' : 'hidden'} lg:flex flex-1 flex-col border-r border-slate-200 dark:border-zinc-800 bg-white dark:bg-zinc-900`}
+          className={`${mobilePane === 'chat' ? 'flex' : 'hidden'} lg:flex flex-1 flex-col border-r border-border bg-surface`}
         >
           {activeConv ? (
             <>
               {/* Chat Thread Header */}
-              <div className="px-5 py-3 border-b border-slate-200 flex items-center justify-between bg-white">
+              <div className="px-space-md py-space-sm border-b border-border flex items-center justify-between bg-surface shadow-xs">
                 <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-600 font-semibold text-xs">
+                  <div className="w-9 h-9 rounded-full bg-primary-fixed text-primary flex items-center justify-center font-semibold text-body-sm">
                     {activeConv.customerName
                       .split(' ')
                       .map((n) => n[0])
                       .join('')}
                   </div>
                   <div>
-                    <h2 className="text-sm font-bold text-slate-900">{activeConv.customerName}</h2>
-                    <p className="text-[11px] text-slate-400">{activeConv.customerEmail}</p>
+                    <h2 className="font-headline-sm text-body-md font-semibold text-text-primary leading-tight">
+                      {activeConv.customerName}
+                    </h2>
+                    <p className="font-code-mono text-body-sm text-text-secondary">
+                      {activeConv.customerEmail}
+                    </p>
                   </div>
                 </div>
 
-                {activeConv.state === 'WAITING_AGENT' && (
+                <div className="flex items-center gap-space-xs">
+                  {activeConv.state === 'WAITING_AGENT' && (
+                    <button
+                      type="button"
+                      onClick={handleTakeOver}
+                      className="inline-flex items-center gap-1.5 bg-primary hover:bg-primary-container text-on-primary text-body-sm font-semibold px-3 py-1.5 rounded-xl shadow-xs transition-colors cursor-pointer"
+                    >
+                      <span className="material-symbols-outlined text-[16px]">how_to_reg</span>
+                      Take Over Chat
+                    </button>
+                  )}
                   <button
                     type="button"
-                    onClick={handleTakeOver}
-                    className="inline-flex items-center gap-1.5 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold px-3 py-1.5 rounded-lg shadow-xs transition-colors cursor-pointer"
+                    className="inline-flex items-center gap-1.5 bg-surface-subtle hover:bg-surface-container text-text-primary text-body-sm font-medium px-3 py-1.5 rounded-xl border border-border transition-colors cursor-pointer"
                   >
-                    <UserCheck className="w-3.5 h-3.5" />
-                    Take Over Chat
+                    <span className="material-symbols-outlined text-[16px] text-text-secondary">
+                      swap_horiz
+                    </span>
+                    Transfer
                   </button>
-                )}
+                </div>
               </div>
 
-              {/* Chat Messages - Slack/iMessage style bubbles */}
-              <div className="flex-1 p-4 overflow-y-auto space-y-3.5 bg-slate-50/30">
+              {/* Chat Messages */}
+              <div className="flex-1 p-space-md overflow-y-auto space-y-space-md bg-surface-subtle/30">
                 {activeConv.messages.map((m) => {
                   if (m.senderType === 'SYSTEM') {
                     return (
                       <div key={m.id} className="text-center my-3">
-                        <span className="text-[11px] text-slate-500 bg-slate-100 px-3 py-1 rounded-full border border-slate-200/80 shadow-2xs font-medium">
+                        <span className="font-code-mono text-body-sm text-on-surface-variant bg-surface-container px-3 py-1 rounded-full border border-border shadow-2xs font-medium">
                           {m.body}
                         </span>
                       </div>
@@ -551,45 +551,43 @@ export function LiveChatView() {
                       key={m.id}
                       className={`flex flex-col group ${isCustomer ? 'items-start' : 'items-end'}`}
                     >
-                      <div className="flex items-center gap-1.5 text-[11px] text-slate-400 mb-1 px-1">
-                        {isCustomer ? (
-                          <User className="w-3 h-3 text-slate-400" />
-                        ) : isAi ? (
-                          <Bot className="w-3 h-3 text-indigo-500" />
-                        ) : (
-                          <UserCheck className="w-3 h-3 text-emerald-500" />
-                        )}
-                        <span className="font-medium text-slate-600">
+                      <div className="flex items-center gap-1.5 font-body-sm text-text-secondary mb-1 px-1">
+                        <span className="material-symbols-outlined text-[14px]">
+                          {isCustomer ? 'person' : isAi ? 'smart_toy' : 'support_agent'}
+                        </span>
+                        <span className="font-medium text-text-primary">
                           {isCustomer
                             ? activeConv.customerName
                             : isAi
-                              ? 'AI SupportPilot'
+                              ? 'SupportPilot AI'
                               : 'Agent'}
                         </span>
                         <span>•</span>
-                        <span className="font-mono text-[10px] text-slate-400">{m.createdAt}</span>
+                        <span className="font-code-mono text-text-secondary">{m.createdAt}</span>
                       </div>
 
                       <div
-                        className={`max-w-md p-3.5 rounded-2xl text-sm leading-relaxed transition-all shadow-xs ${
+                        className={`max-w-md p-space-md rounded-2xl text-body-md leading-relaxed transition-all shadow-xs ${
                           isCustomer
-                            ? 'bg-white border border-slate-200/80 text-slate-800 rounded-tl-xs'
+                            ? 'bg-surface border border-border text-text-primary rounded-bl-xs'
                             : isAi
-                              ? 'bg-indigo-50/90 border border-indigo-200 text-indigo-950 rounded-tr-xs'
-                              : 'bg-indigo-600 text-white rounded-tr-xs'
+                              ? 'bg-surface-container-low border border-border text-on-surface rounded-bl-xs'
+                              : 'bg-primary text-on-primary rounded-br-xs'
                         }`}
                       >
                         {m.body}
 
-                        {/* Verified citation chips */}
+                        {/* Citations */}
                         {m.citations && m.citations.length > 0 && (
-                          <div className="mt-2.5 pt-2 border-t border-indigo-200/60 flex flex-wrap gap-1.5">
+                          <div className="mt-2.5 pt-2 border-t border-border/60 flex flex-wrap gap-1.5">
                             {m.citations.map((c) => (
                               <span
                                 key={c.chunkId}
-                                className="inline-flex items-center gap-1 text-[10px] font-medium bg-white/90 text-indigo-700 px-2 py-0.5 rounded-md border border-indigo-200/80 shadow-2xs"
+                                className="inline-flex items-center gap-1 font-code-mono text-[11px] font-medium bg-surface text-primary px-2 py-0.5 rounded-lg border border-border shadow-2xs"
                               >
-                                <BookOpen className="w-2.5 h-2.5 text-indigo-600" />
+                                <span className="material-symbols-outlined text-[13px]">
+                                  menu_book
+                                </span>
                                 <span>{c.title}</span>
                               </span>
                             ))}
@@ -600,12 +598,12 @@ export function LiveChatView() {
                   );
                 })}
 
-                {/* Animated 3-dot typing indicator */}
-                <div className="flex items-center gap-1.5 py-1 px-3 bg-white border border-slate-200/80 rounded-full w-fit shadow-2xs">
-                  <span className="w-1.5 h-1.5 bg-indigo-500 rounded-full animate-bounce [animation-delay:-0.3s]"></span>
-                  <span className="w-1.5 h-1.5 bg-indigo-500 rounded-full animate-bounce [animation-delay:-0.15s]"></span>
-                  <span className="w-1.5 h-1.5 bg-indigo-500 rounded-full animate-bounce"></span>
-                  <span className="text-[10px] text-slate-400 ml-1 font-medium">
+                {/* Typing indicator */}
+                <div className="flex items-center gap-1.5 py-1 px-3 bg-surface border border-border rounded-full w-fit shadow-2xs">
+                  <span className="w-1.5 h-1.5 bg-primary rounded-full animate-bounce [animation-delay:-0.3s]"></span>
+                  <span className="w-1.5 h-1.5 bg-primary rounded-full animate-bounce [animation-delay:-0.15s]"></span>
+                  <span className="w-1.5 h-1.5 bg-primary rounded-full animate-bounce"></span>
+                  <span className="font-code-mono text-[10px] text-text-secondary ml-1 font-medium">
                     AI Copilot listening
                   </span>
                 </div>
@@ -614,7 +612,7 @@ export function LiveChatView() {
               {/* Message Composer */}
               <form
                 onSubmit={handleSendMessage}
-                className="p-3 bg-white dark:bg-zinc-900 border-t border-slate-200 dark:border-zinc-800 flex items-center gap-2"
+                className="p-space-sm bg-surface border-t border-border flex items-center gap-2"
               >
                 <input
                   type="text"
@@ -622,19 +620,21 @@ export function LiveChatView() {
                   onChange={(e) => setComposerText(e.target.value)}
                   placeholder="Type reply to customer..."
                   aria-label="Chat composer"
-                  className="flex-1 rounded-lg border border-slate-200 dark:border-zinc-700 bg-slate-50/50 dark:bg-zinc-800 p-2.5 text-sm text-slate-900 dark:text-zinc-100 placeholder:text-slate-400 dark:placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all"
+                  className="flex-1 rounded-xl border border-border bg-surface-subtle p-2.5 font-body-md text-body-md text-text-primary placeholder:text-text-secondary focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary transition-all"
                 />
                 <button
                   type="submit"
                   disabled={!composerText.trim()}
-                  className="bg-indigo-600 hover:bg-indigo-700 disabled:opacity-40 text-white p-2.5 rounded-lg transition-colors cursor-pointer shadow-xs min-w-[40px] min-h-[40px] flex items-center justify-center"
+                  className="bg-primary hover:bg-primary-container disabled:opacity-40 text-on-primary p-2.5 rounded-xl transition-colors cursor-pointer shadow-xs min-w-[40px] min-h-[40px] flex items-center justify-center"
                 >
-                  <Send className="w-4 h-4" />
+                  <span aria-hidden="true" className="material-symbols-outlined text-[18px]">
+                    send
+                  </span>
                 </button>
               </form>
             </>
           ) : (
-            <div className="p-12 text-center text-slate-400 dark:text-zinc-500">
+            <div className="p-12 text-center text-text-secondary font-body-md">
               Select a conversation from the queue
             </div>
           )}
@@ -642,12 +642,14 @@ export function LiveChatView() {
 
         {/* Pane 3: AI Copilot Card & Summarization Panel */}
         <div
-          className={`${mobilePane === 'copilot' ? 'block' : 'hidden'} lg:block w-full lg:w-88 p-4 bg-slate-50/70 dark:bg-zinc-900/60 border-t lg:border-t-0 lg:border-l border-slate-200 dark:border-zinc-800 overflow-y-auto space-y-4`}
+          className={`${mobilePane === 'copilot' ? 'block' : 'hidden'} lg:block w-full lg:w-88 p-space-md bg-surface-subtle/50 border-t lg:border-t-0 lg:border-l border-border overflow-y-auto space-y-space-md`}
         >
-          <div className="flex items-center justify-between pb-2 border-b border-slate-200 dark:border-zinc-800">
+          <div className="flex items-center justify-between pb-2 border-b border-border">
             <div className="flex items-center gap-2">
-              <Sparkles className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
-              <h3 className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-zinc-300">
+              <span className="material-symbols-outlined text-primary text-[18px]">
+                auto_awesome
+              </span>
+              <h3 className="font-headline-sm text-body-sm font-bold uppercase tracking-wider text-text-primary">
                 AI Suggestion Panel
               </h3>
             </div>
@@ -655,26 +657,26 @@ export function LiveChatView() {
               type="button"
               onClick={handleGenerateSuggestion}
               disabled={isSuggesting}
-              className="inline-flex items-center gap-1 text-[11px] font-semibold text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 disabled:opacity-50 cursor-pointer"
+              className="inline-flex items-center gap-1 font-code-mono text-body-sm text-primary hover:text-primary-container disabled:opacity-50 cursor-pointer"
               title="Generate new reply suggestion"
             >
-              {isSuggesting ? (
-                <Loader2 className="w-3 h-3 animate-spin" />
-              ) : (
-                <RefreshCw className="w-3 h-3" />
-              )}
+              <span
+                className={`material-symbols-outlined text-[16px] ${isSuggesting ? 'animate-spin' : ''}`}
+              >
+                refresh
+              </span>
               <span>{isSuggesting ? 'Generating...' : 'Refresh'}</span>
             </button>
           </div>
 
           {activeConv?.aiSuggestion ? (
-            <div className="bg-white dark:bg-zinc-900 p-4 rounded-xl border border-indigo-200/80 dark:border-indigo-950/80 shadow-xs space-y-3">
+            <div className="bg-surface p-space-md rounded-xl border border-border shadow-xs space-y-3">
               <div className="flex items-center justify-between">
-                <span className="font-semibold text-indigo-800 dark:text-indigo-300 text-xs flex items-center gap-1.5">
-                  <Zap className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" />
+                <span className="font-semibold text-primary text-body-sm flex items-center gap-1.5">
+                  <span className="material-symbols-outlined text-[16px]">bolt</span>
                   Recommended Reply
                 </span>
-                <span className="text-[10px] font-semibold text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 px-2 py-0.5 rounded-full border border-emerald-200 dark:border-emerald-800">
+                <span className="font-code-mono text-[10px] font-semibold text-ticket-open-text bg-ticket-open-bg px-2 py-0.5 rounded-full border border-ticket-open-text/20">
                   Grounding: Verified
                 </span>
               </div>
@@ -686,62 +688,56 @@ export function LiveChatView() {
                 aria-valuemin={0}
                 aria-valuemax={100}
                 aria-label="AI confidence score"
-                className="flex items-center gap-3 p-2 bg-slate-50 dark:bg-zinc-800/70 rounded-lg border border-slate-100 dark:border-zinc-800"
+                className="flex items-center gap-3 p-2 bg-surface-subtle rounded-lg border border-border"
               >
                 <div className="relative w-10 h-10 flex items-center justify-center shrink-0">
                   <svg className="w-10 h-10 -rotate-90" viewBox="0 0 36 36">
+                    <circle cx="18" cy="18" r="14" fill="none" stroke="#e2e8f0" strokeWidth="3" />
                     <circle
                       cx="18"
                       cy="18"
                       r="14"
                       fill="none"
-                      stroke="#e2e8f0"
-                      strokeWidth="3"
-                      className="dark:stroke-zinc-700"
-                    />
-                    <circle
-                      cx="18"
-                      cy="18"
-                      r="14"
-                      fill="none"
-                      stroke="#10b981"
+                      stroke="#15803d"
                       strokeWidth="3"
                       strokeDasharray={88}
                       strokeDashoffset={88 - 88 * activeConv.aiSuggestion.confidence}
                       strokeLinecap="round"
                     />
                   </svg>
-                  <span className="absolute text-[9px] font-mono font-bold text-emerald-700 dark:text-emerald-400">
+                  <span className="absolute font-code-mono text-[9px] font-bold text-ticket-open-text">
                     {Math.round(activeConv.aiSuggestion.confidence * 100)}%
                   </span>
                 </div>
                 <div>
-                  <div className="text-xs font-bold text-slate-800 dark:text-zinc-200">
+                  <div className="font-headline-sm text-body-sm font-bold text-text-primary">
                     {Math.round(activeConv.aiSuggestion.confidence * 100)}% match
                   </div>
-                  <div className="text-[10px] text-slate-400 dark:text-zinc-500 flex items-center gap-1">
-                    <ShieldCheck className="w-3 h-3 text-emerald-600 dark:text-emerald-400" />
+                  <div className="font-body-sm text-[11px] text-text-secondary flex items-center gap-1">
+                    <span className="material-symbols-outlined text-ticket-open-text text-[14px]">
+                      verified
+                    </span>
                     <span>High confidence grounding</span>
                   </div>
                 </div>
               </div>
 
-              <p className="text-xs text-slate-700 dark:text-zinc-300 leading-relaxed bg-slate-50/70 dark:bg-zinc-800/50 p-2.5 rounded-lg border border-slate-100 dark:border-zinc-800">
+              <p className="font-body-md text-body-md text-text-primary leading-relaxed bg-surface-subtle/70 p-2.5 rounded-lg border border-border">
                 {activeConv.aiSuggestion.text}
               </p>
 
               {activeConv.aiSuggestion.citations.length > 0 && (
                 <div className="space-y-1">
-                  <span className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider">
+                  <span className="font-code-mono text-[10px] font-semibold text-text-secondary uppercase tracking-wider">
                     KB Citations:
                   </span>
                   <div className="flex flex-wrap gap-1">
                     {activeConv.aiSuggestion.citations.map((c) => (
                       <span
                         key={c.chunkId}
-                        className="inline-flex items-center gap-1 text-[10px] font-medium bg-indigo-50 text-indigo-700 px-2 py-0.5 rounded border border-indigo-100"
+                        className="inline-flex items-center gap-1 font-code-mono text-[10px] font-medium bg-ticket-new-bg text-ticket-new-text px-2 py-0.5 rounded border border-ticket-new-text/20"
                       >
-                        <BookOpen className="w-2.5 h-2.5 text-indigo-600" />
+                        <span className="material-symbols-outlined text-[12px]">menu_book</span>
                         {c.title}
                       </span>
                     ))}
@@ -752,45 +748,47 @@ export function LiveChatView() {
               <button
                 type="button"
                 onClick={handleInsertSuggestion}
-                className="w-full inline-flex items-center justify-center gap-1.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold py-2 rounded-lg border border-indigo-200 transition-colors cursor-pointer shadow-2xs"
+                className="w-full inline-flex items-center justify-center gap-1.5 bg-primary text-on-primary text-body-sm font-semibold py-2 rounded-xl hover:bg-primary-container transition-colors cursor-pointer shadow-xs"
               >
-                <ArrowRight className="w-3.5 h-3.5" />
+                <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
                 <span>Insert into Reply</span>
               </button>
             </div>
           ) : (
-            <div className="p-4 text-center bg-white rounded-xl border border-slate-200/80">
-              <p className="text-xs text-slate-400 mb-2">No suggestion generated yet.</p>
+            <div className="p-4 text-center bg-surface rounded-xl border border-border">
+              <p className="font-body-sm text-text-secondary mb-2">No suggestion generated yet.</p>
               <button
                 type="button"
                 onClick={handleGenerateSuggestion}
                 disabled={isSuggesting}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-indigo-50 text-indigo-700 text-xs font-semibold rounded-lg hover:bg-indigo-100 border border-indigo-200 transition-colors cursor-pointer"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-primary text-on-primary text-body-sm font-semibold rounded-xl hover:bg-primary-container transition-colors cursor-pointer shadow-xs"
               >
-                <Sparkles className="w-3.5 h-3.5 text-indigo-600" />
+                <span className="material-symbols-outlined text-[16px]">auto_awesome</span>
                 <span>Generate Suggestion</span>
               </button>
             </div>
           )}
 
           {/* Conversation Summary Section */}
-          <div className="bg-white p-4 rounded-xl border border-slate-200/80 shadow-xs space-y-3 text-xs">
+          <div className="bg-surface p-space-md rounded-xl border border-border shadow-xs space-y-3 font-body-sm">
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-1.5 font-semibold text-slate-800">
-                <FileText className="w-3.5 h-3.5 text-indigo-600" />
+              <div className="flex items-center gap-1.5 font-semibold text-text-primary">
+                <span className="material-symbols-outlined text-primary text-[18px]">
+                  description
+                </span>
                 <span>Conversation Summary</span>
               </div>
               <button
                 type="button"
                 onClick={handleSummarize}
                 disabled={isSummarizing}
-                className="inline-flex items-center gap-1 text-[11px] font-semibold text-indigo-600 hover:text-indigo-800 disabled:opacity-50 cursor-pointer"
+                className="inline-flex items-center gap-1 font-code-mono text-[11px] font-semibold text-primary hover:text-primary-container disabled:opacity-50 cursor-pointer"
               >
-                {isSummarizing ? (
-                  <Loader2 className="w-3 h-3 animate-spin" />
-                ) : (
-                  <Sparkles className="w-3 h-3 text-indigo-600" />
-                )}
+                <span
+                  className={`material-symbols-outlined text-[14px] ${isSummarizing ? 'animate-spin' : ''}`}
+                >
+                  {isSummarizing ? 'sync' : 'auto_awesome'}
+                </span>
                 <span>{isSummarizing ? 'Summarizing...' : 'Summarize'}</span>
               </button>
             </div>
@@ -800,7 +798,7 @@ export function LiveChatView() {
               if (!currentSummary) {
                 return (
                   <div>
-                    <p className="text-slate-500 leading-relaxed mb-3">
+                    <p className="text-text-secondary leading-relaxed mb-3">
                       Customer asked about SAML SSO certificate verification and escalated to human
                       agent.
                     </p>
@@ -808,9 +806,11 @@ export function LiveChatView() {
                       type="button"
                       onClick={handleSummarize}
                       disabled={isSummarizing}
-                      className="w-full inline-flex items-center justify-center gap-1.5 py-1.5 px-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium rounded-lg transition-colors cursor-pointer"
+                      className="w-full inline-flex items-center justify-center gap-1.5 py-2 px-3 bg-surface-subtle hover:bg-surface-container text-text-primary font-medium rounded-xl border border-border transition-colors cursor-pointer"
                     >
-                      <Sparkles className="w-3.5 h-3.5 text-indigo-600" />
+                      <span className="material-symbols-outlined text-primary text-[16px]">
+                        auto_awesome
+                      </span>
                       <span>Summarize Conversation</span>
                     </button>
                   </div>
@@ -820,34 +820,34 @@ export function LiveChatView() {
               return (
                 <div className="space-y-2.5">
                   <div className="flex items-center gap-2">
-                    <span className="text-[10px] uppercase font-bold text-slate-400">
+                    <span className="font-code-mono text-[10px] uppercase font-bold text-text-secondary">
                       Sentiment:
                     </span>
                     <span
-                      className={`inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold ${
+                      className={`inline-flex items-center px-2 py-0.5 rounded font-code-mono text-[10px] font-bold ${
                         currentSummary.sentiment === 'URGENT'
-                          ? 'bg-rose-100 text-rose-800 border border-rose-200'
+                          ? 'bg-priority-urgent/10 text-priority-urgent border border-priority-urgent/30'
                           : currentSummary.sentiment === 'FRUSTRATED'
-                            ? 'bg-amber-100 text-amber-800 border border-amber-200'
+                            ? 'bg-priority-high/10 text-priority-high border border-priority-high/30'
                             : currentSummary.sentiment === 'POSITIVE'
-                              ? 'bg-emerald-100 text-emerald-800 border border-emerald-200'
-                              : 'bg-slate-100 text-slate-800 border border-slate-200'
+                              ? 'bg-ticket-open-bg text-ticket-open-text border border-ticket-open-text/30'
+                              : 'bg-surface-subtle text-text-secondary border border-border'
                       }`}
                     >
                       {currentSummary.sentiment}
                     </span>
                   </div>
 
-                  <p className="text-slate-600 leading-relaxed bg-slate-50 p-2.5 rounded-lg border border-slate-100">
+                  <p className="text-text-primary leading-relaxed bg-surface-subtle p-2.5 rounded-lg border border-border">
                     {currentSummary.summary}
                   </p>
 
                   {currentSummary.keyPoints.length > 0 && (
                     <div>
-                      <span className="text-[10px] font-semibold text-slate-500 uppercase">
+                      <span className="font-code-mono text-[10px] font-semibold text-text-secondary uppercase">
                         Key Points:
                       </span>
-                      <ul className="mt-1 space-y-1 list-disc list-inside text-slate-600">
+                      <ul className="mt-1 space-y-1 list-disc list-inside text-text-primary">
                         {currentSummary.keyPoints.map((pt, i) => (
                           <li key={i}>{pt}</li>
                         ))}
@@ -856,13 +856,15 @@ export function LiveChatView() {
                   )}
 
                   {currentSummary.recommendedAction && (
-                    <div className="p-2.5 bg-indigo-50/60 rounded-lg border border-indigo-100 flex items-start gap-2">
-                      <Lightbulb className="w-3.5 h-3.5 text-indigo-600 shrink-0 mt-0.5" />
+                    <div className="p-2.5 bg-primary-fixed/30 rounded-lg border border-primary/20 flex items-start gap-2">
+                      <span className="material-symbols-outlined text-primary text-[18px] shrink-0 mt-0.5">
+                        lightbulb
+                      </span>
                       <div>
-                        <span className="font-semibold text-indigo-900 block text-[11px]">
+                        <span className="font-semibold text-text-primary block text-[11px]">
                           Recommended Action
                         </span>
-                        <span className="text-indigo-800 text-[11px]">
+                        <span className="text-on-surface-variant text-[11px]">
                           {currentSummary.recommendedAction}
                         </span>
                       </div>

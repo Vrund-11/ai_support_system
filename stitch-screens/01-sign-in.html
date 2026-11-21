@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_blank" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"tertiary":"#8b5cf6","on-primary-fixed":"#0f0069","tertiary-fixed":"#ffdbcc","on-tertiary":"#ffffff","surface":"#ffffff","tertiary-fixed-dim":"#ffb695","on-error-container":"#93000a","surface-tint":"#4d44e3","on-secondary-fixed":"#001e2f","primary-container":"#4f46e5","on-tertiary-fixed-variant":"#7b2f00","on-error":"#ffffff","on-tertiary-fixed":"#351000","on-primary-container":"#dad7ff","on-background":"#1b1b24","text-secondary":"#64748b","inverse-primary":"#c3c0ff","primary":"#3525cd","on-surface":"#1b1b24","text-primary":"#0f172a","on-secondary-container":"#004666","surface-dim":"#dcd8e5","ticket-onhold-text":"#7e22ce","surface-container":"#f0ecf9","ticket-onhold-bg":"#faf5ff","ticket-open-bg":"#f0fdf4","on-secondary-fixed-variant":"#004c6e","surface-variant":"#e4e1ee","inverse-on-surface":"#f3effc","outline-variant":"#c7c4d8","background":"#fcf8ff","primary-fixed-dim":"#c3c0ff","border":"#e2e8f0","on-surface-variant":"#464555","ticket-new-bg":"#eff6ff","inverse-surface":"#302f39","secondary-container":"#39b8fd","tertiary-container":"#a44100","outline":"#777587","on-tertiary-container":"#ffd2be","surface-container-highest":"#e4e1ee","ticket-open-text":"#15803d","ticket-pending-bg":"#fffbeb","error":"#ba1a1a","surface-bright":"#fcf8ff","surface-container-lowest":"#ffffff","surface-container-low":"#f5f2ff","priority-low":"#64748b","priority-urgent":"#ef4444","ticket-new-text":"#1d4ed8","surface-container-high":"#eae6f4","surface-subtle":"#f1f5f9","on-primary":"#ffffff","priority-high":"#f59e0b","primary-fixed":"#e2dfff","neutral":"#09090b","secondary-fixed-dim":"#89ceff","secondary-fixed":"#c9e6ff","priority-medium":"#3b82f6","on-secondary":"#ffffff","ticket-pending-text":"#b45309","on-primary-fixed-variant":"#3323cc","error-container":"#ffdad6","secondary":"#006591"},borderRadius:{"DEFAULT":"0.125rem","lg":"0.25rem","xl":"0.5rem","full":"0.75rem"},spacing:{"space-sm":"0.5rem","space-xs":"0.25rem","space-lg":"1.5rem","space-xl":"2rem","gutter":"1rem","space-md":"1rem","margin":"1.5rem"},fontFamily:{"body-md":["Inter"],"code-mono":["JetBrains Mono"],"body-lg":["Inter"],"display-hero":["Inter"],"headline-md":["Inter"],"headline-lg":["Inter"],"body-sm":["Inter"],"headline-sm":["Inter"]},fontSize:{"body-md":["14px",{"lineHeight":"20px","fontWeight":"400"}],"code-mono":["12px",{"lineHeight":"16px","fontWeight":"400"}],"body-lg":["16px",{"lineHeight":"24px","fontWeight":"400"}],"display-hero":["36px",{"lineHeight":"44px","letterSpacing":"-0.03em","fontWeight":"700"}],"headline-md":["20px",{"lineHeight":"28px","letterSpacing":"-0.01em","fontWeight":"600"}],"headline-lg":["28px",{"lineHeight":"36px","letterSpacing":"-0.02em","fontWeight":"600"}],"body-sm":["12px",{"lineHeight":"16px","fontWeight":"400"}],"headline-sm":["16px",{"lineHeight":"24px","fontWeight":"500"}]}}}}</script></head><body class="bg-background font-body-md text-on-surface antialiased min-h-screen flex flex-col justify-between selection:bg-primary-fixed selection:text-on-primary-fixed"><header class="w-full py-space-lg px-margin flex items-center justify-between"><div class="flex items-center gap-space-sm"><div class="w-8 h-8 rounded-xl bg-primary flex items-center justify-center text-on-primary shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><span class="material-symbols-outlined text-[18px]">rocket_launch</span></div><span class="font-headline-sm text-headline-sm tracking-tight text-on-surface">SupportPilot</span></div><div class="flex items-center gap-space-xs px-space-sm py-space-xs rounded-full bg-ticket-open-bg"><div class="w-2 h-2 rounded-full bg-ticket-open-text animate-pulse"></div><span class="font-body-sm text-body-sm text-ticket-open-text font-medium">Systems Operational</span></div></header><main class="w-full flex-1 flex flex-col items-center justify-center px-margin py-space-xl"><div class="flex flex-col w-full items-center justify-center relative">
+<!-- Subtle Ambient Glow in Background (contained & non-intrusive) -->
+<div class="absolute -top-24 left-1/2 -translate-x-1/2 w-[540px] h-64 bg-gradient-to-b from-primary-fixed to-transparent opacity-40 blur-3xl pointer-events-none rounded-full"></div>
+<!-- Main Authentication Card Container -->
+<div class="relative w-full max-w-[460px] mx-auto z-10">
+<!-- Elevated Card Wrapper without border using subtle container contrast and soft shadow -->
+<div class="bg-surface rounded-xl shadow-xl shadow-neutral/5 p-space-xl flex flex-col gap-space-lg">
+<!-- Brand & Header Region -->
+<div class="flex flex-col items-center text-center">
+<!-- Floating Emblem Badge -->
+<div class="w-12 h-12 rounded-xl bg-primary-fixed flex items-center justify-center text-primary shadow-sm mb-space-md">
+<span class="material-symbols-outlined text-[26px]" style="font-variation-settings: 'FILL' 1;">shield</span>
+</div>
+<div class="flex items-center gap-space-xs text-text-secondary font-code-mono text-code-mono uppercase tracking-wider mb-space-xs">
+<span>Agent Gateway</span>
+<span class="text-outline-variant">•</span>
+<span>v2.4</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-text-primary tracking-tight">Sign in to workspace</h1>
+<p class="font-body-md text-body-md text-text-secondary mt-space-xs max-w-sm">
+          Welcome back. Enter your credentials to access your support queue and operational telemetry.
+        </p>
+</div>
+<!-- Sign In Form -->
+<form class="flex flex-col gap-space-md" id="login-form" onsubmit="event.preventDefault(); handleAuthSubmit();">
+<!-- Work Email Field -->
+<div class="flex flex-col gap-space-xs">
+<label class="font-headline-sm text-headline-sm text-text-primary" for="work-email">Work Email</label>
+<div class="relative flex items-center bg-surface-subtle rounded-lg focus-within:bg-surface focus-within:shadow-sm transition-all duration-150">
+<span class="material-symbols-outlined absolute left-space-md text-[18px] text-text-secondary select-none pointer-events-none">mail</span>
+<input class="w-full bg-transparent py-2.5 pl-11 pr-space-md font-body-md text-body-md text-on-surface placeholder:text-text-secondary/60 focus:outline-none" id="work-email" name="email" placeholder="alex.vance@company.com" required="" type="email"/>
+</div>
+</div>
+<!-- Password Field with inline forgot link -->
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<label class="font-headline-sm text-headline-sm text-text-primary" for="account-password">Password</label>
+<a class="font-body-sm text-body-sm text-primary hover:text-on-primary-fixed-variant transition-colors" data-path="forgot-password" href="#">
+              Forgot password?
+            </a>
+</div>
+<div class="relative flex items-center bg-surface-subtle rounded-lg focus-within:bg-surface focus-within:shadow-sm transition-all duration-150">
+<span class="material-symbols-outlined absolute left-space-md text-[18px] text-text-secondary select-none pointer-events-none">lock</span>
+<input class="w-full bg-transparent py-2.5 pl-11 pr-11 font-body-md text-body-md text-on-surface placeholder:text-text-secondary/60 focus:outline-none" id="account-password" name="password" placeholder="••••••••••••" required="" type="password"/>
+<button aria-label="Toggle password visibility" class="absolute right-space-sm p-1.5 rounded-lg text-text-secondary hover:text-on-surface hover:bg-surface-variant transition-colors flex items-center justify-center" id="toggle-password-btn" onclick="togglePasswordVisibility()" type="button">
+<span class="material-symbols-outlined text-[18px]" id="pwd-icon">visibility</span>
+</button>
+</div>
+</div>
+<!-- Remember Me Checkbox -->
+<div class="flex items-center justify-between pt-space-xs">
+<label class="flex items-center gap-space-sm cursor-pointer select-none group">
+<input class="w-4 h-4 rounded bg-surface-variant text-primary accent-primary cursor-pointer transition-colors" id="remember-device" name="remember" type="checkbox"/>
+<span class="font-body-sm text-body-sm text-text-secondary group-hover:text-on-surface transition-colors">
+              Remember this device for 30 days
+            </span>
+</label>
+</div>
+<!-- Primary Submit Button -->
+<button class="w-full py-2.5 px-space-lg rounded-lg bg-primary hover:bg-primary-container text-on-primary font-headline-sm text-headline-sm shadow-sm hover:shadow transition-all duration-200 flex items-center justify-center gap-space-sm mt-space-xs group" id="submit-btn" type="submit">
+<span>Sign In to Pilot</span>
+<span class="material-symbols-outlined text-[18px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+</form>
+<!-- Enterprise SSO Separator -->
+<div class="relative flex items-center justify-center my-space-xs">
+<div class="w-full h-px bg-surface-variant"></div>
+<span class="absolute bg-surface px-space-md font-body-sm text-body-sm text-text-secondary tracking-normal">
+          Or continue with enterprise SSO
+        </span>
+</div>
+<!-- SSO Actions Grid -->
+<div class="grid grid-cols-2 gap-space-sm">
+<button class="flex items-center justify-center gap-space-sm py-2.5 px-space-md rounded-lg bg-surface-subtle hover:bg-surface-container text-on-surface font-body-md text-body-md transition-all duration-150" onclick="triggerSSO('Okta Identity')" type="button">
+<span class="material-symbols-outlined text-[18px] text-primary">domain_verification</span>
+<span class="font-medium">Okta SAML</span>
+</button>
+<button class="flex items-center justify-center gap-space-sm py-2.5 px-space-md rounded-lg bg-surface-subtle hover:bg-surface-container text-on-surface font-body-md text-body-md transition-all duration-150" onclick="triggerSSO('Google Workspace')" type="button">
+<span class="material-symbols-outlined text-[18px] text-ticket-new-text">hub</span>
+<span class="font-medium">Workspace</span>
+</button>
+</div>
+<!-- Card Internal Footer / Escalation Help -->
+<div class="pt-space-sm text-center">
+<p class="font-body-sm text-body-sm text-text-secondary">
+          Don't have an agent identity? 
+          <a class="font-medium text-primary hover:text-on-primary-fixed-variant transition-colors ml-1" data-path="request-access" href="#">
+            Request workspace access
+          </a>
+</p>
+</div>
+</div>
+<!-- Security & Operational Badges beneath the Card -->
+<div class="mt-space-lg flex flex-col sm:flex-row items-center justify-between gap-space-sm px-space-xs text-text-secondary font-body-sm text-body-sm">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-[16px] text-ticket-open-text" style="font-variation-settings: 'FILL' 1;">verified</span>
+<span>SOC-2 Type II Certified</span>
+</div>
+<div class="flex items-center gap-space-xs text-text-secondary">
+<span>Latency:</span>
+<span class="font-code-mono text-code-mono text-on-surface font-medium">18ms</span>
+<span class="text-outline-variant">•</span>
+<span>US-East Fleet</span>
+</div>
+</div>
+</div>
+<!-- Notification Banner (Dynamic feedback for UI micro-interactions) -->
+<div class="fixed bottom-6 left-1/2 -translate-x-1/2 px-space-md py-space-sm rounded-lg bg-neutral text-surface shadow-xl font-body-sm text-body-sm flex items-center gap-space-sm opacity-0 pointer-events-none transition-all duration-200 z-50" id="auth-toast">
+<span class="material-symbols-outlined text-[18px] text-ticket-open-bg">info</span>
+<span id="toast-message">Authenticating agent credentials...</span>
+</div>
+</div>
+<script>
+  function togglePasswordVisibility() {
+    const pwdInput = document.getElementById('account-password');
+    const pwdIcon = document.getElementById('pwd-icon');
+    if (!pwdInput || !pwdIcon) return;
+    
+    if (pwdInput.type === 'password') {
+      pwdInput.type = 'text';
+      pwdIcon.textContent = 'visibility_off';
+    } else {
+      pwdInput.type = 'password';
+      pwdIcon.textContent = 'visibility';
+    }
+  }
+
+  function showToast(msg) {
+    const toast = document.getElementById('auth-toast');
+    const toastMsg = document.getElementById('toast-message');
+    if (!toast || !toastMsg) return;
+
+    toastMsg.textContent = msg;
+    toast.classList.remove('opacity-0', 'pointer-events-none');
+    toast.classList.add('opacity-100');
+
+    setTimeout(() => {
+      toast.classList.remove('opacity-100');
+      toast.classList.add('opacity-0', 'pointer-events-none');
+    }, 3200);
+  }
+
+  function handleAuthSubmit() {
+    const email = document.getElementById('work-email')?.value;
+    const submitBtn = document.getElementById('submit-btn');
+    if (submitBtn) {
+      submitBtn.classList.add('opacity-80', 'pointer-events-none');
+      submitBtn.innerHTML = `
+        <span class="inline-block w-4 h-4 rounded-full border-2 border-surface border-t-transparent animate-spin mr-2"></span>
+        <span>Authenticating...</span>
+      `;
+    }
+
+    setTimeout(() => {
+      if (submitBtn) {
+        submitBtn.classList.remove('opacity-80', 'pointer-events-none');
+        submitBtn.innerHTML = `
+          <span>Sign In to Pilot</span>
+          <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+        `;
+      }
+      showToast('Verified session token. Redirecting to operational console...');
+    }, 1200);
+  }
+
+  function triggerSSO(providerName) {
+    showToast(`Redirecting to secure ${providerName} SSO provider...`);
+  }
+</script></main><footer class="w-full py-space-lg px-margin"><div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-space-md text-on-surface-variant font-body-sm text-body-sm"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[16px] text-text-secondary">verified_user</span><span>256-Bit TLS End-to-End Encrypted</span></div><div class="flex items-center gap-space-lg"><a class="hover:text-on-surface transition-colors" data-path="privacy-policy" href="#">Privacy Notice</a><a class="hover:text-on-surface transition-colors" data-path="terms-of-service" href="#">Terms of Service</a><span class="text-outline-variant">•</span><span class="text-text-secondary">© 2025 SupportPilot Technologies, Inc.</span></div></div></footer></body></html>

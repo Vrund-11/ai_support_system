@@ -35,11 +35,13 @@ jobs:
 
       - name: Start Docker Compose Infrastructure
         run: |
+          sudo systemctl stop postgresql || true
+          sudo systemctl stop mysql || true
           docker compose -f infra/docker/docker-compose.yml up -d mongo postgres redis minio mailhog
           sleep 10
 
       - name: Run Hermetic E2E Test Suite
-        run: pnpm --filter @supportpilot/ticket-service test tests/e2e-runner.test.ts || pnpm test:e2e
+        run: pnpm test:e2e
         env:
           NODE_ENV: test
           MONGODB_URI: mongodb://localhost:27017/supportpilot-e2e
@@ -51,11 +53,11 @@ jobs:
           LLM_PROVIDER: mock
 
       - name: Run Playwright Tests
-        run: npx playwright test
+        run: npx playwright test --config tests/e2e/playwright.config.ts
         continue-on-error: true
 
       - name: Run Cypress Headless
-        run: npx cypress run
+        run: npx cypress run --config-file tests/e2e/cypress.config.ts
         continue-on-error: true
 
       - name: Upload Test Artifacts

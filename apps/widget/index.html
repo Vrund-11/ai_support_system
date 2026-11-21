@@ -3,46 +3,945 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SupportPilot Chat Widget Demo</title>
+    <title>SupportPilot - Customer Portal & Help Center</title>
+    <!-- Fonts & Icons from Stitch Design System -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/src/index.css" />
   </head>
-  <body class="bg-slate-100 min-h-screen p-8 text-slate-800">
-    <div class="max-w-2xl mx-auto bg-white p-8 rounded-xl shadow-sm border border-slate-200">
-      <h1 class="text-2xl font-bold text-slate-900 mb-2">SupportPilot Live Chat Widget</h1>
-      <p class="text-sm text-slate-600 mb-6">
-        This mock host website demonstrates single-script embeddable live chat, real-time Socket.IO communication, sequence numbers, AI citation display, and offline support messaging.
-      </p>
+  <body class="bg-[#f8fafc] text-slate-800 antialiased font-sans min-h-screen flex flex-col selection:bg-indigo-100 selection:text-indigo-900">
+    <!-- Top Navigation Bar -->
+    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200/80 shadow-xs">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+        <!-- Brand identity -->
+        <div class="flex items-center space-x-6">
+          <a href="#" onclick="switchTab('help-center'); return false;" class="flex items-center space-x-3 group cursor-pointer">
+            <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-700 to-indigo-500 text-white flex items-center justify-center shadow-sm group-hover:scale-105 transition-transform">
+              <span class="material-symbols-outlined text-[20px]">support_agent</span>
+            </div>
+            <div>
+              <span class="font-bold text-base text-slate-900 tracking-tight flex items-center gap-1.5">
+                SupportPilot
+                <span class="text-[10px] font-mono uppercase bg-indigo-50 text-indigo-700 px-1.5 py-0.5 rounded font-semibold border border-indigo-100">Portal</span>
+              </span>
+              <p class="text-[11px] text-slate-500 font-mono -mt-0.5">port :5174 â€¢ end-user</p>
+            </div>
+          </a>
 
-      <div class="p-4 bg-slate-50 border border-slate-200 rounded-lg text-xs space-y-2 mb-6">
-        <div class="font-semibold text-slate-700">Embed Snippet:</div>
-        <pre class="bg-slate-900 text-slate-100 p-3 rounded font-mono overflow-x-auto text-[11px]">&lt;script src="https://cdn.supportpilot.io/widget.js"
-        data-tenant-id="tenant_demo_123"
-        data-primary-color="#4f46e5"
-        data-title="Customer Support"&gt;&lt;/script&gt;</pre>
+          <!-- Navigation tabs -->
+          <nav class="hidden md:flex items-center space-x-1 pl-4 border-l border-slate-200">
+            <button
+              id="nav-btn-help-center"
+              onclick="switchTab('help-center')"
+              class="px-3.5 py-1.5 rounded-lg text-xs font-semibold text-indigo-700 bg-indigo-50/80 border border-indigo-100 transition-colors cursor-pointer flex items-center gap-1.5"
+            >
+              <span class="material-symbols-outlined text-[16px]">menu_book</span>
+              Help Center &amp; Guides
+            </button>
+            <button
+              id="nav-btn-ticket-tracker"
+              onclick="switchTab('ticket-tracker')"
+              class="px-3.5 py-1.5 rounded-lg text-xs font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-colors cursor-pointer flex items-center gap-1.5"
+            >
+              <span class="material-symbols-outlined text-[16px]">confirmation_number</span>
+              Track Ticket <span class="text-[10px] bg-amber-100 text-amber-800 font-mono font-bold px-1.5 py-0.2 rounded-full">#TK-8492</span>
+            </button>
+          </nav>
+        </div>
+
+        <!-- Right system status & quick action -->
+        <div class="flex items-center space-x-3">
+          <div class="hidden sm:flex items-center space-x-2 px-3 py-1 bg-emerald-50 text-emerald-700 border border-emerald-200/80 rounded-full text-xs font-medium">
+            <span class="relative flex h-2 w-2">
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+              <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+            </span>
+            <span class="text-[11px] font-semibold">All Systems Operational</span>
+            <span class="text-[10px] font-mono text-emerald-600">(99.98% SLA)</span>
+          </div>
+
+          <button
+            onclick="window.SupportPilot?.open()"
+            class="inline-flex items-center space-x-1.5 bg-indigo-600 hover:bg-indigo-700 text-white px-3.5 py-2 rounded-lg text-xs font-semibold shadow-sm hover:shadow-md transition-all active:scale-95 cursor-pointer"
+          >
+            <span class="material-symbols-outlined text-[16px]">chat</span>
+            <span>Live Support</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <!-- VIEW 1: CUSTOMER HELP CENTER PORTAL (Stitch Screen 09) -->
+      <div id="view-help-center" class="space-y-10 animate-in fade-in duration-200">
+        <!-- Hero Search Section -->
+        <section class="relative rounded-2xl bg-gradient-to-br from-indigo-900 via-indigo-800 to-slate-900 text-white p-8 sm:p-12 shadow-md overflow-hidden">
+          <div class="absolute -right-10 -bottom-10 w-96 h-96 bg-indigo-600/20 rounded-full blur-3xl pointer-events-none"></div>
+          <div class="relative z-10 max-w-2xl mx-auto text-center space-y-4">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 text-indigo-200 text-xs font-medium backdrop-blur-xs border border-white/10">
+              <span class="material-symbols-outlined text-[14px]">auto_awesome</span>
+              AI Copilot &amp; Self-Service Knowledge Base
+            </span>
+            <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-white">
+              How can we help you today?
+            </h1>
+            <p class="text-sm text-indigo-100/90 leading-relaxed max-w-xl mx-auto">
+              Search enterprise onboarding guides, API specifications, SAML configuration, billing, or launch live real-time support.
+            </p>
+
+            <!-- Search input bar -->
+            <div class="pt-3">
+              <div class="relative max-w-xl mx-auto">
+                <span class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
+                  <span class="material-symbols-outlined text-[20px]">search</span>
+                </span>
+                <input
+                  type="text"
+                  id="portal-search-input"
+                  oninput="handleSearch(this.value)"
+                  placeholder="Search articles, error codes, SAML, webhooks, or ask a question..."
+                  class="w-full pl-11 pr-24 py-3.5 bg-white text-slate-900 rounded-xl text-sm placeholder:text-slate-400 focus:outline-none focus:ring-4 focus:ring-indigo-300 shadow-lg border border-slate-200"
+                />
+                <button
+                  type="button"
+                  onclick="triggerChatSearch()"
+                  class="absolute right-2 top-2 px-3 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold rounded-lg transition-colors cursor-pointer"
+                >
+                  Ask AI
+                </button>
+              </div>
+
+              <!-- Quick keyword tags -->
+              <div class="flex flex-wrap items-center justify-center gap-2 mt-4 text-xs">
+                <span class="text-indigo-200/70 text-[11px]">Popular:</span>
+                <button onclick="searchTag('SAML 2.0 SSO')" class="bg-white/10 hover:bg-white/20 text-indigo-100 px-2.5 py-1 rounded-full border border-white/10 transition-colors cursor-pointer">
+                  SAML 2.0 SSO
+                </button>
+                <button onclick="searchTag('Webhook Failures')" class="bg-white/10 hover:bg-white/20 text-indigo-100 px-2.5 py-1 rounded-full border border-white/10 transition-colors cursor-pointer">
+                  Webhook Failures
+                </button>
+                <button onclick="searchTag('Stripe Billing')" class="bg-white/10 hover:bg-white/20 text-indigo-100 px-2.5 py-1 rounded-full border border-white/10 transition-colors cursor-pointer">
+                  Stripe Billing
+                </button>
+                <button onclick="searchTag('API Rate Limits')" class="bg-white/10 hover:bg-white/20 text-indigo-100 px-2.5 py-1 rounded-full border border-white/10 transition-colors cursor-pointer">
+                  API Rate Limits
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Search Results Dropdown (dynamic) -->
+        <div id="search-results-container" class="hidden bg-white border border-slate-200 rounded-xl p-4 shadow-lg space-y-2">
+          <div class="text-xs font-semibold text-slate-500 uppercase tracking-wider px-2">Matching Knowledge Base Guides</div>
+          <div id="search-results-list" class="space-y-1"></div>
+        </div>
+
+        <!-- 6 Knowledge Base Category Collections -->
+        <section class="space-y-4">
+          <div class="flex items-center justify-between">
+            <div>
+              <h2 class="text-xl font-bold text-slate-900 tracking-tight">Explore by Category</h2>
+              <p class="text-xs text-slate-500">Comprehensive documentation organized by platform domain</p>
+            </div>
+            <span class="text-xs font-mono text-slate-500 font-medium">6 Collections â€¢ 90 Guides</span>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            <!-- 1. Getting Started -->
+            <div onclick="openArticle('KB-101')" class="group p-5 bg-white rounded-xl border border-slate-200 hover:border-indigo-300 hover:shadow-md transition-all cursor-pointer flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between mb-3">
+                  <div class="w-10 h-10 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center group-hover:scale-105 transition-transform">
+                    <span class="material-symbols-outlined text-[22px]">rocket_launch</span>
+                  </div>
+                  <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-slate-100 text-slate-600 font-semibold">14 articles</span>
+                </div>
+                <h3 class="text-sm font-bold text-slate-900 group-hover:text-indigo-600 transition-colors">Getting Started &amp; Onboarding</h3>
+                <p class="text-xs text-slate-500 mt-1 leading-relaxed">
+                  Workspace setup, DNS verification, customer invites, tenant slug registration, and initial team roles.
+                </p>
+              </div>
+              <div class="mt-4 pt-3 border-t border-slate-100 flex items-center text-xs font-semibold text-indigo-600">
+                <span>Browse collection</span>
+                <span class="material-symbols-outlined text-[16px] ml-1 group-hover:translate-x-1 transition-transform">arrow_forward</span>
+              </div>
+            </div>
+
+            <!-- 2. Billing & Subscriptions -->
+            <div onclick="openArticle('KB-102')" class="group p-5 bg-white rounded-xl border border-slate-200 hover:border-indigo-300 hover:shadow-md transition-all cursor-pointer flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between mb-3">
+                  <div class="w-10 h-10 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center group-hover:scale-105 transition-transform">
+                    <span class="material-symbols-outlined text-[22px]">credit_card</span>
+                  </div>
+                  <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-slate-100 text-slate-600 font-semibold">9 articles</span>
+                </div>
+                <h3 class="text-sm font-bold text-slate-900 group-hover:text-indigo-600 transition-colors">Billing &amp; Subscriptions</h3>
+                <p class="text-xs text-slate-500 mt-1 leading-relaxed">
+                  Enterprise tiers, Stripe invoice sync, seat add-ons, monthly AI token quotas, and automated renewals.
+                </p>
+              </div>
+              <div class="mt-4 pt-3 border-t border-slate-100 flex items-center text-xs font-semibold text-indigo-600">
+                <span>Browse collection</span>
+                <span class="material-symbols-outlined text-[16px] ml-1 group-hover:translate-x-1 transition-transform">arrow_forward</span>
+              </div>
+            </div>
+
+            <!-- 3. Integrations & APIs -->
+            <div onclick="openArticle('KB-103')" class="group p-5 bg-white rounded-xl border border-slate-200 hover:border-indigo-300 hover:shadow-md transition-all cursor-pointer flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between mb-3">
+                  <div class="w-10 h-10 rounded-lg bg-sky-50 text-sky-600 flex items-center justify-center group-hover:scale-105 transition-transform">
+                    <span class="material-symbols-outlined text-[22px]">hub</span>
+                  </div>
+                  <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-slate-100 text-slate-600 font-semibold">22 articles</span>
+                </div>
+                <h3 class="text-sm font-bold text-slate-900 group-hover:text-indigo-600 transition-colors">Integrations &amp; Webhook APIs</h3>
+                <p class="text-xs text-slate-500 mt-1 leading-relaxed">
+                  Webhooks, REST &amp; GraphQL endpoints, Okta SAML 2.0, Slack bot, and ticket lifecycle events.
+                </p>
+              </div>
+              <div class="mt-4 pt-3 border-t border-slate-100 flex items-center text-xs font-semibold text-indigo-600">
+                <span>Browse collection</span>
+                <span class="material-symbols-outlined text-[16px] ml-1 group-hover:translate-x-1 transition-transform">arrow_forward</span>
+              </div>
+            </div>
+
+            <!-- 4. AI Copilot & Automations -->
+            <div onclick="openArticle('KB-104')" class="group p-5 bg-white rounded-xl border border-slate-200 hover:border-indigo-300 hover:shadow-md transition-all cursor-pointer flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between mb-3">
+                  <div class="w-10 h-10 rounded-lg bg-purple-50 text-purple-600 flex items-center justify-center group-hover:scale-105 transition-transform">
+                    <span class="material-symbols-outlined text-[22px]">smart_toy</span>
+                  </div>
+                  <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-slate-100 text-slate-600 font-semibold">18 articles</span>
+                </div>
+                <h3 class="text-sm font-bold text-slate-900 group-hover:text-indigo-600 transition-colors">AI Copilot &amp; Automations</h3>
+                <p class="text-xs text-slate-500 mt-1 leading-relaxed">
+                  RAG grounding, vector store synchronization, custom SLA policies, confidence thresholds, and agent handoff.
+                </p>
+              </div>
+              <div class="mt-4 pt-3 border-t border-slate-100 flex items-center text-xs font-semibold text-indigo-600">
+                <span>Browse collection</span>
+                <span class="material-symbols-outlined text-[16px] ml-1 group-hover:translate-x-1 transition-transform">arrow_forward</span>
+              </div>
+            </div>
+
+            <!-- 5. Security & Compliance -->
+            <div onclick="openArticle('KB-105')" class="group p-5 bg-white rounded-xl border border-slate-200 hover:border-indigo-300 hover:shadow-md transition-all cursor-pointer flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between mb-3">
+                  <div class="w-10 h-10 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center group-hover:scale-105 transition-transform">
+                    <span class="material-symbols-outlined text-[22px]">security</span>
+                  </div>
+                  <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-slate-100 text-slate-600 font-semibold">11 articles</span>
+                </div>
+                <h3 class="text-sm font-bold text-slate-900 group-hover:text-indigo-600 transition-colors">Security &amp; Compliance</h3>
+                <p class="text-xs text-slate-500 mt-1 leading-relaxed">
+                  SOC-2 Type II audit logs, SAML 2FA enforcement, IP allowlisting, encryption at rest, and GDPR exports.
+                </p>
+              </div>
+              <div class="mt-4 pt-3 border-t border-slate-100 flex items-center text-xs font-semibold text-indigo-600">
+                <span>Browse collection</span>
+                <span class="material-symbols-outlined text-[16px] ml-1 group-hover:translate-x-1 transition-transform">arrow_forward</span>
+              </div>
+            </div>
+
+            <!-- 6. Troubleshooting & FAQs -->
+            <div onclick="openArticle('KB-106')" class="group p-5 bg-white rounded-xl border border-slate-200 hover:border-indigo-300 hover:shadow-md transition-all cursor-pointer flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between mb-3">
+                  <div class="w-10 h-10 rounded-lg bg-rose-50 text-rose-600 flex items-center justify-center group-hover:scale-105 transition-transform">
+                    <span class="material-symbols-outlined text-[22px]">troubleshoot</span>
+                  </div>
+                  <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-slate-100 text-slate-600 font-semibold">16 articles</span>
+                </div>
+                <h3 class="text-sm font-bold text-slate-900 group-hover:text-indigo-600 transition-colors">Troubleshooting &amp; FAQs</h3>
+                <p class="text-xs text-slate-500 mt-1 leading-relaxed">
+                  Error code lookups, HTTP 403 debug tips, webhook replay queues, and diagnostic playbooks.
+                </p>
+              </div>
+              <div class="mt-4 pt-3 border-t border-slate-100 flex items-center text-xs font-semibold text-indigo-600">
+                <span>Browse collection</span>
+                <span class="material-symbols-outlined text-[16px] ml-1 group-hover:translate-x-1 transition-transform">arrow_forward</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Popular Guides & Telemetry Grid -->
+        <section class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+          <!-- Popular Articles (8 cols) -->
+          <div class="lg:col-span-8 bg-white border border-slate-200 rounded-xl p-6 shadow-sm space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+              <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-indigo-600 text-[20px]">trending_up</span>
+                <h2 class="text-base font-bold text-slate-900">Frequently Read Articles</h2>
+              </div>
+              <span class="text-xs text-slate-400">Verified by Technical Solutions</span>
+            </div>
+
+            <div class="divide-y divide-slate-100">
+              <!-- Article 1 -->
+              <div onclick="openArticle('KB-104')" class="py-3 flex items-center justify-between hover:bg-slate-50/80 -mx-3 px-3 rounded-lg transition-colors cursor-pointer group">
+                <div class="flex items-center space-x-3 min-w-0 pr-4">
+                  <div class="w-8 h-8 rounded-lg bg-amber-50 text-amber-700 flex items-center justify-center shrink-0">
+                    <span class="material-symbols-outlined text-[18px]">vpn_key</span>
+                  </div>
+                  <div class="min-w-0">
+                    <h4 class="text-xs font-semibold text-slate-900 group-hover:text-indigo-600 transition-colors truncate">
+                      Configuring SAML 2.0 Identity Provider (Okta, Azure Entra ID &amp; Google Workspace)
+                    </h4>
+                    <p class="text-[11px] text-slate-500 flex items-center gap-2 mt-0.5">
+                      <span class="font-mono text-indigo-600">KB-104</span>
+                      <span>â€¢</span>
+                      <span>4 min read</span>
+                      <span>â€¢</span>
+                      <span>12.4k views</span>
+                    </p>
+                  </div>
+                </div>
+                <span class="material-symbols-outlined text-slate-400 group-hover:text-indigo-600 group-hover:translate-x-0.5 transition-all text-[18px]">chevron_right</span>
+              </div>
+
+              <!-- Article 2 -->
+              <div onclick="openArticle('KB-219')" class="py-3 flex items-center justify-between hover:bg-slate-50/80 -mx-3 px-3 rounded-lg transition-colors cursor-pointer group">
+                <div class="flex items-center space-x-3 min-w-0 pr-4">
+                  <div class="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center shrink-0">
+                    <span class="material-symbols-outlined text-[18px]">webhook</span>
+                  </div>
+                  <div class="min-w-0">
+                    <h4 class="text-xs font-semibold text-slate-900 group-hover:text-indigo-600 transition-colors truncate">
+                      Webhook Signature Verification and SHA-256 HMAC Secret Key Rollover
+                    </h4>
+                    <p class="text-[11px] text-slate-500 flex items-center gap-2 mt-0.5">
+                      <span class="font-mono text-indigo-600">KB-219</span>
+                      <span>â€¢</span>
+                      <span>3 min read</span>
+                      <span>â€¢</span>
+                      <span>8.9k views</span>
+                    </p>
+                  </div>
+                </div>
+                <span class="material-symbols-outlined text-slate-400 group-hover:text-indigo-600 group-hover:translate-x-0.5 transition-all text-[18px]">chevron_right</span>
+              </div>
+
+              <!-- Article 3 -->
+              <div onclick="openArticle('KB-305')" class="py-3 flex items-center justify-between hover:bg-slate-50/80 -mx-3 px-3 rounded-lg transition-colors cursor-pointer group">
+                <div class="flex items-center space-x-3 min-w-0 pr-4">
+                  <div class="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-700 flex items-center justify-center shrink-0">
+                    <span class="material-symbols-outlined text-[18px]">timer</span>
+                  </div>
+                  <div class="min-w-0">
+                    <h4 class="text-xs font-semibold text-slate-900 group-hover:text-indigo-600 transition-colors truncate">
+                      Custom SLA Policies, Priority Tiers, and After-Hours Automated Routing
+                    </h4>
+                    <p class="text-[11px] text-slate-500 flex items-center gap-2 mt-0.5">
+                      <span class="font-mono text-indigo-600">KB-305</span>
+                      <span>â€¢</span>
+                      <span>5 min read</span>
+                      <span>â€¢</span>
+                      <span>6.2k views</span>
+                    </p>
+                  </div>
+                </div>
+                <span class="material-symbols-outlined text-slate-400 group-hover:text-indigo-600 group-hover:translate-x-0.5 transition-all text-[18px]">chevron_right</span>
+              </div>
+
+              <!-- Article 4 -->
+              <div onclick="openArticle('KB-412')" class="py-3 flex items-center justify-between hover:bg-slate-50/80 -mx-3 px-3 rounded-lg transition-colors cursor-pointer group">
+                <div class="flex items-center space-x-3 min-w-0 pr-4">
+                  <div class="w-8 h-8 rounded-lg bg-sky-50 text-sky-700 flex items-center justify-center shrink-0">
+                    <span class="material-symbols-outlined text-[18px]">key</span>
+                  </div>
+                  <div class="min-w-0">
+                    <h4 class="text-xs font-semibold text-slate-900 group-hover:text-indigo-600 transition-colors truncate">
+                      Rotating Production API Gateway Keys without Ingress Downtime
+                    </h4>
+                    <p class="text-[11px] text-slate-500 flex items-center gap-2 mt-0.5">
+                      <span class="font-mono text-indigo-600">KB-412</span>
+                      <span>â€¢</span>
+                      <span>3 min read</span>
+                      <span>â€¢</span>
+                      <span>5.1k views</span>
+                    </p>
+                  </div>
+                </div>
+                <span class="material-symbols-outlined text-slate-400 group-hover:text-indigo-600 group-hover:translate-x-0.5 transition-all text-[18px]">chevron_right</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Direct Support / SLA Cockpit (4 cols) -->
+          <div class="lg:col-span-4 space-y-4">
+            <!-- Active Ticket Spotlight Card -->
+            <div class="bg-gradient-to-br from-amber-50 to-orange-50 border border-amber-200/80 rounded-xl p-5 shadow-xs">
+              <div class="flex items-center justify-between">
+                <span class="text-[10px] font-mono font-bold uppercase tracking-wider text-amber-800 bg-amber-200/60 px-2 py-0.5 rounded">
+                  Active Ticket #TK-8492
+                </span>
+                <span class="flex h-2 w-2 relative">
+                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+                  <span class="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
+                </span>
+              </div>
+              <h3 class="text-xs font-bold text-slate-900 mt-2">
+                Webhook failures during subscription renewal
+              </h3>
+              <p class="text-[11px] text-slate-600 mt-1">
+                Specialist Sarah Jenkins submitted resolution patch.
+              </p>
+              <div class="mt-3 pt-3 border-t border-amber-200/60 flex items-center justify-between">
+                <span class="text-[10px] font-mono text-amber-800">42m SLA remaining</span>
+                <button
+                  onclick="switchTab('ticket-tracker')"
+                  class="px-2.5 py-1 bg-amber-700 hover:bg-amber-800 text-white rounded text-xs font-semibold cursor-pointer shadow-xs transition-colors"
+                >
+                  View Ticket &rarr;
+                </button>
+              </div>
+            </div>
+
+            <!-- Live Chat Callout Card -->
+            <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm space-y-3">
+              <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-xl bg-indigo-600 text-white flex items-center justify-center shadow-xs">
+                  <span class="material-symbols-outlined text-[20px]">forum</span>
+                </div>
+                <div>
+                  <h3 class="text-xs font-bold text-slate-900">Need Immediate Help?</h3>
+                  <p class="text-[11px] text-slate-500">AI Copilot &amp; On-Duty Specialists</p>
+                </div>
+              </div>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                Connect in real-time over WebSocket. Get grounded answers from tenant documents or request an immediate human takeover.
+              </p>
+              <button
+                onclick="window.SupportPilot?.open()"
+                class="w-full py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold rounded-lg shadow-sm hover:shadow transition-all cursor-pointer flex items-center justify-center gap-1.5"
+              >
+                <span class="material-symbols-outlined text-[16px]">chat_bubble</span>
+                <span>Open Live Chat Widget</span>
+              </button>
+            </div>
+          </div>
+        </section>
       </div>
 
-      <div class="flex items-center space-x-3">
-        <button
-          onclick="window.SupportPilot?.open()"
-          class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold rounded-md shadow-sm cursor-pointer"
-        >
-          Open Chat Widget via JS API
-        </button>
-        <button
-          onclick="window.SupportPilot?.close()"
-          class="px-4 py-2 border border-slate-300 hover:bg-slate-50 text-slate-700 text-xs font-semibold rounded-md cursor-pointer"
-        >
-          Close Widget
-        </button>
+      <!-- VIEW 2: CUSTOMER TICKET STATUS TRACKER (Stitch Screen 21) -->
+      <div id="view-ticket-tracker" class="hidden space-y-6 animate-in fade-in duration-200">
+        <!-- Tracker Top Navigation / Back -->
+        <div class="flex flex-wrap items-center justify-between gap-4 pb-2 border-b border-slate-200">
+          <div class="flex items-center space-x-2 text-xs text-slate-500">
+            <button onclick="switchTab('help-center')" class="hover:text-indigo-600 transition-colors flex items-center gap-1 cursor-pointer">
+              <span class="material-symbols-outlined text-[16px]">arrow_back</span>
+              <span>Back to Help Center</span>
+            </button>
+            <span>/</span>
+            <span class="font-mono text-slate-900 font-semibold">Tickets</span>
+            <span>/</span>
+            <span class="font-mono bg-slate-200/80 px-1.5 py-0.5 rounded text-slate-800">#TK-8492</span>
+          </div>
+
+          <!-- Real-time sync badge -->
+          <div class="flex items-center space-x-2 bg-white px-3 py-1 rounded-full border border-slate-200 text-xs shadow-xs">
+            <span class="relative flex h-2 w-2">
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+              <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+            </span>
+            <span class="font-mono font-medium text-slate-800 text-[11px]">Live sync active</span>
+            <span class="text-slate-400 text-[10px] font-mono">â€¢ WSS: ap-east-cluster</span>
+          </div>
+        </div>
+
+        <!-- Ticket Hero Card -->
+        <div class="bg-white rounded-xl border border-slate-200 p-6 shadow-sm space-y-4">
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="px-2.5 py-0.5 rounded-full bg-indigo-50 text-indigo-700 font-mono text-[11px] font-semibold uppercase tracking-wider">
+              ApexCloud Enterprise
+            </span>
+            <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700 font-mono text-[11px]">
+              ID: TK-8492
+            </span>
+            <span class="text-xs text-slate-500 flex items-center gap-1">
+              <span class="material-symbols-outlined text-[15px]">schedule</span>
+              Updated 12 mins ago
+            </span>
+          </div>
+
+          <h1 class="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight">
+            Payment gateway webhook failures during subscription renewal
+          </h1>
+
+          <div class="flex flex-wrap items-center gap-x-6 gap-y-2 text-xs text-slate-500 pt-1">
+            <div class="flex items-center gap-1.5">
+              <span class="material-symbols-outlined text-[16px] text-indigo-600">calendar_today</span>
+              <span>Created Oct 24 at 09:41 AM EDT</span>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <span class="material-symbols-outlined text-[16px] text-sky-600">domain</span>
+              <span>Product: <strong class="text-slate-800">ApexCloud Enterprise SaaS</strong></span>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <span class="material-symbols-outlined text-[16px] text-amber-600">mark_email_unread</span>
+              <span>Ingress: <span class="font-mono text-slate-800">api-ingress-prod-02</span></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Status & SLA Banner -->
+        <div class="bg-amber-50 border border-amber-200 rounded-xl p-5 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div class="space-y-1">
+            <div class="flex items-center space-x-2">
+              <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-amber-600 text-white font-mono text-[11px] font-bold uppercase tracking-wide">
+                <span class="material-symbols-outlined text-[14px]">hourglass_top</span>
+                Awaiting Customer Response
+              </span>
+              <span class="text-xs font-mono font-medium text-amber-800">Action Required</span>
+            </div>
+            <p class="text-xs text-amber-900 leading-relaxed">
+              SupportPilot Specialist Sarah Jenkins submitted a verified resolution patch. Please test the SAML webhook rotation steps below and reply to confirm operational recovery.
+            </p>
+          </div>
+          <div class="shrink-0 flex items-center gap-3">
+            <div class="text-right">
+              <div class="text-[10px] uppercase font-mono text-amber-700 font-semibold">Response SLA</div>
+              <div class="text-xs font-mono font-bold text-amber-900">42m remaining</div>
+            </div>
+            <button
+              onclick="document.getElementById('ticket-reply-textarea').focus()"
+              class="px-4 py-2 bg-amber-700 hover:bg-amber-800 text-white text-xs font-semibold rounded-lg shadow-sm transition-colors cursor-pointer"
+            >
+              Reply Now
+            </button>
+          </div>
+        </div>
+
+        <!-- Conversation Timeline & Events -->
+        <div class="space-y-4">
+          <h3 class="text-xs font-bold text-slate-500 uppercase tracking-wider">Conversation &amp; Audit Trail</h3>
+
+          <!-- EVENT 1: Specialist Reply -->
+          <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm space-y-3">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+              <div class="flex items-center space-x-2.5">
+                <div class="w-8 h-8 rounded-full bg-indigo-600 text-white flex items-center justify-center font-bold text-xs">
+                  SJ
+                </div>
+                <div>
+                  <div class="flex items-center gap-1.5">
+                    <span class="text-xs font-bold text-slate-900">Sarah Jenkins</span>
+                    <span class="text-[10px] font-mono px-1.5 py-0.2 rounded bg-indigo-50 text-indigo-700 font-semibold">Lead Solutions</span>
+                    <span class="text-[11px] text-slate-400">â€¢ SupportPilot Staff</span>
+                  </div>
+                  <span class="text-[11px] font-mono text-slate-400">Today at 10:43 AM EDT (12m ago)</span>
+                </div>
+              </div>
+              <span class="text-xs font-mono text-emerald-600 font-medium">Verified Fix</span>
+            </div>
+
+            <div class="text-xs text-slate-700 space-y-2 leading-relaxed">
+              <p>Hi Alex, thank you for sharing the ingress payload dumps. I pinpointed the root cause in our cluster router logs:</p>
+              <p>
+                During yesterday's secondary key rollover at 02:00 UTC, the Stripe signature verification secret on your webhook endpoint was cached with the deprecated hex prefix. The gateway rejected renewals matching the SHA256 digest with an unexpected
+                <code class="px-1.5 py-0.5 rounded bg-amber-50 text-amber-800 font-mono text-[11px]">403 Signature Mismatch</code> response.
+              </p>
+
+              <!-- Code snippet -->
+              <div class="bg-slate-900 text-slate-100 rounded-lg p-3 font-mono text-[11px] overflow-x-auto relative">
+                <div class="text-slate-400 text-[10px] pb-1 border-b border-slate-800 mb-2 flex items-center justify-between">
+                  <span>PATCH /v2/webhooks/apex-cloud-stripe</span>
+                  <button onclick="navigator.clipboard.writeText('curl -X POST https://api.apexcloud.io/v2/webhooks/refresh-keys \\\n  -H \'Authorization: Bearer sec_tok_apex_live_891x\' \\\n  -H \'Content-Type: application/json\' \\\n  -d \'{\n    \"force_flush\": true,\n    \"target\": \"stripe_v2\",\n    \"grace_period_sec\": 300\n  }\'')" class="text-indigo-300 hover:text-white transition-colors cursor-pointer">
+                    Copy cURL
+                  </button>
+                </div>
+                <pre><code>curl -X POST https://api.apexcloud.io/v2/webhooks/refresh-keys \
+  -H "Authorization: Bearer sec_tok_apex_live_891x" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "force_flush": true,
+    "target": "stripe_v2",
+    "grace_period_sec": 300
+  }'</code></pre>
+              </div>
+
+              <p>Once flushed via the API endpoint above, the retry buffer will automatically ingest queued subscriptions without losing transaction telemetry.</p>
+            </div>
+
+            <div class="pt-2 flex flex-wrap items-center gap-3 text-xs">
+              <button onclick="openArticle('KB-104')" class="inline-flex items-center gap-1 text-indigo-600 hover:text-indigo-800 font-medium cursor-pointer">
+                <span class="material-symbols-outlined text-[16px]">menu_book</span>
+                <span>View Resolution Guide KB-104</span>
+              </button>
+              <span class="text-slate-400 font-mono text-[11px]">attached: signature-spec-v2.pdf (1.4 MB)</span>
+            </div>
+          </div>
+
+          <!-- EVENT 2: Customer Reply -->
+          <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm space-y-2">
+            <div class="flex items-center space-x-2.5">
+              <div class="w-8 h-8 rounded-full bg-slate-200 text-slate-700 flex items-center justify-center font-bold text-xs">
+                AR
+              </div>
+              <div>
+                <div class="flex items-center gap-1.5">
+                  <span class="text-xs font-bold text-slate-900">Alex Rivera</span>
+                  <span class="text-[10px] font-mono px-1.5 py-0.2 rounded bg-slate-100 text-slate-600">Author (Customer)</span>
+                </div>
+                <span class="text-[11px] font-mono text-slate-400">Today at 10:14 AM EDT</span>
+              </div>
+            </div>
+            <div class="text-xs text-slate-700 space-y-2 leading-relaxed pl-10">
+              <p>Attached raw logs from our Kubernetes ingress edge gateway. Notice every renewal webhook triggers an immediate handshake abortion before hitting the customer balance service:</p>
+              <div class="bg-rose-50 border border-rose-200 text-rose-900 p-2.5 rounded font-mono text-[11px]">
+                [ERROR] 2024-10-24T13:42:01.401Z [worker-ingress-09] Signature verification failed: Header 'Stripe-Signature' hash does not match expected computed secret HMAC. HTTP 403 response sent.
+              </div>
+            </div>
+          </div>
+
+          <!-- EVENT 3: AI Copilot Auto-Triage -->
+          <div class="bg-purple-50/60 border border-purple-200/80 rounded-xl p-4 shadow-xs flex items-start space-x-3 text-xs">
+            <div class="w-7 h-7 rounded-lg bg-purple-600 text-white flex items-center justify-center shrink-0 mt-0.5">
+              <span class="material-symbols-outlined text-[16px]">neurology</span>
+            </div>
+            <div class="space-y-1">
+              <div class="flex items-center gap-2">
+                <span class="font-bold text-purple-900">SupportPilot Copilot Engine</span>
+                <span class="font-mono text-[10px] bg-purple-200/60 text-purple-900 px-1.5 py-0.2 rounded font-semibold">94% Grounded Confidence</span>
+              </div>
+              <p class="text-purple-800">
+                Classified under <strong class="font-semibold">Billing &amp; Webhooks (High Priority)</strong>. Grounded against KB-219 (Webhook Retries) and routed to Sarah Jenkins.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dynamic Additional Customer Responses Container -->
+        <div id="additional-replies" class="space-y-4"></div>
+
+        <!-- Customer Reply Composer Form -->
+        <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-sm space-y-3">
+          <h4 class="text-xs font-bold text-slate-900">Send Response to Sarah Jenkins</h4>
+          <textarea
+            id="ticket-reply-textarea"
+            rows="3"
+            placeholder="Write your reply, confirmation of key flush, or provide new logs..."
+            class="w-full p-3 text-xs border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 font-sans resize-y"
+          ></textarea>
+          <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-2 text-slate-500 text-xs">
+              <button type="button" class="p-1.5 hover:bg-slate-100 rounded transition-colors text-slate-600 cursor-pointer" title="Attach file">
+                <span class="material-symbols-outlined text-[18px]">attach_file</span>
+              </button>
+              <span class="text-[11px]">PNG, PDF, LOG up to 25MB</span>
+            </div>
+            <button
+              type="button"
+              onclick="submitCustomerReply()"
+              class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold rounded-lg shadow-sm transition-colors cursor-pointer"
+            >
+              Submit Response
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Interactive Article Reader Modal (Pop-up from Help Center) -->
+    <div id="article-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs hidden flex items-center justify-center p-4">
+      <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[85vh] flex flex-col shadow-2xl border border-slate-200 animate-in fade-in zoom-in-95 duration-150">
+        <!-- Header -->
+        <div class="p-5 border-b border-slate-100 flex items-center justify-between">
+          <div class="flex items-center space-x-2">
+            <span id="modal-article-tag" class="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-indigo-50 text-indigo-700">KB-104</span>
+            <span class="text-xs text-slate-400">Technical Knowledge Guide</span>
+          </div>
+          <button onclick="closeArticleModal()" class="text-slate-400 hover:text-slate-700 p-1 rounded-lg hover:bg-slate-100 cursor-pointer">
+            <span class="material-symbols-outlined text-[20px]">close</span>
+          </button>
+        </div>
+
+        <!-- Body -->
+        <div class="p-6 overflow-y-auto space-y-4 text-xs text-slate-700 leading-relaxed" id="modal-article-body">
+          <h2 id="modal-article-title" class="text-lg font-bold text-slate-900">Article Title</h2>
+          <div id="modal-article-content" class="space-y-3"></div>
+        </div>
+
+        <!-- Footer / Feedback -->
+        <div class="p-4 bg-slate-50 border-t border-slate-100 rounded-b-2xl flex items-center justify-between text-xs">
+          <span class="text-slate-500">Did this article resolve your problem?</span>
+          <div class="flex items-center space-x-2">
+            <button onclick="voteArticle(true)" class="px-3 py-1.5 bg-white border border-slate-200 hover:bg-emerald-50 hover:text-emerald-700 hover:border-emerald-200 rounded text-slate-700 font-medium cursor-pointer transition-colors">
+              Yes, Resolved
+            </button>
+            <button onclick="voteArticle(false)" class="px-3 py-1.5 bg-white border border-slate-200 hover:bg-indigo-50 hover:text-indigo-700 hover:border-indigo-200 rounded text-slate-700 font-medium cursor-pointer transition-colors">
+              No, Ask Copilot
+            </button>
+          </div>
+        </div>
       </div>
     </div>
 
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200/80 py-6 text-xs text-slate-500">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-3">
+        <div class="flex items-center space-x-2">
+          <span class="font-bold text-slate-800">SupportPilot</span>
+          <span>â€¢</span>
+          <span>End-User Self-Service Portal &amp; Live Chat Platform</span>
+        </div>
+        <div class="flex items-center space-x-4 text-slate-400">
+          <a href="#" class="hover:text-indigo-600 transition-colors">SLA Status</a>
+          <a href="#" class="hover:text-indigo-600 transition-colors">Security Whitepaper</a>
+          <a href="#" class="hover:text-indigo-600 transition-colors">API Docs</a>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Knowledge Base Data and Interactive Logic -->
+    <script>
+      const KB_ARTICLES = {
+        'KB-101': {
+          tag: 'KB-101',
+          title: 'Getting Started: Setting up your Organization & Tenant Workspace',
+          content: `
+            <p>Welcome to SupportPilot. Follow these essential configuration steps to activate your tenant workspace:</p>
+            <ol class="list-decimal pl-5 space-y-1.5">
+              <li><strong>Slug & Branding</strong>: Set your workspace subdomain, tenant name, and primary brand hex code under Settings.</li>
+              <li><strong>DNS Ingress</strong>: If using custom domains, add a CNAME record pointing your host to <code>ingress.supportpilot.io</code>.</li>
+              <li><strong>Invite Agents</strong>: Navigate to Team Settings to invite Agents, Team Leads, and Admins via RBAC invitations.</li>
+            </ol>
+            <div class="p-3 bg-indigo-50 border border-indigo-200 rounded-lg text-indigo-900 mt-2">
+              <strong>Tip:</strong> The live chat widget can be embedded across any website using a single <code>&lt;script&gt;</code> tag.
+            </div>
+          `
+        },
+        'KB-102': {
+          tag: 'KB-102',
+          title: 'Managing Enterprise Subscriptions, Invoices & Stripe Sync',
+          content: `
+            <p>SupportPilot automatically synchronizes billing quotas and seat allocations via Stripe webhooks:</p>
+            <ul class="list-disc pl-5 space-y-1.5">
+              <li><strong>Seat Quota</strong>: Scale agent licenses dynamically; additional seats are prorated to your billing cycle.</li>
+              <li><strong>AI Token Allowance</strong>: Monitor RAG retrieval and embedding token volume in the Quota Cockpit.</li>
+              <li><strong>Invoices & Receipts</strong>: Download PDF tax invoices directly from your Account Settings.</li>
+            </ul>
+          `
+        },
+        'KB-103': {
+          tag: 'KB-103',
+          title: 'Webhook Integration & Event Subscriptions',
+          content: `
+            <p>Receive real-time HTTP callbacks for ticket events, agent handoffs, and customer replies:</p>
+            <pre class="bg-slate-900 text-slate-100 p-3 rounded font-mono text-[11px] overflow-x-auto">POST /your-webhook-endpoint
+Headers:
+  X-SupportPilot-Signature: sha256=4f8b9...
+  X-SupportPilot-Event: ticket.created</pre>
+            <p class="mt-2">Always verify the HMAC SHA-256 signature header using your tenant webhook signing key.</p>
+          `
+        },
+        'KB-104': {
+          tag: 'KB-104',
+          title: 'Configuring SAML 2.0 Identity Provider (Okta, Azure Entra ID & Google Workspace)',
+          content: `
+            <p>SupportPilot supports enterprise Single Sign-On via SAML 2.0 with JIT (Just-in-Time) user provisioning:</p>
+            <h4 class="font-bold text-slate-900 mt-2">1. Identity Provider Setup</h4>
+            <p>Add a new SAML 2.0 application in your IdP console (Okta, Entra ID, OneLogin). Set the Assertion Consumer Service (ACS) URL to:</p>
+            <code class="block bg-slate-100 p-2 rounded font-mono text-[11px] text-indigo-700">https://api.supportpilot.io/api/v1/auth/saml/callback</code>
+            <h4 class="font-bold text-slate-900 mt-2">2. Attribute Statements</h4>
+            <p>Configure SAML claims for <code>email</code>, <code>firstName</code>, and <code>role</code>.</p>
+          `
+        },
+        'KB-105': {
+          tag: 'KB-105',
+          title: 'Security Whitepaper & SOC-2 Compliance Architecture',
+          content: `
+            <p>Every piece of customer data in SupportPilot is strictly isolated:</p>
+            <ul class="list-disc pl-5 space-y-1.5">
+              <li><strong>Tenant Isolation</strong>: All database queries enforce tenant-scoped filtering at the repository layer.</li>
+              <li><strong>Vector Isolation</strong>: pgvector chunk embeddings are partitioned per-tenant to prevent cross-tenant data leakage.</li>
+              <li><strong>Audit Logging</strong>: Immutable audit trails track all user sessions, RBAC permission checks, and ticket changes.</li>
+            </ul>
+          `
+        },
+        'KB-106': {
+          tag: 'KB-106',
+          title: 'Troubleshooting Common HTTP Errors & Webhook Retries',
+          content: `
+            <p>Diagnostic tips for diagnosing integration and gateway issues:</p>
+            <ul class="list-disc pl-5 space-y-1.5">
+              <li><strong>HTTP 403 Signature Mismatch</strong>: Verify your webhook secret key has been refreshed after a rotation.</li>
+              <li><strong>HTTP 429 Rate Limit</strong>: Check your tenant's requests-per-minute quota in the cockpit.</li>
+              <li><strong>Socket Reconnect Backoff</strong>: The chat widget automatically attempts exponential backoff on disconnect.</li>
+            </ul>
+          `
+        },
+        'KB-219': {
+          tag: 'KB-219',
+          title: 'Webhook Signature Verification and SHA-256 HMAC Secret Key Rollover',
+          content: `
+            <p>When rotating secrets, ensure your ingress listener accepts both primary and secondary keys during the grace period:</p>
+            <pre class="bg-slate-900 text-slate-100 p-3 rounded font-mono text-[11px] overflow-x-auto">const crypto = require('crypto');
+function verifySignature(payload, signature, secret) {
+  const hmac = crypto.createHmac('sha256', secret).update(payload).digest('hex');
+  return crypto.timingSafeEqual(Buffer.from(signature), Buffer.from(hmac));
+}</pre>
+          `
+        },
+        'KB-305': {
+          tag: 'KB-305',
+          title: 'Custom SLA Policies, Priority Tiers, and After-Hours Automated Routing',
+          content: `
+            <p>Configure automated escalation and SLA timers:</p>
+            <ul class="list-disc pl-5 space-y-1.5">
+              <li><strong>Urgent Incidents</strong>: 15-minute first response guarantee with automated pager notification.</li>
+              <li><strong>Business Hours</strong>: Define timezone-aware schedules to pause SLA clocks on weekends.</li>
+            </ul>
+          `
+        },
+        'KB-412': {
+          tag: 'KB-412',
+          title: 'Rotating Production API Gateway Keys without Ingress Downtime',
+          content: `
+            <p>Execute zero-downtime key rotation using dual-key validation on SupportPilot gateways.</p>
+          `
+        }
+      };
+
+      function switchTab(tab) {
+        const helpView = document.getElementById('view-help-center');
+        const trackerView = document.getElementById('view-ticket-tracker');
+        const helpBtn = document.getElementById('nav-btn-help-center');
+        const trackerBtn = document.getElementById('nav-btn-ticket-tracker');
+
+        if (tab === 'ticket-tracker') {
+          helpView.classList.add('hidden');
+          trackerView.classList.remove('hidden');
+
+          trackerBtn.className = 'px-3.5 py-1.5 rounded-lg text-xs font-semibold text-indigo-700 bg-indigo-50/80 border border-indigo-100 transition-colors cursor-pointer flex items-center gap-1.5';
+          helpBtn.className = 'px-3.5 py-1.5 rounded-lg text-xs font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-colors cursor-pointer flex items-center gap-1.5';
+        } else {
+          trackerView.classList.add('hidden');
+          helpView.classList.remove('hidden');
+
+          helpBtn.className = 'px-3.5 py-1.5 rounded-lg text-xs font-semibold text-indigo-700 bg-indigo-50/80 border border-indigo-100 transition-colors cursor-pointer flex items-center gap-1.5';
+          trackerBtn.className = 'px-3.5 py-1.5 rounded-lg text-xs font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-colors cursor-pointer flex items-center gap-1.5';
+        }
+      }
+
+      function handleSearch(query) {
+        const container = document.getElementById('search-results-container');
+        const list = document.getElementById('search-results-list');
+        const clean = query.trim().toLowerCase();
+
+        if (!clean) {
+          container.classList.add('hidden');
+          return;
+        }
+
+        const matches = Object.entries(KB_ARTICLES).filter(([id, item]) => {
+          return item.title.toLowerCase().includes(clean) || id.toLowerCase().includes(clean);
+        });
+
+        if (matches.length === 0) {
+          list.innerHTML = '<div class="text-xs text-slate-500 p-2">No matching articles found. Try asking our live AI Copilot!</div>';
+        } else {
+          list.innerHTML = matches.map(([id, item]) => `
+            <div onclick="openArticle('${id}')" class="p-2 hover:bg-indigo-50/80 rounded-lg cursor-pointer flex items-center justify-between text-xs transition-colors">
+              <div class="flex items-center space-x-2">
+                <span class="font-mono text-indigo-600 font-bold">${item.tag}</span>
+                <span class="text-slate-800 font-medium">${item.title}</span>
+              </div>
+              <span class="text-indigo-600 text-[11px] font-semibold">Read &rarr;</span>
+            </div>
+          `).join('');
+        }
+
+        container.classList.remove('hidden');
+      }
+
+      function searchTag(tag) {
+        const input = document.getElementById('portal-search-input');
+        input.value = tag;
+        handleSearch(tag);
+      }
+
+      function triggerChatSearch() {
+        const input = document.getElementById('portal-search-input');
+        const query = input.value.trim() || 'How do I resolve webhook signature mismatch?';
+        window.SupportPilot?.openWithTopic?.(query);
+      }
+
+      function openArticle(id) {
+        const article = KB_ARTICLES[id] || KB_ARTICLES['KB-104'];
+        document.getElementById('modal-article-tag').innerText = article.tag;
+        document.getElementById('modal-article-title').innerText = article.title;
+        document.getElementById('modal-article-content').innerHTML = article.content;
+        document.getElementById('article-modal').classList.remove('hidden');
+      }
+
+      function closeArticleModal() {
+        document.getElementById('article-modal').classList.add('hidden');
+      }
+
+      function voteArticle(helpful) {
+        if (helpful) {
+          alert('Thank you for your feedback! Glad this guide helped.');
+          closeArticleModal();
+        } else {
+          closeArticleModal();
+          window.SupportPilot?.openWithTopic?.('I have a question about ' + document.getElementById('modal-article-title').innerText);
+        }
+      }
+
+      function submitCustomerReply() {
+        const textarea = document.getElementById('ticket-reply-textarea');
+        const text = textarea.value.trim();
+        if (!text) return;
+
+        const repliesDiv = document.getElementById('additional-replies');
+        const newReply = document.createElement('div');
+        newReply.className = 'bg-white border border-slate-200 rounded-xl p-5 shadow-sm space-y-2 animate-in fade-in duration-200';
+        newReply.innerHTML = `
+          <div class="flex items-center space-x-2.5">
+            <div class="w-8 h-8 rounded-full bg-slate-200 text-slate-700 flex items-center justify-center font-bold text-xs">
+              AR
+            </div>
+            <div>
+              <div class="flex items-center gap-1.5">
+                <span class="text-xs font-bold text-slate-900">Alex Rivera</span>
+                <span class="text-[10px] font-mono px-1.5 py-0.2 rounded bg-indigo-50 text-indigo-700 font-semibold">You (Customer)</span>
+              </div>
+              <span class="text-[11px] font-mono text-slate-400">Just now</span>
+            </div>
+          </div>
+          <div class="text-xs text-slate-700 space-y-1 pl-10 leading-relaxed">
+            <p>${text.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</p>
+          </div>
+        `;
+        repliesDiv.appendChild(newReply);
+        textarea.value = '';
+      }
+    </script>
+
+    <!-- SupportPilot Live Chat Widget Script -->
     <script
       type="module"
       src="/src/embed.tsx"
       data-tenant-id="tenant_demo_123"
       data-gateway-url="http://localhost:4000"
       data-primary-color="#4f46e5"
-      data-title="Acme Support"
+      data-title="SupportPilot"
     ></script>
   </body>
 </html>

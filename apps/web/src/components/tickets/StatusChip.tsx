@@ -1,24 +1,28 @@
 import type { TicketStatus } from '@supportpilot/shared-types';
 
 const STATUS_CONFIG: Record<TicketStatus, { label: string; bg: string; text: string }> = {
-  NEW: { label: 'New', bg: 'bg-emerald-100', text: 'text-emerald-800' },
-  OPEN: { label: 'Open', bg: 'bg-blue-100', text: 'text-blue-800' },
-  PENDING_CUSTOMER: { label: 'Pending Customer', bg: 'bg-purple-100', text: 'text-purple-800' },
-  ON_HOLD: { label: 'On Hold', bg: 'bg-amber-100', text: 'text-amber-800' },
-  RESOLVED: { label: 'Resolved', bg: 'bg-teal-100', text: 'text-teal-800' },
-  CLOSED: { label: 'Closed', bg: 'bg-slate-200', text: 'text-slate-700' },
+  NEW: { label: 'NEW', bg: 'bg-ticket-new-bg', text: 'text-ticket-new-text' },
+  OPEN: { label: 'OPEN', bg: 'bg-ticket-open-bg', text: 'text-ticket-open-text' },
+  PENDING_CUSTOMER: {
+    label: 'PENDING',
+    bg: 'bg-ticket-pending-bg',
+    text: 'text-ticket-pending-text',
+  },
+  ON_HOLD: { label: 'ON HOLD', bg: 'bg-ticket-onhold-bg', text: 'text-ticket-onhold-text' },
+  RESOLVED: { label: 'RESOLVED', bg: 'bg-surface-subtle', text: 'text-text-secondary' },
+  CLOSED: { label: 'CLOSED', bg: 'bg-surface-subtle', text: 'text-outline' },
 };
 
 export function StatusChip({ status }: { status: TicketStatus }) {
   const config = STATUS_CONFIG[status] || {
     label: status,
-    bg: 'bg-slate-100',
-    text: 'text-slate-700',
+    bg: 'bg-surface-subtle',
+    text: 'text-text-secondary',
   };
 
   return (
     <span
-      className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold ${config.bg} ${config.text}`}
+      className={`inline-flex items-center px-2.5 py-0.5 rounded-full font-body-sm text-body-sm font-medium ${config.bg} ${config.text}`}
       data-testid={`status-chip-${status}`}
     >
       {config.label}

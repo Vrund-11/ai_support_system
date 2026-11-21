@@ -5,14 +5,21 @@ WORKDIR /app
 
 RUN corepack enable && corepack prepare pnpm@10.11.0 --activate
 
-COPY pnpm-lock.yaml pnpm-workspace.yaml package.json turbo.json ./
+COPY pnpm-lock.yaml pnpm-workspace.yaml package.json turbo.json tsconfig.base.json ./
+
+COPY apps/gateway/package.json ./apps/gateway/
+COPY apps/ticket-service/package.json ./apps/ticket-service/
+COPY apps/notification-service/package.json ./apps/notification-service/
+COPY apps/web/package.json ./apps/web/
+COPY apps/widget/package.json ./apps/widget/
+COPY apps/mobile/package.json ./apps/mobile/
+COPY apps/webhook-lambda/package.json ./apps/webhook-lambda/
 
 COPY packages/shared-types/package.json ./packages/shared-types/
 COPY packages/shared-lib/package.json ./packages/shared-lib/
 COPY packages/validators/package.json ./packages/validators/
 COPY packages/eslint-config/package.json ./packages/eslint-config/
-COPY packages/tsconfig/package.json ./packages/tsconfig/
-COPY apps/widget/package.json ./apps/widget/
+COPY packages/api-client/package.json ./packages/api-client/
 
 RUN pnpm install --frozen-lockfile
 

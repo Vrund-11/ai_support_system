@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_standard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base { html, body { margin: 0; padding: 0; } body { overscroll-behavior: none; } main > :first-child { margin-top: 0 !important; } main > :last-child { margin-bottom: 0 !important; } } ::-webkit-scrollbar { display: none; }</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "on-error-container": "#93000a", "ticket-pending-text": "#b45309", "on-error": "#ffffff", "on-secondary-fixed-variant": "#004c6e", "tertiary-fixed": "#ffdbcc", "on-primary": "#ffffff", "on-tertiary-container": "#ffd2be", "ticket-open-text": "#15803d", "surface-container": "#f0ecf9", "outline": "#777587", "inverse-primary": "#c3c0ff", "secondary": "#006591", "border": "#e2e8f0", "ticket-new-text": "#1d4ed8", "priority-low": "#64748b", "primary-fixed-dim": "#c3c0ff", "inverse-surface": "#302f39", "background": "#fcf8ff", "surface-container-low": "#f5f2ff", "text-primary": "#0f172a", "on-surface": "#1b1b24", "secondary-fixed": "#c9e6ff", "priority-urgent": "#ef4444", "on-tertiary": "#ffffff", "surface-container-highest": "#e4e1ee", "surface-dim": "#dcd8e5", "on-primary-container": "#dad7ff", "priority-high": "#f59e0b", "text-secondary": "#64748b", "outline-variant": "#c7c4d8", "on-primary-fixed": "#0f0069", "inverse-on-surface": "#f3effc", "ticket-open-bg": "#f0fdf4", "surface-variant": "#e4e1ee", "surface-tint": "#4d44e3", "ticket-new-bg": "#eff6ff", "neutral": "#09090b", "ticket-pending-bg": "#fffbeb", "on-tertiary-fixed-variant": "#7b2f00", "primary-container": "#4f46e5", "primary-fixed": "#e2dfff", "secondary-fixed-dim": "#89ceff", "on-background": "#1b1b24", "tertiary": "#8b5cf6", "on-secondary": "#ffffff", "surface-bright": "#fcf8ff", "surface-container-lowest": "#ffffff", "on-surface-variant": "#464555", "secondary-container": "#39b8fd", "on-tertiary-fixed": "#351000", "ticket-onhold-bg": "#faf5ff", "surface-subtle": "#f1f5f9", "surface-container-high": "#eae6f4", "ticket-onhold-text": "#7e22ce", "primary": "#3525cd", "on-secondary-container": "#004666", "on-primary-fixed-variant": "#3323cc", "error": "#ba1a1a", "tertiary-fixed-dim": "#ffb695", "tertiary-container": "#a44100", "error-container": "#ffdad6", "surface": "#ffffff", "on-secondary-fixed": "#001e2f", "priority-medium": "#3b82f6" }, "borderRadius": { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" }, "spacing": { "gutter": "1rem", "space-xl": "2rem", "margin": "1.5rem", "space-xs": "0.25rem", "space-md": "1rem", "space-sm": "0.5rem", "space-lg": "1.5rem" }, "fontFamily": { "body-sm": [ "Inter" ], "body-md": [ "Inter" ], "body-lg": [ "Inter" ], "headline-md": [ "Inter" ], "headline-lg": [ "Inter" ], "display-hero": [ "Inter" ], "code-mono": [ "JetBrains Mono" ], "headline-sm": [ "Inter" ] }, "fontSize": { "body-sm": [ "12px", { "lineHeight": "16px", "fontWeight": "400" } ], "body-md": [ "14px", { "lineHeight": "20px", "fontWeight": "400" } ], "body-lg": [ "16px", { "lineHeight": "24px", "fontWeight": "400" } ], "headline-md": [ "20px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600" } ], "headline-lg": [ "28px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "600" } ], "display-hero": [ "36px", { "lineHeight": "44px", "letterSpacing": "-0.03em", "fontWeight": "700" } ], "code-mono": [ "12px", { "lineHeight": "16px", "fontWeight": "400" } ], "headline-sm": [ "16px", { "lineHeight": "24px", "fontWeight": "500" } ] } } } };</script></head><body class="bg-background font-body-md text-body-md text-on-surface antialiased"><header class="fixed top-0 left-0 right-0 z-50 bg-surface/90 backdrop-blur-xl border-b border-border shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 w-full px-margin flex items-center justify-between gap-gutter"><div class="flex items-center gap-space-md"><img alt="SupportPilot Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/ALJJyrA4IIIEgfigW6vF6b08MRr5Fm1ZTWWz21w2ZceNEpidcJUFnMJNc3WonM1i3qLmzdmU3aI4e_gq4UJ6Kbar-AEZ-tie9gPQZY9zwe8WwXiigHlqCi-NNPLLkm14Wt-oZbX3Jr9vD01Vmri81BpCHVdxrEpkFuMrWbTRcDdiSRVyFq2fUn3ECj76DX1gQ0HIR0e9ZvHR2gK_jlAu_Uw62E1Rq2ggow5RZ07oP58T6UsRrGHrA3Rbyzacqg"/><span class="font-headline-sm text-headline-sm text-text-primary tracking-tight font-semibold">SupportPilot Console</span></div><div class="flex-1 max-w-xl mx-auto"><div class="relative flex items-center w-full"><span class="material-symbols-outlined absolute left-space-md text-text-secondary pointer-events-none text-[20px]">search</span><input class="w-full h-10 pl-10 pr-20 bg-surface-subtle border border-border rounded-xl font-body-md text-body-md text-text-primary placeholder:text-text-secondary focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary transition-all" placeholder="Search tickets, customers, or articles..." type="text"/><span class="absolute right-space-sm px-space-xs py-0.5 bg-surface border border-border rounded font-code-mono text-code-mono text-text-secondary shadow-sm">⌘K</span></div></div><div class="flex items-center gap-space-md"><button aria-label="Notifications" class="relative p-space-sm rounded-lg hover:bg-surface-subtle text-text-secondary hover:text-on-surface transition-colors" type="button"><span class="material-symbols-outlined text-[22px]">notifications</span><span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-priority-urgent"></span></button><button aria-label="Help" class="p-space-sm rounded-lg hover:bg-surface-subtle text-text-secondary hover:text-on-surface transition-colors" type="button"><span class="material-symbols-outlined text-[22px]">help_outline</span></button><div class="h-6 w-[1px] bg-border"></div><div class="flex items-center gap-space-sm pl-space-xs"><div class="relative flex-shrink-0"><img alt="Elena Vance Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDSIZkv8Jhj9mZGK5_-fgFg6cO4AvfyrI8QSo0aVJNlZepZ0qHKF2_a16lMv8cmXOdaVl6xuUkAqDGRbFawLJvpKpdk0AEPVSB_MA74V5MMDnh0mDEfTdOWR1kVsuRDapFrA-sObfdcRIm6T59gkmTqKl8dl8p6VYWBnq4URYlTjC-NaFcXCi2hZrGnGtV5eetZsGEnzu4fa9TXGK5Hck9gPq24qYH-0_seLUTv7qfiu-5rop8frXBWojAwYYgHP_mYDO_6Cifbwdo"/><span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-ticket-open-text ring-2 ring-surface"></span></div><div class="hidden lg:flex flex-col text-left"><span class="font-headline-sm text-body-sm text-text-primary font-medium leading-none">Elena Vance</span><span class="font-body-sm text-code-mono text-text-secondary mt-0.5">Lead Admin</span></div></div></div></div><div class="h-12 w-full px-margin border-t border-border bg-surface flex items-center overflow-x-auto"><nav class="flex items-center gap-space-lg h-full" data-active-classes="text-primary font-semibold border-b-2 border-primary -mb-px"><a class="h-full inline-flex items-center text-text-secondary hover:text-on-surface font-body-md text-body-md transition-colors whitespace-nowrap" data-path="tickets" href="#">Tickets</a><a class="h-full inline-flex items-center text-text-secondary hover:text-on-surface font-body-md text-body-md transition-colors whitespace-nowrap" data-path="live-chat" href="#">Live Chat</a><a class="h-full inline-flex items-center text-text-secondary hover:text-on-surface font-body-md text-body-md transition-colors whitespace-nowrap" data-path="analytics" href="#">Analytics</a><a class="h-full inline-flex items-center text-text-secondary hover:text-on-surface font-body-md text-body-md transition-colors whitespace-nowrap" data-path="customers" href="#">Customers</a><a class="h-full inline-flex items-center text-text-secondary hover:text-on-surface font-body-md text-body-md transition-colors whitespace-nowrap" data-path="knowledge-base" href="#">Knowledge Base</a><a class="h-full inline-flex items-center text-text-secondary hover:text-on-surface font-body-md text-body-md transition-colors whitespace-nowrap" data-path="team-roles" href="#">Team &amp; Roles</a><a class="h-full inline-flex items-center text-text-secondary hover:text-on-surface font-body-md text-body-md transition-colors whitespace-nowrap" data-path="usage-quotas" href="#">Usage &amp; Quotas</a><a class="h-full inline-flex items-center text-text-secondary hover:text-on-surface font-body-md text-body-md transition-colors whitespace-nowrap" data-path="settings" href="#">Settings</a></nav></div></header><main class="w-full pt-28 bg-background min-h-screen"><div class="flex flex-col w-full">
+<!-- Top Navigation Sub-Band / Breadcrumb & Header View -->
+<div class="w-full px-margin py-space-lg flex flex-col gap-space-lg">
+<!-- Breadcrumb & Status Pill Bar -->
+<div class="flex flex-wrap items-center justify-between gap-space-md">
+<nav aria-label="Breadcrumb" class="flex items-center gap-space-xs font-body-sm text-body-sm text-text-secondary">
+<span class="hover:text-text-primary cursor-pointer transition-colors">Settings</span>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span class="hover:text-text-primary cursor-pointer transition-colors">Organization</span>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span class="font-headline-sm text-body-sm text-text-primary">Plan Quotas &amp; AI Resource Usage</span>
+</nav>
+<!-- Tenant Switcher & Billing Period Metadata -->
+<div class="flex flex-wrap items-center gap-space-sm">
+<button class="flex items-center gap-space-sm px-space-md py-1.5 bg-surface rounded-xl shadow-sm hover:bg-surface-subtle transition-all text-left">
+<span class="material-symbols-outlined text-primary text-[18px]">domain</span>
+<div class="flex flex-col">
+<span class="font-headline-sm text-body-sm text-text-primary leading-tight">Acme Corp (Enterprise Tier)</span>
+<span class="font-code-mono text-code-mono text-text-secondary">tenant-acme-9821</span>
+</div>
+<span class="material-symbols-outlined text-text-secondary text-[16px] ml-1">expand_more</span>
+</button>
+<div class="flex items-center gap-space-xs px-space-md py-2 bg-ticket-pending-bg text-ticket-pending-text rounded-xl font-headline-sm text-body-sm">
+<span class="material-symbols-outlined text-[18px]">event_repeat</span>
+<span>18 days left in billing cycle • Renews Nov 15</span>
+</div>
+</div>
+</div>
+<!-- Main Header & Action Controls -->
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-md">
+<div>
+<h1 class="font-display-hero text-headline-lg lg:text-display-hero text-text-primary tracking-tight">Plan Quotas &amp; AI Resource Usage</h1>
+<p class="font-body-md text-body-md text-text-secondary mt-1">Real-time tenant resource provisioning, multi-model LLM inference volume, and automated quota burst management.</p>
+</div>
+<div class="flex items-center gap-space-sm flex-shrink-0">
+<button class="px-space-md py-2.5 bg-surface text-text-primary font-headline-sm text-body-md rounded-xl shadow-sm hover:bg-surface-subtle transition-all flex items-center gap-space-xs" type="button">
+<span class="material-symbols-outlined text-[18px]">notifications_active</span>
+          Configure Alert Thresholds
+        </button>
+<button class="px-space-md py-2.5 bg-primary-container text-on-primary font-headline-sm text-body-md rounded-xl shadow-sm hover:bg-primary transition-all flex items-center gap-space-xs" type="button">
+<span class="material-symbols-outlined text-[18px]">tune</span>
+          Manage Subscription
+        </button>
+</div>
+</div>
+<!-- 4 High-Density KPI Cards Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-gutter">
+<!-- Card 1: Monthly LLM Token Volume -->
+<div class="bg-surface p-space-md rounded-xl shadow-sm flex flex-col justify-between relative overflow-hidden group">
+<div class="flex items-start justify-between">
+<div class="flex flex-col">
+<span class="font-headline-sm text-body-sm text-text-secondary uppercase tracking-wider font-semibold">Monthly LLM Token Volume</span>
+<div class="flex items-baseline gap-space-xs mt-1">
+<span class="font-display-hero text-headline-lg font-bold text-text-primary">8.4M</span>
+<span class="font-code-mono text-body-sm text-text-secondary">/ 10,000,000</span>
+</div>
+</div>
+<span class="px-space-xs py-0.5 rounded-full bg-ticket-pending-bg text-ticket-pending-text font-headline-sm text-body-sm font-semibold flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[14px]">warning</span> 84.0%
+          </span>
+</div>
+<!-- Split Progress Bar (Prompt vs Completion) -->
+<div class="my-space-md">
+<div class="h-2 w-full bg-surface-subtle rounded-full overflow-hidden flex">
+<div class="bg-primary h-full transition-all duration-500" style="width: 58%;" title="Prompt Tokens: 5.8M"></div>
+<div class="bg-tertiary h-full transition-all duration-500" style="width: 26%;" title="Completion Tokens: 2.6M"></div>
+</div>
+<div class="flex items-center justify-between font-code-mono text-code-mono text-text-secondary mt-1.5">
+<span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-primary inline-block"></span>Prompt: 5.8M</span>
+<span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-tertiary inline-block"></span>Compl: 2.6M</span>
+</div>
+</div>
+<div class="bg-surface-subtle p-space-sm rounded-lg flex items-center justify-between text-body-sm">
+<span class="text-text-secondary">Velocity: <strong class="text-text-primary font-code-mono">~280k/day</strong></span>
+<span class="text-ticket-pending-text font-medium">Projected: 9.8M (98%)</span>
+</div>
+</div>
+<!-- Card 2: Active Agent Seats -->
+<div class="bg-surface p-space-md rounded-xl shadow-sm flex flex-col justify-between group">
+<div class="flex items-start justify-between">
+<div class="flex flex-col">
+<span class="font-headline-sm text-body-sm text-text-secondary uppercase tracking-wider font-semibold">Active Agent Seats</span>
+<div class="flex items-baseline gap-space-xs mt-1">
+<span class="font-display-hero text-headline-lg font-bold text-text-primary">24</span>
+<span class="font-code-mono text-body-sm text-text-secondary">/ 30 Provisioned</span>
+</div>
+</div>
+<span class="px-space-xs py-0.5 rounded-full bg-ticket-open-bg text-ticket-open-text font-headline-sm text-body-sm font-semibold flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[14px]">check_circle</span> 80.0%
+          </span>
+</div>
+<div class="my-space-md">
+<div class="h-2 w-full bg-surface-subtle rounded-full overflow-hidden flex">
+<div class="bg-secondary-container h-full transition-all duration-500" style="width: 80%;"></div>
+</div>
+<div class="flex items-center justify-between font-body-sm text-body-sm text-text-secondary mt-1.5">
+<span>20 Full Agents</span>
+<span>4 Lead Admins</span>
+</div>
+</div>
+<div class="bg-surface-subtle p-space-sm rounded-lg flex items-center justify-between text-body-sm">
+<span class="text-text-secondary">Availability</span>
+<span class="text-ticket-open-text font-medium font-code-mono">6 seats remaining</span>
+</div>
+</div>
+<!-- Card 3: Monthly Inbound Tickets -->
+<div class="bg-surface p-space-md rounded-xl shadow-sm flex flex-col justify-between group">
+<div class="flex items-start justify-between">
+<div class="flex flex-col">
+<span class="font-headline-sm text-body-sm text-text-secondary uppercase tracking-wider font-semibold">Monthly Inbound Tickets</span>
+<div class="flex items-baseline gap-space-xs mt-1">
+<span class="font-display-hero text-headline-lg font-bold text-text-primary">14,250</span>
+<span class="font-code-mono text-body-sm text-text-secondary">/ 20,000 Quota</span>
+</div>
+</div>
+<span class="px-space-xs py-0.5 rounded-full bg-ticket-new-bg text-ticket-new-text font-headline-sm text-body-sm font-semibold flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[14px]">trending_up</span> 71.2%
+          </span>
+</div>
+<div class="my-space-md">
+<div class="h-2 w-full bg-surface-subtle rounded-full overflow-hidden flex">
+<div class="bg-primary h-full" style="width: 42%;"></div>
+<div class="bg-secondary-container h-full" style="width: 21%;"></div>
+<div class="bg-tertiary h-full" style="width: 8.2%;"></div>
+</div>
+<div class="flex items-center justify-between font-code-mono text-code-mono text-text-secondary mt-1.5">
+<span>Email 8.4k</span>
+<span>Chat 4.1k</span>
+<span>API 1.7k</span>
+</div>
+</div>
+<div class="bg-surface-subtle p-space-sm rounded-lg flex items-center justify-between text-body-sm">
+<span class="text-text-secondary">Ingress Rate</span>
+<span class="text-text-primary font-medium font-code-mono">~475 tickets/day</span>
+</div>
+</div>
+<!-- Card 4: Vector Store Storage -->
+<div class="bg-surface p-space-md rounded-xl shadow-sm flex flex-col justify-between group">
+<div class="flex items-start justify-between">
+<div class="flex flex-col">
+<span class="font-headline-sm text-body-sm text-text-secondary uppercase tracking-wider font-semibold">Vector Store Storage</span>
+<div class="flex items-baseline gap-space-xs mt-1">
+<span class="font-display-hero text-headline-lg font-bold text-text-primary">4.2 GB</span>
+<span class="font-code-mono text-body-sm text-text-secondary">/ 10.0 GB Limit</span>
+</div>
+</div>
+<span class="px-space-xs py-0.5 rounded-full bg-ticket-open-bg text-ticket-open-text font-headline-sm text-body-sm font-semibold flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[14px]">database</span> 42.0%
+          </span>
+</div>
+<div class="my-space-md">
+<div class="h-2 w-full bg-surface-subtle rounded-full overflow-hidden flex">
+<div class="bg-tertiary h-full transition-all duration-500" style="width: 42%;"></div>
+</div>
+<div class="flex items-center justify-between font-body-sm text-body-sm text-text-secondary mt-1.5">
+<span class="font-code-mono text-code-mono">18,400 Chunks</span>
+<span class="font-code-mono text-code-mono">1536-dim Index</span>
+</div>
+</div>
+<div class="bg-surface-subtle p-space-sm rounded-lg flex items-center justify-between text-body-sm">
+<span class="text-text-secondary">Pinecone Serverless</span>
+<span class="text-ticket-open-text font-medium flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-ticket-open-text"></span> 99.98% Synced
+          </span>
+</div>
+</div>
+</div>
+<!-- Analytics & Consumption Section (2-Column Desktop Expression) -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- Left Column: Daily AI Token Consumption Chart (65% / 8 Cols) -->
+<div class="lg:col-span-8 bg-surface p-space-lg rounded-xl shadow-sm flex flex-col justify-between">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm pb-space-md">
+<div>
+<div class="flex items-center gap-space-xs">
+<h2 class="font-headline-md text-headline-md text-text-primary">Daily AI Token Consumption</h2>
+<span class="px-2 py-0.5 rounded-full bg-surface-subtle text-text-secondary font-code-mono text-code-mono">Inference API v2.4</span>
+</div>
+<p class="font-body-sm text-body-sm text-text-secondary mt-0.5">Stacked breakdown across active foundational LLM model routing</p>
+</div>
+<div class="flex items-center gap-space-xs">
+<div class="flex bg-surface-subtle p-0.5 rounded-lg text-body-sm">
+<button class="px-2.5 py-1 text-text-secondary hover:text-text-primary rounded">7D</button>
+<button class="px-2.5 py-1 bg-surface font-semibold text-text-primary shadow-sm rounded">14D</button>
+<button class="px-2.5 py-1 text-text-secondary hover:text-text-primary rounded">30D</button>
+<button class="px-2.5 py-1 text-text-secondary hover:text-text-primary rounded">Cycle</button>
+</div>
+<button class="p-1.5 bg-surface-subtle hover:bg-surface-container rounded-lg text-text-secondary hover:text-text-primary transition-colors" title="Export CSV Data">
+<span class="material-symbols-outlined text-[18px]">download</span>
+</button>
+</div>
+</div>
+<!-- Legend -->
+<div class="flex flex-wrap items-center gap-space-md py-space-sm text-body-sm text-text-secondary">
+<div class="flex items-center gap-1.5">
+<span class="w-3 h-3 rounded-sm bg-primary-container"></span>
+<span>Claude 3.5 Sonnet (48%)</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="w-3 h-3 rounded-sm bg-[#10b981]"></span>
+<span>GPT-4o (28%)</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="w-3 h-3 rounded-sm bg-[#0ea5e9]"></span>
+<span>Gemini 1.5 Pro / Flash (16%)</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="w-3 h-3 rounded-sm bg-tertiary"></span>
+<span>Embeddings &amp; Rerank (8%)</span>
+</div>
+</div>
+<!-- Inline SVG Stacked Bar Chart with Interactive Visual Markers -->
+<div class="relative w-full h-64 pt-4 pb-2">
+<!-- Soft Cap Guide Line -->
+<div class="absolute inset-x-0 top-16 border-b border-dashed border-priority-urgent/60 flex items-center justify-end pr-2 pointer-events-none z-10">
+<span class="bg-surface px-1.5 py-0.5 font-code-mono text-[10px] text-priority-urgent font-semibold uppercase">333k/day Soft Cap Threshold</span>
+</div>
+<!-- Stacked Chart Visualization (14-day view) -->
+<div class="w-full h-full flex items-end justify-between gap-1.5 pt-6 pb-4">
+<!-- Day 1 -->
+<div class="flex-1 h-full flex flex-col justify-end group cursor-pointer relative">
+<div class="w-full bg-tertiary rounded-t-none" style="height: 5%;"></div>
+<div class="w-full bg-[#0ea5e9]" style="height: 10%;"></div>
+<div class="w-full bg-[#10b981]" style="height: 18%;"></div>
+<div class="w-full bg-primary-container rounded-t-sm" style="height: 28%;"></div>
+<span class="font-code-mono text-[10px] text-text-secondary text-center mt-2">Oct 14</span>
+</div>
+<!-- Day 2 -->
+<div class="flex-1 h-full flex flex-col justify-end group cursor-pointer relative">
+<div class="w-full bg-tertiary" style="height: 6%;"></div>
+<div class="w-full bg-[#0ea5e9]" style="height: 12%;"></div>
+<div class="w-full bg-[#10b981]" style="height: 20%;"></div>
+<div class="w-full bg-primary-container rounded-t-sm" style="height: 32%;"></div>
+<span class="font-code-mono text-[10px] text-text-secondary text-center mt-2">Oct 15</span>
+</div>
+<!-- Day 3 -->
+<div class="flex-1 h-full flex flex-col justify-end group cursor-pointer relative">
+<div class="w-full bg-tertiary" style="height: 4%;"></div>
+<div class="w-full bg-[#0ea5e9]" style="height: 8%;"></div>
+<div class="w-full bg-[#10b981]" style="height: 14%;"></div>
+<div class="w-full bg-primary-container rounded-t-sm" style="height: 22%;"></div>
+<span class="font-code-mono text-[10px] text-text-secondary text-center mt-2">Oct 16</span>
+</div>
+<!-- Day 4 -->
+<div class="flex-1 h-full flex flex-col justify-end group cursor-pointer relative">
+<div class="w-full bg-tertiary" style="height: 3%;"></div>
+<div class="w-full bg-[#0ea5e9]" style="height: 6%;"></div>
+<div class="w-full bg-[#10b981]" style="height: 10%;"></div>
+<div class="w-full bg-primary-container rounded-t-sm" style="height: 15%;"></div>
+<span class="font-code-mono text-[10px] text-text-secondary text-center mt-2">Oct 17</span>
+</div>
+<!-- Day 5 -->
+<div class="flex-1 h-full flex flex-col justify-end group cursor-pointer relative">
+<div class="w-full bg-tertiary" style="height: 7%;"></div>
+<div class="w-full bg-[#0ea5e9]" style="height: 15%;"></div>
+<div class="w-full bg-[#10b981]" style="height: 25%;"></div>
+<div class="w-full bg-primary-container rounded-t-sm" style="height: 35%;"></div>
+<span class="font-code-mono text-[10px] text-text-secondary text-center mt-2">Oct 18</span>
+</div>
+<!-- Day 6 -->
+<div class="flex-1 h-full flex flex-col justify-end group cursor-pointer relative">
+<div class="w-full bg-tertiary" style="height: 6%;"></div>
+<div class="w-full bg-[#0ea5e9]" style="height: 14%;"></div>
+<div class="w-full bg-[#10b981]" style="height: 24%;"></div>
+<div class="w-full bg-primary-container rounded-t-sm" style="height: 38%;"></div>
+<span class="font-code-mono text-[10px] text-text-secondary text-center mt-2">Oct 19</span>
+</div>
+<!-- Day 7 -->
+<div class="flex-1 h-full flex flex-col justify-end group cursor-pointer relative">
+<div class="w-full bg-tertiary" style="height: 8%;"></div>
+<div class="w-full bg-[#0ea5e9]" style="height: 16%;"></div>
+<div class="w-full bg-[#10b981]" style="height: 26%;"></div>
+<div class="w-full bg-primary-container rounded-t-sm" style="height: 40%;"></div>
+<span class="font-code-mono text-[10px] text-text-secondary text-center mt-2">Oct 20</span>
+</div>
+<!-- Day 8 -->
+<div class="flex-1 h-full flex flex-col justify-end group cursor-pointer relative">
+<div class="w-full bg-tertiary" style="height: 7%;"></div>
+<div class="w-full bg-[#0ea5e9]" style="height: 13%;"></div>
+<div class="w-full bg-[#10b981]" style="height: 22%;"></div>
+<div class="w-full bg-primary-container rounded-t-sm" style="height: 36%;"></div>
+<span class="font-code-mono text-[10px] text-text-secondary text-center mt-2">Oct 21</span>
+</div>
+<!-- Day 9 -->
+<div class="flex-1 h-full flex flex-col justify-end group cursor-pointer relative">
+<div class="w-full bg-tertiary" style="height: 6%;"></div>
+<div class="w-full bg-[#0ea5e9]" style="height: 14%;"></div>
+<div class="w-full bg-[#10b981]" style="height: 24%;"></div>
+<div class="w-full bg-primary-container rounded-t-sm" style="height: 38%;"></div>
+<span class="font-code-mono text-[10px] text-text-secondary text-center mt-2">Oct 22</span>
+</div>
+<!-- Day 10 -->
+<div class="flex-1 h-full flex flex-col justify-end group cursor-pointer relative">
+<div class="w-full bg-tertiary" style="height: 8%;"></div>
+<div class="w-full bg-[#0ea5e9]" style="height: 16%;"></div>
+<div class="w-full bg-[#10b981]" style="height: 26%;"></div>
+<div class="w-full bg-primary-container rounded-t-sm" style="height: 40%;"></div>
+<span class="font-code-mono text-[10px] text-text-secondary text-center mt-2">Oct 23</span>
+</div>
+<!-- Day 11 (ACTIVE BURST / HIGH CONSUMPTION DAY WITH TOOLTIP) -->
+<div class="flex-1 h-full flex flex-col justify-end group cursor-pointer relative z-20">
+<!-- Interactive Tooltip Callout -->
+<div class="absolute -top-24 left-1/2 -translate-x-1/2 w-48 bg-inverse-surface text-inverse-on-surface p-space-sm rounded-lg shadow-xl text-left pointer-events-none">
+<div class="font-headline-sm text-body-sm font-semibold flex items-center justify-between">
+<span>Oct 24 (Peak Surge)</span>
+<span class="text-priority-high font-code-mono">384k tokens</span>
+</div>
+<div class="mt-1 space-y-0.5 font-code-mono text-[10px] text-slate-300">
+<div class="flex justify-between"><span>Claude 3.5:</span><span class="font-semibold text-white">184.2k</span></div>
+<div class="flex justify-between"><span>GPT-4o:</span><span class="font-semibold text-white">108.5k</span></div>
+<div class="flex justify-between"><span>Gemini 1.5:</span><span class="font-semibold text-white">61.3k</span></div>
+<div class="flex justify-between"><span>Local Emb:</span><span class="font-semibold text-white">30.0k</span></div>
+</div>
+<div class="w-2 h-2 bg-inverse-surface rotate-45 absolute -bottom-1 left-1/2 -translate-x-1/2"></div>
+</div>
+<div class="w-full bg-tertiary" style="height: 9%;"></div>
+<div class="w-full bg-[#0ea5e9]" style="height: 18%;"></div>
+<div class="w-full bg-[#10b981]" style="height: 30%;"></div>
+<div class="w-full bg-primary-container rounded-t-sm" style="height: 48%;"></div>
+<span class="font-code-mono text-[10px] text-primary font-bold text-center mt-2">Oct 24</span>
+</div>
+<!-- Day 12 -->
+<div class="flex-1 h-full flex flex-col justify-end group cursor-pointer relative">
+<div class="w-full bg-tertiary" style="height: 7%;"></div>
+<div class="w-full bg-[#0ea5e9]" style="height: 15%;"></div>
+<div class="w-full bg-[#10b981]" style="height: 25%;"></div>
+<div class="w-full bg-primary-container rounded-t-sm" style="height: 38%;"></div>
+<span class="font-code-mono text-[10px] text-text-secondary text-center mt-2">Oct 25</span>
+</div>
+<!-- Day 13 -->
+<div class="flex-1 h-full flex flex-col justify-end group cursor-pointer relative">
+<div class="w-full bg-tertiary" style="height: 6%;"></div>
+<div class="w-full bg-[#0ea5e9]" style="height: 12%;"></div>
+<div class="w-full bg-[#10b981]" style="height: 20%;"></div>
+<div class="w-full bg-primary-container rounded-t-sm" style="height: 32%;"></div>
+<span class="font-code-mono text-[10px] text-text-secondary text-center mt-2">Oct 26</span>
+</div>
+<!-- Day 14 -->
+<div class="flex-1 h-full flex flex-col justify-end group cursor-pointer relative">
+<div class="w-full bg-tertiary" style="height: 8%;"></div>
+<div class="w-full bg-[#0ea5e9]" style="height: 16%;"></div>
+<div class="w-full bg-[#10b981]" style="height: 26%;"></div>
+<div class="w-full bg-primary-container rounded-t-sm" style="height: 42%;"></div>
+<span class="font-code-mono text-[10px] text-text-secondary text-center mt-2">Today</span>
+</div>
+</div>
+</div>
+<div class="pt-space-sm flex items-center justify-between text-body-sm text-text-secondary">
+<span class="flex items-center gap-1.5 font-code-mono text-code-mono">
+<span class="w-2 h-2 rounded-full bg-ticket-open-text animate-pulse"></span>
+            Tokens refreshed every 60 seconds from billing stream.
+          </span>
+<a class="text-primary hover:underline font-medium flex items-center gap-0.5" href="#">
+            View raw audit log stream <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</a>
+</div>
+</div>
+<!-- Right Column: AI Feature Pipeline Breakdown (35% / 4 Cols) -->
+<div class="lg:col-span-4 bg-surface p-space-lg rounded-xl shadow-sm flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-space-md">
+<div>
+<h2 class="font-headline-md text-headline-md text-text-primary">AI Feature Pipeline Breakdown</h2>
+<p class="font-body-sm text-body-sm text-text-secondary">Consumption by active product capability</p>
+</div>
+<span class="material-symbols-outlined text-text-secondary">hub</span>
+</div>
+<!-- Feature Breakdown Rows -->
+<div class="space-y-space-md">
+<!-- Feature 1: Copilot Drafting -->
+<div class="p-space-sm bg-surface-subtle rounded-xl flex flex-col gap-1.5">
+<div class="flex items-center justify-between">
+<span class="font-headline-sm text-body-md text-text-primary flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[18px] text-primary">edit_note</span>
+                  Copilot Drafting (Agent Suggestions)
+                </span>
+<span class="font-code-mono text-body-sm font-semibold text-text-primary">4.1M</span>
+</div>
+<div class="h-1.5 w-full bg-surface rounded-full overflow-hidden">
+<div class="bg-primary h-full" style="width: 48.8%;"></div>
+</div>
+<div class="flex items-center justify-between font-body-sm text-body-sm text-text-secondary">
+<span>48.8% volume • $61.50 spent</span>
+<span class="font-code-mono text-code-mono">Avg Latency: 620ms</span>
+</div>
+</div>
+<!-- Feature 2: Auto-Triage & Categorization -->
+<div class="p-space-sm bg-surface-subtle rounded-xl flex flex-col gap-1.5">
+<div class="flex items-center justify-between">
+<span class="font-headline-sm text-body-md text-text-primary flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[18px] text-[#10b981]">auto_mode</span>
+                  Auto-Triage &amp; Categorization
+                </span>
+<span class="font-code-mono text-body-sm font-semibold text-text-primary">3.2M</span>
+</div>
+<div class="h-1.5 w-full bg-surface rounded-full overflow-hidden">
+<div class="bg-[#10b981] h-full" style="width: 38.1%;"></div>
+</div>
+<div class="flex items-center justify-between font-body-sm text-body-sm text-text-secondary">
+<span>38.1% volume • 14,250 runs</span>
+<span class="font-code-mono text-code-mono text-ticket-open-text font-medium">99.4% accuracy</span>
+</div>
+</div>
+<!-- Feature 3: Semantic Search & RAG -->
+<div class="p-space-sm bg-surface-subtle rounded-xl flex flex-col gap-1.5">
+<div class="flex items-center justify-between">
+<span class="font-headline-sm text-body-md text-text-primary flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[18px] text-tertiary">find_in_page</span>
+                  Semantic Search &amp; RAG
+                </span>
+<span class="font-code-mono text-body-sm font-semibold text-text-primary">1.1M</span>
+</div>
+<div class="h-1.5 w-full bg-surface rounded-full overflow-hidden">
+<div class="bg-tertiary h-full" style="width: 13.1%;"></div>
+</div>
+<div class="flex items-center justify-between font-body-sm text-body-sm text-text-secondary">
+<span>13.1% volume • Pinecone RAG</span>
+<span class="font-code-mono text-code-mono">38,400 queries</span>
+</div>
+</div>
+</div>
+</div>
+<!-- AI Credit Spending Gauge -->
+<div class="mt-space-md p-space-md bg-surface-container rounded-xl">
+<div class="flex items-center justify-between">
+<span class="font-headline-sm text-body-sm text-text-primary">Monthly AI Spend Budget</span>
+<span class="font-code-mono text-body-sm font-bold text-text-primary">$126.00 / $150.00</span>
+</div>
+<div class="h-2 w-full bg-surface rounded-full overflow-hidden my-2">
+<div class="bg-ticket-pending-text h-full" style="width: 84%;"></div>
+</div>
+<div class="flex items-center justify-between text-body-sm text-text-secondary">
+<span>$24.00 remaining credit</span>
+<span class="font-code-mono text-code-mono">Auto-refills Nov 15</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Resource Limits & Quotas Enforced Table -->
+<div class="bg-surface rounded-xl shadow-sm overflow-hidden flex flex-col">
+<!-- Table Header & Controls -->
+<div class="p-space-md flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm">
+<h2 class="font-headline-md text-headline-md text-text-primary">Resource Limits &amp; Enforced Quotas</h2>
+<span class="px-space-xs py-0.5 rounded-full bg-surface-subtle text-text-secondary font-code-mono text-code-mono font-medium">7 Active Trackers</span>
+</div>
+<div class="flex items-center gap-space-sm">
+<!-- Search input -->
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-2.5 text-text-secondary text-[18px]">search</span>
+<input class="h-9 pl-8 pr-3 bg-surface-subtle rounded-lg text-body-sm text-text-primary placeholder:text-text-secondary focus:outline-none focus:ring-1 focus:ring-primary w-52 sm:w-64" placeholder="Filter resource or engine..." type="text"/>
+</div>
+<!-- Scope filter -->
+<select class="h-9 px-3 bg-surface-subtle text-body-sm text-text-primary rounded-lg focus:outline-none focus:ring-1 focus:ring-primary">
+<option>All Resource Scopes</option>
+<option>Inference Gateway</option>
+<option>Workspace Access</option>
+<option>Storage &amp; KB</option>
+<option>Real-Time Core</option>
+</select>
+</div>
+</div>
+<!-- High-Density Table Layout -->
+<div class="w-full overflow-x-auto">
+<table class="w-full text-left font-body-sm text-body-sm">
+<thead class="bg-surface-subtle font-headline-sm text-body-sm text-text-secondary uppercase tracking-wider text-[11px]">
+<tr>
+<th class="py-3 px-space-md">Resource / Engine</th>
+<th class="py-3 px-space-md">Scope &amp; Pipeline</th>
+<th class="py-3 px-space-md font-code-mono text-right">Included Quota</th>
+<th class="py-3 px-space-md font-code-mono text-right">Current Usage</th>
+<th class="py-3 px-space-md w-48">Consumption Progress</th>
+<th class="py-3 px-space-md">Quota State</th>
+<th class="py-3 px-space-md text-right">Policy Action</th>
+</tr>
+</thead>
+<tbody class="divide-y-0 text-text-primary">
+<!-- Row 1: AI Foundation Tokens -->
+<tr class="hover:bg-surface-subtle transition-colors">
+<td class="py-3 px-space-md flex items-center gap-space-xs font-semibold">
+<span class="material-symbols-outlined text-primary text-[20px]">psychology</span>
+<div>
+<span class="font-headline-sm text-body-sm text-text-primary block">AI Foundation Tokens</span>
+<span class="font-code-mono text-[11px] text-text-secondary">GPT-4o, Claude 3.5, Gemini 1.5</span>
+</div>
+</td>
+<td class="py-3 px-space-md text-text-secondary">Inference Gateway</td>
+<td class="py-3 px-space-md font-code-mono text-right">10,000,000</td>
+<td class="py-3 px-space-md font-code-mono text-right font-semibold">8,402,190</td>
+<td class="py-3 px-space-md">
+<div class="flex items-center gap-2">
+<div class="h-2 flex-1 bg-surface-subtle rounded-full overflow-hidden">
+<div class="bg-ticket-pending-text h-full" style="width: 84.0%;"></div>
+</div>
+<span class="font-code-mono text-code-mono font-medium text-ticket-pending-text">84.0%</span>
+</div>
+</td>
+<td class="py-3 px-space-md">
+<span class="px-2 py-0.5 rounded-full bg-ticket-pending-bg text-ticket-pending-text font-headline-sm text-body-sm font-semibold inline-flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-ticket-pending-text"></span> Warning (&gt;80%)
+                </span>
+</td>
+<td class="py-3 px-space-md text-right">
+<button class="px-2.5 py-1 bg-primary text-on-primary font-headline-sm text-body-sm rounded-lg hover:bg-primary-container transition-colors">Configure Burst</button>
+</td>
+</tr>
+<!-- Row 2: Active Agent Seats -->
+<tr class="hover:bg-surface-subtle transition-colors">
+<td class="py-3 px-space-md flex items-center gap-space-xs font-semibold">
+<span class="material-symbols-outlined text-secondary-container text-[20px]">badge</span>
+<div>
+<span class="font-headline-sm text-body-sm text-text-primary block">Active Agent Seats</span>
+<span class="font-code-mono text-[11px] text-text-secondary">Role-based concurrent logins</span>
+</div>
+</td>
+<td class="py-3 px-space-md text-text-secondary">Workspace Access</td>
+<td class="py-3 px-space-md font-code-mono text-right">30 Seats</td>
+<td class="py-3 px-space-md font-code-mono text-right font-semibold">24 Seats</td>
+<td class="py-3 px-space-md">
+<div class="flex items-center gap-2">
+<div class="h-2 flex-1 bg-surface-subtle rounded-full overflow-hidden">
+<div class="bg-primary h-full" style="width: 80%;"></div>
+</div>
+<span class="font-code-mono text-code-mono font-medium">80.0%</span>
+</div>
+</td>
+<td class="py-3 px-space-md">
+<span class="px-2 py-0.5 rounded-full bg-ticket-open-bg text-ticket-open-text font-headline-sm text-body-sm font-semibold inline-flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-ticket-open-text"></span> Normal (6 Left)
+                </span>
+</td>
+<td class="py-3 px-space-md text-right">
+<button class="px-2.5 py-1 bg-surface-subtle text-text-primary font-headline-sm text-body-sm rounded-lg hover:bg-surface-container transition-colors">Add Seats</button>
+</td>
+</tr>
+<!-- Row 3: Monthly Ticket Ingress -->
+<tr class="hover:bg-surface-subtle transition-colors">
+<td class="py-3 px-space-md flex items-center gap-space-xs font-semibold">
+<span class="material-symbols-outlined text-ticket-new-text text-[20px]">inbox</span>
+<div>
+<span class="font-headline-sm text-body-sm text-text-primary block">Monthly Ticket Ingress</span>
+<span class="font-code-mono text-[11px] text-text-secondary">Email, Chat, Webhooks, SDK</span>
+</div>
+</td>
+<td class="py-3 px-space-md text-text-secondary">Ingress Gateway</td>
+<td class="py-3 px-space-md font-code-mono text-right">20,000</td>
+<td class="py-3 px-space-md font-code-mono text-right font-semibold">14,250</td>
+<td class="py-3 px-space-md">
+<div class="flex items-center gap-2">
+<div class="h-2 flex-1 bg-surface-subtle rounded-full overflow-hidden">
+<div class="bg-primary h-full" style="width: 71.2%;"></div>
+</div>
+<span class="font-code-mono text-code-mono font-medium">71.2%</span>
+</div>
+</td>
+<td class="py-3 px-space-md">
+<span class="px-2 py-0.5 rounded-full bg-ticket-open-bg text-ticket-open-text font-headline-sm text-body-sm font-semibold inline-flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-ticket-open-text"></span> Normal
+                </span>
+</td>
+<td class="py-3 px-space-md text-right">
+<button class="px-2.5 py-1 bg-surface-subtle text-text-primary font-headline-sm text-body-sm rounded-lg hover:bg-surface-container transition-colors">Manage</button>
+</td>
+</tr>
+<!-- Row 4: Vector Store Storage -->
+<tr class="hover:bg-surface-subtle transition-colors">
+<td class="py-3 px-space-md flex items-center gap-space-xs font-semibold">
+<span class="material-symbols-outlined text-tertiary text-[20px]">database</span>
+<div>
+<span class="font-headline-sm text-body-sm text-text-primary block">Vector Store Storage</span>
+<span class="font-code-mono text-[11px] text-text-secondary">Pinecone serverless embeddings</span>
+</div>
+</td>
+<td class="py-3 px-space-md text-text-secondary">Knowledge Base</td>
+<td class="py-3 px-space-md font-code-mono text-right">10.0 GB</td>
+<td class="py-3 px-space-md font-code-mono text-right font-semibold">4.2 GB</td>
+<td class="py-3 px-space-md">
+<div class="flex items-center gap-2">
+<div class="h-2 flex-1 bg-surface-subtle rounded-full overflow-hidden">
+<div class="bg-tertiary h-full" style="width: 42%;"></div>
+</div>
+<span class="font-code-mono text-code-mono font-medium">42.0%</span>
+</div>
+</td>
+<td class="py-3 px-space-md">
+<span class="px-2 py-0.5 rounded-full bg-ticket-open-bg text-ticket-open-text font-headline-sm text-body-sm font-semibold inline-flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-ticket-open-text"></span> Normal
+                </span>
+</td>
+<td class="py-3 px-space-md text-right">
+<button class="px-2.5 py-1 bg-surface-subtle text-text-primary font-headline-sm text-body-sm rounded-lg hover:bg-surface-container transition-colors">Optimize</button>
+</td>
+</tr>
+<!-- Row 5: Webhook Event Dispatches -->
+<tr class="hover:bg-surface-subtle transition-colors">
+<td class="py-3 px-space-md flex items-center gap-space-xs font-semibold">
+<span class="material-symbols-outlined text-secondary text-[20px]">webhook</span>
+<div>
+<span class="font-headline-sm text-body-sm text-text-primary block">Webhook Event Dispatches</span>
+<span class="font-code-mono text-[11px] text-text-secondary">Zapier, Jira, Salesforce triggers</span>
+</div>
+</td>
+<td class="py-3 px-space-md text-text-secondary">Integrations</td>
+<td class="py-3 px-space-md font-code-mono text-right">500,000</td>
+<td class="py-3 px-space-md font-code-mono text-right font-semibold">312,400</td>
+<td class="py-3 px-space-md">
+<div class="flex items-center gap-2">
+<div class="h-2 flex-1 bg-surface-subtle rounded-full overflow-hidden">
+<div class="bg-secondary h-full" style="width: 62.5%;"></div>
+</div>
+<span class="font-code-mono text-code-mono font-medium">62.5%</span>
+</div>
+</td>
+<td class="py-3 px-space-md">
+<span class="px-2 py-0.5 rounded-full bg-ticket-open-bg text-ticket-open-text font-headline-sm text-body-sm font-semibold inline-flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-ticket-open-text"></span> Normal
+                </span>
+</td>
+<td class="py-3 px-space-md text-right">
+<button class="px-2.5 py-1 bg-surface-subtle text-text-primary font-headline-sm text-body-sm rounded-lg hover:bg-surface-container transition-colors">Manage</button>
+</td>
+</tr>
+<!-- Row 6: Concurrent Live Chat Sessions -->
+<tr class="hover:bg-surface-subtle transition-colors">
+<td class="py-3 px-space-md flex items-center gap-space-xs font-semibold">
+<span class="material-symbols-outlined text-primary text-[20px]">forum</span>
+<div>
+<span class="font-headline-sm text-body-sm text-text-primary block">Concurrent Live Chat Sessions</span>
+<span class="font-code-mono text-[11px] text-text-secondary">WebSocket active channels</span>
+</div>
+</td>
+<td class="py-3 px-space-md text-text-secondary">Real-Time Core</td>
+<td class="py-3 px-space-md font-code-mono text-right">50 Concurr.</td>
+<td class="py-3 px-space-md font-code-mono text-right font-semibold">38 Peak</td>
+<td class="py-3 px-space-md">
+<div class="flex items-center gap-2">
+<div class="h-2 flex-1 bg-surface-subtle rounded-full overflow-hidden">
+<div class="bg-primary h-full" style="width: 76.0%;"></div>
+</div>
+<span class="font-code-mono text-code-mono font-medium">76.0%</span>
+</div>
+</td>
+<td class="py-3 px-space-md">
+<span class="px-2 py-0.5 rounded-full bg-ticket-open-bg text-ticket-open-text font-headline-sm text-body-sm font-semibold inline-flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-ticket-open-text"></span> Normal
+                </span>
+</td>
+<td class="py-3 px-space-md text-right">
+<button class="px-2.5 py-1 bg-surface-subtle text-text-primary font-headline-sm text-body-sm rounded-lg hover:bg-surface-container transition-colors">Manage</button>
+</td>
+</tr>
+<!-- Row 7: Audit Log Retention Period -->
+<tr class="hover:bg-surface-subtle transition-colors">
+<td class="py-3 px-space-md flex items-center gap-space-xs font-semibold">
+<span class="material-symbols-outlined text-on-surface-variant text-[20px]">history_edu</span>
+<div>
+<span class="font-headline-sm text-body-sm text-text-primary block">Audit Log Retention Period</span>
+<span class="font-code-mono text-[11px] text-text-secondary">SOC2 compliant cold archive</span>
+</div>
+</td>
+<td class="py-3 px-space-md text-text-secondary">Compliance</td>
+<td class="py-3 px-space-md font-code-mono text-right">90 Days</td>
+<td class="py-3 px-space-md font-code-mono text-right font-semibold">90 Days</td>
+<td class="py-3 px-space-md">
+<div class="flex items-center gap-2">
+<div class="h-2 flex-1 bg-surface-subtle rounded-full overflow-hidden">
+<div class="bg-primary h-full" style="width: 100%;"></div>
+</div>
+<span class="font-code-mono text-code-mono font-medium">100%</span>
+</div>
+</td>
+<td class="py-3 px-space-md">
+<span class="px-2 py-0.5 rounded-full bg-surface-subtle text-text-secondary font-headline-sm text-body-sm font-semibold inline-flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-text-secondary"></span> Enforced
+                </span>
+</td>
+<td class="py-3 px-space-md text-right">
+<button class="px-2.5 py-1 bg-surface-subtle text-text-primary font-headline-sm text-body-sm rounded-lg hover:bg-surface-container transition-colors">Extend</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Overage & Burst Controls & Alert Thresholds (2-Column Bottom Section) -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-gutter mb-space-xl">
+<!-- Left Card: Overage & Throttling Policy -->
+<div class="bg-surface p-space-lg rounded-xl shadow-sm flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between pb-space-md">
+<div>
+<div class="flex items-center gap-space-xs">
+<h3 class="font-headline-md text-headline-md text-text-primary">Overage &amp; Throttling Policy</h3>
+<span class="px-2 py-0.5 rounded-full bg-ticket-open-bg text-ticket-open-text font-headline-sm text-body-sm font-semibold">Status: Active</span>
+</div>
+<p class="font-body-sm text-body-sm text-text-secondary mt-0.5">Define automated behavior when LLM tokens or ingress exceed included plan limits.</p>
+</div>
+<span class="material-symbols-outlined text-primary text-[24px]">electric_bolt</span>
+</div>
+<!-- Radio Options -->
+<div class="space-y-space-md">
+<!-- Option 1: Burst Enabled (Selected) -->
+<label class="p-space-md rounded-xl bg-surface-container-low flex items-start gap-space-md cursor-pointer">
+<input checked="" class="mt-1 w-4 h-4 text-primary focus:ring-primary" name="overage_policy" type="radio"/>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="font-headline-sm text-body-md text-text-primary font-bold">Allow Automated Overage Burst [Recommended]</span>
+<span class="px-2 py-0.2 bg-primary-fixed text-on-primary-fixed text-[11px] rounded font-semibold uppercase">Seamless</span>
+</div>
+<p class="font-body-sm text-body-sm text-text-secondary mt-1">
+                  Zero downtime for customer interactions. Tokens beyond 10M are automatically billed in dynamic micro-batches at 
+                  <strong class="text-text-primary font-code-mono">$15.00 per 1M additional tokens</strong>.
+                </p>
+<div class="mt-2 text-body-sm font-code-mono text-primary flex items-center gap-1 font-medium">
+<span class="material-symbols-outlined text-[16px]">verified</span>
+                  Max Burst Cap configured: 5,000,000 tokens / cycle
+                </div>
+</div>
+</label>
+<!-- Option 2: Hard Cap -->
+<label class="p-space-md rounded-xl bg-surface-subtle flex items-start gap-space-md cursor-pointer hover:bg-surface-container-low transition-colors">
+<input class="mt-1 w-4 h-4 text-primary focus:ring-primary" name="overage_policy" type="radio"/>
+<div class="flex flex-col">
+<span class="font-headline-sm text-body-md text-text-primary font-bold">Strict Hard Cap (Throttle on Limit)</span>
+<p class="font-body-sm text-body-sm text-text-secondary mt-1">
+                  Immediately halt generative AI agent drafting and fallback to static template replies once 10,000,000 tokens are reached. No additional burst fees will ever incur.
+                </p>
+</div>
+</label>
+</div>
+<!-- Safeguard Input Slider -->
+<div class="mt-space-lg p-space-md bg-surface-subtle rounded-xl">
+<div class="flex items-center justify-between text-body-sm mb-2">
+<span class="font-headline-sm text-text-primary">Monthly Overage Spend Safeguard Cap</span>
+<span class="font-code-mono font-bold text-text-primary">$150.00 / month max</span>
+</div>
+<input class="w-full accent-primary cursor-pointer" max="500" min="50" step="25" type="range" value="150"/>
+<div class="flex justify-between font-code-mono text-code-mono text-text-secondary mt-1">
+<span>$50 (Min)</span>
+<span>$250 (Default)</span>
+<span>$500 (Enterprise Max)</span>
+</div>
+</div>
+</div>
+<div class="mt-space-lg flex justify-end">
+<button class="px-space-md py-2 bg-primary text-on-primary font-headline-sm text-body-md rounded-xl hover:bg-primary-container transition-colors">
+            Update Billing Safeguards
+          </button>
+</div>
+</div>
+<!-- Right Card: Threshold Alert Dispatches -->
+<div class="bg-surface p-space-lg rounded-xl shadow-sm flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between pb-space-md">
+<div>
+<div class="flex items-center gap-space-xs">
+<h3 class="font-headline-md text-headline-md text-text-primary">Threshold Alert Dispatches</h3>
+<span class="px-2 py-0.5 rounded-full bg-ticket-new-bg text-ticket-new-text font-headline-sm text-body-sm font-semibold">3 Active Triggers</span>
+</div>
+<p class="font-body-sm text-body-sm text-text-secondary mt-0.5">Automated multi-channel notifications before resource limits are exhausted.</p>
+</div>
+<span class="material-symbols-outlined text-primary text-[24px]">campaign</span>
+</div>
+<div class="space-y-space-md">
+<!-- Alert 1 -->
+<div class="p-space-md bg-surface-subtle rounded-xl flex items-center justify-between gap-space-md">
+<div class="flex items-start gap-space-sm">
+<div class="p-2 rounded-lg bg-ticket-pending-bg text-ticket-pending-text flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px]">notifications_active</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<span class="font-headline-sm text-body-md text-text-primary font-semibold">80% Soft Limit Warning</span>
+<span class="px-1.5 py-0.2 bg-ticket-pending-bg text-ticket-pending-text text-[10px] rounded font-code-mono font-semibold">Triggered Oct 24</span>
+</div>
+<p class="font-body-sm text-body-sm text-text-secondary mt-0.5">Dispatches to: <span class="font-code-mono text-text-primary">#ops-billing-alerts</span> &amp; <span class="font-code-mono text-text-primary">billing@acme.com</span></p>
+</div>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-surface peer-checked:bg-primary after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-surface after:rounded-full after:h-5 after:w-5 after:transition-all"></div>
+</label>
+</div>
+<!-- Alert 2 -->
+<div class="p-space-md bg-surface-subtle rounded-xl flex items-center justify-between gap-space-md">
+<div class="flex items-start gap-space-sm">
+<div class="p-2 rounded-lg bg-priority-high/10 text-priority-high flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px]">warning</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<span class="font-headline-sm text-body-md text-text-primary font-semibold">90% Critical Warning</span>
+<span class="px-1.5 py-0.2 bg-surface text-text-secondary text-[10px] rounded font-code-mono">Pending</span>
+</div>
+<p class="font-body-sm text-body-sm text-text-secondary mt-0.5">Dispatches to: <span class="font-code-mono text-text-primary">PagerDuty Sev-3</span> &amp; Slack <span class="font-code-mono text-text-primary">#eng-incident-billing</span></p>
+</div>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-surface peer-checked:bg-primary after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-surface after:rounded-full after:h-5 after:w-5 after:transition-all"></div>
+</label>
+</div>
+<!-- Alert 3 -->
+<div class="p-space-md bg-surface-subtle rounded-xl flex items-center justify-between gap-space-md">
+<div class="flex items-start gap-space-sm">
+<div class="p-2 rounded-lg bg-error-container text-error flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px]">block</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<span class="font-headline-sm text-body-md text-text-primary font-semibold">100% Quota Exhaustion Alert</span>
+<span class="px-1.5 py-0.2 bg-surface text-text-secondary text-[10px] rounded font-code-mono">Pending</span>
+</div>
+<p class="font-body-sm text-body-sm text-text-secondary mt-0.5">Instant SMS to Tenant Admins &amp; Webhook payload dispatch</p>
+</div>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-surface peer-checked:bg-primary after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-surface after:rounded-full after:h-5 after:w-5 after:transition-all"></div>
+</label>
+</div>
+</div>
+</div>
+<div class="mt-space-lg flex items-center justify-between">
+<a class="text-body-sm text-primary hover:underline font-medium" href="#">Test Notification Dispatch →</a>
+<button class="px-space-md py-2 bg-surface text-text-primary font-headline-sm text-body-md rounded-xl shadow-sm hover:bg-surface-subtle transition-all">
+            Save Preferences
+          </button>
+</div>
+</div>
+</div>
+</div>
+</div></main><footer class="w-full bg-surface border-t border-border py-space-lg"><div class="w-full px-margin flex flex-col md:flex-row items-center justify-between gap-space-md text-text-secondary font-body-sm text-body-sm"><div>© 2025 SupportPilot Inc. All rights reserved. System Operational.</div><div class="flex items-center gap-space-lg"><a class="hover:text-on-surface transition-colors" href="#">Security Status</a><a class="hover:text-on-surface transition-colors" href="#">API Reference</a><a class="hover:text-on-surface transition-colors" href="#">Privacy Policy</a></div></div></footer></body></html>

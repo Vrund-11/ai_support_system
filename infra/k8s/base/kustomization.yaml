@@ -5,6 +5,7 @@ namespace: supportpilot
 
 resources:
   - namespace.yaml
+  - datastores.yaml
   - configmap.yaml
   - secret.yaml
   - pdb.yaml

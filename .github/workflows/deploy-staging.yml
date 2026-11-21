@@ -54,6 +54,9 @@ jobs:
 
       - name: Verify Staging Rollouts
         run: |
+          kubectl rollout status deployment/mongo -n supportpilot --timeout=90s
+          kubectl rollout status deployment/redis -n supportpilot --timeout=90s
+          kubectl rollout status deployment/postgres -n supportpilot --timeout=90s
           kubectl rollout status deployment/gateway -n supportpilot --timeout=120s
           kubectl rollout status deployment/ticket-service -n supportpilot --timeout=120s
           kubectl rollout status deployment/ai-service -n supportpilot --timeout=120s

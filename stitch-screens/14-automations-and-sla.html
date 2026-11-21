@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_standard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base { html, body { margin: 0; padding: 0; } body { overscroll-behavior: none; } main > :first-child { margin-top: 0 !important; } main > :last-child { margin-bottom: 0 !important; } } ::-webkit-scrollbar { display: none; }</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "ticket-new-text": "#1d4ed8", "ticket-onhold-text": "#7e22ce", "on-surface": "#1b1b24", "ticket-pending-bg": "#fffbeb", "surface-container-lowest": "#ffffff", "on-primary-container": "#dad7ff", "secondary": "#006591", "surface": "#ffffff", "primary-fixed": "#e2dfff", "on-surface-variant": "#464555", "surface-tint": "#4d44e3", "ticket-pending-text": "#b45309", "outline": "#777587", "on-primary": "#ffffff", "primary-container": "#4f46e5", "tertiary": "#8b5cf6", "tertiary-fixed": "#ffdbcc", "priority-medium": "#3b82f6", "surface-container-high": "#eae6f4", "inverse-primary": "#c3c0ff", "on-secondary-fixed-variant": "#004c6e", "on-tertiary-fixed": "#351000", "text-secondary": "#64748b", "border": "#e2e8f0", "surface-container": "#f0ecf9", "surface-container-low": "#f5f2ff", "primary": "#3525cd", "priority-low": "#64748b", "inverse-surface": "#302f39", "on-secondary-fixed": "#001e2f", "priority-high": "#f59e0b", "inverse-on-surface": "#f3effc", "neutral": "#09090b", "on-secondary-container": "#004666", "secondary-fixed-dim": "#89ceff", "surface-variant": "#e4e1ee", "tertiary-container": "#a44100", "ticket-onhold-bg": "#faf5ff", "error": "#ba1a1a", "on-error": "#ffffff", "on-error-container": "#93000a", "on-secondary": "#ffffff", "primary-fixed-dim": "#c3c0ff", "outline-variant": "#c7c4d8", "on-background": "#1b1b24", "text-primary": "#0f172a", "error-container": "#ffdad6", "priority-urgent": "#ef4444", "on-tertiary": "#ffffff", "on-tertiary-container": "#ffd2be", "ticket-new-bg": "#eff6ff", "secondary-container": "#39b8fd", "surface-bright": "#fcf8ff", "on-tertiary-fixed-variant": "#7b2f00", "surface-dim": "#dcd8e5", "ticket-open-bg": "#f0fdf4", "ticket-open-text": "#15803d", "tertiary-fixed-dim": "#ffb695", "on-primary-fixed": "#0f0069", "surface-container-highest": "#e4e1ee", "background": "#fcf8ff", "secondary-fixed": "#c9e6ff", "surface-subtle": "#f1f5f9", "on-primary-fixed-variant": "#3323cc" }, "borderRadius": { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" }, "spacing": { "space-xs": "0.25rem", "margin": "1.5rem", "gutter": "1rem", "space-md": "1rem", "space-sm": "0.5rem", "space-lg": "1.5rem", "space-xl": "2rem" }, "fontFamily": { "headline-lg": [ "Inter" ], "body-sm": [ "Inter" ], "code-mono": [ "JetBrains Mono" ], "body-md": [ "Inter" ], "headline-sm": [ "Inter" ], "headline-md": [ "Inter" ], "body-lg": [ "Inter" ], "display-hero": [ "Inter" ] }, "fontSize": { "headline-lg": [ "28px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "600" } ], "body-sm": [ "12px", { "lineHeight": "16px", "fontWeight": "400" } ], "code-mono": [ "12px", { "lineHeight": "16px", "fontWeight": "400" } ], "body-md": [ "14px", { "lineHeight": "20px", "fontWeight": "400" } ], "headline-sm": [ "16px", { "lineHeight": "24px", "fontWeight": "500" } ], "headline-md": [ "20px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600" } ], "body-lg": [ "16px", { "lineHeight": "24px", "fontWeight": "400" } ], "display-hero": [ "36px", { "lineHeight": "44px", "letterSpacing": "-0.03em", "fontWeight": "700" } ] } } } };</script></head><body class="bg-background font-body-md text-body-md text-on-surface antialiased"><header class="fixed top-0 left-0 right-0 z-50 bg-surface/90 backdrop-blur-xl border-b border-border shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 w-full px-margin flex items-center justify-between gap-gutter"><div class="flex items-center gap-space-md"><img alt="SupportPilot Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/ALJJyrA4IIIEgfigW6vF6b08MRr5Fm1ZTWWz21w2ZceNEpidcJUFnMJNc3WonM1i3qLmzdmU3aI4e_gq4UJ6Kbar-AEZ-tie9gPQZY9zwe8WwXiigHlqCi-NNPLLkm14Wt-oZbX3Jr9vD01Vmri81BpCHVdxrEpkFuMrWbTRcDdiSRVyFq2fUn3ECj76DX1gQ0HIR0e9ZvHR2gK_jlAu_Uw62E1Rq2ggow5RZ07oP58T6UsRrGHrA3Rbyzacqg"/><span class="font-headline-sm text-headline-sm text-text-primary tracking-tight font-semibold">SupportPilot Console</span></div><div class="flex-1 max-w-xl mx-auto"><div class="relative flex items-center w-full"><span class="material-symbols-outlined absolute left-space-md text-text-secondary pointer-events-none text-[20px]">search</span><input class="w-full h-10 pl-10 pr-20 bg-surface-subtle border border-border rounded-xl font-body-md text-body-md text-text-primary placeholder:text-text-secondary focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary transition-all" placeholder="Search tickets, customers, or articles..." type="text"/><span class="absolute right-space-sm px-space-xs py-0.5 bg-surface border border-border rounded font-code-mono text-code-mono text-text-secondary shadow-sm">⌘K</span></div></div><div class="flex items-center gap-space-md"><button aria-label="Notifications" class="relative p-space-sm rounded-lg hover:bg-surface-subtle text-text-secondary hover:text-on-surface transition-colors" type="button"><span class="material-symbols-outlined text-[22px]">notifications</span><span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-priority-urgent"></span></button><button aria-label="Help" class="p-space-sm rounded-lg hover:bg-surface-subtle text-text-secondary hover:text-on-surface transition-colors" type="button"><span class="material-symbols-outlined text-[22px]">help_outline</span></button><div class="h-6 w-[1px] bg-border"></div><div class="flex items-center gap-space-sm pl-space-xs"><div class="relative flex-shrink-0"><img alt="Elena Vance Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDSIZkv8Jhj9mZGK5_-fgFg6cO4AvfyrI8QSo0aVJNlZepZ0qHKF2_a16lMv8cmXOdaVl6xuUkAqDGRbFawLJvpKpdk0AEPVSB_MA74V5MMDnh0mDEfTdOWR1kVsuRDapFrA-sObfdcRIm6T59gkmTqKl8dl8p6VYWBnq4URYlTjC-NaFcXCi2hZrGnGtV5eetZsGEnzu4fa9TXGK5Hck9gPq24qYH-0_seLUTv7qfiu-5rop8frXBWojAwYYgHP_mYDO_6Cifbwdo"/><span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-ticket-open-text ring-2 ring-surface"></span></div><div class="hidden lg:flex flex-col text-left"><span class="font-headline-sm text-body-sm text-text-primary font-medium leading-none">Elena Vance</span><span class="font-body-sm text-code-mono text-text-secondary mt-0.5">Lead Admin</span></div></div></div></div><div class="h-12 w-full px-margin border-t border-border bg-surface flex items-center overflow-x-auto"><nav class="flex items-center gap-space-lg h-full" data-active-classes="text-primary font-semibold border-b-2 border-primary -mb-px"><a class="h-full inline-flex items-center text-text-secondary hover:text-on-surface font-body-md text-body-md transition-colors" data-path="tickets" href="#">Tickets</a><a class="h-full inline-flex items-center text-text-secondary hover:text-on-surface font-body-md text-body-md transition-colors" data-path="live-chat" href="#">Live Chat</a><a class="h-full inline-flex items-center text-text-secondary hover:text-on-surface font-body-md text-body-md transition-colors" data-path="analytics" href="#">Analytics</a><a class="h-full inline-flex items-center text-text-secondary hover:text-on-surface font-body-md text-body-md transition-colors" data-path="customers" href="#">Customers</a><a class="h-full inline-flex items-center text-text-secondary hover:text-on-surface font-body-md text-body-md transition-colors" data-path="knowledge-base" href="#">Knowledge Base</a><a class="h-full inline-flex items-center text-text-secondary hover:text-on-surface font-body-md text-body-md transition-colors" data-path="automations-slas" href="#">Automations &amp; SLAs</a><a class="h-full inline-flex items-center text-text-secondary hover:text-on-surface font-body-md text-body-md transition-colors" data-path="settings" href="#">Settings</a></nav></div></header><main class="w-full pt-28 bg-background min-h-screen"><div class="flex flex-col w-full">
+<!-- Top Command & Breadcrumb Strip -->
+<div class="w-full px-margin py-space-md flex flex-col md:flex-row md:items-center justify-between gap-space-md border-b border-border bg-surface">
+<div class="flex flex-col gap-1 min-w-0">
+<div class="flex items-center gap-space-xs font-body-sm text-body-sm text-text-secondary">
+<span>Settings</span>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span class="text-text-primary font-medium">Automations &amp; SLA Policies</span>
+</div>
+<div class="flex items-center flex-wrap gap-space-sm mt-0.5">
+<h1 class="font-headline-lg text-headline-lg text-text-primary tracking-tight">Automations &amp; SLA Policies</h1>
+<div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-ticket-open-bg text-ticket-open-text font-body-sm text-body-sm font-medium border border-ticket-open-text/20">
+<span class="w-1.5 h-1.5 rounded-full bg-ticket-open-text animate-pulse"></span>
+          Policy Engine: Active (v3.2)
+        </div>
+</div>
+<p class="font-body-md text-body-md text-text-secondary max-w-3xl">
+        Configure automated routing, priority response time commitments, escalation triggers, and operational calendars across all enterprise channels.
+      </p>
+</div>
+<!-- Action Toolbar -->
+<div class="flex items-center gap-space-sm shrink-0">
+<button class="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-surface border border-border text-text-primary font-headline-sm text-headline-sm hover:bg-surface-subtle transition-all shadow-sm active:scale-[0.98]" type="button">
+<span class="material-symbols-outlined text-secondary text-[20px]">science</span>
+<span>Test Rule Simulator</span>
+</button>
+<button class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-primary text-on-primary font-headline-sm text-headline-sm hover:bg-primary-container transition-all shadow-sm shadow-primary/20 active:scale-[0.98]" type="button">
+<span class="material-symbols-outlined text-[20px]">add</span>
+<span>Create New Rule</span>
+</button>
+</div>
+</div>
+<!-- Primary Sub-Navigation Tabs Bar -->
+<div class="w-full px-margin bg-surface border-b border-border flex items-center justify-between overflow-x-auto">
+<nav class="flex items-center gap-space-lg">
+<button class="inline-flex items-center gap-2 py-3.5 border-b-2 border-primary text-primary font-headline-sm text-headline-sm font-semibold whitespace-nowrap" type="button">
+<span class="material-symbols-outlined text-[20px]">timer</span>
+<span>SLA Policies &amp; Targets</span>
+<span class="px-2 py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed font-code-mono text-code-mono font-medium">4 Active Tiers</span>
+</button>
+<button class="inline-flex items-center gap-2 py-3.5 border-b-2 border-transparent text-text-secondary hover:text-text-primary font-headline-sm text-headline-sm transition-colors whitespace-nowrap" type="button">
+<span class="material-symbols-outlined text-[20px]">alt_route</span>
+<span>Event Automation Rules</span>
+<span class="px-2 py-0.5 rounded-full bg-surface-subtle text-text-secondary font-code-mono text-code-mono">12 Active</span>
+</button>
+<button class="inline-flex items-center gap-2 py-3.5 border-b-2 border-transparent text-text-secondary hover:text-text-primary font-headline-sm text-headline-sm transition-colors whitespace-nowrap" type="button">
+<span class="material-symbols-outlined text-[20px]">calendar_today</span>
+<span>Business Hours &amp; Holidays</span>
+<span class="px-2 py-0.5 rounded-full bg-surface-subtle text-text-secondary font-code-mono text-code-mono">Americas / EMEA Shift</span>
+</button>
+<button class="inline-flex items-center gap-2 py-3.5 border-b-2 border-transparent text-text-secondary hover:text-text-primary font-headline-sm text-headline-sm transition-colors whitespace-nowrap" type="button">
+<span class="material-symbols-outlined text-[20px]">history_toggle_off</span>
+<span>Execution Audit Log</span>
+</button>
+</nav>
+<div class="hidden lg:flex items-center gap-3 py-2 text-text-secondary font-code-mono text-code-mono">
+<span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-ticket-open-text"></span>Synced: 12s ago</span>
+<span class="text-border">|</span>
+<span>Cluster: us-east-prod-04</span>
+</div>
+</div>
+<!-- Main Canvas Content Area -->
+<div class="w-full px-margin py-space-lg flex flex-col gap-space-xl">
+<!-- Top KPI & Operational Summary Strip -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-space-md">
+<div class="p-space-md rounded-xl bg-surface border border-border shadow-sm flex items-center justify-between">
+<div>
+<div class="font-body-sm text-body-sm text-text-secondary">Overall SLA Adherence</div>
+<div class="font-headline-lg text-headline-lg text-text-primary font-bold mt-1">98.42%</div>
+<div class="font-body-sm text-body-sm text-ticket-open-text flex items-center gap-1 mt-1">
+<span class="material-symbols-outlined text-[16px]">trending_up</span> +0.8% past 30 days
+          </div>
+</div>
+<div class="w-12 h-12 rounded-xl bg-ticket-open-bg text-ticket-open-text flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[24px]">verified</span>
+</div>
+</div>
+<div class="p-space-md rounded-xl bg-surface border border-border shadow-sm flex items-center justify-between">
+<div>
+<div class="font-body-sm text-body-sm text-text-secondary">Avg Target Headroom</div>
+<div class="font-headline-lg text-headline-lg text-text-primary font-bold mt-1">42.6%</div>
+<div class="font-body-sm text-body-sm text-text-secondary mt-1">SLA buffer before breach</div>
+</div>
+<div class="w-12 h-12 rounded-xl bg-ticket-new-bg text-ticket-new-text flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[24px]">speed</span>
+</div>
+</div>
+<div class="p-space-md rounded-xl bg-surface border border-border shadow-sm flex items-center justify-between">
+<div>
+<div class="font-body-sm text-body-sm text-text-secondary">Active Breaches</div>
+<div class="font-headline-lg text-headline-lg text-ticket-open-text font-bold mt-1">0</div>
+<div class="font-body-sm text-body-sm text-text-secondary mt-1">Zero pending escalations</div>
+</div>
+<div class="w-12 h-12 rounded-xl bg-surface-subtle text-text-secondary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[24px]">shield</span>
+</div>
+</div>
+<div class="p-space-md rounded-xl bg-surface border border-border shadow-sm flex items-center justify-between">
+<div>
+<div class="font-body-sm text-body-sm text-text-secondary">Automations Fired (7d)</div>
+<div class="font-headline-lg text-headline-lg text-text-primary font-bold mt-1">14,290</div>
+<div class="font-body-sm text-body-sm text-primary flex items-center gap-1 mt-1">
+<span class="material-symbols-outlined text-[16px]">bolt</span> 89.2h rep time saved
+          </div>
+</div>
+<div class="w-12 h-12 rounded-xl bg-primary-fixed text-on-primary-fixed flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[24px]">smart_toy</span>
+</div>
+</div>
+</div>
+<!-- Section 1: SLA Response & Resolution Target Matrix -->
+<div class="w-full bg-surface rounded-xl border border-border shadow-sm overflow-hidden flex flex-col">
+<!-- Matrix Header Controls -->
+<div class="p-space-lg border-b border-border flex flex-col md:flex-row md:items-center justify-between gap-space-md bg-surface">
+<div class="flex items-center gap-space-md">
+<div class="w-10 h-10 rounded-lg bg-surface-subtle text-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-[24px]">balance</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<h2 class="font-headline-md text-headline-md text-text-primary">Default Enterprise SLA Policy (Tier-1 to VIP)</h2>
+<span class="px-2 py-0.5 rounded bg-primary-fixed text-on-primary-fixed font-code-mono text-code-mono font-medium">POL-ENT-001</span>
+</div>
+<p class="font-body-sm text-body-sm text-text-secondary mt-0.5">Applied to all customer tiers with active Enterprise Service Agreements.</p>
+</div>
+</div>
+<!-- Mode Toggle & Matrix Actions -->
+<div class="flex items-center flex-wrap gap-space-md">
+<div class="flex items-center gap-3 px-3 py-1.5 rounded-xl bg-surface-subtle border border-border">
+<span class="font-body-sm text-body-sm text-text-secondary font-medium">Calendar Logic:</span>
+<label class="relative inline-flex items-center cursor-pointer select-none">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+<span class="ml-2.5 font-body-sm text-body-sm text-text-primary font-medium">Enforce Business Hours Only</span>
+</label>
+</div>
+<button class="p-2 rounded-lg hover:bg-surface-subtle text-text-secondary hover:text-text-primary transition-colors border border-border" title="Policy Settings" type="button">
+<span class="material-symbols-outlined text-[20px]">tune</span>
+</button>
+</div>
+</div>
+<!-- SLA Data Matrix Table -->
+<div class="w-full overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-subtle border-b border-border text-text-secondary font-code-mono text-code-mono uppercase tracking-wider">
+<th class="py-3 px-space-lg font-medium">Priority Tier</th>
+<th class="py-3 px-space-md font-medium">First Response SLA</th>
+<th class="py-3 px-space-md font-medium">Next Response</th>
+<th class="py-3 px-space-md font-medium">Resolution Target</th>
+<th class="py-3 px-space-md font-medium">Escalation Threshold</th>
+<th class="py-3 px-space-lg font-medium">On-Breach Action</th>
+<th class="py-3 px-space-md font-medium text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-border font-body-md text-body-md text-text-primary">
+<!-- URGENT ROW -->
+<tr class="hover:bg-surface-subtle/70 transition-colors">
+<td class="py-4 px-space-lg whitespace-nowrap">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-priority-urgent"></span>
+<span class="px-2.5 py-1 rounded bg-red-50 text-priority-urgent font-bold font-code-mono text-code-mono tracking-wide border border-red-200">
+                    URGENT
+                  </span>
+</div>
+</td>
+<td class="py-4 px-space-md whitespace-nowrap">
+<div class="flex items-center gap-2 font-headline-sm text-headline-sm font-semibold text-text-primary">
+<span class="material-symbols-outlined text-priority-urgent text-[18px]">bolt</span>
+                  15 mins
+                </div>
+<div class="font-code-mono text-code-mono text-text-secondary">P95: 8.2 mins</div>
+</td>
+<td class="py-4 px-space-md whitespace-nowrap font-medium text-text-primary">
+                30 mins
+              </td>
+<td class="py-4 px-space-md whitespace-nowrap">
+<span class="font-headline-sm text-headline-sm font-semibold text-text-primary">2 hours</span>
+<div class="font-body-sm text-body-sm text-text-secondary">All-hands triage</div>
+</td>
+<td class="py-4 px-space-md whitespace-nowrap">
+<div class="flex items-center gap-1.5 text-priority-urgent font-medium font-code-mono text-code-mono">
+<span class="material-symbols-outlined text-[16px]">warning</span>
+                  80% (12m warning)
+                </div>
+<div class="w-28 bg-surface-subtle rounded-full h-1.5 mt-1 overflow-hidden">
+<div class="bg-priority-urgent h-1.5 rounded-full" style="width: 80%"></div>
+</div>
+</td>
+<td class="py-4 px-space-lg">
+<div class="flex items-center gap-2">
+<span class="px-2 py-1 rounded bg-surface-subtle border border-border font-code-mono text-code-mono text-text-primary text-xs inline-flex items-center gap-1.5">
+<span class="material-symbols-outlined text-priority-urgent text-[15px]">notifications_active</span>
+                    Auto-page On-Call PagerDuty &amp; Slack #war-room
+                  </span>
+</div>
+</td>
+<td class="py-4 px-space-md text-right whitespace-nowrap">
+<button class="p-1.5 hover:bg-surface-subtle rounded text-text-secondary hover:text-text-primary transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+</td>
+</tr>
+<!-- HIGH ROW -->
+<tr class="hover:bg-surface-subtle/70 transition-colors">
+<td class="py-4 px-space-lg whitespace-nowrap">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-priority-high"></span>
+<span class="px-2.5 py-1 rounded bg-amber-50 text-priority-high font-bold font-code-mono text-code-mono tracking-wide border border-amber-200">
+                    HIGH
+                  </span>
+</div>
+</td>
+<td class="py-4 px-space-md whitespace-nowrap">
+<div class="flex items-center gap-2 font-headline-sm text-headline-sm font-semibold text-text-primary">
+                  1 hour
+                </div>
+<div class="font-code-mono text-code-mono text-text-secondary">P95: 38 mins</div>
+</td>
+<td class="py-4 px-space-md whitespace-nowrap font-medium text-text-primary">
+                2 hours
+              </td>
+<td class="py-4 px-space-md whitespace-nowrap">
+<span class="font-headline-sm text-headline-sm font-semibold text-text-primary">8 hours</span>
+<div class="font-body-sm text-body-sm text-text-secondary">Core business day</div>
+</td>
+<td class="py-4 px-space-md whitespace-nowrap">
+<div class="flex items-center gap-1.5 text-priority-high font-medium font-code-mono text-code-mono">
+<span class="material-symbols-outlined text-[16px]">schedule</span>
+                  85% (51m warning)
+                </div>
+<div class="w-28 bg-surface-subtle rounded-full h-1.5 mt-1 overflow-hidden">
+<div class="bg-priority-high h-1.5 rounded-full" style="width: 85%"></div>
+</div>
+</td>
+<td class="py-4 px-space-lg">
+<span class="px-2 py-1 rounded bg-surface-subtle border border-border font-code-mono text-code-mono text-text-primary text-xs inline-flex items-center gap-1.5">
+<span class="material-symbols-outlined text-secondary text-[15px]">forward</span>
+                  Reassign to Tier 2 Lead Specialist
+                </span>
+</td>
+<td class="py-4 px-space-md text-right whitespace-nowrap">
+<button class="p-1.5 hover:bg-surface-subtle rounded text-text-secondary hover:text-text-primary transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+</td>
+</tr>
+<!-- MEDIUM ROW -->
+<tr class="hover:bg-surface-subtle/70 transition-colors">
+<td class="py-4 px-space-lg whitespace-nowrap">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-priority-medium"></span>
+<span class="px-2.5 py-1 rounded bg-blue-50 text-priority-medium font-bold font-code-mono text-code-mono tracking-wide border border-blue-200">
+                    MEDIUM
+                  </span>
+</div>
+</td>
+<td class="py-4 px-space-md whitespace-nowrap">
+<div class="flex items-center gap-2 font-headline-sm text-headline-sm font-semibold text-text-primary">
+                  4 hours
+                </div>
+<div class="font-code-mono text-code-mono text-text-secondary">P95: 2.1 hours</div>
+</td>
+<td class="py-4 px-space-md whitespace-nowrap font-medium text-text-primary">
+                8 hours
+              </td>
+<td class="py-4 px-space-md whitespace-nowrap">
+<span class="font-headline-sm text-headline-sm font-semibold text-text-primary">24 hours</span>
+<div class="font-body-sm text-body-sm text-text-secondary">Standard resolution</div>
+</td>
+<td class="py-4 px-space-md whitespace-nowrap">
+<div class="flex items-center gap-1.5 text-text-secondary font-medium font-code-mono text-code-mono">
+<span class="material-symbols-outlined text-[16px]">info</span>
+                  90% (3h 36m warning)
+                </div>
+<div class="w-28 bg-surface-subtle rounded-full h-1.5 mt-1 overflow-hidden">
+<div class="bg-primary h-1.5 rounded-full" style="width: 90%"></div>
+</div>
+</td>
+<td class="py-4 px-space-lg">
+<span class="px-2 py-1 rounded bg-surface-subtle border border-border font-code-mono text-code-mono text-text-primary text-xs inline-flex items-center gap-1.5">
+<span class="material-symbols-outlined text-text-secondary text-[15px]">mail</span>
+                  Notify Queue Supervisor via email
+                </span>
+</td>
+<td class="py-4 px-space-md text-right whitespace-nowrap">
+<button class="p-1.5 hover:bg-surface-subtle rounded text-text-secondary hover:text-text-primary transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+</td>
+</tr>
+<!-- LOW ROW -->
+<tr class="hover:bg-surface-subtle/70 transition-colors">
+<td class="py-4 px-space-lg whitespace-nowrap">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-priority-low"></span>
+<span class="px-2.5 py-1 rounded bg-slate-100 text-priority-low font-bold font-code-mono text-code-mono tracking-wide border border-slate-300">
+                    LOW
+                  </span>
+</div>
+</td>
+<td class="py-4 px-space-md whitespace-nowrap">
+<div class="flex items-center gap-2 font-headline-sm text-headline-sm font-semibold text-text-primary">
+                  12 hours
+                </div>
+<div class="font-code-mono text-code-mono text-text-secondary">P95: 5.4 hours</div>
+</td>
+<td class="py-4 px-space-md whitespace-nowrap font-medium text-text-primary">
+                24 hours
+              </td>
+<td class="py-4 px-space-md whitespace-nowrap">
+<span class="font-headline-sm text-headline-sm font-semibold text-text-primary">72 hours</span>
+<div class="font-body-sm text-body-sm text-text-secondary">Backlog &amp; low impact</div>
+</td>
+<td class="py-4 px-space-md whitespace-nowrap">
+<div class="flex items-center gap-1.5 text-text-secondary font-medium font-code-mono text-code-mono">
+<span class="material-symbols-outlined text-[16px]">info</span>
+                  95%
+                </div>
+<div class="w-28 bg-surface-subtle rounded-full h-1.5 mt-1 overflow-hidden">
+<div class="bg-priority-low h-1.5 rounded-full" style="width: 95%"></div>
+</div>
+</td>
+<td class="py-4 px-space-lg">
+<span class="px-2 py-1 rounded bg-surface-subtle border border-border font-code-mono text-code-mono text-text-primary text-xs inline-flex items-center gap-1.5">
+<span class="material-symbols-outlined text-text-secondary text-[15px]">flag</span>
+                  Flag for weekly backlog review
+                </span>
+</td>
+<td class="py-4 px-space-md text-right whitespace-nowrap">
+<button class="p-1.5 hover:bg-surface-subtle rounded text-text-secondary hover:text-text-primary transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Matrix Footer Bar -->
+<div class="p-space-md bg-surface-subtle/50 border-t border-border flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm font-body-sm text-body-sm text-text-secondary">
+<div class="flex items-center gap-4">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px] text-ticket-open-text">check_circle</span> SLA pause criteria: Status = 'Pending Customer', 'Awaiting Third-Party Vendor'</span>
+</div>
+<div class="flex items-center gap-3">
+<a class="text-primary hover:underline font-medium inline-flex items-center gap-1" href="#">
+<span>Configure Escalation Trees</span>
+<span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+<!-- Section 2: Operating Schedule & Business Hours Scheduler -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-space-lg">
+<!-- Left Card: Primary Weekly Shift -->
+<div class="lg:col-span-2 bg-surface rounded-xl border border-border shadow-sm p-space-lg flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between border-b border-border pb-space-sm mb-space-md">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-[24px]">schedule</span>
+<div>
+<h3 class="font-headline-sm text-headline-sm font-bold text-text-primary">Primary Support Schedule: US Eastern (UTC-5)</h3>
+<p class="font-body-sm text-body-sm text-text-secondary">Calculates SLA timestamps during active support hours for standard tickets.</p>
+</div>
+</div>
+<button class="px-3 py-1 rounded-lg border border-border text-text-secondary hover:text-text-primary hover:bg-surface-subtle font-headline-sm text-body-sm transition-colors" type="button">
+              Edit Schedule
+            </button>
+</div>
+<!-- Day Badges & Shift Hours Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-7 gap-2.5 my-space-md">
+<!-- Mon -->
+<div class="p-3 rounded-lg border border-primary/30 bg-primary-fixed/20 flex flex-col items-center text-center">
+<span class="font-code-mono text-code-mono text-primary font-bold">MON</span>
+<span class="w-2 h-2 rounded-full bg-ticket-open-text my-1.5"></span>
+<span class="font-body-sm text-body-sm font-medium text-text-primary">08:00 AM</span>
+<span class="font-body-sm text-body-sm text-text-secondary">08:00 PM</span>
+</div>
+<!-- Tue -->
+<div class="p-3 rounded-lg border border-primary/30 bg-primary-fixed/20 flex flex-col items-center text-center">
+<span class="font-code-mono text-code-mono text-primary font-bold">TUE</span>
+<span class="w-2 h-2 rounded-full bg-ticket-open-text my-1.5"></span>
+<span class="font-body-sm text-body-sm font-medium text-text-primary">08:00 AM</span>
+<span class="font-body-sm text-body-sm text-text-secondary">08:00 PM</span>
+</div>
+<!-- Wed -->
+<div class="p-3 rounded-lg border border-primary/30 bg-primary-fixed/20 flex flex-col items-center text-center">
+<span class="font-code-mono text-code-mono text-primary font-bold">WED</span>
+<span class="w-2 h-2 rounded-full bg-ticket-open-text my-1.5"></span>
+<span class="font-body-sm text-body-sm font-medium text-text-primary">08:00 AM</span>
+<span class="font-body-sm text-body-sm text-text-secondary">08:00 PM</span>
+</div>
+<!-- Thu -->
+<div class="p-3 rounded-lg border border-primary/30 bg-primary-fixed/20 flex flex-col items-center text-center">
+<span class="font-code-mono text-code-mono text-primary font-bold">THU</span>
+<span class="w-2 h-2 rounded-full bg-ticket-open-text my-1.5"></span>
+<span class="font-body-sm text-body-sm font-medium text-text-primary">08:00 AM</span>
+<span class="font-body-sm text-body-sm text-text-secondary">08:00 PM</span>
+</div>
+<!-- Fri -->
+<div class="p-3 rounded-lg border border-primary/30 bg-primary-fixed/20 flex flex-col items-center text-center">
+<span class="font-code-mono text-code-mono text-primary font-bold">FRI</span>
+<span class="w-2 h-2 rounded-full bg-ticket-open-text my-1.5"></span>
+<span class="font-body-sm text-body-sm font-medium text-text-primary">08:00 AM</span>
+<span class="font-body-sm text-body-sm text-text-secondary">08:00 PM</span>
+</div>
+<!-- Sat -->
+<div class="p-3 rounded-lg border border-border bg-surface-subtle/60 flex flex-col items-center text-center">
+<span class="font-code-mono text-code-mono text-text-secondary font-bold">SAT</span>
+<span class="w-2 h-2 rounded-full bg-amber-400 my-1.5"></span>
+<span class="font-body-sm text-body-sm font-medium text-priority-urgent">On-Call</span>
+<span class="font-body-sm text-body-sm text-text-secondary">Urgent Only</span>
+</div>
+<!-- Sun -->
+<div class="p-3 rounded-lg border border-border bg-surface-subtle/60 flex flex-col items-center text-center">
+<span class="font-code-mono text-code-mono text-text-secondary font-bold">SUN</span>
+<span class="w-2 h-2 rounded-full bg-amber-400 my-1.5"></span>
+<span class="font-body-sm text-body-sm font-medium text-priority-urgent">On-Call</span>
+<span class="font-body-sm text-body-sm text-text-secondary">Urgent Only</span>
+</div>
+</div>
+</div>
+<div class="mt-space-md pt-space-sm border-t border-border flex items-center justify-between text-body-sm text-text-secondary">
+<span class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-secondary">info</span>
+            60 Total Operational Hours per standard calendar week
+          </span>
+<span class="font-code-mono text-code-mono">Timezone: America/New_York (EDT)</span>
+</div>
+</div>
+<!-- Right Card: Holiday Calendar & Exemption Widget -->
+<div class="bg-surface rounded-xl border border-border shadow-sm p-space-lg flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between border-b border-border pb-space-sm mb-space-md">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-[22px]">event_busy</span>
+<h3 class="font-headline-sm text-headline-sm font-bold text-text-primary">Holiday Observances</h3>
+</div>
+<span class="px-2 py-0.5 rounded bg-surface-subtle font-code-mono text-code-mono text-xs">US &amp; Federal</span>
+</div>
+<!-- Highlighted Upcoming Holiday -->
+<div class="p-space-md rounded-xl bg-ticket-pending-bg border border-amber-200/80 mb-space-md">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-ticket-pending-text text-[20px]">calendar_clock</span>
+<span class="font-headline-sm text-headline-sm font-semibold text-ticket-pending-text">Upcoming Observance</span>
+</div>
+<span class="px-2 py-0.5 rounded bg-amber-200/60 font-code-mono text-code-mono text-xs text-ticket-pending-text font-bold">In 14 Days</span>
+</div>
+<div class="font-headline-sm text-headline-sm text-text-primary font-semibold mt-2">Labor Day (United States)</div>
+<p class="font-body-sm text-body-sm text-text-secondary mt-1">
+              Monday, Sept 1, 2025. SLA clock paused for Medium &amp; Low tickets. Urgent/High handled via PagerDuty on-call.
+            </p>
+</div>
+<!-- Mini upcoming list -->
+<div class="space-y-2 font-body-sm text-body-sm">
+<div class="flex items-center justify-between py-1.5 border-b border-border/60">
+<span class="text-text-primary font-medium">Thanksgiving Day</span>
+<span class="text-text-secondary font-code-mono">Nov 27, 2025</span>
+</div>
+<div class="flex items-center justify-between py-1.5 border-b border-border/60">
+<span class="text-text-primary font-medium">Day After Thanksgiving</span>
+<span class="text-text-secondary font-code-mono">Nov 28, 2025</span>
+</div>
+</div>
+</div>
+<button class="w-full mt-4 py-2 px-3 rounded-lg border border-border bg-surface-subtle hover:bg-border/60 text-text-primary font-headline-sm text-body-sm flex items-center justify-center gap-1.5 transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">add</span>
+          Add Custom Holiday Exemption
+        </button>
+</div>
+</div>
+<!-- Section 3: Visual Automation Rule Builder Cards -->
+<div class="flex flex-col gap-space-md">
+<!-- Section Header with Quick Filters -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm">
+<div>
+<h2 class="font-headline-md text-headline-md text-text-primary tracking-tight">Event Automation Rules</h2>
+<p class="font-body-sm text-body-sm text-text-secondary">Triggers evaluate synchronously on ticket creation, customer replies, or elapsed inactivity timers.</p>
+</div>
+<div class="flex items-center gap-2">
+<span class="font-body-sm text-body-sm text-text-secondary">Filter by:</span>
+<select class="h-9 px-3 bg-surface border border-border rounded-lg font-body-sm text-body-sm text-text-primary focus:outline-none focus:ring-1 focus:ring-primary">
+<option>All Triggers &amp; Channels</option>
+<option>Ticket Created</option>
+<option>Customer Reply Received</option>
+<option>Time-based (Inactivity)</option>
+</select>
+</div>
+</div>
+<!-- Rule Pipeline Cards Container -->
+<div class="flex flex-col gap-space-md">
+<!-- CARD 1: VIP Enterprise Priority Auto-Escalation -->
+<div class="bg-surface rounded-xl border border-border shadow-sm p-space-lg transition-all hover:border-primary/40 flex flex-col gap-space-md">
+<!-- Card Header & Meta -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm border-b border-border pb-space-sm">
+<div class="flex items-center gap-space-sm">
+<span class="px-2 py-0.5 rounded bg-surface-subtle font-code-mono text-code-mono font-bold text-text-secondary border border-border">#1</span>
+<h3 class="font-headline-sm text-headline-sm font-bold text-text-primary">VIP Enterprise Priority Auto-Escalation</h3>
+<span class="px-2 py-0.5 rounded-full bg-ticket-open-bg text-ticket-open-text font-code-mono text-code-mono text-xs font-semibold">Active</span>
+</div>
+<div class="flex items-center gap-space-md">
+<div class="flex items-center gap-1.5 font-code-mono text-code-mono text-text-secondary text-xs">
+<span class="material-symbols-outlined text-primary text-[16px]">sync</span>
+                Fired 1,842 times this week
+              </div>
+<label class="relative inline-flex items-center cursor-pointer select-none">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-10 h-5 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+</label>
+<button class="p-1 hover:bg-surface-subtle rounded text-text-secondary hover:text-text-primary" type="button">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</div>
+</div>
+<!-- Pipeline Visual Stage (WHEN -> IF -> THEN) -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-md items-center">
+<!-- Stage 1: WHEN (Trigger) -->
+<div class="lg:col-span-3 flex flex-col gap-1.5">
+<span class="font-code-mono text-code-mono uppercase text-tertiary font-bold tracking-wider flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">play_circle</span> WHEN (TRIGGER)
+              </span>
+<div class="p-3 rounded-lg bg-ticket-onhold-bg border border-tertiary/20 flex flex-col gap-1 text-sm">
+<div class="flex items-center gap-1.5 font-medium text-ticket-onhold-text">
+<span class="material-symbols-outlined text-[18px]">contact_support</span>
+                  Ticket Created
+                </div>
+<div class="text-xs text-ticket-onhold-text/80 font-mono">OR Customer Reply Received</div>
+</div>
+</div>
+<!-- Connector Arrow -->
+<div class="hidden lg:flex lg:col-span-1 justify-center text-text-secondary">
+<span class="material-symbols-outlined text-[24px]">trending_flat</span>
+</div>
+<!-- Stage 2: IF (Conditions) -->
+<div class="lg:col-span-4 flex flex-col gap-1.5">
+<span class="font-code-mono text-code-mono uppercase text-secondary font-bold tracking-wider flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">tune</span> IF (CONDITIONS MET)
+              </span>
+<div class="p-3 rounded-lg bg-surface-subtle border border-border flex flex-wrap gap-1.5 text-xs">
+<span class="px-2 py-1 rounded bg-surface border border-border font-code-mono text-text-primary">
+                  Org Plan <span class="text-primary font-bold">=</span> 'Enterprise Platinum'
+                </span>
+<span class="px-2 py-1 rounded bg-surface border border-border font-code-mono text-text-primary">
+                  ARR <span class="text-primary font-bold">&gt;=</span> '$100,000'
+                </span>
+<span class="px-2 py-1 rounded bg-red-50 border border-red-200 text-priority-urgent font-code-mono">
+                  Sentiment <span class="font-bold">=</span> 'Negative / High Risk'
+                </span>
+</div>
+</div>
+<!-- Connector Arrow -->
+<div class="hidden lg:flex lg:col-span-1 justify-center text-text-secondary">
+<span class="material-symbols-outlined text-[24px]">trending_flat</span>
+</div>
+<!-- Stage 3: THEN (Actions) -->
+<div class="lg:col-span-3 flex flex-col gap-1.5">
+<span class="font-code-mono text-code-mono uppercase text-ticket-open-text font-bold tracking-wider flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">task_alt</span> THEN (EXECUTE ACTIONS)
+              </span>
+<div class="p-3 rounded-lg bg-ticket-open-bg border border-ticket-open-text/20 flex flex-col gap-1 text-xs">
+<div class="flex items-center gap-1 text-ticket-open-text font-medium">
+<span class="material-symbols-outlined text-[14px]">arrow_circle_right</span> Set Priority → <span class="font-bold text-priority-urgent">URGENT</span>
+</div>
+<div class="flex items-center gap-1 text-ticket-open-text font-medium">
+<span class="material-symbols-outlined text-[14px]">group</span> Team → Tier 3 VIP Escalations
+                </div>
+<div class="flex items-center gap-1 text-ticket-open-text font-medium">
+<span class="material-symbols-outlined text-[14px]">webhook</span> Slack #enterprise-alerts
+                </div>
+<div class="flex items-center gap-1 text-ticket-open-text font-medium">
+<span class="material-symbols-outlined text-[14px]">label</span> Add Tag: <span class="font-mono">#vip-priority</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- CARD 2: SAML & SSO Triage AI Auto-Classifier -->
+<div class="bg-surface rounded-xl border border-border shadow-sm p-space-lg transition-all hover:border-primary/40 flex flex-col gap-space-md">
+<!-- Card Header & Meta -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm border-b border-border pb-space-sm">
+<div class="flex items-center gap-space-sm">
+<span class="px-2 py-0.5 rounded bg-surface-subtle font-code-mono text-code-mono font-bold text-text-secondary border border-border">#2</span>
+<h3 class="font-headline-sm text-headline-sm font-bold text-text-primary">SAML &amp; SSO Triage AI Auto-Classifier</h3>
+<span class="px-2 py-0.5 rounded-full bg-ticket-open-bg text-ticket-open-text font-code-mono text-code-mono text-xs font-semibold">Active</span>
+</div>
+<div class="flex items-center gap-space-md">
+<div class="flex items-center gap-1.5 font-code-mono text-code-mono text-text-secondary text-xs">
+<span class="material-symbols-outlined text-primary text-[16px]">sync</span>
+                Fired 924 times this week
+              </div>
+<label class="relative inline-flex items-center cursor-pointer select-none">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-10 h-5 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+</label>
+<button class="p-1 hover:bg-surface-subtle rounded text-text-secondary hover:text-text-primary" type="button">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</div>
+</div>
+<!-- Pipeline Visual Stage (WHEN -> IF -> THEN) -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-md items-center">
+<!-- Stage 1: WHEN (Trigger) -->
+<div class="lg:col-span-3 flex flex-col gap-1.5">
+<span class="font-code-mono text-code-mono uppercase text-tertiary font-bold tracking-wider flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">play_circle</span> WHEN (TRIGGER)
+              </span>
+<div class="p-3 rounded-lg bg-ticket-onhold-bg border border-tertiary/20 flex flex-col gap-1 text-sm">
+<div class="flex items-center gap-1.5 font-medium text-ticket-onhold-text">
+<span class="material-symbols-outlined text-[18px]">all_inbox</span>
+                  Ticket Created
+                </div>
+<div class="text-xs text-ticket-onhold-text/80 font-mono">Via Any Channel (Email, API, Portal)</div>
+</div>
+</div>
+<!-- Connector Arrow -->
+<div class="hidden lg:flex lg:col-span-1 justify-center text-text-secondary">
+<span class="material-symbols-outlined text-[24px]">trending_flat</span>
+</div>
+<!-- Stage 2: IF (Conditions) -->
+<div class="lg:col-span-4 flex flex-col gap-1.5">
+<span class="font-code-mono text-code-mono uppercase text-secondary font-bold tracking-wider flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">tune</span> IF (CONDITIONS MET)
+              </span>
+<div class="p-3 rounded-lg bg-surface-subtle border border-border flex flex-wrap gap-1.5 text-xs">
+<span class="px-2 py-1 rounded bg-surface border border-border font-code-mono text-text-primary">
+                  Subject or Body <span class="text-primary font-bold">contains any:</span>
+</span>
+<span class="px-2 py-0.5 rounded bg-blue-50 border border-blue-200 text-ticket-new-text font-code-mono">
+                  'SAML 2.0', 'Okta', 'IdP 403', 'Azure AD'
+                </span>
+</div>
+</div>
+<!-- Connector Arrow -->
+<div class="hidden lg:flex lg:col-span-1 justify-center text-text-secondary">
+<span class="material-symbols-outlined text-[24px]">trending_flat</span>
+</div>
+<!-- Stage 3: THEN (Actions) -->
+<div class="lg:col-span-3 flex flex-col gap-1.5">
+<span class="font-code-mono text-code-mono uppercase text-ticket-open-text font-bold tracking-wider flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">task_alt</span> THEN (EXECUTE ACTIONS)
+              </span>
+<div class="p-3 rounded-lg bg-ticket-open-bg border border-ticket-open-text/20 flex flex-col gap-1 text-xs">
+<div class="flex items-center gap-1 text-ticket-open-text font-medium">
+<span class="material-symbols-outlined text-[14px]">alt_route</span> Route Queue → Auth &amp; Security Ops
+                </div>
+<div class="flex items-center gap-1 text-ticket-open-text font-medium">
+<span class="material-symbols-outlined text-[14px]">menu_book</span> Attach KB → KB-104: SAML 2.0 Guide
+                </div>
+<div class="flex items-center gap-1 text-ticket-open-text font-medium">
+<span class="material-symbols-outlined text-[14px]">auto_fix_high</span> Draft AI Copilot Suggested Response
+                </div>
+</div>
+</div>
+</div>
+</div>
+<!-- CARD 3: Stale Ticket Automated Nudge & Auto-Close -->
+<div class="bg-surface rounded-xl border border-border shadow-sm p-space-lg transition-all hover:border-primary/40 flex flex-col gap-space-md">
+<!-- Card Header & Meta -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm border-b border-border pb-space-sm">
+<div class="flex items-center gap-space-sm">
+<span class="px-2 py-0.5 rounded bg-surface-subtle font-code-mono text-code-mono font-bold text-text-secondary border border-border">#3</span>
+<h3 class="font-headline-sm text-headline-sm font-bold text-text-primary">Stale Ticket Automated Nudge &amp; Auto-Close</h3>
+<span class="px-2 py-0.5 rounded-full bg-ticket-open-bg text-ticket-open-text font-code-mono text-code-mono text-xs font-semibold">Active</span>
+</div>
+<div class="flex items-center gap-space-md">
+<div class="flex items-center gap-1.5 font-code-mono text-code-mono text-text-secondary text-xs">
+<span class="material-symbols-outlined text-primary text-[16px]">sync</span>
+                Fired 3,110 times this week
+              </div>
+<label class="relative inline-flex items-center cursor-pointer select-none">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-10 h-5 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+</label>
+<button class="p-1 hover:bg-surface-subtle rounded text-text-secondary hover:text-text-primary" type="button">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</div>
+</div>
+<!-- Pipeline Visual Stage (WHEN -> IF -> THEN) -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-md items-center">
+<!-- Stage 1: WHEN (Trigger) -->
+<div class="lg:col-span-3 flex flex-col gap-1.5">
+<span class="font-code-mono text-code-mono uppercase text-tertiary font-bold tracking-wider flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">play_circle</span> WHEN (TRIGGER)
+              </span>
+<div class="p-3 rounded-lg bg-ticket-onhold-bg border border-tertiary/20 flex flex-col gap-1 text-sm">
+<div class="flex items-center gap-1.5 font-medium text-ticket-onhold-text">
+<span class="material-symbols-outlined text-[18px]">hourglass_top</span>
+                  Time Elapsed
+                </div>
+<div class="text-xs text-ticket-onhold-text/80 font-mono">48 hours since last Customer Response</div>
+</div>
+</div>
+<!-- Connector Arrow -->
+<div class="hidden lg:flex lg:col-span-1 justify-center text-text-secondary">
+<span class="material-symbols-outlined text-[24px]">trending_flat</span>
+</div>
+<!-- Stage 2: IF (Conditions) -->
+<div class="lg:col-span-4 flex flex-col gap-1.5">
+<span class="font-code-mono text-code-mono uppercase text-secondary font-bold tracking-wider flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">tune</span> IF (CONDITIONS MET)
+              </span>
+<div class="p-3 rounded-lg bg-surface-subtle border border-border flex flex-wrap gap-1.5 text-xs">
+<span class="px-2 py-1 rounded bg-amber-50 border border-amber-200 text-ticket-pending-text font-code-mono">
+                  Ticket Status <span class="font-bold">=</span> 'Pending Customer'
+                </span>
+<span class="px-2 py-1 rounded bg-surface border border-border font-code-mono text-text-primary">
+                  Last Activity <span class="text-primary font-bold">&gt;</span> 48h
+                </span>
+</div>
+</div>
+<!-- Connector Arrow -->
+<div class="hidden lg:flex lg:col-span-1 justify-center text-text-secondary">
+<span class="material-symbols-outlined text-[24px]">trending_flat</span>
+</div>
+<!-- Stage 3: THEN (Actions) -->
+<div class="lg:col-span-3 flex flex-col gap-1.5">
+<span class="font-code-mono text-code-mono uppercase text-ticket-open-text font-bold tracking-wider flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">task_alt</span> THEN (EXECUTE ACTIONS)
+              </span>
+<div class="p-3 rounded-lg bg-ticket-open-bg border border-ticket-open-text/20 flex flex-col gap-1 text-xs">
+<div class="flex items-center gap-1 text-ticket-open-text font-medium">
+<span class="material-symbols-outlined text-[14px]">send</span> Send Template: 'Follow-up Check-in #1'
+                </div>
+<div class="flex items-center gap-1 text-ticket-open-text font-medium">
+<span class="material-symbols-outlined text-[14px]">note_add</span> Add Internal Note: 'Automated ping sent'
+                </div>
+<div class="flex items-center gap-1 text-ticket-open-text font-medium">
+<span class="material-symbols-outlined text-[14px]">schedule</span> Queue Auto-Solve in 72h if no reply
+                </div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Simulator Quick Launch Banner -->
+<div class="w-full rounded-xl bg-surface-subtle border border-border p-space-md flex flex-col sm:flex-row items-center justify-between gap-space-md">
+<div class="flex items-center gap-space-md">
+<div class="w-10 h-10 rounded-lg bg-primary-fixed text-on-primary-fixed flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[24px]">play_arrow</span>
+</div>
+<div>
+<div class="font-headline-sm text-headline-sm font-semibold text-text-primary">Ready to verify your pipeline changes?</div>
+<p class="font-body-sm text-body-sm text-text-secondary">Run real-time rule simulations against a sample payload or replay historical customer tickets without altering state.</p>
+</div>
+</div>
+<button class="shrink-0 px-4 py-2 rounded-lg bg-primary text-on-primary font-headline-sm text-headline-sm hover:bg-primary-container transition-all" type="button">
+        Launch Test Simulator
+      </button>
+</div>
+</div>
+</div></main><footer class="w-full bg-surface border-t border-border py-space-lg"><div class="w-full px-margin flex flex-col md:flex-row items-center justify-between gap-space-md text-text-secondary font-body-sm text-body-sm"><div>© 2025 SupportPilot Inc. All rights reserved. System Operational.</div><div class="flex items-center gap-space-lg"><a class="hover:text-on-surface transition-colors" href="#">Security Status</a><a class="hover:text-on-surface transition-colors" href="#">API Reference</a><a class="hover:text-on-surface transition-colors" href="#">Privacy Policy</a></div></div></footer></body></html>

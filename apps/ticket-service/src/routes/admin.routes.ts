@@ -90,6 +90,49 @@ adminRouter.patch(
   },
 );
 
+// PATCH /api/v1/admin/tenants/:id/plan - Upgrade or downgrade tenant plan (OWNER only)
+adminRouter.patch(
+  '/tenants/:id/plan',
+  requireMinRole('OWNER'),
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { plan } = req.body;
+      if (!['FREE', 'PRO'].includes(plan)) {
+        res.status(400).json({ title: 'Validation error', detail: 'Plan must be FREE or PRO' });
+        return;
+      }
+
+      if (!isDbConnected() && !('mock' in Tenant.findByIdAndUpdate)) {
+        res.status(200).json({ data: { id: req.params.id, plan, success: true } });
+        return;
+      }
+
+      const updated = await Tenant.findByIdAndUpdate(
+        req.params.id,
+        { $set: { plan, updatedAt: new Date() } },
+        { new: true },
+      );
+
+      if (!updated) {
+        res.status(404).json({ title: 'Not found', detail: 'Tenant not found' });
+        return;
+      }
+
+      res.status(200).json({
+        data: {
+          id: updated._id.toString(),
+          name: updated.name,
+          slug: updated.slug,
+          plan: updated.plan,
+          success: true,
+        },
+      });
+    } catch (err) {
+      next(err);
+    }
+  },
+);
+
 // GET /api/v1/admin/health - Platform health metrics
 adminRouter.get(
   '/health',

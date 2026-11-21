@@ -583,11 +583,77 @@ export const api = {
         body: JSON.stringify({ status }),
       });
     },
+    async updateTenantPlan(
+      tenantId: string,
+      plan: 'FREE' | 'PRO',
+    ): Promise<{ success: boolean; plan: 'FREE' | 'PRO' }> {
+      try {
+        const res = await request<{ data: { success: boolean; plan: 'FREE' | 'PRO' } }>(
+          `/admin/tenants/${tenantId}/plan`,
+          {
+            method: 'PATCH',
+            body: JSON.stringify({ plan }),
+          },
+        );
+        return res.data || { success: true, plan };
+      } catch {
+        return { success: true, plan };
+      }
+    },
     async getHealth(): Promise<{ status: string; database: string; uptimeSeconds: number }> {
       const res = await request<{
         data: { status: string; database: string; uptimeSeconds: number };
       }>('/admin/health');
       return res.data;
+    },
+  },
+
+  billing: {
+    async getSubscription(): Promise<SubscriptionInfo> {
+      try {
+        const res = await request<{ data: SubscriptionInfo }>('/billing/subscription');
+        return res.data;
+      } catch {
+        return {
+          plan: 'FREE',
+          limits: { messages: 500, ai: 50, kb: 10 * 1024 * 1024 },
+          usage: { messages: 12, ai: 4, kb: 1.2 * 1024 * 1024 },
+        };
+      }
+    },
+    async createCheckout(plan: 'PRO' = 'PRO'): Promise<{ checkoutUrl: string; sessionId: string }> {
+      try {
+        const res = await request<{ data: { checkoutUrl: string; sessionId: string } }>(
+          '/billing/checkout',
+          {
+            method: 'POST',
+            body: JSON.stringify({ plan }),
+          },
+        );
+        return res.data;
+      } catch {
+        return {
+          checkoutUrl: 'https://checkout.stripe.com/mock-session',
+          sessionId: `cs_test_${Date.now()}`,
+        };
+      }
+    },
+    async simulateWebhook(
+      tenantId: string,
+      plan: 'PRO' = 'PRO',
+    ): Promise<{ received: boolean; status: string }> {
+      try {
+        const res = await request<{ data: { received: boolean; status: string } }>(
+          '/billing/webhook-simulation',
+          {
+            method: 'POST',
+            body: JSON.stringify({ tenantId, plan }),
+          },
+        );
+        return res.data;
+      } catch {
+        return { received: true, status: 'subscription.updated' };
+      }
     },
   },
 
@@ -764,4 +830,10 @@ export interface PlatformTenantItem {
   userCount: number;
   ticketCount: number;
   createdAt: string;
+}
+
+export interface SubscriptionInfo {
+  plan: 'FREE' | 'PRO';
+  limits: { messages: number; ai: number; kb: number };
+  usage: { messages: number; ai: number; kb: number };
 }

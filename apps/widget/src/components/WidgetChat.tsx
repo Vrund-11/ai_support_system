@@ -57,7 +57,7 @@ export function WidgetChat({
 
   return (
     <div
-      className="fixed bottom-24 right-6 w-96 max-w-[calc(100vw-3rem)] h-[540px] max-h-[calc(100vh-8rem)] bg-white rounded-2xl shadow-2xl border border-slate-200 flex flex-col overflow-hidden z-50 animate-in fade-in slide-in-from-bottom-4 duration-200"
+      className="fixed bottom-24 right-6 w-[390px] max-w-[calc(100vw-3rem)] h-[580px] max-h-[calc(100vh-8rem)] bg-white rounded-2xl shadow-[0_24px_60px_-12px_rgba(15,23,42,0.28),0_8px_24px_-4px_rgba(15,23,42,0.12)] border border-slate-200/80 flex flex-col overflow-hidden z-50 animate-in fade-in slide-in-from-bottom-4 duration-200"
       data-testid="widget-chat-window"
     >
       {/* Header */}
@@ -66,21 +66,23 @@ export function WidgetChat({
         className="px-4 py-3.5 text-white flex items-center justify-between shadow-sm shrink-0"
       >
         <div className="flex items-center space-x-2.5">
-          <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
-            {theme.logoUrl ? (
-              <img src={theme.logoUrl} alt="Logo" className="w-5 h-5 rounded-full" />
-            ) : (
-              <Shield className="w-4 h-4 text-white" />
-            )}
+          <div className="relative">
+            <div className="w-9 h-9 rounded-xl bg-white/15 backdrop-blur-xs border border-white/20 flex items-center justify-center shadow-inner">
+              {theme.logoUrl ? (
+                <img src={theme.logoUrl} alt="Logo" className="w-5 h-5 rounded-lg object-contain" />
+              ) : (
+                <Shield className="w-4 h-4 text-white" />
+              )}
+            </div>
+            <span
+              className={`absolute -bottom-0.5 -right-0.5 w-3 h-3 border-2 border-white rounded-full ${
+                isConnected ? 'bg-emerald-400' : 'bg-amber-400 animate-pulse'
+              }`}
+            />
           </div>
           <div>
-            <div className="font-bold text-sm leading-tight">{title}</div>
-            <div className="flex items-center space-x-1.5 text-[11px] text-white/80">
-              <span
-                className={`w-1.5 h-1.5 rounded-full ${
-                  isConnected ? 'bg-emerald-300' : 'bg-amber-300'
-                }`}
-              />
+            <div className="font-bold text-sm leading-tight tracking-tight">{title}</div>
+            <div className="flex items-center space-x-1.5 text-[11px] text-white/85">
               <span>{isConnected ? 'Online & AI Assistant' : 'Connecting...'}</span>
             </div>
           </div>
@@ -94,7 +96,7 @@ export function WidgetChat({
               onClose();
             }
           }}
-          className="text-white/80 hover:text-white p-1 rounded-md transition-colors cursor-pointer"
+          className="text-white/80 hover:text-white p-1 rounded-lg hover:bg-white/10 transition-colors cursor-pointer"
           aria-label="Close chat"
           data-testid="widget-close-button"
         >
@@ -103,14 +105,14 @@ export function WidgetChat({
       </div>
 
       {/* Mode toggle bar */}
-      <div className="flex border-b border-slate-100 bg-slate-50 text-xs font-medium text-slate-500 shrink-0">
+      <div className="flex border-b border-slate-100 bg-slate-50/80 text-xs font-medium text-slate-500 shrink-0">
         <button
           type="button"
           onClick={() => setActiveTab('chat')}
-          className={`flex-1 py-2 text-center transition-colors ${
+          className={`flex-1 py-2 text-center transition-colors cursor-pointer ${
             activeTab === 'chat'
-              ? 'bg-white font-semibold text-slate-800 border-b-2'
-              : 'hover:text-slate-700'
+              ? 'bg-white font-semibold text-slate-900 border-b-2'
+              : 'hover:text-slate-800'
           }`}
           style={activeTab === 'chat' ? { borderColor: primaryColor } : {}}
           data-testid="tab-chat"
@@ -120,10 +122,10 @@ export function WidgetChat({
         <button
           type="button"
           onClick={() => setActiveTab('offline')}
-          className={`flex-1 py-2 text-center transition-colors ${
+          className={`flex-1 py-2 text-center transition-colors cursor-pointer ${
             activeTab === 'offline'
-              ? 'bg-white font-semibold text-slate-800 border-b-2'
-              : 'hover:text-slate-700'
+              ? 'bg-white font-semibold text-slate-900 border-b-2'
+              : 'hover:text-slate-800'
           }`}
           style={activeTab === 'offline' ? { borderColor: primaryColor } : {}}
           data-testid="tab-offline"
@@ -143,22 +145,22 @@ export function WidgetChat({
           <div className="flex-1 overflow-y-auto p-4 space-y-3" data-testid="widget-messages-list">
             {/* Greeting */}
             <div className="flex items-start space-x-2 text-xs">
-              <div className="w-6 h-6 rounded-full bg-indigo-50 text-indigo-600 flex items-center justify-center shrink-0 mt-0.5">
-                <Bot className="w-3.5 h-3.5" />
+              <div className="w-7 h-7 rounded-full bg-indigo-50 text-indigo-600 flex items-center justify-center shrink-0 mt-0.5 border border-indigo-100">
+                <Bot className="w-4 h-4" />
               </div>
-              <div className="bg-slate-100 text-slate-800 p-2.5 rounded-2xl rounded-tl-sm max-w-[80%] leading-relaxed">
+              <div className="bg-slate-100 text-slate-800 p-3 rounded-2xl rounded-tl-sm max-w-[82%] leading-relaxed shadow-xs">
                 {greeting}
               </div>
             </div>
 
             {/* Quick Topic Shortcut Pills (from Stitch Widget Design) */}
-            <div className="flex flex-wrap gap-1.5 pl-8">
+            <div className="flex flex-wrap gap-1.5 pl-9">
               {['Billing Question', 'API Setup', 'Speak to Agent'].map((topic) => (
                 <button
                   key={topic}
                   type="button"
                   onClick={() => onSendMessage(topic)}
-                  className="text-[11px] font-medium bg-slate-100 hover:bg-indigo-50 text-slate-700 hover:text-indigo-600 px-2.5 py-1 rounded-full border border-slate-200/80 transition-all cursor-pointer"
+                  className="text-[11px] font-medium bg-slate-100 hover:bg-indigo-50 text-slate-700 hover:text-indigo-600 px-3 py-1 rounded-full border border-slate-200/80 transition-all cursor-pointer shadow-2xs"
                 >
                   {topic}
                 </button>
@@ -174,12 +176,12 @@ export function WidgetChat({
                 data-testid={`widget-message-${msg.id}`}
               >
                 <div
-                  className={`w-6 h-6 rounded-full flex items-center justify-center shrink-0 mt-0.5 ${
+                  className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 mt-0.5 shadow-2xs ${
                     msg.senderType === 'CUSTOMER'
                       ? 'bg-slate-200 text-slate-700'
                       : msg.senderType === 'AI'
-                        ? 'bg-purple-100 text-purple-700'
-                        : 'bg-indigo-100 text-indigo-700'
+                        ? 'bg-purple-100 text-purple-700 border border-purple-200'
+                        : 'bg-indigo-100 text-indigo-700 border border-indigo-200'
                   }`}
                 >
                   {msg.senderType === 'CUSTOMER' ? (
@@ -192,11 +194,11 @@ export function WidgetChat({
                 </div>
 
                 <div
-                  className={`p-2.5 rounded-2xl max-w-[80%] leading-relaxed ${
+                  className={`p-3 rounded-2xl max-w-[82%] leading-relaxed shadow-xs ${
                     msg.senderType === 'CUSTOMER'
                       ? 'bg-indigo-600 text-white rounded-tr-sm'
                       : msg.senderType === 'AI'
-                        ? 'bg-purple-50/80 border border-purple-200 text-slate-800 rounded-tl-sm'
+                        ? 'bg-purple-50/90 border border-purple-200 text-slate-800 rounded-tl-sm'
                         : 'bg-slate-100 text-slate-800 rounded-tl-sm'
                   }`}
                 >
@@ -208,7 +210,7 @@ export function WidgetChat({
                       {msg.citations.map((c) => (
                         <span
                           key={c.chunkId}
-                          className="inline-flex items-center space-x-1 bg-white/80 text-purple-900 text-[10px] px-1.5 py-0.5 rounded border border-purple-200"
+                          className="inline-flex items-center space-x-1 bg-white/90 text-purple-900 text-[10px] px-2 py-0.5 rounded-full border border-purple-200 font-medium"
                         >
                           <BookOpen className="w-2.5 h-2.5 text-purple-600" />
                           <span>{c.title}</span>
@@ -223,7 +225,7 @@ export function WidgetChat({
                       {msg.attachments.map((a) => (
                         <span
                           key={a.key}
-                          className="inline-flex items-center space-x-1 bg-white/90 text-slate-800 text-[10px] px-1.5 py-0.5 rounded border border-slate-200"
+                          className="inline-flex items-center space-x-1 bg-white/90 text-slate-800 text-[10px] px-2 py-0.5 rounded-full border border-slate-200 font-medium"
                         >
                           <Paperclip className="w-2.5 h-2.5 text-slate-500" />
                           <span className="truncate max-w-[120px]">{a.name}</span>
@@ -233,7 +235,7 @@ export function WidgetChat({
                   )}
 
                   <div
-                    className={`text-[9px] mt-1 text-right ${
+                    className={`text-[9px] mt-1 text-right font-mono ${
                       msg.senderType === 'CUSTOMER' ? 'text-indigo-200' : 'text-slate-400'
                     }`}
                   >
@@ -248,8 +250,8 @@ export function WidgetChat({
                 className="flex items-center space-x-2 text-xs text-slate-400 italic"
                 data-testid="widget-typing-indicator"
               >
-                <div className="w-6 h-6 rounded-full bg-slate-100 flex items-center justify-center">
-                  <Bot className="w-3 h-3 text-slate-400" />
+                <div className="w-7 h-7 rounded-full bg-slate-100 flex items-center justify-center border border-slate-200">
+                  <Bot className="w-3.5 h-3.5 text-slate-400" />
                 </div>
                 <span>Support is typing...</span>
               </div>
@@ -266,21 +268,21 @@ export function WidgetChat({
                 value={inputText}
                 onChange={handleInputChange}
                 placeholder="Ask a question or type a message..."
-                className="flex-1 text-xs px-3.5 py-2 border border-slate-300 rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all shadow-2xs"
+                className="flex-1 text-xs px-4 py-2.5 border border-slate-300 rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all shadow-2xs"
                 data-testid="widget-composer-input"
               />
               <button
                 type="submit"
                 disabled={!inputText.trim()}
                 style={{ backgroundColor: primaryColor }}
-                className="w-8 h-8 rounded-full text-white flex items-center justify-center cursor-pointer disabled:opacity-40 transition-opacity shrink-0 shadow-xs"
+                className="w-9 h-9 rounded-full text-white flex items-center justify-center cursor-pointer disabled:opacity-40 transition-opacity shrink-0 shadow-xs active:scale-95"
                 data-testid="widget-send-button"
               >
-                <Send className="w-3.5 h-3.5" />
+                <Send className="w-4 h-4" />
               </button>
             </form>
-            <div className="pb-1.5 text-center text-[10px] text-slate-400 font-medium">
-              Powered by <span className="font-semibold text-slate-600">SupportPilot</span> AI
+            <div className="pb-2 text-center text-[10px] text-slate-400 font-medium">
+              Powered by <span className="font-semibold text-slate-700">SupportPilot</span> AI
             </div>
           </div>
         </>

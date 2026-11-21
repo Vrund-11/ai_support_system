@@ -45,7 +45,7 @@ export interface Citation {
 export type Channel = 'WIDGET' | 'DASHBOARD' | 'API' | 'EMAIL';
 
 /** Tenant subscription plans */
-export type TenantPlan = 'FREE' | 'PRO';
+export type TenantPlan = 'FREE' | 'PRO' | 'ENTERPRISE';
 
 /** Tenant status */
 export type TenantStatus = 'ACTIVE' | 'SUSPENDED';

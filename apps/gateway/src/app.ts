@@ -135,6 +135,7 @@ export function createApp(config: GatewayConfig = {}): Express {
   app.use('/api/v1/feature-flags', ticketProxy);
   app.use('/api/v1/billing', ticketProxy);
   app.use('/api/v1/admin', ticketProxy);
+  app.use('/api/v1/superadmin', ticketProxy);
 
   // ── Proxy routes to ai-service (AI-5, AI-6, AI-1) ──
   const aiProxy = createProxyMiddleware({

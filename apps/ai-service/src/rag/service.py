@@ -12,7 +12,12 @@ from src.rag.confidence import (
     compute_composite_confidence,
     normalize_top_chunk_score,
 )
-from src.rag.prompt import build_system_prompt, build_user_prompt, is_prompt_injection
+from src.rag.prompt import (
+    build_system_prompt,
+    build_user_prompt,
+    check_conversational_message,
+    is_prompt_injection,
+)
 from src.rag.validator import generate_json_with_repair, verify_citations
 from src.retrieval.hybrid import HybridRetriever, SearchResultChunk
 from src.schemas.llm import (
@@ -87,6 +92,19 @@ class RagService:
                 reason="Prompt injection blocked by security policy",
                 provider=self.provider.name,
                 tokens_used=0,
+            )
+
+        # 0.5 Conversational greeting & small-talk check (AI-10)
+        conversational_reply = check_conversational_message(req.question)
+        if conversational_reply is not None:
+            return GenerateAnswerResponse(
+                answer=conversational_reply,
+                citations=[],
+                confidence=1.0,
+                should_escalate=False,
+                reason=None,
+                provider="conversational",
+                tokens_used=10,
             )
 
         # 1. Check semantic response cache (AI-7)

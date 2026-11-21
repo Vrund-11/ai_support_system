@@ -107,24 +107,24 @@ class MockLLMProvider(LLMProvider):
 
             if self.custom_citations is not None:
                 citations = self.custom_citations
-            elif should_escalate or not chunk_matches:
-                citations = (
-                    []
-                    if should_escalate
-                    else [
-                        CitationItem(
-                            chunk_id="chunk-default-101",
-                            doc_id="doc-kb-001",
-                            title="Getting Started Guide",
-                        )
-                    ]
-                )
-            else:
+            elif should_escalate:
+                citations = []
+            elif "(No relevant knowledge chunks found)" in user_prompt:
+                citations = []
+            elif chunk_matches:
                 citations = [
                     CitationItem(
                         chunk_id=chunk_matches[0][0],
                         doc_id="doc-kb-001",
                         title="SupportPilot Knowledge Base",
+                    )
+                ]
+            else:
+                citations = [
+                    CitationItem(
+                        chunk_id="chunk-default-101",
+                        doc_id="doc-kb-001",
+                        title="Getting Started Guide",
                     )
                 ]
 

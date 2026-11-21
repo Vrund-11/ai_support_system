@@ -299,3 +299,24 @@ def test_api_answer_endpoint(setup_memory_repo):
     assert "confidence" in data
     assert "should_escalate" in data
     assert data["provider"] == "mock"
+
+
+@pytest.mark.asyncio
+async def test_conversational_greetings_no_escalation(setup_memory_repo):
+    """Test that general greetings and pleasantries return directly without ticket escalation."""
+    repo = setup_memory_repo
+    provider = MockLLMProvider()
+    retriever = HybridRetriever(repository=repo, llm_provider=provider)
+    service = RagService(retriever=retriever, llm_provider=provider)
+
+    for greeting in ["hi", "hello!", "hey there", "good morning", "thanks", "who are you", "help"]:
+        req = GenerateAnswerRequest(
+            tenant_id="tenant-test",
+            question=greeting,
+        )
+        res = await service.generate_answer(req)
+        assert res.should_escalate is False
+        assert res.confidence == 1.0
+        assert res.citations == []
+        assert res.provider == "conversational"
+        assert len(res.answer) > 0

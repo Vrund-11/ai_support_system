@@ -14,6 +14,7 @@ COPY apps/web/package.json ./apps/web/
 COPY apps/widget/package.json ./apps/widget/
 COPY apps/mobile/package.json ./apps/mobile/
 COPY apps/webhook-lambda/package.json ./apps/webhook-lambda/
+COPY apps/admin/package.json ./apps/admin/
 
 COPY packages/shared-types/package.json ./packages/shared-types/
 COPY packages/shared-lib/package.json ./packages/shared-lib/

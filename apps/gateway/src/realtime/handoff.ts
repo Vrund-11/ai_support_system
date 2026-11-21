@@ -70,6 +70,17 @@ export const DEFAULT_BLOCKLIST = [
   'data leak',
 ];
 
+export const GREETING_PATTERNS = [
+  /^\s*(hi|hello|hey|howdy|hola|greetings|good\s+(morning|afternoon|evening|day)|yo|sup)(\s+there)?\b[\s!.,?]*$/i,
+  /^\s*(thanks|thank\s+you|thx|many\s+thanks|appreciate\s+it)\b[\s!.,?]*$/i,
+  /^\s*(bye|goodbye|see\s+ya|see\s+you|cya)\b[\s!.,?]*$/i,
+  /^\s*(who\s+are\s+you|what\s+can\s+you\s+do|help|help\s+me)\b[\s!.,?]*$/i,
+];
+
+export function checkGreeting(text: string): boolean {
+  return GREETING_PATTERNS.some((pattern) => pattern.test(text.trim()));
+}
+
 export function checkHumanRequest(text: string): boolean {
   return HUMAN_REQUEST_PATTERNS.some((pattern) => pattern.test(text));
 }
@@ -179,6 +190,11 @@ export class HandoffService {
   }
 
   evaluateImmediateTriggers(text: string): HandoffTrigger {
+    // Greetings/pleasantries never trigger immediate escalation
+    if (checkGreeting(text)) {
+      return { triggered: false };
+    }
+
     // 1. Human agent request
     if (checkHumanRequest(text)) {
       return {
@@ -236,6 +252,14 @@ export class HandoffService {
       });
 
       if (!response.ok) {
+        if (checkGreeting(question)) {
+          return {
+            answer: 'Hello! Welcome to SupportPilot. How can I help you today?',
+            citations: [],
+            confidence: 1.0,
+            should_escalate: false,
+          };
+        }
         return {
           answer: 'Connecting you with a support representative...',
           citations: [],
@@ -247,6 +271,14 @@ export class HandoffService {
 
       return (await response.json()) as AiAnswerResult;
     } catch (err) {
+      if (checkGreeting(question)) {
+        return {
+          answer: 'Hello! Welcome to SupportPilot. How can I help you today?',
+          citations: [],
+          confidence: 1.0,
+          should_escalate: false,
+        };
+      }
       return {
         answer: 'Connecting you with a support representative...',
         citations: [],

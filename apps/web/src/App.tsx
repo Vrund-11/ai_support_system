@@ -122,9 +122,9 @@ export function AppContent() {
 
         {currentTab === 'analytics' && <AnalyticsDashboard />}
 
-        {currentTab === 'admin' && <AdminCockpitView />}
-
         {currentTab === 'settings' && <SettingsView />}
+
+        {currentTab === 'admin' && <AdminCockpitView />}
 
         {currentTab === 'help' && <HelpCenterView />}
       </Suspense>

@@ -68,6 +68,8 @@ export function Shell({
     }
   };
 
+  const isOwner = user?.role === 'OWNER' || user?.role === 'PLATFORM_ADMIN';
+
   const navItems: Array<{ tab: NavTab; label: string; icon: string; testId: string }> = [
     { tab: 'inbox', label: 'Tickets (Inbox)', icon: 'inbox', testId: 'nav-inbox' },
     { tab: 'chats', label: 'Live Chats', icon: 'chat', testId: 'nav-chats' },
@@ -76,17 +78,17 @@ export function Shell({
     { tab: 'team', label: 'Team', icon: 'badge', testId: 'nav-team' },
     { tab: 'automation', label: 'Automation & SLA', icon: 'bolt', testId: 'nav-automation' },
     { tab: 'analytics', label: 'Analytics', icon: 'monitoring', testId: 'nav-analytics' },
-    ...(user?.role === 'OWNER'
+    { tab: 'settings', label: 'Settings', icon: 'settings', testId: 'nav-settings' },
+    ...(isOwner
       ? [
           {
-            tab: 'admin' as const,
-            label: 'Admin Cockpit',
-            icon: 'shield_person',
+            tab: 'admin' as NavTab,
+            label: 'Platform Cockpit',
+            icon: 'admin_panel_settings',
             testId: 'nav-admin',
           },
         ]
       : []),
-    { tab: 'settings', label: 'Settings', icon: 'settings', testId: 'nav-settings' },
     { tab: 'help', label: 'Help', icon: 'help', testId: 'nav-help' },
   ];
 

@@ -61,7 +61,7 @@ const tenantSchema = new Schema<ITenantDocument>(
     },
     plan: {
       type: String,
-      enum: ['FREE', 'PRO'],
+      enum: ['FREE', 'PRO', 'ENTERPRISE'],
       default: 'FREE',
     },
     status: {

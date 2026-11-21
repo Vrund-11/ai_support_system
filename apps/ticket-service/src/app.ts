@@ -22,6 +22,7 @@ import { teamRouter } from './routes/team.routes.js';
 import { docsRouter } from './routes/docs.routes.js';
 import { notificationRouter } from './routes/notification.routes.js';
 import { billingRouter } from './routes/billing.routes.js';
+import { superadminRouter } from './routes/superadmin.routes.js';
 import { createQuotaMiddleware } from './middleware/quota.middleware.js';
 
 export function createApp(logLevel: string = 'info'): Express {
@@ -78,8 +79,9 @@ export function createApp(logLevel: string = 'info'): Express {
   app.use('/api/v1/notifications', notificationRouter);
   app.use('/api/v1/docs', docsRouter);
   app.use('/api/v1/billing', billingRouter);
-  app.use('/api/v1', integrationRouter);
+  app.use('/api/v1/superadmin', superadminRouter);
   app.use('/api/v1/admin', adminRouter);
+  app.use('/api/v1', integrationRouter);
 
   // ── Error handler (must be last) ──
   app.use(errorHandler(logger));

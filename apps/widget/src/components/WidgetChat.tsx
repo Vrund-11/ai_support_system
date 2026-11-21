@@ -183,83 +183,95 @@ export function WidgetChat({
               ))}
             </div>
 
-            {messages.map((msg) => (
-              <div
-                key={msg.id}
-                className={`flex items-start space-x-2 text-xs ${
-                  msg.senderType === 'CUSTOMER' ? 'flex-row-reverse space-x-reverse' : ''
-                }`}
-                data-testid={`widget-message-${msg.id}`}
-              >
+            {messages.map((msg) =>
+              msg.senderType === 'SYSTEM' ? (
                 <div
-                  className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 mt-0.5 shadow-2xs ${
-                    msg.senderType === 'CUSTOMER'
-                      ? 'bg-slate-200 text-slate-700'
-                      : msg.senderType === 'AI'
-                        ? 'bg-purple-100 text-purple-700 border border-purple-200'
-                        : 'bg-indigo-100 text-indigo-700 border border-indigo-200'
-                  }`}
+                  key={msg.id}
+                  className="my-2.5 flex justify-center"
+                  data-testid={`widget-message-${msg.id}`}
                 >
-                  {msg.senderType === 'CUSTOMER' ? (
-                    <User className="w-3.5 h-3.5" />
-                  ) : msg.senderType === 'AI' ? (
-                    <Sparkles className="w-3.5 h-3.5" />
-                  ) : (
-                    <Shield className="w-3.5 h-3.5" />
-                  )}
+                  <span className="text-[11px] font-medium text-slate-500 bg-slate-100 border border-slate-200/80 px-3.5 py-1.5 rounded-full text-center max-w-[90%] leading-relaxed shadow-2xs">
+                    {msg.body}
+                  </span>
                 </div>
-
+              ) : (
                 <div
-                  className={`p-3 rounded-2xl max-w-[82%] leading-relaxed shadow-xs ${
-                    msg.senderType === 'CUSTOMER'
-                      ? 'bg-indigo-600 text-white rounded-tr-sm'
-                      : msg.senderType === 'AI'
-                        ? 'bg-purple-50/90 border border-purple-200 text-slate-800 rounded-tl-sm'
-                        : 'bg-slate-100 text-slate-800 rounded-tl-sm'
+                  key={msg.id}
+                  className={`flex items-start space-x-2 text-xs ${
+                    msg.senderType === 'CUSTOMER' ? 'flex-row-reverse space-x-reverse' : ''
                   }`}
+                  data-testid={`widget-message-${msg.id}`}
                 >
-                  <div>{msg.body}</div>
-
-                  {/* Citations chips */}
-                  {msg.citations && msg.citations.length > 0 && (
-                    <div className="mt-2 pt-1.5 border-t border-purple-200/50 flex flex-wrap gap-1">
-                      {msg.citations.map((c) => (
-                        <span
-                          key={c.chunkId || (c as any).chunk_id || c.title}
-                          className="inline-flex items-center space-x-1 bg-white/90 text-purple-900 text-[10px] px-2 py-0.5 rounded-full border border-purple-200 font-medium"
-                        >
-                          <BookOpen className="w-2.5 h-2.5 text-purple-600" />
-                          <span>{c.title}</span>
-                        </span>
-                      ))}
-                    </div>
-                  )}
-
-                  {/* Attachment chips */}
-                  {msg.attachments && msg.attachments.length > 0 && (
-                    <div className="mt-2 pt-1.5 border-t border-slate-200/50 flex flex-wrap gap-1">
-                      {msg.attachments.map((a) => (
-                        <span
-                          key={a.key}
-                          className="inline-flex items-center space-x-1 bg-white/90 text-slate-800 text-[10px] px-2 py-0.5 rounded-full border border-slate-200 font-medium"
-                        >
-                          <Paperclip className="w-2.5 h-2.5 text-slate-500" />
-                          <span className="truncate max-w-[120px]">{a.name}</span>
-                        </span>
-                      ))}
-                    </div>
-                  )}
-
                   <div
-                    className={`text-[9px] mt-1 text-right font-mono ${
-                      msg.senderType === 'CUSTOMER' ? 'text-indigo-200' : 'text-slate-400'
+                    className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 mt-0.5 shadow-2xs ${
+                      msg.senderType === 'CUSTOMER'
+                        ? 'bg-slate-200 text-slate-700'
+                        : msg.senderType === 'AI'
+                          ? 'bg-purple-100 text-purple-700 border border-purple-200'
+                          : 'bg-indigo-100 text-indigo-700 border border-indigo-200'
                     }`}
                   >
-                    {msg.pending ? 'Sending...' : `#${msg.seq}`}
+                    {msg.senderType === 'CUSTOMER' ? (
+                      <User className="w-3.5 h-3.5" />
+                    ) : msg.senderType === 'AI' ? (
+                      <Sparkles className="w-3.5 h-3.5" />
+                    ) : (
+                      <Shield className="w-3.5 h-3.5" />
+                    )}
+                  </div>
+
+                  <div
+                    className={`p-3 rounded-2xl max-w-[82%] leading-relaxed shadow-xs ${
+                      msg.senderType === 'CUSTOMER'
+                        ? 'bg-indigo-600 text-white rounded-tr-sm'
+                        : msg.senderType === 'AI'
+                          ? 'bg-purple-50/90 border border-purple-200 text-slate-800 rounded-tl-sm'
+                          : 'bg-slate-100 text-slate-800 rounded-tl-sm'
+                    }`}
+                  >
+                    <div>{msg.body}</div>
+
+                    {/* Citations chips */}
+                    {msg.citations && msg.citations.length > 0 && (
+                      <div className="mt-2 pt-1.5 border-t border-purple-200/50 flex flex-wrap gap-1">
+                        {msg.citations.map((c) => (
+                          <span
+                            key={c.chunkId || (c as any).chunk_id || c.title}
+                            className="inline-flex items-center space-x-1 bg-white/90 text-purple-900 text-[10px] px-2 py-0.5 rounded-full border border-purple-200 font-medium"
+                          >
+                            <BookOpen className="w-2.5 h-2.5 text-purple-600" />
+                            <span>{c.title}</span>
+                          </span>
+                        ))}
+                      </div>
+                    )}
+
+                    {/* Attachment chips */}
+                    {msg.attachments && msg.attachments.length > 0 && (
+                      <div className="mt-2 pt-1.5 border-t border-slate-200/50 flex flex-wrap gap-1">
+                        {msg.attachments.map((a) => (
+                          <span
+                            key={a.key}
+                            className="inline-flex items-center space-x-1 bg-white/90 text-slate-800 text-[10px] px-2 py-0.5 rounded-full border border-slate-200 font-medium"
+                          >
+                            <Paperclip className="w-2.5 h-2.5 text-slate-500" />
+                            <span className="truncate max-w-[120px]">{a.name}</span>
+                          </span>
+                        ))}
+                      </div>
+                    )}
+
+                    <div
+                      className={`text-[9px] mt-1 text-right font-mono ${
+                        msg.senderType === 'CUSTOMER' ? 'text-indigo-200' : 'text-slate-400'
+                      }`}
+                    >
+                      {msg.pending ? 'Sending...' : `#${msg.seq}`}
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ),
+            )}
 
             {isTyping && (
               <div

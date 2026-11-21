@@ -7,7 +7,7 @@ import { createSocketAuthMiddleware } from './auth.js';
 import { tenantRoom, userRoom, conversationRoom } from './rooms.js';
 import { SequenceService, type StoredMessage } from './sequence.js';
 import { PresenceService } from './presence.js';
-import { HandoffService } from './handoff.js';
+import { HandoffService, checkGreeting } from './handoff.js';
 
 export interface SocketServerOptions {
   jwtSecret: string;
@@ -307,7 +307,8 @@ export function createSocketServer(
           title: c.title || 'Knowledge Base',
         }));
 
-        if (aiResponse.should_escalate) {
+        const isGreetingMsg = checkGreeting(body);
+        if (aiResponse.should_escalate && !isGreetingMsg) {
           // AI low confidence or inability to answer -> escalate
           await handoffService.setConversationState(conversationId, 'WAITING_AGENT');
           const ticket = await handoffService.createEscalationTicket(

@@ -5,7 +5,7 @@ WORKDIR /app
 
 RUN corepack enable && corepack prepare pnpm@10.11.0 --activate
 
-COPY pnpm-lock.yaml pnpm-workspace.yaml package.json turbo.json tsconfig.base.json ./
+COPY pnpm-lock.yaml pnpm-workspace.yaml package.json turbo.json tsconfig.base.json .npmrc ./
 
 COPY apps/gateway/package.json ./apps/gateway/
 COPY apps/ticket-service/package.json ./apps/ticket-service/
@@ -27,7 +27,7 @@ COPY packages/ ./packages/
 COPY apps/ticket-service/ ./apps/ticket-service/
 
 RUN pnpm --filter @supportpilot/ticket-service... build
-RUN pnpm --filter @supportpilot/ticket-service deploy --prod /prod/ticket-service
+RUN pnpm --filter @supportpilot/ticket-service deploy --legacy --prod /prod/ticket-service
 
 # ── Stage 2: Production Runner ──
 FROM node:22-alpine AS runner

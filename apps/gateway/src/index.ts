@@ -26,6 +26,10 @@ const server = http.createServer(app);
 
 const io: GatewaySocketServer = createSocketServer(server, {
   jwtSecret: env.JWT_ACCESS_SECRET,
+  enableHandoff: true,
+  aiServiceUrl: (env as any).AI_SERVICE_URL || 'http://localhost:4002',
+  ticketServiceUrl: env.TICKET_SERVICE_URL || 'http://localhost:4001',
+  serviceToken: env.SERVICE_TOKEN,
   redisPubClient:
     redis && redis.status === 'ready' && typeof redis.duplicate === 'function'
       ? undefined

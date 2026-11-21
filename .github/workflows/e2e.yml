@@ -17,6 +17,24 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
 
+    services:
+      mongo:
+        image: mongo:7
+        ports:
+          - 27017:27017
+      redis:
+        image: redis:7-alpine
+        ports:
+          - 6379:6379
+      postgres:
+        image: pgvector/pgvector:pg16
+        env:
+          POSTGRES_USER: supportpilot
+          POSTGRES_PASSWORD: supportpilot
+          POSTGRES_DB: supportpilot
+        ports:
+          - 5432:5432
+
     steps:
       - uses: actions/checkout@v4
 
@@ -32,13 +50,6 @@ jobs:
 
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps chromium
-
-      - name: Start Docker Compose Infrastructure
-        run: |
-          sudo systemctl stop postgresql || true
-          sudo systemctl stop mysql || true
-          docker compose -f infra/docker/docker-compose.yml up -d mongo postgres redis minio mailhog
-          sleep 10
 
       - name: Run Hermetic E2E Test Suite
         run: pnpm test:e2e

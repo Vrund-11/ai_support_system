@@ -209,7 +209,7 @@ export function WidgetChat({
                     <div className="mt-2 pt-1.5 border-t border-purple-200/50 flex flex-wrap gap-1">
                       {msg.citations.map((c) => (
                         <span
-                          key={c.chunkId}
+                          key={c.chunkId || (c as any).chunk_id || c.title}
                           className="inline-flex items-center space-x-1 bg-white/90 text-purple-900 text-[10px] px-2 py-0.5 rounded-full border border-purple-200 font-medium"
                         >
                           <BookOpen className="w-2.5 h-2.5 text-purple-600" />

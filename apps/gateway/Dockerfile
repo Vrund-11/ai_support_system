@@ -5,7 +5,7 @@ WORKDIR /app
 
 RUN corepack enable && corepack prepare pnpm@10.11.0 --activate
 
-COPY pnpm-lock.yaml pnpm-workspace.yaml package.json turbo.json tsconfig.base.json ./
+COPY pnpm-lock.yaml pnpm-workspace.yaml package.json turbo.json tsconfig.base.json .npmrc ./
 
 COPY apps/gateway/package.json ./apps/gateway/
 COPY apps/ticket-service/package.json ./apps/ticket-service/
@@ -27,7 +27,7 @@ COPY packages/ ./packages/
 COPY apps/gateway/ ./apps/gateway/
 
 RUN pnpm --filter @supportpilot/gateway... build
-RUN pnpm --filter @supportpilot/gateway deploy --prod /prod/gateway
+RUN pnpm --filter @supportpilot/gateway deploy --legacy --prod /prod/gateway
 
 # ── Stage 2: Production Runner ──
 FROM node:22-alpine AS runner

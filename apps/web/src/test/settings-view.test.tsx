@@ -114,4 +114,128 @@ describe('SettingsView Component (INT-1, INT-2, ADM-1, ADM-2, ADM-3)', () => {
 
     expect(toggleSpy).toHaveBeenCalledWith('ai_copilot', false);
   });
+
+  it('navigates to billing tab, renders quotas and PRO features, and upgrades plan via simulated Stripe', async () => {
+    vi.spyOn(api.apiKeys, 'list').mockResolvedValueOnce([]);
+    vi.spyOn(api.billing, 'getSubscription').mockResolvedValueOnce({
+      plan: 'FREE',
+      limits: { messages: 500, ai: 50, kb: 10 * 1024 * 1024 },
+      usage: { messages: 12, ai: 4, kb: 1.2 * 1024 * 1024 },
+    });
+    const checkoutSpy = vi.spyOn(api.billing, 'createCheckout').mockResolvedValueOnce({
+      checkoutUrl: 'https://checkout.stripe.com/mock',
+      sessionId: 'cs_test_123',
+    });
+
+    renderWithQueryClient(<SettingsView />);
+
+    const billingTab = screen.getByRole('button', { name: /billing & plans/i });
+    await userEvent.click(billingTab);
+
+    await waitFor(() => {
+      expect(screen.getByText('SupportPilot FREE')).toBeInTheDocument();
+    });
+
+    // Check quota meters and pro features
+    expect(screen.getByText('12 / 500')).toBeInTheDocument();
+    expect(screen.getByText('4 / 50')).toBeInTheDocument();
+    expect(screen.getByText('1.2MB / 10MB')).toBeInTheDocument();
+    expect(screen.getByText('Unlimited live chat')).toBeInTheDocument();
+    expect(screen.getByText('10,000 messages/mo')).toBeInTheDocument();
+    expect(screen.getByText('1,000 AI answers')).toBeInTheDocument();
+    expect(screen.getByText('100MB Knowledge Base')).toBeInTheDocument();
+    expect(screen.getByText('Priority SLA (15 min response)')).toBeInTheDocument();
+
+    // Open upgrade modal
+    const upgradeBtn = screen.getByRole('button', { name: /upgrade to pro/i });
+    await userEvent.click(upgradeBtn);
+
+    expect(screen.getByRole('dialog')).toBeInTheDocument();
+    expect(screen.getByText('Instant Test Upgrade (Simulated Stripe)')).toBeInTheDocument();
+
+    // Instant test upgrade
+    const instantUpgradeBtn = screen.getByRole('button', {
+      name: /instant test upgrade \(simulated stripe\)/i,
+    });
+    await userEvent.click(instantUpgradeBtn);
+
+    await waitFor(() => {
+      expect(checkoutSpy).toHaveBeenCalledWith('PRO');
+      expect(screen.getByText('Active Pro Subscription')).toBeInTheDocument();
+    });
+  });
+
+  it('supports simulated webhook payment in upgrade modal', async () => {
+    vi.spyOn(api.apiKeys, 'list').mockResolvedValueOnce([]);
+    vi.spyOn(api.billing, 'getSubscription').mockResolvedValueOnce({
+      plan: 'FREE',
+      limits: { messages: 500, ai: 50, kb: 10 * 1024 * 1024 },
+      usage: { messages: 12, ai: 4, kb: 1.2 * 1024 * 1024 },
+    });
+    const webhookSpy = vi.spyOn(api.billing, 'simulateWebhook').mockResolvedValueOnce({
+      received: true,
+      status: 'subscription.updated',
+    });
+
+    renderWithQueryClient(<SettingsView />);
+
+    const billingTab = screen.getByRole('button', { name: /billing & plans/i });
+    await userEvent.click(billingTab);
+
+    await waitFor(() => {
+      expect(screen.getByText('SupportPilot FREE')).toBeInTheDocument();
+    });
+
+    const upgradeBtn = screen.getByRole('button', { name: /upgrade to pro/i });
+    await userEvent.click(upgradeBtn);
+
+    const webhookBtn = screen.getByRole('button', { name: /simulate webhook payment/i });
+    await userEvent.click(webhookBtn);
+
+    await waitFor(() => {
+      expect(webhookSpy).toHaveBeenCalled();
+      expect(screen.getByText('Active Pro Subscription')).toBeInTheDocument();
+    });
+  });
+
+  it('allows owner to update tenant plan in admin tab', async () => {
+    vi.spyOn(api.apiKeys, 'list').mockResolvedValueOnce([]);
+    vi.spyOn(api.admin, 'listTenants').mockResolvedValueOnce([
+      {
+        id: 't-1',
+        name: 'Acme Corp',
+        slug: 'acme',
+        plan: 'FREE',
+        status: 'ACTIVE',
+        userCount: 4,
+        ticketCount: 18,
+        createdAt: new Date().toISOString(),
+      },
+    ]);
+    vi.spyOn(api.admin, 'getHealth').mockResolvedValueOnce({
+      status: 'healthy',
+      database: 'connected',
+      uptimeSeconds: 3600,
+    });
+    const updatePlanSpy = vi.spyOn(api.admin, 'updateTenantPlan').mockResolvedValueOnce({
+      success: true,
+      plan: 'PRO',
+    });
+
+    renderWithQueryClient(<SettingsView />);
+
+    const adminTab = screen.getByRole('button', { name: /platform admin/i });
+    await userEvent.click(adminTab);
+
+    await waitFor(() => {
+      expect(screen.getByText('Acme Corp')).toBeInTheDocument();
+    });
+
+    const planSelect = screen.getByLabelText(/change plan for acme corp/i);
+    expect(planSelect).toHaveValue('FREE');
+
+    await userEvent.selectOptions(planSelect, 'PRO');
+
+    expect(updatePlanSpy).toHaveBeenCalledWith('t-1', 'PRO');
+  });
 });

@@ -18,6 +18,9 @@ export interface SocketServerOptions {
   presenceService?: PresenceService;
   handoffService?: HandoffService;
   enableHandoff?: boolean;
+  aiServiceUrl?: string;
+  ticketServiceUrl?: string;
+  serviceToken?: string;
 }
 
 export type GatewaySocketServer = SocketServer<
@@ -46,7 +49,13 @@ export function createSocketServer(
   const sequenceService = options.sequenceService ?? new SequenceService(options.redisPubClient);
   const presenceService = options.presenceService ?? new PresenceService(options.redisPubClient);
   const handoffService =
-    options.handoffService ?? new HandoffService({ redisClient: options.redisPubClient });
+    options.handoffService ??
+    new HandoffService({
+      redisClient: options.redisPubClient,
+      aiServiceUrl: options.aiServiceUrl,
+      ticketServiceUrl: options.ticketServiceUrl,
+      serviceToken: options.serviceToken,
+    });
   const enableHandoff = options.enableHandoff ?? options.handoffService !== undefined;
 
   io.sequenceService = sequenceService;
@@ -271,6 +280,12 @@ export function createSocketServer(
           isTyping: false,
         });
 
+        const normalizedCitations = (aiResponse.citations || []).map((c: any) => ({
+          chunkId: c.chunk_id || c.chunkId || '',
+          docId: c.doc_id || c.docId || '',
+          title: c.title || 'Knowledge Base',
+        }));
+
         if (aiResponse.should_escalate) {
           // AI low confidence or inability to answer -> escalate
           await handoffService.setConversationState(conversationId, 'WAITING_AGENT');
@@ -307,7 +322,7 @@ export function createSocketServer(
             body: `${aiResponse.answer} (Transferring to support agent, Ticket #${ticket.number})`,
             senderType: 'AI',
             senderId: 'ai',
-            citations: aiResponse.citations,
+            citations: normalizedCitations,
             attachments: [],
             createdAt: new Date().toISOString(),
           };
@@ -324,15 +339,15 @@ export function createSocketServer(
             body: aiResponse.answer,
             senderType: 'AI',
             senderId: 'ai',
-            citations: aiResponse.citations,
+            citations: normalizedCitations,
             attachments: [],
             createdAt: new Date().toISOString(),
           };
           await sequenceService.saveMessage(conversationId, aiMsg);
           io.to(conversationRoom(conversationId)).emit('message:new', aiMsg);
         }
-      } catch {
-        // Safe swallow of background errors to prevent unhandled rejections
+      } catch (err) {
+        console.error('[gateway:socket] Error processing message handoff / AI response:', err);
       }
     });
 

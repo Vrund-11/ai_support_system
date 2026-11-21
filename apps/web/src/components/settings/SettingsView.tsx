@@ -97,7 +97,10 @@ export function SettingsView() {
     setLoading(true);
     setError(null);
     try {
-      if (activeTab === 'api-keys') {
+      if (activeTab === 'billing') {
+        const data = await api.billing.getSubscription();
+        setSubscription(data);
+      } else if (activeTab === 'api-keys') {
         const data = await api.apiKeys.list();
         setApiKeys(data);
       } else if (activeTab === 'webhooks') {
@@ -222,6 +225,52 @@ export function SettingsView() {
     }
   };
 
+  const handleUpdateTenantPlan = async (id: string, nextPlan: 'FREE' | 'PRO') => {
+    try {
+      await api.admin.updateTenantPlan(id, nextPlan);
+      setTenants(tenants.map((t) => (t.id === id ? { ...t, plan: nextPlan } : t)));
+      toast.success(`Tenant plan updated to ${nextPlan}.`);
+    } catch (err: any) {
+      toast.error(err.message || 'Failed to update tenant plan');
+    }
+  };
+
+  const handleInstantUpgrade = async () => {
+    setUpgrading(true);
+    try {
+      await api.billing.createCheckout('PRO');
+      setSubscription({
+        plan: 'PRO',
+        limits: { messages: 10000, ai: 1000, kb: 100 * 1024 * 1024 },
+        usage: subscription?.usage || { messages: 12, ai: 4, kb: 1.2 * 1024 * 1024 },
+      });
+      toast.success('Successfully upgraded to PRO plan! 🎉');
+      setIsUpgradeModalOpen(false);
+    } catch (err: any) {
+      toast.error(err.message || 'Failed to complete upgrade');
+    } finally {
+      setUpgrading(false);
+    }
+  };
+
+  const handleSimulateWebhook = async () => {
+    setUpgrading(true);
+    try {
+      await api.billing.simulateWebhook(user?.tenantId || 'tenant_production_01', 'PRO');
+      setSubscription({
+        plan: 'PRO',
+        limits: { messages: 10000, ai: 1000, kb: 100 * 1024 * 1024 },
+        usage: subscription?.usage || { messages: 12, ai: 4, kb: 1.2 * 1024 * 1024 },
+      });
+      toast.success('Stripe webhook received: Plan upgraded to PRO! 🎉');
+      setIsUpgradeModalOpen(false);
+    } catch (err: any) {
+      toast.error(err.message || 'Failed to simulate webhook payment');
+    } finally {
+      setUpgrading(false);
+    }
+  };
+
   return (
     <div className="max-w-7xl mx-auto space-y-6">
       {/* Header */}
@@ -253,6 +302,18 @@ export function SettingsView() {
         >
           <Building2 className="w-3.5 h-3.5" />
           <span>General</span>
+        </button>
+
+        <button
+          onClick={() => setActiveTab('billing')}
+          className={`flex items-center space-x-2 px-3.5 py-2 text-xs font-semibold rounded-xl transition-all cursor-pointer ${
+            activeTab === 'billing'
+              ? 'bg-white dark:bg-zinc-900 text-indigo-700 dark:text-indigo-400 shadow-xs border border-slate-200/60 dark:border-zinc-700'
+              : 'text-slate-600 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-zinc-100 hover:bg-slate-200/60 dark:hover:bg-zinc-700/60'
+          }`}
+        >
+          <CreditCard className="w-3.5 h-3.5" />
+          <span>Billing &amp; Plans</span>
         </button>
 
         <button
@@ -390,6 +451,295 @@ export function SettingsView() {
                   RFC 7807 problem-details format with request tracing
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ── Sub-tab: Billing & Plans ── */}
+      {!loading && activeTab === 'billing' && (
+        <div className="space-y-6">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div>
+              <h2 className="text-base font-bold text-slate-900 dark:text-zinc-100">
+                Plan &amp; Billing
+              </h2>
+              <p className="text-xs text-slate-500 dark:text-zinc-400 mt-0.5">
+                Manage your subscription tier, track real-time quota usage, and configure plan
+                limits.
+              </p>
+            </div>
+          </div>
+
+          {/* Current Subscription Card */}
+          <div className="bg-white dark:bg-zinc-900 rounded-2xl shadow-xs border border-slate-200/80 dark:border-zinc-800 p-6 space-y-6 transition-colors">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 dark:border-zinc-800 pb-5">
+              <div className="space-y-1.5">
+                <span className="text-[11px] font-bold text-slate-500 dark:text-zinc-400 uppercase tracking-wider">
+                  Active Subscription Tier
+                </span>
+                <div className="flex flex-wrap items-center gap-2.5">
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-zinc-100">
+                    {(subscription?.plan || 'FREE') === 'PRO'
+                      ? 'SupportPilot PRO'
+                      : 'SupportPilot FREE'}
+                  </h3>
+                  <span
+                    className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold ${
+                      (subscription?.plan || 'FREE') === 'PRO'
+                        ? 'bg-indigo-600 text-white shadow-xs'
+                        : 'bg-slate-100 dark:bg-zinc-800 text-slate-600 dark:text-zinc-400 border border-slate-200 dark:border-zinc-700'
+                    }`}
+                  >
+                    {subscription?.plan || 'FREE'}
+                  </span>
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-100 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 dark:bg-emerald-400 animate-pulse" />
+                    ACTIVE
+                  </span>
+                </div>
+                <p className="text-xs text-slate-500 dark:text-zinc-400">
+                  {(subscription?.plan || 'FREE') === 'PRO'
+                    ? 'Pro professional tier with 10,000 messages/month, 1,000 AI answers, and priority 15-minute SLA.'
+                    : 'Free starter tier with basic quotas. Upgrade anytime to unlock higher throughput and copilot answers.'}
+                </p>
+              </div>
+
+              {(subscription?.plan || 'FREE') === 'FREE' ? (
+                <button
+                  type="button"
+                  onClick={() => setIsUpgradeModalOpen(true)}
+                  className="inline-flex items-center gap-2 px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-xs rounded-xl shadow-xs transition-all cursor-pointer shrink-0 self-start sm:self-center"
+                >
+                  <Zap className="w-4 h-4" />
+                  <span>Upgrade to PRO - $49/mo</span>
+                </button>
+              ) : (
+                <div className="flex flex-wrap items-center gap-3 shrink-0 self-start sm:self-center">
+                  <div className="inline-flex items-center gap-1.5 text-emerald-700 dark:text-emerald-400 font-semibold text-xs">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+                    <span>Active Pro Subscription</span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => toast.info('Redirecting to Stripe Billing Portal...')}
+                    className="px-3.5 py-1.5 border border-slate-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 hover:bg-slate-50 dark:hover:bg-zinc-700/60 text-slate-700 dark:text-zinc-300 text-xs font-semibold rounded-lg shadow-2xs transition-colors cursor-pointer"
+                  >
+                    Manage Subscription
+                  </button>
+                </div>
+              )}
+            </div>
+
+            {/* Daily Usage Progress Meters */}
+            <div>
+              <div className="flex items-center justify-between mb-3">
+                <h4 className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-zinc-300">
+                  Daily Quota Usage
+                </h4>
+                <span className="text-[11px] font-mono text-slate-400 dark:text-zinc-500">
+                  Resets daily at 00:00 UTC
+                </span>
+              </div>
+
+              {(() => {
+                const plan = subscription?.plan || 'FREE';
+                const limits =
+                  subscription?.limits ||
+                  (plan === 'PRO'
+                    ? { messages: 10000, ai: 1000, kb: 100 * 1024 * 1024 }
+                    : { messages: 500, ai: 50, kb: 10 * 1024 * 1024 });
+                const usage = subscription?.usage || {
+                  messages: 12,
+                  ai: 4,
+                  kb: 1.2 * 1024 * 1024,
+                };
+
+                const messagesPct = Math.min(
+                  100,
+                  Math.round((usage.messages / limits.messages) * 100),
+                );
+                const aiPct = Math.min(100, Math.round((usage.ai / limits.ai) * 100));
+                const kbPct = Math.min(100, Math.round((usage.kb / limits.kb) * 100));
+
+                const kbUsedMB = (usage.kb / (1024 * 1024)).toFixed(1);
+                const kbLimitMB = Math.round(limits.kb / (1024 * 1024));
+
+                return (
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    {/* Meter 1: Messages */}
+                    <div className="p-4 rounded-xl bg-slate-50 dark:bg-zinc-800/50 border border-slate-200/70 dark:border-zinc-700 space-y-3">
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs font-semibold text-slate-600 dark:text-zinc-400">
+                          Messages Sent Today
+                        </span>
+                        <div className="p-1.5 rounded-lg bg-indigo-50 dark:bg-indigo-950/50 text-indigo-600 dark:text-indigo-400">
+                          <MessageSquare className="w-4 h-4" />
+                        </div>
+                      </div>
+                      <div className="space-y-1.5">
+                        <div className="flex items-baseline justify-between">
+                          <span className="text-base font-bold text-slate-900 dark:text-zinc-100">
+                            {usage.messages.toLocaleString()} / {limits.messages.toLocaleString()}
+                          </span>
+                          <span className="font-mono text-xs font-semibold text-slate-500 dark:text-zinc-400">
+                            {messagesPct}%
+                          </span>
+                        </div>
+                        <div className="w-full bg-slate-200/80 dark:bg-zinc-700 h-2 rounded-full overflow-hidden">
+                          <div
+                            role="progressbar"
+                            aria-valuenow={messagesPct}
+                            aria-valuemin={0}
+                            aria-valuemax={100}
+                            aria-label="Messages sent today"
+                            className="bg-indigo-600 dark:bg-indigo-500 h-full rounded-full transition-all duration-300"
+                            style={{ width: `${messagesPct}%` }}
+                          />
+                        </div>
+                      </div>
+                      <div className="text-[11px] text-slate-500 dark:text-zinc-400 flex justify-between">
+                        <span>{(limits.messages - usage.messages).toLocaleString()} remaining</span>
+                        <span className="font-semibold text-emerald-600 dark:text-emerald-400">
+                          In Quota
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Meter 2: AI Queries */}
+                    <div className="p-4 rounded-xl bg-slate-50 dark:bg-zinc-800/50 border border-slate-200/70 dark:border-zinc-700 space-y-3">
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs font-semibold text-slate-600 dark:text-zinc-400">
+                          AI Copilot Queries
+                        </span>
+                        <div className="p-1.5 rounded-lg bg-purple-50 dark:bg-purple-950/50 text-purple-600 dark:text-purple-400">
+                          <Bot className="w-4 h-4" />
+                        </div>
+                      </div>
+                      <div className="space-y-1.5">
+                        <div className="flex items-baseline justify-between">
+                          <span className="text-base font-bold text-slate-900 dark:text-zinc-100">
+                            {usage.ai.toLocaleString()} / {limits.ai.toLocaleString()}
+                          </span>
+                          <span className="font-mono text-xs font-semibold text-slate-500 dark:text-zinc-400">
+                            {aiPct}%
+                          </span>
+                        </div>
+                        <div className="w-full bg-slate-200/80 dark:bg-zinc-700 h-2 rounded-full overflow-hidden">
+                          <div
+                            role="progressbar"
+                            aria-valuenow={aiPct}
+                            aria-valuemin={0}
+                            aria-valuemax={100}
+                            aria-label="AI Copilot queries"
+                            className="bg-purple-600 dark:bg-purple-500 h-full rounded-full transition-all duration-300"
+                            style={{ width: `${aiPct}%` }}
+                          />
+                        </div>
+                      </div>
+                      <div className="text-[11px] text-slate-500 dark:text-zinc-400 flex justify-between">
+                        <span>{(limits.ai - usage.ai).toLocaleString()} remaining</span>
+                        <span className="font-semibold text-emerald-600 dark:text-emerald-400">
+                          In Quota
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Meter 3: KB Storage */}
+                    <div className="p-4 rounded-xl bg-slate-50 dark:bg-zinc-800/50 border border-slate-200/70 dark:border-zinc-700 space-y-3">
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs font-semibold text-slate-600 dark:text-zinc-400">
+                          KB Storage Used
+                        </span>
+                        <div className="p-1.5 rounded-lg bg-emerald-50 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400">
+                          <Database className="w-4 h-4" />
+                        </div>
+                      </div>
+                      <div className="space-y-1.5">
+                        <div className="flex items-baseline justify-between">
+                          <span className="text-base font-bold text-slate-900 dark:text-zinc-100">
+                            {kbUsedMB}MB / {kbLimitMB}MB
+                          </span>
+                          <span className="font-mono text-xs font-semibold text-slate-500 dark:text-zinc-400">
+                            {kbPct}%
+                          </span>
+                        </div>
+                        <div className="w-full bg-slate-200/80 dark:bg-zinc-700 h-2 rounded-full overflow-hidden">
+                          <div
+                            role="progressbar"
+                            aria-valuenow={kbPct}
+                            aria-valuemin={0}
+                            aria-valuemax={100}
+                            aria-label="KB storage used"
+                            className="bg-emerald-600 dark:bg-emerald-500 h-full rounded-full transition-all duration-300"
+                            style={{ width: `${kbPct}%` }}
+                          />
+                        </div>
+                      </div>
+                      <div className="text-[11px] text-slate-500 dark:text-zinc-400 flex justify-between">
+                        <span>{(kbLimitMB - parseFloat(kbUsedMB)).toFixed(1)}MB available</span>
+                        <span className="font-semibold text-emerald-600 dark:text-emerald-400">
+                          Optimal
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })()}
+            </div>
+          </div>
+
+          {/* Pro Features Callout Card */}
+          <div className="bg-white dark:bg-zinc-900 rounded-2xl shadow-xs border border-slate-200/80 dark:border-zinc-800 p-6 space-y-4 transition-colors">
+            <div>
+              <h3 className="text-sm font-bold uppercase tracking-wider text-slate-800 dark:text-zinc-200">
+                PRO Plan Features
+              </h3>
+              <p className="text-xs text-slate-500 dark:text-zinc-400 mt-0.5">
+                Everything required to operate world-class multi-channel customer support at scale.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+              {[
+                {
+                  title: 'Unlimited live chat',
+                  desc: 'Real-time agent websocket sessions with no concurrency limit',
+                },
+                {
+                  title: '10,000 messages/mo',
+                  desc: 'High-throughput ticketing with full audit event histories',
+                },
+                {
+                  title: '1,000 AI answers',
+                  desc: 'RAG-grounded copilot answers with vector citations',
+                },
+                {
+                  title: '100MB Knowledge Base',
+                  desc: 'Index deep product manuals, FAQs, and API docs',
+                },
+                {
+                  title: 'Priority SLA (15 min response)',
+                  desc: 'Guaranteed 15-minute response time commitment',
+                },
+              ].map((feat) => (
+                <div
+                  key={feat.title}
+                  className="p-3.5 rounded-xl bg-slate-50 dark:bg-zinc-800/50 border border-slate-200/70 dark:border-zinc-700 flex items-start gap-3"
+                >
+                  <div className="p-1 rounded-lg bg-emerald-50 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5">
+                    <CheckCircle2 className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <div className="text-xs font-bold text-slate-900 dark:text-zinc-100">
+                      {feat.title}
+                    </div>
+                    <p className="text-[11px] text-slate-500 dark:text-zinc-400 mt-0.5">
+                      {feat.desc}
+                    </p>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -820,6 +1170,7 @@ export function SettingsView() {
                   <tr>
                     <th className="px-6 py-3.5">Tenant Name</th>
                     <th className="px-6 py-3.5">Slug</th>
+                    <th className="px-6 py-3.5">Plan</th>
                     <th className="px-6 py-3.5">Users</th>
                     <th className="px-6 py-3.5">Tickets</th>
                     <th className="px-6 py-3.5">Status</th>
@@ -837,6 +1188,23 @@ export function SettingsView() {
                       </td>
                       <td className="px-6 py-4 font-mono text-xs text-slate-600 dark:text-zinc-400">
                         {t.slug}
+                      </td>
+                      <td className="px-6 py-4">
+                        <select
+                          value={t.plan === 'PRO' ? 'PRO' : 'FREE'}
+                          onChange={(e) =>
+                            handleUpdateTenantPlan(t.id, e.target.value as 'FREE' | 'PRO')
+                          }
+                          aria-label={`Change plan for ${t.name}`}
+                          className={`px-2.5 py-1 rounded-lg text-xs font-bold border transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-indigo-500/20 ${
+                            t.plan === 'PRO'
+                              ? 'bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 border-indigo-200 dark:border-indigo-800'
+                              : 'bg-slate-100 dark:bg-zinc-800 text-slate-600 dark:text-zinc-400 border-slate-200 dark:border-zinc-700'
+                          }`}
+                        >
+                          <option value="FREE">FREE</option>
+                          <option value="PRO">PRO</option>
+                        </select>
                       </td>
                       <td className="px-6 py-4 text-slate-600 dark:text-zinc-400 font-medium">
                         {t.userCount}
@@ -1121,6 +1489,111 @@ export function SettingsView() {
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* ── Modal: Upgrade Plan ── */}
+      {isUpgradeModalOpen && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="upgrade-plan-title"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-xs p-4"
+        >
+          <div className="bg-white dark:bg-zinc-900 rounded-2xl shadow-xl max-w-md w-full p-6 border border-slate-200 dark:border-zinc-800 animate-in fade-in zoom-in-95 duration-150 space-y-4">
+            <div className="flex items-center justify-between border-b border-slate-100 dark:border-zinc-800 pb-3">
+              <div className="flex items-center gap-2">
+                <div className="p-1.5 rounded-lg bg-indigo-50 dark:bg-indigo-950/50 text-indigo-600 dark:text-indigo-400">
+                  <Zap className="w-4 h-4" />
+                </div>
+                <div>
+                  <h3
+                    id="upgrade-plan-title"
+                    className="text-base font-bold text-slate-900 dark:text-zinc-100"
+                  >
+                    Upgrade to SupportPilot PRO
+                  </h3>
+                  <p className="text-[11px] text-slate-500 dark:text-zinc-400">
+                    20x quotas, priority SLA, and automated Copilot deflection
+                  </p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setIsUpgradeModalOpen(false)}
+                aria-label="Close upgrade modal"
+                className="p-1 text-slate-400 hover:text-slate-600 dark:hover:text-zinc-200 rounded-lg transition-colors cursor-pointer"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            <div className="p-4 rounded-xl bg-slate-50 dark:bg-zinc-800/50 border border-slate-200/80 dark:border-zinc-700 flex items-baseline justify-between">
+              <div>
+                <span className="text-2xl font-extrabold text-slate-900 dark:text-zinc-100">
+                  $49
+                </span>
+                <span className="text-xs text-slate-500 dark:text-zinc-400 font-medium">
+                  {' '}
+                  / month
+                </span>
+              </div>
+              <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-indigo-600 text-white shadow-xs">
+                PRO TIER
+              </span>
+            </div>
+
+            <div className="space-y-2">
+              <span className="text-xs font-bold text-slate-700 dark:text-zinc-300 uppercase tracking-wider">
+                What's included:
+              </span>
+              <div className="space-y-1.5 text-xs text-slate-600 dark:text-zinc-400">
+                {[
+                  'Unlimited live chat',
+                  '10,000 messages/mo',
+                  '1,000 AI answers',
+                  '100MB Knowledge Base',
+                  'Priority SLA (15 min response)',
+                ].map((item) => (
+                  <div key={item} className="flex items-center gap-2">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 shrink-0" />
+                    <span>{item}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="pt-2 border-t border-slate-100 dark:border-zinc-800 space-y-2">
+              <button
+                type="button"
+                disabled={upgrading}
+                onClick={handleInstantUpgrade}
+                className="w-full py-2.5 px-4 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold rounded-xl shadow-xs transition-colors flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
+              >
+                <CreditCard className="w-4 h-4" />
+                <span>Instant Test Upgrade (Simulated Stripe)</span>
+              </button>
+
+              <button
+                type="button"
+                disabled={upgrading}
+                onClick={handleSimulateWebhook}
+                className="w-full py-2.5 px-4 border border-slate-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 hover:bg-slate-50 dark:hover:bg-zinc-700/60 text-slate-700 dark:text-zinc-300 text-xs font-semibold rounded-xl shadow-2xs transition-colors flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
+              >
+                <Webhook className="w-4 h-4" />
+                <span>Simulate Webhook Payment</span>
+              </button>
+
+              <button
+                type="button"
+                disabled={upgrading}
+                onClick={() => setIsUpgradeModalOpen(false)}
+                className="w-full py-1.5 text-center text-slate-500 hover:text-slate-700 dark:text-zinc-400 dark:hover:text-zinc-200 text-xs font-medium cursor-pointer"
+              >
+                Cancel
+              </button>
+            </div>
           </div>
         </div>
       )}

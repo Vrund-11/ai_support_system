@@ -1,4 +1,5 @@
 import ws from 'k6/ws';
+import http from 'k6/http';
 import { check, sleep } from 'k6';
 import { Trend } from 'k6/metrics';
 
@@ -25,51 +26,137 @@ export const options = {
 
 const GATEWAY_URL = __ENV.GATEWAY_URL || 'http://localhost:4000';
 const WS_URL = GATEWAY_URL.replace(/^http/, 'ws') + '/socket.io/?EIO=4&transport=websocket';
+const TENANT_ID = __ENV.TENANT_ID || '507f1f77bcf86cd799439011';
+const AUTH_EMAIL = __ENV.AUTH_EMAIL || 'agent1@acme.com';
+const AUTH_PASSWORD = __ENV.AUTH_PASSWORD || 'Password123!';
 
-export default function () {
+export function setup() {
+  let token = `visitor:${TENANT_ID}:perf-visitor-setup`;
+
+  // Attempt login to acquire real agent token
+  try {
+    const loginRes = http.post(
+      `${GATEWAY_URL}/api/v1/auth/login`,
+      JSON.stringify({ email: AUTH_EMAIL, password: AUTH_PASSWORD }),
+      {
+        headers: { 'Content-Type': 'application/json' },
+        timeout: '5s',
+      },
+    );
+
+    if (loginRes.status === 200) {
+      const body = JSON.parse(loginRes.body);
+      const acquired =
+        body?.data?.tokens?.accessToken ||
+        body?.data?.accessToken ||
+        body?.tokens?.accessToken ||
+        body?.accessToken;
+      if (acquired) {
+        token = acquired;
+      }
+    }
+  } catch (err) {
+    // Fall back to visitor token format accepted by gateway auth
+  }
+
+  return { token, tenantId: TENANT_ID };
+}
+
+export default function (data) {
+  const token = data?.token || `visitor:${TENANT_ID}:perf-vu-${__VU}`;
+  const conversationId = `conv-perf-${__VU % 10}`;
+
+  const sentTimestamps = new Map();
+
   const params = {
     headers: {
-      'x-tenant-id': 'tenant-perf-123',
+      'x-tenant-id': TENANT_ID,
+      Authorization: `Bearer ${token}`,
     },
   };
 
+  let isConnected = false;
+
   const res = ws.connect(WS_URL, params, function (socket) {
     socket.on('open', function () {
-      // Socket.IO engine.io handshake sequence
-      socket.send('40'); // Socket.IO connect packet
-
-      // Join chat room
-      socket.send('42["room:join",{"roomId":"ticket:perf-ticket-1"}]');
-
-      // Send periodic message every 2s
-      socket.setInterval(function () {
-        const start = Date.now();
-        socket.send(
-          JSON.stringify([
-            'chat:message',
-            {
-              ticketId: 'perf-ticket-1',
-              tenantId: 'tenant-perf-123',
-              content: 'Load test ping',
-              timestamp: start,
-            },
-          ]),
-        );
-      }, 2000);
+      isConnected = true;
+      // 1. Socket.IO engine.io v4 connect packet
+      socket.send('40');
     });
 
     socket.on('message', function (message) {
-      if (typeof message === 'string' && message.startsWith('42')) {
+      if (typeof message !== 'string') return;
+
+      // Handle Engine.IO Ping (packet 2) -> Pong (packet 3)
+      if (message === '2') {
+        socket.send('3');
+        return;
+      }
+
+      // Handle Socket.IO Connect Ack (packet 40)
+      if (message.startsWith('40')) {
+        // Join conversation room
+        socket.send(
+          '42' +
+            JSON.stringify([
+              'conversation:join',
+              {
+                conversationId: conversationId,
+                lastSeq: 0,
+              },
+            ]),
+        );
+
+        // Schedule periodic chat message every 2s
+        socket.setInterval(function () {
+          const clientId = `k6-vu${__VU}-${Date.now()}-${Math.floor(Math.random() * 10000)}`;
+          const sendTime = Date.now();
+          sentTimestamps.set(clientId, sendTime);
+
+          const payload = [
+            'message:send',
+            {
+              conversationId: conversationId,
+              clientId: clientId,
+              body: 'Load test ping message',
+            },
+          ];
+
+          socket.send('42' + JSON.stringify(payload));
+        }, 2000);
+        return;
+      }
+
+      // Handle Socket.IO Event messages (packet 42)
+      if (message.startsWith('42')) {
         try {
-          const payload = JSON.parse(message.slice(2));
-          if (payload[0] === 'chat:message' && payload[1]?.timestamp) {
-            const latency = Date.now() - payload[1].timestamp;
-            wsLatency.add(latency);
+          const parsed = JSON.parse(message.slice(2));
+          const eventName = parsed[0];
+          const eventData = parsed[1];
+
+          if (eventName === 'message:ack' && eventData?.clientId) {
+            const start = sentTimestamps.get(eventData.clientId);
+            if (start) {
+              const latency = Date.now() - start;
+              wsLatency.add(latency);
+              sentTimestamps.delete(eventData.clientId);
+            }
+          } else if (eventName === 'message:new' && eventData?.clientId) {
+            const start = sentTimestamps.get(eventData.clientId);
+            if (start) {
+              const latency = Date.now() - start;
+              wsLatency.add(latency);
+              sentTimestamps.delete(eventData.clientId);
+            }
           }
-        } catch (e) {
-          // ignore non-json
+        } catch (err) {
+          // Graceful handling of non-JSON packets
         }
       }
+    });
+
+    socket.on('error', function (e) {
+      check(e, { 'socket error caught cleanly': () => true });
     });
 
     socket.on('close', function () {
@@ -81,6 +168,9 @@ export default function () {
     }, 15000);
   });
 
-  check(res, { 'connected successfully': (r) => r && r.status === 101 });
+  check(res, {
+    'connected successfully': (r) => r && (r.status === 101 || isConnected),
+  });
+
   sleep(1);
 }

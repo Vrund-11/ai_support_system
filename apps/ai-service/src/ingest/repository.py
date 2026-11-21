@@ -255,7 +255,15 @@ class PostgresIngestRepository(BaseIngestRepository):
         """Create vector extension and tables if not exist."""
         conn = await psycopg.AsyncConnection.connect(self.dsn)
         async with conn, conn.cursor() as cur:
-            await cur.execute("CREATE EXTENSION IF NOT EXISTS vector;")
+            has_vector = False
+            try:
+                await cur.execute("CREATE EXTENSION IF NOT EXISTS vector;")
+                await conn.commit()
+                has_vector = True
+            except Exception:
+                await conn.rollback()
+                has_vector = False
+
             await cur.execute(
                 """
                 CREATE TABLE IF NOT EXISTS kb_documents (
@@ -272,7 +280,11 @@ class PostgresIngestRepository(BaseIngestRepository):
                 );
                 CREATE INDEX IF NOT EXISTS idx_kb_docs_tenant
                     ON kb_documents(tenant_id, status);
-
+                """
+            )
+            embedding_type = "vector(384)" if has_vector else "float8[]"
+            await cur.execute(
+                f"""
                 CREATE TABLE IF NOT EXISTS kb_chunks (
                     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
                     tenant_id TEXT NOT NULL,
@@ -282,8 +294,8 @@ class PostgresIngestRepository(BaseIngestRepository):
                     section_path TEXT NOT NULL DEFAULT '',
                     token_count INT NOT NULL DEFAULT 0,
                     tsv tsvector GENERATED ALWAYS AS (to_tsvector('english', content)) STORED,
-                    embedding vector(384) NOT NULL,
-                    metadata JSONB NOT NULL DEFAULT '{}',
+                    embedding {embedding_type} NOT NULL,
+                    metadata JSONB NOT NULL DEFAULT '{{}}',
                     UNIQUE (document_id, chunk_index)
                 );
                 CREATE INDEX IF NOT EXISTS idx_kb_chunks_tenant ON kb_chunks(tenant_id);
@@ -400,9 +412,20 @@ class PostgresIngestRepository(BaseIngestRepository):
                 (tenant_id, document_id),
             )
 
+            # Check whether embedding is a vector UDT or array
+            await cur.execute(
+                """
+                SELECT udt_name FROM information_schema.columns
+                WHERE table_name = 'kb_chunks' AND column_name = 'embedding';
+                """
+            )
+            col_info = await cur.fetchone()
+            is_vector_udt = bool(col_info and col_info[0] == "vector")
+
             # Bulk insert new chunks
             for i, chunk in enumerate(chunks):
-                emb = embeddings[i] if i < len(embeddings) else []
+                raw_emb = embeddings[i] if i < len(embeddings) else []
+                emb = f"[{','.join(str(x) for x in raw_emb)}]" if is_vector_udt else raw_emb
                 await cur.execute(
                     """
                     INSERT INTO kb_chunks (
@@ -466,37 +489,76 @@ class PostgresIngestRepository(BaseIngestRepository):
         self, tenant_id: str, query_embedding: list[float], limit: int = 20
     ) -> list[tuple[StoredChunk, float]]:
         conn = await psycopg.AsyncConnection.connect(self.dsn)
-        emb_str = f"[{','.join(str(x) for x in query_embedding)}]"
         async with conn, conn.cursor() as cur:
             await cur.execute(
                 """
-                SELECT id, tenant_id, document_id, chunk_index, content,
-                       section_path, token_count, embedding, metadata,
-                       1 - (embedding <=> %s::vector) AS score
-                FROM kb_chunks
-                WHERE tenant_id = %s
-                ORDER BY embedding <=> %s::vector
-                LIMIT %s;
-                """,
-                (emb_str, tenant_id, emb_str, limit),
+                SELECT udt_name FROM information_schema.columns
+                WHERE table_name = 'kb_chunks' AND column_name = 'embedding';
+                """
             )
-            rows = await cur.fetchall()
-            results: list[tuple[StoredChunk, float]] = []
-            for row in rows:
-                chunk = StoredChunk(
-                    id=str(row[0]),
-                    tenant_id=str(row[1]),
-                    document_id=str(row[2]),
-                    chunk_index=int(row[3]),
-                    content=str(row[4]),
-                    section_path=str(row[5]),
-                    token_count=int(row[6]),
-                    embedding=list(row[7]) if row[7] is not None else [],
-                    metadata=dict(row[8]) if row[8] is not None else {},
+            col_info = await cur.fetchone()
+            is_vector_udt = bool(col_info and col_info[0] == "vector")
+
+            if is_vector_udt:
+                emb_str = f"[{','.join(str(x) for x in query_embedding)}]"
+                await cur.execute(
+                    """
+                    SELECT id, tenant_id, document_id, chunk_index, content,
+                           section_path, token_count, embedding, metadata,
+                           1 - (embedding <=> %s::vector) AS score
+                    FROM kb_chunks
+                    WHERE tenant_id = %s
+                    ORDER BY embedding <=> %s::vector
+                    LIMIT %s;
+                    """,
+                    (emb_str, tenant_id, emb_str, limit),
                 )
-                score = float(row[9])
-                results.append((chunk, score))
-            return results
+                rows = await cur.fetchall()
+                results: list[tuple[StoredChunk, float]] = []
+                for row in rows:
+                    chunk = StoredChunk(
+                        id=str(row[0]),
+                        tenant_id=str(row[1]),
+                        document_id=str(row[2]),
+                        chunk_index=int(row[3]),
+                        content=str(row[4]),
+                        section_path=str(row[5]),
+                        token_count=int(row[6]),
+                        embedding=list(row[7]) if row[7] is not None else [],
+                        metadata=dict(row[8]) if row[8] is not None else {},
+                    )
+                    score = float(row[9])
+                    results.append((chunk, score))
+                return results
+            else:
+                await cur.execute(
+                    """
+                    SELECT id, tenant_id, document_id, chunk_index, content,
+                           section_path, token_count, embedding, metadata
+                    FROM kb_chunks
+                    WHERE tenant_id = %s;
+                    """,
+                    (tenant_id,),
+                )
+                rows = await cur.fetchall()
+                scored: list[tuple[StoredChunk, float]] = []
+                for row in rows:
+                    emb = list(row[7]) if row[7] is not None else []
+                    chunk = StoredChunk(
+                        id=str(row[0]),
+                        tenant_id=str(row[1]),
+                        document_id=str(row[2]),
+                        chunk_index=int(row[3]),
+                        content=str(row[4]),
+                        section_path=str(row[5]),
+                        token_count=int(row[6]),
+                        embedding=emb,
+                        metadata=dict(row[8]) if row[8] is not None else {},
+                    )
+                    sim = _cosine_similarity(query_embedding, emb)
+                    scored.append((chunk, sim))
+                scored.sort(key=lambda x: x[1], reverse=True)
+                return scored[:limit]
 
     async def text_search(
         self, tenant_id: str, query_text: str, limit: int = 20

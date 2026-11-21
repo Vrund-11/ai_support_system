@@ -11,6 +11,9 @@ async function run() {
   const context = await browser.newContext({ viewport: { width: 1440, height: 900 } });
   const page = await context.newPage();
 
+  page.on('console', (msg) => console.log(`[PAGE LOG] ${msg.type()}: ${msg.text()}`));
+  page.on('pageerror', (err) => console.log(`[PAGE UNCAUGHT ERROR] ${err.stack || err.message}`));
+
   try {
     console.log('[Step 1] Navigating to http://localhost:3001/...');
     await page.goto('http://localhost:3001/', { waitUntil: 'networkidle', timeout: 15000 });
@@ -81,13 +84,13 @@ async function run() {
     const tenantRow = await page.$('tr[data-testid^="tenant-row-"], button[data-testid^="inspect-tenant-"]');
     if (tenantRow) {
       await tenantRow.click();
-      await page.waitForSelector('text=Capacity & Quota Overrides', { timeout: 5000 });
+      await page.waitForSelector('text=Custom Quota Overrides', { timeout: 5000 });
       await page.waitForTimeout(600);
       await page.screenshot({ path: path.join(SCREENSHOT_DIR, '06-inspection-drawer.png') });
       console.log('✓ Inspection drawer captured: 06-inspection-drawer.png');
 
       // Close drawer
-      const closeBtn = await page.$('button:has(svg.lucide-x)');
+      const closeBtn = await page.$('[data-testid="close-drawer-btn"], button:has(svg.lucide-x)');
       if (closeBtn) {
         await closeBtn.click();
         await page.waitForTimeout(500);

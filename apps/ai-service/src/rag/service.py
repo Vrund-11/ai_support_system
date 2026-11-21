@@ -104,7 +104,7 @@ class RagService:
                 should_escalate=False,
                 reason=None,
                 provider="conversational",
-                tokens_used=10,
+                tokens_used=0,
             )
 
         # 1. Check semantic response cache (AI-7)

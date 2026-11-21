@@ -319,4 +319,5 @@ async def test_conversational_greetings_no_escalation(setup_memory_repo):
         assert res.confidence == 1.0
         assert res.citations == []
         assert res.provider == "conversational"
+        assert res.tokens_used == 0
         assert len(res.answer) > 0

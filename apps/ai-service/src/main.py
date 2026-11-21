@@ -1,5 +1,10 @@
 """SupportPilot AI Service — FastAPI application."""
 
+import sys
+import asyncio
+if sys.platform == "win32":
+    asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
+
 from typing import Any
 
 from fastapi import FastAPI, HTTPException

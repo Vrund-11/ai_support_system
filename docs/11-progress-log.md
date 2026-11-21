@@ -360,8 +360,22 @@
       - Vite dev server on **port 3001** (`pnpm dev:admin`).
       - Login screen with environment credentials validation.
       - NOC navigation: Overview & Telemetry, New Registrations, Paid Subscriptions & MRR, Tenant Fleet Management, Security Audit Trail.
+      - Slide-over Tenant Inspection Drawer: instantaneous suspension toggle, hardware quota overrides (seats, rate limits, AI tokens, vector DB), per-tenant feature flags.
+      - Dark / light theme toggle, responsive layout, WORM audit log stream.
       - Cleaned tenant app (`apps/web`): removed internal admin tab to enforce strict separation of customer tenants from platform superadmin.
       - 4/4 Vitest tests passing (`apps/admin/src/test/admin-app.test.tsx`), Vite build clean.
+    - End-to-End Live Browser QA (`scripts/test-admin-browser.mjs`):
+      - Drove headless Chromium through full user journey:
+        1. Login screen navigation (`01-login-screen.png`)
+        2. SuperAdmin authentication & root badge verification (`02-overview-kpi.png`)
+        3. New Registrations tab + search filtering (`03-registrations-tab.png`)
+        4. Paid Subscriptions & MRR Breakdown ledger (`04-subscriptions-tab.png`)
+        5. Multi-Tenant Fleet Management table (`05-tenants-fleet.png`)
+        6. Slide-over Quota & Feature Flag Inspection Drawer (`06-inspection-drawer.png`)
+        7. Platform Security Audit Trail log (`07-audit-logs.png`)
+        8. Dark / Light theme toggle (`08-dark-mode.png`)
+      - All 8 browser test steps passed 100% successfully.
+      - 227/227 ticket-service tests passing, 4/4 admin tests passing.
 
   - S3-PORT5174-CONVERSATIONAL-FIX: Fixed immediate ticket escalation bug on conversational greetings ('hi', 'hello', 'good morning', etc.):
     - Root cause: RAG retrieval returned 0 knowledge chunks for small-talk; composite confidence fell to 0.19 (<0.70 threshold) and mock provider generated an ungrounded citation, causing `should_escalate=true`. The Gateway immediately opened an escalation ticket and locked the conversation into `WAITING_AGENT`.

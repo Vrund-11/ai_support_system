@@ -3,10 +3,10 @@
   "concurrentSockets": 30,
   "totalMessagesReceived": 300,
   "latency": {
-    "p50": 2.12,
-    "p90": 2.96,
-    "p95": 3.46,
-    "p99": 4.03,
-    "mean": 2.22
+    "p50": 2.25,
+    "p90": 3.21,
+    "p95": 3.42,
+    "p99": 3.64,
+    "mean": 2.36
   }
 }

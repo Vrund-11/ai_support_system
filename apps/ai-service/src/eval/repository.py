@@ -102,7 +102,19 @@ class PostgresEvalRepository(BaseEvalRepository):
                     id, dataset_name, total_samples, hit_at_5, groundedness,
                     escalation_f1, escalation_precision, escalation_recall,
                     p95_latency_ms, passed_regression_gate, metadata, created_at
-                ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);
+                ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                ON CONFLICT (id) DO UPDATE SET
+                    dataset_name = EXCLUDED.dataset_name,
+                    total_samples = EXCLUDED.total_samples,
+                    hit_at_5 = EXCLUDED.hit_at_5,
+                    groundedness = EXCLUDED.groundedness,
+                    escalation_f1 = EXCLUDED.escalation_f1,
+                    escalation_precision = EXCLUDED.escalation_precision,
+                    escalation_recall = EXCLUDED.escalation_recall,
+                    p95_latency_ms = EXCLUDED.p95_latency_ms,
+                    passed_regression_gate = EXCLUDED.passed_regression_gate,
+                    metadata = EXCLUDED.metadata,
+                    created_at = EXCLUDED.created_at;
                 """,
                 (
                     record.id,

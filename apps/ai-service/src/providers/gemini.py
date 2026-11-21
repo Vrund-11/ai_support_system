@@ -31,7 +31,7 @@ class GeminiLLMProvider(LLMProvider):
         if not self.api_key:
             return await self.mock_fallback.generate_text(system_prompt, user_prompt, temperature)
 
-        url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={self.api_key}"
+        url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash-lite:generateContent?key={self.api_key}"
         payload = {
             "system_instruction": {"parts": [{"text": system_prompt}]},
             "contents": [{"parts": [{"text": user_prompt}]}],

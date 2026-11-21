@@ -1,3 +1,4 @@
+import { Redis } from 'ioredis';
 import { createLogger } from '@supportpilot/shared-lib';
 import { loadEnv, notificationServiceEnvSchema } from '@supportpilot/validators';
 import { MemoryIdempotencyStore } from './idempotency.js';
@@ -9,8 +10,12 @@ const logger = createLogger('notification-service', env.LOG_LEVEL);
 
 const idempotencyStore = new MemoryIdempotencyStore();
 
+const redisConnection = new Redis(env.REDIS_URL, {
+  maxRetriesPerRequest: null,
+});
+
 const queueManager = new QueueManager({
-  connection: { host: 'localhost', port: 6379 },
+  connection: redisConnection,
   idempotencyStore,
   logger,
   enableWorkers: true,

@@ -21,10 +21,10 @@ export function RegistrationsView() {
     if (!q) return registrations;
     return registrations.filter(
       (r) =>
-        r.orgName.toLowerCase().includes(q) ||
-        r.slug.toLowerCase().includes(q) ||
-        r.adminEmail.toLowerCase().includes(q) ||
-        r.tier.toLowerCase().includes(q),
+        (r.orgName || (r as any).name || '').toLowerCase().includes(q) ||
+        (r.slug || '').toLowerCase().includes(q) ||
+        (r.adminEmail || '').toLowerCase().includes(q) ||
+        (r.tier || (r as any).plan || '').toLowerCase().includes(q),
     );
   }, [registrations, search]);
 

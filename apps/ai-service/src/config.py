@@ -26,7 +26,12 @@ class Settings(BaseSettings):
     daily_call_quota: int = 1000
     daily_token_quota: int = 1_000_000
 
-    model_config = {"env_prefix": "", "case_sensitive": False}
+    model_config = {
+        "env_prefix": "",
+        "case_sensitive": False,
+        "env_file": (".env", "../../.env"),
+        "extra": "ignore",
+    }
 
 
 settings = Settings()

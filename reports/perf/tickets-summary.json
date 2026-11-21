@@ -5,13 +5,13 @@
   "successfulRequests": 400,
   "failedRequests": 0,
   "errorRate": 0,
-  "rps": 1106.22,
-  "durationSeconds": 0.36,
+  "rps": 1056.17,
+  "durationSeconds": 0.38,
   "latency": {
-    "p50": 160.25,
-    "p90": 249.16,
-    "p95": 275.64,
-    "p99": 280.64,
-    "mean": 151.41
+    "p50": 170.83,
+    "p90": 269.22,
+    "p95": 298.05,
+    "p99": 303.66,
+    "mean": 161.63
   }
 }

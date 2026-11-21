@@ -319,6 +319,16 @@
 - Issues found: none
 - Next: Ready for end-to-end integration and staging.
   - S3-PORT5174-UI: Transformed port 5174 (`apps/widget`) from raw demo testbed into full Customer Portal & Help Center UI integrating Stitch Screen 09 (`09-customer-help-center.html`), Screen 21 (`21-customer-ticket-tracker.html`), and Screen 07 (`07-chat-widget.html`). Added search, 6 category grids, popular guides reader modal, ticket tracker view (#TK-8492), and direct deep-linking into real-time live chat widget. Tests & build verified (9/9 widget tests green).
+  - DEVOPS-CICD-CLOSURE: Resolved all CI/CD & container deployment failures across GitHub Actions cloud runners:
+    - Fixed Node Dockerfiles monorepo package copying (removed missing `packages/tsconfig`, added `packages/api-client`, enabled `pnpm deploy --legacy` for pnpm v10 compatibility).
+    - Fixed E2E runner in `.github/workflows/e2e.yml` by leveraging GitHub Actions native service containers for `mongo`, `redis`, and `postgres` (avoiding host port 5432 collision).
+    - Added Kubernetes Kind in-cluster datastores manifest (`infra/k8s/base/datastores.yaml`) and updated network policies.
+    - Resolved web Nginx non-root port 80 binding restriction in Kubernetes deployment (`infra/k8s/base/web/deployment.yaml`).
+    - Successfully verified live GitHub Actions runs on `origin/main`:
+      - `CI` passed (138s, 100% green across lint, typecheck, coverage, pytest, ruff, trivy, audit).
+      - `E2E Tests` passed (103s, 100% green across hermetic e2e, Playwright, Cypress).
+      - `Deploy Staging Smoke Test` passed (251s, 100% green with Kind cluster creation, Ingress NGINX, local container builds, image loading into Kind, and Kustomize staging rollout verification).
+    - Populated M09 and M10 metrics in `docs/10-resume-evidence-tracker.md`.
 
 ## Handoff checklist for the next person or AI
 

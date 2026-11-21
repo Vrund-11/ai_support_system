@@ -1,3 +1,5 @@
+/// <reference types="cypress" />
+
 describe('Sprint 2 Agent Flow & Live Chat Handoff E2E', () => {
   const mockTenantId = 'tenant_e2e_corp';
   const mockAgent = {

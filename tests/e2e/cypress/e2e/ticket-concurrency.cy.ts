@@ -1,3 +1,5 @@
+/// <reference types="cypress" />
+
 describe('Ticket Concurrency & Optimistic Locking Suite', () => {
   const mockTenantId = 'tenant_concurrency_corp';
   const mockAgent = {

@@ -1,3 +1,5 @@
+/// <reference types="cypress" />
+
 describe('RBAC Matrix & Multi-Role Authorization Suite', () => {
   const tenantId = 'tenant_rbac_matrix_corp';
 

@@ -187,14 +187,21 @@ export interface DeflectionAnalytics {
 export const api = {
   auth: {
     async login(email: string, password: string): Promise<{ user: UserDto; accessToken: string }> {
-      const res = await request<ApiResponse<{ user: UserDto; accessToken: string }>>(
-        '/auth/login',
-        {
-          method: 'POST',
-          body: JSON.stringify({ email, password }),
-        },
-      );
-      return res.data;
+      const res = await request<
+        ApiResponse<{
+          user: UserDto;
+          tokens?: { accessToken: string; refreshToken: string };
+          accessToken?: string;
+        }>
+      >('/auth/login', {
+        method: 'POST',
+        body: JSON.stringify({ email, password }),
+      });
+      const accessToken = res.data.tokens?.accessToken || res.data.accessToken || '';
+      return {
+        user: res.data.user,
+        accessToken,
+      };
     },
     async register(data: {
       email: string;
@@ -202,14 +209,21 @@ export const api = {
       name: string;
       tenantName: string;
     }): Promise<{ user: UserDto; accessToken: string }> {
-      const res = await request<ApiResponse<{ user: UserDto; accessToken: string }>>(
-        '/auth/register',
-        {
-          method: 'POST',
-          body: JSON.stringify(data),
-        },
-      );
-      return res.data;
+      const res = await request<
+        ApiResponse<{
+          user: UserDto;
+          tokens?: { accessToken: string; refreshToken: string };
+          accessToken?: string;
+        }>
+      >('/auth/register', {
+        method: 'POST',
+        body: JSON.stringify(data),
+      });
+      const accessToken = res.data.tokens?.accessToken || res.data.accessToken || '';
+      return {
+        user: res.data.user,
+        accessToken,
+      };
     },
     async logout(): Promise<void> {
       try {

@@ -27,6 +27,10 @@ describe('Sprint 2 Agent Flow & Live Chat Handoff E2E', () => {
     cy.intercept('POST', '/api/v1/auth/login', {
       statusCode: 200,
       body: {
+        data: {
+          accessToken: 'mock.agent.jwt.token',
+          user: mockAgent,
+        },
         accessToken: 'mock.agent.jwt.token',
         user: mockAgent,
       },
@@ -34,14 +38,18 @@ describe('Sprint 2 Agent Flow & Live Chat Handoff E2E', () => {
 
     cy.intercept('GET', '/api/v1/auth/me', {
       statusCode: 200,
-      body: mockAgent,
+      body: {
+        data: mockAgent,
+        user: mockAgent,
+        ...mockAgent,
+      },
     }).as('meRequest');
 
-    // Intercept ticket REST endpoints
+    // Intercept ticket REST endpoints (TicketInbox expects data?.data || [])
     cy.intercept('GET', '/api/v1/tickets*', {
       statusCode: 200,
       body: {
-        tickets: [mockTicket],
+        data: [mockTicket],
         total: 1,
         page: 1,
         limit: 20,
@@ -50,8 +58,28 @@ describe('Sprint 2 Agent Flow & Live Chat Handoff E2E', () => {
 
     cy.intercept('POST', '/api/v1/tickets', {
       statusCode: 201,
-      body: mockTicket,
+      body: {
+        data: mockTicket,
+        ...mockTicket,
+      },
     }).as('createTicket');
+
+    // Intercept KB documents endpoint
+    cy.intercept('GET', '/api/v1/kb/documents*', {
+      statusCode: 200,
+      body: {
+        data: [
+          {
+            id: 'doc-001',
+            title: 'SAML Authentication',
+            source: 'saml-guide.pdf',
+            status: 'READY',
+            chunksCount: 12,
+            updatedAt: new Date().toISOString(),
+          },
+        ],
+      },
+    }).as('getKbDocs');
 
     // Intercept GraphQL queries and mutations
     cy.intercept('POST', '/graphql', (req) => {
@@ -113,7 +141,7 @@ describe('Sprint 2 Agent Flow & Live Chat Handoff E2E', () => {
     // Verify authenticated shell is displayed
     cy.contains('SupportPilot').should('be.visible');
     cy.contains('Sarah Connor').should('be.visible');
-    cy.contains('Inbox').should('be.visible');
+    cy.contains('Tickets (Inbox)').should('be.visible');
 
     // Verify ticket item in inbox
     cy.contains('Billing inquiry escalated from AI chat').should('be.visible');
@@ -129,9 +157,9 @@ describe('Sprint 2 Agent Flow & Live Chat Handoff E2E', () => {
     cy.contains('Live Chats').click();
 
     // Verify 3-panel chat view elements
-    cy.contains('Live Conversations').should('be.visible');
-    cy.contains('Waiting for Agent').should('be.visible');
-    cy.contains('AI Copilot').should('be.visible');
+    cy.contains('Live Agent Console').should('be.visible');
+    cy.contains('Waiting').should('be.visible');
+    cy.contains('AI Suggestion Panel').should('be.visible');
 
     // Verify queue filter tabs
     cy.contains('Waiting').should('be.visible');
@@ -149,8 +177,8 @@ describe('Sprint 2 Agent Flow & Live Chat Handoff E2E', () => {
     cy.contains('Knowledge Base').click();
 
     // Verify Knowledge Base view headers
-    cy.contains('Knowledge Base Management').should('be.visible');
-    cy.contains('Test Retrieval Console').should('be.visible');
-    cy.contains('Ingest Document').should('be.visible');
+    cy.contains('Knowledge Base & Vector Store').should('be.visible');
+    cy.contains('Test Console').should('be.visible');
+    cy.contains('Add Document').should('be.visible');
   });
 });

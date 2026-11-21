@@ -54,3 +54,7 @@ apps/mobile/ios/
 # Logs
 *.log
 logs/
+
+# Kubernetes Secrets
+infra/k8s/base/secret.yaml
+

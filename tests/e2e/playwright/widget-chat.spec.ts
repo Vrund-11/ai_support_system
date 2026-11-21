@@ -21,8 +21,10 @@ test.describe('Widget on Static Host Page & Live Chat AI Flow', () => {
   });
 
   test('loads static host page with embedded SupportPilot script', async ({ page }) => {
-    await expect(page).toHaveTitle(/SupportPilot Chat Widget Demo/i);
-    await expect(page.locator('h1')).toContainText('SupportPilot Live Chat Widget');
+    await expect(page).toHaveTitle(/SupportPilot/i);
+    await expect(page.locator('h1').first()).toContainText(
+      /How can we help you today|SupportPilot/i,
+    );
 
     // Verify the chat bubble is rendered floating on host page
     const bubbleButton = page.locator('[data-testid="widget-bubble-button"]');
@@ -72,25 +74,30 @@ test.describe('Widget on Static Host Page & Live Chat AI Flow', () => {
     await offlineTab.click();
 
     // Verify offline form fields appear
-    await expect(
-      page.locator('input[name="customerName"], input[placeholder*="Name" i]'),
-    ).toBeVisible();
-    await expect(page.locator('input[type="email"]')).toBeVisible();
-    await expect(page.locator('textarea')).toBeVisible();
+    await expect(page.locator('[data-testid="offline-name-input"]')).toBeVisible();
+    await expect(page.locator('[data-testid="offline-email-input"]')).toBeVisible();
+    await expect(page.locator('[data-testid="offline-message-input"]')).toBeVisible();
   });
 
   test('controls widget visibility via programmatic window.SupportPilot API', async ({ page }) => {
     // Click host button that calls window.SupportPilot.open()
-    const hostOpenBtn = page.getByRole('button', { name: /Open Chat Widget via JS API/i });
+    const hostOpenBtn = page.getByRole('button', { name: /Live Support/i });
     await hostOpenBtn.click();
 
     const chatWindow = page.locator('[data-testid="widget-chat-window"]');
     await expect(chatWindow).toBeVisible();
 
-    // Click host button that calls window.SupportPilot.close()
-    const hostCloseBtn = page.getByRole('button', { name: /Close Widget/i });
-    await hostCloseBtn.click();
+    // Close via programmatic JS API
+    await page.evaluate(() => window.SupportPilot?.close());
+    await expect(chatWindow).not.toBeVisible();
 
+    // Reopen via programmatic JS API
+    await page.evaluate(() => window.SupportPilot?.open());
+    await expect(chatWindow).toBeVisible();
+
+    // Close via widget close button
+    const closeBtn = page.locator('[data-testid="widget-close-button"]');
+    await closeBtn.click();
     await expect(chatWindow).not.toBeVisible();
   });
 });

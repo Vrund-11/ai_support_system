@@ -7,7 +7,10 @@ import { runSeed } from '../apps/ticket-service/src/seed.js';
 
 const mode = process.env['SEED_MODE'] || 'mongo';
 const mongoUri = process.env['MONGODB_URI'] || 'mongodb://127.0.0.1:27017/supportpilot';
-const redisUrl = process.env['REDIS_URL'] || 'redis://127.0.0.1:6379';
+const redisUrl = process.env['REDIS_URL'];
+if (!redisUrl) {
+  throw new Error('REDIS_URL environment variable is required');
+}
 
 console.log(`[Seed] Starting SupportPilot full database seed (mode: ${mode})...`);
 
@@ -25,7 +28,14 @@ function questionHash(normalized: string): string {
 
 async function seedRedis(url: string) {
   try {
-    const redis = new Redis(url);
+    const redis = new Redis(url, {
+      maxRetriesPerRequest: 1,
+      retryStrategy: () => null,
+      enableOfflineQueue: false,
+    });
+    redis.on('error', (err) => {
+      // suppress unhandled redis error in dev without docker
+    });
     console.log('[Redis Seed] Connecting to Redis...');
 
     const acmeTenantId = '507f1f77bcf86cd799439011';

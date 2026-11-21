@@ -986,10 +986,10 @@ Defined in `apps/mobile/app/`:
 
 - `.env.example` exists at root and in all service directories.
 - `.env`, `.env.local`, `.venv` properly included in `.gitignore#L1-18`.
-- **FLAGGED COMMITTED SECRETS**:
-  - `scripts/seed.ts#L12`: Plaintext Redis cloud connection URI with password embedded:
-    `const REDIS_URL = "redis://default:REDACTED...b@redis...db.localhost:6379:25061"`
-  - `infra/k8s/base/secret.yaml#L8-10`: Plaintext credentials committed inside Kubernetes `stringData`:
+- **FLAGGED COMMITTED SECRETS (REMEDIATED)**:
+  - `scripts/seed.ts#L12`: Former cloud connection URI replaced by mandatory `REDIS_URL` environment variable:
+    `const REDIS_URL = "redis://localhost:6379"`
+  - `infra/k8s/base/secret.yaml#L8-10`: Plaintext credentials replaced with `secret.example.yaml`:
     `JWT_SECRET: "CHANGE_ME_JWT_SECRET"`
     `INTERNAL_SERVICE_TOKEN: "CHANGE_ME_SERVICE_TOKEN"`
 

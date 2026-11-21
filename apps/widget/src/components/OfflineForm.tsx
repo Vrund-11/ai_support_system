@@ -88,6 +88,7 @@ export function OfflineForm({
         </label>
         <input
           type="text"
+          name="customerName"
           required
           value={name}
           onChange={(e) => setName(e.target.value)}
@@ -103,6 +104,7 @@ export function OfflineForm({
         </label>
         <input
           type="email"
+          name="customerEmail"
           required
           value={email}
           onChange={(e) => setEmail(e.target.value)}
@@ -118,6 +120,7 @@ export function OfflineForm({
         </label>
         <input
           type="text"
+          name="subject"
           value={subject}
           onChange={(e) => setSubject(e.target.value)}
           placeholder="How can we help?"
@@ -131,6 +134,7 @@ export function OfflineForm({
           Message *
         </label>
         <textarea
+          name="message"
           required
           rows={3}
           value={message}

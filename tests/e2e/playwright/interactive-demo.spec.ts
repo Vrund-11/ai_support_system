@@ -74,10 +74,14 @@ test.describe('SupportPilot Interactive Product Walkthrough & Video Recording', 
       await customerPage.waitForTimeout(1200);
 
       const nameInput = customerPage.locator(
-        'input[name="customerName"], input[placeholder*="Name" i]',
+        '[data-testid="offline-name-input"], input[name="customerName"]',
       );
-      const emailInput = customerPage.locator('input[type="email"]');
-      const textarea = customerPage.locator('textarea');
+      const emailInput = customerPage.locator(
+        '[data-testid="offline-email-input"], input[name="customerEmail"]',
+      );
+      const textarea = customerPage.locator(
+        '[data-testid="offline-message-input"], textarea[name="message"]',
+      );
 
       if (await nameInput.isVisible()) {
         await nameInput.fill('Sarah Connor');

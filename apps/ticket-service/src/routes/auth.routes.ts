@@ -49,7 +49,12 @@ authRouter.post('/login', async (req: Request, res: Response, next: NextFunction
     }
 
     const result = await login(parseResult.data.email, parseResult.data.password);
-    res.status(200).json({ data: result });
+    res.status(200).json({
+      data: {
+        ...result,
+        accessToken: result.tokens.accessToken,
+      },
+    });
   } catch (err) {
     next(err);
   }

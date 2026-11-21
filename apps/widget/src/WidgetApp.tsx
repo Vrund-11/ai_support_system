@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState } from 'react';
 import type { WidgetConfig } from './types';
 import { useWidgetSocket } from './useWidgetSocket';
 import { WidgetBubble } from './components/WidgetBubble';
@@ -13,14 +13,21 @@ export function WidgetApp({
   const [isOpen, setIsOpen] = useState(false);
 
   // Generate or read stable visitor conversationId
-  const conversationId = useMemo(() => {
+  const [conversationId, setConversationId] = useState<string>(() => {
     let conv = localStorage.getItem(`supportpilot_conv_${tenantId}`);
     if (!conv) {
       conv = 'conv_' + Math.random().toString(36).substring(2, 12);
       localStorage.setItem(`supportpilot_conv_${tenantId}`, conv);
     }
     return conv;
-  }, [tenantId]);
+  });
+
+  const handleResetConversation = () => {
+    localStorage.removeItem(`supportpilot_conv_${tenantId}`);
+    const nextConv = 'conv_' + Math.random().toString(36).substring(2, 12);
+    localStorage.setItem(`supportpilot_conv_${tenantId}`, nextConv);
+    setConversationId(nextConv);
+  };
 
   const { messages, isConnected, isTyping, sendMessage, notifyTyping } = useWidgetSocket({
     tenantId,
@@ -45,6 +52,7 @@ export function WidgetApp({
           onSendMessage={sendMessage}
           onNotifyTyping={notifyTyping}
           onClose={() => setIsOpen(false)}
+          onReset={handleResetConversation}
           theme={theme}
           tenantId={tenantId}
           gatewayUrl={gatewayUrl}

@@ -10,6 +10,7 @@ declare global {
       init: (config: WidgetConfig) => void;
       open: () => void;
       close: () => void;
+      resetChat?: () => void;
       openWithTopic?: (topic: string) => void;
     };
   }
@@ -74,6 +75,12 @@ if (typeof document !== 'undefined') {
         '[data-testid="widget-close-button"]',
       );
       closeBtn?.click();
+    },
+    resetChat: () => {
+      const resetBtn = document.querySelector<HTMLButtonElement>(
+        '[data-testid="widget-reset-button"]',
+      );
+      resetBtn?.click();
     },
     openWithTopic: (topic: string) => {
       window.SupportPilot?.open();

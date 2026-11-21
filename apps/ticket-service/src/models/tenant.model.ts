@@ -1,6 +1,13 @@
 import { Schema, model, type Document } from 'mongoose';
 import type { TenantSettings, TenantPlan, TenantStatus } from '@supportpilot/shared-types';
 
+export interface TenantQuotas {
+  maxUsers: number;
+  maxTicketsPerMonth: number;
+  maxAiTokensPerMonth: number;
+  vectorLimitGb: number;
+}
+
 export interface ITenantDocument extends Document {
   name: string;
   slug: string;
@@ -8,6 +15,9 @@ export interface ITenantDocument extends Document {
   status: TenantStatus;
   widgetKey: string;
   settings: TenantSettings;
+  quotas?: TenantQuotas;
+  stripeCustomerId?: string;
+  stripeSubscriptionId?: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -62,6 +72,18 @@ const tenantSchema = new Schema<ITenantDocument>(
     widgetKey: {
       type: String,
       required: true,
+    },
+    stripeCustomerId: {
+      type: String,
+    },
+    stripeSubscriptionId: {
+      type: String,
+    },
+    quotas: {
+      maxUsers: { type: Number, default: 30 },
+      maxTicketsPerMonth: { type: Number, default: 20000 },
+      maxAiTokensPerMonth: { type: Number, default: 10000000 },
+      vectorLimitGb: { type: Number, default: 10 },
     },
     settings: {
       brand: {

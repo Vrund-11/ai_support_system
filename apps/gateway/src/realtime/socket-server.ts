@@ -207,8 +207,29 @@ export function createSocketServer(
 
         // Visitor / Customer message handling
         const convState = await handoffService.getConversationState(conversationId);
-        if (convState === 'WAITING_AGENT' || convState === 'AGENT_ACTIVE') {
-          // Conversation already transferred to human agent queue
+        if (convState === 'AGENT_ACTIVE') {
+          // Human agent is actively in the conversation
+          return;
+        }
+
+        if (convState === 'WAITING_AGENT') {
+          // Customer is waiting in queue: send real-time confirmation so messages are never ignored
+          const ticket = await handoffService.getCreatedTicket(conversationId);
+          const tktNum = ticket?.number ? `#${ticket.number}` : '';
+          const sysSeq = await sequenceService.getNextSeq(conversationId);
+          const sysMsg: StoredMessage = {
+            id: `msg_${conversationId}_${sysSeq}`,
+            conversationId,
+            tenantId: user.tenantId,
+            seq: sysSeq,
+            body: `Your message has been added to Ticket ${tktNum}. A support specialist will assist you shortly, or you can ask another question!`,
+            senderType: 'SYSTEM',
+            senderId: 'system',
+            attachments: [],
+            createdAt: new Date().toISOString(),
+          };
+          await sequenceService.saveMessage(conversationId, sysMsg);
+          io.to(conversationRoom(conversationId)).emit('message:new', sysMsg);
           return;
         }
 

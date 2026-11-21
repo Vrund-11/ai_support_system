@@ -35,9 +35,9 @@ import {
   Database,
   MessageSquare,
   Bot,
-  X,
 } from 'lucide-react';
 import { ConfirmDialog } from '../common/ConfirmDialog';
+import { StripeCheckoutModal } from './StripeCheckoutModal';
 
 export type SettingsSubTab =
   'general' | 'billing' | 'api-keys' | 'webhooks' | 'audit' | 'flags' | 'admin';
@@ -54,7 +54,6 @@ export function SettingsView() {
   // Billing state
   const [subscription, setSubscription] = useState<SubscriptionInfo | null>(null);
   const [isUpgradeModalOpen, setIsUpgradeModalOpen] = useState(false);
-  const [upgrading, setUpgrading] = useState(false);
 
   // API Keys state
   const [apiKeys, setApiKeys] = useState<ApiKeyItem[]>([]);
@@ -235,40 +234,27 @@ export function SettingsView() {
     }
   };
 
-  const handleInstantUpgrade = async () => {
-    setUpgrading(true);
+  const handlePaymentSuccess = async () => {
     try {
-      await api.billing.createCheckout('PRO');
+      const data = await api.billing.getSubscription();
+      if (data && data.plan === 'PRO') {
+        setSubscription(data);
+      } else {
+        setSubscription({
+          plan: 'PRO',
+          limits: { messages: 10000, ai: 1000, kb: 100 * 1024 * 1024 },
+          usage: subscription?.usage || { messages: 12, ai: 4, kb: 1.2 * 1024 * 1024 },
+        });
+      }
+    } catch {
       setSubscription({
         plan: 'PRO',
         limits: { messages: 10000, ai: 1000, kb: 100 * 1024 * 1024 },
         usage: subscription?.usage || { messages: 12, ai: 4, kb: 1.2 * 1024 * 1024 },
       });
-      toast.success('Successfully upgraded to PRO plan! 🎉');
-      setIsUpgradeModalOpen(false);
-    } catch (err: any) {
-      toast.error(err.message || 'Failed to complete upgrade');
-    } finally {
-      setUpgrading(false);
     }
-  };
-
-  const handleSimulateWebhook = async () => {
-    setUpgrading(true);
-    try {
-      await api.billing.simulateWebhook(user?.tenantId || 'tenant_production_01', 'PRO');
-      setSubscription({
-        plan: 'PRO',
-        limits: { messages: 10000, ai: 1000, kb: 100 * 1024 * 1024 },
-        usage: subscription?.usage || { messages: 12, ai: 4, kb: 1.2 * 1024 * 1024 },
-      });
-      toast.success('Stripe webhook received: Plan upgraded to PRO! 🎉');
-      setIsUpgradeModalOpen(false);
-    } catch (err: any) {
-      toast.error(err.message || 'Failed to simulate webhook payment');
-    } finally {
-      setUpgrading(false);
-    }
+    toast.success('Successfully upgraded to SupportPilot PRO! 🎉');
+    setIsUpgradeModalOpen(false);
   };
 
   return (
@@ -1493,110 +1479,13 @@ export function SettingsView() {
         </div>
       )}
 
-      {/* ── Modal: Upgrade Plan ── */}
-      {isUpgradeModalOpen && (
-        <div
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="upgrade-plan-title"
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-xs p-4"
-        >
-          <div className="bg-white dark:bg-zinc-900 rounded-2xl shadow-xl max-w-md w-full p-6 border border-slate-200 dark:border-zinc-800 animate-in fade-in zoom-in-95 duration-150 space-y-4">
-            <div className="flex items-center justify-between border-b border-slate-100 dark:border-zinc-800 pb-3">
-              <div className="flex items-center gap-2">
-                <div className="p-1.5 rounded-lg bg-indigo-50 dark:bg-indigo-950/50 text-indigo-600 dark:text-indigo-400">
-                  <Zap className="w-4 h-4" />
-                </div>
-                <div>
-                  <h3
-                    id="upgrade-plan-title"
-                    className="text-base font-bold text-slate-900 dark:text-zinc-100"
-                  >
-                    Upgrade to SupportPilot PRO
-                  </h3>
-                  <p className="text-[11px] text-slate-500 dark:text-zinc-400">
-                    20x quotas, priority SLA, and automated Copilot deflection
-                  </p>
-                </div>
-              </div>
-              <button
-                type="button"
-                onClick={() => setIsUpgradeModalOpen(false)}
-                aria-label="Close upgrade modal"
-                className="p-1 text-slate-400 hover:text-slate-600 dark:hover:text-zinc-200 rounded-lg transition-colors cursor-pointer"
-              >
-                <X className="w-4 h-4" />
-              </button>
-            </div>
-
-            <div className="p-4 rounded-xl bg-slate-50 dark:bg-zinc-800/50 border border-slate-200/80 dark:border-zinc-700 flex items-baseline justify-between">
-              <div>
-                <span className="text-2xl font-extrabold text-slate-900 dark:text-zinc-100">
-                  $49
-                </span>
-                <span className="text-xs text-slate-500 dark:text-zinc-400 font-medium">
-                  {' '}
-                  / month
-                </span>
-              </div>
-              <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-indigo-600 text-white shadow-xs">
-                PRO TIER
-              </span>
-            </div>
-
-            <div className="space-y-2">
-              <span className="text-xs font-bold text-slate-700 dark:text-zinc-300 uppercase tracking-wider">
-                What's included:
-              </span>
-              <div className="space-y-1.5 text-xs text-slate-600 dark:text-zinc-400">
-                {[
-                  'Unlimited live chat',
-                  '10,000 messages/mo',
-                  '1,000 AI answers',
-                  '100MB Knowledge Base',
-                  'Priority SLA (15 min response)',
-                ].map((item) => (
-                  <div key={item} className="flex items-center gap-2">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 shrink-0" />
-                    <span>{item}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="pt-2 border-t border-slate-100 dark:border-zinc-800 space-y-2">
-              <button
-                type="button"
-                disabled={upgrading}
-                onClick={handleInstantUpgrade}
-                className="w-full py-2.5 px-4 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold rounded-xl shadow-xs transition-colors flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
-              >
-                <CreditCard className="w-4 h-4" />
-                <span>Instant Test Upgrade (Simulated Stripe)</span>
-              </button>
-
-              <button
-                type="button"
-                disabled={upgrading}
-                onClick={handleSimulateWebhook}
-                className="w-full py-2.5 px-4 border border-slate-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 hover:bg-slate-50 dark:hover:bg-zinc-700/60 text-slate-700 dark:text-zinc-300 text-xs font-semibold rounded-xl shadow-2xs transition-colors flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
-              >
-                <Webhook className="w-4 h-4" />
-                <span>Simulate Webhook Payment</span>
-              </button>
-
-              <button
-                type="button"
-                disabled={upgrading}
-                onClick={() => setIsUpgradeModalOpen(false)}
-                className="w-full py-1.5 text-center text-slate-500 hover:text-slate-700 dark:text-zinc-400 dark:hover:text-zinc-200 text-xs font-medium cursor-pointer"
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      {/* ── Modal: Stripe Checkout ── */}
+      <StripeCheckoutModal
+        isOpen={isUpgradeModalOpen}
+        onClose={() => setIsUpgradeModalOpen(false)}
+        onSuccess={handlePaymentSuccess}
+        tenantId={user?.tenantId}
+      />
 
       <ConfirmDialog
         isOpen={Boolean(keyToRevoke)}

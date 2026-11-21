@@ -41,6 +41,49 @@ describe('Shell Component', () => {
     expect(onNavigateTab).toHaveBeenCalledWith('automation');
   });
 
+  it('renders Admin Cockpit tab only when user role is OWNER', async () => {
+    const onNavigateTab = vi.fn();
+    // Initially mockUser is AGENT
+    const { unmount } = render(
+      <Shell
+        activeTab="inbox"
+        onOpenCreateModal={vi.fn()}
+        onNavigateInbox={vi.fn()}
+        onNavigateTab={onNavigateTab}
+      >
+        <div>Content</div>
+      </Shell>,
+    );
+
+    expect(screen.queryByTestId('nav-admin')).not.toBeInTheDocument();
+    unmount();
+
+    // Now set role to OWNER
+    useAuthStore.setState({
+      user: { ...mockUser, role: 'OWNER' },
+      isAuthenticated: true,
+      accessToken: 'token123',
+    });
+
+    render(
+      <Shell
+        activeTab="inbox"
+        onOpenCreateModal={vi.fn()}
+        onNavigateInbox={vi.fn()}
+        onNavigateTab={onNavigateTab}
+      >
+        <div>Content</div>
+      </Shell>,
+    );
+
+    await waitFor(() => {
+      expect(screen.getByTestId('nav-admin')).toBeInTheDocument();
+    });
+
+    fireEvent.click(screen.getByTestId('nav-admin'));
+    expect(onNavigateTab).toHaveBeenCalledWith('admin');
+  });
+
   it('toggles dark mode class and persists to localStorage', async () => {
     render(
       <Shell activeTab="inbox" onOpenCreateModal={vi.fn()} onNavigateInbox={vi.fn()}>

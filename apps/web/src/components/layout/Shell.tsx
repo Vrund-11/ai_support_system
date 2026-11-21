@@ -12,7 +12,8 @@ export type NavTab =
   | 'automation'
   | 'analytics'
   | 'settings'
-  | 'help';
+  | 'help'
+  | 'admin';
 
 interface ShellProps {
   children: React.ReactNode;
@@ -75,6 +76,16 @@ export function Shell({
     { tab: 'team', label: 'Team', icon: 'badge', testId: 'nav-team' },
     { tab: 'automation', label: 'Automation & SLA', icon: 'bolt', testId: 'nav-automation' },
     { tab: 'analytics', label: 'Analytics', icon: 'monitoring', testId: 'nav-analytics' },
+    ...(user?.role === 'OWNER'
+      ? [
+          {
+            tab: 'admin' as const,
+            label: 'Admin Cockpit',
+            icon: 'shield_person',
+            testId: 'nav-admin',
+          },
+        ]
+      : []),
     { tab: 'settings', label: 'Settings', icon: 'settings', testId: 'nav-settings' },
     { tab: 'help', label: 'Help', icon: 'help', testId: 'nav-help' },
   ];

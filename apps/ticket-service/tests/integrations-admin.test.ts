@@ -42,6 +42,7 @@ function mockQuery<T>(results: T[]) {
   const p: any = Promise.resolve(results);
   p.sort = () => p;
   p.limit = () => p;
+  p.lean = () => Promise.resolve(results);
   p.exec = () => Promise.resolve(results);
   return p;
 }
@@ -364,5 +365,277 @@ describe('Integrations & Admin REST APIs (INT-1, INT-2, ADM-1, ADM-2, ADM-3)', (
       .send({ url: 'https://example.com' });
 
     expect(whRes.status).toBe(403);
+  });
+
+  // ── Super Admin Platform Cockpit Endpoints ──
+  it('GET /api/v1/admin/metrics returns 200 with platform metrics', async () => {
+    vi.spyOn(Tenant, 'countDocuments').mockImplementation(((filter?: any) => {
+      if (filter?.status === 'ACTIVE') return Promise.resolve(10);
+      if (filter?.status === 'SUSPENDED') return Promise.resolve(2);
+      return Promise.resolve(12);
+    }) as any);
+    vi.spyOn(User, 'countDocuments').mockResolvedValue(84 as never);
+    vi.spyOn(Ticket, 'countDocuments').mockResolvedValue(1420 as never);
+
+    const res = await request(app)
+      .get('/api/v1/admin/metrics')
+      .set('Authorization', `Bearer ${ownerTokenA}`);
+
+    expect(res.status).toBe(200);
+    expect(res.body.data).toMatchObject({
+      totalTenants: 12,
+      activeTenants: 10,
+      suspendedTenants: 2,
+      totalUsers: 84,
+      totalTickets: 1420,
+      aiTokensTotal: {
+        used: 8400000,
+        cap: 25000000,
+      },
+      services: {
+        database: 'healthy',
+        redis: 'operational',
+        vectorStore: 'operational',
+        queueLag: 0,
+        uptimeSeconds: expect.any(Number),
+      },
+      uptimeSeconds: expect.any(Number),
+    });
+  });
+
+  it('GET /api/v1/admin/tenants/:id returns 200 with enriched tenant detail, quotas, feature flags', async () => {
+    vi.spyOn(Tenant, 'findById').mockReturnValue({
+      lean: () =>
+        Promise.resolve({
+          _id: tenantAId,
+          name: 'Acme Corp',
+          slug: 'acme-corp',
+          plan: 'PRO',
+          status: 'ACTIVE',
+          quotas: {
+            maxUsers: 50,
+            maxTicketsPerMonth: 25000,
+            maxAiTokensPerMonth: 15000000,
+            vectorLimitGb: 20,
+          },
+          createdAt: new Date('2026-01-01'),
+          updatedAt: new Date('2026-01-02'),
+        }),
+    } as any);
+    vi.spyOn(User, 'countDocuments').mockResolvedValue(8 as never);
+    vi.spyOn(Ticket, 'countDocuments').mockResolvedValue(55 as never);
+    vi.spyOn(User, 'findOne').mockReturnValue({
+      lean: () =>
+        Promise.resolve({
+          _id: new Types.ObjectId(),
+          name: 'Alice Owner',
+          email: 'alice@acme.com',
+          role: 'OWNER',
+        }),
+    } as any);
+
+    featureFlagsDb.push({
+      _id: new Types.ObjectId(),
+      tenantId: tenantAId,
+      key: 'ai_copilot',
+      name: 'AI Copilot',
+      enabled: true,
+    });
+
+    const res = await request(app)
+      .get(`/api/v1/admin/tenants/${tenantAId}`)
+      .set('Authorization', `Bearer ${ownerTokenA}`);
+
+    expect(res.status).toBe(200);
+    expect(res.body.data).toMatchObject({
+      id: tenantAId.toString(),
+      name: 'Acme Corp',
+      slug: 'acme-corp',
+      plan: 'PRO',
+      status: 'ACTIVE',
+      userCount: 8,
+      ticketCount: 55,
+      quotas: {
+        maxUsers: 50,
+        maxTicketsPerMonth: 25000,
+        maxAiTokensPerMonth: 15000000,
+        vectorLimitGb: 20,
+      },
+      primaryOwner: {
+        name: 'Alice Owner',
+        email: 'alice@acme.com',
+      },
+    });
+    expect(res.body.data.featureFlags.length).toBeGreaterThan(0);
+  });
+
+  it('PATCH /api/v1/admin/tenants/:id/quotas returns 200 with updated quotas', async () => {
+    vi.spyOn(Tenant, 'findById').mockReturnValue({
+      lean: () =>
+        Promise.resolve({
+          _id: tenantAId,
+          quotas: {
+            maxUsers: 30,
+            maxTicketsPerMonth: 20000,
+            maxAiTokensPerMonth: 10000000,
+            vectorLimitGb: 10,
+          },
+        }),
+    } as any);
+    const updateSpy = vi.spyOn(Tenant, 'findByIdAndUpdate').mockResolvedValue({
+      _id: tenantAId,
+    } as any);
+
+    const res = await request(app)
+      .patch(`/api/v1/admin/tenants/${tenantAId}/quotas`)
+      .set('Authorization', `Bearer ${ownerTokenA}`)
+      .send({
+        maxUsers: 75,
+        vectorLimitGb: 50,
+      });
+
+    expect(res.status).toBe(200);
+    expect(res.body.data).toMatchObject({
+      id: tenantAId.toString(),
+      quotas: {
+        maxUsers: 75,
+        maxTicketsPerMonth: 20000,
+        maxAiTokensPerMonth: 10000000,
+        vectorLimitGb: 50,
+      },
+      success: true,
+    });
+    expect(updateSpy).toHaveBeenCalledWith(
+      tenantAId.toString(),
+      expect.objectContaining({
+        $set: expect.objectContaining({
+          quotas: {
+            maxUsers: 75,
+            maxTicketsPerMonth: 20000,
+            maxAiTokensPerMonth: 10000000,
+            vectorLimitGb: 50,
+          },
+        }),
+      }),
+      { new: true },
+    );
+  });
+
+  it('GET /api/v1/admin/tenants/:id/audit-logs returns 200 with tenant audit trail', async () => {
+    auditLogsDb.push(
+      {
+        _id: new Types.ObjectId(),
+        tenantId: tenantAId,
+        action: 'API_KEY_CREATED',
+        resource: 'api_key',
+        createdAt: new Date('2026-01-01'),
+      },
+      {
+        _id: new Types.ObjectId(),
+        tenantId: tenantAId,
+        action: 'SETTINGS_UPDATED',
+        resource: 'tenant',
+        createdAt: new Date('2026-01-02'),
+      },
+      {
+        _id: new Types.ObjectId(),
+        tenantId: tenantBId,
+        action: 'API_KEY_CREATED',
+        resource: 'api_key',
+        createdAt: new Date('2026-01-03'),
+      },
+    );
+
+    const res = await request(app)
+      .get(`/api/v1/admin/tenants/${tenantAId}/audit-logs`)
+      .set('Authorization', `Bearer ${ownerTokenA}`);
+
+    expect(res.status).toBe(200);
+    expect(res.body.data.length).toBe(2);
+    expect(res.body.data.every((log: any) => log.tenantId === tenantAId.toString())).toBe(true);
+  });
+
+  it('POST /api/v1/admin/tenants returns 201 and provisions tenant', async () => {
+    const createdTenantId = new Types.ObjectId();
+    const createdUserId = new Types.ObjectId();
+
+    vi.spyOn(Tenant, 'findOne').mockResolvedValue(null);
+    vi.spyOn(Tenant.prototype, 'save').mockImplementation(function (this: any) {
+      this._id = createdTenantId;
+      this.createdAt = new Date('2026-01-01');
+      this.updatedAt = new Date('2026-01-01');
+      return Promise.resolve(this);
+    });
+    vi.spyOn(User.prototype, 'save').mockImplementation(function (this: any) {
+      this._id = createdUserId;
+      this.createdAt = new Date('2026-01-01');
+      this.updatedAt = new Date('2026-01-01');
+      return Promise.resolve(this);
+    });
+
+    const res = await request(app)
+      .post('/api/v1/admin/tenants')
+      .set('Authorization', `Bearer ${ownerTokenA}`)
+      .send({
+        name: 'Omni Consumer Products',
+        slug: 'ocp',
+        plan: 'PRO',
+        adminEmail: 'dick.jones@ocp.com',
+        adminPassword: 'SecretPassword123!',
+      });
+
+    expect(res.status).toBe(201);
+    expect(res.body.data.tenant).toMatchObject({
+      name: 'Omni Consumer Products',
+      slug: 'ocp',
+      plan: 'PRO',
+      status: 'ACTIVE',
+      widgetKey: expect.any(String),
+    });
+    expect(res.body.data.owner).toMatchObject({
+      email: 'dick.jones@ocp.com',
+      role: 'OWNER',
+      status: 'ACTIVE',
+      isEmailVerified: true,
+    });
+  });
+
+  it('Non-OWNER token (e.g. AGENT/LEAD) receives 403 on all admin routes', async () => {
+    const metricsAgent = await request(app)
+      .get('/api/v1/admin/metrics')
+      .set('Authorization', `Bearer ${agentTokenA}`);
+    expect(metricsAgent.status).toBe(403);
+
+    const metricsLead = await request(app)
+      .get('/api/v1/admin/metrics')
+      .set('Authorization', `Bearer ${leadTokenA}`);
+    expect(metricsLead.status).toBe(403);
+
+    const tenantsAgent = await request(app)
+      .get('/api/v1/admin/tenants')
+      .set('Authorization', `Bearer ${agentTokenA}`);
+    expect(tenantsAgent.status).toBe(403);
+
+    const tenantDetailAgent = await request(app)
+      .get(`/api/v1/admin/tenants/${tenantAId}`)
+      .set('Authorization', `Bearer ${agentTokenA}`);
+    expect(tenantDetailAgent.status).toBe(403);
+
+    const quotasAgent = await request(app)
+      .patch(`/api/v1/admin/tenants/${tenantAId}/quotas`)
+      .set('Authorization', `Bearer ${agentTokenA}`)
+      .send({ maxUsers: 100 });
+    expect(quotasAgent.status).toBe(403);
+
+    const auditAgent = await request(app)
+      .get(`/api/v1/admin/tenants/${tenantAId}/audit-logs`)
+      .set('Authorization', `Bearer ${agentTokenA}`);
+    expect(auditAgent.status).toBe(403);
+
+    const provisionAgent = await request(app)
+      .post('/api/v1/admin/tenants')
+      .set('Authorization', `Bearer ${agentTokenA}`)
+      .send({ name: 'Hacker Corp' });
+    expect(provisionAgent.status).toBe(403);
   });
 });

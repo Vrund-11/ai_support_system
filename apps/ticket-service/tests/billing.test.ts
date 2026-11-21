@@ -196,6 +196,111 @@ describe('Billing Engine & Admin Plan Routes (billing.routes.ts, admin.routes.ts
     });
   });
 
+  describe('POST /api/v1/billing/simulate-charge', () => {
+    it('returns 401 when unauthenticated', async () => {
+      const res = await request(app)
+        .post('/api/v1/billing/simulate-charge')
+        .send({ cardNumber: '4242424242424242' });
+
+      expect(res.status).toBe(401);
+    });
+
+    it('returns 400 when cardNumber is missing or empty', async () => {
+      const res = await request(app)
+        .post('/api/v1/billing/simulate-charge')
+        .set('Authorization', `Bearer ${agentToken}`)
+        .send({});
+
+      expect(res.status).toBe(400);
+      expect(res.body.detail).toBe('Card number is required');
+    });
+
+    it('returns 400 when invalid plan is provided', async () => {
+      const res = await request(app)
+        .post('/api/v1/billing/simulate-charge')
+        .set('Authorization', `Bearer ${agentToken}`)
+        .send({ cardNumber: '4242424242424242', plan: 'INVALID' });
+
+      expect(res.status).toBe(400);
+      expect(res.body.detail).toBe('Invalid plan');
+    });
+
+    it('returns 402 declined when card starts with 400000000002', async () => {
+      const res = await request(app)
+        .post('/api/v1/billing/simulate-charge')
+        .set('Authorization', `Bearer ${agentToken}`)
+        .send({ cardNumber: '4000 0000 0002', expMonth: '12', expYear: '30', cvc: '123' });
+
+      expect(res.status).toBe(402);
+      expect(res.body.title).toBe('Payment Required');
+      expect(res.body.detail).toBe('Your card was declined. Please try another card.');
+    });
+
+    it('returns 402 declined when cvc is 000', async () => {
+      const res = await request(app)
+        .post('/api/v1/billing/simulate-charge')
+        .set('Authorization', `Bearer ${agentToken}`)
+        .send({ cardNumber: '4242424242424242', cvc: '000' });
+
+      expect(res.status).toBe(402);
+      expect(res.body.title).toBe('Payment Required');
+      expect(res.body.detail).toBe('Your card was declined. Please try another card.');
+    });
+
+    it('succeeds with standard 4242 test card, updates tenant plan to PRO and returns mock charge data', async () => {
+      const findByIdAndUpdateSpy = vi.spyOn(Tenant, 'findByIdAndUpdate').mockResolvedValue({
+        _id: tenantAId,
+        plan: 'PRO',
+      } as any);
+
+      const res = await request(app)
+        .post('/api/v1/billing/simulate-charge')
+        .set('Authorization', `Bearer ${agentToken}`)
+        .send({
+          cardNumber: '4242 4242 4242 4242',
+          expMonth: '11',
+          expYear: '28',
+          cvc: '123',
+          plan: 'PRO',
+        });
+
+      expect(res.status).toBe(200);
+      expect(res.body.status).toBe('succeeded');
+      expect(res.body.plan).toBe('PRO');
+      expect(res.body.amount).toBe(4900);
+      expect(res.body.currency).toBe('usd');
+      expect(res.body.chargeId).toMatch(/^ch_test_[a-z0-9]+/);
+      expect(res.body.customerId).toMatch(/^cus_test_[a-z0-9]+/);
+      expect(res.body.subscriptionId).toMatch(/^sub_test_[a-z0-9]+/);
+      expect(res.body.receiptUrl).toBe('https://pay.stripe.com/receipts/in_mock');
+      expect(res.body.data.status).toBe('succeeded');
+
+      expect(findByIdAndUpdateSpy).toHaveBeenCalledWith(
+        tenantAId.toString(),
+        expect.objectContaining({
+          $set: expect.objectContaining({
+            plan: 'PRO',
+            stripeCustomerId: expect.stringMatching(/^cus_test_/),
+            stripeSubscriptionId: expect.stringMatching(/^sub_test_/),
+          }),
+        }),
+        { new: true },
+      );
+    });
+
+    it('returns 404 if tenant to update does not exist', async () => {
+      vi.spyOn(Tenant, 'findByIdAndUpdate').mockResolvedValue(null);
+
+      const res = await request(app)
+        .post('/api/v1/billing/simulate-charge')
+        .set('Authorization', `Bearer ${agentToken}`)
+        .send({ cardNumber: '4242424242424242' });
+
+      expect(res.status).toBe(404);
+      expect(res.body.detail).toBe('Tenant not found');
+    });
+  });
+
   describe('POST /api/v1/billing/webhook', () => {
     it('returns 400 when event type is missing', async () => {
       const res = await request(app).post('/api/v1/billing/webhook').send({});

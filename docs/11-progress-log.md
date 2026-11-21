@@ -330,6 +330,35 @@
       - `Deploy Staging Smoke Test` passed (251s, 100% green with Kind cluster creation, Ingress NGINX, local container builds, image loading into Kind, and Kustomize staging rollout verification).
     - Populated M09 and M10 metrics in `docs/10-resume-evidence-tracker.md`.
 
+  - S3-PORT5174-CHAT-FIX: Resolved chat widget silence on port 5174 and verified live multi-turn AI responses:
+    - Root cause: In `socket-server.ts`, state transitioned to `WAITING_AGENT` on escalation, dropping subsequent follow-up customer messages silently. In addition, browser `localStorage` held stale conversation IDs locked in `WAITING_AGENT`.
+    - Fixes:
+      - `apps/gateway/src/index.ts`: Configured `enableHandoff: true`, pointed `aiServiceUrl` to `http://localhost:4002`.
+      - `apps/gateway/src/realtime/socket-server.ts`: Prevented message drop in `WAITING_AGENT` — immediately emits system queue acknowledgment (`Your message has been added to Ticket #...`) to visitor. Normalized citations (`chunk_id`/`chunkId`).
+      - `apps/widget/src/WidgetApp.tsx` & `WidgetChat.tsx`: Added `RotateCcw` reset button and `handleResetConversation` clearing stale localStorage conversation keys and regenerating IDs.
+      - `apps/ai-service/src/providers/mock.py`: Cleaned question regex and citation handling when no knowledge chunks retrieved.
+    - Verification:
+      - Live multi-turn Socket.IO probe passed all 3 steps: Initial AI reply with citations -> in-queue follow-up acknowledged -> reset to fresh conversation receiving immediate AI response.
+      - 50/50 Gateway tests passed across 10 test files.
+      - 9/9 Widget tests passed, widget built cleanly (`tsc -b && vite build`).
+      - 73/73 AI service pytest tests passed.
+
+  - STITCH-SUPER-ADMIN-COCKPIT: Dedicated Super Admin Multi-Tenant Governance & Operations Cockpit (ADM-1, ADM-3):
+    - Stitch Design Asset: Screen `30de81e4a21d4e6ca77681e7f6d8c9e6` generated in Stitch MCP (`SupportPilot - Super Admin Platform Cockpit`).
+    - Backend:
+      - Enriched `admin.routes.ts` with `requireAuth` + `requireMinRole('OWNER')`.
+      - Mounted `GET /api/v1/admin/metrics` (platform aggregate telemetry across tenants, users, tickets, AI tokens, and services).
+      - Mounted `GET /api/v1/admin/tenants/:id` (detailed single tenant inspection with quotas, owner, and feature flags).
+      - Mounted `PATCH /api/v1/admin/tenants/:id/quotas` (overrides for max seats, monthly tickets, AI token cap, vector storage limit).
+      - Mounted `GET /api/v1/admin/tenants/:id/audit-logs` (per-tenant immutable audit trail).
+      - Mounted `POST /api/v1/admin/tenants` (provision tenant with default settings and initial owner user).
+      - Added 6 new integration tests in `apps/ticket-service/tests/integrations-admin.test.ts` (19 test files, 214 tests passing).
+    - Frontend:
+      - Created `apps/web/src/components/admin/AdminCockpitView.tsx` with top KPI header cards, search and tier/status filter chips, high-density tenant directory table, slide-over tenant inspection drawer (quotas, feature flags, audit trail, emergency suspension), and tenant provisioning modal.
+      - Integrated top-level `admin` tab in `Shell.tsx` and `App.tsx` (visible only to users with role `OWNER`).
+      - Added client methods in `apps/web/src/lib/api.ts` under `api.admin`.
+      - Added 5 component tests in `apps/web/src/test/admin-cockpit.test.tsx` (18 test files, 75 tests passing).
+
 ## Handoff checklist for the next person or AI
 
 - [x] `pnpm verify` passes on main (36/36 tasks green, 138 tests)

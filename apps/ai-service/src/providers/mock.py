@@ -128,20 +128,24 @@ class MockLLMProvider(LLMProvider):
                     )
                 ]
 
+            # Extract clean customer question from user_prompt
+            q_match = re.search(r"Customer Question:\s*(.+)$", user_prompt, re.MULTILINE)
+            clean_q = q_match.group(1).strip() if q_match else "your inquiry"
+
             if self.custom_answer is not None:
                 answer_text = self.custom_answer
             elif should_escalate:
                 answer_text = (
-                    "I am unable to answer this inquiry based on available documentation. "
-                    "Connecting you with a human support agent..."
+                    f"I am connecting you with our support team regarding '{clean_q}'. "
+                    "A specialist will assist you with full account details shortly."
                 )
             elif chunk_matches:
                 chunk_snippet = chunk_matches[0][1].strip()[:180]
                 answer_text = f"According to our official documentation: {chunk_snippet}"
             else:
                 answer_text = (
-                    "According to our knowledge base, here is the answer regarding your question: "
-                    f"'{user_prompt[:80]}'."
+                    f"Here is what you need to know about '{clean_q}': "
+                    "You can configure this directly in your workspace settings."
                 )
 
             result = RagAnswer(

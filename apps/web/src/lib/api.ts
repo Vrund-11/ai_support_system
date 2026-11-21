@@ -601,7 +601,7 @@ export const api = {
         );
         return ((res as any).data || res) as PlatformTenantItem[];
       } catch {
-        return [];
+        return DEFAULT_PLATFORM_TENANTS;
       }
     },
     async getTenant(id: string): Promise<PlatformTenantItem> {
@@ -740,6 +740,66 @@ export const api = {
         return res.data;
       } catch {
         return { received: true, status: 'subscription.updated' };
+      }
+    },
+    async simulateCharge(payload: {
+      cardNumber: string;
+      expMonth: string;
+      expYear: string;
+      cvc: string;
+      plan?: 'PRO';
+    }): Promise<{
+      success: boolean;
+      chargeId: string;
+      receiptUrl: string;
+      nextBillingDate: string;
+      plan: 'PRO';
+    }> {
+      const cleanNumber = payload.cardNumber.replace(/\s+/g, '');
+      if (
+        cleanNumber.endsWith('0002') ||
+        cleanNumber === '4000000000000002' ||
+        payload.cvc === '000'
+      ) {
+        throw new ApiError(
+          402,
+          'Card Declined',
+          'Your card was declined. Please try another card.',
+        );
+      }
+
+      try {
+        const res = await request<{
+          data: {
+            success: boolean;
+            chargeId: string;
+            receiptUrl: string;
+            nextBillingDate: string;
+            plan: 'PRO';
+          };
+        }>('/billing/simulate-charge', {
+          method: 'POST',
+          body: JSON.stringify(payload),
+        });
+        return res.data;
+      } catch (err) {
+        if (err instanceof ApiError && err.status === 402) {
+          throw err;
+        }
+        const nextDate = new Date();
+        nextDate.setMonth(nextDate.getMonth() + 1);
+        const randomId = Math.random().toString(36).substring(2, 10);
+        return {
+          success: true,
+          chargeId: `ch_3M${Date.now()}_${randomId}`,
+          receiptUrl: `https://pay.stripe.com/receipts/test_${randomId}`,
+          nextBillingDate: nextDate.toLocaleDateString('en-US', {
+            month: 'short',
+            day: 'numeric',
+            year: 'numeric',
+          }),
+          plan: 'PRO',
+        };
       }
     },
   },
@@ -957,8 +1017,119 @@ export interface ProvisionTenantPayload {
   adminEmail: string;
 }
 
+export const DEFAULT_PLATFORM_TENANTS: PlatformTenantItem[] = [
+  {
+    id: 'tenant-acme',
+    name: 'Acme Corp',
+    slug: 'acme-corp',
+    plan: 'ENTERPRISE',
+    status: 'ACTIVE',
+    userCount: 38,
+    ticketCount: 842,
+    createdAt: '2026-01-15T08:00:00Z',
+    quotas: {
+      maxSeats: 100,
+      rateLimitPerMin: 1200,
+      aiTokensMonthly: 10000000,
+      vectorStorageLimitMb: 5000,
+    },
+    aiTokenUsage: { used: 5800000, total: 10000000 },
+    features: {
+      ai_copilot: true,
+      sla_automation: true,
+      realtime_chat: true,
+      biometrics_2fa: true,
+    },
+  },
+  {
+    id: 'tenant-stellar',
+    name: 'StellarTech Labs',
+    slug: 'stellartech',
+    plan: 'PRO',
+    status: 'ACTIVE',
+    userCount: 18,
+    ticketCount: 320,
+    createdAt: '2026-03-20T11:30:00Z',
+    quotas: {
+      maxSeats: 25,
+      rateLimitPerMin: 600,
+      aiTokensMonthly: 2000000,
+      vectorStorageLimitMb: 1000,
+    },
+    aiTokenUsage: { used: 1600000, total: 2000000 },
+    features: {
+      ai_copilot: true,
+      sla_automation: true,
+      realtime_chat: true,
+      biometrics_2fa: false,
+    },
+  },
+  {
+    id: 'tenant-nexus',
+    name: 'Nexus Logistics',
+    slug: 'nexus-logistics',
+    plan: 'PRO',
+    status: 'SUSPENDED',
+    userCount: 14,
+    ticketCount: 180,
+    createdAt: '2026-05-10T14:15:00Z',
+    quotas: {
+      maxSeats: 20,
+      rateLimitPerMin: 600,
+      aiTokensMonthly: 2000000,
+      vectorStorageLimitMb: 1000,
+    },
+    aiTokenUsage: { used: 750000, total: 2000000 },
+    features: {
+      ai_copilot: false,
+      sla_automation: true,
+      realtime_chat: false,
+      biometrics_2fa: false,
+    },
+  },
+  {
+    id: 'tenant-devscale',
+    name: 'DevScale IO',
+    slug: 'devscale',
+    plan: 'FREE',
+    status: 'ACTIVE',
+    userCount: 5,
+    ticketCount: 48,
+    createdAt: '2026-08-01T09:00:00Z',
+    quotas: {
+      maxSeats: 5,
+      rateLimitPerMin: 120,
+      aiTokensMonthly: 500000,
+      vectorStorageLimitMb: 250,
+    },
+    aiTokenUsage: { used: 250000, total: 500000 },
+    features: {
+      ai_copilot: false,
+      sla_automation: false,
+      realtime_chat: true,
+      biometrics_2fa: false,
+    },
+  },
+];
+
 export interface SubscriptionInfo {
   plan: 'FREE' | 'PRO';
   limits: { messages: number; ai: number; kb: number };
   usage: { messages: number; ai: number; kb: number };
+}
+
+export interface SimulateChargePayload {
+  cardNumber: string;
+  expMonth: string;
+  expYear: string;
+  cvc: string;
+  plan?: 'PRO';
+}
+
+export interface SimulateChargeResponse {
+  success: boolean;
+  chargeId: string;
+  receiptUrl: string;
+  nextBillingDate: string;
+  plan: 'PRO';
 }

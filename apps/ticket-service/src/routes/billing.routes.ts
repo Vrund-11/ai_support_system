@@ -135,6 +135,90 @@ billingRouter.post(
   },
 );
 
+// POST /api/v1/billing/simulate-charge - simulated direct charge for testing Stripe flow
+billingRouter.post(
+  '/simulate-charge',
+  requireAuth,
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const tenantId = req.user!.tenantId;
+      const { cardNumber, cvc, plan = 'PRO' } = req.body || {};
+
+      if (plan && plan !== 'PRO') {
+        res.status(400).json({ title: 'Validation error', detail: 'Invalid plan' });
+        return;
+      }
+
+      const cleanCardNumber = String(cardNumber || '').replace(/\D/g, '');
+      const cleanCvc = String(cvc ?? '').trim();
+
+      if (!cleanCardNumber) {
+        res.status(400).json({ title: 'Validation error', detail: 'Card number is required' });
+        return;
+      }
+
+      if (cleanCardNumber.startsWith('400000000002') || cleanCvc === '000') {
+        res.status(402).json({
+          title: 'Payment Required',
+          detail: 'Your card was declined. Please try another card.',
+          type: '/errors/card-declined',
+        });
+        return;
+      }
+
+      const random = Math.random().toString(36).substring(2, 10);
+      const chargeId = `ch_test_${random}`;
+      const customerId = `cus_test_${random}`;
+      const subscriptionId = `sub_test_${random}`;
+      const paymentIntentId = `pi_test_${random}`;
+
+      if (isDbConnected() || 'mock' in Tenant.findByIdAndUpdate) {
+        const updated = await Tenant.findByIdAndUpdate(
+          tenantId,
+          {
+            $set: {
+              plan: 'PRO',
+              stripeCustomerId: customerId,
+              stripeSubscriptionId: subscriptionId,
+              updatedAt: new Date(),
+            },
+          },
+          { new: true },
+        );
+
+        if (!updated) {
+          res.status(404).json({ title: 'Not found', detail: 'Tenant not found' });
+          return;
+        }
+      }
+
+      res.status(200).json({
+        status: 'succeeded',
+        chargeId,
+        paymentIntentId,
+        customerId,
+        subscriptionId,
+        receiptUrl: 'https://pay.stripe.com/receipts/in_mock',
+        amount: 4900,
+        currency: 'usd',
+        plan: 'PRO',
+        data: {
+          status: 'succeeded',
+          chargeId,
+          customerId,
+          subscriptionId,
+          receiptUrl: 'https://pay.stripe.com/receipts/in_mock',
+          amount: 4900,
+          currency: 'usd',
+          plan: 'PRO',
+        },
+      });
+    } catch (err) {
+      next(err);
+    }
+  },
+);
+
 // POST /api/v1/billing/webhook - webhook handler for Stripe or mock events
 billingRouter.post('/webhook', async (req: Request, res: Response, next: NextFunction) => {
   try {

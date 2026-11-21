@@ -42,6 +42,9 @@ const TeamView = lazy(() =>
 const AutomationView = lazy(() =>
   import('./components/automation/AutomationView').then((m) => ({ default: m.AutomationView })),
 );
+const AdminCockpitView = lazy(() =>
+  import('./components/admin/AdminCockpitView').then((m) => ({ default: m.AdminCockpitView })),
+);
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -118,6 +121,8 @@ export function AppContent() {
         {currentTab === 'automation' && <AutomationView />}
 
         {currentTab === 'analytics' && <AnalyticsDashboard />}
+
+        {currentTab === 'admin' && <AdminCockpitView />}
 
         {currentTab === 'settings' && <SettingsView />}
 

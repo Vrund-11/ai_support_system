@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { Send, X, Bot, User, Shield, Sparkles, BookOpen, Paperclip } from 'lucide-react';
+import { Send, X, Bot, User, Shield, Sparkles, BookOpen, Paperclip, RotateCcw } from 'lucide-react';
 import type { WidgetMessage, WidgetTheme } from '../types';
 import { OfflineForm } from './OfflineForm';
 import { CsatSurveyModal } from './CsatSurveyModal';
@@ -11,6 +11,7 @@ interface WidgetChatProps {
   onSendMessage: (text: string) => void;
   onNotifyTyping: () => void;
   onClose: () => void;
+  onReset?: () => void;
   theme?: WidgetTheme;
   tenantId: string;
   gatewayUrl?: string;
@@ -24,6 +25,7 @@ export function WidgetChat({
   onSendMessage,
   onNotifyTyping,
   onClose,
+  onReset,
   theme = {},
   tenantId,
   gatewayUrl,
@@ -88,20 +90,34 @@ export function WidgetChat({
           </div>
         </div>
 
-        <button
-          onClick={() => {
-            if (messages.length > 2 && !hasRated) {
-              setIsCsatOpen(true);
-            } else {
-              onClose();
-            }
-          }}
-          className="text-white/80 hover:text-white p-1 rounded-lg hover:bg-white/10 transition-colors cursor-pointer"
-          aria-label="Close chat"
-          data-testid="widget-close-button"
-        >
-          <X className="w-5 h-5" />
-        </button>
+        <div className="flex items-center space-x-1">
+          {onReset && (
+            <button
+              type="button"
+              onClick={onReset}
+              className="text-white/80 hover:text-white p-1 rounded-lg hover:bg-white/10 transition-colors cursor-pointer"
+              title="Start New Conversation"
+              aria-label="Start new conversation"
+              data-testid="widget-reset-button"
+            >
+              <RotateCcw className="w-4 h-4" />
+            </button>
+          )}
+          <button
+            onClick={() => {
+              if (messages.length > 2 && !hasRated) {
+                setIsCsatOpen(true);
+              } else {
+                onClose();
+              }
+            }}
+            className="text-white/80 hover:text-white p-1 rounded-lg hover:bg-white/10 transition-colors cursor-pointer"
+            aria-label="Close chat"
+            data-testid="widget-close-button"
+          >
+            <X className="w-5 h-5" />
+          </button>
+        </div>
       </div>
 
       {/* Mode toggle bar */}

@@ -21,6 +21,131 @@ import { validateStatusTransition } from '../lib/transitions.js';
 
 export const ticketRouter: Router = Router();
 
+// POST /api/v1/tickets/public — public widget offline ticket submission (no agent auth required)
+ticketRouter.post('/public', async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { tenantId, name, email, subject, description, priority } = req.body;
+    if (!tenantId || !email || !subject || !description) {
+      throw new AppError(
+        400,
+        'tenantId, email, subject, and description are required',
+        '/errors/validation',
+      );
+    }
+
+    const { CustomerRepository } = await import('../repositories/customer.repository.js');
+    const customerRepo = new CustomerRepository(tenantId);
+    const customer = await customerRepo.createOrUpdate({
+      name: name || email.split('@')[0],
+      email,
+      visitorIds: [],
+    });
+
+    const ticketRepo = new TicketRepository(tenantId);
+    const ticket = await ticketRepo.createTicket({
+      subject,
+      description,
+      priority: priority || 'MEDIUM',
+      customerId: customer._id.toString(),
+      tags: ['offline-widget'],
+      attachments: [],
+      customFields: {},
+      linkedTicketIds: [],
+    });
+
+    res.status(201).json({
+      data: {
+        id: ticket._id.toString(),
+        number: ticket.number,
+        subject: ticket.subject,
+        status: ticket.status,
+      },
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
+// GET /api/v1/tickets/public/track — public ticket tracking by number and customer email
+ticketRouter.get('/public/track', async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { ticketNumber, email } = req.query;
+    if (!ticketNumber || !email) {
+      throw new AppError(400, 'ticketNumber and email are required', '/errors/validation');
+    }
+
+    const num = Number(ticketNumber);
+    if (isNaN(num)) {
+      throw new AppError(400, 'ticketNumber must be a valid number', '/errors/validation');
+    }
+
+    const ticket = await Ticket.findOne({ number: num });
+    if (!ticket) {
+      throw new AppError(404, 'Ticket not found', '/errors/not-found');
+    }
+
+    const { CustomerRepository } = await import('../repositories/customer.repository.js');
+    const customerRepo = new CustomerRepository(ticket.tenantId);
+    const customer = ticket.customerId
+      ? await customerRepo.findById(ticket.customerId.toString())
+      : null;
+
+    if (!customer || customer.email.toLowerCase() !== String(email).trim().toLowerCase()) {
+      throw new AppError(404, 'Ticket not found for provided email', '/errors/not-found');
+    }
+
+    const { MessageRepository } = await import('../repositories/message.repository.js');
+    const { TicketEventRepository } = await import('../repositories/ticket-event.repository.js');
+    const msgRepo = new MessageRepository(ticket.tenantId);
+    const eventRepo = new TicketEventRepository(ticket.tenantId);
+
+    const rawMessages = await msgRepo.getMessagesForTicket(ticket._id.toString(), {
+      includeInternal: false,
+    });
+    const messages = rawMessages.map((m) => ({
+      id: m._id.toString(),
+      ticketId: m.ticketId ? m.ticketId.toString() : ticket._id.toString(),
+      senderType: m.senderType,
+      senderId: m.senderId ? m.senderId.toString() : '',
+      body: m.body,
+      isInternal: false,
+      attachments: m.attachments || [],
+      createdAt: m.createdAt.toISOString(),
+    }));
+
+    const rawTimeline = await eventRepo.getTimelineForTicket(ticket._id.toString());
+    const timeline = rawTimeline.map((e) => ({
+      id: e._id.toString(),
+      ticketId: e.ticketId.toString(),
+      type: e.type,
+      actorId: e.actorId ? e.actorId.toString() : null,
+      from: e.from,
+      to: e.to,
+      at: e.at.toISOString(),
+      createdAt: e.createdAt.toISOString(),
+    }));
+
+    res.status(200).json({
+      data: {
+        ticket: {
+          id: ticket._id.toString(),
+          number: ticket.number,
+          subject: ticket.subject,
+          description: ticket.description,
+          status: ticket.status,
+          priority: ticket.priority,
+          createdAt: ticket.createdAt.toISOString(),
+          updatedAt: ticket.updatedAt.toISOString(),
+        },
+        timeline,
+        messages,
+      },
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
 // Enforce AGENT+ on all ticket endpoints (PRD section 8.1)
 ticketRouter.use(requireAuth, requireMinRole('AGENT'));
 

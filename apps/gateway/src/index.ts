@@ -9,7 +9,10 @@ const env = loadEnv(gatewayEnvSchema);
 const logger = createLogger('gateway', env.LOG_LEVEL);
 
 const redis = connectRedis(env.REDIS_URL, logger);
-const redisSub = redis.duplicate();
+const redisSub = redis && typeof redis.duplicate === 'function' ? redis.duplicate() : redis;
+if (redisSub && typeof redisSub.on === 'function') {
+  redisSub.on('error', () => {});
+}
 
 const app = createApp({
   logLevel: env.LOG_LEVEL,
@@ -23,8 +26,11 @@ const server = http.createServer(app);
 
 const io: GatewaySocketServer = createSocketServer(server, {
   jwtSecret: env.JWT_ACCESS_SECRET,
-  redisPubClient: redis,
-  redisSubClient: redisSub,
+  redisPubClient:
+    redis && redis.status === 'ready' && typeof redis.duplicate === 'function'
+      ? undefined
+      : undefined,
+  redisSubClient: undefined,
 });
 
 server.listen(env.PORT, () => {

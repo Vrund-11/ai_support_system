@@ -53,30 +53,53 @@ export function CreateTicketModal({ isOpen, onClose, onSuccess }: CreateTicketMo
     }
   };
 
+  const parsedTags = tagsInput
+    .split(',')
+    .map((t) => t.trim())
+    .filter(Boolean);
+
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-900/50 flex items-center justify-center p-4">
-      <div className="bg-white rounded-xl shadow-xl max-w-lg w-full p-6 relative">
+    <div
+      className="fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="create-ticket-modal-title"
+    >
+      <div className="bg-white rounded-2xl shadow-2xl max-w-lg w-full p-6 relative border border-slate-200/80 animate-in fade-in zoom-in-95 duration-150">
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 p-1 rounded-md"
+          className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 p-1.5 rounded-lg hover:bg-slate-100 transition-colors"
+          title="Close modal"
+          aria-label="Close modal"
         >
           <X className="w-5 h-5" />
         </button>
 
-        <div className="flex items-center space-x-2 mb-4">
-          <PlusCircle className="w-5 h-5 text-indigo-600" />
-          <h2 className="text-lg font-bold text-slate-900">Create New Ticket</h2>
+        <div className="flex items-center space-x-2.5 mb-5 pb-3 border-b border-slate-100">
+          <div className="p-2 bg-indigo-50 text-indigo-600 rounded-xl">
+            <PlusCircle className="w-5 h-5" />
+          </div>
+          <div>
+            <h2
+              id="create-ticket-modal-title"
+              className="text-base font-bold text-slate-900 tracking-tight"
+            >
+              Create New Ticket
+            </h2>
+            <p className="text-xs text-slate-500">Log customer inquiry with priority & tags</p>
+          </div>
         </div>
 
         {error && (
-          <div className="mb-4 p-3 bg-rose-50 border border-rose-200 text-rose-700 text-xs rounded-lg">
-            {error}
+          <div className="mb-4 p-3 bg-rose-50 border border-rose-200 text-rose-700 text-xs rounded-xl flex items-center gap-2">
+            <span className="w-1.5 h-1.5 rounded-full bg-rose-600 shrink-0"></span>
+            <span>{error}</span>
           </div>
         )}
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-xs font-semibold text-slate-700 uppercase mb-1">
+            <label className="block text-[11px] font-bold text-slate-700 uppercase mb-1 tracking-wider">
               Subject *
             </label>
             <input
@@ -85,13 +108,13 @@ export function CreateTicketModal({ isOpen, onClose, onSuccess }: CreateTicketMo
               value={subject}
               onChange={(e) => setSubject(e.target.value)}
               placeholder="e.g. Cannot access dashboard"
-              className="w-full px-3 py-2 border border-slate-300 rounded-md text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+              className="w-full px-3.5 py-2 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 focus:outline-none shadow-2xs transition-all"
               data-testid="ticket-subject-input"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-slate-700 uppercase mb-1">
+            <label className="block text-[11px] font-bold text-slate-700 uppercase mb-1 tracking-wider">
               Description *
             </label>
             <textarea
@@ -99,32 +122,32 @@ export function CreateTicketModal({ isOpen, onClose, onSuccess }: CreateTicketMo
               rows={4}
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              placeholder="Detailed explanation of the issue or request..."
-              className="w-full px-3 py-2 border border-slate-300 rounded-md text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+              placeholder="Detailed explanation of the issue or request (Markdown supported)..."
+              className="w-full px-3.5 py-2 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 focus:outline-none shadow-2xs transition-all"
               data-testid="ticket-desc-input"
             />
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-2 gap-3.5">
             <div>
-              <label className="block text-xs font-semibold text-slate-700 uppercase mb-1">
+              <label className="block text-[11px] font-bold text-slate-700 uppercase mb-1 tracking-wider">
                 Priority
               </label>
               <select
                 value={priority}
                 onChange={(e) => setPriority(e.target.value as TicketPriority)}
-                className="w-full px-3 py-2 border border-slate-300 rounded-md text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none bg-white"
+                className="w-full px-3 py-2 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 focus:outline-none bg-slate-50/50 shadow-2xs"
                 data-testid="ticket-priority-select"
               >
-                <option value="LOW">Low</option>
-                <option value="MEDIUM">Medium</option>
-                <option value="HIGH">High</option>
-                <option value="URGENT">Urgent</option>
+                <option value="LOW">LOW</option>
+                <option value="MEDIUM">MEDIUM</option>
+                <option value="HIGH">HIGH</option>
+                <option value="URGENT">URGENT</option>
               </select>
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-700 uppercase mb-1">
+              <label className="block text-[11px] font-bold text-slate-700 uppercase mb-1 tracking-wider">
                 Customer Email
               </label>
               <input
@@ -132,37 +155,49 @@ export function CreateTicketModal({ isOpen, onClose, onSuccess }: CreateTicketMo
                 value={customerEmail}
                 onChange={(e) => setCustomerEmail(e.target.value)}
                 placeholder="customer@example.com"
-                className="w-full px-3 py-2 border border-slate-300 rounded-md text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                className="w-full px-3 py-2 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 focus:outline-none shadow-2xs"
                 data-testid="ticket-email-input"
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-slate-700 uppercase mb-1">
+            <label className="block text-[11px] font-bold text-slate-700 uppercase mb-1 tracking-wider">
               Tags (comma separated)
             </label>
             <input
               type="text"
               value={tagsInput}
               onChange={(e) => setTagsInput(e.target.value)}
-              placeholder="billing, urgent, auth"
-              className="w-full px-3 py-2 border border-slate-300 rounded-md text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+              placeholder="e.g. billing, urgent, api"
+              className="w-full px-3.5 py-2 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 focus:outline-none shadow-2xs"
             />
+            {parsedTags.length > 0 && (
+              <div className="flex flex-wrap gap-1.5 mt-2">
+                {parsedTags.map((t) => (
+                  <span
+                    key={t}
+                    className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-mono font-medium bg-slate-100 text-slate-700 border border-slate-200"
+                  >
+                    #{t}
+                  </span>
+                ))}
+              </div>
+            )}
           </div>
 
-          <div className="flex justify-end space-x-3 pt-3 border-t border-slate-100">
+          <div className="flex justify-end space-x-2.5 pt-4 border-t border-slate-100">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 border border-slate-300 text-slate-700 text-sm font-medium rounded-md hover:bg-slate-50 cursor-pointer"
+              className="px-4 py-2 border border-slate-200 text-slate-600 hover:text-slate-900 text-xs font-semibold rounded-xl hover:bg-slate-50 transition-colors cursor-pointer"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={createTicket.isPending}
-              className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium rounded-md shadow-sm disabled:opacity-50 flex items-center space-x-2 cursor-pointer"
+              className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold rounded-xl shadow-sm disabled:opacity-50 flex items-center space-x-2 transition-colors cursor-pointer"
               data-testid="create-ticket-submit"
             >
               {createTicket.isPending ? (

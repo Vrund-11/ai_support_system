@@ -104,19 +104,28 @@ export class MobileApiClient {
   // AI Assistance Endpoints (MOB-5)
   readonly ai = {
     suggestReply: async (ticketId: string, customerQuery: string) => {
-      return this.request<{ suggestion: string; citations: any[] }>('/api/v1/ai/suggest-reply', {
-        method: 'POST',
-        body: JSON.stringify({ ticketId, customerQuery }),
-      });
+      return this.request<{ suggestion: string; citations: any[] }>(
+        '/api/v1/ai/assist/suggest-reply',
+        {
+          method: 'POST',
+          body: JSON.stringify({ ticketId, customerQuery }),
+        },
+      );
     },
     summarize: async (ticketId: string, messages: any[]) => {
       return this.request<{ summary: string; sentiment: string; keyPoints: string[] }>(
-        '/api/v1/ai/summarize',
+        '/api/v1/ai/assist/summarize',
         {
           method: 'POST',
           body: JSON.stringify({ ticketId, messages }),
         },
       );
+    },
+  };
+
+  readonly notifications = {
+    list: async () => {
+      return this.request<{ data: any[] }>('/api/v1/notifications');
     },
   };
 }

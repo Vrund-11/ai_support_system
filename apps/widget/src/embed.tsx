@@ -34,7 +34,9 @@ export function mountWidget(config: WidgetConfig): void {
 
 // Auto-initialize when loaded via script tag: <script src="..." data-tenant-id="..." ...></script>
 if (typeof document !== 'undefined') {
-  const currentScript = document.currentScript as HTMLScriptElement | null;
+  const currentScript =
+    (document.currentScript as HTMLScriptElement | null) ||
+    document.querySelector<HTMLScriptElement>('script[data-tenant-id]');
   if (currentScript) {
     const tenantId = currentScript.getAttribute('data-tenant-id');
     const gatewayUrl = currentScript.getAttribute('data-gateway-url') || 'http://localhost:4000';

@@ -46,7 +46,7 @@ export function createRateLimiter(options: RateLimiterOptions, redisClient?: Red
         await redis.expire(key, windowSec);
       }
 
-      const ttl = await redis.ttl(key);
+      const ttl = typeof redis.ttl === 'function' ? await redis.ttl(key) : windowSec;
       const resetTime = Math.ceil(Date.now() / 1000) + Math.max(ttl, 0);
       const remaining = Math.max(0, max - current);
 
@@ -65,7 +65,12 @@ export function createRateLimiter(options: RateLimiterOptions, redisClient?: Red
 
       next();
     } catch (err) {
-      next(err);
+      if (err instanceof AppError) {
+        next(err);
+        return;
+      }
+      // If Redis connection is down or closed, fail open
+      next();
     }
   };
 }

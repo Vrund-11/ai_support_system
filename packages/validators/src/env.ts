@@ -1,5 +1,22 @@
 import { z } from 'zod';
 
+try {
+  // Native Node 20+ .env file loader
+  if (typeof process.loadEnvFile === 'function') {
+    try {
+      process.loadEnvFile();
+    } catch {}
+    try {
+      process.loadEnvFile('../../.env');
+    } catch {}
+    try {
+      process.loadEnvFile('../.env');
+    } catch {}
+  }
+} catch {
+  // Ignore if .env doesn't exist
+}
+
 /**
  * Base env vars shared by all Node services.
  * Each service extends this with its own schema.
@@ -12,7 +29,7 @@ export const baseEnvSchema = z.object({
 
 /** Gateway-specific env */
 export const gatewayEnvSchema = baseEnvSchema.extend({
-  PORT: z.coerce.number().default(4000),
+  PORT: z.preprocess((val) => process.env.GATEWAY_PORT || val, z.coerce.number()).default(4000),
   REDIS_URL: z.string().url(),
   JWT_ACCESS_SECRET: z.string().min(32),
   JWT_REFRESH_SECRET: z.string().min(32),
@@ -23,7 +40,9 @@ export const gatewayEnvSchema = baseEnvSchema.extend({
 
 /** Ticket-service env */
 export const ticketServiceEnvSchema = baseEnvSchema.extend({
-  PORT: z.coerce.number().default(4001),
+  PORT: z
+    .preprocess((val) => process.env.TICKET_SERVICE_PORT || val, z.coerce.number())
+    .default(4001),
   MONGODB_URI: z.string().min(1),
   REDIS_URL: z.string().url(),
   SERVICE_TOKEN: z.string().min(16),

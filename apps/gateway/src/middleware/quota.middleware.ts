@@ -95,6 +95,10 @@ export class GatewayQuotaTracker {
 
   static resetInMemory(): void {
     GatewayQuotaTracker.inMemoryStore.clear();
+    const redis = GatewayQuotaTracker.getRedisClient();
+    if (redis && typeof (redis as any).reset === 'function') {
+      (redis as any).reset();
+    }
   }
 }
 

@@ -218,6 +218,83 @@ export const api = {
         useAuthStore.getState().clearAuth();
       }
     },
+    async forgotPassword(email: string): Promise<{ message: string }> {
+      const res = await request<{ data: { message: string } }>('/auth/forgot-password', {
+        method: 'POST',
+        body: JSON.stringify({ email }),
+      });
+      return res.data;
+    },
+    async resetPassword(token: string, newPassword: string): Promise<{ message: string }> {
+      const res = await request<{ data: { message: string } }>('/auth/reset-password', {
+        method: 'POST',
+        body: JSON.stringify({ token, newPassword }),
+      });
+      return res.data;
+    },
+    async verifyEmail(token: string): Promise<{ message: string }> {
+      const res = await request<{ data: { message: string } }>('/auth/verify-email', {
+        method: 'POST',
+        body: JSON.stringify({ token }),
+      });
+      return res.data;
+    },
+  },
+
+  publicTickets: {
+    async track(
+      ticketNumber: number | string,
+      email: string,
+    ): Promise<{
+      ticket: {
+        id: string;
+        number: number;
+        subject: string;
+        description: string;
+        status: TicketStatus;
+        priority: TicketPriority;
+        createdAt: string;
+        updatedAt: string;
+      };
+      timeline: TicketEventDto[];
+      messages: MessageDto[];
+    }> {
+      const res = await request<
+        ApiResponse<{
+          ticket: {
+            id: string;
+            number: number;
+            subject: string;
+            description: string;
+            status: TicketStatus;
+            priority: TicketPriority;
+            createdAt: string;
+            updatedAt: string;
+          };
+          timeline: TicketEventDto[];
+          messages: MessageDto[];
+        }>
+      >(
+        `/tickets/public/track?ticketNumber=${encodeURIComponent(ticketNumber)}&email=${encodeURIComponent(email)}`,
+      );
+      return res.data;
+    },
+    async submitOffline(payload: {
+      tenantId: string;
+      name: string;
+      email: string;
+      subject: string;
+      description: string;
+      priority?: TicketPriority;
+    }): Promise<{ id: string; number: number; subject: string; status: TicketStatus }> {
+      const res = await request<
+        ApiResponse<{ id: string; number: number; subject: string; status: TicketStatus }>
+      >('/tickets/public', {
+        method: 'POST',
+        body: JSON.stringify(payload),
+      });
+      return res.data;
+    },
   },
 
   tickets: {
@@ -541,34 +618,34 @@ export const api = {
 
   automation: {
     async listRules(): Promise<RuleDto[]> {
-      const res = await request<{ data: RuleDto[] }>('/automation/rules');
-      return res.data || [];
+      const res = await request<{ data?: RuleDto[]; rules?: RuleDto[] }>('/rules');
+      return res.data || res.rules || [];
     },
     async createRule(payload: Partial<RuleDto>): Promise<RuleDto> {
-      const res = await request<{ data: RuleDto }>('/automation/rules', {
+      const res = await request<{ data?: RuleDto } & RuleDto>('/rules', {
         method: 'POST',
         body: JSON.stringify(payload),
       });
-      return res.data;
+      return res.data || (res as RuleDto);
     },
     async toggleRule(id: string, enabled: boolean): Promise<RuleDto> {
-      const res = await request<{ data: RuleDto }>(`/automation/rules/${id}`, {
+      const res = await request<{ data?: RuleDto } & RuleDto>(`/rules/${id}`, {
         method: 'PATCH',
         body: JSON.stringify({ enabled }),
       });
-      return res.data;
+      return res.data || (res as RuleDto);
     },
     async deleteRule(id: string): Promise<void> {
-      await request<void>(`/automation/rules/${id}`, { method: 'DELETE' });
+      await request<void>(`/rules/${id}`, { method: 'DELETE' });
     },
     async getSlaPolicies(): Promise<Record<TicketPriority, SlaPolicy>> {
-      const res = await request<{ data: Record<TicketPriority, SlaPolicy> }>('/automation/sla');
+      const res = await request<{ data: Record<TicketPriority, SlaPolicy> }>('/rules/sla');
       return res.data;
     },
     async updateSlaPolicies(
       policies: Record<TicketPriority, SlaPolicy>,
     ): Promise<Record<TicketPriority, SlaPolicy>> {
-      const res = await request<{ data: Record<TicketPriority, SlaPolicy> }>('/automation/sla', {
+      const res = await request<{ data: Record<TicketPriority, SlaPolicy> }>('/rules/sla', {
         method: 'PUT',
         body: JSON.stringify(policies),
       });

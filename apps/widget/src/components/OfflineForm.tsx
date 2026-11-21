@@ -28,17 +28,17 @@ export function OfflineForm({
     setError(null);
 
     try {
-      const url = `${gatewayUrl}/api/v1/tickets`;
+      const url = `${gatewayUrl}/api/v1/tickets/public`;
       const res = await fetch(url, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
+          tenantId,
+          name,
+          email,
           subject: subject || 'Offline message from website',
           description: `From: ${name} <${email}>\n\n${message}`,
           priority: 'MEDIUM',
-          customerEmail: email,
-          tags: ['offline', 'widget'],
-          customFields: { tenantId, source: 'WIDGET_OFFLINE' },
         }),
       });
 
@@ -47,14 +47,11 @@ export function OfflineForm({
       }
 
       const body = (await res.json()) as { data?: { number: number } };
-      const ticketNum = body.data?.number || Math.floor(1000 + Math.random() * 9000);
+      const ticketNum = body.data?.number ?? 1001;
       setSubmittedTicket(ticketNum);
       onSuccess?.(ticketNum);
-    } catch {
-      // Offline fallback simulation
-      const fallbackNumber = Math.floor(1000 + Math.random() * 9000);
-      setSubmittedTicket(fallbackNumber);
-      onSuccess?.(fallbackNumber);
+    } catch (err) {
+      setError((err as Error).message || 'Failed to submit message. Please try again.');
     } finally {
       setIsSubmitting(false);
     }

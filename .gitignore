@@ -25,6 +25,8 @@ Thumbs.db
 # Test
 coverage/
 *.lcov
+test-results/
+graphify-out/
 
 # Turbo
 .turbo/

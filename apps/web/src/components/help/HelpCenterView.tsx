@@ -9,8 +9,10 @@ import {
   CheckCircle,
   ThumbsUp,
   ThumbsDown,
-  ExternalLink,
+  ArrowRight,
+  Ticket,
 } from 'lucide-react';
+import { PublicTicketTracker } from './PublicTicketTracker';
 
 interface HelpArticle {
   id: string;
@@ -95,6 +97,7 @@ If your connection drops:
 ];
 
 export function HelpCenterView() {
+  const [mode, setMode] = useState<'articles' | 'tracker'>('articles');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [selectedArticle, setSelectedArticle] = useState<HelpArticle | null>(null);
@@ -110,116 +113,202 @@ export function HelpCenterView() {
   });
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      {/* Hero Banner */}
-      <div className="text-center py-10 px-4 bg-gradient-to-r from-indigo-900 to-slate-900 rounded-2xl text-white shadow-md mb-8">
-        <h1 className="text-3xl font-extrabold tracking-tight">SupportPilot Help Center</h1>
-        <p className="mt-2 text-indigo-200 text-sm max-w-xl mx-auto">
-          Search our knowledge base for guides, API specifications, and troubleshooting
-          documentation.
-        </p>
-        <div className="mt-6 max-w-xl mx-auto relative">
-          <Search className="w-5 h-5 absolute left-3.5 top-3 text-slate-400" />
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search articles, guides, API parameters..."
-            className="w-full pl-11 pr-4 py-2.5 rounded-xl bg-white text-slate-900 placeholder-slate-400 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 shadow-sm"
-          />
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+      {/* Hero Banner Section with Architectural Glow */}
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 text-white p-8 sm:p-12 shadow-xl border border-indigo-950/40">
+        <div className="absolute -top-24 right-1/4 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="relative max-w-3xl mx-auto text-center space-y-4">
+          {/* Operational Status Pill */}
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-xs font-medium shadow-sm">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+            </span>
+            <span>All systems operational • 99.98% SLA</span>
+          </div>
+
+          <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-white">
+            SupportPilot Help Center
+          </h1>
+          <p className="text-slate-300 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
+            Search our knowledge base for guides, API specifications, and troubleshooting
+            documentation.
+          </p>
+
+          {/* Search Box */}
+          <div className="mt-6 max-w-2xl mx-auto relative group">
+            <div className="relative flex items-center bg-white rounded-2xl shadow-lg border border-slate-200">
+              <Search className="w-5 h-5 ml-4 text-slate-400 shrink-0" />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search articles, documentation, guides, API parameters..."
+                className="w-full py-3.5 px-3 bg-transparent text-slate-900 placeholder:text-slate-400 text-sm focus:outline-none"
+              />
+              <div className="flex items-center gap-1.5 pr-4">
+                <span className="hidden sm:inline-block px-2 py-0.5 rounded bg-slate-100 text-slate-500 font-mono text-[11px] font-semibold border border-slate-200">
+                  ⌘K
+                </span>
+              </div>
+            </div>
+
+            {/* Popular Search Suggestions */}
+            <div className="flex flex-wrap items-center justify-center gap-1.5 mt-3 text-xs text-slate-400">
+              <span className="font-medium text-slate-300">Popular:</span>
+              {[
+                'SLA Breach Warnings',
+                'Webhook verification',
+                'Live Chat widget',
+                'Subscription tiers',
+              ].map((term) => (
+                <button
+                  key={term}
+                  type="button"
+                  onClick={() => setSearchQuery(term.split(' ')[0] || '')}
+                  className="px-2.5 py-0.5 rounded-full bg-white/10 hover:bg-white/20 text-slate-200 text-[11px] transition-colors"
+                >
+                  {term}
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* System Status Indicators */}
-      <div className="mb-8 p-4 bg-white rounded-xl border border-slate-200 shadow-sm flex flex-wrap items-center justify-between gap-4">
-        <div className="flex items-center space-x-2">
-          <CheckCircle className="w-5 h-5 text-emerald-500" />
-          <span className="font-semibold text-slate-800 text-sm">All Core Systems Operational</span>
+      {/* System Status Indicators & Live Telemetry Strip */}
+      <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-slate-200 dark:border-zinc-800 shadow-sm p-4 sm:p-5 flex flex-col md:flex-row md:items-center justify-between gap-4 transition-colors">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0">
+            <CheckCircle className="w-5 h-5" />
+          </div>
+          <div>
+            <div className="flex items-center gap-2">
+              <span className="font-bold text-slate-900 dark:text-zinc-100 text-sm">
+                All Core Systems Operational
+              </span>
+              <span className="px-2 py-0.5 rounded-full text-[10px] font-mono font-semibold bg-emerald-50 dark:bg-emerald-950/50 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800">
+                24ms latency
+              </span>
+            </div>
+            <p className="text-xs text-slate-500 dark:text-zinc-400">
+              Live operational telemetry across global edge points
+            </p>
+          </div>
         </div>
-        <div className="flex flex-wrap gap-4 text-xs font-medium text-slate-600">
-          <span className="flex items-center space-x-1">
+
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs font-medium text-slate-600 dark:text-zinc-400 pt-2 md:pt-0 border-t md:border-t-0 border-slate-100 dark:border-zinc-800">
+          <span className="inline-flex items-center gap-1.5">
             <span className="w-2 h-2 rounded-full bg-emerald-500" />
             <span>Web App</span>
           </span>
-          <span className="flex items-center space-x-1">
+          <span className="inline-flex items-center gap-1.5">
             <span className="w-2 h-2 rounded-full bg-emerald-500" />
             <span>API Gateway</span>
           </span>
-          <span className="flex items-center space-x-1">
+          <span className="inline-flex items-center gap-1.5">
             <span className="w-2 h-2 rounded-full bg-emerald-500" />
             <span>Real-Time Socket.IO</span>
           </span>
-          <span className="flex items-center space-x-1">
+          <span className="inline-flex items-center gap-1.5">
             <span className="w-2 h-2 rounded-full bg-emerald-500" />
-            <span>AI Copilot & RAG</span>
+            <span>AI Copilot &amp; RAG</span>
           </span>
-          <span className="flex items-center space-x-1">
+          <span className="inline-flex items-center gap-1.5">
             <span className="w-2 h-2 rounded-full bg-emerald-500" />
             <span>S3 Storage (MinIO)</span>
           </span>
         </div>
       </div>
 
-      {/* Category Filter Pills */}
-      <div className="flex flex-wrap gap-2 mb-6">
-        {[
-          { id: 'all', label: 'All Articles', icon: BookOpen },
-          { id: 'getting-started', label: 'Getting Started', icon: LifeBuoy },
-          { id: 'billing', label: 'Billing & Plans', icon: CreditCard },
-          { id: 'api', label: 'API & Webhooks', icon: Code2 },
-          { id: 'troubleshooting', label: 'Troubleshooting', icon: AlertCircle },
-        ].map((cat) => {
-          const Icon = cat.icon;
-          return (
-            <button
-              key={cat.id}
-              onClick={() => {
-                setSelectedCategory(cat.id);
-                setSelectedArticle(null);
-              }}
-              className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
-                selectedCategory === cat.id
-                  ? 'bg-indigo-600 text-white shadow-sm'
-                  : 'bg-white text-slate-700 border border-slate-200 hover:bg-slate-50'
-              }`}
-            >
-              <Icon className="w-3.5 h-3.5" />
-              <span>{cat.label}</span>
-            </button>
-          );
-        })}
+      {/* Mode / Category Switcher */}
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <div className="flex flex-wrap items-center gap-2">
+          {[
+            { id: 'all', label: 'All Articles', icon: BookOpen },
+            { id: 'getting-started', label: 'Getting Started', icon: LifeBuoy },
+            { id: 'billing', label: 'Billing & Plans', icon: CreditCard },
+            { id: 'api', label: 'API & Webhooks', icon: Code2 },
+            { id: 'troubleshooting', label: 'Troubleshooting', icon: AlertCircle },
+          ].map((cat) => {
+            const Icon = cat.icon;
+            const isActive = mode === 'articles' && selectedCategory === cat.id;
+            return (
+              <button
+                key={cat.id}
+                onClick={() => {
+                  setMode('articles');
+                  setSelectedCategory(cat.id);
+                  setSelectedArticle(null);
+                }}
+                className={`flex items-center space-x-1.5 px-3.5 py-2 rounded-xl text-xs font-medium transition-all cursor-pointer ${
+                  isActive
+                    ? 'bg-indigo-600 text-white shadow-sm'
+                    : 'bg-white dark:bg-zinc-900 text-slate-700 dark:text-zinc-300 border border-slate-200 dark:border-zinc-800 hover:bg-slate-50 dark:hover:bg-zinc-800'
+                }`}
+              >
+                <Icon className="w-3.5 h-3.5" />
+                <span>{cat.label}</span>
+              </button>
+            );
+          })}
+        </div>
+
+        <button
+          type="button"
+          onClick={() => {
+            setMode(mode === 'tracker' ? 'articles' : 'tracker');
+            setSelectedArticle(null);
+          }}
+          className={`flex items-center space-x-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
+            mode === 'tracker'
+              ? 'bg-indigo-600 text-white shadow-sm'
+              : 'bg-white dark:bg-zinc-900 text-slate-700 dark:text-zinc-300 border border-slate-200 dark:border-zinc-800 hover:bg-slate-50 dark:hover:bg-zinc-800'
+          }`}
+          data-testid="toggle-ticket-tracker"
+        >
+          <Ticket className="w-3.5 h-3.5 text-indigo-500" />
+          <span>{mode === 'tracker' ? 'Browse Knowledge Base' : 'Track Ticket Status'}</span>
+        </button>
       </div>
 
-      {/* Article Detail Modal / View */}
-      {selectedArticle ? (
-        <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6 mb-8">
+      {mode === 'tracker' ? (
+        <PublicTicketTracker onBack={() => setMode('articles')} />
+      ) : selectedArticle ? (
+        <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-slate-200 dark:border-zinc-800 shadow-sm p-6 sm:p-8 space-y-6 transition-colors">
           <button
             onClick={() => setSelectedArticle(null)}
-            className="text-xs font-semibold text-indigo-600 hover:text-indigo-800 mb-4 inline-block"
+            className="text-xs font-semibold text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 inline-flex items-center gap-1.5 transition-colors cursor-pointer"
           >
-            ← Back to all articles
+            <span>← Back to all articles</span>
           </button>
-          <div className="border-b border-slate-200 pb-4 mb-4">
-            <span className="px-2.5 py-0.5 rounded text-xs font-semibold bg-indigo-50 text-indigo-700 uppercase">
+
+          <div className="border-b border-slate-100 dark:border-zinc-800 pb-5">
+            <span className="px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-indigo-50 dark:bg-indigo-950/50 text-indigo-700 dark:text-indigo-300 uppercase tracking-wider font-mono border border-indigo-100 dark:border-indigo-900/40">
               {selectedArticle.category.replace('-', ' ')}
             </span>
-            <h2 className="text-xl font-bold text-slate-900 mt-2">{selectedArticle.title}</h2>
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-zinc-100 mt-2.5 tracking-tight">
+              {selectedArticle.title}
+            </h2>
           </div>
-          <div className="prose prose-sm max-w-none text-slate-700 whitespace-pre-line leading-relaxed mb-6 font-sans">
+
+          <div className="prose prose-sm max-w-none text-slate-700 dark:text-zinc-300 whitespace-pre-line leading-relaxed font-sans">
             {selectedArticle.content}
           </div>
 
-          <div className="border-t border-slate-100 pt-4 flex items-center justify-between">
-            <span className="text-xs text-slate-500">Was this article helpful?</span>
+          <div className="border-t border-slate-100 dark:border-zinc-800 pt-5 flex items-center justify-between">
+            <span className="text-xs font-medium text-slate-600 dark:text-zinc-400">
+              Was this article helpful?
+            </span>
             <div className="flex space-x-2">
               <button
                 onClick={() =>
                   setFeedback((prev) => ({ ...prev, [selectedArticle.id]: 'helpful' }))
                 }
-                className={`p-1.5 rounded-md text-xs inline-flex items-center space-x-1 transition-colors ${
+                className={`px-3 py-1.5 rounded-lg text-xs font-medium inline-flex items-center space-x-1.5 transition-colors cursor-pointer ${
                   feedback[selectedArticle.id] === 'helpful'
-                    ? 'bg-emerald-100 text-emerald-800'
-                    : 'text-slate-600 hover:bg-slate-100'
+                    ? 'bg-emerald-100 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800'
+                    : 'text-slate-700 dark:text-zinc-300 bg-slate-50 dark:bg-zinc-800 hover:bg-slate-100 dark:hover:bg-zinc-700 border border-slate-200 dark:border-zinc-700'
                 }`}
               >
                 <ThumbsUp className="w-3.5 h-3.5" />
@@ -229,10 +318,10 @@ export function HelpCenterView() {
                 onClick={() =>
                   setFeedback((prev) => ({ ...prev, [selectedArticle.id]: 'not-helpful' }))
                 }
-                className={`p-1.5 rounded-md text-xs inline-flex items-center space-x-1 transition-colors ${
+                className={`px-3 py-1.5 rounded-lg text-xs font-medium inline-flex items-center space-x-1.5 transition-colors cursor-pointer ${
                   feedback[selectedArticle.id] === 'not-helpful'
-                    ? 'bg-red-100 text-red-800'
-                    : 'text-slate-600 hover:bg-slate-100'
+                    ? 'bg-rose-100 dark:bg-rose-950/60 text-rose-800 dark:text-rose-300 border border-rose-200 dark:border-rose-800'
+                    : 'text-slate-700 dark:text-zinc-300 bg-slate-50 dark:bg-zinc-800 hover:bg-slate-100 dark:hover:bg-zinc-700 border border-slate-200 dark:border-zinc-700'
                 }`}
               >
                 <ThumbsDown className="w-3.5 h-3.5" />
@@ -242,39 +331,84 @@ export function HelpCenterView() {
           </div>
         </div>
       ) : (
-        /* Articles Grid */
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        /* Bento Grid Articles Listing */
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           {filtered.length === 0 ? (
-            <div className="col-span-full py-12 text-center text-slate-400 text-sm">
-              No matching articles found for "{searchQuery}".
+            <div className="col-span-full py-16 text-center text-slate-400 dark:text-zinc-500 bg-white dark:bg-zinc-900 rounded-2xl border border-slate-200 dark:border-zinc-800 transition-colors">
+              <Search className="w-8 h-8 mx-auto text-slate-300 dark:text-zinc-600 mb-2" />
+              <p className="text-sm font-medium text-slate-600 dark:text-zinc-300">
+                No matching articles found
+              </p>
+              <p className="text-xs text-slate-400 dark:text-zinc-500 mt-1">
+                No matching articles found for "{searchQuery}". Try different keywords.
+              </p>
             </div>
           ) : (
             filtered.map((art) => (
               <div
                 key={art.id}
                 onClick={() => setSelectedArticle(art)}
-                className="bg-white rounded-xl border border-slate-200 p-5 shadow-sm hover:shadow-md transition-shadow cursor-pointer flex flex-col justify-between"
+                className="bg-white dark:bg-zinc-900 rounded-2xl border border-slate-200 dark:border-zinc-800 p-6 shadow-sm hover:shadow-md hover:border-indigo-200 dark:hover:border-indigo-800 transition-all cursor-pointer flex flex-col justify-between group"
               >
                 <div>
-                  <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-slate-100 text-slate-600 uppercase font-mono">
-                    {art.category.replace('-', ' ')}
-                  </span>
-                  <h3 className="font-semibold text-slate-900 text-sm mt-2 line-clamp-2">
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-slate-100 dark:bg-zinc-800 text-slate-600 dark:text-zinc-300 uppercase font-mono tracking-wider border border-slate-200/60 dark:border-zinc-700/60">
+                      {art.category.replace('-', ' ')}
+                    </span>
+                    <span className="text-[11px] text-slate-400 dark:text-zinc-500 font-mono">
+                      Guide
+                    </span>
+                  </div>
+                  <h3 className="font-bold text-slate-900 dark:text-zinc-100 text-base group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors line-clamp-2">
                     {art.title}
                   </h3>
-                  <p className="text-xs text-slate-500 mt-1 line-clamp-3 leading-relaxed">
+                  <p className="text-xs text-slate-500 dark:text-zinc-400 mt-2 line-clamp-3 leading-relaxed">
                     {art.excerpt}
                   </p>
                 </div>
-                <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-indigo-600 font-medium">
+
+                <div className="mt-5 pt-4 border-t border-slate-100 dark:border-zinc-800 flex items-center justify-between text-xs text-indigo-600 dark:text-indigo-400 font-semibold group-hover:translate-x-0.5 transition-transform">
                   <span>Read full guide</span>
-                  <ExternalLink className="w-3.5 h-3.5" />
+                  <ArrowRight className="w-3.5 h-3.5" />
                 </div>
               </div>
             ))
           )}
         </div>
       )}
+
+      {/* Secondary Support Banner */}
+      <div className="rounded-2xl bg-slate-900 dark:bg-zinc-900 text-white p-6 sm:p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-md border border-slate-800 dark:border-zinc-800 transition-colors">
+        <div className="flex items-center gap-4">
+          <div className="w-12 h-12 rounded-xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center shrink-0">
+            <LifeBuoy className="w-6 h-6" />
+          </div>
+          <div>
+            <h3 className="text-base font-bold text-white">Can't find what you're looking for?</h3>
+            <p className="text-xs text-slate-300 dark:text-zinc-400 mt-0.5">
+              Our enterprise support engineers and automated copilot are available 24/7.
+            </p>
+          </div>
+        </div>
+        <div className="flex items-center gap-3 w-full md:w-auto">
+          <button
+            type="button"
+            onClick={() => {
+              setMode('tracker');
+              setSelectedArticle(null);
+            }}
+            className="w-full sm:w-auto px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold shadow-sm transition-colors cursor-pointer"
+          >
+            Track a Ticket
+          </button>
+          <button
+            type="button"
+            className="w-full sm:w-auto px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-semibold transition-colors cursor-pointer"
+          >
+            Community Forums
+          </button>
+        </div>
+      </div>
     </div>
   );
 }

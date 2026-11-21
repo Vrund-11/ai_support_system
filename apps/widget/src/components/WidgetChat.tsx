@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { Send, X, Bot, User, Shield, Sparkles, BookOpen, Paperclip } from 'lucide-react';
 import type { WidgetMessage, WidgetTheme } from '../types';
 import { OfflineForm } from './OfflineForm';
+import { CsatSurveyModal } from './CsatSurveyModal';
 
 interface WidgetChatProps {
   messages: WidgetMessage[];
@@ -30,6 +31,8 @@ export function WidgetChat({
 }: WidgetChatProps) {
   const [inputText, setInputText] = useState('');
   const [activeTab, setActiveTab] = useState<'chat' | 'offline'>(isOffline ? 'offline' : 'chat');
+  const [isCsatOpen, setIsCsatOpen] = useState(false);
+  const [hasRated, setHasRated] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const primaryColor = theme.primaryColor || '#4f46e5';
@@ -84,7 +87,13 @@ export function WidgetChat({
         </div>
 
         <button
-          onClick={onClose}
+          onClick={() => {
+            if (messages.length > 2 && !hasRated) {
+              setIsCsatOpen(true);
+            } else {
+              onClose();
+            }
+          }}
           className="text-white/80 hover:text-white p-1 rounded-md transition-colors cursor-pointer"
           aria-label="Close chat"
           data-testid="widget-close-button"
@@ -140,6 +149,20 @@ export function WidgetChat({
               <div className="bg-slate-100 text-slate-800 p-2.5 rounded-2xl rounded-tl-sm max-w-[80%] leading-relaxed">
                 {greeting}
               </div>
+            </div>
+
+            {/* Quick Topic Shortcut Pills (from Stitch Widget Design) */}
+            <div className="flex flex-wrap gap-1.5 pl-8">
+              {['Billing Question', 'API Setup', 'Speak to Agent'].map((topic) => (
+                <button
+                  key={topic}
+                  type="button"
+                  onClick={() => onSendMessage(topic)}
+                  className="text-[11px] font-medium bg-slate-100 hover:bg-indigo-50 text-slate-700 hover:text-indigo-600 px-2.5 py-1 rounded-full border border-slate-200/80 transition-all cursor-pointer"
+                >
+                  {topic}
+                </button>
+              ))}
             </div>
 
             {messages.map((msg) => (
@@ -236,30 +259,43 @@ export function WidgetChat({
           </div>
 
           {/* Composer */}
-          <form
-            onSubmit={handleSend}
-            className="p-3 border-t border-slate-100 bg-white flex items-center space-x-2 shrink-0"
-          >
-            <input
-              type="text"
-              value={inputText}
-              onChange={handleInputChange}
-              placeholder="Ask a question or type a message..."
-              className="flex-1 text-xs px-3 py-2 border border-slate-300 rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500"
-              data-testid="widget-composer-input"
-            />
-            <button
-              type="submit"
-              disabled={!inputText.trim()}
-              style={{ backgroundColor: primaryColor }}
-              className="w-8 h-8 rounded-full text-white flex items-center justify-center cursor-pointer disabled:opacity-40 transition-opacity"
-              data-testid="widget-send-button"
-            >
-              <Send className="w-3.5 h-3.5" />
-            </button>
-          </form>
+          <div className="border-t border-slate-100 bg-white shrink-0">
+            <form onSubmit={handleSend} className="p-3 flex items-center space-x-2">
+              <input
+                type="text"
+                value={inputText}
+                onChange={handleInputChange}
+                placeholder="Ask a question or type a message..."
+                className="flex-1 text-xs px-3.5 py-2 border border-slate-300 rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all shadow-2xs"
+                data-testid="widget-composer-input"
+              />
+              <button
+                type="submit"
+                disabled={!inputText.trim()}
+                style={{ backgroundColor: primaryColor }}
+                className="w-8 h-8 rounded-full text-white flex items-center justify-center cursor-pointer disabled:opacity-40 transition-opacity shrink-0 shadow-xs"
+                data-testid="widget-send-button"
+              >
+                <Send className="w-3.5 h-3.5" />
+              </button>
+            </form>
+            <div className="pb-1.5 text-center text-[10px] text-slate-400 font-medium">
+              Powered by <span className="font-semibold text-slate-600">SupportPilot</span> AI
+            </div>
+          </div>
         </>
       )}
+
+      <CsatSurveyModal
+        isOpen={isCsatOpen}
+        onClose={() => {
+          setIsCsatOpen(false);
+          onClose();
+        }}
+        onSubmitRating={(_rating) => {
+          setHasRated(true);
+        }}
+      />
     </div>
   );
 }

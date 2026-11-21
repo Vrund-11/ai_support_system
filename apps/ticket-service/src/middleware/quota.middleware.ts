@@ -96,6 +96,10 @@ export class TenantQuotaTracker {
 
   static resetInMemory(): void {
     TenantQuotaTracker.inMemoryStore.clear();
+    const redis = TenantQuotaTracker.getRedisClient();
+    if (redis && typeof (redis as any).reset === 'function') {
+      (redis as any).reset();
+    }
   }
 }
 

@@ -7,13 +7,14 @@ import {
   Sparkles,
   ArrowRight,
   CheckCircle,
-  Clock,
   BookOpen,
   UserCheck,
   RefreshCw,
   FileText,
   Lightbulb,
   Loader2,
+  ShieldCheck,
+  Zap,
 } from 'lucide-react';
 import { useAuthStore } from '../../store/auth.store';
 import { api, type SummarizeResult } from '../../lib/api';
@@ -128,6 +129,10 @@ export function LiveChatView() {
   const [isSuggesting, setIsSuggesting] = useState(false);
   const [isSummarizing, setIsSummarizing] = useState(false);
   const [summaries, setSummaries] = useState<Record<string, SummarizeResult>>({});
+
+  const waitingCount = conversations.filter((c) => c.state === 'WAITING_AGENT').length;
+  const mineCount = conversations.filter((c) => c.assignedTo === user?.id).length;
+  const allCount = conversations.length;
 
   const filteredConversations = conversations.filter((c) => {
     if (activeQueue === 'waiting') return c.state === 'WAITING_AGENT';
@@ -274,110 +279,159 @@ export function LiveChatView() {
   };
 
   return (
-    <div className="h-[calc(100vh-8.5rem)] flex flex-col bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
-      {/* View Header */}
-      <div className="px-6 py-3.5 border-b border-slate-200 flex items-center justify-between bg-slate-50/50">
-        <div className="flex items-center gap-3">
-          <MessageSquare className="w-5 h-5 text-indigo-600" />
-          <h1 className="text-base font-bold text-slate-900">Live Agent Console</h1>
+    <div className="h-[calc(100vh-8.5rem)] flex flex-col bg-white rounded-xl border border-slate-200/80 shadow-xs overflow-hidden">
+      {/* View Header with Slack/Linear Density & Stitch Live Indicators */}
+      <div className="px-5 py-3 border-b border-slate-200 flex items-center justify-between bg-slate-50/70">
+        <div className="flex items-center gap-2.5">
+          <div className="w-8 h-8 rounded-lg bg-indigo-600 text-white flex items-center justify-center shadow-xs">
+            <MessageSquare className="w-4 h-4" />
+          </div>
+          <div>
+            <div className="flex items-center gap-2">
+              <h1 className="text-sm font-bold text-slate-900 tracking-tight">
+                Live Agent Console
+              </h1>
+              <span className="hidden sm:inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 font-mono text-[10px] font-semibold border border-emerald-200">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                Live Feed
+              </span>
+            </div>
+            <p className="text-[11px] text-slate-400">
+              Real-time omnichannel conversations & AI copilot
+            </p>
+          </div>
         </div>
 
-        {/* Queue filter tabs */}
-        <div className="inline-flex rounded-lg bg-slate-200/70 p-1 text-xs font-semibold">
+        {/* Queue filter tabs with animated pulse badges */}
+        <div className="inline-flex rounded-lg bg-slate-200/80 p-1 text-xs font-semibold gap-1">
           <button
             type="button"
             onClick={() => setActiveQueue('waiting')}
-            className={`px-3 py-1 rounded-md transition-colors ${
+            className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-md transition-all cursor-pointer ${
               activeQueue === 'waiting'
-                ? 'bg-white text-indigo-600 shadow-xs'
+                ? 'bg-white text-indigo-700 shadow-xs'
                 : 'text-slate-600 hover:text-slate-900'
             }`}
           >
-            Waiting ({conversations.filter((c) => c.state === 'WAITING_AGENT').length})
+            {waitingCount > 0 && (
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
+              </span>
+            )}
+            <span>Waiting ({waitingCount})</span>
           </button>
+
           <button
             type="button"
             onClick={() => setActiveQueue('mine')}
-            className={`px-3 py-1 rounded-md transition-colors ${
+            className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-md transition-all cursor-pointer ${
               activeQueue === 'mine'
-                ? 'bg-white text-indigo-600 shadow-xs'
+                ? 'bg-white text-indigo-700 shadow-xs'
                 : 'text-slate-600 hover:text-slate-900'
             }`}
           >
-            Mine ({conversations.filter((c) => c.assignedTo === user?.id).length})
+            <span>Mine ({mineCount})</span>
           </button>
+
           <button
             type="button"
             onClick={() => setActiveQueue('all')}
-            className={`px-3 py-1 rounded-md transition-colors ${
+            className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-md transition-all cursor-pointer ${
               activeQueue === 'all'
-                ? 'bg-white text-indigo-600 shadow-xs'
+                ? 'bg-white text-indigo-700 shadow-xs'
                 : 'text-slate-600 hover:text-slate-900'
             }`}
           >
-            All ({conversations.length})
+            <span>All ({allCount})</span>
           </button>
         </div>
       </div>
 
-      {/* Three Column Layout */}
+      {/* 3-Pane Layout */}
       <div className="flex-1 flex overflow-hidden">
-        {/* Col 1: Queue Conversation List */}
-        <div className="w-80 border-r border-slate-200 overflow-y-auto bg-slate-50/30">
+        {/* Pane 1: Queue Conversation List */}
+        <div className="w-80 border-r border-slate-200 overflow-y-auto bg-slate-50/40">
           {filteredConversations.length === 0 ? (
             <div className="p-8 text-center text-slate-400 text-xs">
               No conversations in this queue.
             </div>
           ) : (
             <div className="divide-y divide-slate-100">
-              {filteredConversations.map((c) => (
-                <button
-                  key={c.id}
-                  type="button"
-                  onClick={() => setSelectedConvId(c.id)}
-                  className={`w-full text-left p-4 hover:bg-slate-50 transition-colors ${
-                    activeConv?.id === c.id ? 'bg-indigo-50/60 border-l-4 border-indigo-600' : ''
-                  }`}
-                >
-                  <div className="flex items-center justify-between mb-1">
-                    <span className="font-semibold text-slate-900 text-sm truncate max-w-[140px]">
-                      {c.customerName}
-                    </span>
-                    {c.state === 'WAITING_AGENT' ? (
-                      <span className="inline-flex items-center gap-1 text-[10px] font-bold text-amber-700 bg-amber-100 px-2 py-0.5 rounded-full">
-                        <Clock className="w-2.5 h-2.5" />
-                        WAITING
+              {filteredConversations.map((c) => {
+                const isSelected = activeConv?.id === c.id;
+                const isWaiting = c.state === 'WAITING_AGENT';
+
+                return (
+                  <button
+                    key={c.id}
+                    type="button"
+                    onClick={() => setSelectedConvId(c.id)}
+                    className={`w-full text-left p-3.5 hover:bg-slate-100/60 transition-all cursor-pointer ${
+                      isSelected
+                        ? 'bg-indigo-50/70 border-l-4 border-indigo-600'
+                        : 'border-l-4 border-transparent'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between mb-1">
+                      <span className="font-semibold text-slate-900 text-xs truncate max-w-[130px]">
+                        {c.customerName}
                       </span>
-                    ) : (
-                      <span className="inline-flex items-center gap-1 text-[10px] font-bold text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded-full">
-                        <CheckCircle className="w-2.5 h-2.5" />
-                        ACTIVE
+                      {isWaiting ? (
+                        <span className="inline-flex items-center gap-1 text-[10px] font-bold text-amber-800 bg-amber-100/80 px-2 py-0.5 rounded-full border border-amber-200">
+                          <span className="relative flex h-1.5 w-1.5">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-amber-500"></span>
+                          </span>
+                          WAITING
+                        </span>
+                      ) : (
+                        <span className="inline-flex items-center gap-1 text-[10px] font-bold text-emerald-800 bg-emerald-100/80 px-2 py-0.5 rounded-full border border-emerald-200">
+                          <CheckCircle className="w-2.5 h-2.5 text-emerald-600" />
+                          ACTIVE
+                        </span>
+                      )}
+                    </div>
+                    <div className="flex items-center justify-between text-[11px] text-slate-400 truncate mb-1">
+                      <span className="truncate">{c.customerEmail}</span>
+                      <span className="shrink-0 px-1.5 py-0.2 rounded bg-indigo-50 text-indigo-700 font-mono text-[9px] font-semibold border border-indigo-100">
+                        Web Chat
                       </span>
-                    )}
-                  </div>
-                  <div className="text-xs text-slate-500 truncate mb-1">{c.customerEmail}</div>
-                  <div className="text-xs text-slate-600 truncate">{c.lastMessage}</div>
-                </button>
-              ))}
+                    </div>
+                    <div className="text-xs text-slate-600 truncate font-normal">
+                      {c.lastMessage}
+                    </div>
+                  </button>
+                );
+              })}
             </div>
           )}
         </div>
 
-        {/* Col 2: Active Chat Conversation */}
-        <div className="flex-1 flex flex-col border-r border-slate-200">
+        {/* Pane 2: Active Chat Conversation */}
+        <div className="flex-1 flex flex-col border-r border-slate-200 bg-white">
           {activeConv ? (
             <>
               {/* Chat Thread Header */}
-              <div className="p-4 border-b border-slate-200 flex items-center justify-between bg-white">
-                <div>
-                  <h2 className="text-sm font-bold text-slate-900">{activeConv.customerName}</h2>
-                  <p className="text-xs text-slate-500">{activeConv.customerEmail}</p>
+              <div className="px-5 py-3 border-b border-slate-200 flex items-center justify-between bg-white">
+                <div className="flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-600 font-semibold text-xs">
+                    {activeConv.customerName
+                      .split(' ')
+                      .map((n) => n[0])
+                      .join('')}
+                  </div>
+                  <div>
+                    <h2 className="text-sm font-bold text-slate-900">{activeConv.customerName}</h2>
+                    <p className="text-[11px] text-slate-400">{activeConv.customerEmail}</p>
+                  </div>
                 </div>
+
                 {activeConv.state === 'WAITING_AGENT' && (
                   <button
                     type="button"
                     onClick={handleTakeOver}
-                    className="inline-flex items-center gap-1.5 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold px-3 py-1.5 rounded-md shadow-xs transition-colors"
+                    className="inline-flex items-center gap-1.5 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold px-3 py-1.5 rounded-lg shadow-xs transition-colors cursor-pointer"
                   >
                     <UserCheck className="w-3.5 h-3.5" />
                     Take Over Chat
@@ -385,13 +439,13 @@ export function LiveChatView() {
                 )}
               </div>
 
-              {/* Chat Messages */}
-              <div className="flex-1 p-4 overflow-y-auto space-y-3 bg-slate-50/20">
+              {/* Chat Messages - Slack/iMessage style bubbles */}
+              <div className="flex-1 p-4 overflow-y-auto space-y-3.5 bg-slate-50/30">
                 {activeConv.messages.map((m) => {
                   if (m.senderType === 'SYSTEM') {
                     return (
-                      <div key={m.id} className="text-center my-2">
-                        <span className="text-[11px] text-slate-500 bg-slate-100 px-3 py-1 rounded-full border border-slate-200">
+                      <div key={m.id} className="text-center my-3">
+                        <span className="text-[11px] text-slate-500 bg-slate-100 px-3 py-1 rounded-full border border-slate-200/80 shadow-2xs font-medium">
                           {m.body}
                         </span>
                       </div>
@@ -404,17 +458,17 @@ export function LiveChatView() {
                   return (
                     <div
                       key={m.id}
-                      className={`flex flex-col ${isCustomer ? 'items-start' : 'items-end'}`}
+                      className={`flex flex-col group ${isCustomer ? 'items-start' : 'items-end'}`}
                     >
-                      <div className="flex items-center gap-1.5 text-[11px] text-slate-400 mb-1">
+                      <div className="flex items-center gap-1.5 text-[11px] text-slate-400 mb-1 px-1">
                         {isCustomer ? (
-                          <User className="w-3 h-3" />
+                          <User className="w-3 h-3 text-slate-400" />
                         ) : isAi ? (
                           <Bot className="w-3 h-3 text-indigo-500" />
                         ) : (
                           <UserCheck className="w-3 h-3 text-emerald-500" />
                         )}
-                        <span>
+                        <span className="font-medium text-slate-600">
                           {isCustomer
                             ? activeConv.customerName
                             : isAi
@@ -422,28 +476,30 @@ export function LiveChatView() {
                               : 'Agent'}
                         </span>
                         <span>•</span>
-                        <span>{m.createdAt}</span>
+                        <span className="font-mono text-[10px] text-slate-400">{m.createdAt}</span>
                       </div>
+
                       <div
-                        className={`max-w-md p-3 rounded-xl text-sm leading-relaxed ${
+                        className={`max-w-md p-3.5 rounded-2xl text-sm leading-relaxed transition-all shadow-xs ${
                           isCustomer
-                            ? 'bg-white border border-slate-200 text-slate-800 rounded-tl-xs'
+                            ? 'bg-white border border-slate-200/80 text-slate-800 rounded-tl-xs'
                             : isAi
-                              ? 'bg-indigo-50/80 border border-indigo-200 text-indigo-950 rounded-tr-xs'
+                              ? 'bg-indigo-50/90 border border-indigo-200 text-indigo-950 rounded-tr-xs'
                               : 'bg-indigo-600 text-white rounded-tr-xs'
                         }`}
                       >
                         {m.body}
 
+                        {/* Verified citation chips */}
                         {m.citations && m.citations.length > 0 && (
-                          <div className="mt-2 pt-2 border-t border-indigo-200/50 flex flex-wrap gap-1">
+                          <div className="mt-2.5 pt-2 border-t border-indigo-200/60 flex flex-wrap gap-1.5">
                             {m.citations.map((c) => (
                               <span
                                 key={c.chunkId}
-                                className="inline-flex items-center gap-1 text-[10px] font-medium bg-white/80 text-indigo-700 px-2 py-0.5 rounded"
+                                className="inline-flex items-center gap-1 text-[10px] font-medium bg-white/90 text-indigo-700 px-2 py-0.5 rounded-md border border-indigo-200/80 shadow-2xs"
                               >
-                                <BookOpen className="w-2.5 h-2.5" />
-                                {c.title}
+                                <BookOpen className="w-2.5 h-2.5 text-indigo-600" />
+                                <span>{c.title}</span>
                               </span>
                             ))}
                           </div>
@@ -452,6 +508,16 @@ export function LiveChatView() {
                     </div>
                   );
                 })}
+
+                {/* Animated 3-dot typing indicator */}
+                <div className="flex items-center gap-1.5 py-1 px-3 bg-white border border-slate-200/80 rounded-full w-fit shadow-2xs">
+                  <span className="w-1.5 h-1.5 bg-indigo-500 rounded-full animate-bounce [animation-delay:-0.3s]"></span>
+                  <span className="w-1.5 h-1.5 bg-indigo-500 rounded-full animate-bounce [animation-delay:-0.15s]"></span>
+                  <span className="w-1.5 h-1.5 bg-indigo-500 rounded-full animate-bounce"></span>
+                  <span className="text-[10px] text-slate-400 ml-1 font-medium">
+                    AI Copilot listening
+                  </span>
+                </div>
               </div>
 
               {/* Message Composer */}
@@ -464,12 +530,12 @@ export function LiveChatView() {
                   value={composerText}
                   onChange={(e) => setComposerText(e.target.value)}
                   placeholder="Type reply to customer..."
-                  className="flex-1 rounded-lg border border-slate-300 p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  className="flex-1 rounded-lg border border-slate-200 bg-slate-50/50 p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all placeholder:text-slate-400"
                 />
                 <button
                   type="submit"
                   disabled={!composerText.trim()}
-                  className="bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 text-white p-2.5 rounded-lg transition-colors"
+                  className="bg-indigo-600 hover:bg-indigo-700 disabled:opacity-40 text-white p-2.5 rounded-lg transition-colors cursor-pointer shadow-xs"
                 >
                   <Send className="w-4 h-4" />
                 </button>
@@ -482,8 +548,8 @@ export function LiveChatView() {
           )}
         </div>
 
-        {/* Col 3: AI Suggestion & Summarization Panel (PRD S06 / AI-5, AI-6) */}
-        <div className="w-88 p-5 bg-slate-50/60 overflow-y-auto space-y-4">
+        {/* Pane 3: AI Copilot Card & Summarization Panel */}
+        <div className="w-88 p-4 bg-slate-50/70 overflow-y-auto space-y-4">
           <div className="flex items-center justify-between pb-2 border-b border-slate-200">
             <div className="flex items-center gap-2">
               <Sparkles className="w-4 h-4 text-indigo-600" />
@@ -495,7 +561,7 @@ export function LiveChatView() {
               type="button"
               onClick={handleGenerateSuggestion}
               disabled={isSuggesting}
-              className="inline-flex items-center gap-1 text-[11px] font-semibold text-indigo-600 hover:text-indigo-800 disabled:opacity-50"
+              className="inline-flex items-center gap-1 text-[11px] font-semibold text-indigo-600 hover:text-indigo-800 disabled:opacity-50 cursor-pointer"
               title="Generate new reply suggestion"
             >
               {isSuggesting ? (
@@ -508,24 +574,56 @@ export function LiveChatView() {
           </div>
 
           {activeConv?.aiSuggestion ? (
-            <div className="bg-white p-4 rounded-xl border border-indigo-200 shadow-xs space-y-3">
-              <div className="flex items-center justify-between text-xs">
-                <span className="font-semibold text-indigo-700 flex items-center gap-1">
-                  <Sparkles className="w-3.5 h-3.5" />
+            <div className="bg-white p-4 rounded-xl border border-indigo-200/80 shadow-xs space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="font-semibold text-indigo-800 text-xs flex items-center gap-1.5">
+                  <Zap className="w-3.5 h-3.5 text-indigo-600" />
                   Recommended Reply
                 </span>
-                <span className="font-mono text-emerald-600 font-bold">
-                  {Math.round(activeConv.aiSuggestion.confidence * 100)}% match
+                <span className="text-[10px] font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
+                  Grounding: Verified
                 </span>
               </div>
 
-              <p className="text-xs text-slate-700 leading-relaxed bg-slate-50 p-2.5 rounded-md border border-slate-100">
+              {/* Radial confidence score badge */}
+              <div className="flex items-center gap-3 p-2 bg-slate-50 rounded-lg border border-slate-100">
+                <div className="relative w-10 h-10 flex items-center justify-center shrink-0">
+                  <svg className="w-10 h-10 -rotate-90" viewBox="0 0 36 36">
+                    <circle cx="18" cy="18" r="14" fill="none" stroke="#e2e8f0" strokeWidth="3" />
+                    <circle
+                      cx="18"
+                      cy="18"
+                      r="14"
+                      fill="none"
+                      stroke="#10b981"
+                      strokeWidth="3"
+                      strokeDasharray={88}
+                      strokeDashoffset={88 - 88 * activeConv.aiSuggestion.confidence}
+                      strokeLinecap="round"
+                    />
+                  </svg>
+                  <span className="absolute text-[9px] font-mono font-bold text-emerald-700">
+                    {Math.round(activeConv.aiSuggestion.confidence * 100)}%
+                  </span>
+                </div>
+                <div>
+                  <div className="text-xs font-bold text-slate-800">
+                    {Math.round(activeConv.aiSuggestion.confidence * 100)}% match
+                  </div>
+                  <div className="text-[10px] text-slate-400 flex items-center gap-1">
+                    <ShieldCheck className="w-3 h-3 text-emerald-600" />
+                    <span>High confidence grounding</span>
+                  </div>
+                </div>
+              </div>
+
+              <p className="text-xs text-slate-700 leading-relaxed bg-slate-50/70 p-2.5 rounded-lg border border-slate-100">
                 {activeConv.aiSuggestion.text}
               </p>
 
               {activeConv.aiSuggestion.citations.length > 0 && (
                 <div className="space-y-1">
-                  <span className="text-[10px] font-semibold text-slate-500 uppercase">
+                  <span className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider">
                     KB Citations:
                   </span>
                   <div className="flex flex-wrap gap-1">
@@ -534,7 +632,7 @@ export function LiveChatView() {
                         key={c.chunkId}
                         className="inline-flex items-center gap-1 text-[10px] font-medium bg-indigo-50 text-indigo-700 px-2 py-0.5 rounded border border-indigo-100"
                       >
-                        <BookOpen className="w-2.5 h-2.5" />
+                        <BookOpen className="w-2.5 h-2.5 text-indigo-600" />
                         {c.title}
                       </span>
                     ))}
@@ -545,29 +643,29 @@ export function LiveChatView() {
               <button
                 type="button"
                 onClick={handleInsertSuggestion}
-                className="w-full inline-flex items-center justify-center gap-1.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold py-2 rounded-lg border border-indigo-200 transition-colors"
+                className="w-full inline-flex items-center justify-center gap-1.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold py-2 rounded-lg border border-indigo-200 transition-colors cursor-pointer shadow-2xs"
               >
                 <ArrowRight className="w-3.5 h-3.5" />
-                Insert into Reply
+                <span>Insert into Reply</span>
               </button>
             </div>
           ) : (
-            <div className="p-4 text-center bg-white rounded-xl border border-slate-200">
+            <div className="p-4 text-center bg-white rounded-xl border border-slate-200/80">
               <p className="text-xs text-slate-400 mb-2">No suggestion generated yet.</p>
               <button
                 type="button"
                 onClick={handleGenerateSuggestion}
                 disabled={isSuggesting}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-indigo-50 text-indigo-700 text-xs font-semibold rounded-lg hover:bg-indigo-100 border border-indigo-200"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-indigo-50 text-indigo-700 text-xs font-semibold rounded-lg hover:bg-indigo-100 border border-indigo-200 transition-colors cursor-pointer"
               >
-                <Sparkles className="w-3.5 h-3.5" />
+                <Sparkles className="w-3.5 h-3.5 text-indigo-600" />
                 <span>Generate Suggestion</span>
               </button>
             </div>
           )}
 
-          {/* Conversation Summary Section (AI-6) */}
-          <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-xs space-y-3 text-xs">
+          {/* Conversation Summary Section */}
+          <div className="bg-white p-4 rounded-xl border border-slate-200/80 shadow-xs space-y-3 text-xs">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-1.5 font-semibold text-slate-800">
                 <FileText className="w-3.5 h-3.5 text-indigo-600" />
@@ -577,12 +675,12 @@ export function LiveChatView() {
                 type="button"
                 onClick={handleSummarize}
                 disabled={isSummarizing}
-                className="inline-flex items-center gap-1 text-[11px] font-semibold text-indigo-600 hover:text-indigo-800 disabled:opacity-50"
+                className="inline-flex items-center gap-1 text-[11px] font-semibold text-indigo-600 hover:text-indigo-800 disabled:opacity-50 cursor-pointer"
               >
                 {isSummarizing ? (
                   <Loader2 className="w-3 h-3 animate-spin" />
                 ) : (
-                  <Sparkles className="w-3 h-3" />
+                  <Sparkles className="w-3 h-3 text-indigo-600" />
                 )}
                 <span>{isSummarizing ? 'Summarizing...' : 'Summarize'}</span>
               </button>
@@ -601,7 +699,7 @@ export function LiveChatView() {
                       type="button"
                       onClick={handleSummarize}
                       disabled={isSummarizing}
-                      className="w-full inline-flex items-center justify-center gap-1.5 py-1.5 px-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium rounded-lg transition-colors"
+                      className="w-full inline-flex items-center justify-center gap-1.5 py-1.5 px-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium rounded-lg transition-colors cursor-pointer"
                     >
                       <Sparkles className="w-3.5 h-3.5 text-indigo-600" />
                       <span>Summarize Conversation</span>

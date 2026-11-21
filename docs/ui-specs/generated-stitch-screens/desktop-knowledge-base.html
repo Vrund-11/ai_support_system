@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_standard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = {
+  darkMode: "class",
+  theme: {
+    extend: {
+      "colors": {
+        "neutral": "#09090b",
+        "error-container": "#ffdad6",
+        "ticket-pending-bg": "#fffbeb",
+        "text-secondary": "#64748b",
+        "tertiary": "#8b5cf6",
+        "priority-medium": "#3b82f6",
+        "secondary-fixed": "#c9e6ff",
+        "on-primary": "#ffffff",
+        "ticket-new-bg": "#eff6ff",
+        "tertiary-container": "#a44100",
+        "tertiary-fixed": "#ffdbcc",
+        "ticket-open-text": "#15803d",
+        "on-secondary-container": "#004666",
+        "on-surface-variant": "#464555",
+        "border": "#e2e8f0",
+        "on-error": "#ffffff",
+        "ticket-new-text": "#1d4ed8",
+        "priority-low": "#64748b",
+        "primary-fixed-dim": "#c3c0ff",
+        "on-primary-fixed-variant": "#3323cc",
+        "priority-urgent": "#ef4444",
+        "ticket-open-bg": "#f0fdf4",
+        "outline": "#777587",
+        "on-secondary": "#ffffff",
+        "surface-container-lowest": "#ffffff",
+        "surface-container-highest": "#e4e1ee",
+        "inverse-surface": "#302f39",
+        "primary-fixed": "#e2dfff",
+        "priority-high": "#f59e0b",
+        "secondary-fixed-dim": "#89ceff",
+        "background": "#fcf8ff",
+        "outline-variant": "#c7c4d8",
+        "surface-bright": "#fcf8ff",
+        "on-background": "#1b1b24",
+        "surface-tint": "#4d44e3",
+        "surface-variant": "#e4e1ee",
+        "on-tertiary-fixed": "#351000",
+        "primary": "#3525cd",
+        "on-primary-fixed": "#0f0069",
+        "on-error-container": "#93000a",
+        "primary-container": "#4f46e5",
+        "on-secondary-fixed": "#001e2f",
+        "surface-container-high": "#eae6f4",
+        "surface-container-low": "#f5f2ff",
+        "on-tertiary-container": "#ffd2be",
+        "on-secondary-fixed-variant": "#004c6e",
+        "surface-dim": "#dcd8e5",
+        "inverse-primary": "#c3c0ff",
+        "ticket-pending-text": "#b45309",
+        "tertiary-fixed-dim": "#ffb695",
+        "on-surface": "#1b1b24",
+        "error": "#ba1a1a",
+        "on-primary-container": "#dad7ff",
+        "inverse-on-surface": "#f3effc",
+        "secondary-container": "#39b8fd",
+        "ticket-onhold-text": "#7e22ce",
+        "surface": "#ffffff",
+        "text-primary": "#0f172a",
+        "on-tertiary-fixed-variant": "#7b2f00",
+        "surface-container": "#f0ecf9",
+        "surface-subtle": "#f1f5f9",
+        "on-tertiary": "#ffffff",
+        "secondary": "#006591",
+        "ticket-onhold-bg": "#faf5ff"
+      },
+      "borderRadius": {
+        "DEFAULT": "0.125rem",
+        "lg": "0.25rem",
+        "xl": "0.5rem",
+        "full": "0.75rem"
+      },
+      "spacing": {
+        "space-xl": "2rem",
+        "space-sm": "0.5rem",
+        "space-lg": "1.5rem",
+        "space-xs": "0.25rem",
+        "margin": "1.5rem",
+        "gutter": "1rem",
+        "space-md": "1rem"
+      },
+      "fontFamily": {
+        "body-lg": ["Inter"],
+        "headline-md": ["Inter"],
+        "body-sm": ["Inter"],
+        "headline-sm": ["Inter"],
+        "headline-lg": ["Inter"],
+        "code-mono": ["JetBrains Mono"],
+        "body-md": ["Inter"],
+        "display-hero": ["Inter"]
+      },
+      "fontSize": {
+        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+        "headline-md": ["20px", {"lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+        "body-sm": ["12px", {"lineHeight": "16px", "fontWeight": "400"}],
+        "headline-sm": ["16px", {"lineHeight": "24px", "fontWeight": "500"}],
+        "headline-lg": ["28px", {"lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+        "code-mono": ["12px", {"lineHeight": "16px", "fontWeight": "400"}],
+        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+        "display-hero": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.03em", "fontWeight": "700"}]
+      }
+    }
+  }
+}</script></head><body class="bg-surface font-body-md text-body-md text-on-surface min-h-screen flex flex-col"><header class="fixed top-0 left-0 right-0 z-50 bg-surface/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 w-full px-margin flex items-center justify-between gap-gutter"><div class="flex items-center gap-space-lg flex-shrink-0"><div class="flex items-center gap-space-sm"><div class="w-8 h-8 rounded-lg bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">rocket_launch</span></div><span class="font-headline-sm text-headline-sm text-text-primary tracking-tight">SupportPilot</span><span class="px-space-xs py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed font-body-sm text-body-sm font-semibold">Console</span></div><nav class="hidden xl:flex items-center gap-1" data-active-classes="bg-primary-container text-on-primary font-semibold rounded-lg shadow-sm"><a class="px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-md text-body-md" data-path="tickets-inbox" href="#">Tickets (Inbox)</a><a class="px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-md text-body-md" data-path="live-chat" href="#">Live Chat</a><a class="px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-md text-body-md" data-path="analytics" href="#">Analytics</a><a class="px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-md text-body-md" data-path="customers" href="#">Customers</a><a aria-current="page" class="px-space-sm py-1.5 transition-colors bg-primary-container text-on-primary font-semibold rounded-lg shadow-sm" data-path="knowledge-base" href="#">Knowledge Base</a><a class="px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-md text-body-md" data-path="settings" href="#">Settings</a></nav></div><div class="flex-1 max-w-lg hidden md:block mx-space-sm"><div class="relative flex items-center"><span class="material-symbols-outlined absolute left-3 text-on-surface-variant text-[18px]">search</span><input class="w-full pl-9 pr-14 py-1.5 bg-surface-subtle text-on-surface placeholder:text-on-surface-variant font-body-sm text-body-sm rounded-lg focus:outline-none cursor-pointer hover:bg-surface-container-high transition-colors" placeholder="Search knowledge base, embeddings, articles..." readonly="" type="text"/><div class="absolute right-2 px-1.5 py-0.5 rounded bg-surface text-on-surface-variant font-code-mono text-code-mono shadow-sm">⌘K</div></div></div><div class="flex items-center gap-space-sm flex-shrink-0"><button aria-label="Notifications" class="relative p-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors flex items-center justify-center" type="button"><span class="material-symbols-outlined text-[20px]">notifications</span><span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-priority-urgent ring-2 ring-surface"></span></button><button aria-label="Help &amp; Resources" class="p-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors flex items-center justify-center" type="button"><span class="material-symbols-outlined text-[20px]">help</span></button><div class="h-5 w-[1px] bg-border mx-space-xs hidden sm:block"></div><div class="flex items-center gap-space-sm pl-space-xs"><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div><div class="hidden lg:flex flex-col text-left"><span class="font-body-md text-body-md font-semibold text-text-primary leading-tight">Elena Vance</span><span class="font-body-sm text-body-sm text-text-secondary leading-none">Lead Admin</span></div></div></div></div></header><main class="w-full pt-16 flex-1 bg-surface"><div class="flex flex-col w-full relative">
+<!-- Top Background Ambient Glow -->
+<div class="absolute top-0 left-1/4 w-96 h-48 bg-primary/5 rounded-full blur-3xl pointer-events-none -z-10"></div>
+<div class="absolute top-48 right-1/4 w-80 h-48 bg-secondary-container/10 rounded-full blur-3xl pointer-events-none -z-10"></div>
+<!-- Main View Container with dynamic padding when drawer is active -->
+<div class="w-full transition-all duration-300 pr-0 xl:pr-[420px] p-margin space-y-space-lg" id="main-view-area">
+<!-- PAGE HEADER -->
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-md">
+<div>
+<div class="flex items-center gap-space-xs font-code-mono text-code-mono text-primary font-medium tracking-tight mb-1">
+<span class="inline-block w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+<span>VECTOR_NAMESPACE: PROD-SUPPORT-RAG</span>
+<span class="text-outline-variant">/</span>
+<span class="text-text-secondary">v2.4-hybrid</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-text-primary tracking-tight">Knowledge Base &amp; Vector Store</h1>
+<p class="font-body-md text-body-md text-text-secondary mt-0.5 max-w-3xl">
+          Manage ingested documentation, vector embeddings, chunking pipelines, and diagnose retrieval quality for AI Copilots.
+        </p>
+</div>
+<!-- Action Buttons -->
+<div class="flex items-center flex-wrap gap-space-sm">
+<button class="px-space-md py-2 rounded-lg bg-surface-subtle hover:bg-surface-container text-text-primary font-body-md text-body-md font-medium flex items-center gap-space-xs transition-colors shadow-sm active:scale-95" type="button">
+<span class="material-symbols-outlined text-[18px] text-text-secondary">sync</span>
+<span>Sync Sources</span>
+</button>
+<button class="px-space-md py-2 rounded-lg bg-surface-subtle hover:bg-surface-container text-text-primary font-body-md text-body-md font-medium flex items-center gap-space-xs transition-colors shadow-sm active:scale-95" type="button">
+<span class="material-symbols-outlined text-[18px] text-text-secondary">database</span>
+<span>Re-index Vector DB</span>
+</button>
+<button class="px-space-md py-2 rounded-lg bg-primary hover:bg-primary-container text-on-primary font-body-md text-body-md font-semibold flex items-center gap-space-xs transition-colors shadow-md active:scale-95" type="button">
+<span class="material-symbols-outlined text-[20px]">add_circle</span>
+<span>+ Ingest New Article / URL</span>
+</button>
+</div>
+</div>
+<!-- SUMMARY METRICS KPI CARDS (Bento Grid) -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-space-md">
+<!-- KPI 1 -->
+<div class="bg-surface-container-low rounded-xl p-space-md shadow-sm relative overflow-hidden flex flex-col justify-between group hover:bg-surface-container transition-colors">
+<div class="flex items-center justify-between">
+<span class="font-body-sm text-body-sm text-text-secondary font-medium">Total Articles</span>
+<span class="material-symbols-outlined text-text-secondary text-[20px]">article</span>
+</div>
+<div class="mt-2">
+<div class="font-headline-lg text-headline-lg font-bold text-text-primary">148</div>
+<div class="flex items-center gap-1 font-body-sm text-body-sm text-ticket-open-text mt-1">
+<span class="material-symbols-outlined text-[16px]">trending_up</span>
+<span class="font-semibold">+12</span> this week
+          </div>
+</div>
+</div>
+<!-- KPI 2 -->
+<div class="bg-surface-container-low rounded-xl p-space-md shadow-sm relative overflow-hidden flex flex-col justify-between group hover:bg-surface-container transition-colors">
+<div class="flex items-center justify-between">
+<span class="font-body-sm text-body-sm text-text-secondary font-medium">Embedded Chunks</span>
+<span class="material-symbols-outlined text-text-secondary text-[20px]">scatter_plot</span>
+</div>
+<div class="mt-2">
+<div class="font-headline-lg text-headline-lg font-bold text-text-primary">4,892</div>
+<div class="font-code-mono text-[11px] text-text-secondary truncate mt-1">
+            text-embedding-3-large · 1536d
+          </div>
+</div>
+</div>
+<!-- KPI 3 -->
+<div class="bg-surface-container-low rounded-xl p-space-md shadow-sm relative overflow-hidden flex flex-col justify-between group hover:bg-surface-container transition-colors">
+<div class="flex items-center justify-between">
+<span class="font-body-sm text-body-sm text-text-secondary font-medium">Index Status</span>
+<span class="relative flex h-2.5 w-2.5">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-ticket-open-text opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-ticket-open-text"></span>
+</span>
+</div>
+<div class="mt-2">
+<div class="font-headline-lg text-headline-lg font-bold text-text-primary">99.94%</div>
+<div class="font-body-sm text-body-sm text-ticket-open-text font-medium mt-1 flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">check_circle</span> In Sync (Pinecone)
+          </div>
+</div>
+</div>
+<!-- KPI 4 -->
+<div class="bg-surface-container-low rounded-xl p-space-md shadow-sm relative overflow-hidden flex flex-col justify-between group hover:bg-surface-container transition-colors">
+<div class="flex items-center justify-between">
+<span class="font-body-sm text-body-sm text-text-secondary font-medium">Avg Retrieval Latency</span>
+<span class="material-symbols-outlined text-text-secondary text-[20px]">speed</span>
+</div>
+<div class="mt-2">
+<div class="flex items-baseline gap-1.5">
+<span class="font-headline-lg text-headline-lg font-bold text-text-primary">34ms</span>
+<span class="font-code-mono text-code-mono text-text-secondary">p95: 58ms</span>
+</div>
+<div class="w-full bg-surface-variant rounded-full h-1.5 mt-2 overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 28%"></div>
+</div>
+</div>
+</div>
+<!-- KPI 5 -->
+<div class="bg-surface-container-low rounded-xl p-space-md shadow-sm relative overflow-hidden flex flex-col justify-between group hover:bg-surface-container transition-colors">
+<div class="flex items-center justify-between">
+<span class="font-body-sm text-body-sm text-text-secondary font-medium">Failed Embeddings</span>
+<span class="material-symbols-outlined text-priority-urgent text-[20px]">warning</span>
+</div>
+<div class="mt-2">
+<div class="flex items-center gap-2">
+<span class="font-headline-lg text-headline-lg font-bold text-priority-urgent">2</span>
+<span class="px-1.5 py-0.5 rounded bg-error-container text-on-error-container font-code-mono text-code-mono font-semibold">Requires retry</span>
+</div>
+<div class="font-body-sm text-body-sm text-text-secondary mt-1">
+            Auto-retry cycle in 4m 12s
+          </div>
+</div>
+</div>
+</div>
+<!-- SECTION 1: INGESTED DOCUMENTATION ARTICLES -->
+<div class="bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden">
+<!-- Toolbar & Filters -->
+<div class="p-space-md bg-surface-container-low flex flex-col md:flex-row md:items-center justify-between gap-space-sm">
+<div class="flex-1 max-w-md relative">
+<span class="material-symbols-outlined absolute left-3 top-2.5 text-text-secondary text-[18px]">search</span>
+<input class="w-full pl-9 pr-3 py-1.5 bg-surface text-on-surface placeholder:text-text-secondary font-body-sm text-body-sm rounded-lg focus:outline-none focus:ring-1 focus:ring-primary shadow-xs" placeholder="Filter articles by title, tag, or collection..." type="text"/>
+</div>
+<div class="flex items-center flex-wrap gap-space-sm">
+<!-- Source Filter -->
+<div class="relative">
+<select class="appearance-none bg-surface pl-3 pr-8 py-1.5 rounded-lg font-body-sm text-body-sm text-text-primary focus:outline-none cursor-pointer shadow-xs">
+<option>Source: All Sources</option>
+<option>GitBook Docs</option>
+<option>Zendesk Help Desk</option>
+<option>Notion Workspace</option>
+<option>GitHub Markdown Repo</option>
+</select>
+<span class="material-symbols-outlined absolute right-2 top-2 pointer-events-none text-text-secondary text-[16px]">expand_more</span>
+</div>
+<!-- Vector Status Filter -->
+<div class="relative">
+<select class="appearance-none bg-surface pl-3 pr-8 py-1.5 rounded-lg font-body-sm text-body-sm text-text-primary focus:outline-none cursor-pointer shadow-xs">
+<option>Vector Status: All</option>
+<option>READY (142)</option>
+<option>PROCESSING (4)</option>
+<option>FAILED (2)</option>
+</select>
+<span class="material-symbols-outlined absolute right-2 top-2 pointer-events-none text-text-secondary text-[16px]">expand_more</span>
+</div>
+<!-- Sort -->
+<button class="p-1.5 bg-surface hover:bg-surface-container rounded-lg text-text-secondary hover:text-text-primary shadow-xs transition-colors" title="Sort Order" type="button">
+<span class="material-symbols-outlined text-[18px]">swap_vert</span>
+</button>
+</div>
+</div>
+<!-- Articles Table -->
+<div class="overflow-x-auto">
+<table class="w-full text-left font-body-md text-body-md">
+<thead>
+<tr class="bg-surface-container-high/60 font-body-sm text-body-sm text-text-secondary">
+<th class="py-2.5 px-space-md w-8">
+<input class="rounded text-primary focus:ring-primary h-3.5 w-3.5" type="checkbox"/>
+</th>
+<th class="py-2.5 px-space-md font-semibold">Article Title &amp; Category</th>
+<th class="py-2.5 px-space-md font-semibold">Chunk &amp; Token Breakdown</th>
+<th class="py-2.5 px-space-md font-semibold">Last Synced &amp; Source</th>
+<th class="py-2.5 px-space-md font-semibold">Vector Status</th>
+<th class="py-2.5 px-space-md text-right font-semibold">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container">
+<!-- Row 1 (Selected in Drawer) -->
+<tr class="bg-primary/5 hover:bg-primary/10 transition-colors group">
+<td class="py-3 px-space-md">
+<input checked="" class="rounded text-primary focus:ring-primary h-3.5 w-3.5" type="checkbox"/>
+</td>
+<td class="py-3 px-space-md">
+<div class="flex items-center gap-space-xs">
+<span class="font-code-mono text-code-mono font-medium text-primary bg-primary-fixed px-1.5 py-0.5 rounded">KB-104</span>
+<span class="font-semibold text-text-primary">SAML 2.0 Single Sign-On Configuration</span>
+<span class="px-2 py-0.5 rounded-full bg-surface-subtle font-body-sm text-[11px] text-text-secondary font-medium">Security &amp; SSO</span>
+</div>
+<div class="font-body-sm text-body-sm text-text-secondary mt-0.5 truncate max-w-md">
+                  Complete setup guide for Okta, Azure AD, and PingFederate SAML SP-initiated flows.
+                </div>
+</td>
+<td class="py-3 px-space-md whitespace-nowrap">
+<div class="flex items-center gap-2">
+<span class="font-code-mono text-code-mono font-medium text-text-primary">34 chunks</span>
+<span class="text-outline-variant">•</span>
+<span class="font-code-mono text-code-mono text-text-secondary bg-surface-subtle px-1.5 py-0.5 rounded">14.2k tokens</span>
+</div>
+</td>
+<td class="py-3 px-space-md whitespace-nowrap">
+<div class="font-body-sm text-body-sm text-text-primary font-medium">12m ago</div>
+<div class="font-body-sm text-[11px] text-text-secondary flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">cloud_sync</span> Notion Workspace
+                </div>
+</td>
+<td class="py-3 px-space-md whitespace-nowrap">
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-ticket-open-bg text-ticket-open-text font-body-sm text-body-sm font-semibold">
+<span class="material-symbols-outlined text-[14px]">check_circle</span> READY
+                </span>
+</td>
+<td class="py-3 px-space-md text-right whitespace-nowrap">
+<div class="flex items-center justify-end gap-1">
+<button class="px-2 py-1 rounded bg-primary text-on-primary font-body-sm text-body-sm font-medium flex items-center gap-1 shadow-xs hover:bg-primary-container transition-colors" onclick="openDrawer()" title="Inspect Chunks" type="button">
+<span class="material-symbols-outlined text-[16px]">visibility</span>
+<span>Inspect</span>
+</button>
+<button class="p-1 rounded text-text-secondary hover:text-text-primary hover:bg-surface-subtle transition-colors" title="Re-embed" type="button">
+<span class="material-symbols-outlined text-[18px]">sync</span>
+</button>
+<button class="p-1 rounded text-text-secondary hover:text-text-primary hover:bg-surface-subtle transition-colors" title="Edit Article" type="button">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-1 rounded text-text-secondary hover:text-text-primary hover:bg-surface-subtle transition-colors" title="More" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-subtle transition-colors">
+<td class="py-3 px-space-md">
+<input class="rounded text-primary focus:ring-primary h-3.5 w-3.5" type="checkbox"/>
+</td>
+<td class="py-3 px-space-md">
+<div class="flex items-center gap-space-xs">
+<span class="font-code-mono text-code-mono font-medium text-text-secondary bg-surface-container px-1.5 py-0.5 rounded">KB-219</span>
+<span class="font-semibold text-text-primary">Webhook Delivery &amp; Exponential Backoff Architecture</span>
+<span class="px-2 py-0.5 rounded-full bg-surface-subtle font-body-sm text-[11px] text-text-secondary font-medium">Integrations</span>
+</div>
+<div class="font-body-sm text-body-sm text-text-secondary mt-0.5 truncate max-w-md">
+                  Payload structures, SHA256 HMAC verification tokens, and automatic re-try schedules.
+                </div>
+</td>
+<td class="py-3 px-space-md whitespace-nowrap">
+<div class="flex items-center gap-2">
+<span class="font-code-mono text-code-mono font-medium text-text-primary">18 chunks</span>
+<span class="text-outline-variant">•</span>
+<span class="font-code-mono text-code-mono text-text-secondary bg-surface-subtle px-1.5 py-0.5 rounded">7.8k tokens</span>
+</div>
+</td>
+<td class="py-3 px-space-md whitespace-nowrap">
+<div class="font-body-sm text-body-sm text-text-primary font-medium">2h ago</div>
+<div class="font-body-sm text-[11px] text-text-secondary flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">code</span> GitHub Markdown
+                </div>
+</td>
+<td class="py-3 px-space-md whitespace-nowrap">
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-ticket-open-bg text-ticket-open-text font-body-sm text-body-sm font-semibold">
+<span class="material-symbols-outlined text-[14px]">check_circle</span> READY
+                </span>
+</td>
+<td class="py-3 px-space-md text-right whitespace-nowrap">
+<div class="flex items-center justify-end gap-1">
+<button class="px-2 py-1 rounded bg-surface-subtle text-text-secondary hover:text-text-primary hover:bg-surface-container font-body-sm text-body-sm font-medium flex items-center gap-1 transition-colors" onclick="openDrawer()" type="button">
+<span class="material-symbols-outlined text-[16px]">visibility</span>
+<span>Inspect</span>
+</button>
+<button class="p-1 rounded text-text-secondary hover:text-text-primary hover:bg-surface-subtle transition-colors" type="button"><span class="material-symbols-outlined text-[18px]">sync</span></button>
+<button class="p-1 rounded text-text-secondary hover:text-text-primary hover:bg-surface-subtle transition-colors" type="button"><span class="material-symbols-outlined text-[18px]">edit</span></button>
+<button class="p-1 rounded text-text-secondary hover:text-text-primary hover:bg-surface-subtle transition-colors" type="button"><span class="material-symbols-outlined text-[18px]">more_vert</span></button>
+</div>
+</td>
+</tr>
+<!-- Row 3: Processing -->
+<tr class="hover:bg-surface-subtle transition-colors">
+<td class="py-3 px-space-md">
+<input class="rounded text-primary focus:ring-primary h-3.5 w-3.5" type="checkbox"/>
+</td>
+<td class="py-3 px-space-md">
+<div class="flex items-center gap-space-xs">
+<span class="font-code-mono text-code-mono font-medium text-text-secondary bg-surface-container px-1.5 py-0.5 rounded">KB-082</span>
+<span class="font-semibold text-text-primary">API Rate Limiting &amp; Enterprise Quotas</span>
+<span class="px-2 py-0.5 rounded-full bg-surface-subtle font-body-sm text-[11px] text-text-secondary font-medium">Platform API</span>
+</div>
+<div class="font-body-sm text-body-sm text-text-secondary mt-0.5 truncate max-w-md">
+                  Token bucket algorithms, burst capacities, tier definitions, and 429 response handling.
+                </div>
+</td>
+<td class="py-3 px-space-md whitespace-nowrap">
+<div class="flex items-center gap-2">
+<span class="font-code-mono text-code-mono font-medium text-text-primary">42 chunks</span>
+<span class="text-outline-variant">•</span>
+<span class="font-code-mono text-code-mono text-text-secondary bg-surface-subtle px-1.5 py-0.5 rounded">18.5k tokens</span>
+</div>
+</td>
+<td class="py-3 px-space-md whitespace-nowrap">
+<div class="font-body-sm text-body-sm text-text-primary font-medium">35m ago</div>
+<div class="font-body-sm text-[11px] text-text-secondary flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">menu_book</span> GitBook Docs
+                </div>
+</td>
+<td class="py-3 px-space-md whitespace-nowrap">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-ticket-new-bg text-ticket-new-text font-body-sm text-body-sm font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-ticket-new-text animate-ping"></span>
+<span>PROCESSING (65%)</span>
+</span>
+</td>
+<td class="py-3 px-space-md text-right whitespace-nowrap">
+<div class="flex items-center justify-end gap-1">
+<button class="px-2 py-1 rounded bg-surface-subtle text-text-secondary hover:text-text-primary hover:bg-surface-container font-body-sm text-body-sm font-medium flex items-center gap-1 transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px]">visibility</span>
+<span>Inspect</span>
+</button>
+<button class="p-1 rounded text-text-secondary hover:text-text-primary hover:bg-surface-subtle transition-colors" type="button"><span class="material-symbols-outlined text-[18px]">sync</span></button>
+<button class="p-1 rounded text-text-secondary hover:text-text-primary hover:bg-surface-subtle transition-colors" type="button"><span class="material-symbols-outlined text-[18px]">edit</span></button>
+<button class="p-1 rounded text-text-secondary hover:text-text-primary hover:bg-surface-subtle transition-colors" type="button"><span class="material-symbols-outlined text-[18px]">more_vert</span></button>
+</div>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-surface-subtle transition-colors">
+<td class="py-3 px-space-md">
+<input class="rounded text-primary focus:ring-primary h-3.5 w-3.5" type="checkbox"/>
+</td>
+<td class="py-3 px-space-md">
+<div class="flex items-center gap-space-xs">
+<span class="font-code-mono text-code-mono font-medium text-text-secondary bg-surface-container px-1.5 py-0.5 rounded">KB-412</span>
+<span class="font-semibold text-text-primary">Custom Roles &amp; RBAC Matrix</span>
+<span class="px-2 py-0.5 rounded-full bg-surface-subtle font-body-sm text-[11px] text-text-secondary font-medium">Governance</span>
+</div>
+<div class="font-body-sm text-body-sm text-text-secondary mt-0.5 truncate max-w-md">
+                  Granular permission scoping for tier-1 support, security analysts, and billing executives.
+                </div>
+</td>
+<td class="py-3 px-space-md whitespace-nowrap">
+<div class="flex items-center gap-2">
+<span class="font-code-mono text-code-mono font-medium text-text-primary">22 chunks</span>
+<span class="text-outline-variant">•</span>
+<span class="font-code-mono text-code-mono text-text-secondary bg-surface-subtle px-1.5 py-0.5 rounded">9.1k tokens</span>
+</div>
+</td>
+<td class="py-3 px-space-md whitespace-nowrap">
+<div class="font-body-sm text-body-sm text-text-primary font-medium">1d ago</div>
+<div class="font-body-sm text-[11px] text-text-secondary flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">support_agent</span> Zendesk Import
+                </div>
+</td>
+<td class="py-3 px-space-md whitespace-nowrap">
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-ticket-open-bg text-ticket-open-text font-body-sm text-body-sm font-semibold">
+<span class="material-symbols-outlined text-[14px]">check_circle</span> READY
+                </span>
+</td>
+<td class="py-3 px-space-md text-right whitespace-nowrap">
+<div class="flex items-center justify-end gap-1">
+<button class="px-2 py-1 rounded bg-surface-subtle text-text-secondary hover:text-text-primary hover:bg-surface-container font-body-sm text-body-sm font-medium flex items-center gap-1 transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px]">visibility</span>
+<span>Inspect</span>
+</button>
+<button class="p-1 rounded text-text-secondary hover:text-text-primary hover:bg-surface-subtle transition-colors" type="button"><span class="material-symbols-outlined text-[18px]">sync</span></button>
+<button class="p-1 rounded text-text-secondary hover:text-text-primary hover:bg-surface-subtle transition-colors" type="button"><span class="material-symbols-outlined text-[18px]">edit</span></button>
+<button class="p-1 rounded text-text-secondary hover:text-text-primary hover:bg-surface-subtle transition-colors" type="button"><span class="material-symbols-outlined text-[18px]">more_vert</span></button>
+</div>
+</td>
+</tr>
+<!-- Row 5: Failed Status -->
+<tr class="bg-error-container/20 hover:bg-error-container/30 transition-colors">
+<td class="py-3 px-space-md">
+<input class="rounded text-primary focus:ring-primary h-3.5 w-3.5" type="checkbox"/>
+</td>
+<td class="py-3 px-space-md">
+<div class="flex items-center gap-space-xs">
+<span class="font-code-mono text-code-mono font-medium text-priority-urgent bg-error-container px-1.5 py-0.5 rounded">KB-305</span>
+<span class="font-semibold text-text-primary">Billing &amp; Annual Invoicing SLA</span>
+<span class="px-2 py-0.5 rounded-full bg-surface-subtle font-body-sm text-[11px] text-text-secondary font-medium">Billing</span>
+</div>
+<div class="font-body-sm text-body-sm text-priority-urgent mt-0.5 truncate max-w-md">
+                  Dimension mismatch on chunk #12: Expected 1536 dim, received 768.
+                </div>
+</td>
+<td class="py-3 px-space-md whitespace-nowrap">
+<div class="flex items-center gap-2">
+<span class="font-code-mono text-code-mono font-medium text-text-primary">12 chunks</span>
+<span class="text-outline-variant">•</span>
+<span class="font-code-mono text-code-mono text-text-secondary bg-surface-subtle px-1.5 py-0.5 rounded">5.4k tokens</span>
+</div>
+</td>
+<td class="py-3 px-space-md whitespace-nowrap">
+<div class="font-body-sm text-body-sm text-text-primary font-medium">3d ago</div>
+<div class="font-body-sm text-[11px] text-text-secondary flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">support_agent</span> Zendesk Import
+                </div>
+</td>
+<td class="py-3 px-space-md whitespace-nowrap">
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-error-container text-on-error-container font-body-sm text-body-sm font-semibold">
+<span class="material-symbols-outlined text-[14px]">error</span> FAILED
+                </span>
+</td>
+<td class="py-3 px-space-md text-right whitespace-nowrap">
+<div class="flex items-center justify-end gap-1">
+<button class="px-2 py-1 rounded bg-priority-urgent text-on-primary font-body-sm text-body-sm font-medium flex items-center gap-1 hover:bg-error transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px]">replay</span>
+<span>Retry Ingestion</span>
+</button>
+<button class="p-1 rounded text-text-secondary hover:text-text-primary hover:bg-surface-subtle transition-colors" type="button"><span class="material-symbols-outlined text-[18px]">more_vert</span></button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Table Pagination Footer -->
+<div class="p-space-sm bg-surface-container-low flex items-center justify-between font-body-sm text-body-sm text-text-secondary px-space-md">
+<span>Showing 1-5 of 148 ingested articles</span>
+<div class="flex items-center gap-1">
+<button class="px-2.5 py-1 rounded bg-surface hover:bg-surface-container font-medium text-text-primary shadow-xs" type="button">Previous</button>
+<button class="px-2.5 py-1 rounded bg-primary text-on-primary font-semibold shadow-xs" type="button">1</button>
+<button class="px-2.5 py-1 rounded bg-surface hover:bg-surface-container font-medium text-text-primary shadow-xs" type="button">2</button>
+<button class="px-2.5 py-1 rounded bg-surface hover:bg-surface-container font-medium text-text-primary shadow-xs" type="button">3</button>
+<button class="px-2.5 py-1 rounded bg-surface hover:bg-surface-container font-medium text-text-primary shadow-xs" type="button">Next</button>
+</div>
+</div>
+</div>
+<!-- SECTION 2: INTERACTIVE VECTOR RETRIEVAL TEST CONSOLE -->
+<div class="bg-surface-container-lowest rounded-xl shadow-md p-space-lg">
+<div class="flex flex-col md:flex-row md:items-center justify-between pb-space-md gap-space-sm">
+<div>
+<div class="flex items-center gap-space-xs">
+<span class="p-1 rounded-lg bg-primary-fixed text-on-primary-fixed">
+<span class="material-symbols-outlined text-[20px]">auto_awesome</span>
+</span>
+<h2 class="font-headline-md text-headline-md text-text-primary font-semibold">RAG Retrieval &amp; Grounding Diagnostics Testbed</h2>
+</div>
+<p class="font-body-md text-body-md text-text-secondary mt-1">
+            Execute semantic queries against vector indices, test cosine similarity scoring, inspect prompt context assembly, and evaluate synthesized copilot responses in real-time.
+          </p>
+</div>
+<div class="flex items-center gap-space-sm">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-ticket-new-bg text-ticket-new-text font-code-mono text-code-mono font-medium">
+<span class="material-symbols-outlined text-[14px]">tune</span> Mode: Hybrid BM25 + Dense
+          </span>
+</div>
+</div>
+<!-- Controls Row: Sliders & Options -->
+<div class="bg-surface-container-low rounded-xl p-space-md grid grid-cols-1 md:grid-cols-3 gap-space-lg mb-space-md">
+<!-- Similarity Threshold Slider -->
+<div>
+<div class="flex justify-between items-center mb-1.5">
+<label class="font-body-sm text-body-sm font-semibold text-text-primary" for="thresh-slider">Similarity Threshold (Cosine cutoff)</label>
+<span class="font-code-mono text-code-mono font-bold text-primary bg-primary-fixed px-1.5 py-0.5 rounded" id="thresh-val">0.78</span>
+</div>
+<input class="w-full accent-primary cursor-pointer" id="thresh-slider" max="0.99" min="0.5" oninput="document.getElementById('thresh-val').innerText = this.value" step="0.01" type="range" value="0.78"/>
+<div class="flex justify-between font-code-mono text-[10px] text-text-secondary mt-1">
+<span>0.50 (Loose)</span>
+<span>0.95 (Exact Match)</span>
+</div>
+</div>
+<!-- Top-K Slider -->
+<div>
+<div class="flex justify-between items-center mb-1.5">
+<label class="font-body-sm text-body-sm font-semibold text-text-primary" for="topk-slider">Top-K Retrieved Context Chunks</label>
+<span class="font-code-mono text-code-mono font-bold text-primary bg-primary-fixed px-1.5 py-0.5 rounded" id="topk-val">K = 4</span>
+</div>
+<input class="w-full accent-primary cursor-pointer" id="topk-slider" max="10" min="1" oninput="document.getElementById('topk-val').innerText = 'K = ' + this.value" step="1" type="range" value="4"/>
+<div class="flex justify-between font-code-mono text-[10px] text-text-secondary mt-1">
+<span>1 chunk</span>
+<span>10 chunks</span>
+</div>
+</div>
+<!-- Hybrid Search & Reranking Toggle -->
+<div class="flex flex-col justify-center">
+<div class="flex items-center justify-between">
+<div>
+<div class="font-body-sm text-body-sm font-semibold text-text-primary">Hybrid Search (Dense + BM25)</div>
+<div class="font-body-sm text-[11px] text-text-secondary">Cohere Rerank v3 enabled</div>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+</div>
+</div>
+<!-- Query Input Prompt Box -->
+<div class="space-y-space-xs mb-space-lg">
+<label class="font-body-sm text-body-sm font-semibold text-text-primary flex items-center justify-between">
+<span>Semantic Test Query</span>
+<span class="font-code-mono text-code-mono text-text-secondary">Sample Query: SSO Configuration</span>
+</label>
+<div class="flex flex-col sm:flex-row gap-space-sm">
+<div class="relative flex-1">
+<span class="material-symbols-outlined absolute left-3 top-3 text-text-secondary text-[20px]">psychology</span>
+<input class="w-full pl-10 pr-4 py-2.5 bg-surface text-text-primary font-body-md text-body-md rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary" id="query-input" type="text" value="How do customers configure SAML 2.0 SSO identity federation with Okta?"/>
+</div>
+<button class="px-space-lg py-2.5 bg-primary hover:bg-primary-container text-on-primary font-body-md text-body-md font-semibold rounded-lg shadow-md flex items-center justify-center gap-space-xs active:scale-95 transition-all" type="button">
+<span class="material-symbols-outlined text-[18px]">play_arrow</span>
+<span>Execute Vector Query</span>
+</button>
+</div>
+</div>
+<!-- DIAGNOSTIC OUTPUT GRID (2 Columns) -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-md">
+<!-- Left: Synthesized Copilot Answer Card (7 Cols) -->
+<div class="lg:col-span-7 bg-surface-container-low rounded-xl p-space-md shadow-xs flex flex-col justify-between">
+<div>
+<!-- Answer Card Header -->
+<div class="flex items-center justify-between pb-space-sm">
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-ticket-open-text"></span>
+<span class="font-headline-sm text-headline-sm font-semibold text-text-primary">Synthesized Copilot Response</span>
+</div>
+<span class="px-2.5 py-0.5 rounded-full bg-ticket-open-bg text-ticket-open-text font-body-sm text-body-sm font-semibold flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">verified</span>
+                Confidence: 96% (High Fidelity)
+              </span>
+</div>
+<!-- Token & Retrieval Telemetry -->
+<div class="p-2 rounded bg-surface flex flex-wrap items-center justify-between gap-2 font-code-mono text-code-mono text-text-secondary mb-space-md shadow-xs">
+<div class="flex items-center gap-3">
+<span>Prompt Context: <strong class="text-text-primary">1,420 tokens</strong></span>
+<span>Generation: <strong class="text-text-primary">210 tokens</strong></span>
+</div>
+<div class="flex items-center gap-2 text-ticket-open-text">
+<span class="material-symbols-outlined text-[14px]">bolt</span>
+<span>Total Latency: 282ms</span>
+</div>
+</div>
+<!-- Synthesized Response Markdown Content -->
+<div class="prose max-w-none text-text-primary font-body-md text-body-md space-y-2.5 leading-relaxed">
+<p>
+                To configure SAML 2.0 Single Sign-On (SSO) with Okta, admins must complete the following two steps in SupportPilot Console:
+              </p>
+<ol class="list-decimal pl-5 space-y-2 text-text-primary">
+<li>
+<strong>Download SP Metadata &amp; ACS URL:</strong> Navigate to <span class="bg-surface font-code-mono text-code-mono px-1 py-0.5 rounded">Settings &gt; Security &gt; SAML 2.0</span>. Copy the Assertion Consumer Service (ACS) URL and the Entity ID into your Okta Application Integration Wizard.
+                  <a class="inline-flex items-center ml-1 px-1.5 py-0.2 bg-primary-fixed text-on-primary-fixed-variant rounded font-code-mono text-[11px] font-semibold hover:underline" href="#">
+                    [KB-104 · Chunk #4]
+                  </a>
+</li>
+<li>
+<strong>Upload IdP XML Metadata:</strong> Export the Okta Application Metadata XML file and upload it into SupportPilot. Ensure that your Okta Network Zone whitelists our static egress IP block <code class="bg-surface font-code-mono text-code-mono px-1 py-0.5 rounded">54.210.14.0/24</code> so background public key rotation succeeds without interruptions.
+                  <a class="inline-flex items-center ml-1 px-1.5 py-0.2 bg-primary-fixed text-on-primary-fixed-variant rounded font-code-mono text-[11px] font-semibold hover:underline" href="#">
+                    [Guide: Okta Metadata · Chunk #2]
+                  </a>
+</li>
+</ol>
+<div class="p-space-sm bg-ticket-new-bg text-ticket-new-text rounded-lg text-body-sm font-body-sm mt-3 flex items-start gap-2">
+<span class="material-symbols-outlined text-[18px] flex-shrink-0">info</span>
+<span>Just-in-Time (JIT) provisioning is enabled by default. New Okta users will automatically receive the <em>Tier-1 Support Agent</em> role on their first federated authentication.</span>
+</div>
+</div>
+</div>
+<!-- Bottom Evaluation Feedback -->
+<div class="pt-space-md mt-space-md flex items-center justify-between font-body-sm text-body-sm text-text-secondary">
+<span>Grounding Score: <strong>0.98 (Hallucination free)</strong></span>
+<div class="flex items-center gap-1">
+<button class="p-1 rounded hover:bg-surface text-text-secondary hover:text-ticket-open-text transition-colors" title="Accurate Response" type="button">
+<span class="material-symbols-outlined text-[18px]">thumb_up</span>
+</button>
+<button class="p-1 rounded hover:bg-surface text-text-secondary hover:text-priority-urgent transition-colors" title="Hallucination / Issue" type="button">
+<span class="material-symbols-outlined text-[18px]">thumb_down</span>
+</button>
+<button class="p-1 rounded hover:bg-surface text-text-secondary transition-colors" title="Copy Prompt Payload" type="button">
+<span class="material-symbols-outlined text-[18px]">content_copy</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Right: Expandable Cited Chunk Snippets (5 Cols) -->
+<div class="lg:col-span-5 space-y-space-sm">
+<div class="flex items-center justify-between">
+<span class="font-headline-sm text-headline-sm font-semibold text-text-primary">Retrieved &amp; Cited Vector Chunks</span>
+<span class="font-code-mono text-code-mono text-text-secondary">K=3 chunks selected</span>
+</div>
+<!-- Chunk Result 1 (Rank 1 - Highest) -->
+<div class="bg-surface-container-low rounded-xl p-space-sm shadow-xs transition-all hover:bg-surface-container">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="px-1.5 py-0.5 rounded bg-ticket-open-bg text-ticket-open-text font-code-mono text-code-mono font-bold">#1 Match</span>
+<span class="font-headline-sm text-headline-sm text-text-primary font-medium">Chunk #4</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="font-code-mono text-code-mono font-bold text-ticket-open-text">0.942</span>
+<span class="font-body-sm text-[11px] text-text-secondary">Cosine</span>
+</div>
+</div>
+<div class="font-body-sm text-[11px] text-text-secondary mt-1 flex items-center gap-1">
+<span class="font-medium text-text-primary">KB-104: SAML 2.0 Single Sign-On</span>
+<span>•</span>
+<span>Tokens 1,536-2,048</span>
+</div>
+<div class="mt-2 p-2 bg-surface rounded font-code-mono text-code-mono text-text-primary leading-tight">
+              "...upload the XML metadata file directly under Settings -&gt; Security -&gt; SAML 2.0, or whitelist our static egress IPs (54.210.14.0/24) in your Okta Network Zone so automated sync succeeds without error..."
+            </div>
+<div class="mt-2 flex items-center justify-between text-body-sm font-body-sm">
+<span class="px-2 py-0.5 rounded bg-surface-variant font-code-mono text-[10px] text-on-surface-variant">sec: Okta Network Rules</span>
+<a class="text-primary hover:underline font-medium text-[12px] flex items-center gap-0.5" href="#" onclick="openDrawer(); return false;">
+                View in Vector DB <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</a>
+</div>
+</div>
+<!-- Chunk Result 2 -->
+<div class="bg-surface-container-low rounded-xl p-space-sm shadow-xs transition-all hover:bg-surface-container">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="px-1.5 py-0.5 rounded bg-primary-fixed text-on-primary-fixed font-code-mono text-code-mono font-bold">#2 Match</span>
+<span class="font-headline-sm text-headline-sm text-text-primary font-medium">Chunk #2</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="font-code-mono text-code-mono font-bold text-primary">0.891</span>
+<span class="font-body-sm text-[11px] text-text-secondary">Cosine</span>
+</div>
+</div>
+<div class="font-body-sm text-[11px] text-text-secondary mt-1 flex items-center gap-1">
+<span class="font-medium text-text-primary">Guide: Okta Metadata &amp; Cert Rotation</span>
+<span>•</span>
+<span>Tokens 512-1,024</span>
+</div>
+<div class="mt-2 p-2 bg-surface rounded font-code-mono text-code-mono text-text-secondary leading-tight truncate">
+              "Okta certificate rollover requires renewing the X.509 cert in SupportPilot console 30 days prior to expiration to prevent auth lockout..."
+            </div>
+</div>
+<!-- Chunk Result 3 -->
+<div class="bg-surface-container-low rounded-xl p-space-sm shadow-xs transition-all hover:bg-surface-container">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="px-1.5 py-0.5 rounded bg-surface-subtle text-text-secondary font-code-mono text-code-mono font-bold">#3 Match</span>
+<span class="font-headline-sm text-headline-sm text-text-primary font-medium">Chunk #9</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="font-code-mono text-code-mono font-bold text-text-secondary">0.814</span>
+<span class="font-body-sm text-[11px] text-text-secondary">Cosine</span>
+</div>
+</div>
+<div class="font-body-sm text-[11px] text-text-secondary mt-1 flex items-center gap-1">
+<span class="font-medium text-text-primary">KB-412: Custom Roles &amp; RBAC Matrix</span>
+<span>•</span>
+<span>Tokens 4,096-4,608</span>
+</div>
+<div class="mt-2 p-2 bg-surface rounded font-code-mono text-code-mono text-text-secondary leading-tight truncate">
+              "SAML attributes 'groups' and 'roles' can be mapped automatically to SupportPilot role IDs during IdP SAML assertion handshakes..."
+            </div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- RIGHT SLIDE-OVER INSPECTOR DRAWER -->
+<aside class="fixed top-16 right-0 bottom-0 w-full sm:w-[420px] bg-surface shadow-2xl z-40 flex flex-col transition-transform duration-300 transform translate-x-0 overflow-hidden" id="inspector-drawer">
+<!-- Drawer Header -->
+<div class="p-space-md bg-surface-container-low flex items-center justify-between flex-shrink-0">
+<div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">layers</span>
+<h3 class="font-headline-sm text-headline-sm text-text-primary font-bold">Vector Chunks Inspector</h3>
+</div>
+<div class="font-body-sm text-body-sm text-text-secondary mt-0.5">
+          KB-104: SAML 2.0 SSO Configuration
+        </div>
+</div>
+<button class="p-1 rounded-lg text-text-secondary hover:text-text-primary hover:bg-surface transition-colors" onclick="closeDrawer()" title="Close Drawer" type="button">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<!-- Chunk Metadata Bar -->
+<div class="p-space-sm bg-surface-container-high/60 flex items-center justify-between font-code-mono text-[11px] text-text-secondary flex-shrink-0">
+<div class="flex items-center gap-2">
+<span>Chunks: <strong class="text-text-primary">34</strong></span>
+<span>•</span>
+<span>Size: <strong class="text-text-primary">512 tok</strong></span>
+<span>•</span>
+<span>Overlap: <strong class="text-text-primary">64 tok</strong></span>
+</div>
+<span class="px-1.5 py-0.5 rounded bg-primary-fixed text-on-primary-fixed font-semibold">Pinecone Serverless</span>
+</div>
+<!-- Scrollable Chunks Content -->
+<div class="flex-1 overflow-y-auto p-space-md space-y-space-md">
+<!-- SELECTED CHUNK DETAIL (Rank 1 / Chunk #4) -->
+<div class="bg-primary/5 rounded-xl p-space-md shadow-xs space-y-space-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 rounded bg-primary text-on-primary font-code-mono text-code-mono font-bold">Chunk #4 (Active)</span>
+<span class="font-code-mono text-code-mono text-text-secondary">chk_sso_004</span>
+</div>
+<span class="font-code-mono text-code-mono text-ticket-open-text font-bold">Score: 0.942</span>
+</div>
+<!-- Embedding Vector Floating Preview -->
+<div>
+<span class="font-body-sm text-[11px] text-text-secondary uppercase tracking-wider font-semibold block mb-1">Vector Dimensions (1536-dim array)</span>
+<div class="bg-surface p-2 rounded font-code-mono text-[11px] text-text-secondary overflow-x-auto shadow-xs">
+<code>[ 0.0142, -0.0521, 0.0894, 0.0031, -0.0381, 0.1102, -0.0458, ... 1529 more ]</code>
+</div>
+</div>
+<!-- Ingested Text Preview Box -->
+<div>
+<span class="font-body-sm text-[11px] text-text-secondary uppercase tracking-wider font-semibold block mb-1">Normalized Chunk Text</span>
+<div class="bg-surface p-3 rounded text-text-primary font-body-sm text-body-sm leading-relaxed shadow-xs">
+            "You can upload the XML metadata file directly under Settings -&gt; Security -&gt; SAML 2.0, or whitelist our static egress IPs (54.210.14.0/24) in your Okta Network Zone so automated metadata sync succeeds without interruption..."
+          </div>
+</div>
+<!-- Metadata JSON Attributes -->
+<div>
+<span class="font-body-sm text-[11px] text-text-secondary uppercase tracking-wider font-semibold block mb-1">Payload Metadata JSON</span>
+<div class="bg-surface p-2 rounded font-code-mono text-[11px] text-text-secondary shadow-xs">
+<pre class="leading-tight"><code>{
+  "section": "Okta Setup",
+  "char_count": 482,
+  "checksum": "a8f3b2",
+  "last_updated": "2025-02-14",
+  "is_deprecated": false
+}</code></pre>
+</div>
+</div>
+</div>
+<!-- Collapsed Chunk #5 -->
+<div class="bg-surface-container-low rounded-xl p-space-sm shadow-xs transition-colors hover:bg-surface-container cursor-pointer">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="font-code-mono text-code-mono font-bold text-text-primary">Chunk #5</span>
+<span class="font-code-mono text-[11px] text-text-secondary">chk_sso_005</span>
+</div>
+<span class="font-code-mono text-code-mono text-text-secondary">Score: 0.741</span>
+</div>
+<div class="font-body-sm text-body-sm text-text-secondary mt-1 truncate">
+          "In Azure Active Directory (Entra ID), navigate to Enterprise Applications -&gt; New Application -&gt; Non-gallery application..."
+        </div>
+</div>
+<!-- Collapsed Chunk #6 -->
+<div class="bg-surface-container-low rounded-xl p-space-sm shadow-xs transition-colors hover:bg-surface-container cursor-pointer">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="font-code-mono text-code-mono font-bold text-text-primary">Chunk #6</span>
+<span class="font-code-mono text-[11px] text-text-secondary">chk_sso_006</span>
+</div>
+<span class="font-code-mono text-code-mono text-text-secondary">Score: 0.684</span>
+</div>
+<div class="font-body-sm text-body-sm text-text-secondary mt-1 truncate">
+          "SAML response signing algorithm: SHA-256 is enforced by default. SHA-1 can be enabled via Support override ticket only..."
+        </div>
+</div>
+<!-- Collapsed Chunk #7 -->
+<div class="bg-surface-container-low rounded-xl p-space-sm shadow-xs transition-colors hover:bg-surface-container cursor-pointer">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="font-code-mono text-code-mono font-bold text-text-primary">Chunk #7</span>
+<span class="font-code-mono text-[11px] text-text-secondary">chk_sso_007</span>
+</div>
+<span class="font-code-mono text-code-mono text-text-secondary">Score: 0.612</span>
+</div>
+<div class="font-body-sm text-body-sm text-text-secondary mt-1 truncate">
+          "Troubleshooting: Error AADSTS50011 indicates mismatch between Entity ID requested and Azure tenant configuration..."
+        </div>
+</div>
+</div>
+<!-- Drawer Footer Actions -->
+<div class="p-space-md bg-surface-container-low flex items-center justify-between gap-space-sm flex-shrink-0">
+<button class="flex-1 py-2 px-3 rounded-lg bg-surface hover:bg-surface-container text-text-primary font-body-sm text-body-sm font-semibold shadow-xs transition-colors flex items-center justify-center gap-1" type="button">
+<span class="material-symbols-outlined text-[16px]">file_download</span>
+<span>Export Embeddings (JSONL)</span>
+</button>
+<button class="flex-1 py-2 px-3 rounded-lg bg-primary hover:bg-primary-container text-on-primary font-body-sm text-body-sm font-semibold shadow-sm transition-colors flex items-center justify-center gap-1" type="button">
+<span class="material-symbols-outlined text-[16px]">transform</span>
+<span>Re-chunk Article</span>
+</button>
+</div>
+</aside>
+<!-- Toggle Drawer Button (Floating when drawer is closed) -->
+<button class="hidden fixed bottom-6 right-6 z-30 px-4 py-2.5 rounded-full bg-primary text-on-primary shadow-xl font-body-sm text-body-sm font-semibold items-center gap-2 active:scale-95 transition-all" id="drawer-toggle-btn" onclick="openDrawer()" type="button">
+<span class="material-symbols-outlined text-[18px]">layers</span>
+<span>Inspect Active Chunks</span>
+</button>
+</div>
+<script>
+  function closeDrawer() {
+    const drawer = document.getElementById('inspector-drawer');
+    const mainArea = document.getElementById('main-view-area');
+    const toggleBtn = document.getElementById('drawer-toggle-btn');
+    if (drawer) {
+      drawer.classList.add('translate-x-full');
+    }
+    if (mainArea) {
+      mainArea.classList.remove('xl:pr-[420px]');
+    }
+    if (toggleBtn) {
+      toggleBtn.classList.remove('hidden');
+      toggleBtn.classList.add('flex');
+    }
+  }
+
+  function openDrawer() {
+    const drawer = document.getElementById('inspector-drawer');
+    const mainArea = document.getElementById('main-view-area');
+    const toggleBtn = document.getElementById('drawer-toggle-btn');
+    if (drawer) {
+      drawer.classList.remove('translate-x-full');
+    }
+    if (mainArea) {
+      mainArea.classList.add('xl:pr-[420px]');
+    }
+    if (toggleBtn) {
+      toggleBtn.classList.add('hidden');
+      toggleBtn.classList.remove('flex');
+    }
+  }
+</script></main><footer class="w-full bg-surface-container-low shadow-[0_-1px_8px_rgba(0,0,0,0.03)] py-space-sm z-30"><div class="w-full px-margin flex flex-col sm:flex-row items-center justify-between gap-space-sm"><div class="flex items-center gap-space-sm font-body-sm text-body-sm text-on-surface-variant"><span class="w-2 h-2 rounded-full bg-ticket-open-text"></span><span class="font-medium text-text-primary">System Operational</span><span class="text-outline-variant">•</span><span>© 2025 SupportPilot Inc. All rights reserved.</span></div><nav class="flex items-center gap-space-md"><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" data-path="security-status" href="#">Security Status</a><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" data-path="api-reference" href="#">API Reference</a><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" data-path="vector-index-health" href="#">Vector Index Health</a><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" data-path="privacy-policy" href="#">Privacy Policy</a></nav></div></footer></body></html>

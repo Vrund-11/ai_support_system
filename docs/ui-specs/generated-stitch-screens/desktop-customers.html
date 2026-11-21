@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_standard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base { html, body { margin: 0; padding: 0; } body { overscroll-behavior: none; } main > :first-child { margin-top: 0 !important; } main > :last-child { margin-bottom: 0 !important; } } ::-webkit-scrollbar { display: none; }</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "on-error": "#ffffff", "secondary-container": "#39b8fd", "surface-container-highest": "#e4e1ee", "tertiary-fixed": "#ffdbcc", "on-tertiary": "#ffffff", "on-tertiary-fixed": "#351000", "background": "#fcf8ff", "priority-low": "#64748b", "priority-medium": "#3b82f6", "on-secondary-container": "#004666", "ticket-onhold-text": "#7e22ce", "surface-container-low": "#f5f2ff", "surface-tint": "#4d44e3", "tertiary-container": "#a44100", "ticket-new-text": "#1d4ed8", "primary-fixed": "#e2dfff", "ticket-pending-text": "#b45309", "secondary": "#006591", "border": "#e2e8f0", "primary": "#3525cd", "surface-container-lowest": "#ffffff", "tertiary": "#8b5cf6", "ticket-pending-bg": "#fffbeb", "priority-urgent": "#ef4444", "inverse-surface": "#302f39", "priority-high": "#f59e0b", "primary-container": "#4f46e5", "text-primary": "#0f172a", "ticket-new-bg": "#eff6ff", "surface-variant": "#e4e1ee", "tertiary-fixed-dim": "#ffb695", "on-primary-container": "#dad7ff", "neutral": "#09090b", "outline-variant": "#c7c4d8", "surface-container-high": "#eae6f4", "on-primary-fixed": "#0f0069", "on-tertiary-container": "#ffd2be", "surface-dim": "#dcd8e5", "surface-subtle": "#f1f5f9", "on-secondary": "#ffffff", "on-error-container": "#93000a", "on-primary": "#ffffff", "error": "#ba1a1a", "surface-container": "#f0ecf9", "on-primary-fixed-variant": "#3323cc", "on-secondary-fixed-variant": "#004c6e", "primary-fixed-dim": "#c3c0ff", "error-container": "#ffdad6", "on-secondary-fixed": "#001e2f", "inverse-on-surface": "#f3effc", "ticket-open-text": "#15803d", "on-surface-variant": "#464555", "text-secondary": "#64748b", "surface": "#ffffff", "inverse-primary": "#c3c0ff", "outline": "#777587", "surface-bright": "#fcf8ff", "on-background": "#1b1b24", "ticket-open-bg": "#f0fdf4", "secondary-fixed": "#c9e6ff", "on-tertiary-fixed-variant": "#7b2f00", "on-surface": "#1b1b24", "secondary-fixed-dim": "#89ceff", "ticket-onhold-bg": "#faf5ff" }, "borderRadius": { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" }, "spacing": { "space-xl": "2rem", "space-xs": "0.25rem", "space-lg": "1.5rem", "margin": "1.5rem", "space-md": "1rem", "gutter": "1rem", "space-sm": "0.5rem" }, "fontFamily": { "display-hero": [ "Inter" ], "body-lg": [ "Inter" ], "body-md": [ "Inter" ], "headline-lg": [ "Inter" ], "headline-md": [ "Inter" ], "body-sm": [ "Inter" ], "code-mono": [ "JetBrains Mono" ], "headline-sm": [ "Inter" ] }, "fontSize": { "display-hero": [ "36px", { "lineHeight": "44px", "letterSpacing": "-0.03em", "fontWeight": "700" } ], "body-lg": [ "16px", { "lineHeight": "24px", "fontWeight": "400" } ], "body-md": [ "14px", { "lineHeight": "20px", "fontWeight": "400" } ], "headline-lg": [ "28px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "600" } ], "headline-md": [ "20px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600" } ], "body-sm": [ "12px", { "lineHeight": "16px", "fontWeight": "400" } ], "code-mono": [ "12px", { "lineHeight": "16px", "fontWeight": "400" } ], "headline-sm": [ "16px", { "lineHeight": "24px", "fontWeight": "500" } ] } } } };</script></head><body class="bg-background font-body-md text-body-md text-on-surface antialiased"><header class="fixed top-0 left-0 right-0 z-50 bg-surface/90 backdrop-blur-xl border-b border-border shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 w-full px-margin flex items-center justify-between gap-gutter"><div class="flex items-center gap-space-md"><img alt="SupportPilot Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/ALJJyrA4IIIEgfigW6vF6b08MRr5Fm1ZTWWz21w2ZceNEpidcJUFnMJNc3WonM1i3qLmzdmU3aI4e_gq4UJ6Kbar-AEZ-tie9gPQZY9zwe8WwXiigHlqCi-NNPLLkm14Wt-oZbX3Jr9vD01Vmri81BpCHVdxrEpkFuMrWbTRcDdiSRVyFq2fUn3ECj76DX1gQ0HIR0e9ZvHR2gK_jlAu_Uw62E1Rq2ggow5RZ07oP58T6UsRrGHrA3Rbyzacqg"/><span class="font-headline-sm text-headline-sm text-text-primary tracking-tight font-semibold">SupportPilot Console</span></div><div class="flex-1 max-w-xl mx-auto"><div class="relative flex items-center w-full"><span class="material-symbols-outlined absolute left-space-md text-text-secondary pointer-events-none text-[20px]">search</span><input class="w-full h-10 pl-10 pr-20 bg-surface-subtle border border-border rounded-xl font-body-md text-body-md text-text-primary placeholder:text-text-secondary focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary transition-all" placeholder="Search tickets, customers, or articles..." type="text"/><span class="absolute right-space-sm px-space-xs py-0.5 bg-surface border border-border rounded font-code-mono text-code-mono text-text-secondary shadow-sm">⌘K</span></div></div><div class="flex items-center gap-space-md"><button aria-label="Notifications" class="relative p-space-sm rounded-lg hover:bg-surface-subtle text-text-secondary hover:text-on-surface transition-colors" type="button"><span class="material-symbols-outlined text-[22px]">notifications</span><span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-priority-urgent"></span></button><button aria-label="Help" class="p-space-sm rounded-lg hover:bg-surface-subtle text-text-secondary hover:text-on-surface transition-colors" type="button"><span class="material-symbols-outlined text-[22px]">help_outline</span></button><div class="h-6 w-[1px] bg-border"></div><div class="flex items-center gap-space-sm pl-space-xs"><div class="relative flex-shrink-0"><img alt="Elena Vance Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDSIZkv8Jhj9mZGK5_-fgFg6cO4AvfyrI8QSo0aVJNlZepZ0qHKF2_a16lMv8cmXOdaVl6xuUkAqDGRbFawLJvpKpdk0AEPVSB_MA74V5MMDnh0mDEfTdOWR1kVsuRDapFrA-sObfdcRIm6T59gkmTqKl8dl8p6VYWBnq4URYlTjC-NaFcXCi2hZrGnGtV5eetZsGEnzu4fa9TXGK5Hck9gPq24qYH-0_seLUTv7qfiu-5rop8frXBWojAwYYgHP_mYDO_6Cifbwdo"/><span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-ticket-open-text ring-2 ring-surface"></span></div><div class="hidden lg:flex flex-col text-left"><span class="font-headline-sm text-body-sm text-text-primary font-medium leading-none">Elena Vance</span><span class="font-body-sm text-code-mono text-text-secondary mt-0.5">Lead Admin</span></div></div></div></div><div class="h-12 w-full px-margin border-t border-border bg-surface flex items-center overflow-x-auto"><nav class="flex items-center gap-space-lg h-full" data-active-classes="text-primary font-semibold border-b-2 border-primary -mb-px"><a class="h-full inline-flex items-center text-text-secondary hover:text-on-surface font-body-md text-body-md transition-colors" data-path="tickets" href="#">Tickets</a><a class="h-full inline-flex items-center text-text-secondary hover:text-on-surface font-body-md text-body-md transition-colors" data-path="live-chat" href="#">Live Chat</a><a class="h-full inline-flex items-center text-text-secondary hover:text-on-surface font-body-md text-body-md transition-colors" data-path="analytics" href="#">Analytics</a><a aria-current="page" class="h-full inline-flex items-center transition-colors text-primary font-semibold border-b-2 border-primary -mb-px" data-path="customers" href="#">Customers</a><a class="h-full inline-flex items-center text-text-secondary hover:text-on-surface font-body-md text-body-md transition-colors" data-path="knowledge-base" href="#">Knowledge Base</a><a class="h-full inline-flex items-center text-text-secondary hover:text-on-surface font-body-md text-body-md transition-colors" data-path="automations-slas" href="#">Automations &amp; SLAs</a><a class="h-full inline-flex items-center text-text-secondary hover:text-on-surface font-body-md text-body-md transition-colors" data-path="settings" href="#">Settings</a></nav></div></header><main class="w-full pt-28 bg-background min-h-screen"><div class="flex flex-col w-full">
+<div class="w-full px-margin py-space-lg flex flex-col gap-space-lg">
+<!-- Header & Context Bar -->
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-md">
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center gap-space-xs text-text-secondary font-body-sm text-body-sm">
+<span class="hover:text-text-primary transition-colors cursor-pointer">Customers</span>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span class="text-text-primary font-medium">Directory</span>
+</div>
+<div class="flex flex-wrap items-center gap-space-sm">
+<h1 class="font-headline-lg text-headline-lg text-text-primary tracking-tight font-semibold">Customer Directory</h1>
+<span class="px-space-sm py-0.5 rounded-full bg-ticket-new-bg text-ticket-new-text font-body-sm text-body-sm font-semibold">
+            1,842 Accounts
+          </span>
+<div class="flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-surface-subtle text-text-secondary font-body-sm text-body-sm">
+<span class="w-2 h-2 rounded-full bg-ticket-open-text animate-pulse"></span>
+<span>Sync: Live via Stripe &amp; Salesforce</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-space-sm flex-wrap">
+<button class="h-9 px-space-md inline-flex items-center gap-space-xs rounded-xl bg-surface hover:bg-surface-subtle text-text-primary font-body-sm text-body-sm font-medium shadow-sm transition-all" type="button">
+<span class="material-symbols-outlined text-[18px] text-text-secondary">file_download</span>
+<span>Export CSV</span>
+</button>
+<button class="h-9 px-space-md inline-flex items-center gap-space-xs rounded-xl bg-surface hover:bg-surface-subtle text-text-primary font-body-sm text-body-sm font-medium shadow-sm transition-all" type="button">
+<span class="material-symbols-outlined text-[18px] text-text-secondary">upload</span>
+<span>Import Customers</span>
+</button>
+<button class="h-9 px-space-md inline-flex items-center gap-space-xs rounded-xl bg-primary-container hover:bg-primary text-on-primary font-body-sm text-body-sm font-medium shadow-sm transition-all" type="button">
+<span class="material-symbols-outlined text-[18px]">person_add</span>
+<span>+ Add Customer</span>
+</button>
+</div>
+</div>
+<!-- Top Row Metric Stat Cards -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-md">
+<!-- Card 1: Total Customers -->
+<div class="p-space-lg rounded-xl bg-surface shadow-sm flex flex-col justify-between gap-space-md relative overflow-hidden group hover:shadow-md transition-shadow">
+<div class="flex items-start justify-between">
+<div class="flex flex-col gap-1">
+<span class="font-body-sm text-body-sm text-text-secondary font-medium">Total Customers</span>
+<div class="flex items-baseline gap-space-sm">
+<span class="font-display-hero text-display-hero text-text-primary">1,842</span>
+<span class="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-full bg-ticket-open-bg text-ticket-open-text font-body-sm text-body-sm font-semibold">
+<span class="material-symbols-outlined text-[14px]">arrow_upward</span>
+                +8.4%
+              </span>
+</div>
+</div>
+<div class="w-10 h-10 rounded-xl bg-ticket-new-bg text-ticket-new-text flex items-center justify-center">
+<span class="material-symbols-outlined text-[22px]">corporate_fare</span>
+</div>
+</div>
+<div class="flex items-center justify-between text-body-sm font-body-sm text-text-secondary pt-space-xs">
+<span>1,280 Enterprise • 562 Growth</span>
+<span class="text-ticket-open-text font-medium">from last month</span>
+</div>
+</div>
+<!-- Card 2: Active Tickets -->
+<div class="p-space-lg rounded-xl bg-surface shadow-sm flex flex-col justify-between gap-space-md relative overflow-hidden group hover:shadow-md transition-shadow">
+<div class="flex items-start justify-between">
+<div class="flex flex-col gap-1">
+<span class="font-body-sm text-body-sm text-text-secondary font-medium">Active Tickets</span>
+<div class="flex items-baseline gap-space-sm">
+<span class="font-display-hero text-display-hero text-text-primary">64</span>
+<span class="inline-flex items-center px-2 py-0.5 rounded-full bg-ticket-pending-bg text-ticket-pending-text font-body-sm text-body-sm font-medium">
+                8 triage urgent
+              </span>
+</div>
+</div>
+<div class="w-10 h-10 rounded-xl bg-surface-container-low text-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-[22px]">confirmation_number</span>
+</div>
+</div>
+<div class="flex items-center justify-between text-body-sm font-body-sm text-text-secondary pt-space-xs">
+<span>Avg resolution time: <strong class="text-text-primary font-medium">2.4h</strong></span>
+<span class="inline-flex items-center gap-1 text-priority-high font-medium">
+<span class="w-1.5 h-1.5 rounded-full bg-priority-high"></span> 99.2% SLA Met
+          </span>
+</div>
+</div>
+<!-- Card 3: Repeat Inquiries -->
+<div class="p-space-lg rounded-xl bg-surface shadow-sm flex flex-col justify-between gap-space-md relative overflow-hidden group hover:shadow-md transition-shadow">
+<div class="flex items-start justify-between">
+<div class="flex flex-col gap-1">
+<span class="font-body-sm text-body-sm text-text-secondary font-medium">Repeat Inquiries</span>
+<div class="flex items-baseline gap-space-sm">
+<span class="font-display-hero text-display-hero text-text-primary">12%</span>
+<span class="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-full bg-ticket-open-bg text-ticket-open-text font-body-sm text-body-sm font-semibold">
+<span class="material-symbols-outlined text-[14px]">arrow_downward</span>
+                -2.8%
+              </span>
+</div>
+</div>
+<div class="w-10 h-10 rounded-xl bg-ticket-onhold-bg text-ticket-onhold-text flex items-center justify-center">
+<span class="material-symbols-outlined text-[22px]">published_with_changes</span>
+</div>
+</div>
+<div class="flex items-center justify-between text-body-sm font-body-sm text-text-secondary pt-space-xs">
+<span>AI Deflection: <strong class="text-text-primary font-medium">44.6%</strong></span>
+<span class="text-ticket-open-text font-medium">this quarter</span>
+</div>
+</div>
+</div>
+<!-- Filter & Segment Navigation Bar -->
+<div class="flex flex-col gap-space-md p-space-md rounded-xl bg-surface shadow-sm">
+<div class="flex flex-col xl:flex-row xl:items-center justify-between gap-space-md">
+<!-- Search Input Bar -->
+<div class="relative flex-1 min-w-[280px]">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-text-secondary text-[20px]">search</span>
+<input class="w-full h-10 pl-10 pr-14 rounded-lg bg-surface-subtle text-text-primary placeholder:text-text-secondary font-body-md text-body-md focus:outline-none focus:ring-2 focus:ring-primary/20 focus:bg-surface transition-all" placeholder="Search by customer name, email, company, domain, or customer ID..." type="text"/>
+<span class="absolute right-2.5 top-1/2 -translate-y-1/2 px-1.5 py-0.5 rounded bg-surface text-text-secondary font-code-mono text-code-mono shadow-xs">⌘K</span>
+</div>
+<!-- Filter Dropdowns -->
+<div class="flex flex-wrap items-center gap-space-sm">
+<!-- Plan Tier -->
+<div class="relative">
+<button class="h-10 px-3 rounded-lg bg-surface-subtle hover:bg-surface-container-high text-text-primary font-body-sm text-body-sm flex items-center gap-2 transition-colors" type="button">
+<span class="text-text-secondary">Tier:</span>
+<span class="font-medium">All Tiers</span>
+<span class="material-symbols-outlined text-[16px] text-text-secondary">expand_more</span>
+</button>
+</div>
+<!-- Ticket Status -->
+<div class="relative">
+<button class="h-10 px-3 rounded-lg bg-surface-subtle hover:bg-surface-container-high text-text-primary font-body-sm text-body-sm flex items-center gap-2 transition-colors" type="button">
+<span class="text-text-secondary">Tickets:</span>
+<span class="font-medium">Any Status</span>
+<span class="material-symbols-outlined text-[16px] text-text-secondary">expand_more</span>
+</button>
+</div>
+<!-- Account Health -->
+<div class="relative">
+<button class="h-10 px-3 rounded-lg bg-surface-subtle hover:bg-surface-container-high text-text-primary font-body-sm text-body-sm flex items-center gap-2 transition-colors" type="button">
+<span class="text-text-secondary">Health:</span>
+<span class="font-medium">All Health</span>
+<span class="material-symbols-outlined text-[16px] text-text-secondary">expand_more</span>
+</button>
+</div>
+<div class="h-6 w-px bg-surface-variant mx-1 hidden sm:block"></div>
+<!-- View Toggle -->
+<div class="flex items-center p-0.5 rounded-lg bg-surface-subtle">
+<button aria-label="Table View" class="p-1.5 rounded-md bg-surface text-primary shadow-xs" type="button">
+<span class="material-symbols-outlined text-[18px]">format_list_bulleted</span>
+</button>
+<button aria-label="Grid View" class="p-1.5 rounded-md text-text-secondary hover:text-text-primary transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">grid_view</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Quick Filter Pills & Counter -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm pt-space-xs">
+<div class="flex flex-wrap items-center gap-space-xs">
+<button class="px-3 py-1.5 rounded-lg bg-primary-container text-on-primary font-body-sm text-body-sm font-medium shadow-xs" type="button">
+            All Customers (1,842)
+          </button>
+<button class="px-3 py-1.5 rounded-lg bg-surface-subtle hover:bg-surface-container-high text-text-secondary hover:text-text-primary font-body-sm text-body-sm font-medium transition-colors" type="button">
+            With Active Tickets (64)
+          </button>
+<button class="px-3 py-1.5 rounded-lg bg-surface-subtle hover:bg-surface-container-high text-text-secondary hover:text-text-primary font-body-sm text-body-sm font-medium transition-colors" type="button">
+            VIP / High ARR (310)
+          </button>
+<button class="px-3 py-1.5 rounded-lg bg-surface-subtle hover:bg-surface-container-high text-text-secondary hover:text-text-primary font-body-sm text-body-sm font-medium transition-colors" type="button">
+            Recent Activity (142)
+          </button>
+</div>
+<span class="font-body-sm text-body-sm text-text-secondary">
+          Showing <span class="font-medium text-text-primary">1–8</span> of <span class="font-medium text-text-primary">1,842</span> customers
+        </span>
+</div>
+</div>
+<!-- Customers Data Table -->
+<div class="rounded-xl bg-surface shadow-sm overflow-hidden flex flex-col">
+<div class="overflow-x-auto">
+<table class="w-full text-left font-body-md text-body-md border-collapse">
+<thead>
+<tr class="bg-surface-subtle/80 text-text-secondary font-headline-sm text-body-sm">
+<th class="py-3 px-4 w-12 text-center" scope="col">
+<input class="w-4 h-4 rounded text-primary focus:ring-primary/20 cursor-pointer accent-primary" type="checkbox"/>
+</th>
+<th class="py-3 px-4 font-semibold text-text-primary" scope="col">Customer</th>
+<th class="py-3 px-4 font-semibold text-text-primary" scope="col">Contact Email</th>
+<th class="py-3 px-4 font-semibold text-text-primary" scope="col">Company &amp; Tier</th>
+<th class="py-3 px-4 font-semibold text-text-primary" scope="col">Health Score</th>
+<th class="py-3 px-4 font-semibold text-text-primary" scope="col">Tickets Status</th>
+<th class="py-3 px-4 font-semibold text-text-primary" scope="col">Last Active</th>
+<th class="py-3 px-4 text-right font-semibold text-text-primary" scope="col">Actions</th>
+</tr>
+</thead>
+<tbody class="text-text-primary divide-y-0">
+<!-- Row 1: Sarah Jenkins -->
+<tr class="hover:bg-surface-subtle/50 transition-colors group">
+<td class="py-3.5 px-4 text-center">
+<input class="w-4 h-4 rounded text-primary focus:ring-primary/20 cursor-pointer accent-primary" type="checkbox"/>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-full bg-ticket-new-bg text-ticket-new-text font-headline-sm text-body-sm font-semibold flex items-center justify-center flex-shrink-0">
+                    SJ
+                  </div>
+<div class="flex flex-col min-w-0">
+<span class="font-headline-sm text-body-md font-semibold text-text-primary group-hover:text-primary transition-colors">Sarah Jenkins</span>
+<span class="font-body-sm text-body-sm text-text-secondary truncate">VP of Engineering</span>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="inline-flex items-center gap-1.5 group/email text-text-secondary hover:text-text-primary transition-colors cursor-pointer">
+<span class="font-code-mono text-body-sm truncate max-w-[170px]">sarah.jenkins@apexcloud.io</span>
+<span class="material-symbols-outlined text-[15px] text-ticket-open-text" title="Verified Customer">verified</span>
+<button aria-label="Copy Email" class="opacity-0 group-hover/email:opacity-100 hover:text-primary transition-opacity" type="button">
+<span class="material-symbols-outlined text-[14px]">content_copy</span>
+</button>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex flex-col gap-0.5">
+<div class="flex items-center gap-1.5">
+<span class="font-medium text-text-primary">ApexCloud Enterprise</span>
+<span class="px-1.5 py-0.2 rounded bg-surface-subtle text-text-secondary font-code-mono text-[10px]">$148k/yr</span>
+</div>
+<div class="flex items-center">
+<span class="px-2 py-0.5 rounded-full bg-ticket-onhold-bg text-ticket-onhold-text font-body-sm text-[11px] font-semibold">
+                      Enterprise Platinum
+                    </span>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-ticket-open-text flex-shrink-0"></span>
+<span class="font-medium text-body-sm text-ticket-open-text">94% Healthy</span>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="inline-flex items-center gap-1.5">
+<span class="px-2 py-0.5 rounded-full bg-priority-urgent/10 text-priority-urgent font-body-sm text-body-sm font-semibold flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-priority-urgent"></span> 1 Urgent Open
+                  </span>
+<span class="font-code-mono text-body-sm text-text-secondary">TK-8492</span>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<span class="font-body-sm text-body-sm text-text-secondary">4 mins ago</span>
+</td>
+<td class="py-3.5 px-4 text-right">
+<div class="flex items-center justify-end gap-1.5">
+<button class="h-8 px-2.5 rounded-lg bg-surface-subtle hover:bg-surface-container-high text-text-primary font-body-sm text-body-sm font-medium transition-colors" type="button">
+                    View
+                  </button>
+<button class="h-8 px-2.5 rounded-lg bg-primary-container hover:bg-primary text-on-primary font-body-sm text-body-sm font-medium transition-colors" type="button">
+                    + Ticket
+                  </button>
+<button aria-label="More Options" class="p-1 rounded-lg text-text-secondary hover:text-text-primary hover:bg-surface-subtle transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 2: Marcus Chen -->
+<tr class="hover:bg-surface-subtle/50 transition-colors group">
+<td class="py-3.5 px-4 text-center">
+<input class="w-4 h-4 rounded text-primary focus:ring-primary/20 cursor-pointer accent-primary" type="checkbox"/>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-full bg-ticket-open-bg text-ticket-open-text font-headline-sm text-body-sm font-semibold flex items-center justify-center flex-shrink-0">
+                    MC
+                  </div>
+<div class="flex flex-col min-w-0">
+<span class="font-headline-sm text-body-md font-semibold text-text-primary group-hover:text-primary transition-colors">Marcus Chen</span>
+<span class="font-body-sm text-body-sm text-text-secondary truncate">Head of DevOps</span>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="inline-flex items-center gap-1.5 group/email text-text-secondary hover:text-text-primary transition-colors cursor-pointer">
+<span class="font-code-mono text-body-sm truncate max-w-[170px]">marcus.chen@finscale.io</span>
+<span class="material-symbols-outlined text-[15px] text-ticket-open-text" title="Verified Customer">verified</span>
+<button aria-label="Copy Email" class="opacity-0 group-hover/email:opacity-100 hover:text-primary transition-opacity" type="button">
+<span class="material-symbols-outlined text-[14px]">content_copy</span>
+</button>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex flex-col gap-0.5">
+<div class="flex items-center gap-1.5">
+<span class="font-medium text-text-primary">FinScale Labs</span>
+<span class="px-1.5 py-0.2 rounded bg-surface-subtle text-text-secondary font-code-mono text-[10px]">$92k/yr</span>
+</div>
+<div class="flex items-center">
+<span class="px-2 py-0.5 rounded-full bg-ticket-new-bg text-ticket-new-text font-body-sm text-[11px] font-semibold">
+                      Enterprise
+                    </span>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-ticket-open-text flex-shrink-0"></span>
+<span class="font-medium text-body-sm text-ticket-open-text">88% Healthy</span>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="inline-flex items-center gap-1.5">
+<span class="px-2 py-0.5 rounded-full bg-ticket-open-bg text-ticket-open-text font-body-sm text-body-sm font-semibold flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-ticket-open-text"></span> 1 Open
+                  </span>
+<span class="font-code-mono text-body-sm text-text-secondary">TK-8491</span>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<span class="font-body-sm text-body-sm text-text-secondary">18 mins ago</span>
+</td>
+<td class="py-3.5 px-4 text-right">
+<div class="flex items-center justify-end gap-1.5">
+<button class="h-8 px-2.5 rounded-lg bg-surface-subtle hover:bg-surface-container-high text-text-primary font-body-sm text-body-sm font-medium transition-colors" type="button">
+                    View
+                  </button>
+<button class="h-8 px-2.5 rounded-lg bg-primary-container hover:bg-primary text-on-primary font-body-sm text-body-sm font-medium transition-colors" type="button">
+                    + Ticket
+                  </button>
+<button aria-label="More Options" class="p-1 rounded-lg text-text-secondary hover:text-text-primary hover:bg-surface-subtle transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 3: David Miller -->
+<tr class="hover:bg-surface-subtle/50 transition-colors group">
+<td class="py-3.5 px-4 text-center">
+<input class="w-4 h-4 rounded text-primary focus:ring-primary/20 cursor-pointer accent-primary" type="checkbox"/>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-full bg-ticket-pending-bg text-ticket-pending-text font-headline-sm text-body-sm font-semibold flex items-center justify-center flex-shrink-0">
+                    DM
+                  </div>
+<div class="flex flex-col min-w-0">
+<span class="font-headline-sm text-body-md font-semibold text-text-primary group-hover:text-primary transition-colors">David Miller</span>
+<span class="font-body-sm text-body-sm text-text-secondary truncate">VP Operations</span>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="inline-flex items-center gap-1.5 group/email text-text-secondary hover:text-text-primary transition-colors cursor-pointer">
+<span class="font-code-mono text-body-sm truncate max-w-[170px]">david.miller@growthx.com</span>
+<span class="material-symbols-outlined text-[15px] text-ticket-open-text" title="Verified Customer">verified</span>
+<button aria-label="Copy Email" class="opacity-0 group-hover/email:opacity-100 hover:text-primary transition-opacity" type="button">
+<span class="material-symbols-outlined text-[14px]">content_copy</span>
+</button>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex flex-col gap-0.5">
+<div class="flex items-center gap-1.5">
+<span class="font-medium text-text-primary">GrowthX Holdings</span>
+<span class="px-1.5 py-0.2 rounded bg-surface-subtle text-text-secondary font-code-mono text-[10px]">$45k/yr</span>
+</div>
+<div class="flex items-center">
+<span class="px-2 py-0.5 rounded-full bg-surface-container-high text-text-primary font-body-sm text-[11px] font-semibold">
+                      Growth Plus
+                    </span>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-ticket-open-text flex-shrink-0"></span>
+<span class="font-medium text-body-sm text-ticket-open-text">96% Healthy</span>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="inline-flex items-center gap-1.5">
+<span class="px-2 py-0.5 rounded-full bg-ticket-pending-bg text-ticket-pending-text font-body-sm text-body-sm font-semibold flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-priority-high"></span> 1 Pending
+                  </span>
+<span class="font-code-mono text-body-sm text-text-secondary">TK-8490</span>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<span class="font-body-sm text-body-sm text-text-secondary">1 hour ago</span>
+</td>
+<td class="py-3.5 px-4 text-right">
+<div class="flex items-center justify-end gap-1.5">
+<button class="h-8 px-2.5 rounded-lg bg-surface-subtle hover:bg-surface-container-high text-text-primary font-body-sm text-body-sm font-medium transition-colors" type="button">
+                    View
+                  </button>
+<button class="h-8 px-2.5 rounded-lg bg-primary-container hover:bg-primary text-on-primary font-body-sm text-body-sm font-medium transition-colors" type="button">
+                    + Ticket
+                  </button>
+<button aria-label="More Options" class="p-1 rounded-lg text-text-secondary hover:text-text-primary hover:bg-surface-subtle transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 4: Emma Watson -->
+<tr class="hover:bg-surface-subtle/50 transition-colors group">
+<td class="py-3.5 px-4 text-center">
+<input class="w-4 h-4 rounded text-primary focus:ring-primary/20 cursor-pointer accent-primary" type="checkbox"/>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-full bg-surface-container-high text-primary font-headline-sm text-body-sm font-semibold flex items-center justify-center flex-shrink-0">
+                    EW
+                  </div>
+<div class="flex flex-col min-w-0">
+<span class="font-headline-sm text-body-md font-semibold text-text-primary group-hover:text-primary transition-colors">Emma Watson</span>
+<span class="font-body-sm text-body-sm text-text-secondary truncate">Director of Finance</span>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="inline-flex items-center gap-1.5 group/email text-text-secondary hover:text-text-primary transition-colors cursor-pointer">
+<span class="font-code-mono text-body-sm truncate max-w-[170px]">e.watson@starlight.co</span>
+<span class="material-symbols-outlined text-[15px] text-ticket-open-text" title="Verified Customer">verified</span>
+<button aria-label="Copy Email" class="opacity-0 group-hover/email:opacity-100 hover:text-primary transition-opacity" type="button">
+<span class="material-symbols-outlined text-[14px]">content_copy</span>
+</button>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex flex-col gap-0.5">
+<div class="flex items-center gap-1.5">
+<span class="font-medium text-text-primary">Starlight Labs</span>
+<span class="px-1.5 py-0.2 rounded bg-surface-subtle text-text-secondary font-code-mono text-[10px]">$64k/yr</span>
+</div>
+<div class="flex items-center">
+<span class="px-2 py-0.5 rounded-full bg-ticket-new-bg text-ticket-new-text font-body-sm text-[11px] font-semibold">
+                      Enterprise
+                    </span>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-ticket-open-text flex-shrink-0"></span>
+<span class="font-medium text-body-sm text-ticket-open-text">91% Healthy</span>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="inline-flex items-center gap-1.5">
+<span class="px-2 py-0.5 rounded-full bg-surface-subtle text-text-secondary font-body-sm text-body-sm font-medium">
+                    0 Open (8 Closed)
+                  </span>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<span class="font-body-sm text-body-sm text-text-secondary">3 hours ago</span>
+</td>
+<td class="py-3.5 px-4 text-right">
+<div class="flex items-center justify-end gap-1.5">
+<button class="h-8 px-2.5 rounded-lg bg-surface-subtle hover:bg-surface-container-high text-text-primary font-body-sm text-body-sm font-medium transition-colors" type="button">
+                    View
+                  </button>
+<button class="h-8 px-2.5 rounded-lg bg-primary-container hover:bg-primary text-on-primary font-body-sm text-body-sm font-medium transition-colors" type="button">
+                    + Ticket
+                  </button>
+<button aria-label="More Options" class="p-1 rounded-lg text-text-secondary hover:text-text-primary hover:bg-surface-subtle transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 5: Tom Hiddleston (At Risk) -->
+<tr class="hover:bg-surface-subtle/50 transition-colors group">
+<td class="py-3.5 px-4 text-center">
+<input class="w-4 h-4 rounded text-primary focus:ring-primary/20 cursor-pointer accent-primary" type="checkbox"/>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-full bg-error-container text-error font-headline-sm text-body-sm font-semibold flex items-center justify-center flex-shrink-0">
+                    TH
+                  </div>
+<div class="flex flex-col min-w-0">
+<span class="font-headline-sm text-body-md font-semibold text-text-primary group-hover:text-primary transition-colors">Tom Hiddleston</span>
+<span class="font-body-sm text-body-sm text-text-secondary truncate">Infrastructure Lead</span>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="inline-flex items-center gap-1.5 group/email text-text-secondary hover:text-text-primary transition-colors cursor-pointer">
+<span class="font-code-mono text-body-sm truncate max-w-[170px]">tom.h@nexusdynamics.net</span>
+<span class="material-symbols-outlined text-[15px] text-ticket-open-text" title="Verified Customer">verified</span>
+<button aria-label="Copy Email" class="opacity-0 group-hover/email:opacity-100 hover:text-primary transition-opacity" type="button">
+<span class="material-symbols-outlined text-[14px]">content_copy</span>
+</button>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex flex-col gap-0.5">
+<div class="flex items-center gap-1.5">
+<span class="font-medium text-text-primary">Nexus Dynamics</span>
+<span class="px-1.5 py-0.2 rounded bg-surface-subtle text-text-secondary font-code-mono text-[10px]">$210k/yr</span>
+</div>
+<div class="flex items-center">
+<span class="px-2 py-0.5 rounded-full bg-priority-urgent/10 text-priority-urgent font-body-sm text-[11px] font-semibold">
+                      Enterprise VIP
+                    </span>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-priority-high flex-shrink-0"></span>
+<span class="font-medium text-body-sm text-priority-high">62% At Risk</span>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="inline-flex items-center gap-1.5">
+<span class="px-2 py-0.5 rounded-full bg-priority-urgent/10 text-priority-urgent font-body-sm text-body-sm font-semibold flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-priority-urgent"></span> 2 Urgent Open
+                  </span>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<span class="font-body-sm text-body-sm text-text-secondary">2 hours ago</span>
+</td>
+<td class="py-3.5 px-4 text-right">
+<div class="flex items-center justify-end gap-1.5">
+<button class="h-8 px-2.5 rounded-lg bg-surface-subtle hover:bg-surface-container-high text-text-primary font-body-sm text-body-sm font-medium transition-colors" type="button">
+                    View
+                  </button>
+<button class="h-8 px-2.5 rounded-lg bg-primary-container hover:bg-primary text-on-primary font-body-sm text-body-sm font-medium transition-colors" type="button">
+                    + Ticket
+                  </button>
+<button aria-label="More Options" class="p-1 rounded-lg text-text-secondary hover:text-text-primary hover:bg-surface-subtle transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 6: Linda Zhao -->
+<tr class="hover:bg-surface-subtle/50 transition-colors group">
+<td class="py-3.5 px-4 text-center">
+<input class="w-4 h-4 rounded text-primary focus:ring-primary/20 cursor-pointer accent-primary" type="checkbox"/>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-full bg-ticket-open-bg text-ticket-open-text font-headline-sm text-body-sm font-semibold flex items-center justify-center flex-shrink-0">
+                    LZ
+                  </div>
+<div class="flex flex-col min-w-0">
+<span class="font-headline-sm text-body-md font-semibold text-text-primary group-hover:text-primary transition-colors">Linda Zhao</span>
+<span class="font-body-sm text-body-sm text-text-secondary truncate">Lead Architect</span>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="inline-flex items-center gap-1.5 group/email text-text-secondary hover:text-text-primary transition-colors cursor-pointer">
+<span class="font-code-mono text-body-sm truncate max-w-[170px]">linda.zhao@aurahealth.ai</span>
+<span class="material-symbols-outlined text-[15px] text-ticket-open-text" title="Verified Customer">verified</span>
+<button aria-label="Copy Email" class="opacity-0 group-hover/email:opacity-100 hover:text-primary transition-opacity" type="button">
+<span class="material-symbols-outlined text-[14px]">content_copy</span>
+</button>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex flex-col gap-0.5">
+<div class="flex items-center gap-1.5">
+<span class="font-medium text-text-primary">Aura Health AI</span>
+<span class="px-1.5 py-0.2 rounded bg-surface-subtle text-text-secondary font-code-mono text-[10px]">$85k/yr</span>
+</div>
+<div class="flex items-center">
+<span class="px-2 py-0.5 rounded-full bg-ticket-new-bg text-ticket-new-text font-body-sm text-[11px] font-semibold">
+                      Enterprise
+                    </span>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-ticket-open-text flex-shrink-0"></span>
+<span class="font-medium text-body-sm text-ticket-open-text">99% Healthy</span>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="inline-flex items-center gap-1.5">
+<span class="px-2 py-0.5 rounded-full bg-surface-subtle text-text-secondary font-body-sm text-body-sm font-medium">
+                    0 Open (12 Closed)
+                  </span>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<span class="font-body-sm text-body-sm text-text-secondary">4 hours ago</span>
+</td>
+<td class="py-3.5 px-4 text-right">
+<div class="flex items-center justify-end gap-1.5">
+<button class="h-8 px-2.5 rounded-lg bg-surface-subtle hover:bg-surface-container-high text-text-primary font-body-sm text-body-sm font-medium transition-colors" type="button">
+                    View
+                  </button>
+<button class="h-8 px-2.5 rounded-lg bg-primary-container hover:bg-primary text-on-primary font-body-sm text-body-sm font-medium transition-colors" type="button">
+                    + Ticket
+                  </button>
+<button aria-label="More Options" class="p-1 rounded-lg text-text-secondary hover:text-text-primary hover:bg-surface-subtle transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 7: Carlos Ortiz -->
+<tr class="hover:bg-surface-subtle/50 transition-colors group">
+<td class="py-3.5 px-4 text-center">
+<input class="w-4 h-4 rounded text-primary focus:ring-primary/20 cursor-pointer accent-primary" type="checkbox"/>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-headline-sm text-body-sm font-semibold flex items-center justify-center flex-shrink-0">
+                    CO
+                  </div>
+<div class="flex flex-col min-w-0">
+<span class="font-headline-sm text-body-md font-semibold text-text-primary group-hover:text-primary transition-colors">Carlos Ortiz</span>
+<span class="font-body-sm text-body-sm text-text-secondary truncate">Head of Security</span>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="inline-flex items-center gap-1.5 group/email text-text-secondary hover:text-text-primary transition-colors cursor-pointer">
+<span class="font-code-mono text-body-sm truncate max-w-[170px]">cortiz@biometrics-ltd.com</span>
+<span class="material-symbols-outlined text-[15px] text-ticket-open-text" title="Verified Customer">verified</span>
+<button aria-label="Copy Email" class="opacity-0 group-hover/email:opacity-100 hover:text-primary transition-opacity" type="button">
+<span class="material-symbols-outlined text-[14px]">content_copy</span>
+</button>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex flex-col gap-0.5">
+<div class="flex items-center gap-1.5">
+<span class="font-medium text-text-primary">BioMetrics Ltd</span>
+<span class="px-1.5 py-0.2 rounded bg-surface-subtle text-text-secondary font-code-mono text-[10px]">$118k/yr</span>
+</div>
+<div class="flex items-center">
+<span class="px-2 py-0.5 rounded-full bg-ticket-onhold-bg text-ticket-onhold-text font-body-sm text-[11px] font-semibold">
+                      Enterprise Platinum
+                    </span>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-priority-high flex-shrink-0"></span>
+<span class="font-medium text-body-sm text-text-secondary">78% Neutral</span>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="inline-flex items-center gap-1.5">
+<span class="px-2 py-0.5 rounded-full bg-ticket-onhold-bg text-ticket-onhold-text font-body-sm text-body-sm font-semibold flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-ticket-onhold-text"></span> 1 On Hold
+                  </span>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<span class="font-body-sm text-body-sm text-text-secondary">Yesterday</span>
+</td>
+<td class="py-3.5 px-4 text-right">
+<div class="flex items-center justify-end gap-1.5">
+<button class="h-8 px-2.5 rounded-lg bg-surface-subtle hover:bg-surface-container-high text-text-primary font-body-sm text-body-sm font-medium transition-colors" type="button">
+                    View
+                  </button>
+<button class="h-8 px-2.5 rounded-lg bg-primary-container hover:bg-primary text-on-primary font-body-sm text-body-sm font-medium transition-colors" type="button">
+                    + Ticket
+                  </button>
+<button aria-label="More Options" class="p-1 rounded-lg text-text-secondary hover:text-text-primary hover:bg-surface-subtle transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 8: Rachel Green -->
+<tr class="hover:bg-surface-subtle/50 transition-colors group">
+<td class="py-3.5 px-4 text-center">
+<input class="w-4 h-4 rounded text-primary focus:ring-primary/20 cursor-pointer accent-primary" type="checkbox"/>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-full bg-secondary-fixed text-on-secondary-fixed font-headline-sm text-body-sm font-semibold flex items-center justify-center flex-shrink-0">
+                    RG
+                  </div>
+<div class="flex flex-col min-w-0">
+<span class="font-headline-sm text-body-md font-semibold text-text-primary group-hover:text-primary transition-colors">Rachel Green</span>
+<span class="font-body-sm text-body-sm text-text-secondary truncate">VP Product</span>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="inline-flex items-center gap-1.5 group/email text-text-secondary hover:text-text-primary transition-colors cursor-pointer">
+<span class="font-code-mono text-body-sm truncate max-w-[170px]">rachel@centralperks.org</span>
+<span class="material-symbols-outlined text-[15px] text-ticket-open-text" title="Verified Customer">verified</span>
+<button aria-label="Copy Email" class="opacity-0 group-hover/email:opacity-100 hover:text-primary transition-opacity" type="button">
+<span class="material-symbols-outlined text-[14px]">content_copy</span>
+</button>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex flex-col gap-0.5">
+<div class="flex items-center gap-1.5">
+<span class="font-medium text-text-primary">Central Perks Global</span>
+<span class="px-1.5 py-0.2 rounded bg-surface-subtle text-text-secondary font-code-mono text-[10px]">$34k/yr</span>
+</div>
+<div class="flex items-center">
+<span class="px-2 py-0.5 rounded-full bg-surface-container-high text-text-primary font-body-sm text-[11px] font-semibold">
+                      Growth
+                    </span>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-ticket-open-text flex-shrink-0"></span>
+<span class="font-medium text-body-sm text-ticket-open-text">95% Healthy</span>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="inline-flex items-center gap-1.5">
+<span class="px-2 py-0.5 rounded-full bg-surface-subtle text-text-secondary font-body-sm text-body-sm font-medium">
+                    0 Open (5 Closed)
+                  </span>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<span class="font-body-sm text-body-sm text-text-secondary">Yesterday</span>
+</td>
+<td class="py-3.5 px-4 text-right">
+<div class="flex items-center justify-end gap-1.5">
+<button class="h-8 px-2.5 rounded-lg bg-surface-subtle hover:bg-surface-container-high text-text-primary font-body-sm text-body-sm font-medium transition-colors" type="button">
+                    View
+                  </button>
+<button class="h-8 px-2.5 rounded-lg bg-primary-container hover:bg-primary text-on-primary font-body-sm text-body-sm font-medium transition-colors" type="button">
+                    + Ticket
+                  </button>
+<button aria-label="More Options" class="p-1 rounded-lg text-text-secondary hover:text-text-primary hover:bg-surface-subtle transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination & Table Footer -->
+<div class="p-space-md bg-surface-subtle/30 flex flex-col sm:flex-row sm:items-center justify-between gap-space-md">
+<div class="flex items-center gap-space-md text-text-secondary font-body-sm text-body-sm">
+<span>Showing <strong class="text-text-primary font-medium">1 to 8</strong> of <strong class="text-text-primary font-medium">1,842</strong> customers</span>
+<div class="flex items-center gap-2">
+<span class="hidden md:inline">Rows per page:</span>
+<div class="relative inline-block">
+<select class="h-8 pl-2 pr-6 rounded bg-surface text-text-primary font-body-sm text-body-sm focus:outline-none cursor-pointer">
+<option>25 per page</option>
+<option>50 per page</option>
+<option>100 per page</option>
+</select>
+</div>
+</div>
+</div>
+<!-- Page Buttons -->
+<div class="flex items-center gap-1 font-body-sm text-body-sm">
+<button class="h-8 px-2.5 rounded-lg bg-surface text-text-secondary hover:text-text-primary hover:bg-surface-container-high transition-colors font-medium flex items-center gap-1 disabled:opacity-50" type="button">
+<span class="material-symbols-outlined text-[16px]">chevron_left</span>
+<span>Previous</span>
+</button>
+<button class="w-8 h-8 rounded-lg bg-primary-container text-on-primary font-semibold flex items-center justify-center shadow-xs" type="button">
+            1
+          </button>
+<button class="w-8 h-8 rounded-lg bg-surface text-text-secondary hover:text-text-primary hover:bg-surface-container-high font-medium flex items-center justify-center transition-colors" type="button">
+            2
+          </button>
+<button class="w-8 h-8 rounded-lg bg-surface text-text-secondary hover:text-text-primary hover:bg-surface-container-high font-medium flex items-center justify-center transition-colors" type="button">
+            3
+          </button>
+<span class="w-8 h-8 flex items-center justify-center text-text-secondary">...</span>
+<button class="w-8 h-8 rounded-lg bg-surface text-text-secondary hover:text-text-primary hover:bg-surface-container-high font-medium flex items-center justify-center transition-colors" type="button">
+            231
+          </button>
+<button class="h-8 px-2.5 rounded-lg bg-surface text-text-secondary hover:text-text-primary hover:bg-surface-container-high transition-colors font-medium flex items-center gap-1" type="button">
+<span>Next</span>
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div></main><footer class="w-full bg-surface border-t border-border py-space-lg"><div class="w-full px-margin flex flex-col md:flex-row items-center justify-between gap-space-md text-text-secondary font-body-sm text-body-sm"><div>© 2025 SupportPilot Inc. All rights reserved. System Operational.</div><div class="flex items-center gap-space-lg"><a class="hover:text-on-surface transition-colors" href="#">Security Status</a><a class="hover:text-on-surface transition-colors" href="#">API Reference</a><a class="hover:text-on-surface transition-colors" href="#">Privacy Policy</a></div></div></footer></body></html>

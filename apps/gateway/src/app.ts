@@ -120,6 +120,15 @@ export function createApp(config: GatewayConfig = {}): Express {
   app.use('/api/v1/users', ticketProxy);
   app.use('/api/v1/analytics', ticketProxy);
   app.use('/api/v1/rules', ticketProxy);
+  app.use(
+    '/api/v1/automation',
+    createProxyMiddleware({
+      targetBaseUrl: ticketServiceUrl,
+      serviceToken,
+      pathRewrite: (path) => path.replace(/^\/api\/v1\/automation/, '/api/v1/rules'),
+    }),
+  );
+  app.use('/api/v1/notifications', ticketProxy);
   app.use('/api/v1/api-keys', ticketProxy);
   app.use('/api/v1/webhooks', ticketProxy);
   app.use('/api/v1/audit-logs', ticketProxy);

@@ -1,0 +1,106 @@
+import { useState } from 'react';
+import { Star, X, CheckCircle2 } from 'lucide-react';
+
+export interface CsatSurveyModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onSubmitRating: (rating: number, comment?: string) => void;
+}
+
+export function CsatSurveyModal({ isOpen, onClose, onSubmitRating }: CsatSurveyModalProps) {
+  const [rating, setRating] = useState<number>(0);
+  const [hoverRating, setHoverRating] = useState<number>(0);
+  const [comment, setComment] = useState('');
+  const [submitted, setSubmitted] = useState(false);
+
+  if (!isOpen) return null;
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (rating === 0) return;
+    onSubmitRating(rating, comment.trim() || undefined);
+    setSubmitted(true);
+    setTimeout(() => {
+      onClose();
+    }, 2000);
+  };
+
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-xs animate-in fade-in duration-150"
+      data-testid="csat-survey-modal"
+    >
+      <div className="bg-white rounded-2xl max-w-sm w-full p-5 shadow-2xl space-y-4 text-center">
+        <div className="flex justify-end">
+          <button
+            type="button"
+            onClick={onClose}
+            className="text-slate-400 hover:text-slate-600 rounded-lg p-1"
+          >
+            <X className="w-4 h-4" />
+          </button>
+        </div>
+
+        {submitted ? (
+          <div className="py-4 space-y-2">
+            <div className="w-10 h-10 bg-emerald-50 text-emerald-600 rounded-full flex items-center justify-center mx-auto">
+              <CheckCircle2 className="w-5 h-5" />
+            </div>
+            <h4 className="font-bold text-sm text-slate-800">Thank you for your feedback!</h4>
+            <p className="text-xs text-slate-500">
+              Your rating helps us improve our customer support.
+            </p>
+          </div>
+        ) : (
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div>
+              <h3 className="font-bold text-sm text-slate-900">How was your support experience?</h3>
+              <p className="text-xs text-slate-500 mt-1">
+                Please rate your conversation with our team
+              </p>
+            </div>
+
+            <div className="flex justify-center space-x-1.5 py-1">
+              {[1, 2, 3, 4, 5].map((star) => (
+                <button
+                  key={star}
+                  type="button"
+                  onClick={() => setRating(star)}
+                  onMouseEnter={() => setHoverRating(star)}
+                  onMouseLeave={() => setHoverRating(0)}
+                  className="p-1 focus:outline-none transition-transform hover:scale-110 cursor-pointer"
+                >
+                  <Star
+                    className={`w-7 h-7 ${
+                      (hoverRating || rating) >= star
+                        ? 'text-amber-400 fill-amber-400'
+                        : 'text-slate-300'
+                    }`}
+                  />
+                </button>
+              ))}
+            </div>
+
+            <div>
+              <textarea
+                value={comment}
+                onChange={(e) => setComment(e.target.value)}
+                placeholder="Optional comments or suggestions..."
+                rows={2}
+                className="w-full text-xs p-2.5 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 resize-none"
+              />
+            </div>
+
+            <button
+              type="submit"
+              disabled={rating === 0}
+              className="w-full py-2 bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 text-white font-semibold text-xs rounded-xl shadow-xs transition-colors cursor-pointer"
+            >
+              Submit Rating
+            </button>
+          </form>
+        )}
+      </div>
+    </div>
+  );
+}

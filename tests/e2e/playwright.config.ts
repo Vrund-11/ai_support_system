@@ -12,6 +12,11 @@ export default defineConfig({
     baseURL: process.env.PLAYWRIGHT_BASE_URL || 'http://localhost:5174',
     trace: 'on-first-retry',
   },
+  webServer: {
+    command: 'pnpm --filter @supportpilot/widget dev --port 5174',
+    port: 5174,
+    reuseExistingServer: true,
+  },
   projects: [
     {
       name: 'chromium',

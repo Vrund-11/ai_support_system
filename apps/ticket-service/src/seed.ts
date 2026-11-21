@@ -4,6 +4,7 @@ import { isDbConnected } from './lib/mongoose.js';
 import { Tenant } from './models/tenant.model.js';
 import { User } from './models/user.model.js';
 import { Ticket } from './models/ticket.model.js';
+import { Customer } from './models/customer.model.js';
 
 export interface SeedResult {
   tenantsCount: number;
@@ -22,7 +23,7 @@ export const SEED_DATA = {
       _id: new Types.ObjectId('507f1f77bcf86cd799439011'),
       name: 'Acme Corporation',
       slug: 'acme-corp',
-      plan: 'ENTERPRISE',
+      plan: 'PRO',
       status: 'ACTIVE',
       widgetKey: 'wk_acme_live_9921',
       settings: {
@@ -49,7 +50,7 @@ export const SEED_DATA = {
       _id: new Types.ObjectId('507f1f77bcf86cd799439022'),
       name: 'Globex Logistics',
       slug: 'globex-logistics',
-      plan: 'GROWTH',
+      plan: 'PRO',
       status: 'ACTIVE',
       widgetKey: 'wk_globex_live_8832',
       settings: {
@@ -76,7 +77,7 @@ export const SEED_DATA = {
       _id: new Types.ObjectId('507f1f77bcf86cd799439033'),
       name: 'Initech Financial',
       slug: 'initech',
-      plan: 'STARTER',
+      plan: 'FREE',
       status: 'ACTIVE',
       widgetKey: 'wk_initech_live_7743',
       settings: {
@@ -109,7 +110,8 @@ export const SEED_DATA = {
       name: 'Alice Owner',
       passwordHash: PASSWORD_HASH,
       role: 'OWNER',
-      emailVerified: true,
+      status: 'ACTIVE',
+      isEmailVerified: true,
     },
     {
       _id: new Types.ObjectId('507f191e810c19729de860ab'),
@@ -118,7 +120,8 @@ export const SEED_DATA = {
       name: 'Bob Lead',
       passwordHash: PASSWORD_HASH,
       role: 'LEAD',
-      emailVerified: true,
+      status: 'ACTIVE',
+      isEmailVerified: true,
     },
     {
       _id: new Types.ObjectId('507f191e810c19729de860ac'),
@@ -127,7 +130,8 @@ export const SEED_DATA = {
       name: 'Charlie Agent',
       passwordHash: PASSWORD_HASH,
       role: 'AGENT',
-      emailVerified: true,
+      status: 'ACTIVE',
+      isEmailVerified: true,
     },
     {
       _id: new Types.ObjectId('507f191e810c19729de860ad'),
@@ -136,7 +140,8 @@ export const SEED_DATA = {
       name: 'Diana Support',
       passwordHash: PASSWORD_HASH,
       role: 'AGENT',
-      emailVerified: true,
+      status: 'ACTIVE',
+      isEmailVerified: true,
     },
     {
       _id: new Types.ObjectId('507f191e810c19729de860ba'),
@@ -145,7 +150,8 @@ export const SEED_DATA = {
       name: 'Hank Scorpio',
       passwordHash: PASSWORD_HASH,
       role: 'OWNER',
-      emailVerified: true,
+      status: 'ACTIVE',
+      isEmailVerified: true,
     },
     {
       _id: new Types.ObjectId('507f191e810c19729de860bb'),
@@ -154,7 +160,8 @@ export const SEED_DATA = {
       name: 'Gary Globex',
       passwordHash: PASSWORD_HASH,
       role: 'AGENT',
-      emailVerified: true,
+      status: 'ACTIVE',
+      isEmailVerified: true,
     },
     {
       _id: new Types.ObjectId('507f191e810c19729de860ca'),
@@ -222,6 +229,44 @@ const SAMPLE_SUBJECTS = [
   },
 ];
 
+export const SEED_CUSTOMERS = [
+  {
+    _id: new Types.ObjectId('507f1f77bcf86cd799439101'),
+    tenantId: new Types.ObjectId('507f1f77bcf86cd799439011'),
+    email: 'sarah.connor@cyberdyne.com',
+    name: 'Sarah Connor',
+    visitorIds: ['vis_001'],
+  },
+  {
+    _id: new Types.ObjectId('507f1f77bcf86cd799439102'),
+    tenantId: new Types.ObjectId('507f1f77bcf86cd799439011'),
+    email: 'john.wick@continental.hotel',
+    name: 'John Wick',
+    visitorIds: ['vis_002'],
+  },
+  {
+    _id: new Types.ObjectId('507f1f77bcf86cd799439103'),
+    tenantId: new Types.ObjectId('507f1f77bcf86cd799439011'),
+    email: 'ellen.ripley@weyland-yutani.com',
+    name: 'Ellen Ripley',
+    visitorIds: ['vis_003'],
+  },
+  {
+    _id: new Types.ObjectId('507f1f77bcf86cd799439104'),
+    tenantId: new Types.ObjectId('507f1f77bcf86cd799439011'),
+    email: 'tony.stark@starkindustries.com',
+    name: 'Tony Stark',
+    visitorIds: ['vis_004'],
+  },
+  {
+    _id: new Types.ObjectId('507f1f77bcf86cd799439105'),
+    tenantId: new Types.ObjectId('507f1f77bcf86cd799439011'),
+    email: 'bruce.wayne@wayneenterprises.com',
+    name: 'Bruce Wayne',
+    visitorIds: ['vis_005'],
+  },
+];
+
 export function generateSeedTickets(tenantId: Types.ObjectId, count: number = 50) {
   const tickets: any[] = [];
   const statuses = ['NEW', 'OPEN', 'PENDING_CUSTOMER', 'ON_HOLD', 'RESOLVED', 'CLOSED'] as const;
@@ -232,10 +277,12 @@ export function generateSeedTickets(tenantId: Types.ObjectId, count: number = 50
     const priority = template.prio;
     const category = template.cat;
     const date = new Date(Date.now() - (count - i) * 3600 * 1000 * 4);
+    const customer = SEED_CUSTOMERS[(i - 1) % SEED_CUSTOMERS.length]!;
 
     tickets.push({
       _id: new Types.ObjectId(),
       tenantId,
+      customerId: customer._id,
       number: i,
       subject: `${template.subject} (#${1000 + i})`,
       description: `Customer encountered unexpected behavior while operating the portal. Requesting immediate investigation.\nDetails: System ref SP-${1000 + i}.`,
@@ -243,10 +290,6 @@ export function generateSeedTickets(tenantId: Types.ObjectId, count: number = 50
       priority,
       category,
       channel: i % 3 === 0 ? 'CHAT' : i % 2 === 0 ? 'EMAIL' : 'WEB',
-      customer: {
-        name: `Customer User ${i}`,
-        email: `client${i}@example.com`,
-      },
       tags: [category, priority.toLowerCase()],
       version: 1,
       createdAt: date,
@@ -275,6 +318,9 @@ export async function runSeed(mode: string = 'memory'): Promise<SeedResult> {
 
     await User.deleteMany({});
     await User.insertMany(SEED_DATA.users);
+
+    await Customer.deleteMany({});
+    await Customer.insertMany(SEED_CUSTOMERS);
 
     await Ticket.deleteMany({});
     await Ticket.insertMany(acmeTickets);

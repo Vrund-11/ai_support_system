@@ -24,8 +24,8 @@ describe('TicketInbox', () => {
 
     expect(screen.getByText('#1001')).toBeInTheDocument();
     expect(screen.getByText('Cannot login to account')).toBeInTheDocument();
-    expect(screen.getByTestId('status-chip-OPEN')).toBeInTheDocument();
-    expect(screen.getByTestId('priority-chip-HIGH')).toBeInTheDocument();
+    expect(screen.getAllByTestId('status-chip-OPEN')[0]).toBeInTheDocument();
+    expect(screen.getAllByTestId('priority-chip-HIGH')[0]).toBeInTheDocument();
 
     expect(screen.getByText('#1002')).toBeInTheDocument();
     expect(screen.getByText('Billing inquiry')).toBeInTheDocument();

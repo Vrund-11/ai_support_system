@@ -2,6 +2,7 @@ import { Router, type Request, type Response } from 'express';
 import { requireMinRole, executeRules } from '@supportpilot/shared-lib';
 import { requireAuth } from '../middleware/auth.middleware.js';
 import { RuleRepository } from '../repositories/rule.repository.js';
+import { Tenant, defaultTenantSettings } from '../models/tenant.model.js';
 import type { RuleDto, TicketDto } from '@supportpilot/shared-types';
 
 export const ruleRouter: Router = Router();
@@ -15,7 +16,35 @@ ruleRouter.get('/', requireMinRole('AGENT'), async (req: Request, res: Response)
     const tenantId = req.user!.tenantId;
     const repo = new RuleRepository(tenantId);
     const rules = await repo.listAllRules();
-    res.json({ rules });
+    res.json({ data: rules, rules });
+  } catch (err) {
+    res.status(500).json({ error: (err as Error).message });
+  }
+});
+
+// GET /api/v1/rules/sla — fetch tenant SLA policies
+ruleRouter.get('/sla', requireMinRole('AGENT'), async (req: Request, res: Response) => {
+  try {
+    const tenantId = req.user!.tenantId;
+    const tenant = await Tenant.findById(tenantId);
+    const sla = tenant?.settings?.sla || defaultTenantSettings.sla;
+    res.json({ data: sla });
+  } catch (err) {
+    res.status(500).json({ error: (err as Error).message });
+  }
+});
+
+// PUT /api/v1/rules/sla — update tenant SLA policies (LEAD+)
+ruleRouter.put('/sla', requireMinRole('LEAD'), async (req: Request, res: Response) => {
+  try {
+    const tenantId = req.user!.tenantId;
+    const tenant = await Tenant.findByIdAndUpdate(
+      tenantId,
+      { $set: { 'settings.sla': req.body } },
+      { new: true },
+    );
+    const sla = tenant?.settings?.sla || defaultTenantSettings.sla;
+    res.json({ data: sla });
   } catch (err) {
     res.status(500).json({ error: (err as Error).message });
   }

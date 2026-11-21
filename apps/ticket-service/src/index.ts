@@ -2,9 +2,19 @@ import { loadEnv, ticketServiceEnvSchema } from '@supportpilot/validators';
 import { createLogger } from '@supportpilot/shared-lib';
 import { createApp } from './app.js';
 import { connectDb, disconnectDb } from './lib/mongoose.js';
+import { configureAuth } from './services/auth.service.js';
 
 const env = loadEnv(ticketServiceEnvSchema);
 const logger = createLogger('ticket-service', env.LOG_LEVEL);
+
+// Configure JWT auth with loaded environment secrets
+configureAuth({
+  accessSecret: env.JWT_ACCESS_SECRET,
+  refreshSecret: env.JWT_REFRESH_SECRET,
+  accessExpiresIn: '15m',
+  refreshExpiresIn: '7d',
+});
+
 const app = createApp(env.LOG_LEVEL);
 
 // Connect DB (non-blocking in dev if datastore is starting)

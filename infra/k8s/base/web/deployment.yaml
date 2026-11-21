@@ -15,9 +15,6 @@ spec:
       labels:
         app: web
     spec:
-      securityContext:
-        runAsNonRoot: true
-        runAsUser: 101 # nginx
       containers:
         - name: web
           image: supportpilot/web:latest

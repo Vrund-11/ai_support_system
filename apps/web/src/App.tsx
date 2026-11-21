@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, lazy, Suspense } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ApolloProvider } from '@apollo/client/react';
 import { apolloClient } from './lib/apollo';
@@ -11,15 +11,37 @@ import { TicketDetail } from './components/tickets/TicketDetail';
 import { CreateTicketModal } from './components/tickets/CreateTicketModal';
 import { ToastContainer } from './components/common/ToastContainer';
 import { OfflineBanner } from './components/common/OfflineBanner';
-import { KnowledgeBaseView } from './components/knowledge/KnowledgeBaseView';
-import { LiveChatView } from './components/chat/LiveChatView';
-import { AnalyticsDashboard } from './components/analytics/AnalyticsDashboard';
-import { SettingsView } from './components/settings/SettingsView';
-import { HelpCenterView } from './components/help/HelpCenterView';
 import { PublicTicketTracker } from './components/help/PublicTicketTracker';
-import { CustomersView } from './components/customers/CustomersView';
-import { TeamView } from './components/team/TeamView';
-import { AutomationView } from './components/automation/AutomationView';
+
+// Lazy-loaded secondary tab modules for performance & code-splitting
+const KnowledgeBaseView = lazy(() =>
+  import('./components/knowledge/KnowledgeBaseView').then((m) => ({
+    default: m.KnowledgeBaseView,
+  })),
+);
+const LiveChatView = lazy(() =>
+  import('./components/chat/LiveChatView').then((m) => ({ default: m.LiveChatView })),
+);
+const AnalyticsDashboard = lazy(() =>
+  import('./components/analytics/AnalyticsDashboard').then((m) => ({
+    default: m.AnalyticsDashboard,
+  })),
+);
+const SettingsView = lazy(() =>
+  import('./components/settings/SettingsView').then((m) => ({ default: m.SettingsView })),
+);
+const HelpCenterView = lazy(() =>
+  import('./components/help/HelpCenterView').then((m) => ({ default: m.HelpCenterView })),
+);
+const CustomersView = lazy(() =>
+  import('./components/customers/CustomersView').then((m) => ({ default: m.CustomersView })),
+);
+const TeamView = lazy(() =>
+  import('./components/team/TeamView').then((m) => ({ default: m.TeamView })),
+);
+const AutomationView = lazy(() =>
+  import('./components/automation/AutomationView').then((m) => ({ default: m.AutomationView })),
+);
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -78,21 +100,29 @@ export function AppContent() {
         setCurrentTab(tab);
       }}
     >
-      {currentTab === 'kb' && <KnowledgeBaseView />}
+      <Suspense
+        fallback={
+          <div className="flex items-center justify-center p-16 text-xs text-slate-400 dark:text-zinc-500 font-mono">
+            Loading view...
+          </div>
+        }
+      >
+        {currentTab === 'kb' && <KnowledgeBaseView />}
 
-      {currentTab === 'chats' && <LiveChatView />}
+        {currentTab === 'chats' && <LiveChatView />}
 
-      {currentTab === 'customers' && <CustomersView />}
+        {currentTab === 'customers' && <CustomersView />}
 
-      {currentTab === 'team' && <TeamView />}
+        {currentTab === 'team' && <TeamView />}
 
-      {currentTab === 'automation' && <AutomationView />}
+        {currentTab === 'automation' && <AutomationView />}
 
-      {currentTab === 'analytics' && <AnalyticsDashboard />}
+        {currentTab === 'analytics' && <AnalyticsDashboard />}
 
-      {currentTab === 'settings' && <SettingsView />}
+        {currentTab === 'settings' && <SettingsView />}
 
-      {currentTab === 'help' && <HelpCenterView />}
+        {currentTab === 'help' && <HelpCenterView />}
+      </Suspense>
 
       {currentTab === 'inbox' &&
         (selectedTicketId ? (

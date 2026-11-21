@@ -103,9 +103,16 @@ export function KnowledgeBaseView() {
     if (!testQuestion.trim()) return;
 
     setIsTesting(true);
-    // Hermetic simulation or real test retrieval
-    setTimeout(() => {
-      setIsTesting(false);
+    try {
+      const res = await api.ai.answer(testQuestion.trim());
+      setTestResult({
+        answer: res.answer,
+        citations: res.citations || [],
+        confidence: res.confidence ?? 0.9,
+        shouldEscalate: res.shouldEscalate ?? false,
+      });
+    } catch {
+      // Fallback response if AI service offline
       const isAdv =
         testQuestion.toLowerCase().includes('cake') ||
         testQuestion.toLowerCase().includes('recipe');
@@ -130,7 +137,9 @@ export function KnowledgeBaseView() {
           shouldEscalate: false,
         });
       }
-    }, 300);
+    } finally {
+      setIsTesting(false);
+    }
   };
 
   const getDocTypeIcon = (title: string, source: string) => {

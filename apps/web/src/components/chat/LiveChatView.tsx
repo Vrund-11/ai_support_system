@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   MessageSquare,
   User,
@@ -124,11 +124,50 @@ export function LiveChatView() {
   const user = useAuthStore((s) => s.user);
   const [conversations, setConversations] = useState<ConversationItem[]>(INITIAL_CONVERSATIONS);
   const [activeQueue, setActiveQueue] = useState<'waiting' | 'mine' | 'all'>('waiting');
+  const [mobilePane, setMobilePane] = useState<'queue' | 'chat' | 'copilot'>('chat');
   const [selectedConvId, setSelectedConvId] = useState<string>('conv-001');
   const [composerText, setComposerText] = useState('');
   const [isSuggesting, setIsSuggesting] = useState(false);
   const [isSummarizing, setIsSummarizing] = useState(false);
   const [summaries, setSummaries] = useState<Record<string, SummarizeResult>>({});
+
+  useEffect(() => {
+    let mounted = true;
+    api.tickets
+      .list({ limit: 10 })
+      .then((res) => {
+        if (!mounted || !res.data || res.data.length === 0) return;
+        const liveItems: ConversationItem[] = res.data.map((t) => ({
+          id: t.id,
+          customerName: `Customer #${t.number}`,
+          customerEmail: `customer-${t.number}@example.com`,
+          state: (t.status === 'NEW'
+            ? 'WAITING_AGENT'
+            : 'AGENT_ACTIVE') as ConversationItem['state'],
+          lastMessage: t.subject || t.description || 'Support inquiry',
+          assignedTo: t.assigneeId,
+          messages: [
+            {
+              id: `msg-${t.id}-1`,
+              senderType: 'CUSTOMER',
+              body: t.description || t.subject,
+              createdAt: new Date(t.createdAt).toLocaleTimeString([], {
+                hour: '2-digit',
+                minute: '2-digit',
+              }),
+            },
+          ],
+        }));
+        setConversations((prev) => {
+          const ids = new Set(liveItems.map((l) => l.id));
+          return [...liveItems, ...prev.filter((p) => !ids.has(p.id))];
+        });
+      })
+      .catch(() => {});
+    return () => {
+      mounted = false;
+    };
+  }, []);
 
   const waitingCount = conversations.filter((c) => c.state === 'WAITING_AGENT').length;
   const mineCount = conversations.filter((c) => c.assignedTo === user?.id).length;
@@ -279,85 +318,132 @@ export function LiveChatView() {
   };
 
   return (
-    <div className="h-[calc(100vh-8.5rem)] flex flex-col bg-white rounded-xl border border-slate-200/80 shadow-xs overflow-hidden">
+    <div className="h-[calc(100vh-8.5rem)] flex flex-col bg-white dark:bg-zinc-900 rounded-xl border border-slate-200/80 dark:border-zinc-800 shadow-xs overflow-hidden transition-colors">
       {/* View Header with Slack/Linear Density & Stitch Live Indicators */}
-      <div className="px-5 py-3 border-b border-slate-200 flex items-center justify-between bg-slate-50/70">
+      <div className="px-5 py-3 border-b border-slate-200 dark:border-zinc-800 flex flex-wrap items-center justify-between gap-3 bg-slate-50/70 dark:bg-zinc-900/80">
         <div className="flex items-center gap-2.5">
           <div className="w-8 h-8 rounded-lg bg-indigo-600 text-white flex items-center justify-center shadow-xs">
             <MessageSquare className="w-4 h-4" />
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <h1 className="text-sm font-bold text-slate-900 tracking-tight">
+              <h1 className="text-sm font-bold text-slate-900 dark:text-zinc-100 tracking-tight">
                 Live Agent Console
               </h1>
-              <span className="hidden sm:inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 font-mono text-[10px] font-semibold border border-emerald-200">
+              <span className="hidden sm:inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 font-mono text-[10px] font-semibold border border-emerald-200 dark:border-emerald-800">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
                 Live Feed
               </span>
             </div>
-            <p className="text-[11px] text-slate-400">
-              Real-time omnichannel conversations & AI copilot
+            <p className="text-[11px] text-slate-400 dark:text-zinc-500">
+              Real-time omnichannel conversations &amp; AI copilot
             </p>
           </div>
         </div>
 
-        {/* Queue filter tabs with animated pulse badges */}
-        <div className="inline-flex rounded-lg bg-slate-200/80 p-1 text-xs font-semibold gap-1">
-          <button
-            type="button"
-            onClick={() => setActiveQueue('waiting')}
-            className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-md transition-all cursor-pointer ${
-              activeQueue === 'waiting'
-                ? 'bg-white text-indigo-700 shadow-xs'
-                : 'text-slate-600 hover:text-slate-900'
-            }`}
-          >
-            {waitingCount > 0 && (
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
-              </span>
-            )}
-            <span>Waiting ({waitingCount})</span>
-          </button>
+        <div className="flex items-center gap-2">
+          {/* Mobile pane switcher (lg:hidden) */}
+          <div className="flex lg:hidden rounded-lg bg-slate-200/80 dark:bg-zinc-800 p-0.5 text-xs font-semibold gap-0.5">
+            <button
+              type="button"
+              onClick={() => setMobilePane('queue')}
+              className={`px-2.5 py-1 rounded-md transition-all cursor-pointer ${
+                mobilePane === 'queue'
+                  ? 'bg-white dark:bg-zinc-700 text-indigo-700 dark:text-indigo-300 shadow-xs'
+                  : 'text-slate-600 dark:text-zinc-400'
+              }`}
+            >
+              Queue
+            </button>
+            <button
+              type="button"
+              onClick={() => setMobilePane('chat')}
+              className={`px-2.5 py-1 rounded-md transition-all cursor-pointer ${
+                mobilePane === 'chat'
+                  ? 'bg-white dark:bg-zinc-700 text-indigo-700 dark:text-indigo-300 shadow-xs'
+                  : 'text-slate-600 dark:text-zinc-400'
+              }`}
+            >
+              Chat
+            </button>
+            <button
+              type="button"
+              onClick={() => setMobilePane('copilot')}
+              className={`px-2.5 py-1 rounded-md transition-all cursor-pointer ${
+                mobilePane === 'copilot'
+                  ? 'bg-white dark:bg-zinc-700 text-indigo-700 dark:text-indigo-300 shadow-xs'
+                  : 'text-slate-600 dark:text-zinc-400'
+              }`}
+            >
+              AI Panel
+            </button>
+          </div>
 
-          <button
-            type="button"
-            onClick={() => setActiveQueue('mine')}
-            className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-md transition-all cursor-pointer ${
-              activeQueue === 'mine'
-                ? 'bg-white text-indigo-700 shadow-xs'
-                : 'text-slate-600 hover:text-slate-900'
-            }`}
+          {/* Queue filter tabs with animated pulse badges */}
+          <div
+            aria-label="Queue filter"
+            className="inline-flex rounded-lg bg-slate-200/80 dark:bg-zinc-800 p-1 text-xs font-semibold gap-1"
           >
-            <span>Mine ({mineCount})</span>
-          </button>
+            <button
+              type="button"
+              aria-pressed={activeQueue === 'waiting'}
+              onClick={() => setActiveQueue('waiting')}
+              className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-md transition-all cursor-pointer ${
+                activeQueue === 'waiting'
+                  ? 'bg-white dark:bg-zinc-700 text-indigo-700 dark:text-indigo-300 shadow-xs'
+                  : 'text-slate-600 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-zinc-200'
+              }`}
+            >
+              {waitingCount > 0 && (
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
+                </span>
+              )}
+              <span>Waiting ({waitingCount})</span>
+            </button>
 
-          <button
-            type="button"
-            onClick={() => setActiveQueue('all')}
-            className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-md transition-all cursor-pointer ${
-              activeQueue === 'all'
-                ? 'bg-white text-indigo-700 shadow-xs'
-                : 'text-slate-600 hover:text-slate-900'
-            }`}
-          >
-            <span>All ({allCount})</span>
-          </button>
+            <button
+              type="button"
+              aria-pressed={activeQueue === 'mine'}
+              onClick={() => setActiveQueue('mine')}
+              className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-md transition-all cursor-pointer ${
+                activeQueue === 'mine'
+                  ? 'bg-white dark:bg-zinc-700 text-indigo-700 dark:text-indigo-300 shadow-xs'
+                  : 'text-slate-600 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-zinc-200'
+              }`}
+            >
+              <span>Mine ({mineCount})</span>
+            </button>
+
+            <button
+              type="button"
+              aria-pressed={activeQueue === 'all'}
+              onClick={() => setActiveQueue('all')}
+              className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-md transition-all cursor-pointer ${
+                activeQueue === 'all'
+                  ? 'bg-white dark:bg-zinc-700 text-indigo-700 dark:text-indigo-300 shadow-xs'
+                  : 'text-slate-600 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-zinc-200'
+              }`}
+            >
+              <span>All ({allCount})</span>
+            </button>
+          </div>
         </div>
       </div>
 
-      {/* 3-Pane Layout */}
+      {/* 3-Pane Layout with Responsive Mobile Toggle */}
       <div className="flex-1 flex overflow-hidden">
         {/* Pane 1: Queue Conversation List */}
-        <div className="w-80 border-r border-slate-200 overflow-y-auto bg-slate-50/40">
+        <div
+          className={`${mobilePane === 'queue' ? 'block' : 'hidden'} lg:block w-full lg:w-80 border-r border-slate-200 dark:border-zinc-800 overflow-y-auto bg-slate-50/40 dark:bg-zinc-900/50`}
+        >
           {filteredConversations.length === 0 ? (
-            <div className="p-8 text-center text-slate-400 text-xs">
+            <div className="p-8 text-center text-slate-400 dark:text-zinc-500 text-xs">
               No conversations in this queue.
             </div>
           ) : (
-            <div className="divide-y divide-slate-100">
+            <div className="divide-y divide-slate-100 dark:divide-zinc-800/80">
               {filteredConversations.map((c) => {
                 const isSelected = activeConv?.id === c.id;
                 const isWaiting = c.state === 'WAITING_AGENT';
@@ -366,19 +452,22 @@ export function LiveChatView() {
                   <button
                     key={c.id}
                     type="button"
-                    onClick={() => setSelectedConvId(c.id)}
-                    className={`w-full text-left p-3.5 hover:bg-slate-100/60 transition-all cursor-pointer ${
+                    onClick={() => {
+                      setSelectedConvId(c.id);
+                      setMobilePane('chat');
+                    }}
+                    className={`w-full text-left p-3.5 hover:bg-slate-100/60 dark:hover:bg-zinc-800/60 transition-all cursor-pointer ${
                       isSelected
-                        ? 'bg-indigo-50/70 border-l-4 border-indigo-600'
+                        ? 'bg-indigo-50/70 dark:bg-indigo-950/30 border-l-4 border-indigo-600'
                         : 'border-l-4 border-transparent'
                     }`}
                   >
                     <div className="flex items-center justify-between mb-1">
-                      <span className="font-semibold text-slate-900 text-xs truncate max-w-[130px]">
+                      <span className="font-semibold text-slate-900 dark:text-zinc-100 text-xs truncate max-w-[130px]">
                         {c.customerName}
                       </span>
                       {isWaiting ? (
-                        <span className="inline-flex items-center gap-1 text-[10px] font-bold text-amber-800 bg-amber-100/80 px-2 py-0.5 rounded-full border border-amber-200">
+                        <span className="inline-flex items-center gap-1 text-[10px] font-bold text-amber-800 dark:text-amber-300 bg-amber-100/80 dark:bg-amber-950/60 px-2 py-0.5 rounded-full border border-amber-200 dark:border-amber-800">
                           <span className="relative flex h-1.5 w-1.5">
                             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
                             <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-amber-500"></span>
@@ -386,19 +475,19 @@ export function LiveChatView() {
                           WAITING
                         </span>
                       ) : (
-                        <span className="inline-flex items-center gap-1 text-[10px] font-bold text-emerald-800 bg-emerald-100/80 px-2 py-0.5 rounded-full border border-emerald-200">
-                          <CheckCircle className="w-2.5 h-2.5 text-emerald-600" />
+                        <span className="inline-flex items-center gap-1 text-[10px] font-bold text-emerald-800 dark:text-emerald-300 bg-emerald-100/80 dark:bg-emerald-950/60 px-2 py-0.5 rounded-full border border-emerald-200 dark:border-emerald-800">
+                          <CheckCircle className="w-2.5 h-2.5 text-emerald-600 dark:text-emerald-400" />
                           ACTIVE
                         </span>
                       )}
                     </div>
-                    <div className="flex items-center justify-between text-[11px] text-slate-400 truncate mb-1">
+                    <div className="flex items-center justify-between text-[11px] text-slate-400 dark:text-zinc-500 truncate mb-1">
                       <span className="truncate">{c.customerEmail}</span>
-                      <span className="shrink-0 px-1.5 py-0.2 rounded bg-indigo-50 text-indigo-700 font-mono text-[9px] font-semibold border border-indigo-100">
+                      <span className="shrink-0 px-1.5 py-0.2 rounded bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-400 font-mono text-[9px] font-semibold border border-indigo-100 dark:border-indigo-900/40">
                         Web Chat
                       </span>
                     </div>
-                    <div className="text-xs text-slate-600 truncate font-normal">
+                    <div className="text-xs text-slate-600 dark:text-zinc-400 truncate font-normal">
                       {c.lastMessage}
                     </div>
                   </button>
@@ -409,7 +498,9 @@ export function LiveChatView() {
         </div>
 
         {/* Pane 2: Active Chat Conversation */}
-        <div className="flex-1 flex flex-col border-r border-slate-200 bg-white">
+        <div
+          className={`${mobilePane === 'chat' ? 'flex' : 'hidden'} lg:flex flex-1 flex-col border-r border-slate-200 dark:border-zinc-800 bg-white dark:bg-zinc-900`}
+        >
           {activeConv ? (
             <>
               {/* Chat Thread Header */}
@@ -523,37 +614,40 @@ export function LiveChatView() {
               {/* Message Composer */}
               <form
                 onSubmit={handleSendMessage}
-                className="p-3 bg-white border-t border-slate-200 flex items-center gap-2"
+                className="p-3 bg-white dark:bg-zinc-900 border-t border-slate-200 dark:border-zinc-800 flex items-center gap-2"
               >
                 <input
                   type="text"
                   value={composerText}
                   onChange={(e) => setComposerText(e.target.value)}
                   placeholder="Type reply to customer..."
-                  className="flex-1 rounded-lg border border-slate-200 bg-slate-50/50 p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all placeholder:text-slate-400"
+                  aria-label="Chat composer"
+                  className="flex-1 rounded-lg border border-slate-200 dark:border-zinc-700 bg-slate-50/50 dark:bg-zinc-800 p-2.5 text-sm text-slate-900 dark:text-zinc-100 placeholder:text-slate-400 dark:placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all"
                 />
                 <button
                   type="submit"
                   disabled={!composerText.trim()}
-                  className="bg-indigo-600 hover:bg-indigo-700 disabled:opacity-40 text-white p-2.5 rounded-lg transition-colors cursor-pointer shadow-xs"
+                  className="bg-indigo-600 hover:bg-indigo-700 disabled:opacity-40 text-white p-2.5 rounded-lg transition-colors cursor-pointer shadow-xs min-w-[40px] min-h-[40px] flex items-center justify-center"
                 >
                   <Send className="w-4 h-4" />
                 </button>
               </form>
             </>
           ) : (
-            <div className="p-12 text-center text-slate-400">
+            <div className="p-12 text-center text-slate-400 dark:text-zinc-500">
               Select a conversation from the queue
             </div>
           )}
         </div>
 
         {/* Pane 3: AI Copilot Card & Summarization Panel */}
-        <div className="w-88 p-4 bg-slate-50/70 overflow-y-auto space-y-4">
-          <div className="flex items-center justify-between pb-2 border-b border-slate-200">
+        <div
+          className={`${mobilePane === 'copilot' ? 'block' : 'hidden'} lg:block w-full lg:w-88 p-4 bg-slate-50/70 dark:bg-zinc-900/60 border-t lg:border-t-0 lg:border-l border-slate-200 dark:border-zinc-800 overflow-y-auto space-y-4`}
+        >
+          <div className="flex items-center justify-between pb-2 border-b border-slate-200 dark:border-zinc-800">
             <div className="flex items-center gap-2">
-              <Sparkles className="w-4 h-4 text-indigo-600" />
-              <h3 className="text-xs font-bold uppercase tracking-wider text-slate-700">
+              <Sparkles className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
+              <h3 className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-zinc-300">
                 AI Suggestion Panel
               </h3>
             </div>
@@ -561,7 +655,7 @@ export function LiveChatView() {
               type="button"
               onClick={handleGenerateSuggestion}
               disabled={isSuggesting}
-              className="inline-flex items-center gap-1 text-[11px] font-semibold text-indigo-600 hover:text-indigo-800 disabled:opacity-50 cursor-pointer"
+              className="inline-flex items-center gap-1 text-[11px] font-semibold text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 disabled:opacity-50 cursor-pointer"
               title="Generate new reply suggestion"
             >
               {isSuggesting ? (
@@ -574,22 +668,37 @@ export function LiveChatView() {
           </div>
 
           {activeConv?.aiSuggestion ? (
-            <div className="bg-white p-4 rounded-xl border border-indigo-200/80 shadow-xs space-y-3">
+            <div className="bg-white dark:bg-zinc-900 p-4 rounded-xl border border-indigo-200/80 dark:border-indigo-950/80 shadow-xs space-y-3">
               <div className="flex items-center justify-between">
-                <span className="font-semibold text-indigo-800 text-xs flex items-center gap-1.5">
-                  <Zap className="w-3.5 h-3.5 text-indigo-600" />
+                <span className="font-semibold text-indigo-800 dark:text-indigo-300 text-xs flex items-center gap-1.5">
+                  <Zap className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" />
                   Recommended Reply
                 </span>
-                <span className="text-[10px] font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
+                <span className="text-[10px] font-semibold text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 px-2 py-0.5 rounded-full border border-emerald-200 dark:border-emerald-800">
                   Grounding: Verified
                 </span>
               </div>
 
               {/* Radial confidence score badge */}
-              <div className="flex items-center gap-3 p-2 bg-slate-50 rounded-lg border border-slate-100">
+              <div
+                role="progressbar"
+                aria-valuenow={Math.round(activeConv.aiSuggestion.confidence * 100)}
+                aria-valuemin={0}
+                aria-valuemax={100}
+                aria-label="AI confidence score"
+                className="flex items-center gap-3 p-2 bg-slate-50 dark:bg-zinc-800/70 rounded-lg border border-slate-100 dark:border-zinc-800"
+              >
                 <div className="relative w-10 h-10 flex items-center justify-center shrink-0">
                   <svg className="w-10 h-10 -rotate-90" viewBox="0 0 36 36">
-                    <circle cx="18" cy="18" r="14" fill="none" stroke="#e2e8f0" strokeWidth="3" />
+                    <circle
+                      cx="18"
+                      cy="18"
+                      r="14"
+                      fill="none"
+                      stroke="#e2e8f0"
+                      strokeWidth="3"
+                      className="dark:stroke-zinc-700"
+                    />
                     <circle
                       cx="18"
                       cy="18"
@@ -602,22 +711,22 @@ export function LiveChatView() {
                       strokeLinecap="round"
                     />
                   </svg>
-                  <span className="absolute text-[9px] font-mono font-bold text-emerald-700">
+                  <span className="absolute text-[9px] font-mono font-bold text-emerald-700 dark:text-emerald-400">
                     {Math.round(activeConv.aiSuggestion.confidence * 100)}%
                   </span>
                 </div>
                 <div>
-                  <div className="text-xs font-bold text-slate-800">
+                  <div className="text-xs font-bold text-slate-800 dark:text-zinc-200">
                     {Math.round(activeConv.aiSuggestion.confidence * 100)}% match
                   </div>
-                  <div className="text-[10px] text-slate-400 flex items-center gap-1">
-                    <ShieldCheck className="w-3 h-3 text-emerald-600" />
+                  <div className="text-[10px] text-slate-400 dark:text-zinc-500 flex items-center gap-1">
+                    <ShieldCheck className="w-3 h-3 text-emerald-600 dark:text-emerald-400" />
                     <span>High confidence grounding</span>
                   </div>
                 </div>
               </div>
 
-              <p className="text-xs text-slate-700 leading-relaxed bg-slate-50/70 p-2.5 rounded-lg border border-slate-100">
+              <p className="text-xs text-slate-700 dark:text-zinc-300 leading-relaxed bg-slate-50/70 dark:bg-zinc-800/50 p-2.5 rounded-lg border border-slate-100 dark:border-zinc-800">
                 {activeConv.aiSuggestion.text}
               </p>
 

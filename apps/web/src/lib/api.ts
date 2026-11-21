@@ -440,6 +440,23 @@ export const api = {
   },
 
   ai: {
+    async answer(question: string): Promise<{
+      answer: string;
+      citations: Array<{ chunkId: string; docId: string; title: string }>;
+      confidence: number;
+      shouldEscalate: boolean;
+    }> {
+      return request<{
+        answer: string;
+        citations: Array<{ chunkId: string; docId: string; title: string }>;
+        confidence: number;
+        shouldEscalate: boolean;
+      }>('/ai/answer', {
+        method: 'POST',
+        body: JSON.stringify({ question }),
+      });
+    },
+
     async suggestReply(payload: SuggestReplyPayload): Promise<SuggestReplyResult> {
       return request<SuggestReplyResult>('/ai/assist/suggest-reply', {
         method: 'POST',

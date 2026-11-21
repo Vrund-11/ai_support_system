@@ -30,6 +30,7 @@ import {
   Sparkles,
   SlidersHorizontal,
 } from 'lucide-react';
+import { ConfirmDialog } from '../common/ConfirmDialog';
 
 export type SettingsSubTab = 'general' | 'api-keys' | 'webhooks' | 'audit' | 'flags' | 'admin';
 
@@ -49,6 +50,7 @@ export function SettingsView() {
   const [newKeyScopes, setNewKeyScopes] = useState<string[]>(['tickets:read', 'tickets:write']);
   const [createdKey, setCreatedKey] = useState<CreatedApiKey | null>(null);
   const [copiedKey, setCopiedKey] = useState(false);
+  const [keyToRevoke, setKeyToRevoke] = useState<string | null>(null);
 
   // Webhooks state
   const [webhooks, setWebhooks] = useState<WebhookItem[]>([]);
@@ -458,7 +460,7 @@ export function SettingsView() {
                         </td>
                         <td className="px-6 py-4 text-right">
                           <button
-                            onClick={() => handleRevokeKey(k.id)}
+                            onClick={() => setKeyToRevoke(k.id)}
                             className="text-rose-600 dark:text-rose-400 hover:text-rose-800 dark:hover:text-rose-300 text-xs font-semibold inline-flex items-center space-x-1 px-2.5 py-1 rounded-lg hover:bg-rose-50 dark:hover:bg-rose-950/40 transition-colors cursor-pointer"
                           >
                             <Trash2 className="w-3.5 h-3.5" />
@@ -1109,6 +1111,21 @@ export function SettingsView() {
           </div>
         </div>
       )}
+
+      <ConfirmDialog
+        isOpen={Boolean(keyToRevoke)}
+        title="Revoke API Key"
+        message="Are you sure you want to revoke this API key? Applications using this token will immediately lose access."
+        confirmLabel="Revoke Key"
+        isDestructive
+        onConfirm={() => {
+          if (keyToRevoke) {
+            handleRevokeKey(keyToRevoke);
+            setKeyToRevoke(null);
+          }
+        }}
+        onCancel={() => setKeyToRevoke(null)}
+      />
     </div>
   );
 }

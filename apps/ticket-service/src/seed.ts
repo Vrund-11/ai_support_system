@@ -793,7 +793,7 @@ export function generateSeedTickets(
   tenantUsers: any[] = [],
 ) {
   const tickets: any[] = [];
-  const statuses = ['NEW', 'OPEN', 'PENDING_CUSTOMER', 'ON_HOLD', 'RESOLVED', 'CLOSED'] as const;
+  const _statuses = ['NEW', 'OPEN', 'PENDING_CUSTOMER', 'ON_HOLD', 'RESOLVED', 'CLOSED'] as const;
 
   // Filter available agents for this tenant
   const agents = tenantUsers.filter(
@@ -808,7 +808,7 @@ export function generateSeedTickets(
     const template = RICH_SUBJECT_TEMPLATES[(i - 1) % RICH_SUBJECT_TEMPLATES.length]!;
 
     // Distribute statuses realistically: 10% NEW, 30% OPEN, 15% PENDING, 5% ON_HOLD, 30% RESOLVED, 10% CLOSED
-    let status: (typeof statuses)[number];
+    let status: (typeof _statuses)[number];
     const statusRand = (i * 17) % 100;
     if (statusRand < 10) status = 'NEW';
     else if (statusRand < 40) status = 'OPEN';

@@ -58,3 +58,6 @@ logs/
 # Kubernetes Secrets
 infra/k8s/base/secret.yaml
 
+# Test artifacts
+reports/videos/*.webm
+

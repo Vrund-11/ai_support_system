@@ -8,6 +8,7 @@ import {
   createTraceMiddleware,
 } from '@supportpilot/shared-lib';
 import { isDbConnected } from './lib/mongoose.js';
+import { isRedisConnected } from './lib/redis.js';
 import { authRouter } from './routes/auth.routes.js';
 import { ticketRouter } from './routes/ticket.routes.js';
 import { uploadRouter } from './routes/upload.routes.js';
@@ -34,34 +35,47 @@ export function createApp(logLevel: string = 'info'): Express {
   app.use(createTraceMiddleware('ticket-service'));
   app.use(createMetricsMiddleware('ticket-service'));
 
+  const serviceToken =
+    process.env['INTERNAL_SERVICE_TOKEN'] ??
+    process.env['SERVICE_TOKEN'] ??
+    'default-service-token';
+
   // ── Metrics endpoint (Prometheus) ──
   app.get('/metrics', createMetricsHandler());
 
   // ── Liveness probe ──
   app.get('/health', (_req, res) => {
-    res.status(200).json({
-      status: 'ok',
-      service: 'ticket-service',
-      timestamp: new Date().toISOString(),
-    });
+    res.status(200).json({ status: 'ok' });
   });
 
   // ── Readiness probe ──
-  app.get('/ready', (_req, res) => {
-    const connected = isDbConnected();
-    if (connected) {
-      res.status(200).json({
-        status: 'ready',
-        db: 'connected',
+  const readinessHandler = (req: express.Request, res: express.Response) => {
+    const dbConnected = isDbConnected();
+    const redisConnected = isRedisConnected();
+    const isReady = dbConnected && redisConnected;
+
+    const token = req.headers['x-service-token'];
+    const isAuth = Boolean(token && token === serviceToken);
+
+    const statusCode = isReady ? 200 : 503;
+    const status = isReady ? 'ready' : 'not_ready';
+
+    if (isAuth) {
+      res.status(statusCode).json({
+        status,
+        dependencies: {
+          mongodb: dbConnected ? 'connected' : 'disconnected',
+          redis: redisConnected ? 'connected' : 'disconnected',
+        },
       });
       return;
     }
 
-    res.status(503).json({
-      status: 'not ready',
-      db: 'disconnected',
-    });
-  });
+    res.status(statusCode).json({ status });
+  };
+
+  app.get('/ready', readinessHandler);
+  app.get('/health/readiness', readinessHandler);
 
   // ── Tenant quota tracking (TEN-4) ──
   app.use('/api/v1', createQuotaMiddleware());

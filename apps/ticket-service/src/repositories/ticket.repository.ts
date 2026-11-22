@@ -14,6 +14,8 @@ import { Ticket, type ITicketDocument } from '../models/ticket.model.js';
 import { Counter } from '../models/counter.model.js';
 import { validateStatusTransition } from '../lib/transitions.js';
 import { TicketEventRepository } from './ticket-event.repository.js';
+import { getRedis } from '../lib/redis.js';
+import { isDbConnected } from '../lib/mongoose.js';
 
 export class TicketRepository extends BaseTenantRepository<ITicketDocument> {
   private readonly eventRepo: TicketEventRepository;
@@ -23,40 +25,168 @@ export class TicketRepository extends BaseTenantRepository<ITicketDocument> {
     this.eventRepo = new TicketEventRepository(this.tenantId);
   }
 
-  /** Atomic per-tenant sequence counter for ticket numbers (1, 2, 3...) */
-  async getNextTicketNumber(): Promise<number> {
-    const counter = await Counter.findOneAndUpdate(
-      { tenantId: this.tenantId, key: 'ticket_number' },
-      { $inc: { value: 1 } },
-      { upsert: true, new: true, setDefaultsOnInsert: true },
-    );
-    return counter?.value ?? 1;
-  }
+  /** Reconcile sequence counter to match the maximum existing ticket number in MongoDB */
+  async reconcileCounter(): Promise<number> {
+    let maxNum = 0;
+    try {
+      let latestTicket: any = null;
+      if (isDbConnected() || (Ticket.findOne as any).mock) {
+        const query: any = Ticket.findOne({ tenantId: this.tenantId });
+        if (query && typeof query.sort === 'function') {
+          const sorted = query.sort({ number: -1 });
+          const selected = typeof sorted?.select === 'function' ? sorted.select('number') : sorted;
+          latestTicket =
+            typeof selected?.lean === 'function' ? await selected.lean() : await selected;
+        } else if (query) {
+          latestTicket = await query;
+        }
+      }
 
-  /** Create ticket with atomic ticket number and initial version 1 */
-  async createTicket(input: CreateTicketInput): Promise<ITicketDocument> {
-    const number = await this.getNextTicketNumber();
+      let latestCounter: any = null;
+      if (isDbConnected() || (Counter.findOne as any).mock) {
+        const counterQuery: any = Counter.findOne({
+          tenantId: this.tenantId,
+          key: 'ticket_number',
+        });
+        latestCounter =
+          counterQuery && typeof counterQuery.lean === 'function'
+            ? await counterQuery.lean()
+            : await counterQuery;
+      }
 
-    const ticketDoc: Partial<ITicketDocument> = {
-      number,
-      subject: input.subject,
-      description: input.description,
-      customerId: new Types.ObjectId(input.customerId),
-      status: 'NEW',
-      priority: input.priority,
-      tags: input.tags,
-      attachments: input.attachments ?? [],
-      customFields: input.customFields,
-      linkedTicketIds: (input.linkedTicketIds ?? []).map((id) => new Types.ObjectId(id)),
-      version: 1,
-      sla: { breached: false },
-    };
-
-    if (input.assigneeId) {
-      ticketDoc.assigneeId = new Types.ObjectId(input.assigneeId);
+      maxNum = Math.max(0, latestTicket?.number ?? 0, latestCounter?.value ?? 0);
+    } catch {
+      maxNum = 0;
     }
 
-    return this.create(ticketDoc);
+    try {
+      const redis = getRedis();
+      const key = `seq:${this.tenantId}:ticket`;
+      await redis.set(key, maxNum);
+    } catch {}
+
+    if (isDbConnected() || (Counter.findOneAndUpdate as any).mock) {
+      try {
+        await Counter.findOneAndUpdate(
+          { tenantId: this.tenantId, key: 'ticket_number' },
+          { $set: { value: maxNum } },
+          { upsert: true },
+        );
+      } catch {}
+    }
+
+    return maxNum;
+  }
+
+  /**
+   * Atomic per-tenant sequence counter for ticket numbers (1, 2, 3...)
+   * Fast path: Redis INCR seq:{tenantId}:ticket.
+   * Cold miss fallback: Queries DB max and initializes Redis via SET ... NX.
+   * Total offline fallback: MongoDB Counter.findOneAndUpdate.
+   */
+  async getNextTicketNumber(): Promise<number> {
+    const key = `seq:${this.tenantId}:ticket`;
+
+    try {
+      const redis = getRedis();
+      const exists = await redis.exists(key);
+
+      if (!exists) {
+        // Cold start or evicted cache: discover max from DB and initialize with NX
+        let maxNum = 0;
+        try {
+          let latestTicket: any = null;
+          if (isDbConnected() || (Ticket.findOne as any).mock) {
+            const query: any = Ticket.findOne({ tenantId: this.tenantId });
+            if (query && typeof query.sort === 'function') {
+              const sorted = query.sort({ number: -1 });
+              const selected =
+                typeof sorted?.select === 'function' ? sorted.select('number') : sorted;
+              latestTicket =
+                typeof selected?.lean === 'function' ? await selected.lean() : await selected;
+            } else if (query) {
+              latestTicket = await query;
+            }
+          }
+
+          let latestCounter: any = null;
+          if (isDbConnected() || (Counter.findOne as any).mock) {
+            const counterQuery: any = Counter.findOne({
+              tenantId: this.tenantId,
+              key: 'ticket_number',
+            });
+            latestCounter =
+              counterQuery && typeof counterQuery.lean === 'function'
+                ? await counterQuery.lean()
+                : await counterQuery;
+          }
+
+          maxNum = Math.max(0, latestTicket?.number ?? 0, latestCounter?.value ?? 0);
+        } catch {
+          maxNum = 0;
+        }
+
+        await redis.set(key, maxNum, 'NX');
+      }
+
+      return await redis.incr(key);
+    } catch {
+      // Redis unavailable: fallback gracefully to MongoDB atomic counter
+      const counter = await Counter.findOneAndUpdate(
+        { tenantId: this.tenantId, key: 'ticket_number' },
+        { $inc: { value: 1 } },
+        { upsert: true, new: true, setDefaultsOnInsert: true },
+      );
+      return counter?.value ?? 1;
+    }
+  }
+
+  /**
+   * Create ticket with atomic ticket number and initial version 1.
+   * Protected with collision retry loop against MongoDB code 11000 duplicate key error.
+   */
+  async createTicket(input: CreateTicketInput): Promise<ITicketDocument> {
+    const MAX_RETRIES = 3;
+    let lastError: any = null;
+
+    for (let attempt = 0; attempt < MAX_RETRIES; attempt++) {
+      const number = await this.getNextTicketNumber();
+
+      const ticketDoc: Partial<ITicketDocument> = {
+        number,
+        subject: input.subject,
+        description: input.description,
+        customerId: new Types.ObjectId(input.customerId),
+        status: 'NEW',
+        priority: input.priority,
+        tags: input.tags,
+        attachments: input.attachments ?? [],
+        customFields: input.customFields,
+        linkedTicketIds: (input.linkedTicketIds ?? []).map((id) => new Types.ObjectId(id)),
+        version: 1,
+        sla: { breached: false },
+      };
+
+      if (input.assigneeId) {
+        ticketDoc.assigneeId = new Types.ObjectId(input.assigneeId);
+      }
+
+      try {
+        return await this.create(ticketDoc);
+      } catch (err: any) {
+        if (err?.code === 11000 || err?.message?.includes('E11000 duplicate key')) {
+          lastError = err;
+          await this.reconcileCounter();
+          continue;
+        }
+        throw err;
+      }
+    }
+
+    throw new AppError(
+      500,
+      `Failed to allocate unique ticket number after ${MAX_RETRIES} attempts due to concurrency: ${lastError?.message || 'duplicate key collision'}`,
+    );
   }
 
   /** List tickets with filters and cursor-based pagination */

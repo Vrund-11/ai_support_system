@@ -46,9 +46,23 @@ export const memoryRedis = {
   async get(key: string): Promise<string | null> {
     return memoryKeys.get(key) ?? null;
   },
-  async set(key: string, val: string): Promise<string> {
-    memoryKeys.set(key, val);
+  async set(key: string, val: string | number, ...args: any[]): Promise<string | null> {
+    const uppercaseArgs = args.map((a) => String(a).toUpperCase());
+    if (uppercaseArgs.includes('NX')) {
+      if (memoryKeys.has(key)) {
+        return null;
+      }
+    }
+    if (uppercaseArgs.includes('XX')) {
+      if (!memoryKeys.has(key)) {
+        return null;
+      }
+    }
+    memoryKeys.set(key, String(val));
     return 'OK';
+  },
+  async exists(key: string): Promise<number> {
+    return memoryKeys.has(key) || memoryHashes.has(key) ? 1 : 0;
   },
   async del(...keys: string[]): Promise<number> {
     let count = 0;
@@ -127,4 +141,12 @@ export async function disconnectRedis(): Promise<void> {
     } catch {}
     client = null;
   }
+}
+
+/** Check if Redis is connected. */
+export function isRedisConnected(): boolean {
+  if (client) {
+    return client.status === 'ready' || client.status === 'connect';
+  }
+  return memoryRedis.status === 'ready';
 }

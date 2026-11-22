@@ -10,6 +10,8 @@ class Settings(BaseSettings):
 
     database_url: str = "postgresql://supportpilot:supportpilot@localhost:5432/supportpilot"
     redis_url: str = "redis://localhost:6379"
+    internal_service_token: str = ""
+    service_token: str = "default-service-token"
 
     llm_provider: str = "mock"  # mock | gemini | openai
     gemini_api_key: str = ""

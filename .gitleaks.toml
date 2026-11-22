@@ -1,0 +1,15 @@
+[allowlist]
+description = "Allowlist for test fixtures, mock data, and documentation examples"
+paths = [
+  '''apps/ticket-service/tests/.*''',
+  '''apps/notification-service/tests/.*''',
+  '''docs/runbook\.md''',
+  '''apps/web/src/components/help/HelpCenterView\.tsx''',
+  '''apps/widget/index\.html'''
+]
+regexes = [
+  '''sk_test_1234567890''',
+  '''wk_[a-zA-Z0-9_]+''',
+  '''verify-email\?token=''',
+  '''test-verification-token'''
+]

@@ -7,7 +7,7 @@ if sys.platform == "win32":
 
 from typing import Any
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Header, Response, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import PlainTextResponse
 from pydantic import BaseModel, Field
@@ -59,29 +59,52 @@ app.add_middleware(
 @app.get("/health")
 @app.get("/healthz")
 async def health() -> dict[str, Any]:
-    return {
-        "status": "ok",
-        "service": "ai-service",
-        "environment": settings.environment,
-        "version": "0.1.0",
-    }
+    return {"status": "ok"}
 
 
 # ── Readiness probe ──
 @app.get("/ready")
 @app.get("/readyz")
-async def ready() -> dict[str, Any]:
+@app.get("/health/readiness")
+async def ready(
+    response: Response,
+    x_service_token: str | None = Header(default=None),
+) -> dict[str, Any]:
     db_status = await check_db_connection()
     redis_status = await check_redis_connection()
 
-    # In dev/test, if infra is not running, provide degraded readiness
-    is_ready = True
-    return {
-        "status": "ready" if is_ready else "not_ready",
-        "service": "ai-service",
-        "database": db_status["status"],
-        "redis": redis_status["status"],
-    }
+    is_ready = (
+        db_status.get("status") == "connected"
+        and redis_status.get("status") == "connected"
+    )
+
+    expected_token = settings.internal_service_token or settings.service_token
+    is_auth = bool(
+        x_service_token and expected_token and x_service_token == expected_token
+    )
+
+    if not is_ready:
+        response.status_code = status.HTTP_503_SERVICE_UNAVAILABLE
+        if is_auth:
+            return {
+                "status": "not_ready",
+                "dependencies": {
+                    "database": db_status.get("status", "disconnected"),
+                    "redis": redis_status.get("status", "disconnected"),
+                },
+            }
+        return {"status": "not_ready"}
+
+    response.status_code = status.HTTP_200_OK
+    if is_auth:
+        return {
+            "status": "ready",
+            "dependencies": {
+                "database": db_status.get("status", "connected"),
+                "redis": redis_status.get("status", "connected"),
+            },
+        }
+    return {"status": "ready"}
 
 
 # ── Prometheus Metrics Endpoint ──

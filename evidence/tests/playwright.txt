@@ -1,0 +1,53 @@
+﻿
+> supportpilot@0.0.0 test:playwright C:\Users\vrund\OneDrive\Desktop\ai_project
+> playwright test --config tests/e2e/playwright.config.ts
+
+
+Running 42 tests using 8 workers
+
+  ok  3 [chromium] › tests\e2e\playwright\tenant-isolation.spec.ts:21:3 › Multi-Tenancy & Data Isolation Boundaries (TEN) › TC-T1-TEN-02: tenant A cannot access tenant B ticket URL (expects 403/404) (6.0s)
+  ok  1 [chromium] › tests\e2e\playwright\auth.spec.ts:15:3 › Agent Authentication & Session Lifecycle (AUTH) › TC-T1-AUTH-01: successful agent login navigates to dashboard with session (6.1s)
+  ok  6 [chromium] › tests\e2e\playwright\widget-chat.spec.ts:23:3 › Widget on Static Host Page & Live Chat AI Flow › loads static host page with embedded SupportPilot script (6.5s)
+  ok  7 [chromium] › tests\e2e\playwright\tickets.spec.ts:23:3 › Ticket Lifecycle, Management & Concurrency (TKT) › TC-T1-TKT-01: creates new ticket from dashboard modal and displays detail view (6.8s)
+  ok  4 [chromium] › tests\e2e\playwright\knowledge-base.spec.ts:30:3 › Knowledge Base Management, Ingestion & Grounding (KB / AI) › TC-T1-KB-02: KB upload shows status change from PROCESSING to READY (8.4s)
+  ok  9 [chromium] › tests\e2e\playwright\tenant-isolation.spec.ts:50:3 › Multi-Tenancy & Data Isolation Boundaries (TEN) › TC-T2-TEN-01: cross-tenant ticket mutation is rejected with 403 problem details (3.5s)
+  ok  8 [chromium] › tests\e2e\playwright\widget-dashboard-sync.spec.ts:8:3 › Widget to Dashboard Omnichannel Synchronization (TC-T3-10 / TC-T4-E2E-01) › customer submits offline widget ticket and agent dashboard inbox sees it (10.3s)
+  ok 10 [chromium] › tests\e2e\playwright\auth.spec.ts:39:3 › Agent Authentication & Session Lifecycle (AUTH) › TC-T1-AUTH-04: agent logout terminates session and returns to login form (4.6s)
+  ok 11 [chromium] › tests\e2e\playwright\widget-chat.spec.ts:34:3 › Widget on Static Host Page & Live Chat AI Flow › opens widget window when bubble button is clicked (4.3s)
+  ok 12 [chromium] › tests\e2e\playwright\tickets.spec.ts:62:3 › Ticket Lifecycle, Management & Concurrency (TKT) › TC-T1-TKT-03: updates ticket status and reflects state change in detail view (4.1s)
+  ok 13 [chromium] › tests\e2e\playwright\knowledge-base.spec.ts:69:3 › Knowledge Base Management, Ingestion & Grounding (KB / AI) › TC-T1-KB-05: Test Retrieval Console returns grounded RAG answer and citations (4.6s)
+  ok  2 [chromium] › tests\e2e\playwright\live-chat-socket.spec.ts:8:3 › Realtime Live Chat & Agent Takeover (SOCKET / CHAT) › agent reply appears live in widget and dashboard console (13.8s)
+  ok 14 [chromium] › tests\e2e\playwright\auth.spec.ts:60:3 › Agent Authentication & Session Lifecycle (AUTH) › TC-T2-AUTH-02: invalid credentials display RFC 7807 problem details error banner (3.2s)
+  ok 16 [chromium] › tests\e2e\playwright\tickets.spec.ts:82:3 › Ticket Lifecycle, Management & Concurrency (TKT) › TC-T2-TKT-01: displays 409 conflict warning when saving stale ticket version (3.2s)
+  ok 17 [chromium] › tests\e2e\playwright\auth.spec.ts:73:3 › Agent Authentication & Session Lifecycle (AUTH) › TC-T2-AUTH-03: rate limited login displays 429 problem details message (3.0s)
+  ok 15 [chromium] › tests\e2e\playwright\widget-chat.spec.ts:48:3 › Widget on Static Host Page & Live Chat AI Flow › allows typing a message and verifies optimistic send (6.3s)
+  ok 18 [chromium] › tests\e2e\playwright\tickets.spec.ts:117:3 › Ticket Lifecycle, Management & Concurrency (TKT) › TC-T2-TKT-02: filters tickets by priority chips in inbox view (3.6s)
+[VIDEO RECORDED] Video saved at: C:\Users\vrund\OneDrive\Desktop\ai_project\reports\videos\page@68250a07c578966066854eba41ff8e6f.webm
+  ok  5 [chromium] › tests\e2e\playwright\interactive-demo.spec.ts:5:3 › SupportPilot Interactive Product Walkthrough & Video Recording › executes multi-window customer & agent live chat interaction (18.5s)
+  ok 23 [chromium] › tests\e2e\playwright\auth.spec.ts:86:3 › Agent Authentication & Session Lifecycle (AUTH) › TC-T2-AUTH-04: toggles password field visibility masking (2.6s)
+  ok 24 [chromium] › tests\e2e\playwright\widget-chat.spec.ts:69:3 › Widget on Static Host Page & Live Chat AI Flow › switches to offline leave-a-message form tab (2.9s)
+  ok 25 [chromium] › tests\e2e\playwright\widget-chat.spec.ts:82:3 › Widget on Static Host Page & Live Chat AI Flow › controls widget visibility via programmatic window.SupportPilot API (4.2s)
+  ok 28 [firefox] › tests\e2e\playwright\widget-chat.spec.ts:23:3 › Widget on Static Host Page & Live Chat AI Flow › loads static host page with embedded SupportPilot script (15.3s)
+[VIDEO RECORDED] Video saved at: C:\Users\vrund\OneDrive\Desktop\ai_project\reports\videos\page@99cdd6a98491f7160c58b3f0e206e3a3.webm
+  ok 19 [firefox] › tests\e2e\playwright\interactive-demo.spec.ts:5:3 › SupportPilot Interactive Product Walkthrough & Video Recording › executes multi-window customer & agent live chat interaction (26.4s)
+  ok 27 [firefox] › tests\e2e\playwright\tenant-isolation.spec.ts:21:3 › Multi-Tenancy & Data Isolation Boundaries (TEN) › TC-T1-TEN-02: tenant A cannot access tenant B ticket URL (expects 403/404) (22.7s)
+  ok 22 [firefox] › tests\e2e\playwright\live-chat-socket.spec.ts:8:3 › Realtime Live Chat & Agent Takeover (SOCKET / CHAT) › agent reply appears live in widget and dashboard console (26.0s)
+  ok 21 [firefox] › tests\e2e\playwright\knowledge-base.spec.ts:30:3 › Knowledge Base Management, Ingestion & Grounding (KB / AI) › TC-T1-KB-02: KB upload shows status change from PROCESSING to READY (28.7s)
+  ok 29 [firefox] › tests\e2e\playwright\widget-chat.spec.ts:34:3 › Widget on Static Host Page & Live Chat AI Flow › opens widget window when bubble button is clicked (8.0s)
+  ok 26 [firefox] › tests\e2e\playwright\tickets.spec.ts:23:3 › Ticket Lifecycle, Management & Concurrency (TKT) › TC-T1-TKT-01: creates new ticket from dashboard modal and displays detail view (25.6s)
+  ok 20 [firefox] › tests\e2e\playwright\auth.spec.ts:15:3 › Agent Authentication & Session Lifecycle (AUTH) › TC-T1-AUTH-01: successful agent login navigates to dashboard with session (28.6s)
+  ok 31 [firefox] › tests\e2e\playwright\tenant-isolation.spec.ts:50:3 › Multi-Tenancy & Data Isolation Boundaries (TEN) › TC-T2-TEN-01: cross-tenant ticket mutation is rejected with 403 problem details (10.0s)
+  ok 33 [firefox] › tests\e2e\playwright\widget-chat.spec.ts:48:3 › Widget on Static Host Page & Live Chat AI Flow › allows typing a message and verifies optimistic send (9.1s)
+  ok 32 [firefox] › tests\e2e\playwright\knowledge-base.spec.ts:69:3 › Knowledge Base Management, Ingestion & Grounding (KB / AI) › TC-T1-KB-05: Test Retrieval Console returns grounded RAG answer and citations (12.3s)
+  ok 36 [firefox] › tests\e2e\playwright\widget-chat.spec.ts:69:3 › Widget on Static Host Page & Live Chat AI Flow › switches to offline leave-a-message form tab (6.0s)
+  ok 35 [firefox] › tests\e2e\playwright\auth.spec.ts:39:3 › Agent Authentication & Session Lifecycle (AUTH) › TC-T1-AUTH-04: agent logout terminates session and returns to login form (16.4s)
+  ok 34 [firefox] › tests\e2e\playwright\tickets.spec.ts:62:3 › Ticket Lifecycle, Management & Concurrency (TKT) › TC-T1-TKT-03: updates ticket status and reflects state change in detail view (17.6s)
+  ok 37 [firefox] › tests\e2e\playwright\widget-chat.spec.ts:82:3 › Widget on Static Host Page & Live Chat AI Flow › controls widget visibility via programmatic window.SupportPilot API (5.3s)
+  ok 30 [firefox] › tests\e2e\playwright\widget-dashboard-sync.spec.ts:8:3 › Widget to Dashboard Omnichannel Synchronization (TC-T3-10 / TC-T4-E2E-01) › customer submits offline widget ticket and agent dashboard inbox sees it (24.3s)
+  ok 39 [firefox] › tests\e2e\playwright\tickets.spec.ts:82:3 › Ticket Lifecycle, Management & Concurrency (TKT) › TC-T2-TKT-01: displays 409 conflict warning when saving stale ticket version (8.0s)
+  ok 38 [firefox] › tests\e2e\playwright\auth.spec.ts:60:3 › Agent Authentication & Session Lifecycle (AUTH) › TC-T2-AUTH-02: invalid credentials display RFC 7807 problem details error banner (12.7s)
+  ok 40 [firefox] › tests\e2e\playwright\tickets.spec.ts:117:3 › Ticket Lifecycle, Management & Concurrency (TKT) › TC-T2-TKT-02: filters tickets by priority chips in inbox view (6.9s)
+  ok 41 [firefox] › tests\e2e\playwright\auth.spec.ts:73:3 › Agent Authentication & Session Lifecycle (AUTH) › TC-T2-AUTH-03: rate limited login displays 429 problem details message (6.2s)
+  ok 42 [firefox] › tests\e2e\playwright\auth.spec.ts:86:3 › Agent Authentication & Session Lifecycle (AUTH) › TC-T2-AUTH-04: toggles password field visibility masking (7.2s)
+
+  42 passed (1.7m)

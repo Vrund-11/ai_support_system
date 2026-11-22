@@ -1,0 +1,119 @@
+version: 2
+updates:
+  # 1. Root npm / pnpm Monorepo
+  - package-ecosystem: 'npm'
+    directory: '/'
+    schedule:
+      interval: 'weekly'
+      day: 'monday'
+      time: '06:00'
+      timezone: 'Etc/UTC'
+    target-branch: 'main'
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: 'chore(deps)'
+      prefix-development: 'chore(deps-dev)'
+      include: 'scope'
+    labels:
+      - 'dependencies'
+      - 'javascript'
+
+  # 2. Python AI Service
+  - package-ecosystem: 'pip'
+    directory: '/apps/ai-service'
+    schedule:
+      interval: 'weekly'
+      day: 'monday'
+      time: '06:00'
+      timezone: 'Etc/UTC'
+    target-branch: 'main'
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: 'chore(deps-python)'
+      include: 'scope'
+    labels:
+      - 'dependencies'
+      - 'python'
+
+  # 3. Docker Compose Infrastructure
+  - package-ecosystem: 'docker-compose'
+    directory: '/infra/docker'
+    schedule:
+      interval: 'weekly'
+      day: 'monday'
+      time: '06:00'
+      timezone: 'Etc/UTC'
+    target-branch: 'main'
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: 'chore(deps-docker)'
+      include: 'scope'
+    labels:
+      - 'dependencies'
+      - 'docker'
+
+  # 4. Microservice Dockerfiles
+  - package-ecosystem: 'docker'
+    directory: '/apps/ai-service'
+    schedule:
+      interval: 'weekly'
+    target-branch: 'main'
+    commit-message:
+      prefix: 'chore(deps-docker)'
+
+  - package-ecosystem: 'docker'
+    directory: '/apps/gateway'
+    schedule:
+      interval: 'weekly'
+    target-branch: 'main'
+    commit-message:
+      prefix: 'chore(deps-docker)'
+
+  - package-ecosystem: 'docker'
+    directory: '/apps/notification-service'
+    schedule:
+      interval: 'weekly'
+    target-branch: 'main'
+    commit-message:
+      prefix: 'chore(deps-docker)'
+
+  - package-ecosystem: 'docker'
+    directory: '/apps/ticket-service'
+    schedule:
+      interval: 'weekly'
+    target-branch: 'main'
+    commit-message:
+      prefix: 'chore(deps-docker)'
+
+  - package-ecosystem: 'docker'
+    directory: '/apps/web'
+    schedule:
+      interval: 'weekly'
+    target-branch: 'main'
+    commit-message:
+      prefix: 'chore(deps-docker)'
+
+  - package-ecosystem: 'docker'
+    directory: '/apps/widget'
+    schedule:
+      interval: 'weekly'
+    target-branch: 'main'
+    commit-message:
+      prefix: 'chore(deps-docker)'
+
+  # 5. GitHub Actions Workflows
+  - package-ecosystem: 'github-actions'
+    directory: '/'
+    schedule:
+      interval: 'weekly'
+      day: 'monday'
+      time: '06:00'
+      timezone: 'Etc/UTC'
+    target-branch: 'main'
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: 'chore(deps-actions)'
+      include: 'scope'
+    labels:
+      - 'dependencies'
+      - 'github-actions'

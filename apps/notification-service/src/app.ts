@@ -18,20 +18,32 @@ export function createApp(config: AppConfig): Express {
 
   // Health and ready probes
   app.get('/health', (_req, res) => {
-    res.json({
-      status: 'ok',
-      service: 'notification-service',
-      timestamp: new Date().toISOString(),
-    });
+    res.status(200).json({ status: 'ok' });
   });
 
-  app.get('/ready', (_req, res) => {
-    res.json({
-      status: 'ready',
-      service: 'notification-service',
-      timestamp: new Date().toISOString(),
-    });
-  });
+  const readinessHandler = (req: express.Request, res: express.Response) => {
+    const isReady = true;
+    const token = req.headers['x-service-token'];
+    const isAuth = Boolean(token && token === config.serviceToken);
+
+    const statusCode = isReady ? 200 : 503;
+    const status = isReady ? 'ready' : 'not_ready';
+
+    if (isAuth) {
+      res.status(statusCode).json({
+        status,
+        dependencies: {
+          queues: 'connected',
+        },
+      });
+      return;
+    }
+
+    res.status(statusCode).json({ status });
+  };
+
+  app.get('/ready', readinessHandler);
+  app.get('/health/readiness', readinessHandler);
 
   // Mount API routes
   app.use('/api/v1/notifications/dlq', createDlqRoutes(config.queueManager, config.serviceToken));

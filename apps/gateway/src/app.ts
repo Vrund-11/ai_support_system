@@ -34,7 +34,10 @@ export function createApp(config: GatewayConfig = {}): Express {
   const aiServiceUrl =
     config.aiServiceUrl ?? process.env['AI_SERVICE_URL'] ?? 'http://localhost:8000';
   const serviceToken =
-    config.serviceToken ?? process.env['SERVICE_TOKEN'] ?? 'default-service-token';
+    config.serviceToken ??
+    process.env['INTERNAL_SERVICE_TOKEN'] ??
+    process.env['SERVICE_TOKEN'] ??
+    'default-service-token';
   const jwtAccessSecret =
     config.jwtAccessSecret ??
     process.env['JWT_ACCESS_SECRET'] ??
@@ -51,22 +54,33 @@ export function createApp(config: GatewayConfig = {}): Express {
 
   // ── Liveness probe ──
   app.get('/health', (_req, res) => {
-    res.status(200).json({
-      status: 'ok',
-      service: 'gateway',
-      timestamp: new Date().toISOString(),
-    });
+    res.status(200).json({ status: 'ok' });
   });
 
   // ── Readiness probe ──
-  app.get('/ready', (_req, res) => {
+  const readinessHandler = (req: express.Request, res: express.Response) => {
     const ready = isRedisConnected();
-    if (ready) {
-      res.status(200).json({ status: 'ready', redis: 'connected' });
+    const token = req.headers['x-service-token'];
+    const isAuth = Boolean(token && token === serviceToken);
+
+    const statusCode = ready ? 200 : 503;
+    const status = ready ? 'ready' : 'not_ready';
+
+    if (isAuth) {
+      res.status(statusCode).json({
+        status,
+        dependencies: {
+          redis: ready ? 'connected' : 'disconnected',
+        },
+      });
       return;
     }
-    res.status(200).json({ status: 'ready', redis: 'degraded' });
-  });
+
+    res.status(statusCode).json({ status });
+  };
+
+  app.get('/ready', readinessHandler);
+  app.get('/health/readiness', readinessHandler);
 
   // ── In-memory JWT verification & auth passthrough ──
   app.use(createAuthPassthrough(jwtAccessSecret));

@@ -8,6 +8,7 @@ import { createApp } from '../src/app.js';
 import { configureAuth } from '../src/services/auth.service.js';
 import { Ticket, type ITicketDocument } from '../src/models/ticket.model.js';
 import { Counter } from '../src/models/counter.model.js';
+import { memoryRedis } from '../src/lib/redis.js';
 
 const ACCESS_SECRET = 'test-access-secret-must-be-32-chars!!';
 const REFRESH_SECRET = 'test-refresh-secret-must-be-32-chars!';
@@ -57,6 +58,7 @@ describe('Ticket Service & Endpoints (S1-T06: TKT-1, 3, 9)', () => {
 
   beforeEach(() => {
     vi.restoreAllMocks();
+    memoryRedis.reset();
     ticketsDb = [];
     ticketCounter = 0;
 

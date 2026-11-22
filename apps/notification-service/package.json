@@ -30,7 +30,7 @@
     "@types/node": "^22.15.0",
     "@types/nodemailer": "^8.0.2",
     "@types/supertest": "^7.2.1",
-    "eslint": "^9.27.0",
+    "eslint": "^10.15.0",
     "ioredis-mock": "^8.13.1",
     "rimraf": "^6.0.0",
     "supertest": "^7.3.2",

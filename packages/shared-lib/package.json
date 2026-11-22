@@ -31,7 +31,7 @@
   "dependencies": {
     "@supportpilot/shared-types": "workspace:*",
     "pino": "^9.6.0",
-    "pino-http": "^10.4.0",
+    "pino-http": "^11.0.0",
     "uuid": "^11.1.0"
   },
   "devDependencies": {

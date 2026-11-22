@@ -30,7 +30,7 @@ COPY apps/widget/ ./apps/widget/
 RUN pnpm --filter @supportpilot/widget... build
 
 # ── Stage 2: Production Nginx Runner ──
-FROM nginx:1.27-alpine AS runner
+FROM nginx:1.29-alpine AS runner
 
 COPY --from=builder /app/apps/widget/dist /usr/share/nginx/html
 

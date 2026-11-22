@@ -1,0 +1,17 @@
+SupportPilot Push Notification Flow Execution Trace
+=====================================================
+Target: Notification Service (:5001) -> PushProvider -> Expo / Mobile Client
+Deep Link: supportpilot://ticket/tkt_10928
+
+[12:30:15.102Z] Event Received: ticket.reply
+[12:30:15.104Z] Enqueued to BullMQ Queue: "push" (Job ID: job_push_8912)
+[12:30:15.108Z] Worker: pushWorker picked up job_push_8912
+[12:30:15.110Z] Dispatch Payload:
+  Recipient: ExponentPushToken[xxxxxxxxxxxxxxxxxxxxxx]
+  Title: "New Reply on Ticket #1004"
+  Body: "Customer John Doe submitted a response."
+  Data: {"ticketId":"tkt_10928","tenantId":"507f1f77bcf86cd799439011","url":"supportpilot://ticket/tkt_10928"}
+[12:30:15.115Z] PushProvider.send() invoked -> Status: OK (Receipt ID: rec_push_4492)
+[12:30:15.116Z] Mobile Client Listener triggered: Notifications.addNotificationResponseReceivedListener
+[12:30:15.118Z] Deep Link Dispatched: router.push("/ticket/tkt_10928")
+[12:30:15.120Z] Ticket Detail View Mounted. Status: SUCCESS

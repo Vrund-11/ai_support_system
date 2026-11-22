@@ -1,0 +1,26 @@
+[
+  {
+    "name": "Web Entry JS",
+    "path": "dist/assets/index-*.js",
+    "limit": "250 kB",
+    "gzip": true
+  },
+  {
+    "name": "Route Chunk - TicketInbox",
+    "path": "dist/assets/TicketInbox-*.js",
+    "limit": "100 kB",
+    "gzip": true
+  },
+  {
+    "name": "Route Chunk - TicketDetail",
+    "path": "dist/assets/TicketDetail-*.js",
+    "limit": "100 kB",
+    "gzip": true
+  },
+  {
+    "name": "Route Chunk - SettingsView",
+    "path": "dist/assets/SettingsView-*.js",
+    "limit": "100 kB",
+    "gzip": true
+  }
+]

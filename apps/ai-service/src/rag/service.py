@@ -88,7 +88,7 @@ class RagService:
                 ),
                 citations=[],
                 confidence=1.0,
-                should_escalate=False,
+                should_escalate=True,
                 reason="Prompt injection blocked by security policy",
                 provider=self.provider.name,
                 tokens_used=0,
@@ -225,6 +225,12 @@ class RagService:
             if req.confidence_threshold is not None
             else settings.ai_confidence_threshold
         )
+        if top_score_norm < 0.25:
+            composite_confidence = min(composite_confidence, 0.45)
+            should_escalate = True
+            if not escalation_reason or escalation_reason == "Low confidence score":
+                escalation_reason = f"Top chunk semantic similarity ({top_score_norm:.2f}) < 0.25"
+
         if composite_confidence < threshold:
             should_escalate = True
             if not escalation_reason or escalation_reason == "Low confidence score":

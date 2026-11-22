@@ -1,0 +1,613 @@
+{
+  "numTotalTestSuites": 22,
+  "numPassedTestSuites": 22,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 53,
+  "numPassedTests": 53,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1795323443973,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["GraphQL Gateway Layer (INT-3)"],
+          "fullName": "GraphQL Gateway Layer (INT-3) rejects unauthenticated GraphQL operations with UNAUTHENTICATED code",
+          "status": "passed",
+          "title": "rejects unauthenticated GraphQL operations with UNAUTHENTICATED code",
+          "duration": 192.15049999999974,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["GraphQL Gateway Layer (INT-3)"],
+          "fullName": "GraphQL Gateway Layer (INT-3) executes me query for authenticated agent",
+          "status": "passed",
+          "title": "executes me query for authenticated agent",
+          "duration": 21.75540000000001,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["GraphQL Gateway Layer (INT-3)"],
+          "fullName": "GraphQL Gateway Layer (INT-3) executes tickets query with DataLoader batching for assignee and customer",
+          "status": "passed",
+          "title": "executes tickets query with DataLoader batching for assignee and customer",
+          "duration": 64.32590000000073,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["GraphQL Gateway Layer (INT-3)"],
+          "fullName": "GraphQL Gateway Layer (INT-3) executes single ticket query with nested message thread",
+          "status": "passed",
+          "title": "executes single ticket query with nested message thread",
+          "duration": 23.407100000000355,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["GraphQL Gateway Layer (INT-3)"],
+          "fullName": "GraphQL Gateway Layer (INT-3) executes analyticsOverview query",
+          "status": "passed",
+          "title": "executes analyticsOverview query",
+          "duration": 29.837900000000445,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["GraphQL Gateway Layer (INT-3)"],
+          "fullName": "GraphQL Gateway Layer (INT-3) executes createTicket mutation and emits pubsub update",
+          "status": "passed",
+          "title": "executes createTicket mutation and emits pubsub update",
+          "duration": 36.444799999999304,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["GraphQL Gateway Layer (INT-3)"],
+          "fullName": "GraphQL Gateway Layer (INT-3) executes updateTicket mutation",
+          "status": "passed",
+          "title": "executes updateTicket mutation",
+          "duration": 27.155699999999342,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["GraphQL Gateway Layer (INT-3)"],
+          "fullName": "GraphQL Gateway Layer (INT-3) executes addMessage mutation",
+          "status": "passed",
+          "title": "executes addMessage mutation",
+          "duration": 30.39129999999932,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["GraphQL Gateway Layer (INT-3)"],
+          "fullName": "GraphQL Gateway Layer (INT-3) executes assignTicket mutation",
+          "status": "passed",
+          "title": "executes assignTicket mutation",
+          "duration": 64.07090000000062,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["GraphQL Gateway Layer (INT-3)"],
+          "fullName": "GraphQL Gateway Layer (INT-3) executes suggestReply mutation",
+          "status": "passed",
+          "title": "executes suggestReply mutation",
+          "duration": 10.45430000000033,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["GraphQL Gateway Layer (INT-3)"],
+          "fullName": "GraphQL Gateway Layer (INT-3) enforces depth limit 8 and rejects deeply nested queries (INT-3)",
+          "status": "passed",
+          "title": "enforces depth limit 8 and rejects deeply nested queries (INT-3)",
+          "duration": 19.033699999999953,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["GraphQL Gateway Layer (INT-3)"],
+          "fullName": "GraphQL Gateway Layer (INT-3) depth limit rule rejects operations exceeding max depth",
+          "status": "passed",
+          "title": "depth limit rule rejects operations exceeding max depth",
+          "duration": 19.89139999999952,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["GraphQL Gateway Layer (INT-3)"],
+          "fullName": "GraphQL Gateway Layer (INT-3) complexity limit rule rejects operations exceeding max complexity",
+          "status": "passed",
+          "title": "complexity limit rule rejects operations exceeding max complexity",
+          "duration": 9.211700000000747,
+          "failureMessages": [],
+          "meta": {}
+        }
+      ],
+      "startTime": 1795323447959,
+      "endTime": 1795323448508.2117,
+      "status": "passed",
+      "message": "",
+      "name": "C:/Users/vrund/OneDrive/Desktop/ai_project/apps/gateway/tests/graphql.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["Live Chat Handoff Flow (CHAT-4 / S2-T10)"],
+          "fullName": "Live Chat Handoff Flow (CHAT-4 / S2-T10) triggers handoff and creates ticket when customer requests human agent",
+          "status": "passed",
+          "title": "triggers handoff and creates ticket when customer requests human agent",
+          "duration": 71.5617999999995,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["Live Chat Handoff Flow (CHAT-4 / S2-T10)"],
+          "fullName": "Live Chat Handoff Flow (CHAT-4 / S2-T10) triggers high-priority handoff when topic matches blocklist",
+          "status": "passed",
+          "title": "triggers high-priority handoff when topic matches blocklist",
+          "duration": 17.067699999999604,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["Live Chat Handoff Flow (CHAT-4 / S2-T10)"],
+          "fullName": "Live Chat Handoff Flow (CHAT-4 / S2-T10) triggers handoff when AI returns low confidence / should_escalate",
+          "status": "passed",
+          "title": "triggers handoff when AI returns low confidence / should_escalate",
+          "duration": 10.215400000000045,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["Live Chat Handoff Flow (CHAT-4 / S2-T10)"],
+          "fullName": "Live Chat Handoff Flow (CHAT-4 / S2-T10) answers directly with AI message when confidence is high",
+          "status": "passed",
+          "title": "answers directly with AI message when confidence is high",
+          "duration": 11.221000000000458,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["Live Chat Handoff Flow (CHAT-4 / S2-T10)"],
+          "fullName": "Live Chat Handoff Flow (CHAT-4 / S2-T10) transitions state to AGENT_ACTIVE when agent sends message",
+          "status": "passed",
+          "title": "transitions state to AGENT_ACTIVE when agent sends message",
+          "duration": 9.810999999999694,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["Live Chat Handoff Flow (CHAT-4 / S2-T10)"],
+          "fullName": "Live Chat Handoff Flow (CHAT-4 / S2-T10) strictly isolates handoff escalation events across tenants",
+          "status": "passed",
+          "title": "strictly isolates handoff escalation events across tenants",
+          "duration": 116.33230000000003,
+          "failureMessages": [],
+          "meta": {}
+        }
+      ],
+      "startTime": 1795323448486,
+      "endTime": 1795323448722.3323,
+      "status": "passed",
+      "message": "",
+      "name": "C:/Users/vrund/OneDrive/Desktop/ai_project/apps/gateway/tests/handoff.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [
+            "Gateway Health Endpoints (GET /health, /ready, /health/readiness)",
+            "GET /health"
+          ],
+          "fullName": "Gateway Health Endpoints (GET /health, /ready, /health/readiness) GET /health returns minimal 200 { status: \"ok\" } without leaking metadata",
+          "status": "passed",
+          "title": "returns minimal 200 { status: \"ok\" } without leaking metadata",
+          "duration": 45.0954999999999,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": [
+            "Gateway Health Endpoints (GET /health, /ready, /health/readiness)",
+            "GET /ready and /health/readiness"
+          ],
+          "fullName": "Gateway Health Endpoints (GET /health, /ready, /health/readiness) GET /ready and /health/readiness unauthenticated GET /ready returns 200 { status: \"ready\" } with zero dependency names",
+          "status": "passed",
+          "title": "unauthenticated GET /ready returns 200 { status: \"ready\" } with zero dependency names",
+          "duration": 14.406399999999849,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": [
+            "Gateway Health Endpoints (GET /health, /ready, /health/readiness)",
+            "GET /ready and /health/readiness"
+          ],
+          "fullName": "Gateway Health Endpoints (GET /health, /ready, /health/readiness) GET /ready and /health/readiness unauthenticated GET /ready returns 503 { status: \"not_ready\" } with zero dependency names when redis down",
+          "status": "passed",
+          "title": "unauthenticated GET /ready returns 503 { status: \"not_ready\" } with zero dependency names when redis down",
+          "duration": 9.378799999999956,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": [
+            "Gateway Health Endpoints (GET /health, /ready, /health/readiness)",
+            "GET /ready and /health/readiness"
+          ],
+          "fullName": "Gateway Health Endpoints (GET /health, /ready, /health/readiness) GET /ready and /health/readiness authenticated GET /ready returns dependencies detail when x-service-token matches",
+          "status": "passed",
+          "title": "authenticated GET /ready returns dependencies detail when x-service-token matches",
+          "duration": 8.4367000000002,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": [
+            "Gateway Health Endpoints (GET /health, /ready, /health/readiness)",
+            "GET /ready and /health/readiness"
+          ],
+          "fullName": "Gateway Health Endpoints (GET /health, /ready, /health/readiness) GET /ready and /health/readiness unauthenticated GET /health/readiness alias works identically",
+          "status": "passed",
+          "title": "unauthenticated GET /health/readiness alias works identically",
+          "duration": 8.206499999999778,
+          "failureMessages": [],
+          "meta": {}
+        }
+      ],
+      "startTime": 1795323448119,
+      "endTime": 1795323448205.2065,
+      "status": "passed",
+      "message": "",
+      "name": "C:/Users/vrund/OneDrive/Desktop/ai_project/apps/gateway/tests/health.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["Gateway Reverse Proxy Middleware"],
+          "fullName": "Gateway Reverse Proxy Middleware proxies request to downstream service and forwards serviceToken and requestId",
+          "status": "passed",
+          "title": "proxies request to downstream service and forwards serviceToken and requestId",
+          "duration": 118.82499999999982,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["Gateway Reverse Proxy Middleware"],
+          "fullName": "Gateway Reverse Proxy Middleware proxies request body to downstream service",
+          "status": "passed",
+          "title": "proxies request body to downstream service",
+          "duration": 70.11149999999998,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["Gateway Reverse Proxy Middleware"],
+          "fullName": "Gateway Reverse Proxy Middleware preserves downstream error responses",
+          "status": "passed",
+          "title": "preserves downstream error responses",
+          "duration": 26.439100000000053,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["Gateway Reverse Proxy Middleware"],
+          "fullName": "Gateway Reverse Proxy Middleware rewrites path when pathRewrite option is provided",
+          "status": "passed",
+          "title": "rewrites path when pathRewrite option is provided",
+          "duration": 22.517299999999977,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["Gateway Reverse Proxy Middleware"],
+          "fullName": "Gateway Reverse Proxy Middleware returns 502 Bad Gateway when downstream service is unreachable",
+          "status": "passed",
+          "title": "returns 502 Bad Gateway when downstream service is unreachable",
+          "duration": 13.586099999999988,
+          "failureMessages": [],
+          "meta": {}
+        }
+      ],
+      "startTime": 1795323446240,
+      "endTime": 1795323446491.5862,
+      "status": "passed",
+      "message": "",
+      "name": "C:/Users/vrund/OneDrive/Desktop/ai_project/apps/gateway/tests/proxy.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["Gateway Quota Middleware (TEN-4)"],
+          "fullName": "Gateway Quota Middleware (TEN-4) sets X-Quota-Remaining headers on requests with x-tenant-id",
+          "status": "passed",
+          "title": "sets X-Quota-Remaining headers on requests with x-tenant-id",
+          "duration": 44.19920000000002,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["Gateway Quota Middleware (TEN-4)"],
+          "fullName": "Gateway Quota Middleware (TEN-4) sets X-Quota-Remaining headers on /api/v1 requests",
+          "status": "passed",
+          "title": "sets X-Quota-Remaining headers on /api/v1 requests",
+          "duration": 15.091800000000148,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["Gateway Quota Middleware (TEN-4)"],
+          "fullName": "Gateway Quota Middleware (TEN-4) returns 429 when AI call quota is exceeded",
+          "status": "passed",
+          "title": "returns 429 when AI call quota is exceeded",
+          "duration": 43.44320000000016,
+          "failureMessages": [],
+          "meta": {}
+        }
+      ],
+      "startTime": 1795323448103,
+      "endTime": 1795323448205.443,
+      "status": "passed",
+      "message": "",
+      "name": "C:/Users/vrund/OneDrive/Desktop/ai_project/apps/gateway/tests/quota-middleware.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["Gateway Rate Limiter (AUTH-5)"],
+          "fullName": "Gateway Rate Limiter (AUTH-5) allows requests within limit and sets X-RateLimit headers",
+          "status": "passed",
+          "title": "allows requests within limit and sets X-RateLimit headers",
+          "duration": 91.18339999999989,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["Gateway Rate Limiter (AUTH-5)"],
+          "fullName": "Gateway Rate Limiter (AUTH-5) rejects with 429 and Retry-After when rate limit is exceeded (AUTH-5)",
+          "status": "passed",
+          "title": "rejects with 429 and Retry-After when rate limit is exceeded (AUTH-5)",
+          "duration": 42.41269999999986,
+          "failureMessages": [],
+          "meta": {}
+        }
+      ],
+      "startTime": 1795323446432,
+      "endTime": 1795323446565.4126,
+      "status": "passed",
+      "message": "",
+      "name": "C:/Users/vrund/OneDrive/Desktop/ai_project/apps/gateway/tests/rate-limiter.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["Gateway Security Headers & Rate Limiting (AUTH-5, SEC-1)"],
+          "fullName": "Gateway Security Headers & Rate Limiting (AUTH-5, SEC-1) sets standard defensive security headers (CSP, HSTS, X-Frame-Options, nosniff)",
+          "status": "passed",
+          "title": "sets standard defensive security headers (CSP, HSTS, X-Frame-Options, nosniff)",
+          "duration": 53.292599999999766,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["Gateway Security Headers & Rate Limiting (AUTH-5, SEC-1)"],
+          "fullName": "Gateway Security Headers & Rate Limiting (AUTH-5, SEC-1) handles CORS preflight OPTIONS requests gracefully with 204 No Content",
+          "status": "passed",
+          "title": "handles CORS preflight OPTIONS requests gracefully with 204 No Content",
+          "duration": 7.54950000000008,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["Gateway Security Headers & Rate Limiting (AUTH-5, SEC-1)"],
+          "fullName": "Gateway Security Headers & Rate Limiting (AUTH-5, SEC-1) enforces login rate limit: 6th request within window returns 429 Too Many Requests",
+          "status": "passed",
+          "title": "enforces login rate limit: 6th request within window returns 429 Too Many Requests",
+          "duration": 131.48540000000048,
+          "failureMessages": [],
+          "meta": {}
+        }
+      ],
+      "startTime": 1795323448098,
+      "endTime": 1795323448290.4854,
+      "status": "passed",
+      "message": "",
+      "name": "C:/Users/vrund/OneDrive/Desktop/ai_project/apps/gateway/tests/security-headers.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["Sequence Numbers & Message Replay on Join (S2-T02 / CHAT-6)"],
+          "fullName": "Sequence Numbers & Message Replay on Join (S2-T02 / CHAT-6) generates strictly monotonic sequence numbers per conversation",
+          "status": "passed",
+          "title": "generates strictly monotonic sequence numbers per conversation",
+          "duration": 2.1662999999998647,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["Sequence Numbers & Message Replay on Join (S2-T02 / CHAT-6)"],
+          "fullName": "Sequence Numbers & Message Replay on Join (S2-T02 / CHAT-6) sends real-time message, increments seq, receives message:ack and broadcasts message:new",
+          "status": "passed",
+          "title": "sends real-time message, increments seq, receives message:ack and broadcasts message:new",
+          "duration": 147.42280000000028,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["Sequence Numbers & Message Replay on Join (S2-T02 / CHAT-6)"],
+          "fullName": "Sequence Numbers & Message Replay on Join (S2-T02 / CHAT-6) deduplicates messages with the same clientId and does not advance sequence counter",
+          "status": "passed",
+          "title": "deduplicates messages with the same clientId and does not advance sequence counter",
+          "duration": 21.014799999999923,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["Sequence Numbers & Message Replay on Join (S2-T02 / CHAT-6)"],
+          "fullName": "Sequence Numbers & Message Replay on Join (S2-T02 / CHAT-6) CHAT-6: Disconnect/reconnect message replay guarantees no loss and no duplicates",
+          "status": "passed",
+          "title": "CHAT-6: Disconnect/reconnect message replay guarantees no loss and no duplicates",
+          "duration": 179.8051999999998,
+          "failureMessages": [],
+          "meta": {}
+        }
+      ],
+      "startTime": 1795323448482,
+      "endTime": 1795323448832.8052,
+      "status": "passed",
+      "message": "",
+      "name": "C:/Users/vrund/OneDrive/Desktop/ai_project/apps/gateway/tests/sequence-replay.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["Gateway Socket.IO Handshake Auth & Rooms (S2-T01)"],
+          "fullName": "Gateway Socket.IO Handshake Auth & Rooms (S2-T01) rejects connection when token is missing",
+          "status": "passed",
+          "title": "rejects connection when token is missing",
+          "duration": 38.40139999999974,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["Gateway Socket.IO Handshake Auth & Rooms (S2-T01)"],
+          "fullName": "Gateway Socket.IO Handshake Auth & Rooms (S2-T01) rejects connection when JWT token is invalid or corrupted",
+          "status": "passed",
+          "title": "rejects connection when JWT token is invalid or corrupted",
+          "duration": 13.207800000000134,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["Gateway Socket.IO Handshake Auth & Rooms (S2-T01)"],
+          "fullName": "Gateway Socket.IO Handshake Auth & Rooms (S2-T01) rejects connection when JWT is missing tenantId",
+          "status": "passed",
+          "title": "rejects connection when JWT is missing tenantId",
+          "duration": 13.087300000000141,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["Gateway Socket.IO Handshake Auth & Rooms (S2-T01)"],
+          "fullName": "Gateway Socket.IO Handshake Auth & Rooms (S2-T01) authenticates valid agent JWT, attaches user data, and joins tenant and user rooms",
+          "status": "passed",
+          "title": "authenticates valid agent JWT, attaches user data, and joins tenant and user rooms",
+          "duration": 13.661599999999453,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["Gateway Socket.IO Handshake Auth & Rooms (S2-T01)"],
+          "fullName": "Gateway Socket.IO Handshake Auth & Rooms (S2-T01) authenticates formatted visitor token, joins user room, and does NOT join tenant room",
+          "status": "passed",
+          "title": "authenticates formatted visitor token, joins user room, and does NOT join tenant room",
+          "duration": 7.648099999999431,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["Gateway Socket.IO Handshake Auth & Rooms (S2-T01)"],
+          "fullName": "Gateway Socket.IO Handshake Auth & Rooms (S2-T01) authenticates signed visitor JWT",
+          "status": "passed",
+          "title": "authenticates signed visitor JWT",
+          "duration": 8.484300000000076,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["Gateway Socket.IO Handshake Auth & Rooms (S2-T01)"],
+          "fullName": "Gateway Socket.IO Handshake Auth & Rooms (S2-T01) allows clients to join and leave conversation rooms",
+          "status": "passed",
+          "title": "allows clients to join and leave conversation rooms",
+          "duration": 12.019199999999728,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["Gateway Socket.IO Handshake Auth & Rooms (S2-T01)"],
+          "fullName": "Gateway Socket.IO Handshake Auth & Rooms (S2-T01) enforces room broadcast isolation between different conversation rooms",
+          "status": "passed",
+          "title": "enforces room broadcast isolation between different conversation rooms",
+          "duration": 103.01339999999982,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["Gateway Socket.IO Handshake Auth & Rooms (S2-T01)"],
+          "fullName": "Gateway Socket.IO Handshake Auth & Rooms (S2-T01) enforces tenant isolation across tenant rooms",
+          "status": "passed",
+          "title": "enforces tenant isolation across tenant rooms",
+          "duration": 107.2492999999995,
+          "failureMessages": [],
+          "meta": {}
+        }
+      ],
+      "startTime": 1795323448483,
+      "endTime": 1795323448800.2493,
+      "status": "passed",
+      "message": "",
+      "name": "C:/Users/vrund/OneDrive/Desktop/ai_project/apps/gateway/tests/socket-auth-rooms.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["Typing Indicators, Presence & Read Receipts (S2-T03 / CHAT-3)"],
+          "fullName": "Typing Indicators, Presence & Read Receipts (S2-T03 / CHAT-3) broadcasts typing:start and typing:stop to conversation room members except sender",
+          "status": "passed",
+          "title": "broadcasts typing:start and typing:stop to conversation room members except sender",
+          "duration": 211.32240000000002,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["Typing Indicators, Presence & Read Receipts (S2-T03 / CHAT-3)"],
+          "fullName": "Typing Indicators, Presence & Read Receipts (S2-T03 / CHAT-3) updates online presence when agent connects and disconnects, isolated to tenant",
+          "status": "passed",
+          "title": "updates online presence when agent connects and disconnects, isolated to tenant",
+          "duration": 154.71990000000005,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["Typing Indicators, Presence & Read Receipts (S2-T03 / CHAT-3)"],
+          "fullName": "Typing Indicators, Presence & Read Receipts (S2-T03 / CHAT-3) records and broadcasts message read receipts with upToSeq",
+          "status": "passed",
+          "title": "records and broadcasts message read receipts with upToSeq",
+          "duration": 76.01350000000002,
+          "failureMessages": [],
+          "meta": {}
+        }
+      ],
+      "startTime": 1795323448482,
+      "endTime": 1795323448924.0134,
+      "status": "passed",
+      "message": "",
+      "name": "C:/Users/vrund/OneDrive/Desktop/ai_project/apps/gateway/tests/typing-presence-read.test.ts"
+    }
+  ]
+}

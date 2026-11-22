@@ -96,4 +96,39 @@ describe('Mobile Auth & Biometric Unlock Store (MOB-1)', () => {
     expect(await secureStorage.getItem('access_token')).toBeNull();
     expect(await secureStorage.getItem('refresh_token')).toBeNull();
   });
+
+  it('refreshes session tokens successfully using refresh token rotation', async () => {
+    await useAuthStore.getState().login({ email: 'refresh@example.com', password: 'pw' });
+    const originalAccess = useAuthStore.getState().accessToken;
+    expect(originalAccess).toBe('mock_access_token_jwt');
+
+    const mockApiRefresh = vi.fn().mockResolvedValue({
+      accessToken: 'new_rotated_access_token',
+      refreshToken: 'new_rotated_refresh_token',
+    });
+
+    const refreshed = await useAuthStore.getState().refreshSession(mockApiRefresh);
+    expect(refreshed).toBe(true);
+    expect(mockApiRefresh).toHaveBeenCalledWith('mock_refresh_token_jwt');
+
+    const state = useAuthStore.getState();
+    expect(state.accessToken).toBe('new_rotated_access_token');
+    expect(state.refreshToken).toBe('new_rotated_refresh_token');
+    expect(state.isAuthenticated).toBe(true);
+    expect(await secureStorage.getItem('access_token')).toBe('new_rotated_access_token');
+  });
+
+  it('logs out agent and clears session when refresh token is rejected', async () => {
+    await useAuthStore.getState().login({ email: 'rejected@example.com', password: 'pw' });
+
+    const mockApiRefresh = vi.fn().mockRejectedValue(new Error('Invalid refresh token: 401'));
+
+    const refreshed = await useAuthStore.getState().refreshSession(mockApiRefresh);
+    expect(refreshed).toBe(false);
+
+    const state = useAuthStore.getState();
+    expect(state.isAuthenticated).toBe(false);
+    expect(state.accessToken).toBeNull();
+    expect(await secureStorage.getItem('access_token')).toBeNull();
+  });
 });

@@ -351,10 +351,17 @@ export const api = {
       return res.data;
     },
 
-    async addMessage(ticketId: string, body: string, isInternal = false): Promise<MessageDto> {
+    async addMessage(
+      ticketId: string,
+      body: string,
+      isInternal = false,
+      clientId?: string,
+    ): Promise<MessageDto> {
+      const payload: Record<string, unknown> = { body, isInternal };
+      if (clientId) payload['clientId'] = clientId;
       const res = await request<ApiResponse<MessageDto>>(`/tickets/${ticketId}/messages`, {
         method: 'POST',
-        body: JSON.stringify({ body, isInternal }),
+        body: JSON.stringify(payload),
       });
       return res.data;
     },

@@ -104,6 +104,7 @@ describe('TicketDetail', () => {
         'ticket_abc',
         'Verified user ID with passport scan.',
         true,
+        expect.any(String),
       );
     });
   });

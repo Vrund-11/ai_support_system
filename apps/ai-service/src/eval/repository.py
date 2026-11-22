@@ -25,6 +25,13 @@ class EvalRunRecord:
     passed_regression_gate: bool = True
     metadata: dict[str, Any] = field(default_factory=dict)
     created_at: datetime = field(default_factory=lambda: datetime.now(UTC))
+    hit_at_1: float = 0.0
+    mrr: float = 0.0
+    p50_latency_ms: float = 0.0
+    commit_sha: str = ""
+    embedding_model: str = ""
+    llm_model: str = ""
+    dataset_version: str = "v2"
 
 
 class BaseEvalRepository(ABC):

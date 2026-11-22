@@ -25,6 +25,7 @@
         "backgroundColor": "#0f172a"
       },
       "package": "com.supportpilot.agent",
+      "versionCode": 1,
       "permissions": ["USE_BIOMETRIC", "USE_FINGERPRINT", "RECEIVE_BOOT_COMPLETED", "VIBRATE"]
     },
     "plugins": [

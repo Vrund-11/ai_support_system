@@ -52,4 +52,56 @@ describe('Mobile Offline Outbox (MOB-6)', () => {
     expect(remaining[0]!.clientId).toBe('msg_2');
     expect(remaining[0]!.retries).toBe(1);
   });
+
+  it('deduplicates messages with matching clientId on repeated enqueue', async () => {
+    const first = await offlineOutbox.enqueue({
+      clientId: 'dup_client_1',
+      ticketId: 'tkt_dup',
+      text: 'Original message',
+      isInternal: false,
+    });
+
+    const second = await offlineOutbox.enqueue({
+      clientId: 'dup_client_1',
+      ticketId: 'tkt_dup',
+      text: 'Repeated enqueue attempt',
+      isInternal: false,
+    });
+
+    expect(second.clientId).toBe(first.clientId);
+    const queue = await offlineOutbox.load();
+    expect(queue).toHaveLength(1);
+    expect(queue[0]!.text).toBe('Original message');
+  });
+
+  it('preserves strict FIFO ordering during flush delivery', async () => {
+    await offlineOutbox.enqueue({
+      clientId: 'fifo_1',
+      ticketId: 'tkt_fifo',
+      text: 'First',
+      isInternal: false,
+    });
+    await offlineOutbox.enqueue({
+      clientId: 'fifo_2',
+      ticketId: 'tkt_fifo',
+      text: 'Second',
+      isInternal: false,
+    });
+    await offlineOutbox.enqueue({
+      clientId: 'fifo_3',
+      ticketId: 'tkt_fifo',
+      text: 'Third',
+      isInternal: false,
+    });
+
+    const executionOrder: string[] = [];
+    const mockSend = async (item: OutboxItem) => {
+      executionOrder.push(item.clientId);
+      return true;
+    };
+
+    const result = await offlineOutbox.flush(mockSend);
+    expect(result.sent).toBe(3);
+    expect(executionOrder).toEqual(['fifo_1', 'fifo_2', 'fifo_3']);
+  });
 });

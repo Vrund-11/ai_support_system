@@ -1,0 +1,43 @@
+SupportPilot Infrastructure Tooling & Runtime Environment
+==========================================================
+Timestamp: 2026-11-22T04:22:00Z
+Governing Standard: Fix 02 (Run Infrastructure), PRD §DEV, ADR-012
+
+Host Machine Architecture:
+  Operating System: Microsoft Windows 11 Home Single Language (Build 26100)
+  Processor: AMD Ryzen 7 5800HS with Radeon Graphics (8 Cores, 16 Threads, ~3.20 GHz)
+  System RAM: 15.41 GB
+  Node.js: v24.18.0
+  pnpm: 10.11.0
+  Python: 3.13.14
+  uv: 0.11.32 (3010295ae 2026-07-23 x86_64-pc-windows-msvc)
+  winget: v1.29.380
+
+Package Manager & Installer Baseline:
+  winget: C:\Users\vrund\AppData\Local\Microsoft\WindowsApps\winget.exe (v1.29.380)
+  WSL2 Status: Not Installed on Windows Host
+
+Local PATH Tool Probes (Windows Host):
+  - docker:  NOT FOUND in PATH
+  - kubectl: NOT FOUND in PATH
+  - kind:    NOT FOUND in PATH
+  - helm:    NOT FOUND in PATH
+  - gh:      NOT FOUND in PATH
+  - k6:      NOT FOUND in PATH
+
+Canonical Winget Installation Commands for Missing Host Tools:
+  - Docker Desktop: winget install -e --id Docker.DockerDesktop
+  - kubectl:        winget install -e --id Kubernetes.kubectl
+  - kind:           winget install -e --id Kubernetes.kind
+  - helm:           winget install -e --id Helm.Helm
+  - GitHub CLI:     winget install -e --id GitHub.cli
+  - k6:             winget install -e --id Grafana.k6
+
+CI Runner Runtime Environment (GitHub Actions ubuntu-latest):
+  - Docker: Docker version 27.x.x
+  - Docker Compose: Docker Compose version v2.29.x
+  - kubectl: Client Version v1.31.x
+  - kind: kind v0.24.0
+  - helm: v3.16.x
+  - gh: gh version 2.58.x
+  - k6: k6 v0.54.0

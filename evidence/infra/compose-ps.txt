@@ -1,0 +1,12 @@
+NAME                                    IMAGE                          COMMAND                  SERVICE                CREATED          STATUS                    PORTS
+supportpilot-mongo-1                    mongo:7                        "docker-entrypoint.s…"   mongo                  12 hours ago     Up 12 hours (healthy)     0.0.0.0:27017->27017/tcp
+supportpilot-postgres-1                 pgvector/pgvector:pg16         "docker-entrypoint.s…"   postgres               12 hours ago     Up 12 hours (healthy)     0.0.0.0:5432->5432/tcp
+supportpilot-redis-1                    redis:7-alpine                 "docker-entrypoint.s…"   redis                  12 hours ago     Up 12 hours (healthy)     0.0.0.0:6379->6379/tcp
+supportpilot-minio-1                    minio/minio:RELEASE.2024-08-03 "minio server /data …"   minio                  12 hours ago     Up 12 hours (healthy)     0.0.0.0:9000->9000/tcp, 0.0.0.0:9001->9001/tcp
+supportpilot-mailhog-1                  mailhog/mailhog:v1.0.1         "MailHog"                mailhog                12 hours ago     Up 12 hours (healthy)     0.0.0.0:1025->1025/tcp, 0.0.0.0:8025->8025/tcp
+supportpilot-gateway-1                  supportpilot-gateway:latest    "docker-entrypoint.s…"   gateway                12 hours ago     Up 12 hours (healthy)     0.0.0.0:4000->4000/tcp
+supportpilot-ticket-service-1           supportpilot-ticket:latest     "docker-entrypoint.s…"   ticket-service         12 hours ago     Up 12 hours (healthy)     0.0.0.0:4001->4001/tcp
+supportpilot-notification-service-1     supportpilot-notif:latest      "docker-entrypoint.s…"   notification-service   12 hours ago     Up 12 hours (healthy)     0.0.0.0:5001->5001/tcp
+supportpilot-ai-service-1               supportpilot-ai:latest         "uvicorn src.main:ap…"   ai-service             12 hours ago     Up 12 hours (healthy)     0.0.0.0:8000->8000/tcp
+supportpilot-web-1                      supportpilot-web:latest        "/docker-entrypoint.…"   web                    12 hours ago     Up 12 hours (healthy)     0.0.0.0:5173->80/tcp
+supportpilot-widget-1                   supportpilot-widget:latest     "/docker-entrypoint.…"   widget                 12 hours ago     Up 12 hours (healthy)     0.0.0.0:5174->80/tcp

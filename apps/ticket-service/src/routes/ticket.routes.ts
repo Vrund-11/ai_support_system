@@ -105,6 +105,7 @@ ticketRouter.get('/public/track', async (req: Request, res: Response, next: Next
     const messages = rawMessages.map((m) => ({
       id: m._id.toString(),
       ticketId: m.ticketId ? m.ticketId.toString() : ticket._id.toString(),
+      clientId: m.clientId,
       senderType: m.senderType,
       senderId: m.senderId ? m.senderId.toString() : '',
       body: m.body,
@@ -165,6 +166,9 @@ ticketRouter.get('/', async (req: Request, res: Response, next: NextFunction) =>
 
     res.status(200).json({
       data: result.items,
+      items: result.items,
+      nextCursor: result.nextCursor ?? null,
+      hasMore: Boolean(result.nextCursor),
       meta: {
         cursor: result.nextCursor,
         hasMore: Boolean(result.nextCursor),

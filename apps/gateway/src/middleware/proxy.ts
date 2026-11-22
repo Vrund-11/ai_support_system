@@ -36,9 +36,17 @@ export function createProxyMiddleware(options: ProxyOptions) {
       headers['content-type'] = req.headers['content-type'] as string;
     }
 
+    const abortController = new AbortController();
+    res.on('close', () => {
+      if (!res.writableEnded) {
+        abortController.abort();
+      }
+    });
+
     const init: RequestInit = {
       method: req.method,
       headers,
+      signal: abortController.signal,
     };
 
     if (req.method !== 'GET' && req.method !== 'HEAD' && req.body) {
@@ -52,6 +60,38 @@ export function createProxyMiddleware(options: ProxyOptions) {
       const contentType = response.headers.get('content-type');
       if (contentType) {
         res.setHeader('content-type', contentType);
+      }
+
+      const serverTiming = response.headers.get('server-timing');
+      if (serverTiming) {
+        res.setHeader('server-timing', serverTiming);
+      }
+
+      // Handle unbuffered streaming responses (Server-Sent Events) (Feature 31)
+      if (contentType && contentType.includes('text/event-stream')) {
+        res.status(response.status);
+        res.setHeader('content-type', 'text/event-stream');
+        res.setHeader('cache-control', 'no-cache');
+        res.setHeader('connection', 'keep-alive');
+        res.setHeader('x-accel-buffering', 'no');
+        if (typeof res.flushHeaders === 'function') {
+          res.flushHeaders();
+        }
+
+        if (response.body) {
+          const reader = response.body.getReader();
+          try {
+            while (true) {
+              const { done, value } = await reader.read();
+              if (done) break;
+              res.write(value);
+            }
+          } finally {
+            reader.releaseLock();
+          }
+          res.end();
+          return;
+        }
       }
 
       const bodyText = await response.text();

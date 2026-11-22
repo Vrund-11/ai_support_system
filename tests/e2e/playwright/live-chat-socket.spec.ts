@@ -52,11 +52,15 @@ test.describe('Realtime Live Chat & Agent Takeover (SOCKET / CHAT)', () => {
     // Verify Live Agent Console view loaded
     await expect(agentPage.getByRole('heading', { name: /Live Agent Console/i })).toBeVisible();
 
-    // Select waiting conversation or click Take Over
+    // Select waiting conversation: Take Over button must be present unconditionally
     const takeOverBtn = agentPage.getByRole('button', { name: /Take Over Chat/i });
-    if (await takeOverBtn.isVisible()) {
-      await takeOverBtn.click();
-    }
+    await expect(takeOverBtn).toBeVisible();
+    await takeOverBtn.click();
+
+    // Verify customer's first message is visible in agent console
+    await expect(agentPage.locator('[data-testid="live-chat-messages-stream"]')).toContainText(
+      'SAML certificate verification',
+    );
 
     // Agent composes response
     const agentComposer = agentPage.locator('input[placeholder="Type reply to customer..."]');
@@ -68,15 +72,25 @@ test.describe('Realtime Live Chat & Agent Takeover (SOCKET / CHAT)', () => {
     // Submit agent reply
     await agentComposer.press('Enter');
 
-    // Verify message appears in agent chat stream
+    // 1. Verify message appears in agent's own chat stream
     await expect(
       agentPage.locator('text=I would be happy to verify your SAML certificate'),
     ).toBeVisible();
+
+    // 2. GENUINE CROSS-WINDOW VERIFICATION: Customer widget MUST receive agent reply
+    await expect(customerPage.locator('[data-testid="widget-messages-list"]')).toContainText(
+      'Hello! Alex Vance here',
+    );
 
     // 3. Customer sends follow-up in widget
     await customerInput.fill('Thank you Alex, uploaded certificate PEM file.');
     await customerSend.click();
     await expect(messageList).toContainText('uploaded certificate PEM file');
+
+    // 4. GENUINE CROSS-WINDOW VERIFICATION: Agent console MUST receive customer follow-up
+    await expect(agentPage.locator('[data-testid="live-chat-messages-stream"]')).toContainText(
+      'uploaded certificate PEM file',
+    );
 
     await customerPage.close();
     await agentPage.close();

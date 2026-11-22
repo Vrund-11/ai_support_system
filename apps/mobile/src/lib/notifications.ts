@@ -58,6 +58,41 @@ export class NotificationService {
   async getStoredDeviceToken(): Promise<string | null> {
     return secureStorage.getItem(this.deviceTokenKey);
   }
+
+  /**
+   * Handle incoming push notification interaction payload (e.g. from NotificationResponse).
+   */
+  handleNotificationResponse(data: {
+    type?: string;
+    ticketId?: string;
+    tenantId?: string;
+    url?: string;
+  }): DeepLinkRoute {
+    if (data.url) {
+      return this.parseDeepLink(data.url);
+    }
+    if (data.ticketId) {
+      return { screen: 'ticket', params: { id: data.ticketId } };
+    }
+    if (data.type === 'inbox') {
+      return { screen: 'inbox' };
+    }
+    return { screen: 'unknown' };
+  }
+
+  /**
+   * Handle token refresh idempotency (only re-registers if token changed).
+   */
+  async handleTokenRefresh(
+    newToken: string,
+    registerApiFn?: (token: string) => Promise<boolean>,
+  ): Promise<boolean> {
+    const current = await this.getStoredDeviceToken();
+    if (current === newToken) {
+      return true;
+    }
+    return this.registerDeviceToken(newToken, registerApiFn);
+  }
 }
 
 export const notificationService = new NotificationService();

@@ -1,0 +1,27 @@
+=== ITEM 16: MOBILE BUILD & PUSH AUDIT ===
+1. EAS BUILD LIST / LOGIN:
+- Command: eas build:list
+- Raw output:
+  eas : The term 'eas' is not recognized as the name of a cmdlet, function, script file, or operable program.
+- Via npx eas-cli build:list:
+  EAS project not configured. This command cannot configure it in non-interactive mode.
+  Accounts you can create projects in: punkkkkk, punkkkkks-team
+  Error: build:list command failed.
+- EAS build URL: NONE. No cloud build was executed or provisioned.
+
+2. FASTLANE LANES & PROOF:
+File: apps/mobile/fastlane/Fastfile
+Lanes defined:
+- :bump_version (increments app.json patch version & versionCode)
+- :build_android_local (runs npx eas-cli build --platform android --profile preview --local)
+- :beta_android (uploads APK to Google Play internal track if SUPPLY_JSON_KEY exists)
+- :beta (alias for beta_android)
+Lanes executed with proof: NONE. Fastlane is not installed on Windows host, no Google Play credentials exist, and no execution receipts exist.
+
+3. PUSH SENDER IMPLEMENTATION:
+File: apps/notification-service/src/push/expo-provider.ts
+Sends POST to https://exp.host/--/api/v2/push/send with Bearer token (EXPO_ACCESS_TOKEN) and handles DeviceNotRegistered tokens.
+Mobile token registration: apps/mobile/src/lib/notifications.ts
+
+4. REAL DEVICE RECEIPT:
+HUMAN TO CONFIRM (cannot verify autonomously whether any physical device received a push token).

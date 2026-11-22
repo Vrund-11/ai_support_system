@@ -162,6 +162,7 @@ export interface MessageDto {
   id: string;
   tenantId: string;
   ticketId?: string;
+  clientId?: string;
   seq: number;
   senderType: SenderType;
   senderId?: string;

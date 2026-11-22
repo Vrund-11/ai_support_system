@@ -6,12 +6,18 @@ import { useAuthStore } from './store/auth.store';
 import { LoginForm } from './components/auth/LoginForm';
 import { RegisterForm } from './components/auth/RegisterForm';
 import { Shell, type NavTab } from './components/layout/Shell';
-import { TicketInbox } from './components/tickets/TicketInbox';
-import { TicketDetail } from './components/tickets/TicketDetail';
 import { CreateTicketModal } from './components/tickets/CreateTicketModal';
 import { ToastContainer } from './components/common/ToastContainer';
 import { OfflineBanner } from './components/common/OfflineBanner';
 import { PublicTicketTracker } from './components/help/PublicTicketTracker';
+
+// Lazy-loaded route modules for code-splitting & bundle minimization
+const TicketInbox = lazy(() =>
+  import('./components/tickets/TicketInbox').then((m) => ({ default: m.TicketInbox })),
+);
+const TicketDetail = lazy(() =>
+  import('./components/tickets/TicketDetail').then((m) => ({ default: m.TicketDetail })),
+);
 
 // Lazy-loaded secondary tab modules for performance & code-splitting
 const KnowledgeBaseView = lazy(() =>
@@ -129,15 +135,26 @@ export function AppContent() {
         {currentTab === 'help' && <HelpCenterView />}
       </Suspense>
 
-      {currentTab === 'inbox' &&
-        (selectedTicketId ? (
-          <TicketDetail ticketId={selectedTicketId} onBack={() => setSelectedTicketId(null)} />
-        ) : (
-          <TicketInbox
-            onSelectTicket={(id) => setSelectedTicketId(id)}
-            onOpenCreate={() => setIsCreateOpen(true)}
-          />
-        ))}
+      <Suspense
+        fallback={
+          <div
+            className="p-8 text-center text-text-secondary animate-pulse"
+            data-testid="inbox-loading"
+          >
+            Loading tickets...
+          </div>
+        }
+      >
+        {currentTab === 'inbox' &&
+          (selectedTicketId ? (
+            <TicketDetail ticketId={selectedTicketId} onBack={() => setSelectedTicketId(null)} />
+          ) : (
+            <TicketInbox
+              onSelectTicket={(id) => setSelectedTicketId(id)}
+              onOpenCreate={() => setIsCreateOpen(true)}
+            />
+          ))}
+      </Suspense>
 
       <CreateTicketModal
         isOpen={isCreateOpen}

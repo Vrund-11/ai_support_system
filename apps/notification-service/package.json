@@ -14,6 +14,7 @@
     "clean": "rimraf dist *.tsbuildinfo"
   },
   "dependencies": {
+    "@supportpilot/queue": "workspace:*",
     "@supportpilot/shared-lib": "workspace:*",
     "@supportpilot/shared-types": "workspace:*",
     "@supportpilot/validators": "workspace:*",

@@ -25,11 +25,13 @@ import { notificationRouter } from './routes/notification.routes.js';
 import { billingRouter } from './routes/billing.routes.js';
 import { superadminRouter } from './routes/superadmin.routes.js';
 import { createQuotaMiddleware } from './middleware/quota.middleware.js';
+import { serverTimingMiddleware } from './middleware/server-timing.middleware.js';
 
 export function createApp(logLevel: string = 'info'): Express {
   const logger = createLogger('ticket-service', logLevel);
   const app: Express = express();
 
+  app.use(serverTimingMiddleware);
   app.use(express.json());
   app.use(requestIdMiddleware);
   app.use(createTraceMiddleware('ticket-service'));

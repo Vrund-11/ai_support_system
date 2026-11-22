@@ -27,6 +27,10 @@ export class OfflineOutbox {
 
   async enqueue(item: Omit<OutboxItem, 'createdAt' | 'retries'>): Promise<OutboxItem> {
     await this.load();
+    const existing = this.inMemoryQueue.find((i) => i.clientId === item.clientId);
+    if (existing) {
+      return existing;
+    }
     const newItem: OutboxItem = {
       ...item,
       createdAt: Date.now(),

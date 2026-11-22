@@ -188,3 +188,91 @@ def test_api_eval_run_endpoint(setup_eval_env):
     assert "groundedness" in data
     assert "escalation_f1" in data
     assert "p95_latency_ms" in data
+
+
+@pytest.mark.asyncio
+async def test_eval_runner_v2_dataset(setup_eval_env):
+    """Verify loading and evaluation on the 115-row v2 golden dataset."""
+    _, repo, eval_repo = setup_eval_env
+    v2_path = Path("tests/ai-eval/golden/v2.jsonl")
+    if not v2_path.exists():
+        v2_path = Path("../../tests/ai-eval/golden/v2.jsonl")
+
+    samples = EvalRunner.load_golden_set(v2_path)
+    assert len(samples) == 115
+
+    provider = MockLLMProvider()
+    retriever = HybridRetriever(repository=repo, llm_provider=provider)
+    rag_service = RagService(retriever=retriever, llm_provider=provider)
+    runner = EvalRunner(
+        retriever=retriever,
+        rag_service=rag_service,
+        llm_provider=provider,
+        eval_repository=eval_repo,
+    )
+
+    metrics = await runner.run_evaluation(
+        dataset_name="v2_test",
+        samples=samples[:20],
+        tenant_id="tenant_eval_01",
+        enforce_gate=False,
+    )
+
+    assert metrics.total_samples == 20
+    assert hasattr(metrics, "hit_at_1")
+    assert hasattr(metrics, "mrr")
+    assert hasattr(metrics, "p50_latency_ms")
+    assert hasattr(metrics, "tokens_per_answer")
+    assert "embedding_latency_ms" in metrics.details or hasattr(metrics, "embedding_latency_ms")
+
+
+@pytest.mark.asyncio
+async def test_regression_gate_fails_on_hit_at_5_drop(setup_eval_env):
+    """Verify CI gate trips when hit_at_5 drops more than 3 points (0.03) from baseline."""
+    _, repo, eval_repo = setup_eval_env
+
+    # 1. Pre-store high baseline (hit_at_5 0.95, groundedness 0.95)
+    baseline_record = EvalRunRecord(
+        id="run_baseline_hit5",
+        dataset_name="hit5_regression_set",
+        total_samples=10,
+        hit_at_5=0.95,
+        groundedness=0.95,
+        escalation_f1=0.90,
+        escalation_precision=0.90,
+        escalation_recall=0.90,
+        p95_latency_ms=15.0,
+        passed_regression_gate=True,
+    )
+    await eval_repo.save_run(baseline_record)
+
+    # 2. Run sample with no matches in repo so hit_at_5 is 0.0
+    samples = [
+        EvalSample(
+            id="s_miss",
+            tenant_id="t_empty",
+            question="Random query with no chunks",
+            expected_doc_ids=["non_existent_doc"],
+            should_escalate=False,
+        )
+    ]
+
+    provider = MockLLMProvider()
+    retriever = HybridRetriever(repository=repo, llm_provider=provider)
+    rag_service = RagService(retriever=retriever, llm_provider=provider)
+    runner = EvalRunner(
+        retriever=retriever,
+        rag_service=rag_service,
+        llm_provider=provider,
+        eval_repository=eval_repo,
+    )
+
+    metrics = await runner.run_evaluation(
+        dataset_name="hit5_regression_set",
+        samples=samples,
+        tenant_id="t_empty",
+        enforce_gate=True,
+    )
+
+    assert metrics.hit_at_5 < (0.95 - 0.03)
+    assert metrics.passed_regression_gate is False

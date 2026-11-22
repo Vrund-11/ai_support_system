@@ -1,0 +1,20 @@
+{
+  "Records": [
+    {
+      "messageId": "msg-sam-local-001",
+      "receiptHandle": "AQEBwJnKyrHigUMZj6rSAMPLE",
+      "body": "{\"tenantId\":\"tenant_sample_01\",\"deliveryId\":\"evt_sam_test_101\",\"event\":\"ticket.created\",\"url\":\"http://127.0.0.1:9999/webhook\",\"payload\":{\"ticketId\":\"tkt_101\",\"title\":\"SAM local test\",\"status\":\"OPEN\"},\"attempt\":1}",
+      "attributes": {
+        "ApproximateReceiveCount": "1",
+        "SentTimestamp": "1732104000000",
+        "SenderId": "AIDAI",
+        "ApproximateFirstReceiveTimestamp": "1732104001000"
+      },
+      "messageAttributes": {},
+      "md5OfBody": "098f6bcd4621d373cade4e832627b4f6",
+      "eventSource": "aws:sqs",
+      "eventSourceARN": "arn:aws:sqs:us-east-1:123456789012:supportpilot-webhooks",
+      "awsRegion": "us-east-1"
+    }
+  ]
+}

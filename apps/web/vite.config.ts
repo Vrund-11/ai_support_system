@@ -10,8 +10,23 @@ export default defineConfig({
     port: 3000,
     proxy: {
       '/api': {
-        target: 'http://localhost:4000',
+        target: process.env.VITE_API_TARGET || 'http://localhost:4000',
         changeOrigin: true,
+        configure: (proxy) => {
+          proxy.on('error', (_err, _req, res) => {
+            if ('writeHead' in res && !res.headersSent) {
+              res.writeHead(404, { 'Content-Type': 'application/problem+json' });
+              res.end(
+                JSON.stringify({
+                  type: '/errors/not-found',
+                  title: 'Not Found',
+                  status: 404,
+                  detail: 'Endpoint or service unavailable',
+                }),
+              );
+            }
+          });
+        },
       },
     },
   },

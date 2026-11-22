@@ -1,55 +1,97 @@
-# API Contracts
+# SupportPilot API Contracts Specification
 
-Conventions: base path `/api/v1`, JSON camelCase, cursor pagination `?limit=25&cursor=...` returning `{ data, nextCursor }`, errors as RFC 7807 `{ type, title, status, detail, instance }`, `Idempotency-Key` header on ticket creation, `X-Request-Id` echoed.
+Conventions:
 
-## Auth
+- Base path: `/api/v1` for REST endpoints
+- Casing: JSON `camelCase` request and response payloads
+- Pagination: Keyset/cursor-based pagination `?limit=25&cursor=...` returning `{ data: [...], nextCursor: "..." }`
+- Error Format: RFC 7807 Problem Details `{ type, title, status, detail, instance }`
+- Idempotency: `Idempotency-Key` header on ticket creation and payment operations
+- Tracing & Tenant Context: `X-Request-Id` and `X-Tenant-Id` headers echoed across microservices
+- Machine-Readable OpenAPI Contracts: Exported in `docs/api/`
+  - Ticket Service OpenAPI: `docs/api/ticket-service-openapi.json`
+  - AI Service OpenAPI: `docs/api/ai-service-openapi.json`
+  - Root API Spec: `docs/api/openapi.json`
 
-| Method | Path                      | Body                              | Returns                              |
-| ------ | ------------------------- | --------------------------------- | ------------------------------------ |
-| POST   | /auth/register            | tenantName, name, email, password | user, tokens                         |
-| POST   | /auth/login               | email, password                   | accessToken (15m), refreshToken (7d) |
-| POST   | /auth/refresh             | refreshToken                      | new pair (rotation; old revoked)     |
-| POST   | /auth/logout              | refreshToken                      | 204                                  |
-| POST   | /auth/forgot, /auth/reset | email / token+password            | 204                                  |
+---
 
-## Tickets (AGENT+)
+## 1. Authentication & Tenant Identity
 
-| Method | Path                  | Notes                                                     |
-| ------ | --------------------- | --------------------------------------------------------- |
-| GET    | /tickets              | filters: status, priority, assigneeId, tag, q, from, to   |
-| POST   | /tickets              | subject, description, customerId, priority?, attachments? |
-| GET    | /tickets/:id          | includes events                                           |
-| PATCH  | /tickets/:id          | requires `version`; 409 on mismatch; validates transition |
-| POST   | /tickets/:id/messages | body, isInternal, attachments                             |
-| POST   | /tickets/bulk         | ids[], action (assign                                     | tag | status), value |
+All authentication flows are hosted on Gateway / Ticket Service with token issuance and Redis-backed refresh token rotation.
 
-## Widget (public with widget key or visitor token)
+| Method | Path                           | Auth / Role   | Request Payload                         | Response Payload                      | Description                                                                                                    |
+| ------ | ------------------------------ | ------------- | --------------------------------------- | ------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| `POST` | `/api/v1/auth/register`        | Public        | `{ tenantName, name, email, password }` | `{ user, accessToken, refreshToken }` | Provisions new isolated tenant, owner user, default SLA rules, and seed categories.                            |
+| `POST` | `/api/v1/auth/login`           | Public        | `{ email, password }`                   | `{ user, accessToken, refreshToken }` | Authenticates user; issues 15-minute access token and 7-day single-use refresh token.                          |
+| `POST` | `/api/v1/auth/refresh`         | Public        | `{ refreshToken }`                      | `{ accessToken, refreshToken }`       | Rotates refresh token in Redis (`rt:{userId}:{tokenId}`); revokes old token; triggers security alert on reuse. |
+| `POST` | `/api/v1/auth/logout`          | Authenticated | `{ refreshToken }`                      | `204 No Content`                      | Revokes active refresh token from Redis.                                                                       |
+| `POST` | `/api/v1/auth/forgot-password` | Public        | `{ email }`                             | `204 No Content`                      | Dispatches password reset token via notification-service.                                                      |
+| `POST` | `/api/v1/auth/reset-password`  | Public        | `{ token, newPassword }`                | `204 No Content`                      | Resets password after verifying signed token.                                                                  |
 
-| Method | Path             | Notes                                          |
-| ------ | ---------------- | ---------------------------------------------- |
-| POST   | /widget/session  | returns visitorToken, tenant theme             |
-| POST   | /widget/messages | body; falls back to HTTP if socket unavailable |
-| POST   | /widget/offline  | name, email, message -> ticket                 |
-| POST   | /widget/csat     | conversationId, score, comment                 |
+---
 
-## Knowledge base (OWNER, LEAD)
+## 2. Ticket Management & Lifecycle (Ticket Service :4001)
 
-| Method | Path                | Notes                                                  |
-| ------ | ------------------- | ------------------------------------------------------ |
-| POST   | /kb/uploads/presign | filename, contentType, size -> url, key (5 min expiry) |
-| POST   | /kb/documents       | key or pasted text -> 202 + document id                |
-| GET    | /kb/documents       | status list                                            |
-| DELETE | /kb/documents/:id   | removes chunks                                         |
-| POST   | /kb/test            | question -> answer preview with citations              |
+| Method  | Path                           | Auth / Role                | Description                                                                                                                                         |
+| ------- | ------------------------------ | -------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `GET`   | `/api/v1/tickets`              | AGENT, LEAD, OWNER         | Keyset-paginated ticket list. Filters: `status`, `priority`, `assigneeId`, `tag`, `q`, `from`, `to`.                                                |
+| `POST`  | `/api/v1/tickets`              | AGENT, LEAD, OWNER, System | Creates ticket. Accepts `subject`, `description`, `customerId`, `priority`, `tags`, `customFields`. Enforces sequential numbering via Redis `INCR`. |
+| `GET`   | `/api/v1/tickets/:id`          | AGENT, LEAD, OWNER         | Retrieves ticket details and associated audit timeline events.                                                                                      |
+| `PATCH` | `/api/v1/tickets/:id`          | AGENT, LEAD, OWNER         | Updates status, priority, or assignment. Requires `version` field for optimistic concurrency (returns `409 Conflict` on race).                      |
+| `POST`  | `/api/v1/tickets/:id/messages` | AGENT, LEAD, OWNER         | Adds public customer reply or internal note (`isInternal: true`).                                                                                   |
+| `POST`  | `/api/v1/tickets/bulk`         | LEAD, OWNER                | Performs batch status transition, tag addition, or agent assignment across `ticketIds[]`.                                                           |
 
-## Misc
+---
 
-`GET /analytics/overview?range=7d`, `POST /devices` (FCM token), `GET/PUT /settings`, `GET /health`, `GET /ready`.
+## 3. Knowledge Base & AI Assist (AI Service :8000)
 
-## GraphQL SDL (gateway)
+| Method | Path                       | Auth / Role        | Description                                                                                                                                                           |
+| ------ | -------------------------- | ------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `POST` | `/v1/answer`               | Gateway / Internal | Hybrid RAG retrieval (pgvector HNSW cosine similarity + BM25 tsvector) with Reciprocal Rank Fusion ($k=60$), structured prompt guardrails, and citation verification. |
+| `POST` | `/v1/answer/stream`        | Gateway / Internal | Server-Sent Events (SSE) streaming draft tokens for responsive typing preview.                                                                                        |
+| `POST` | `/v1/classify`             | Gateway / Internal | TF-IDF + LogisticRegression / LinearSVC classifier predicting priority and category with keyword fallback rules.                                                      |
+| `POST` | `/v1/assist/suggest-reply` | AGENT, LEAD, OWNER | Generates contextual suggested responses based on ticket history and KB context.                                                                                      |
+| `POST` | `/v1/assist/summarize`     | AGENT, LEAD, OWNER | Generates concise thread summary and sentiment assessment for rapid handoff.                                                                                          |
+| `POST` | `/v1/ingest`               | LEAD, OWNER        | Chunks Markdown/text documents, generates 384-dimensional dense vectors via SBERT, and indexes into PostgreSQL pgvector HNSW table.                                   |
+
+---
+
+## 4. Real-Time Communication & Chat Widget (Gateway :4000)
+
+### Socket.IO Protocol
+
+Clients establish WebSocket connection to `http://localhost:4000` with JWT bearer token (Agent) or visitor token (Customer).
+
+**Events Emitted by Server**:
+
+- `message:received`: New message persisted in thread with monotonic `seq`.
+- `message:stream`: Incremental token stream from AI assistant.
+- `typing:update`: Real-time user typing status.
+- `presence:update`: Agent/visitor online and idle state.
+- `ticket:updated`: Status or priority state change.
+
+**Events Handled by Server**:
+
+- `message:send`: Submits message payload `{ conversationId, content, attachments }`.
+- `typing:start` / `typing:stop`: Broadcasts typing indicators to room.
+- `conversation:join`: Subscribes to conversation room; accepts `lastSeq` to replay missed messages upon reconnect.
+
+### Widget REST Fallback Endpoints
+
+| Method | Path                      | Description                                                                            |
+| ------ | ------------------------- | -------------------------------------------------------------------------------------- |
+| `POST` | `/api/v1/widget/session`  | Creates visitor session and returns theme configuration and short-lived visitor token. |
+| `POST` | `/api/v1/widget/messages` | HTTP fallback for sending chat messages when WebSocket connection is unavailable.      |
+| `POST` | `/api/v1/widget/offline`  | Submits offline contact form and generates support ticket when no agents are online.   |
+| `POST` | `/api/v1/widget/csat`     | Submits customer satisfaction survey score (1-5) and feedback notes.                   |
+
+---
+
+## 5. GraphQL Schema Definition (Gateway Apollo Server :4000/graphql)
 
 ```graphql
 scalar DateTime
+
 enum TicketStatus {
   NEW
   OPEN
@@ -58,150 +100,86 @@ enum TicketStatus {
   RESOLVED
   CLOSED
 }
-enum Priority {
+
+enum TicketPriority {
   LOW
   MEDIUM
   HIGH
   URGENT
 }
-enum Role {
-  OWNER
-  LEAD
-  AGENT
-  VIEWER
-  PLATFORM_ADMIN
+
+type Ticket {
+  id: ID!
+  tenantId: ID!
+  number: Int!
+  subject: String!
+  description: String!
+  status: TicketStatus!
+  priority: TicketPriority!
+  assignee: User
+  customer: Customer!
+  messages: [Message!]!
+  events: [TimelineEvent!]!
+  version: Int!
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
-enum SenderType {
-  CUSTOMER
-  AI
-  AGENT
-  SYSTEM
+
+type Message {
+  id: ID!
+  ticketId: ID!
+  author: User
+  content: String!
+  isInternal: Boolean!
+  attachments: [String!]
+  createdAt: DateTime!
+}
+
+type User {
+  id: ID!
+  name: String!
+  email: String!
+  role: String!
 }
 
 type Customer {
   id: ID!
-  email: String
-  name: String
-}
-type Agent {
-  id: ID!
   name: String!
-  role: Role!
-}
-type Citation {
-  chunkId: ID!
-  docId: ID!
-  title: String!
-}
-type Message {
-  id: ID!
-  seq: Int!
-  senderType: SenderType!
-  body: String!
-  isInternal: Boolean!
-  citations: [Citation!]!
-  createdAt: DateTime!
-}
-type Ticket {
-  id: ID!
-  number: Int!
-  subject: String!
-  status: TicketStatus!
-  priority: Priority!
-  assignee: Agent
-  customer: Customer!
-  tags: [String!]!
-  version: Int!
-  messages(limit: Int, cursor: String): MessagePage!
-  createdAt: DateTime!
-  updatedAt: DateTime!
-}
-type MessagePage {
-  items: [Message!]!
-  nextCursor: String
-}
-type TicketPage {
-  items: [Ticket!]!
-  nextCursor: String
-}
-type AnalyticsOverview {
-  open: Int!
-  newToday: Int!
-  medianFirstResponseMin: Float
-  medianResolutionMin: Float
-  deflectionRate: Float
-  slaCompliance: Float
-}
-
-input TicketFilter {
-  status: [TicketStatus!]
-  priority: [Priority!]
-  assigneeId: ID
-  tag: String
-  q: String
-}
-input UpdateTicketInput {
-  status: TicketStatus
-  priority: Priority
-  assigneeId: ID
-  tags: [String!]
-  version: Int!
+  email: String!
 }
 
 type Query {
-  tickets(filter: TicketFilter, limit: Int = 25, cursor: String): TicketPage!
+  tickets(
+    status: TicketStatus
+    priority: TicketPriority
+    limit: Int
+    cursor: String
+  ): TicketConnection!
   ticket(id: ID!): Ticket
-  analyticsOverview(rangeDays: Int = 7): AnalyticsOverview!
-  me: Agent!
+  me: User!
 }
+
 type Mutation {
-  createTicket(subject: String!, description: String!, customerId: ID!): Ticket!
+  createTicket(input: CreateTicketInput!): Ticket!
   updateTicket(id: ID!, input: UpdateTicketInput!): Ticket!
-  addMessage(ticketId: ID!, body: String!, isInternal: Boolean = false): Message!
-  assignTicket(id: ID!, agentId: ID!): Ticket!
-  suggestReply(ticketId: ID!): String!
+  addMessage(ticketId: ID!, content: String!, isInternal: Boolean): Message!
 }
+
 type Subscription {
-  ticketUpdated: Ticket!
+  ticketUpdated(ticketId: ID!): Ticket!
   messageAdded(ticketId: ID!): Message!
 }
 ```
 
-Controls: depth limit 8, complexity limit, DataLoader for assignee/customer, role directive `@auth(roles: [...])`.
+---
 
-## Socket.IO events
+## 6. Notification & Asynchronous Queues (Notification Service :5001)
 
-Handshake auth: `{ token }` (JWT or visitor token). Rooms: `t:{tenantId}`, `c:{conversationId}`, `u:{userId}`.
+Internal BullMQ queues managed over Redis:
 
-| Direction                                                                   | Event                      | Payload                                          |
-| --------------------------------------------------------------------------- | -------------------------- | ------------------------------------------------ |
-| C->S                                                                        | conversation:join          | { conversationId, lastSeq? }                     |
-| C->S                                                                        | message:send               | { conversationId, clientId, body, attachments? } |
-| C->S                                                                        | typing:start / typing:stop | { conversationId }                               |
-| C->S                                                                        | message:read               | { conversationId, upToSeq }                      |
-| S->C                                                                        | message:new                | full message with seq                            |
-| S->C                                                                        | message:ack                | { clientId, seq }                                |
-| S->C                                                                        | conversation:state         | { conversationId, state }                        |
-| S->C                                                                        | typing                     | { conversationId, who }                          |
-| S->C                                                                        | presence:update            | { userId, status }                               |
-| S->C                                                                        | ticket:updated             | ticket summary                                   |
-| S->C                                                                        | notification:new           | { type, ticketId, text }                         |
-| S->C                                                                        | kb:ingestion               | { documentId, status }                           |
-| Replay: on join with `lastSeq`, server sends all missing messages in order. |
-
-## Internal AI service (FastAPI, `x-service-token` required)
-
-```
-POST /v1/answer      { tenantId, conversationId, question, history[] }
-  -> { answer, citations[{chunkId,docId,title}], confidence, shouldEscalate, cacheHit, usage }
-POST /v1/classify    { subject, body } -> { priority, category, probabilities }
-POST /v1/ingest      { tenantId, documentId } -> 202
-GET  /v1/ingest/{id} -> { status, error? }
-POST /v1/suggest-reply { tenantId, ticketId, messages[] } -> { suggestion, citations[] }
-POST /v1/summarize   { messages[] } -> { summary }
-GET  /healthz, /readyz
-```
-
-## Webhook contract (outgoing)
-
-Headers: `X-SupportPilot-Event`, `X-SupportPilot-Signature: sha256=<hex hmac of raw body>`, `X-SupportPilot-Delivery`. Events: `ticket.created`, `ticket.updated`, `message.created`. Retries with exponential backoff up to 6 attempts, then DLQ.
+1. `email`: Renders and delivers transactional notifications (invitations, SLA warnings, password resets).
+2. `push`: Dispatches mobile agent notifications via Expo push service and FCM.
+3. `webhook`: Signs HMAC-SHA256 payloads and posts to registered tenant webhook URLs with exponential backoff.
+4. `sla`: Delayed BullMQ jobs checking 75% warning and 100% breach deadlines calculated during business hours.
+5. `audit`: Records compliance and security events.
+6. `dlq`: Captures permanently failed jobs after retry exhaustion for manual inspection and replay.

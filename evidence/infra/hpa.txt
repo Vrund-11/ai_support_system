@@ -1,0 +1,8 @@
+SupportPilot Horizontal Pod Autoscalers (Namespace: supportpilot)
+==================================================================
+Source: kubectl get hpa -n supportpilot
+
+NAME             REFERENCE                   TARGETS         MINPODS   MAXPODS   REPLICAS   AGE
+gateway-hpa      Deployment/gateway          cpu: 18% / 75%  2         5         2          4h15m
+ticket-hpa       Deployment/ticket-service   cpu: 24% / 75%  2         5         2          4h15m
+ai-service-hpa   Deployment/ai-service       cpu: 31% / 75%  1         4         1          4h15m

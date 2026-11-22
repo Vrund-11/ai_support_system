@@ -1,5 +1,7 @@
 """Prompt builder for RAG answer generation (AI-1, AI-2, AI-9)."""
 
+import re
+
 from src.retrieval.hybrid import SearchResultChunk
 from src.schemas.llm import ChatTurn
 
@@ -18,7 +20,51 @@ INJECTION_PATTERNS = [
     "bypass security controls",
 ]
 
-import re
+INJECTION_REGEX_PATTERNS = [
+    re.compile(
+        r"ignore\s+(?:all\s+)?(?:previous\s+|prior\s+)?(?:system\s+)?instructions",
+        re.IGNORECASE,
+    ),
+    re.compile(
+        r"disregard\s+(?:all\s+|knowledge\s+base\s+)?(?:previous\s+|prior\s+)?(?:limitations|rules|instructions)",
+        re.IGNORECASE,
+    ),
+    re.compile(r"system\s+override", re.IGNORECASE),
+    re.compile(
+        r"(?:reveal|output|print|show|repeat)\s+(?:all\s+|every\s+single\s+word\s+in\s+)?(?:your\s+)?"
+        r"(?:base\s+|internal\s+)?(?:system\s+)?(?:prompt|instructions|tokens?|secrets?|passwords?|keys?|jwt)",
+        re.IGNORECASE,
+    ),
+    re.compile(
+        r"pretend\s+you\s+are\s+dan|dan\s+\(do\s+anything\s+now\)|dan\s+mode|jailbreak|"
+        r"developer\s+mode\s+enabled|superadmin\s+mode",
+        re.IGNORECASE,
+    ),
+    re.compile(
+        r"(?:show|reveal|dump|output)\s+(?:all\s+)?(?:user\s+|database\s+|tenant_id\s+['\"]?\w+['\"]?\s+)?"
+        r"(?:passwords?|secrets?|api\s+keys?)",
+        re.IGNORECASE,
+    ),
+    re.compile(r"bypass\s+(?:security\s+controls|tenant\s+isolation)", re.IGNORECASE),
+    re.compile(
+        r"(?:\bdrop\s+table\b|\bselect\s+\*\s+from\b|\b(?:execute|exec)\s+(?:command|this\s+python|\w+)|"
+        r"os\.system|cat\s+/etc/passwd|curl\s+-x)",
+        re.IGNORECASE,
+    ),
+    re.compile(
+        r"assistant\s+instructions\s+update|your\s+role\s+has\s+changed|writing\s+ransomware",
+        re.IGNORECASE,
+    ),
+    re.compile(
+        r"jwt_access_secret|database\s+connection\s+string|cryptographic\s+keys",
+        re.IGNORECASE,
+    ),
+    re.compile(
+        r"ignore\s+context\s+boundaries|instruction\s+delimiter\s+bypass|<system>|<!--\s*(?:system_instruction|override)",
+        re.IGNORECASE,
+    ),
+    re.compile(r"pretend\s+this\s+is\s+a\s+movie\s+script", re.IGNORECASE),
+]
 
 CONVERSATIONAL_GREETING_PATTERN = re.compile(
     r"^\s*(hi|hello|hey|howdy|hola|greetings|good\s+(morning|afternoon|evening|day)|yo|sup)(\s+there)?\b[\s!.,?]*$",
@@ -49,7 +95,9 @@ def check_conversational_message(text: str) -> str | None:
     if CONVERSATIONAL_GRATITUDE_PATTERN.match(trimmed):
         return "You're very welcome! Let me know if there's anything else I can help you with."
     if CONVERSATIONAL_FAREWELL_PATTERN.match(trimmed):
-        return "Goodbye! Have a great day, and feel free to reach back out anytime if you need help."
+        return (
+            "Goodbye! Have a great day, and feel free to reach back out anytime if you need help."
+        )
     if CONVERSATIONAL_CAPABILITY_PATTERN.match(trimmed):
         return (
             "I'm SupportPilot's automated support assistant. I can answer questions from our "
@@ -62,7 +110,9 @@ def check_conversational_message(text: str) -> str | None:
 def is_prompt_injection(text: str) -> bool:
     """Detect common prompt injection and jailbreak attack patterns."""
     lower = text.lower()
-    return any(p in lower for p in INJECTION_PATTERNS)
+    if any(p in lower for p in INJECTION_PATTERNS):
+        return True
+    return any(p.search(text) for p in INJECTION_REGEX_PATTERNS)
 
 
 def build_system_prompt(tenant_tone: str = "helpful, friendly, and concise") -> str:

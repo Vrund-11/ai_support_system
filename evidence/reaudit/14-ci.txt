@@ -1,0 +1,68 @@
+=== ITEM 14: GITHUB CI WORKFLOW AUDIT ===
+EXACT COMMAND:
+gh auth status
+
+RAW OUTPUT:
+gh : The term 'gh' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+At line:1 char:1
++ gh auth status 2>&1
++ ~~
+    + CategoryInfo          : ObjectNotFound: (gh:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+EXACT COMMAND:
+gh run list --limit 15
+
+RAW OUTPUT:
+gh : The term 'gh' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+At line:1 char:1
++ gh run list --limit 15 2>&1
++ ~~
+    + CategoryInfo          : ObjectNotFound: (gh:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+VERDICT: COULD NOT RUN via gh CLI (gh binary not in PATH).
+RECOVERED VIA GITHUB REST API (https://api.github.com/repos/Vrund-11/ai_support_system/actions/runs):
+
+LATEST RUN OF EACH WORKFLOW:
+1. Nightly Performance Benchmarks:
+   - Run ID: 45015153137
+   - Status: completed
+   - Conclusion: FAILURE
+   - URL: https://github.com/Vrund-11/ai_support_system/actions/runs/45015153137
+   - Started: 2026-11-22T11:00:26Z, Updated: 2026-11-22T11:01:36Z (Duration: 70s)
+
+2. CI (Monorepo verify):
+   - Run ID: 44916188435
+   - Status: completed
+   - Conclusion: FAILURE
+   - URL: https://github.com/Vrund-11/ai_support_system/actions/runs/44916188435
+   - Started: 2026-11-21T14:52:37Z, Updated: 2026-11-21T14:54:02Z (Duration: 85s)
+
+3. E2E Tests:
+   - Run ID: 44916188493
+   - Status: completed
+   - Conclusion: SUCCESS
+   - URL: https://github.com/Vrund-11/ai_support_system/actions/runs/44916188493
+   - Started: 2026-11-21T14:52:37Z, Updated: 2026-11-21T14:54:23Z (Duration: 106s)
+
+4. Deploy Staging Smoke Test:
+   - Run ID: 44916188400
+   - Status: completed
+   - Conclusion: SUCCESS
+   - URL: https://github.com/Vrund-11/ai_support_system/actions/runs/44916188400
+   - Started: 2026-11-21T14:52:37Z, Updated: 2026-11-21T14:57:15Z (Duration: 278s)
+
+5. AI Eval Regression Gate:
+   - Run ID: 44916188398
+   - Status: completed
+   - Conclusion: SUCCESS
+   - URL: https://github.com/Vrund-11/ai_support_system/actions/runs/44916188398
+   - Started: 2026-11-21T14:52:37Z, Updated: 2026-11-21T14:53:06Z (Duration: 29s)
+
+CONTRADICTION FOUND:
+evidence/infra/ci-runs.txt claimed: "All workflows completed with conclusion: success (100% green pass rate)".
+REALITY:
+The latest CI run (44916188435) FAILED.
+The latest Performance Benchmarks run (45015153137) FAILED.
+The claim of "100% green pass rate" is FALSE.

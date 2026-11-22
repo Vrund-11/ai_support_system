@@ -79,28 +79,52 @@ test.describe('Ticket Lifecycle, Management & Concurrency (TKT)', () => {
     await expect(statusSelect).toHaveValue('RESOLVED');
   });
 
-  test('TC-T2-TKT-01: displays 409 conflict warning when saving stale ticket version', async ({
+  test('TC-T2-TKT-01: displays 409 conflict warning and reloads latest server data', async ({
     page,
   }) => {
     // Open ticket tkt_001
     await page.locator('[data-testid="ticket-row-tkt_001"]').click();
     await expect(page.locator('[data-testid="ticket-detail-view"]')).toBeVisible();
 
-    // Override the PATCH route on this page to simulate concurrent update 409
+    let patchAttempted = false;
+
+    // Override route: 409 on PATCH, then updated ticket (version 2) on subsequent GET refetch
     await page.route('**/api/v1/tickets/tkt_001', async (route) => {
       if (route.request().method() === 'PATCH') {
+        patchAttempted = true;
         await route.fulfill({
           status: 409,
           contentType: 'application/problem+json',
           body: JSON.stringify({
-            type: 'https://supportpilot.io/errors/conflict',
-            title: 'Conflict',
+            type: '/errors/version-conflict',
+            title: 'Conflict: ticket has been modified concurrently.',
             status: 409,
             detail: 'Ticket was modified by another user',
           }),
         });
       } else {
-        await route.fallback();
+        // Return updated version 2 if PATCH already failed (simulating concurrent save by peer)
+        await route.fulfill({
+          status: 200,
+          contentType: 'application/json',
+          body: JSON.stringify({
+            data: {
+              ticket: {
+                id: 'tkt_001',
+                number: 1001,
+                subject: 'Cannot login with SAML Okta integration',
+                description: 'Customer reports 403 signature mismatch on SAML callback assertion.',
+                priority: 'HIGH',
+                status: 'OPEN',
+                version: patchAttempted ? 2 : 1,
+                createdAt: new Date().toISOString(),
+                updatedAt: new Date().toISOString(),
+              },
+              timeline: [],
+              messages: [],
+            },
+          }),
+        });
       }
     });
 
@@ -108,26 +132,79 @@ test.describe('Ticket Lifecycle, Management & Concurrency (TKT)', () => {
     const statusSelect = page.locator('[data-testid="detail-status-select"]');
     await statusSelect.selectOption('PENDING_CUSTOMER');
 
-    // Verify conflict warning banner appears
+    // 1. Verify conflict warning banner appears
     const conflictWarning = page.locator('[data-testid="conflict-warning"]');
     await expect(conflictWarning).toBeVisible();
     await expect(conflictWarning).toContainText(/updated by another agent|modified/i);
+
+    // 2. Verify reload verification: void refetch() reloads server version
+    await expect(page.getByText('v2', { exact: true })).toBeVisible();
+
+    // 3. Verify select element reloads to server's true current status (OPEN)
+    await expect(statusSelect).toHaveValue('OPEN');
   });
 
   test('TC-T2-TKT-02: filters tickets by priority chips in inbox view', async ({ page }) => {
-    // Click HIGH priority filter chip
-    const highChip = page.getByRole('button', { name: /^HIGH$/i });
-    if (await highChip.isVisible()) {
-      await highChip.click();
-      // Verify table still rendered
-      await expect(page.locator('[data-testid="tickets-table"]')).toBeVisible();
-    }
+    const table = page.locator('[data-testid="tickets-table"]');
+    await expect(table).toBeVisible();
 
-    // Click All filter chip to reset
+    // Click HIGH priority filter chip unconditionally
+    const highChip = page.getByRole('button', { name: /^HIGH$/i });
+    await expect(highChip).toBeVisible();
+    await highChip.click();
+
+    // Verify table filtered to high priority ticket (#1001) and low priority (#1002) excluded
+    await expect(page.locator('[data-testid="ticket-row-tkt_001"]')).toBeVisible();
+    await expect(page.locator('[data-testid="ticket-row-tkt_002"]')).not.toBeVisible();
+    await expect(table).toContainText('#1001');
+    await expect(table).not.toContainText('#1002');
+
+    // Click All filter chip unconditionally to reset filter
     const allChip = page.getByRole('button', { name: /^All$/i });
-    if (await allChip.isVisible()) {
-      await allChip.click();
-      await expect(page.locator('[data-testid="tickets-table"]')).toBeVisible();
-    }
+    await expect(allChip).toBeVisible();
+    await allChip.click();
+
+    // Verify both tickets visible again
+    await expect(page.locator('[data-testid="ticket-row-tkt_001"]')).toBeVisible();
+    await expect(page.locator('[data-testid="ticket-row-tkt_002"]')).toBeVisible();
+    await expect(table).toContainText('#1001');
+    await expect(table).toContainText('#1002');
+  });
+
+  test('TC-T3-VIRT-01: virtualizes large inbox table rendering under 100 row nodes with 5,000 items', async ({
+    page,
+  }) => {
+    const largeTicketSet = Array.from({ length: 5000 }, (_, i) => ({
+      id: `tkt_large_${i + 1}`,
+      number: i + 1,
+      tenantId: '507f1f77bcf86cd799439011',
+      subject: `Virtualization Test Ticket #${i + 1}`,
+      description: 'Stress testing virtual row count',
+      status: 'OPEN',
+      priority: 'MEDIUM',
+      customerId: 'cust_perf',
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    }));
+
+    await page.route('**/api/v1/tickets*', async (route) => {
+      await route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify({
+          data: largeTicketSet,
+          items: largeTicketSet,
+          meta: { cursor: 'next_cursor_123', hasMore: true },
+        }),
+      });
+    });
+
+    await page.locator('[data-testid="nav-inbox"]').click();
+    const table = page.locator('[data-testid="tickets-table"]');
+    await expect(table).toBeVisible();
+
+    const renderedRowCount = await page.locator('tbody#ticketTableBody tr.ticket-row').count();
+    expect(renderedRowCount).toBeLessThan(100);
+    expect(renderedRowCount).toBeGreaterThan(0);
   });
 });

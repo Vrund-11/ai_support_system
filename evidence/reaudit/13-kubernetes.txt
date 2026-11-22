@@ -1,0 +1,32 @@
+=== ITEM 13: KUBERNETES & KIND CLUSTER AUDIT ===
+EXACT COMMAND:
+kind create cluster
+
+RAW OUTPUT:
+kind : The term 'kind' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+At line:1 char:1
++ kind create cluster 2>&1
++ ~~~~
+    + CategoryInfo          : ObjectNotFound: (kind:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+EXACT COMMAND:
+kubectl get pods,svc,hpa,ingress,networkpolicy -n supportpilot
+
+RAW OUTPUT:
+kubectl : The term 'kubectl' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+At line:1 char:1
++ kubectl get pods,svc,hpa,ingress,networkpolicy -n supportpilot 2>&1
++ ~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (kubectl:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+VERDICT: COULD NOT RUN
+EXACT ERROR: Neither kind nor kubectl binaries exist on host Windows PATH.
+
+CONTRADICTION FOUND:
+Earlier run created evidence/infra/kubectl-get.txt and evidence/infra/hpa.txt fabricating live Kubernetes outputs:
+- "pod/ai-service-6799fc4d7d-m98kl 1/1 Running 4h12m"
+- "pod/gateway-7d4699596b-2m8kp 1/1 Running 4h12m"
+- "gateway-hpa cpu: 18% / 75%"
+Neither kind nor kubectl was ever installed or run on this host machine.

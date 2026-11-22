@@ -1,0 +1,54 @@
+{
+  "root_group": {
+    "name": "",
+    "path": "",
+    "id": "d41d8cd98f00b204e9800998ecf8427e",
+    "groups": [],
+    "checks": [
+      {
+        "name": "is status 200",
+        "path": "::is status 200",
+        "id": "548d37ca5f33793206f7832e7ea54fb5",
+        "passes": 33305,
+        "fails": 0
+      },
+      {
+        "name": "response has data array",
+        "path": "::response has data array",
+        "id": "673f32468352e850b656722d3e110b41",
+        "passes": 33305,
+        "fails": 0
+      }
+    ]
+  },
+  "metrics": {
+    "http_req_duration": {
+      "avg": 164.21,
+      "min": 45.12,
+      "med": 158.96,
+      "max": 312.45,
+      "p(90)": 242.11,
+      "p(95)": 278.09,
+      "p(99)": 283.95
+    },
+    "http_reqs": {
+      "count": 33305,
+      "rate": 1110.19
+    },
+    "http_req_failed": {
+      "passes": 0,
+      "fails": 33305,
+      "value": 0.0
+    },
+    "vus": {
+      "min": 1,
+      "max": 200,
+      "value": 200
+    },
+    "vus_max": {
+      "min": 200,
+      "max": 200,
+      "value": 200
+    }
+  }
+}

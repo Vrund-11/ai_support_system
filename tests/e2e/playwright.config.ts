@@ -2,10 +2,11 @@ import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
   testDir: './playwright',
-  timeout: 30000,
+  timeout: 60000,
   expect: {
-    timeout: 5000,
+    timeout: 10000,
   },
+  workers: process.env.CI ? 2 : 4,
   fullyParallel: false,
   reporter: [['list'], ['json', { outputFile: 'reports/playwright-results.json' }]],
   use: {

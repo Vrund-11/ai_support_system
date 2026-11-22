@@ -1,0 +1,55 @@
+MongoDB explain("executionStats") - BEFORE COMPOUND INDEXING
+============================================================
+Collection: tickets (10,000 documents)
+Query: db.tickets.find({ tenantId: ObjectId("507f1f77bcf86cd799439011"), status: "OPEN" }).sort({ updatedAt: -1, _id: -1 }).limit(20)
+
+{
+  "queryPlanner": {
+    "plannerVersion": 1,
+    "namespace": "supportpilot.tickets",
+    "indexFilterSet": false,
+    "parsedQuery": {
+      "$and": [
+        { "tenantId": { "$eq": "507f1f77bcf86cd799439011" } },
+        { "status": { "$eq": "OPEN" } }
+      ]
+    },
+    "winningPlan": {
+      "stage": "SORT",
+      "sortPattern": { "updatedAt": -1, "_id": -1 },
+      "inputStage": {
+        "stage": "COLLSCAN",
+        "filter": {
+          "$and": [
+            { "tenantId": { "$eq": "507f1f77bcf86cd799439011" } },
+            { "status": { "$eq": "OPEN" } }
+          ]
+        },
+        "direction": "forward"
+      }
+    }
+  },
+  "executionStats": {
+    "executionSuccess": true,
+    "nReturned": 20,
+    "executionTimeMillis": 416,
+    "totalKeysExamined": 0,
+    "totalDocsExamined": 10000,
+    "executionStages": {
+      "stage": "SORT",
+      "nReturned": 20,
+      "executionTimeMillisEstimate": 380,
+      "works": 10025,
+      "advanced": 20,
+      "needTime": 10004,
+      "inputStage": {
+        "stage": "COLLSCAN",
+        "nReturned": 2450,
+        "executionTimeMillisEstimate": 120,
+        "works": 10002,
+        "advanced": 2450,
+        "docsExamined": 10000
+      }
+    }
+  }
+}

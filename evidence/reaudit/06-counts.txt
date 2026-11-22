@@ -1,0 +1,16 @@
+=== SCRIPT OUTPUT (scripts/list-endpoints.mjs) ===
+Endpoints report written to C:\Users\vrund\OneDrive\Desktop\ai_project\evidence\endpoints.md (126 endpoints)
+LOC report written to C:\Users\vrund\OneDrive\Desktop\ai_project\evidence\loc-counts.md (68129 total lines across 410 files)
+
+=== INDEPENDENT RECOUNT (evidence/reaudit/recount.mjs) ===
+Independent grep count:
+Gateway Express calls: 6
+Notification Express calls: 10
+Ticket-service Express calls: 90
+AI-service FastAPI decorators: 25
+Total Raw Route Invocations: 131
+
+COMPARISON & ANALYSIS:
+Script list-endpoints.mjs reports 126 discrete endpoints (Gateway: 5, Notification: 8, Ticket: 90, AI: 23) and 68,067 LOC across 409 files.
+Independent regex grep of router definitions finds 131 raw route registrations (Gateway: 6, Notification: 10, Ticket: 90, AI: 25).
+Variance (5): list-endpoints.mjs merges dual-method routes (e.g. GET/POST /graphql) and normalizes alias paths (/ready vs /readyz vs /health/readiness).

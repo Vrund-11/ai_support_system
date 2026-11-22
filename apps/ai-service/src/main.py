@@ -1,15 +1,18 @@
 """SupportPilot AI Service — FastAPI application."""
 
-import sys
 import asyncio
+import json
+import sys
+from contextlib import asynccontextmanager
+
 if sys.platform == "win32":
     asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
 
 from typing import Any
 
-from fastapi import FastAPI, HTTPException, Header, Response, status
+from fastapi import FastAPI, Header, HTTPException, Response, status
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import PlainTextResponse
+from fastapi.responses import PlainTextResponse, StreamingResponse
 from pydantic import BaseModel, Field
 
 from src.assist import (
@@ -39,10 +42,34 @@ from src.rag.service import RagService
 from src.retrieval.hybrid import HybridRetriever
 from src.schemas.llm import GenerateAnswerRequest, GenerateAnswerResponse, RagAnswer
 
+
+def verify_production_guards() -> None:
+    """Verify production environment guards against mock providers (Feature 23)."""
+    env_str = settings.environment.lower().strip()
+    if env_str in ("production", "prod"):
+        if settings.embedding_provider.lower().strip() == "mock":
+            raise RuntimeError(
+                "CRITICAL: Mock embedding provider is strictly prohibited "
+                "in production environment."
+            )
+        if settings.llm_provider.lower().strip() == "mock":
+            raise RuntimeError(
+                "CRITICAL: Mock LLM provider is strictly prohibited "
+                "in production environment."
+            )
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    verify_production_guards()
+    yield
+
+
 app = FastAPI(
     title="SupportPilot AI Service",
     version="0.1.0",
     docs_url="/docs" if settings.environment != "production" else None,
+    lifespan=lifespan,
 )
 
 # CORS middleware for local frontend / gateway requests
@@ -73,15 +100,10 @@ async def ready(
     db_status = await check_db_connection()
     redis_status = await check_redis_connection()
 
-    is_ready = (
-        db_status.get("status") == "connected"
-        and redis_status.get("status") == "connected"
-    )
+    is_ready = db_status.get("status") == "connected" and redis_status.get("status") == "connected"
 
     expected_token = settings.internal_service_token or settings.service_token
-    is_auth = bool(
-        x_service_token and expected_token and x_service_token == expected_token
-    )
+    is_auth = bool(x_service_token and expected_token and x_service_token == expected_token)
 
     if not is_ready:
         response.status_code = status.HTTP_503_SERVICE_UNAVAILABLE
@@ -316,6 +338,96 @@ async def search_kb(req: SearchRequest) -> dict[str, Any]:
 async def generate_answer(req: GenerateAnswerRequest) -> GenerateAnswerResponse:
     service = RagService()
     return await service.generate_answer(req)
+
+
+# ── AI Draft SSE Streaming Endpoints (Feature 31) ──
+class StreamDraftRequest(BaseModel):
+    ticket_id: str = Field(default="", description="Ticket ID")
+    customer_query: str = Field(description="Customer inquiry text")
+    context_chunks: list[str] = Field(
+        default_factory=list, description="Optional pre-retrieved context chunks"
+    )
+    tenant_id: str = Field(default="default", description="Tenant ID for retrieval")
+
+
+@app.post("/draft-response/stream")
+@app.post("/v1/draft-response/stream")
+async def stream_draft_response(req: StreamDraftRequest):
+    """Stream AI draft response token-by-token over Server-Sent Events (SSE) (Feature 31)."""
+
+    async def event_generator():
+        try:
+            from src.rag.prompt import is_prompt_injection
+
+            if is_prompt_injection(req.customer_query):
+                refusal = "I apologize, but this inquiry cannot be processed automatically."
+                for word in refusal.split(" "):
+                    yield f"data: {json.dumps({'type': 'token', 'content': word + ' '})}\n\n"
+                    await asyncio.sleep(0.01)
+                done_payload = {
+                    "type": "done",
+                    "citations": [],
+                    "confidence": 1.0,
+                    "should_escalate": True,
+                    "shouldEscalate": True,
+                    "reason": "prompt_injection",
+                }
+                yield f"data: {json.dumps(done_payload)}\n\n"
+                return
+
+            citations = []
+            if req.context_chunks:
+                context_text = "\n\n".join(req.context_chunks)
+                citations = [
+                    {"document_id": f"ctx_{i}", "section": f"Chunk {i}"}
+                    for i in range(len(req.context_chunks))
+                ]
+            else:
+                retriever = HybridRetriever()
+                chunks = await retriever.retrieve(
+                    tenant_id=req.tenant_id, query=req.customer_query, top_k=3
+                )
+                context_text = "\n\n".join(c.content for c in chunks)
+                citations = [
+                    {
+                        "document_id": c.document_id,
+                        "section": c.section_path or f"Chunk {c.chunk_index}",
+                    }
+                    for c in chunks
+                ]
+
+            system_prompt = (
+                "You are SupportPilot, an AI customer support assistant. "
+                "Answer the customer inquiry accurately and professionally based on the context.\n"
+                f"<context>\n{context_text}\n</context>"
+            )
+            user_prompt = f"Customer Query: {req.customer_query}"
+
+            provider = get_llm_provider()
+            async for token in provider.stream_generate(system_prompt, user_prompt):
+                yield f"data: {json.dumps({'type': 'token', 'content': token})}\n\n"
+
+            done_payload = {
+                "type": "done",
+                "citations": citations,
+                "confidence": 0.92,
+                "should_escalate": False,
+                "shouldEscalate": False,
+            }
+            yield f"data: {json.dumps(done_payload)}\n\n"
+        except Exception as exc:
+            err_payload = {"type": "error", "message": str(exc)}
+            yield f"data: {json.dumps(err_payload)}\n\n"
+
+    return StreamingResponse(
+        event_generator(),
+        media_type="text/event-stream",
+        headers={
+            "Cache-Control": "no-cache",
+            "Connection": "keep-alive",
+            "X-Accel-Buffering": "no",
+        },
+    )
 
 
 # ── Semantic Cache Invalidation Endpoint (AI-7) ──

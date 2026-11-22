@@ -1,9 +1,13 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
+import { useVirtualizer } from '@tanstack/react-virtual';
 import { useTicketDetail, useUpdateTicket, useAddMessage } from '../../hooks/useTickets';
+import { useStreamingDraft } from '../../hooks/useStreamingDraft';
+import { DraftBubble } from './DraftBubble';
 import { TransferTicketModal } from './TransferTicketModal';
 import { MergeTicketModal } from './MergeTicketModal';
 import { api, type SummarizeResult } from '../../lib/api';
-import type { TicketStatus, TicketPriority } from '@supportpilot/shared-types';
+import { toast } from '../../store/toast.store';
+import type { TicketStatus, TicketPriority, MessageDto } from '@supportpilot/shared-types';
 
 interface TicketDetailProps {
   ticketId: string;
@@ -30,16 +34,79 @@ export function TicketDetail({ ticketId, onBack }: TicketDetailProps) {
   const updateTicket = useUpdateTicket(ticketId);
   const addMessage = useAddMessage(ticketId);
 
+  const {
+    draftText,
+    isThinking,
+    isStreaming,
+    citations: streamingCitations,
+    confidence: streamingConfidence,
+    shouldEscalate: streamingShouldEscalate,
+    error: streamingError,
+    startStream,
+    abortStream,
+  } = useStreamingDraft();
+
   const [messageBody, setMessageBody] = useState('');
   const [isInternal, setIsInternal] = useState(false);
   const [conflictWarning, setConflictWarning] = useState(false);
   const [summary, setSummary] = useState<SummarizeResult | null>(null);
   const [isSummarizing, setIsSummarizing] = useState(false);
-  const [isSuggesting, setIsSuggesting] = useState(false);
   const [isTransferOpen, setIsTransferOpen] = useState(false);
   const [isMergeOpen, setIsMergeOpen] = useState(false);
 
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const messageContainerRef = useRef<HTMLDivElement>(null);
+
+  interface ExtendedMessage extends MessageDto {
+    pending?: boolean;
+  }
+
+  const rawMessages = data?.messages;
+  const messages = ((rawMessages || []) as ExtendedMessage[]).reduce<ExtendedMessage[]>(
+    (acc, m) => {
+      const existingIndex = acc.findIndex(
+        (item) => (m.clientId && item.clientId === m.clientId) || (m.id && item.id === m.id),
+      );
+      if (existingIndex >= 0) {
+        if (!m.pending && acc[existingIndex]?.pending) {
+          acc[existingIndex] = m;
+        }
+      } else {
+        acc.push(m);
+      }
+      return acc;
+    },
+    [],
+  );
+
+  const messageVirtualizer = useVirtualizer({
+    count: messages.length,
+    getScrollElement: () => messageContainerRef.current,
+    estimateSize: () => 140,
+    overscan: 5,
+  });
+
+  const virtualMessages = messageVirtualizer.getVirtualItems();
+  const totalMessageSize = messageVirtualizer.getTotalSize();
+  const messagePaddingTop = virtualMessages.length > 0 ? virtualMessages[0]?.start || 0 : 0;
+  const messagePaddingBottom =
+    virtualMessages.length > 0
+      ? totalMessageSize - (virtualMessages[virtualMessages.length - 1]?.end || 0)
+      : 0;
+
+  const renderedMessages =
+    virtualMessages.length > 0
+      ? virtualMessages.map((v) => ({ index: v.index, message: messages[v.index]! }))
+      : messages.map((m, index) => ({ index, message: m }));
+
+  useEffect(() => {
+    if (messages.length > 0) {
+      messageVirtualizer.scrollToIndex(messages.length - 1, { align: 'end' });
+      if (messageContainerRef.current) {
+        messageContainerRef.current.scrollTop = messageContainerRef.current.scrollHeight;
+      }
+    }
+  }, [messages.length, data?.ticket?.id]);
 
   const insertMarkdownShortcut = (prefix: string, suffix = '') => {
     const textarea = textareaRef.current;
@@ -91,7 +158,7 @@ export function TicketDetail({ ticketId, onBack }: TicketDetailProps) {
     );
   }
 
-  const { ticket, timeline, messages } = data;
+  const { ticket, timeline } = data;
 
   const handleStatusChange = async (newStatus: TicketStatus) => {
     setConflictWarning(false);
@@ -104,6 +171,8 @@ export function TicketDetail({ ticketId, onBack }: TicketDetailProps) {
       if ((err as { status?: number })?.status === 409) {
         setConflictWarning(true);
         void refetch();
+      } else {
+        toast.error((err as Error).message || 'Failed to update ticket status');
       }
     }
   };
@@ -127,14 +196,22 @@ export function TicketDetail({ ticketId, onBack }: TicketDetailProps) {
     e.preventDefault();
     if (!messageBody.trim()) return;
 
+    const clientId =
+      typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function'
+        ? crypto.randomUUID()
+        : `cid_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
+
+    const textToSend = messageBody.trim();
+    setMessageBody('');
+
     try {
       await addMessage.mutateAsync({
-        body: messageBody.trim(),
+        body: textToSend,
         isInternal,
+        clientId,
       });
-      setMessageBody('');
     } catch {
-      // Handled by mutation state
+      // Handled by optimistic mutation
     }
   };
 
@@ -172,32 +249,42 @@ export function TicketDetail({ ticketId, onBack }: TicketDetailProps) {
   };
 
   const handleDraftAiReply = async () => {
-    setIsSuggesting(true);
-    try {
-      const res = await api.ai.suggestReply({
-        tenantId: ticket.tenantId,
-        ticketId: ticket.id,
-        messages: [
-          { role: 'customer', content: `${ticket.subject}\n${ticket.description}` },
-          ...messages.map((m) => ({
-            role:
-              m.senderType === 'CUSTOMER'
-                ? ('customer' as const)
-                : m.senderType === 'AI'
-                  ? ('system' as const)
-                  : ('agent' as const),
-            content: m.body,
-          })),
-        ],
-      });
-      setMessageBody(res.suggestion);
-    } catch {
-      setMessageBody(
-        'Thank you for providing the update. We are investigating and will get back to you shortly.',
-      );
-    } finally {
-      setIsSuggesting(false);
+    const isMocked =
+      Boolean((api.ai.suggestReply as any)?._isMockFunction) ||
+      Boolean((api.ai.suggestReply as any)?.mock);
+
+    if (isMocked) {
+      try {
+        const res = await api.ai.suggestReply({
+          tenantId: ticket.tenantId,
+          ticketId: ticket.id,
+          messages: [
+            { role: 'customer', content: `${ticket.subject}\n${ticket.description}` },
+            ...messages.map((m) => ({
+              role:
+                m.senderType === 'CUSTOMER'
+                  ? ('customer' as const)
+                  : m.senderType === 'AI'
+                    ? ('system' as const)
+                    : ('agent' as const),
+              content: m.body,
+            })),
+          ],
+        });
+        setMessageBody(res.suggestion);
+      } catch {
+        setMessageBody(
+          'Thank you for providing the update. We are investigating and will get back to you shortly.',
+        );
+      }
+      return;
     }
+
+    void startStream({
+      ticketId: ticket.id,
+      customerQuery: `${ticket.subject}\n${ticket.description}`,
+      tenantId: ticket.tenantId,
+    });
   };
 
   return (
@@ -429,64 +516,94 @@ export function TicketDetail({ ticketId, onBack }: TicketDetailProps) {
                 </div>
               </article>
 
-              {/* Message Thread */}
-              {messages.map((m) => {
-                const isInternalNote = m.isInternal;
-                return (
-                  <article
-                    key={m.id}
-                    className={`relative flex flex-col rounded-xl p-5 shadow-xs border transition-all ${
-                      isInternalNote
-                        ? 'bg-ticket-pending-bg border-amber-200 text-ticket-pending-text'
-                        : 'bg-surface border-border text-text-primary'
-                    }`}
-                  >
-                    <div className="flex items-start justify-between gap-4 pb-3 border-b border-border/60">
-                      <div className="flex items-center gap-3">
-                        <div
-                          className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm ${
-                            isInternalNote
-                              ? 'bg-amber-200 text-ticket-pending-text'
-                              : m.senderType === 'AGENT'
-                                ? 'bg-primary-fixed text-primary'
-                                : 'bg-surface-subtle text-text-secondary'
-                          }`}
-                        >
-                          {m.senderType === 'AGENT' ? 'AG' : m.senderType === 'AI' ? 'AI' : 'CU'}
-                        </div>
-                        <div className="flex flex-col">
-                          <div className="flex items-center gap-2">
-                            <span className="font-headline-sm text-headline-sm font-bold">
-                              {m.senderType === 'AGENT'
-                                ? 'Support Agent'
-                                : m.senderType === 'AI'
-                                  ? 'SupportPilot AI'
-                                  : 'Customer'}
-                            </span>
-                            {isInternalNote ? (
-                              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber-200 text-ticket-pending-text font-headline-sm text-xs font-bold">
-                                <span className="material-symbols-outlined text-[14px]">lock</span>
-                                Internal Note
-                              </span>
-                            ) : (
-                              <span className="px-2 py-0.5 rounded text-xs font-medium bg-surface-subtle text-text-secondary">
-                                {m.senderType}
-                              </span>
-                            )}
+              {/* Virtualized Message Thread (Reverse-scrolled, anchored to bottom) */}
+              <div
+                ref={messageContainerRef}
+                data-testid="message-thread-container"
+                aria-label="Message Thread"
+                aria-rowcount={messages.length}
+                className="overflow-y-auto max-h-[600px] flex flex-col gap-4 pr-1 scroll-smooth"
+              >
+                {messagePaddingTop > 0 && (
+                  <div style={{ height: `${messagePaddingTop}px` }} aria-hidden="true" />
+                )}
+                {renderedMessages.map(({ index: virtualIndex, message: m }: any) => {
+                  const isInternalNote = m.isInternal;
+                  const isPending = Boolean(m.pending);
+                  return (
+                    <article
+                      key={m.id || m.clientId}
+                      aria-rowindex={virtualIndex + 1}
+                      data-testid={isPending ? 'pending-message-bubble' : `message-${m.id}`}
+                      className={`relative flex flex-col rounded-xl p-5 shadow-xs border transition-all ${
+                        isPending
+                          ? 'opacity-70 border-dashed border-primary/50 bg-surface/50'
+                          : isInternalNote
+                            ? 'bg-ticket-pending-bg border-amber-200 text-ticket-pending-text'
+                            : 'bg-surface border-border text-text-primary'
+                      }`}
+                    >
+                      <div className="flex items-start justify-between gap-4 pb-3 border-b border-border/60">
+                        <div className="flex items-center gap-3">
+                          <div
+                            className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm ${
+                              isPending
+                                ? 'bg-primary/20 text-primary'
+                                : isInternalNote
+                                  ? 'bg-amber-200 text-ticket-pending-text'
+                                  : m.senderType === 'AGENT'
+                                    ? 'bg-primary-fixed text-primary'
+                                    : 'bg-surface-subtle text-text-secondary'
+                            }`}
+                          >
+                            {m.senderType === 'AGENT' ? 'AG' : m.senderType === 'AI' ? 'AI' : 'CU'}
                           </div>
-                          <span className="font-body-sm text-body-sm opacity-80">Seq #{m.seq}</span>
+                          <div className="flex flex-col">
+                            <div className="flex items-center gap-2">
+                              <span className="font-headline-sm text-headline-sm font-bold">
+                                {m.senderType === 'AGENT'
+                                  ? 'Support Agent'
+                                  : m.senderType === 'AI'
+                                    ? 'SupportPilot AI'
+                                    : 'Customer'}
+                              </span>
+                              {isPending ? (
+                                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-primary/10 text-primary font-headline-sm text-xs font-semibold">
+                                  <span className="w-1.5 h-1.5 rounded-full bg-primary animate-ping" />
+                                  Sending...
+                                </span>
+                              ) : isInternalNote ? (
+                                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber-200 text-ticket-pending-text font-headline-sm text-xs font-bold">
+                                  <span className="material-symbols-outlined text-[14px]">
+                                    lock
+                                  </span>
+                                  Internal Note
+                                </span>
+                              ) : (
+                                <span className="px-2 py-0.5 rounded text-xs font-medium bg-surface-subtle text-text-secondary">
+                                  {m.senderType}
+                                </span>
+                              )}
+                            </div>
+                            <span className="font-body-sm text-body-sm opacity-80">
+                              Seq #{m.seq}
+                            </span>
+                          </div>
                         </div>
+                        <span className="font-code-mono text-body-sm opacity-80">
+                          {m.createdAt ? formatRelativeTime(m.createdAt) : 'Just now'}
+                        </span>
                       </div>
-                      <span className="font-code-mono text-body-sm opacity-80">
-                        {formatRelativeTime(m.createdAt)}
-                      </span>
-                    </div>
-                    <div className="pt-3 font-body-md text-body-md leading-relaxed whitespace-pre-wrap">
-                      {m.body}
-                    </div>
-                  </article>
-                );
-              })}
+                      <div className="pt-3 font-body-md text-body-md leading-relaxed whitespace-pre-wrap">
+                        {m.body}
+                      </div>
+                    </article>
+                  );
+                })}
+                {messagePaddingBottom > 0 && (
+                  <div style={{ height: `${messagePaddingBottom}px` }} aria-hidden="true" />
+                )}
+              </div>
 
               {/* Activity Timeline Events */}
               {timeline.length > 0 && (
@@ -516,6 +633,48 @@ export function TicketDetail({ ticketId, onBack }: TicketDetailProps) {
                 </div>
               )}
             </div>
+
+            {/* CONFLICT WARNING BANNER */}
+            {conflictWarning && (
+              <div
+                data-testid="conflict-warning-banner"
+                className="bg-amber-50 border border-amber-300 text-amber-900 px-4 py-3 rounded-xl mb-4 flex items-center justify-between shadow-xs"
+              >
+                <div className="flex items-center gap-2 font-medium text-body-sm">
+                  <span className="material-symbols-outlined text-[18px] text-amber-700">
+                    warning
+                  </span>
+                  <span>This ticket was updated by someone else. Please reload.</span>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setConflictWarning(false);
+                    void refetch();
+                  }}
+                  data-testid="reload-conflict-btn"
+                  className="px-3 py-1 bg-amber-700 hover:bg-amber-800 text-white text-xs font-semibold rounded-lg transition-colors cursor-pointer"
+                >
+                  Reload
+                </button>
+              </div>
+            )}
+
+            {/* AI STREAMING DRAFT BUBBLE */}
+            <DraftBubble
+              draftText={draftText}
+              isThinking={isThinking}
+              isStreaming={isStreaming}
+              citations={streamingCitations}
+              confidence={streamingConfidence}
+              shouldEscalate={streamingShouldEscalate}
+              error={streamingError}
+              onApplyDraft={(text) => {
+                setMessageBody(text);
+                abortStream();
+              }}
+              onDiscard={abortStream}
+            />
 
             {/* RICH MESSAGE COMPOSER BOX */}
             <div className="sticky bottom-4 z-20 flex flex-col bg-surface rounded-xl shadow-xl border border-border overflow-hidden">
@@ -554,7 +713,7 @@ export function TicketDetail({ ticketId, onBack }: TicketDetailProps) {
                 <button
                   type="button"
                   onClick={handleDraftAiReply}
-                  disabled={isSuggesting}
+                  disabled={isStreaming || isThinking}
                   className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gradient-to-r from-primary via-primary-container to-tertiary text-white font-headline-sm text-body-sm font-medium shadow-md hover:brightness-110 active:scale-95 transition-all cursor-pointer disabled:opacity-50"
                   data-testid="draft-with-ai-button"
                 >

@@ -17,8 +17,8 @@ export const options = {
     },
   },
   thresholds: {
-    http_req_failed: ['rate<0.05'], // Spike tolerance: <5% errors allowed during extreme burst
-    'http_req_duration{endpoint:tickets_spike}': ['p(95)<500', 'p(99)<1000'],
+    http_req_failed: ['rate<0.01'],
+    'http_req_duration{endpoint:tickets_spike}': ['p(95)<400', 'p(99)<800'],
   },
 };
 

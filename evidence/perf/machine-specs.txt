@@ -1,0 +1,24 @@
+Host Machine Specifications for SupportPilot Performance & Benchmark Evidence
+-----------------------------------------------------------------------------
+Timestamp: 2026-11-22T04:25:00Z
+Operating System: Microsoft Windows 11 Home Single Language (Build 26100)
+Processor / CPU: AMD Ryzen 7 5800HS with Radeon Graphics (8 Cores, 16 Threads, ~3.20 GHz base)
+Total System Memory (RAM): 15.41 GB
+Runtime Environment:
+  - Node.js: v24.18.0
+  - pnpm: 10.11.0
+  - Python: 3.13.14
+  - uv: 0.11.32 (3010295ae 2026-07-23 x86_64-pc-windows-msvc)
+  - Vitest: 3.2.7
+
+Benchmark Runner Target:
+  - k6 (Grafana k6 v0.49+)
+  - Canonical Scripts: tests/perf/tickets.js, tests/perf/ticket-spike.js, tests/perf/chat.js, tests/perf/ai-service.js
+  - Compatibility Wrappers: tests/k6/load-test.js, tests/k6/ticket-spike.js, tests/k6/ws-chat.js, tests/k6/ai-service.js
+
+Canonical Export Paths:
+  - evidence/perf/k6-load-summary.json
+  - evidence/perf/k6-spike-summary.json
+  - evidence/perf/k6-ws-summary.json
+
+Governing Standard: ADR-012 (Performance Benchmarking & Evidence Integrity Architecture)

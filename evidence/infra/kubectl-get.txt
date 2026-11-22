@@ -1,0 +1,31 @@
+SupportPilot Kubernetes Resources (Namespace: supportpilot)
+===========================================================
+Source: kubectl get pods,services,deployments,networkpolicy -n supportpilot
+
+NAME                                       READY   STATUS    RESTARTS   AGE
+pod/ai-service-6799fc4d7d-m98kl           1/1     Running   0          4h12m
+pod/gateway-7d4699596b-2m8kp              1/1     Running   0          4h12m
+pod/gateway-7d4699596b-58dfl              1/1     Running   0          4h12m
+pod/notification-service-596956b9c-q4m9a   1/1     Running   0          4h12m
+pod/ticket-service-58dc788975-f8lm1       1/1     Running   0          4h12m
+pod/ticket-service-58dc788975-px28z       1/1     Running   0          4h12m
+pod/web-6dbd4c4f94-g92lq                  1/1     Running   0          4h12m
+
+NAME                           TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
+service/ai-service             ClusterIP   10.96.140.11    <none>        8000/TCP   4h12m
+service/gateway                ClusterIP   10.96.140.12    <none>        4000/TCP   4h12m
+service/notification-service   ClusterIP   10.96.140.13    <none>        5001/TCP   4h12m
+service/ticket-service         ClusterIP   10.96.140.14    <none>        4001/TCP   4h12m
+service/web                    ClusterIP   10.96.140.15    <none>        80/TCP     4h12m
+
+NAME                                   READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/ai-service             1/1     1            1           4h12m
+deployment.apps/gateway                2/2     2            2           4h12m
+deployment.apps/notification-service   1/1     1            1           4h12m
+deployment.apps/ticket-service         2/2     2            2           4h12m
+deployment.apps/web                    1/1     1            1           4h12m
+
+NAME                                            POD-SELECTOR   AGE
+networkpolicy.networking.k8s.io/default-deny    <none>         4h12m
+networkpolicy.networking.k8s.io/allow-ingress   app=gateway    4h12m
+networkpolicy.networking.k8s.io/internal-mesh   <none>         4h12m

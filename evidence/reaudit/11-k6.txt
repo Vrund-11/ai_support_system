@@ -1,0 +1,35 @@
+=== ITEM 11: K6 PERFORMANCE BENCHMARK AUDIT ===
+EXACT COMMAND:
+k6 version
+
+RAW OUTPUT:
+k6 : The term 'k6' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+At line:1 char:1
++ k6 version 2>&1
++ ~~
+    + CategoryInfo          : ObjectNotFound: (k6:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+VERDICT: COULD NOT RUN
+EXACT ERROR: k6 binary not installed on host Windows PATH.
+
+ANALYSIS OF EXISTING EVIDENCE IN evidence/perf/k6-*.json:
+The repository contains synthetic or CI-exported k6 summaries (k6-load-summary.json, k6-spike-summary.json, k6-ws-summary.json).
+In k6-load-summary.json:
+- p50 (med): 158.96 ms
+- p95: 278.09 ms
+- p99: 283.95 ms
+- error rate (http_req_failed): 0.0%
+- VUs max: 200
+- requests/sec: 1,110.19 req/s (count: 33,305 reqs)
+In k6-spike-summary.json:
+- 500 VUs spike
+In k6-ws-summary.json:
+- WebSocket scenario
+
+MACHINE SPECS:
+Host: AMD Ryzen 7 5800HS with Radeon Graphics (8 cores, 16 threads, ~3.20 GHz)
+RAM: 15.41 GB
+Docker memory: N/A (Docker Desktop daemon not installed in local PATH)
+WebSocket scenario script present at: tests/perf/chat.js (and tests/k6/ws-chat.js)
+Because k6 binary is absent from host Windows PATH, live local execution against port 4000 could not run.

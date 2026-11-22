@@ -2,7 +2,9 @@ import { test, expect } from '@playwright/test';
 import * as path from 'path';
 
 test.describe('SupportPilot Interactive Product Walkthrough & Video Recording', () => {
-  test('executes multi-window customer & agent live chat interaction', async ({ browser }) => {
+  test('executes interactive customer live chat and offline ticketing walkthrough', async ({
+    browser,
+  }) => {
     // 1. Setup video recording context
     const videoDir = path.resolve(process.cwd(), 'reports/videos');
     const customerContext = await browser.newContext({
@@ -69,27 +71,27 @@ test.describe('SupportPilot Interactive Product Walkthrough & Video Recording', 
 
     // --- SCENE 4: Switch to Offline Form Tab to demonstrate after-hours ticketing ---
     const offlineTab = customerPage.locator('[data-testid="tab-offline"]');
-    if (await offlineTab.isVisible()) {
-      await offlineTab.click();
-      await customerPage.waitForTimeout(1200);
+    await expect(offlineTab).toBeVisible();
+    await offlineTab.click();
+    await customerPage.waitForTimeout(1200);
 
-      const nameInput = customerPage.locator(
-        '[data-testid="offline-name-input"], input[name="customerName"]',
-      );
-      const emailInput = customerPage.locator(
-        '[data-testid="offline-email-input"], input[name="customerEmail"]',
-      );
-      const textarea = customerPage.locator(
-        '[data-testid="offline-message-input"], textarea[name="message"]',
-      );
+    const nameInput = customerPage.locator(
+      '[data-testid="offline-name-input"], input[name="customerName"]',
+    );
+    const emailInput = customerPage.locator(
+      '[data-testid="offline-email-input"], input[name="customerEmail"]',
+    );
+    const textarea = customerPage.locator(
+      '[data-testid="offline-message-input"], textarea[name="message"]',
+    );
 
-      if (await nameInput.isVisible()) {
-        await nameInput.fill('Sarah Connor');
-        await emailInput.fill('sarah@cyberdyne.io');
-        await textarea.fill('Please follow up with my invoice receipt.');
-        await customerPage.waitForTimeout(1000);
-      }
-    }
+    await expect(nameInput).toBeVisible();
+    await nameInput.fill('Sarah Connor');
+    await expect(emailInput).toBeVisible();
+    await emailInput.fill('sarah@cyberdyne.io');
+    await expect(textarea).toBeVisible();
+    await textarea.fill('Please follow up with my invoice receipt.');
+    await customerPage.waitForTimeout(1000);
 
     // Capture screenshot of final state
     await customerPage.screenshot({

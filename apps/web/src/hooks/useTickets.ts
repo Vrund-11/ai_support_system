@@ -6,6 +6,7 @@ import {
   type UpdateTicketPayload,
 } from '../lib/api';
 import type { TicketDto } from '@supportpilot/shared-types';
+import { useOptimisticMutation } from '../lib/optimistic';
 
 export function useTickets(filters: TicketFilterParams = {}) {
   return useQuery({
@@ -27,39 +28,62 @@ export function useCreateTicket() {
 }
 
 export function useUpdateTicket(ticketId: string) {
-  const queryClient = useQueryClient();
-
-  return useMutation({
+  return useOptimisticMutation({
+    queryKey: ['ticket', ticketId],
     mutationFn: (payload: UpdateTicketPayload) => api.tickets.update(ticketId, payload),
-    onSuccess: (updatedTicket: TicketDto) => {
-      // Update ticket detail cache
-      queryClient.setQueryData(
-        ['ticket', ticketId],
-        (old: { ticket: TicketDto; timeline: unknown[]; messages: unknown[] } | undefined) => {
-          if (!old) return old;
-          return {
-            ...old,
-            ticket: updatedTicket,
-          };
+    applyOptimistic: (
+      old: { ticket: TicketDto; timeline: unknown[]; messages: unknown[] } | undefined,
+      payload: UpdateTicketPayload,
+    ) => {
+      if (!old) return old;
+      return {
+        ...old,
+        ticket: {
+          ...old.ticket,
+          ...payload,
+          updatedAt: new Date().toISOString(),
         },
-      );
-      // Invalidate ticket list
-      void queryClient.invalidateQueries({ queryKey: ['tickets'] });
+      };
     },
+    conflictMessage: 'This ticket was updated by someone else. Reloading...',
+    errorMessage: 'Failed to update ticket. Reverted changes.',
   });
 }
 
 export function useAddMessage(ticketId: string) {
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: ({ body, isInternal }: { body: string; isInternal: boolean }) =>
-      api.tickets.addMessage(ticketId, body, isInternal),
-    onSuccess: () => {
-      // Refresh ticket detail to get new message and event timeline
-      void queryClient.invalidateQueries({ queryKey: ['ticket', ticketId] });
-      void queryClient.invalidateQueries({ queryKey: ['tickets'] });
+  return useOptimisticMutation({
+    queryKey: ['ticket', ticketId],
+    mutationFn: ({
+      body,
+      isInternal,
+      clientId,
+    }: {
+      body: string;
+      isInternal: boolean;
+      clientId?: string;
+    }) => api.tickets.addMessage(ticketId, body, isInternal, clientId),
+    applyOptimistic: (
+      old: { ticket: TicketDto; timeline: unknown[]; messages: any[] } | undefined,
+      vars: { body: string; isInternal: boolean; clientId?: string },
+    ) => {
+      if (!old) return old;
+      const optimisticMsg = {
+        id: vars.clientId || `pending_${Date.now()}`,
+        clientId: vars.clientId,
+        ticketId,
+        seq: (old.messages?.length || 0) + 1,
+        senderType: 'AGENT',
+        body: vars.body,
+        isInternal: vars.isInternal,
+        pending: true,
+        createdAt: new Date().toISOString(),
+      };
+      return {
+        ...old,
+        messages: [...(old.messages || []), optimisticMsg],
+      };
     },
+    errorMessage: "Couldn't send message. Reverted.",
   });
 }
 

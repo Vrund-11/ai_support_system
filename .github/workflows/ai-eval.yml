@@ -11,6 +11,9 @@ on:
     paths:
       - 'apps/ai-service/**'
       - 'tests/ai-eval/**'
+      - '.github/workflows/ai-eval.yml'
+  schedule:
+    - cron: '0 2 * * *' # Nightly full eval at 02:00 UTC
   workflow_dispatch:
 
 concurrency:
@@ -18,8 +21,8 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  ai-eval-gate:
-    name: Golden Set Evaluation & Quality Gates
+  ai-eval-smoke:
+    name: AI Service Smoke Evaluation Gate
     runs-on: ubuntu-latest
     timeout-minutes: 15
 
@@ -31,38 +34,76 @@ jobs:
           python-version: '3.12'
           cache: 'pip'
 
+      - name: Cache Hugging Face Model Cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/huggingface
+          key: ${{ runner.os }}-huggingface-all-MiniLM-L6-v2-${{ hashFiles('apps/ai-service/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-huggingface-all-MiniLM-L6-v2-
+            ${{ runner.os }}-huggingface-
+
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r apps/ai-service/requirements.txt
-          pip install pytest pytest-asyncio
+          pip install pytest pytest-asyncio pytest-cov
 
-      - name: Run AI Evaluation Runner
+      - name: Run AI Service Unit & Integration Tests
         run: |
-          pytest apps/ai-service/tests/test_eval.py -v
+          pytest apps/ai-service/tests/test_eval.py apps/ai-service/tests/test_sbert_embeddings.py apps/ai-service/tests/test_retrieval.py -v
         env:
           ENVIRONMENT: test
           LLM_PROVIDER: mock
-          DATABASE_URL: 'sqlite+aiosqlite:///:memory:'
-          REDIS_URL: 'redis://localhost:6379'
+          EMBEDDING_PROVIDER: sbert
 
-      - name: Verify Classification Accuracy Gate
+      - name: Run 20-Row Real Model Smoke Evaluation
         run: |
-          pytest apps/ai-service/tests/test_classifier.py -v
+          python tests/ai-eval/run.py --smoke --dataset tests/ai-eval/golden/v2.jsonl --corpus tests/ai-eval/corpus
         env:
           ENVIRONMENT: test
           LLM_PROVIDER: mock
+          EMBEDDING_PROVIDER: sbert
 
-      - name: Check Quality Thresholds
+  ai-eval-nightly:
+    name: Nightly Full Golden Set Evaluation & Regression Gate
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+
+      - name: Cache Hugging Face Model Cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/huggingface
+          key: ${{ runner.os }}-huggingface-all-MiniLM-L6-v2-${{ hashFiles('apps/ai-service/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-huggingface-all-MiniLM-L6-v2-
+            ${{ runner.os }}-huggingface-
+
+      - name: Install dependencies
         run: |
-          python -c "
-          print('Verifying Quality Gates: Hit@5 >= 0.85, Groundedness >= 0.90, Priority-F1 >= 0.80')
-          # Threshold assertion matches baseline verified in M06 / M07
-          hit_at_5 = 1.00
-          groundedness = 1.00
-          priority_f1 = 0.922
-          assert hit_at_5 >= 0.85, f'Hit@5 {hit_at_5} below 0.85'
-          assert groundedness >= 0.90, f'Groundedness {groundedness} below 0.90'
-          assert priority_f1 >= 0.80, f'Priority F1 {priority_f1} below 0.80'
-          print('All AI quality thresholds PASSED!')
-          "
+          python -m pip install --upgrade pip
+          pip install -r apps/ai-service/requirements.txt
+          pip install pytest pytest-asyncio pytest-cov
+
+      - name: Execute Full 115-Sample Golden Evaluation
+        run: |
+          python tests/ai-eval/run.py --dataset tests/ai-eval/golden/v2.jsonl --corpus tests/ai-eval/corpus --out evidence/ai/eval-nightly.md
+        env:
+          ENVIRONMENT: test
+          LLM_PROVIDER: mock
+          EMBEDDING_PROVIDER: sbert
+
+      - name: Upload Evaluation Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ai-eval-nightly-report
+          path: evidence/ai/eval-nightly.md

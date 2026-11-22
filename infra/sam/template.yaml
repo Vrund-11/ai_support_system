@@ -1,0 +1,64 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: SupportPilot Webhook Dispatcher Lambda (Python 3.12) fed by SQS with DLQ
+
+Globals:
+  Function:
+    Timeout: 10
+    MemorySize: 256
+    Runtime: python3.12
+    Architectures:
+      - x86_64
+    Environment:
+      Variables:
+        WEBHOOK_SIGNING_SECRET: 'whsec_default_signing_key_32_chars!'
+        WEBHOOK_ALLOW_LOCAL: 'false'
+
+Resources:
+  WebhooksDLQ:
+    Type: AWS::SQS::Queue
+    Properties:
+      QueueName: supportpilot-webhooks-dlq
+      MessageRetentionPeriod: 1209600
+
+  WebhooksQueue:
+    Type: AWS::SQS::Queue
+    Properties:
+      QueueName: supportpilot-webhooks
+      VisibilityTimeout: 30
+      RedrivePolicy:
+        deadLetterTargetArn: !GetAtt WebhooksDLQ.Arn
+        maxReceiveCount: 5
+
+  WebhookFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: supportpilot-webhook-dispatcher
+      CodeUri: .
+      Handler: handlers.webhook.handler
+      Description: Dispatches HMAC-SHA256 signed webhooks to tenant endpoints with SSRF protection and SQS DLQ
+      Events:
+        SQSEvent:
+          Type: SQS
+          Properties:
+            Queue: !GetAtt WebhooksQueue.Arn
+            BatchSize: 10
+            FunctionResponseTypes:
+              - ReportBatchItemFailures
+
+Outputs:
+  QueueUrl:
+    Description: SQS Webhook Queue URL
+    Value: !Ref WebhooksQueue
+  QueueArn:
+    Description: SQS Webhook Queue ARN
+    Value: !GetAtt WebhooksQueue.Arn
+  DLQUrl:
+    Description: SQS DLQ URL
+    Value: !Ref WebhooksDLQ
+  DLQArn:
+    Description: SQS DLQ ARN
+    Value: !GetAtt WebhooksDLQ.Arn
+  FunctionArn:
+    Description: Lambda Function ARN
+    Value: !GetAtt WebhookFunction.Arn

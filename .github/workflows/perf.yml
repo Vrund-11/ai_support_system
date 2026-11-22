@@ -9,6 +9,9 @@ concurrency:
   group: perf-benchmark
   cancel-in-progress: false
 
+permissions:
+  contents: read
+
 jobs:
   k6-benchmark:
     name: k6 Load Testing
@@ -70,17 +73,14 @@ jobs:
         run: |
           mkdir -p reports/perf
           k6 run --summary-export=reports/perf/tickets-summary.json tests/perf/tickets.js
-        continue-on-error: true
 
       - name: Run k6 Chat WebSocket Benchmark
         run: |
           k6 run --summary-export=reports/perf/chat-summary.json tests/perf/chat.js
-        continue-on-error: true
 
       - name: Run k6 AI Endpoint Benchmark
         run: |
           k6 run --summary-export=reports/perf/ai-summary.json tests/perf/ai-service.js
-        continue-on-error: true
 
       - name: Upload Performance Reports
         uses: actions/upload-artifact@v4

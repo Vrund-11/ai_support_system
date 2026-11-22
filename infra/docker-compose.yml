@@ -1,0 +1,112 @@
+# ── SupportPilot Microservices & Applications ──
+# Run: docker compose -f infra/docker-compose.yml up -d --build
+
+services:
+  ticket-service:
+    build:
+      context: ..
+      dockerfile: apps/ticket-service/Dockerfile
+    container_name: sp-ticket-service
+    restart: unless-stopped
+    ports:
+      - '4001:4001'
+    environment:
+      NODE_ENV: development
+      PORT: '4001'
+      MONGODB_URI: mongodb://mongo:27017/supportpilot
+      REDIS_URL: redis://redis:6379
+      SERVICE_TOKEN: supportpilot-internal-service-token-32c!
+      JWT_ACCESS_SECRET: supportpilot-jwt-access-secret-32-chars!
+      JWT_REFRESH_SECRET: supportpilot-jwt-refresh-secret-32-chars!
+      NOTIFICATION_SERVICE_URL: http://notification-service:5001
+    networks:
+      - default
+
+  ai-service:
+    build:
+      context: ..
+      dockerfile: apps/ai-service/Dockerfile
+    container_name: sp-ai-service
+    restart: unless-stopped
+    ports:
+      - '8000:8000'
+    environment:
+      ENVIRONMENT: production
+      DATABASE_URL: postgresql://supportpilot:supportpilot@postgres:5432/supportpilot
+      REDIS_URL: redis://redis:6379
+      LLM_PROVIDER: mock
+      SERVICE_TOKEN: supportpilot-internal-service-token-32c!
+    networks:
+      - default
+
+  notification-service:
+    build:
+      context: ..
+      dockerfile: apps/notification-service/Dockerfile
+    container_name: sp-notification-service
+    restart: unless-stopped
+    ports:
+      - '5001:5001'
+    environment:
+      NODE_ENV: development
+      PORT: '5001'
+      REDIS_URL: redis://redis:6379
+      SERVICE_TOKEN: supportpilot-internal-service-token-32c!
+      SMTP_HOST: mailhog
+      SMTP_PORT: '1025'
+    networks:
+      - default
+
+  gateway:
+    build:
+      context: ..
+      dockerfile: apps/gateway/Dockerfile
+    container_name: sp-gateway
+    restart: unless-stopped
+    ports:
+      - '4000:4000'
+    environment:
+      NODE_ENV: development
+      PORT: '4000'
+      REDIS_URL: redis://redis:6379
+      TICKET_SERVICE_URL: http://ticket-service:4001
+      AI_SERVICE_URL: http://ai-service:8000
+      NOTIFICATION_SERVICE_URL: http://notification-service:5001
+      SERVICE_TOKEN: supportpilot-internal-service-token-32c!
+      JWT_ACCESS_SECRET: supportpilot-jwt-access-secret-32-chars!
+    depends_on:
+      - ticket-service
+      - ai-service
+    networks:
+      - default
+
+  web:
+    build:
+      context: ..
+      dockerfile: apps/web/Dockerfile
+    container_name: sp-web
+    restart: unless-stopped
+    ports:
+      - '3000:80'
+    depends_on:
+      - gateway
+    networks:
+      - default
+
+  widget:
+    build:
+      context: ..
+      dockerfile: apps/widget/Dockerfile
+    container_name: sp-widget
+    restart: unless-stopped
+    ports:
+      - '3001:80'
+    depends_on:
+      - gateway
+    networks:
+      - default
+
+networks:
+  default:
+    name: supportpilot-net
+    external: true

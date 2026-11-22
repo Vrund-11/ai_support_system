@@ -1,0 +1,295 @@
+{
+  "numTotalTestSuites": 12,
+  "numPassedTestSuites": 12,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 23,
+  "numPassedTests": 23,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1795323462580,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [
+            "Email Service & MailHog SMTP Integration (NOTIF-3, AUTH-4)",
+            "renderEmailTemplate"
+          ],
+          "fullName": "Email Service & MailHog SMTP Integration (NOTIF-3, AUTH-4) renderEmailTemplate renders verify_email template with verification link and expiration",
+          "status": "passed",
+          "title": "renders verify_email template with verification link and expiration",
+          "duration": 1.8275000000003274,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": [
+            "Email Service & MailHog SMTP Integration (NOTIF-3, AUTH-4)",
+            "renderEmailTemplate"
+          ],
+          "fullName": "Email Service & MailHog SMTP Integration (NOTIF-3, AUTH-4) renderEmailTemplate renders password_reset template with reset link and 1-hour expiration",
+          "status": "passed",
+          "title": "renders password_reset template with reset link and 1-hour expiration",
+          "duration": 0.35359999999991487,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": [
+            "Email Service & MailHog SMTP Integration (NOTIF-3, AUTH-4)",
+            "renderEmailTemplate"
+          ],
+          "fullName": "Email Service & MailHog SMTP Integration (NOTIF-3, AUTH-4) renderEmailTemplate renders ticket_update template with snippet and ticket number",
+          "status": "passed",
+          "title": "renders ticket_update template with snippet and ticket number",
+          "duration": 0.36180000000013024,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": [
+            "Email Service & MailHog SMTP Integration (NOTIF-3, AUTH-4)",
+            "renderEmailTemplate"
+          ],
+          "fullName": "Email Service & MailHog SMTP Integration (NOTIF-3, AUTH-4) renderEmailTemplate renders sla_alert template with milestone stage",
+          "status": "passed",
+          "title": "renders sla_alert template with milestone stage",
+          "duration": 0.20779999999967913,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": [
+            "Email Service & MailHog SMTP Integration (NOTIF-3, AUTH-4)",
+            "EmailTransporter"
+          ],
+          "fullName": "Email Service & MailHog SMTP Integration (NOTIF-3, AUTH-4) EmailTransporter sends email and records into TestMailbox when SMTP offline or mocked",
+          "status": "passed",
+          "title": "sends email and records into TestMailbox when SMTP offline or mocked",
+          "duration": 18.029199999999946,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": [
+            "Email Service & MailHog SMTP Integration (NOTIF-3, AUTH-4)",
+            "NotificationDispatchers.processEmail"
+          ],
+          "fullName": "Email Service & MailHog SMTP Integration (NOTIF-3, AUTH-4) NotificationDispatchers.processEmail dispatches email and honors idempotency key",
+          "status": "passed",
+          "title": "dispatches email and honors idempotency key",
+          "duration": 31.796800000000076,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": [
+            "Email Service & MailHog SMTP Integration (NOTIF-3, AUTH-4)",
+            "Email inspection endpoint"
+          ],
+          "fullName": "Email Service & MailHog SMTP Integration (NOTIF-3, AUTH-4) Email inspection endpoint allows querying sent emails by recipient via HTTP API",
+          "status": "passed",
+          "title": "allows querying sent emails by recipient via HTTP API",
+          "duration": 201.3090000000002,
+          "failureMessages": [],
+          "meta": {}
+        }
+      ],
+      "startTime": 1795323464906,
+      "endTime": 1795323465160.309,
+      "status": "passed",
+      "message": "",
+      "name": "C:/Users/vrund/OneDrive/Desktop/ai_project/apps/notification-service/tests/email-service.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["Notification Service REST API (NOTIF-5)"],
+          "fullName": "Notification Service REST API (NOTIF-5) responds with 200 on /health probe without authentication",
+          "status": "passed",
+          "title": "responds with 200 on /health probe without authentication",
+          "duration": 39.085099999999784,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["Notification Service REST API (NOTIF-5)"],
+          "fullName": "Notification Service REST API (NOTIF-5) rejects unauthenticated requests to protected endpoints with 401",
+          "status": "passed",
+          "title": "rejects unauthenticated requests to protected endpoints with 401",
+          "duration": 35.15350000000035,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["Notification Service REST API (NOTIF-5)"],
+          "fullName": "Notification Service REST API (NOTIF-5) validates request payload and enqueues job with 202 Accepted",
+          "status": "passed",
+          "title": "validates request payload and enqueues job with 202 Accepted",
+          "duration": 12.01030000000037,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["Notification Service REST API (NOTIF-5)"],
+          "fullName": "Notification Service REST API (NOTIF-5) returns queue metrics across all notification queues",
+          "status": "passed",
+          "title": "returns queue metrics across all notification queues",
+          "duration": 9.930499999999938,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["Notification Service REST API (NOTIF-5)"],
+          "fullName": "Notification Service REST API (NOTIF-5) lists and replays dead-letter queue records for a tenant",
+          "status": "passed",
+          "title": "lists and replays dead-letter queue records for a tenant",
+          "duration": 19.172500000000127,
+          "failureMessages": [],
+          "meta": {}
+        }
+      ],
+      "startTime": 1795323464784,
+      "endTime": 1795323464900.1726,
+      "status": "passed",
+      "message": "",
+      "name": "C:/Users/vrund/OneDrive/Desktop/ai_project/apps/notification-service/tests/notification-api.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["QueueManager & BullMQ Configuration (NOTIF-5)"],
+          "fullName": "QueueManager & BullMQ Configuration (NOTIF-5) configures exponential backoff and retry limits for notification queues per NOTIF-5",
+          "status": "passed",
+          "title": "configures exponential backoff and retry limits for notification queues per NOTIF-5",
+          "duration": 2.748199999999997,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["QueueManager & BullMQ Configuration (NOTIF-5)"],
+          "fullName": "QueueManager & BullMQ Configuration (NOTIF-5) enforces idempotency: duplicate job keys are acquired once and subsequent attempts rejected",
+          "status": "passed",
+          "title": "enforces idempotency: duplicate job keys are acquired once and subsequent attempts rejected",
+          "duration": 0.5572000000001935,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["QueueManager & BullMQ Configuration (NOTIF-5)"],
+          "fullName": "QueueManager & BullMQ Configuration (NOTIF-5) consumer skips processing when duplicate job arrives with same idempotency key",
+          "status": "passed",
+          "title": "consumer skips processing when duplicate job arrives with same idempotency key",
+          "duration": 39.24589999999989,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["QueueManager & BullMQ Configuration (NOTIF-5)"],
+          "fullName": "QueueManager & BullMQ Configuration (NOTIF-5) routes failed jobs to DLQ with full metadata when retry attempts are exhausted",
+          "status": "passed",
+          "title": "routes failed jobs to DLQ with full metadata when retry attempts are exhausted",
+          "duration": 1.4669999999998709,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["QueueManager & BullMQ Configuration (NOTIF-5)"],
+          "fullName": "QueueManager & BullMQ Configuration (NOTIF-5) enforces strict cross-tenant isolation on DLQ records (TEN-1)",
+          "status": "passed",
+          "title": "enforces strict cross-tenant isolation on DLQ records (TEN-1)",
+          "duration": 0.585700000000088,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["QueueManager & BullMQ Configuration (NOTIF-5)"],
+          "fullName": "QueueManager & BullMQ Configuration (NOTIF-5) allows replaying a DLQ record back into its source queue and cleans up DLQ entry",
+          "status": "passed",
+          "title": "allows replaying a DLQ record back into its source queue and cleans up DLQ entry",
+          "duration": 2.849999999999909,
+          "failureMessages": [],
+          "meta": {}
+        }
+      ],
+      "startTime": 1795323464420,
+      "endTime": 1795323464467.85,
+      "status": "passed",
+      "message": "",
+      "name": "C:/Users/vrund/OneDrive/Desktop/ai_project/apps/notification-service/tests/queue-manager.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["SLA Automation & Delayed Job Processing (AUTO-1, AUTO-2, T-SLA-01)"],
+          "fullName": "SLA Automation & Delayed Job Processing (AUTO-1, AUTO-2, T-SLA-01) schedules 4 delayed timer jobs (75% and 100% for FR and Resolution) on ticket creation",
+          "status": "passed",
+          "title": "schedules 4 delayed timer jobs (75% and 100% for FR and Resolution) on ticket creation",
+          "duration": 3.6538000000000466,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["SLA Automation & Delayed Job Processing (AUTO-1, AUTO-2, T-SLA-01)"],
+          "fullName": "SLA Automation & Delayed Job Processing (AUTO-1, AUTO-2, T-SLA-01) triggers 75% warning when timer job fires on an unresolved ticket",
+          "status": "passed",
+          "title": "triggers 75% warning when timer job fires on an unresolved ticket",
+          "duration": 0.6486999999999625,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["SLA Automation & Delayed Job Processing (AUTO-1, AUTO-2, T-SLA-01)"],
+          "fullName": "SLA Automation & Delayed Job Processing (AUTO-1, AUTO-2, T-SLA-01) triggers 100% breach event when timer job fires on an unresolved ticket",
+          "status": "passed",
+          "title": "triggers 100% breach event when timer job fires on an unresolved ticket",
+          "duration": 0.5318999999999505,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["SLA Automation & Delayed Job Processing (AUTO-1, AUTO-2, T-SLA-01)"],
+          "fullName": "SLA Automation & Delayed Job Processing (AUTO-1, AUTO-2, T-SLA-01) T-SLA-01: skips SLA warning and breach when ticket is already RESOLVED or CLOSED",
+          "status": "passed",
+          "title": "T-SLA-01: skips SLA warning and breach when ticket is already RESOLVED or CLOSED",
+          "duration": 0.4492000000000189,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["SLA Automation & Delayed Job Processing (AUTO-1, AUTO-2, T-SLA-01)"],
+          "fullName": "SLA Automation & Delayed Job Processing (AUTO-1, AUTO-2, T-SLA-01) T-SLA-01: skips FIRST_RESPONSE timer when first response has already been provided",
+          "status": "passed",
+          "title": "T-SLA-01: skips FIRST_RESPONSE timer when first response has already been provided",
+          "duration": 0.3347999999998592,
+          "failureMessages": [],
+          "meta": {}
+        }
+      ],
+      "startTime": 1795323464437,
+      "endTime": 1795323464442.3347,
+      "status": "passed",
+      "message": "",
+      "name": "C:/Users/vrund/OneDrive/Desktop/ai_project/apps/notification-service/tests/sla-automation.test.ts"
+    }
+  ]
+}

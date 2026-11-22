@@ -1,4 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
+import { useVirtualizer } from '@tanstack/react-virtual';
 import { useTickets } from '../../hooks/useTickets';
 import { StatusChip } from './StatusChip';
 import { PriorityChip } from './PriorityChip';
@@ -42,11 +44,18 @@ export function TicketInbox({ onSelectTicket, onOpenCreate }: TicketInboxProps) 
     setSearchQuery(val);
   };
 
+  const queryClient = useQueryClient();
+  const parentRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
+    const controller = new AbortController();
     const timer = setTimeout(() => {
       setDebouncedSearch(searchQuery);
-    }, 300);
-    return () => clearTimeout(timer);
+    }, 250);
+    return () => {
+      clearTimeout(timer);
+      controller.abort();
+    };
   }, [searchQuery]);
 
   const { data, isLoading, isError, error, refetch } = useTickets({
@@ -56,6 +65,60 @@ export function TicketInbox({ onSelectTicket, onOpenCreate }: TicketInboxProps) 
   });
 
   const tickets = data?.data || [];
+
+  const rowVirtualizer = useVirtualizer({
+    count: tickets.length,
+    getScrollElement: () => parentRef.current,
+    estimateSize: () => 56,
+    overscan: 10,
+  });
+
+  const virtualItems = rowVirtualizer.getVirtualItems();
+  const totalSize = rowVirtualizer.getTotalSize();
+  const paddingTop = virtualItems.length > 0 ? virtualItems[0]?.start || 0 : 0;
+  const paddingBottom =
+    virtualItems.length > 0 ? totalSize - (virtualItems[virtualItems.length - 1]?.end || 0) : 0;
+
+  // Fallback for non-scrolling jsdom test environments
+  const renderedRows =
+    virtualItems.length > 0
+      ? virtualItems.map((v) => ({ index: v.index, ticket: tickets[v.index]! }))
+      : tickets.slice(0, 50).map((ticket, index) => ({ index, ticket }));
+
+  const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
+    const el = e.currentTarget;
+    if (el.scrollHeight > 0 && el.scrollTop + el.clientHeight >= el.scrollHeight * 0.7) {
+      const cursor = (data as any)?.meta?.cursor;
+      if (cursor) {
+        void queryClient.prefetchQuery({
+          queryKey: [
+            'tickets',
+            {
+              status: statusFilter,
+              priority: priorityFilter,
+              q: debouncedSearch.trim() || undefined,
+              cursor,
+            },
+          ],
+          queryFn: () =>
+            api.tickets.list({
+              status: statusFilter,
+              priority: priorityFilter,
+              q: debouncedSearch.trim() || undefined,
+              cursor,
+            }),
+        });
+      }
+    }
+  };
+
+  const handlePrefetch = (ticketId: string) => {
+    void queryClient.prefetchQuery({
+      queryKey: ['ticket', ticketId],
+      queryFn: () => api.tickets.get(ticketId),
+      staleTime: 30000,
+    });
+  };
 
   const openCount = tickets.filter((t) => t.status === 'OPEN').length;
   const unassignedCount = tickets.filter((t) => !t.assigneeId).length;
@@ -533,10 +596,15 @@ export function TicketInbox({ onSelectTicket, onOpenCreate }: TicketInboxProps) 
             )}
           </div>
         ) : (
-          <div className="overflow-x-auto w-full">
+          <div
+            ref={parentRef}
+            onScroll={handleScroll}
+            className="overflow-x-auto overflow-y-auto max-h-[700px] w-full border border-border rounded-lg bg-surface shadow-xs"
+          >
             <table
-              className="w-full text-left font-body-sm text-body-sm"
+              className="w-full text-left font-body-sm text-body-sm border-collapse"
               data-testid="tickets-table"
+              aria-rowcount={tickets.length}
             >
               <thead>
                 <tr className="bg-surface-subtle text-text-secondary font-medium tracking-tight border-b border-border select-none">
@@ -613,7 +681,12 @@ export function TicketInbox({ onSelectTicket, onOpenCreate }: TicketInboxProps) 
                 </tr>
               </thead>
               <tbody className="divide-y divide-border text-text-primary" id="ticketTableBody">
-                {tickets.map((t) => {
+                {paddingTop > 0 && (
+                  <tr style={{ height: `${paddingTop}px` }} aria-hidden="true">
+                    <td colSpan={10} />
+                  </tr>
+                )}
+                {renderedRows.map(({ index: virtualIndex, ticket: t }) => {
                   const isSelected = selectedTicketIds.includes(t.id);
                   const assigneeInitials = t.assigneeId
                     ? t.assigneeId.slice(0, 2).toUpperCase()
@@ -623,6 +696,10 @@ export function TicketInbox({ onSelectTicket, onOpenCreate }: TicketInboxProps) 
                     <tr
                       key={t.id}
                       onClick={() => onSelectTicket(t.id)}
+                      onMouseEnter={() => handlePrefetch(t.id)}
+                      onFocus={() => handlePrefetch(t.id)}
+                      tabIndex={0}
+                      aria-rowindex={virtualIndex + 1}
                       data-testid={`ticket-row-${t.id}`}
                       className={`ticket-row transition-colors group cursor-pointer ${
                         isSelected ? 'bg-primary-fixed/20' : 'hover:bg-surface-subtle/80'
@@ -727,6 +804,11 @@ export function TicketInbox({ onSelectTicket, onOpenCreate }: TicketInboxProps) 
                     </tr>
                   );
                 })}
+                {paddingBottom > 0 && (
+                  <tr style={{ height: `${paddingBottom}px` }} aria-hidden="true">
+                    <td colSpan={10} />
+                  </tr>
+                )}
               </tbody>
             </table>
           </div>

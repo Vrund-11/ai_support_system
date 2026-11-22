@@ -1,5 +1,6 @@
 """Repository for KB documents and chunks with pgvector support and in-memory test fallback."""
 
+import json
 from dataclasses import dataclass, field
 from datetime import UTC, datetime
 from typing import Any
@@ -174,6 +175,8 @@ class MemoryIngestRepository(BaseIngestRepository):
 
         stored: list[StoredChunk] = []
         for i, chunk in enumerate(chunks):
+            meta = dict(chunk.metadata) if hasattr(chunk, "metadata") and chunk.metadata else {}
+            meta.setdefault("embedding_model", "sentence-transformers/all-MiniLM-L6-v2")
             stored.append(
                 StoredChunk(
                     id=f"{document_id}_{chunk.chunk_index}",
@@ -184,7 +187,7 @@ class MemoryIngestRepository(BaseIngestRepository):
                     section_path=chunk.section_path,
                     token_count=chunk.token_count,
                     embedding=embeddings[i] if i < len(embeddings) else [],
-                    metadata=chunk.metadata,
+                    metadata=meta,
                 )
             )
 
@@ -303,6 +306,15 @@ class PostgresIngestRepository(BaseIngestRepository):
                 CREATE INDEX IF NOT EXISTS idx_kb_chunks_tenant_tsv ON kb_chunks(tenant_id, tsv);
                 """
             )
+            if has_vector:
+                await cur.execute(
+                    """
+                    DROP INDEX IF EXISTS idx_kb_chunks_embedding;
+                    CREATE INDEX IF NOT EXISTS idx_kb_chunks_embedding
+                        ON kb_chunks USING hnsw (embedding vector_cosine_ops)
+                        WITH (m = 16, ef_construction = 64);
+                    """
+                )
             await conn.commit()
 
     async def upsert_document(
@@ -426,12 +438,15 @@ class PostgresIngestRepository(BaseIngestRepository):
             for i, chunk in enumerate(chunks):
                 raw_emb = embeddings[i] if i < len(embeddings) else []
                 emb = f"[{','.join(str(x) for x in raw_emb)}]" if is_vector_udt else raw_emb
+                meta = dict(chunk.metadata) if hasattr(chunk, "metadata") and chunk.metadata else {}
+                meta.setdefault("embedding_model", "sentence-transformers/all-MiniLM-L6-v2")
+                meta_json = json.dumps(meta)
                 await cur.execute(
                     """
                     INSERT INTO kb_chunks (
                         tenant_id, document_id, chunk_index, content,
-                        section_path, token_count, embedding
-                    ) VALUES (%s, %s, %s, %s, %s, %s, %s);
+                        section_path, token_count, embedding, metadata
+                    ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s::jsonb);
                     """,
                     (
                         tenant_id,
@@ -441,6 +456,7 @@ class PostgresIngestRepository(BaseIngestRepository):
                         chunk.section_path,
                         chunk.token_count,
                         emb,
+                        meta_json,
                     ),
                 )
 
@@ -501,6 +517,7 @@ class PostgresIngestRepository(BaseIngestRepository):
 
             if is_vector_udt:
                 emb_str = f"[{','.join(str(x) for x in query_embedding)}]"
+                await cur.execute("SET hnsw.ef_search = 40;")
                 await cur.execute(
                     """
                     SELECT id, tenant_id, document_id, chunk_index, content,
@@ -508,10 +525,18 @@ class PostgresIngestRepository(BaseIngestRepository):
                            1 - (embedding <=> %s::vector) AS score
                     FROM kb_chunks
                     WHERE tenant_id = %s
+                      AND (metadata->>'embedding_model' = %s
+                           OR metadata->>'embedding_model' IS NULL)
                     ORDER BY embedding <=> %s::vector
                     LIMIT %s;
                     """,
-                    (emb_str, tenant_id, emb_str, limit),
+                    (
+                        emb_str,
+                        tenant_id,
+                        "sentence-transformers/all-MiniLM-L6-v2",
+                        emb_str,
+                        limit,
+                    ),
                 )
                 rows = await cur.fetchall()
                 results: list[tuple[StoredChunk, float]] = []

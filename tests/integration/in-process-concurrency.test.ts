@@ -1,6 +1,4 @@
 import { describe, it, expect, beforeAll, afterAll } from 'vitest';
-import fs from 'node:fs';
-import path from 'node:path';
 import http, {
   type Server as HttpServer,
   type IncomingMessage,
@@ -32,11 +30,10 @@ function computePercentiles(values: number[]): {
   };
 }
 
-describe('Performance Benchmarks (k6 Complementary In-Process Load)', () => {
+describe('In-Process Concurrency & Fan-out Integration Test (Vitest Smoke)', () => {
   let server: HttpServer;
   let port: number;
   const tenantId = 'tenant-perf-org';
-  const reportsDir = path.resolve(process.cwd(), 'reports/perf');
 
   // Pre-seed 250 in-memory ticket records
   const sampleTickets = Array.from({ length: 250 }, (_, i) => ({
@@ -53,10 +50,6 @@ describe('Performance Benchmarks (k6 Complementary In-Process Load)', () => {
   }));
 
   beforeAll(async () => {
-    if (!fs.existsSync(reportsDir)) {
-      fs.mkdirSync(reportsDir, { recursive: true });
-    }
-
     server = http.createServer((req: IncomingMessage, res: ServerResponse) => {
       const url = new URL(req.url || '/', `http://${req.headers.host || 'localhost'}`);
 
@@ -157,25 +150,8 @@ describe('Performance Benchmarks (k6 Complementary In-Process Load)', () => {
     const rps = Math.round((latencies.length / totalSec) * 100) / 100;
     const errorRate = errors / totalRequests;
 
-    const summary = {
-      test: 'tickets_list_200_vus',
-      concurrency,
-      totalRequests,
-      successfulRequests: latencies.length,
-      failedRequests: errors,
-      errorRate,
-      rps,
-      durationSeconds: Math.round(totalSec * 100) / 100,
-      latency: percentiles,
-    };
-
-    fs.writeFileSync(
-      path.join(reportsDir, 'tickets-summary.json'),
-      JSON.stringify(summary, null, 2),
-    );
-
     console.log(
-      `[M04 TICKET BENCHMARK] RPS: ${rps}, p50: ${percentiles.p50}ms, p95: ${percentiles.p95}ms, p99: ${percentiles.p99}ms, Error Rate: ${errorRate}`,
+      `[IN-PROCESS CONCURRENCY] Tickets list RPS: ${rps}, p50: ${percentiles.p50}ms, p95: ${percentiles.p95}ms, p99: ${percentiles.p99}ms, Error Rate: ${errorRate}`,
     );
     expect(errorRate).toBeLessThan(0.01);
     expect(percentiles.p95).toBeLessThan(400);
@@ -248,17 +224,9 @@ describe('Performance Benchmarks (k6 Complementary In-Process Load)', () => {
     await new Promise<void>((resolve) => wsServer.close(() => resolve()));
 
     const percentiles = computePercentiles(latencies);
-    const summary = {
-      test: 'chat_websocket_fanout',
-      concurrentSockets: numClients,
-      totalMessagesReceived: latencies.length,
-      latency: percentiles,
-    };
-
-    fs.writeFileSync(path.join(reportsDir, 'chat-summary.json'), JSON.stringify(summary, null, 2));
 
     console.log(
-      `[M05 CHAT WS BENCHMARK] Sockets: ${numClients}, Messages: ${latencies.length}, p50: ${percentiles.p50}ms, p95: ${percentiles.p95}ms, p99: ${percentiles.p99}ms`,
+      `[IN-PROCESS CONCURRENCY] Chat WS Fanout: Sockets: ${numClients}, Messages: ${latencies.length}, p50: ${percentiles.p50}ms, p95: ${percentiles.p95}ms, p99: ${percentiles.p99}ms`,
     );
     expect(percentiles.p95).toBeLessThan(300);
   });

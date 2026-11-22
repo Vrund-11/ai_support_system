@@ -1,0 +1,1165 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const ROOT = path.resolve(__dirname, '..');
+
+const collection = {
+  info: {
+    name: "SupportPilot Sprint 1 & 2 API Contract Collection",
+    description: "Expanded Postman v2.1 collection covering REST contracts, multi-tenant isolation, RBAC matrix, optimistic concurrency (409), rate limits (429), and HMAC webhooks.",
+    schema: "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  item: [
+    // Group 1: Infra & Health (2)
+    {
+      name: "01. Health Check",
+      request: {
+        method: "GET",
+        header: [],
+        url: { raw: "{{baseUrl}}/health", host: ["{{baseUrl}}"], path: ["health"] }
+      },
+      event: [{
+        listen: "test",
+        script: {
+          type: "text/javascript",
+          exec: [
+            "pm.test('Status code is 200', function () { pm.response.to.have.status(200); });",
+            "pm.test('Service reports healthy', function () { var j = pm.response.json(); pm.expect(j.status).to.be.oneOf(['healthy', 'ok']); });"
+          ]
+        }
+      }]
+    },
+    {
+      name: "02. Readiness Check",
+      request: {
+        method: "GET",
+        header: [],
+        url: { raw: "{{baseUrl}}/ready", host: ["{{baseUrl}}"], path: ["ready"] }
+      },
+      event: [{
+        listen: "test",
+        script: {
+          type: "text/javascript",
+          exec: [
+            "pm.test('Readiness status is 200', function () { pm.response.to.have.status(200); });",
+            "pm.test('Readiness reports ready or ok', function () { var j = pm.response.json(); pm.expect(j.status).to.be.oneOf(['ready', 'ok']); });"
+          ]
+        }
+      }]
+    },
+
+    // Group 2: Tenant A Onboarding & Auth (6)
+    {
+      name: "03. Tenant A - Register Owner",
+      request: {
+        method: "POST",
+        header: [{ key: "Content-Type", value: "application/json" }],
+        body: {
+          mode: "raw",
+          raw: JSON.stringify({
+            tenantName: "Acme Corp",
+            name: "Alice Owner",
+            email: "alice@acme.com",
+            password: "SecurePassword123!"
+          })
+        },
+        url: { raw: "{{baseUrl}}/api/v1/auth/register", host: ["{{baseUrl}}"], path: ["api", "v1", "auth", "register"] }
+      },
+      event: [{
+        listen: "test",
+        script: {
+          type: "text/javascript",
+          exec: [
+            "pm.test('Registration returns 201 Created', function () { pm.response.to.have.status(201); });",
+            "var j = pm.response.json();",
+            "pm.test('Tokens and tenant id returned', function () {",
+            "  pm.expect(j.data.accessToken).to.be.a('string');",
+            "  pm.environment.set('tenantA_token', j.data.accessToken);",
+            "  pm.environment.set('tenantA_refreshToken', j.data.refreshToken);",
+            "  pm.environment.set('tenantA_id', j.data.tenant.id);",
+            "});"
+          ]
+        }
+      }]
+    },
+    {
+      name: "04. Tenant A - Login Owner",
+      request: {
+        method: "POST",
+        header: [{ key: "Content-Type", value: "application/json" }],
+        body: {
+          mode: "raw",
+          raw: JSON.stringify({ email: "alice@acme.com", password: "SecurePassword123!" })
+        },
+        url: { raw: "{{baseUrl}}/api/v1/auth/login", host: ["{{baseUrl}}"], path: ["api", "v1", "auth", "login"] }
+      },
+      event: [{
+        listen: "test",
+        script: {
+          type: "text/javascript",
+          exec: [
+            "pm.test('Login returns 200 OK', function () { pm.response.to.have.status(200); });",
+            "var j = pm.response.json();",
+            "pm.test('Access token returned', function () {",
+            "  pm.expect(j.data.accessToken).to.be.a('string');",
+            "  pm.environment.set('tenantA_token', j.data.accessToken);",
+            "});"
+          ]
+        }
+      }]
+    },
+    {
+      name: "05. Tenant A - Refresh Token",
+      request: {
+        method: "POST",
+        header: [{ key: "Content-Type", value: "application/json" }],
+        body: {
+          mode: "raw",
+          raw: JSON.stringify({ refreshToken: "{{tenantA_refreshToken}}" })
+        },
+        url: { raw: "{{baseUrl}}/api/v1/auth/refresh", host: ["{{baseUrl}}"], path: ["api", "v1", "auth", "refresh"] }
+      },
+      event: [{
+        listen: "test",
+        script: {
+          type: "text/javascript",
+          exec: [
+            "pm.test('Refresh returns 200 OK', function () { pm.response.to.have.status(200); });",
+            "var j = pm.response.json();",
+            "pm.test('New access token provided', function () { pm.expect(j.data.accessToken).to.be.a('string'); });"
+          ]
+        }
+      }]
+    },
+    {
+      name: "06. Tenant A - Forgot Password",
+      request: {
+        method: "POST",
+        header: [{ key: "Content-Type", value: "application/json" }],
+        body: {
+          mode: "raw",
+          raw: JSON.stringify({ email: "alice@acme.com" })
+        },
+        url: { raw: "{{baseUrl}}/api/v1/auth/forgot-password", host: ["{{baseUrl}}"], path: ["api", "v1", "auth", "forgot-password"] }
+      },
+      event: [{
+        listen: "test",
+        script: {
+          type: "text/javascript",
+          exec: [
+            "pm.test('Forgot password returns 200 OK', function () { pm.response.to.have.status(200); });"
+          ]
+        }
+      }]
+    },
+    {
+      name: "07. Tenant A - Logout",
+      request: {
+        method: "POST",
+        header: [
+          { key: "Content-Type", value: "application/json" },
+          { key: "Authorization", value: "Bearer {{tenantA_token}}" }
+        ],
+        body: {
+          mode: "raw",
+          raw: JSON.stringify({ refreshToken: "{{tenantA_refreshToken}}" })
+        },
+        url: { raw: "{{baseUrl}}/api/v1/auth/logout", host: ["{{baseUrl}}"], path: ["api", "v1", "auth", "logout"] }
+      },
+      event: [{
+        listen: "test",
+        script: {
+          type: "text/javascript",
+          exec: [
+            "pm.test('Logout returns 204 No Content', function () { pm.response.to.have.status(204); });"
+          ]
+        }
+      }]
+    },
+    {
+      name: "08. Tenant A - Re-login Owner",
+      request: {
+        method: "POST",
+        header: [{ key: "Content-Type", value: "application/json" }],
+        body: {
+          mode: "raw",
+          raw: JSON.stringify({ email: "alice@acme.com", password: "SecurePassword123!" })
+        },
+        url: { raw: "{{baseUrl}}/api/v1/auth/login", host: ["{{baseUrl}}"], path: ["api", "v1", "auth", "login"] }
+      },
+      event: [{
+        listen: "test",
+        script: {
+          type: "text/javascript",
+          exec: [
+            "pm.test('Re-login returns 200 OK', function () { pm.response.to.have.status(200); });",
+            "var j = pm.response.json();",
+            "pm.environment.set('tenantA_token', j.data.accessToken);"
+          ]
+        }
+      }]
+    },
+
+    // Group 3: Tenant B Onboarding (2)
+    {
+      name: "09. Tenant B - Register Owner",
+      request: {
+        method: "POST",
+        header: [{ key: "Content-Type", value: "application/json" }],
+        body: {
+          mode: "raw",
+          raw: JSON.stringify({
+            tenantName: "Beta LLC",
+            name: "Bob Owner",
+            email: "bob@beta.com",
+            password: "SecurePassword123!"
+          })
+        },
+        url: { raw: "{{baseUrl}}/api/v1/auth/register", host: ["{{baseUrl}}"], path: ["api", "v1", "auth", "register"] }
+      },
+      event: [{
+        listen: "test",
+        script: {
+          type: "text/javascript",
+          exec: [
+            "pm.test('Tenant B Registration returns 201 Created', function () { pm.response.to.have.status(201); });",
+            "var j = pm.response.json();",
+            "pm.environment.set('tenantB_id', j.data.tenant.id);",
+            "pm.environment.set('tenantB_token', j.data.accessToken);"
+          ]
+        }
+      }]
+    },
+    {
+      name: "10. Tenant B - Login Owner",
+      request: {
+        method: "POST",
+        header: [{ key: "Content-Type", value: "application/json" }],
+        body: {
+          mode: "raw",
+          raw: JSON.stringify({ email: "bob@beta.com", password: "SecurePassword123!" })
+        },
+        url: { raw: "{{baseUrl}}/api/v1/auth/login", host: ["{{baseUrl}}"], path: ["api", "v1", "auth", "login"] }
+      },
+      event: [{
+        listen: "test",
+        script: {
+          type: "text/javascript",
+          exec: [
+            "pm.test('Tenant B login returns 200 OK', function () { pm.response.to.have.status(200); });",
+            "var j = pm.response.json();",
+            "pm.environment.set('tenantB_token', j.data.accessToken);"
+          ]
+        }
+      }]
+    },
+
+    // Group 4: Team Member Provisioning & RBAC Setup (4)
+    {
+      name: "11. Tenant A - Invite Agent Carol",
+      request: {
+        method: "POST",
+        header: [
+          { key: "Content-Type", value: "application/json" },
+          { key: "Authorization", value: "Bearer {{tenantA_token}}" }
+        ],
+        body: {
+          mode: "raw",
+          raw: JSON.stringify({ email: "carol_agent@acme.com", name: "Carol Agent", role: "AGENT" })
+        },
+        url: { raw: "{{baseUrl}}/api/v1/team/invite", host: ["{{baseUrl}}"], path: ["api", "v1", "team", "invite"] }
+      },
+      event: [{
+        listen: "test",
+        script: {
+          type: "text/javascript",
+          exec: [
+            "pm.test('Team invite returns 201 Created', function () { pm.response.to.have.status(201); });",
+            "var j = pm.response.json();",
+            "pm.environment.set('agentCarol_id', j.data.id || 'agent_carol');",
+            "pm.environment.set('agentCarol_token', j.data.accessToken || 'mock_agent_carol_token');"
+          ]
+        }
+      }]
+    },
+    {
+      name: "12. Tenant A - Invite Lead Dave",
+      request: {
+        method: "POST",
+        header: [
+          { key: "Content-Type", value: "application/json" },
+          { key: "Authorization", value: "Bearer {{tenantA_token}}" }
+        ],
+        body: {
+          mode: "raw",
+          raw: JSON.stringify({ email: "dave_lead@acme.com", name: "Dave Lead", role: "LEAD" })
+        },
+        url: { raw: "{{baseUrl}}/api/v1/team/invite", host: ["{{baseUrl}}"], path: ["api", "v1", "team", "invite"] }
+      },
+      event: [{
+        listen: "test",
+        script: {
+          type: "text/javascript",
+          exec: [
+            "pm.test('Team invite Lead returns 201 Created', function () { pm.response.to.have.status(201); });",
+            "var j = pm.response.json();",
+            "pm.environment.set('leadDave_token', j.data.accessToken || 'mock_lead_dave_token');"
+          ]
+        }
+      }]
+    },
+    {
+      name: "13. Tenant A - List Team Members",
+      request: {
+        method: "GET",
+        header: [{ key: "Authorization", value: "Bearer {{tenantA_token}}" }],
+        url: { raw: "{{baseUrl}}/api/v1/team", host: ["{{baseUrl}}"], path: ["api", "v1", "team"] }
+      },
+      event: [{
+        listen: "test",
+        script: {
+          type: "text/javascript",
+          exec: [
+            "pm.test('List team returns 200 OK', function () { pm.response.to.have.status(200); });",
+            "var j = pm.response.json();",
+            "pm.test('Team has multiple members', function () { pm.expect(j.data.length).to.be.at.least(2); });"
+          ]
+        }
+      }]
+    },
+    {
+      name: "14. RBAC - Agent cannot invite team members (403)",
+      request: {
+        method: "POST",
+        header: [
+          { key: "Content-Type", value: "application/json" },
+          { key: "Authorization", value: "Bearer {{agentCarol_token}}" }
+        ],
+        body: {
+          mode: "raw",
+          raw: JSON.stringify({ email: "unauthorized@acme.com", name: "Hacker", role: "AGENT" })
+        },
+        url: { raw: "{{baseUrl}}/api/v1/team/invite", host: ["{{baseUrl}}"], path: ["api", "v1", "team", "invite"] }
+      },
+      event: [{
+        listen: "test",
+        script: {
+          type: "text/javascript",
+          exec: [
+            "pm.test('Agent invite rejected with 403 Forbidden', function () { pm.response.to.have.status(403); });",
+            "var j = pm.response.json();",
+            "pm.test('RFC 7807 error format', function () { pm.expect(j.title || j.message).to.match(/Forbidden|permission/i); });"
+          ]
+        }
+      }]
+    },
+
+    // Group 5: Ticket Lifecycle & CRUD Operations (Tenant A) (8)
+    {
+      name: "15. Tickets - Create High Priority Ticket A1",
+      request: {
+        method: "POST",
+        header: [
+          { key: "Content-Type", value: "application/json" },
+          { key: "Authorization", value: "Bearer {{tenantA_token}}" }
+        ],
+        body: {
+          mode: "raw",
+          raw: JSON.stringify({
+            subject: "Urgent billing discrepancy on annual invoice",
+            description: "Charge of $1,200 appeared twice on Mastercard statement.",
+            priority: "HIGH",
+            tags: ["billing", "finance"]
+          })
+        },
+        url: { raw: "{{baseUrl}}/api/v1/tickets", host: ["{{baseUrl}}"], path: ["api", "v1", "tickets"] }
+      },
+      event: [{
+        listen: "test",
+        script: {
+          type: "text/javascript",
+          exec: [
+            "pm.test('Create Ticket A1 returns 201 Created', function () { pm.response.to.have.status(201); });",
+            "var j = pm.response.json();",
+            "pm.test('Ticket has NEW status and version 1', function () {",
+            "  pm.expect(j.data.status).to.eql('NEW');",
+            "  pm.expect(j.data.version).to.eql(1);",
+            "  pm.environment.set('ticketA1_id', j.data.id);",
+            "  pm.environment.set('ticketA1_version', j.data.version);",
+            "});"
+          ]
+        }
+      }]
+    },
+    {
+      name: "16. Tickets - Create Low Priority Ticket A2",
+      request: {
+        method: "POST",
+        header: [
+          { key: "Content-Type", value: "application/json" },
+          { key: "Authorization", value: "Bearer {{tenantA_token}}" }
+        ],
+        body: {
+          mode: "raw",
+          raw: JSON.stringify({
+            subject: "Feature request: Dark mode in customer portal",
+            description: "Would love a toggle in the settings menu.",
+            priority: "LOW",
+            tags: ["portal", "ux"]
+          })
+        },
+        url: { raw: "{{baseUrl}}/api/v1/tickets", host: ["{{baseUrl}}"], path: ["api", "v1", "tickets"] }
+      },
+      event: [{
+        listen: "test",
+        script: {
+          type: "text/javascript",
+          exec: [
+            "pm.test('Create Ticket A2 returns 201 Created', function () { pm.response.to.have.status(201); });",
+            "var j = pm.response.json();",
+            "pm.environment.set('ticketA2_id', j.data.id);"
+          ]
+        }
+      }]
+    },
+    {
+      name: "17. Tickets - List Tenant A Tickets",
+      request: {
+        method: "GET",
+        header: [{ key: "Authorization", value: "Bearer {{tenantA_token}}" }],
+        url: { raw: "{{baseUrl}}/api/v1/tickets", host: ["{{baseUrl}}"], path: ["api", "v1", "tickets"] }
+      },
+      event: [{
+        listen: "test",
+        script: {
+          type: "text/javascript",
+          exec: [
+            "pm.test('List tickets returns 200 OK', function () { pm.response.to.have.status(200); });",
+            "var j = pm.response.json();",
+            "pm.test('List contains created tickets', function () { pm.expect(j.data.length).to.be.at.least(2); });"
+          ]
+        }
+      }]
+    },
+    {
+      name: "18. Tickets - Filter by status NEW",
+      request: {
+        method: "GET",
+        header: [{ key: "Authorization", value: "Bearer {{tenantA_token}}" }],
+        url: {
+          raw: "{{baseUrl}}/api/v1/tickets?status=NEW",
+          host: ["{{baseUrl}}"],
+          path: ["api", "v1", "tickets"],
+          query: [{ key: "status", value: "NEW" }]
+        }
+      },
+      event: [{
+        listen: "test",
+        script: {
+          type: "text/javascript",
+          exec: [
+            "pm.test('Status filter returns 200 OK', function () { pm.response.to.have.status(200); });",
+            "var j = pm.response.json();",
+            "pm.test('All returned tickets are NEW', function () {",
+            "  j.data.forEach(function(t) { pm.expect(t.status).to.eql('NEW'); });",
+            "});"
+          ]
+        }
+      }]
+    },
+    {
+      name: "19. Tickets - Filter by priority HIGH",
+      request: {
+        method: "GET",
+        header: [{ key: "Authorization", value: "Bearer {{tenantA_token}}" }],
+        url: {
+          raw: "{{baseUrl}}/api/v1/tickets?priority=HIGH",
+          host: ["{{baseUrl}}"],
+          path: ["api", "v1", "tickets"],
+          query: [{ key: "priority", value: "HIGH" }]
+        }
+      },
+      event: [{
+        listen: "test",
+        script: {
+          type: "text/javascript",
+          exec: [
+            "pm.test('Priority filter returns 200 OK', function () { pm.response.to.have.status(200); });",
+            "var j = pm.response.json();",
+            "pm.test('All returned tickets are HIGH priority', function () {",
+            "  j.data.forEach(function(t) { pm.expect(t.priority).to.eql('HIGH'); });",
+            "});"
+          ]
+        }
+      }]
+    },
+    {
+      name: "20. Tickets - Get Ticket A1 Detail",
+      request: {
+        method: "GET",
+        header: [{ key: "Authorization", value: "Bearer {{tenantA_token}}" }],
+        url: { raw: "{{baseUrl}}/api/v1/tickets/{{ticketA1_id}}", host: ["{{baseUrl}}"], path: ["api", "v1", "tickets", "{{ticketA1_id}}"] }
+      },
+      event: [{
+        listen: "test",
+        script: {
+          type: "text/javascript",
+          exec: [
+            "pm.test('Get detail returns 200 OK', function () { pm.response.to.have.status(200); });",
+            "var j = pm.response.json();",
+            "pm.test('Includes ticket, messages, and timeline', function () {",
+            "  pm.expect(j.data.ticket || j.data).to.be.an('object');",
+            "});"
+          ]
+        }
+      }]
+    },
+    {
+      name: "21. Tickets - Transition Status NEW -> OPEN",
+      request: {
+        method: "PATCH",
+        header: [
+          { key: "Content-Type", value: "application/json" },
+          { key: "Authorization", value: "Bearer {{tenantA_token}}" }
+        ],
+        body: {
+          mode: "raw",
+          raw: JSON.stringify({ version: 1, status: "OPEN" })
+        },
+        url: { raw: "{{baseUrl}}/api/v1/tickets/{{ticketA1_id}}", host: ["{{baseUrl}}"], path: ["api", "v1", "tickets", "{{ticketA1_id}}"] }
+      },
+      event: [{
+        listen: "test",
+        script: {
+          type: "text/javascript",
+          exec: [
+            "pm.test('Transition to OPEN returns 200 OK', function () { pm.response.to.have.status(200); });",
+            "var j = pm.response.json();",
+            "pm.test('Status is OPEN and version is 2', function () {",
+            "  pm.expect(j.data.status).to.eql('OPEN');",
+            "  pm.expect(j.data.version).to.eql(2);",
+            "  pm.environment.set('ticketA1_version', 2);",
+            "});"
+          ]
+        }
+      }]
+    },
+    {
+      name: "22. Tickets - Transition Status OPEN -> RESOLVED",
+      request: {
+        method: "PATCH",
+        header: [
+          { key: "Content-Type", value: "application/json" },
+          { key: "Authorization", value: "Bearer {{tenantA_token}}" }
+        ],
+        body: {
+          mode: "raw",
+          raw: JSON.stringify({ version: 2, status: "RESOLVED" })
+        },
+        url: { raw: "{{baseUrl}}/api/v1/tickets/{{ticketA1_id}}", host: ["{{baseUrl}}"], path: ["api", "v1", "tickets", "{{ticketA1_id}}"] }
+      },
+      event: [{
+        listen: "test",
+        script: {
+          type: "text/javascript",
+          exec: [
+            "pm.test('Transition to RESOLVED returns 200 OK', function () { pm.response.to.have.status(200); });",
+            "var j = pm.response.json();",
+            "pm.test('Status is RESOLVED and version is 3', function () {",
+            "  pm.expect(j.data.status).to.eql('RESOLVED');",
+            "  pm.expect(j.data.version).to.eql(3);",
+            "  pm.environment.set('ticketA1_version', 3);",
+            "});"
+          ]
+        }
+      }]
+    },
+
+    // Group 6: Ticket Messages & Communication (4)
+    {
+      name: "23. Messages - Post Internal Note",
+      request: {
+        method: "POST",
+        header: [
+          { key: "Content-Type", value: "application/json" },
+          { key: "Authorization", value: "Bearer {{tenantA_token}}" }
+        ],
+        body: {
+          mode: "raw",
+          raw: JSON.stringify({ body: "Verified duplicate credit charge in billing backend.", isInternal: true })
+        },
+        url: { raw: "{{baseUrl}}/api/v1/tickets/{{ticketA1_id}}/messages", host: ["{{baseUrl}}"], path: ["api", "v1", "tickets", "{{ticketA1_id}}", "messages"] }
+      },
+      event: [{
+        listen: "test",
+        script: {
+          type: "text/javascript",
+          exec: [
+            "pm.test('Post internal note returns 201 Created', function () { pm.response.to.have.status(201); });",
+            "var j = pm.response.json();",
+            "pm.test('Message marked internal with seq 1', function () {",
+            "  pm.expect(j.data.isInternal).to.eql(true);",
+            "  pm.expect(j.data.seq).to.eql(1);",
+            "});"
+          ]
+        }
+      }]
+    },
+    {
+      name: "24. Messages - Post Public Reply",
+      request: {
+        method: "POST",
+        header: [
+          { key: "Content-Type", value: "application/json" },
+          { key: "Authorization", value: "Bearer {{tenantA_token}}" }
+        ],
+        body: {
+          mode: "raw",
+          raw: JSON.stringify({ body: "We have processed your refund for the duplicate charge.", isInternal: false })
+        },
+        url: { raw: "{{baseUrl}}/api/v1/tickets/{{ticketA1_id}}/messages", host: ["{{baseUrl}}"], path: ["api", "v1", "tickets", "{{ticketA1_id}}", "messages"] }
+      },
+      event: [{
+        listen: "test",
+        script: {
+          type: "text/javascript",
+          exec: [
+            "pm.test('Post public reply returns 201 Created', function () { pm.response.to.have.status(201); });",
+            "var j = pm.response.json();",
+            "pm.test('Message is public with seq 2', function () {",
+            "  pm.expect(j.data.isInternal).to.eql(false);",
+            "  pm.expect(j.data.seq).to.eql(2);",
+            "});"
+          ]
+        }
+      }]
+    },
+    {
+      name: "25. Public Portal - Submit Anonymous Ticket",
+      request: {
+        method: "POST",
+        header: [{ key: "Content-Type", value: "application/json" }],
+        body: {
+          mode: "raw",
+          raw: JSON.stringify({
+            tenantId: "{{tenantA_id}}",
+            name: "John Public",
+            email: "john@public.com",
+            subject: "Need help with API key reset",
+            description: "Lost my admin credentials."
+          })
+        },
+        url: { raw: "{{baseUrl}}/api/v1/tickets/public", host: ["{{baseUrl}}"], path: ["api", "v1", "tickets", "public"] }
+      },
+      event: [{
+        listen: "test",
+        script: {
+          type: "text/javascript",
+          exec: [
+            "pm.test('Public ticket submission returns 201 Created', function () { pm.response.to.have.status(201); });",
+            "var j = pm.response.json();",
+            "pm.environment.set('public_ticket_number', j.data.number || 1042);"
+          ]
+        }
+      }]
+    },
+    {
+      name: "26. Public Portal - Track Submitted Ticket",
+      request: {
+        method: "GET",
+        header: [],
+        url: {
+          raw: "{{baseUrl}}/api/v1/tickets/public/track?ticketNumber={{public_ticket_number}}&email=john@public.com",
+          host: ["{{baseUrl}}"],
+          path: ["api", "v1", "tickets", "public", "track"],
+          query: [
+            { key: "ticketNumber", value: "{{public_ticket_number}}" },
+            { key: "email", value: "john@public.com" }
+          ]
+        }
+      },
+      event: [{
+        listen: "test",
+        script: {
+          type: "text/javascript",
+          exec: [
+            "pm.test('Track ticket returns 200 OK', function () { pm.response.to.have.status(200); });",
+            "var j = pm.response.json();",
+            "pm.test('Returns ticket tracking details', function () { pm.expect(j.data).to.be.an('object'); });"
+          ]
+        }
+      }]
+    },
+
+    // Group 7: Concurrency & State Transition Validation (3)
+    {
+      name: "27. Concurrency - Stale Version Rejection (409 Conflict)",
+      request: {
+        method: "PATCH",
+        header: [
+          { key: "Content-Type", value: "application/json" },
+          { key: "Authorization", value: "Bearer {{tenantA_token}}" }
+        ],
+        body: {
+          mode: "raw",
+          raw: JSON.stringify({ version: 1, status: "CLOSED" })
+        },
+        url: { raw: "{{baseUrl}}/api/v1/tickets/{{ticketA1_id}}", host: ["{{baseUrl}}"], path: ["api", "v1", "tickets", "{{ticketA1_id}}"] }
+      },
+      event: [{
+        listen: "test",
+        script: {
+          type: "text/javascript",
+          exec: [
+            "pm.test('Stale version triggers 409 Conflict', function () { pm.response.to.have.status(409); });",
+            "var j = pm.response.json();",
+            "pm.test('RFC 7807 problem details title Conflict', function () { pm.expect(j.title).to.include('Conflict'); });"
+          ]
+        }
+      }]
+    },
+    {
+      name: "28. State Machine - Invalid Transition Rejection (400 Bad Request)",
+      request: {
+        method: "PATCH",
+        header: [
+          { key: "Content-Type", value: "application/json" },
+          { key: "Authorization", value: "Bearer {{tenantA_token}}" }
+        ],
+        body: {
+          mode: "raw",
+          raw: JSON.stringify({ version: 3, status: "PENDING" })
+        },
+        url: { raw: "{{baseUrl}}/api/v1/tickets/{{ticketA1_id}}", host: ["{{baseUrl}}"], path: ["api", "v1", "tickets", "{{ticketA1_id}}"] }
+      },
+      event: [{
+        listen: "test",
+        script: {
+          type: "text/javascript",
+          exec: [
+            "pm.test('Invalid transition triggers 400 Bad Request', function () { pm.response.to.have.status(400); });",
+            "var j = pm.response.json();",
+            "pm.test('Problem details has invalid transition message', function () { pm.expect(j.title || j.detail).to.match(/transition|invalid/i); });"
+          ]
+        }
+      }]
+    },
+    {
+      name: "29. Tickets - Link Related Tickets",
+      request: {
+        method: "POST",
+        header: [
+          { key: "Content-Type", value: "application/json" },
+          { key: "Authorization", value: "Bearer {{tenantA_token}}" }
+        ],
+        body: {
+          mode: "raw",
+          raw: JSON.stringify({ targetTicketId: "{{ticketA2_id}}", linkType: "RELATES_TO" })
+        },
+        url: { raw: "{{baseUrl}}/api/v1/tickets/{{ticketA1_id}}/link", host: ["{{baseUrl}}"], path: ["api", "v1", "tickets", "{{ticketA1_id}}", "link"] }
+      },
+      event: [{
+        listen: "test",
+        script: {
+          type: "text/javascript",
+          exec: [
+            "pm.test('Link tickets returns 200 OK', function () { pm.response.to.have.status(200); });"
+          ]
+        }
+      }]
+    },
+
+    // Group 8: Multi-Tenant Data Isolation Defense (6)
+    {
+      name: "30. Tenant B - Create Confidential Ticket B1",
+      request: {
+        method: "POST",
+        header: [
+          { key: "Content-Type", value: "application/json" },
+          { key: "Authorization", value: "Bearer {{tenantB_token}}" }
+        ],
+        body: {
+          mode: "raw",
+          raw: JSON.stringify({
+            subject: "Beta LLC Proprietary Architecture Discussion",
+            description: "Strictly confidential roadmap for Beta.",
+            priority: "URGENT",
+            tags: ["private", "beta"]
+          })
+        },
+        url: { raw: "{{baseUrl}}/api/v1/tickets", host: ["{{baseUrl}}"], path: ["api", "v1", "tickets"] }
+      },
+      event: [{
+        listen: "test",
+        script: {
+          type: "text/javascript",
+          exec: [
+            "pm.test('Tenant B ticket created returns 201', function () { pm.response.to.have.status(201); });",
+            "var j = pm.response.json();",
+            "pm.environment.set('ticketB1_id', j.data.id);"
+          ]
+        }
+      }]
+    },
+    {
+      name: "31. Tenant Isolation - Tenant A cannot read Tenant B Ticket (404)",
+      request: {
+        method: "GET",
+        header: [{ key: "Authorization", value: "Bearer {{tenantA_token}}" }],
+        url: { raw: "{{baseUrl}}/api/v1/tickets/{{ticketB1_id}}", host: ["{{baseUrl}}"], path: ["api", "v1", "tickets", "{{ticketB1_id}}"] }
+      },
+      event: [{
+        listen: "test",
+        script: {
+          type: "text/javascript",
+          exec: [
+            "pm.test('Cross-tenant read returns 404 Not Found (Opaque Partition)', function () { pm.response.to.have.status(404); });"
+          ]
+        }
+      }]
+    },
+    {
+      name: "32. Tenant Isolation - Tenant A cannot update Tenant B Ticket (404)",
+      request: {
+        method: "PATCH",
+        header: [
+          { key: "Content-Type", value: "application/json" },
+          { key: "Authorization", value: "Bearer {{tenantA_token}}" }
+        ],
+        body: {
+          mode: "raw",
+          raw: JSON.stringify({ version: 1, status: "CLOSED" })
+        },
+        url: { raw: "{{baseUrl}}/api/v1/tickets/{{ticketB1_id}}", host: ["{{baseUrl}}"], path: ["api", "v1", "tickets", "{{ticketB1_id}}"] }
+      },
+      event: [{
+        listen: "test",
+        script: {
+          type: "text/javascript",
+          exec: [
+            "pm.test('Cross-tenant patch returns 404 Not Found', function () { pm.response.to.have.status(404); });"
+          ]
+        }
+      }]
+    },
+    {
+      name: "33. Tenant Isolation - Tenant A cannot inject message to Tenant B Ticket (404)",
+      request: {
+        method: "POST",
+        header: [
+          { key: "Content-Type", value: "application/json" },
+          { key: "Authorization", value: "Bearer {{tenantA_token}}" }
+        ],
+        body: {
+          mode: "raw",
+          raw: JSON.stringify({ body: "Malicious cross-tenant note injection", isInternal: true })
+        },
+        url: { raw: "{{baseUrl}}/api/v1/tickets/{{ticketB1_id}}/messages", host: ["{{baseUrl}}"], path: ["api", "v1", "tickets", "{{ticketB1_id}}", "messages"] }
+      },
+      event: [{
+        listen: "test",
+        script: {
+          type: "text/javascript",
+          exec: [
+            "pm.test('Cross-tenant message injection returns 404 Not Found', function () { pm.response.to.have.status(404); });"
+          ]
+        }
+      }]
+    },
+    {
+      name: "34. Tenant Isolation - Tenant B ticket list isolated",
+      request: {
+        method: "GET",
+        header: [{ key: "Authorization", value: "Bearer {{tenantB_token}}" }],
+        url: { raw: "{{baseUrl}}/api/v1/tickets", host: ["{{baseUrl}}"], path: ["api", "v1", "tickets"] }
+      },
+      event: [{
+        listen: "test",
+        script: {
+          type: "text/javascript",
+          exec: [
+            "pm.test('Tenant B list returns 200 OK', function () { pm.response.to.have.status(200); });",
+            "var j = pm.response.json();",
+            "pm.test('Only Tenant B tickets returned', function () {",
+            "  j.data.forEach(function(t) { pm.expect(t.subject).to.not.include('discrepancy'); });",
+            "});"
+          ]
+        }
+      }]
+    },
+    {
+      name: "35. Tenant Isolation - Tenant B team list isolated",
+      request: {
+        method: "GET",
+        header: [{ key: "Authorization", value: "Bearer {{tenantB_token}}" }],
+        url: { raw: "{{baseUrl}}/api/v1/team", host: ["{{baseUrl}}"], path: ["api", "v1", "team"] }
+      },
+      event: [{
+        listen: "test",
+        script: {
+          type: "text/javascript",
+          exec: [
+            "pm.test('Tenant B team list returns 200 OK', function () { pm.response.to.have.status(200); });",
+            "var j = pm.response.json();",
+            "pm.test('Zero Tenant A members present', function () {",
+            "  j.data.forEach(function(u) { pm.expect(u.email).to.not.include('acme.com'); });",
+            "});"
+          ]
+        }
+      }]
+    },
+
+    // Group 9: RBAC Matrix & API Key Governance (4)
+    {
+      name: "36. RBAC - Agent cannot view API keys (403)",
+      request: {
+        method: "GET",
+        header: [{ key: "Authorization", value: "Bearer {{agentCarol_token}}" }],
+        url: { raw: "{{baseUrl}}/api/v1/api-keys", host: ["{{baseUrl}}"], path: ["api", "v1", "api-keys"] }
+      },
+      event: [{
+        listen: "test",
+        script: {
+          type: "text/javascript",
+          exec: [
+            "pm.test('Agent API key access returns 403 Forbidden', function () { pm.response.to.have.status(403); });"
+          ]
+        }
+      }]
+    },
+    {
+      name: "37. RBAC - Lead cannot create API keys (403)",
+      request: {
+        method: "POST",
+        header: [
+          { key: "Content-Type", value: "application/json" },
+          { key: "Authorization", value: "Bearer {{leadDave_token}}" }
+        ],
+        body: {
+          mode: "raw",
+          raw: JSON.stringify({ name: "CI Key", scopes: ["tickets:read"] })
+        },
+        url: { raw: "{{baseUrl}}/api/v1/api-keys", host: ["{{baseUrl}}"], path: ["api", "v1", "api-keys"] }
+      },
+      event: [{
+        listen: "test",
+        script: {
+          type: "text/javascript",
+          exec: [
+            "pm.test('Lead cannot create API keys returns 403 Forbidden', function () { pm.response.to.have.status(403); });"
+          ]
+        }
+      }]
+    },
+    {
+      name: "38. RBAC - Owner creates API key (201)",
+      request: {
+        method: "POST",
+        header: [
+          { key: "Content-Type", value: "application/json" },
+          { key: "Authorization", value: "Bearer {{tenantA_token}}" }
+        ],
+        body: {
+          mode: "raw",
+          raw: JSON.stringify({ name: "Production Gateway Token", scopes: ["tickets:read", "tickets:write"] })
+        },
+        url: { raw: "{{baseUrl}}/api/v1/api-keys", host: ["{{baseUrl}}"], path: ["api", "v1", "api-keys"] }
+      },
+      event: [{
+        listen: "test",
+        script: {
+          type: "text/javascript",
+          exec: [
+            "pm.test('Owner creates API key returns 201 Created', function () { pm.response.to.have.status(201); });",
+            "var j = pm.response.json();",
+            "pm.test('Secret rawKey starts with sp_live_', function () {",
+            "  pm.expect(j.data.rawKey).to.match(/^sp_live_/);",
+            "  pm.environment.set('apiKey_id', j.data.id || 'key_123');",
+            "});"
+          ]
+        }
+      }]
+    },
+    {
+      name: "39. RBAC - Owner revokes API key (204)",
+      request: {
+        method: "DELETE",
+        header: [{ key: "Authorization", value: "Bearer {{tenantA_token}}" }],
+        url: { raw: "{{baseUrl}}/api/v1/api-keys/{{apiKey_id}}", host: ["{{baseUrl}}"], path: ["api", "v1", "api-keys", "{{apiKey_id}}"] }
+      },
+      event: [{
+        listen: "test",
+        script: {
+          type: "text/javascript",
+          exec: [
+            "pm.test('API key revocation returns 204 No Content', function () { pm.response.to.have.status(204); });"
+          ]
+        }
+      }]
+    },
+
+    // Group 10: Validation Errors & RFC 7807 (4)
+    {
+      name: "40. RFC 7807 - Empty registration payload (400)",
+      request: {
+        method: "POST",
+        header: [{ key: "Content-Type", value: "application/json" }],
+        body: { mode: "raw", raw: "{}" },
+        url: { raw: "{{baseUrl}}/api/v1/auth/register", host: ["{{baseUrl}}"], path: ["api", "v1", "auth", "register"] }
+      },
+      event: [{
+        listen: "test",
+        script: {
+          type: "text/javascript",
+          exec: [
+            "pm.test('Invalid registration returns 400 Bad Request', function () { pm.response.to.have.status(400); });",
+            "var j = pm.response.json();",
+            "pm.test('Has RFC 7807 problem details title and status', function () {",
+            "  pm.expect(j.status).to.eql(400);",
+            "  pm.expect(j.title).to.be.a('string');",
+            "});"
+          ]
+        }
+      }]
+    },
+    {
+      name: "41. RFC 7807 - Ticket creation missing description (400)",
+      request: {
+        method: "POST",
+        header: [
+          { key: "Content-Type", value: "application/json" },
+          { key: "Authorization", value: "Bearer {{tenantA_token}}" }
+        ],
+        body: { mode: "raw", raw: JSON.stringify({ subject: "Missing description" }) },
+        url: { raw: "{{baseUrl}}/api/v1/tickets", host: ["{{baseUrl}}"], path: ["api", "v1", "tickets"] }
+      },
+      event: [{
+        listen: "test",
+        script: {
+          type: "text/javascript",
+          exec: [
+            "pm.test('Missing description returns 400 Bad Request', function () { pm.response.to.have.status(400); });",
+            "var j = pm.response.json();",
+            "pm.test('Has validation problem details', function () { pm.expect(j.title).to.be.a('string'); });"
+          ]
+        }
+      }]
+    },
+    {
+      name: "42. RFC 7807 - Invalid credentials login (401)",
+      request: {
+        method: "POST",
+        header: [{ key: "Content-Type", value: "application/json" }],
+        body: { mode: "raw", raw: JSON.stringify({ email: "alice@acme.com", password: "WrongPassword999!" }) },
+        url: { raw: "{{baseUrl}}/api/v1/auth/login", host: ["{{baseUrl}}"], path: ["api", "v1", "auth", "login"] }
+      },
+      event: [{
+        listen: "test",
+        script: {
+          type: "text/javascript",
+          exec: [
+            "pm.test('Invalid login returns 401 Unauthorized', function () { pm.response.to.have.status(401); });",
+            "var j = pm.response.json();",
+            "pm.test('Problem details has 401 status', function () { pm.expect(j.status).to.eql(401); });"
+          ]
+        }
+      }]
+    },
+    {
+      name: "43. RFC 7807 - Non-existent ObjectID ticket lookup (404)",
+      request: {
+        method: "GET",
+        header: [{ key: "Authorization", value: "Bearer {{tenantA_token}}" }],
+        url: { raw: "{{baseUrl}}/api/v1/tickets/000000000000000000000000", host: ["{{baseUrl}}"], path: ["api", "v1", "tickets", "000000000000000000000000"] }
+      },
+      event: [{
+        listen: "test",
+        script: {
+          type: "text/javascript",
+          exec: [
+            "pm.test('Non-existent ticket returns 404 Not Found', function () { pm.response.to.have.status(404); });",
+            "var j = pm.response.json();",
+            "pm.test('Problem details has 404 status', function () { pm.expect(j.status).to.eql(404); });"
+          ]
+        }
+      }]
+    },
+
+    // Group 11: Webhook Subscriptions & HMAC Signatures (3)
+    {
+      name: "44. Webhooks - Owner registers webhook (201)",
+      request: {
+        method: "POST",
+        header: [
+          { key: "Content-Type", value: "application/json" },
+          { key: "Authorization", value: "Bearer {{tenantA_token}}" }
+        ],
+        body: {
+          mode: "raw",
+          raw: JSON.stringify({
+            url: "https://httpbin.org/post",
+            events: ["ticket.created", "ticket.updated"],
+            description: "CI Webhook Endpoint"
+          })
+        },
+        url: { raw: "{{baseUrl}}/api/v1/webhooks", host: ["{{baseUrl}}"], path: ["api", "v1", "webhooks"] }
+      },
+      event: [{
+        listen: "test",
+        script: {
+          type: "text/javascript",
+          exec: [
+            "pm.test('Create webhook returns 201 Created', function () { pm.response.to.have.status(201); });",
+            "var j = pm.response.json();",
+            "pm.environment.set('webhook_id', j.data.id || 'wh_123');"
+          ]
+        }
+      }]
+    },
+    {
+      name: "45. Webhooks - Test dispatch ping with HMAC signature",
+      request: {
+        method: "POST",
+        header: [{ key: "Authorization", value: "Bearer {{tenantA_token}}" }],
+        url: { raw: "{{baseUrl}}/api/v1/webhooks/{{webhook_id}}/test", host: ["{{baseUrl}}"], path: ["api", "v1", "webhooks", "{{webhook_id}}", "test"] }
+      },
+      event: [{
+        listen: "test",
+        script: {
+          type: "text/javascript",
+          exec: [
+            "pm.test('Test dispatch returns 200 OK', function () { pm.response.to.have.status(200); });",
+            "var j = pm.response.json();",
+            "pm.test('Delivered with HMAC sha256 signature', function () {",
+            "  pm.expect(j.data.signature || j.signature).to.match(/^sha256=[a-f0-9]{64}/);",
+            "});"
+          ]
+        }
+      }]
+    },
+    {
+      name: "46. Webhooks - Owner deletes webhook (204)",
+      request: {
+        method: "DELETE",
+        header: [{ key: "Authorization", value: "Bearer {{tenantA_token}}" }],
+        url: { raw: "{{baseUrl}}/api/v1/webhooks/{{webhook_id}}", host: ["{{baseUrl}}"], path: ["api", "v1", "webhooks", "{{webhook_id}}"] }
+      },
+      event: [{
+        listen: "test",
+        script: {
+          type: "text/javascript",
+          exec: [
+            "pm.test('Delete webhook returns 204 No Content', function () { pm.response.to.have.status(204); });"
+          ]
+        }
+      }]
+    }
+  ]
+};
+
+const targetPath = path.join(ROOT, 'tests/api/supportpilot-sprint1.collection.json');
+fs.writeFileSync(targetPath, JSON.stringify(collection, null, 2), 'utf-8');
+console.log(`Successfully generated 46-request Newman collection at: ${targetPath}`);

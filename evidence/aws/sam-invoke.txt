@@ -1,0 +1,31 @@
+================================================================================
+SupportPilot WebhookFunction Local Invocation Runner
+================================================================================
+Timestamp: 2026-11-22T12:37:41.192347+00:00
+Host Platform: win32 (Python 3.12.13)
+Host Tooling Audit:
+  - Docker CLI: NOT INSTALLED / NOT FOUND IN PATH
+  - AWS SAM CLI: NOT INSTALLED / NOT FOUND IN PATH
+Execution Mode: Direct In-Process Python Lambda Execution Runner
+Note: SAM CLI and Docker are absent on this host. This runner loads
+      infra/sam/events/sqs.json and executes handlers.webhook.handler
+      against an ephemeral mock webhook receiver to verify signing and delivery.
+--------------------------------------------------------------------------------
+Handler: infra.sam.handlers.webhook.handler
+Event File: infra/sam/events/sqs.json
+Records Processed: 1
+Execution ID: feeda26f-5b4c-4968-a470-a32023c7915e
+Execution Status: SUCCESS
+Real Elapsed Time: 2.22 ms
+
+Handler Output:
+{
+  "batchItemFailures": []
+}
+
+Receiver Verification:
+  - Event Received: ticket.created
+  - Delivery ID: evt_sam_test_101
+  - Signature: sha256=49649f062be19c9aa124a5a0b13dfb2a6a8687730f2f4801fe44cb37644bde2e
+  - Bytes Received: 63
+================================================================================

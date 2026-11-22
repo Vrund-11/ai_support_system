@@ -21,6 +21,7 @@ class Settings(BaseSettings):
     s3_bucket: str = "supportpilot-files"
     aws_region: str = "ap-south-1"
 
+    embedding_provider: str = "sbert"
     embedding_model: str = "sentence-transformers/all-MiniLM-L6-v2"
     embedding_dim: int = 384
     ai_confidence_threshold: float = 0.55

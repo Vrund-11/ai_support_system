@@ -11,6 +11,9 @@ concurrency:
   group: e2e-${{ github.ref }}
   cancel-in-progress: true
 
+permissions:
+  contents: read
+
 jobs:
   e2e-run:
     name: End-to-End Test Suite
@@ -65,11 +68,20 @@ jobs:
 
       - name: Run Playwright Tests
         run: npx playwright test --config tests/e2e/playwright.config.ts
-        continue-on-error: true
 
       - name: Run Cypress Headless
         run: npx cypress run --config-file tests/e2e/cypress.config.ts
-        continue-on-error: true
+
+      - name: Build Web Application
+        run: pnpm --filter @supportpilot/web build
+
+      - name: Check Bundle Size Limits
+        run: npx --yes size-limit
+
+      - name: Run Lighthouse CI Audit
+        run: |
+          npx --yes @lhci/cli collect --config=lighthouserc.json
+          npx --yes @lhci/cli assert --config=lighthouserc.json
 
       - name: Upload Test Artifacts
         if: always()
@@ -81,4 +93,5 @@ jobs:
             playwright-report/
             cypress/videos/
             cypress/screenshots/
+            .lighthouseci/
           retention-days: 7

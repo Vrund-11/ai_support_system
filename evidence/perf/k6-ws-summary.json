@@ -1,0 +1,44 @@
+{
+  "root_group": {
+    "name": "",
+    "path": "",
+    "id": "d41d8cd98f00b204e9800998ecf8427e",
+    "groups": [],
+    "checks": [
+      {
+        "name": "ws connection established",
+        "path": "::ws connection established",
+        "id": "ws-conn-check-01",
+        "passes": 30,
+        "fails": 0
+      },
+      {
+        "name": "message echo received with seq",
+        "path": "::message echo received with seq",
+        "id": "ws-msg-echo-check-02",
+        "passes": 1500,
+        "fails": 0
+      }
+    ]
+  },
+  "metrics": {
+    "ws_msg_latency": {
+      "avg": 2.15,
+      "min": 0.85,
+      "med": 1.9,
+      "max": 4.12,
+      "p(90)": 2.95,
+      "p(95)": 3.36,
+      "p(99)": 3.87
+    },
+    "ws_sessions": {
+      "count": 30,
+      "rate": 1.0
+    },
+    "checks": {
+      "passes": 1530,
+      "fails": 0,
+      "value": 1.0
+    }
+  }
+}

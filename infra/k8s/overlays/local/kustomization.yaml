@@ -1,0 +1,46 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: supportpilot
+
+resources:
+  - ../../base
+
+images:
+  - name: supportpilot/gateway
+    newName: supportpilot/gateway
+    newTag: dev
+  - name: supportpilot/ticket-service
+    newName: supportpilot/ticket-service
+    newTag: dev
+  - name: supportpilot/ai-service
+    newName: supportpilot/ai-service
+    newTag: dev
+  - name: supportpilot/notification-service
+    newName: supportpilot/notification-service
+    newTag: dev
+  - name: supportpilot/web
+    newName: supportpilot/web
+    newTag: dev
+
+patches:
+  - patch: |-
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: gateway
+      spec:
+        replicas: 1
+    target:
+      kind: Deployment
+      name: gateway
+  - patch: |-
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: ticket-service
+      spec:
+        replicas: 1
+    target:
+      kind: Deployment
+      name: ticket-service

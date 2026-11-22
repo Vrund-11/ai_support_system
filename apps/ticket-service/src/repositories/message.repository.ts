@@ -37,12 +37,25 @@ export class MessageRepository extends BaseTenantRepository<IMessageDocument> {
     } = {},
   ): Promise<IMessageDocument> {
     const objectId = typeof ticketId === 'string' ? new Types.ObjectId(ticketId) : ticketId;
+
+    if (input.clientId) {
+      const existing = await this.model.findOne({
+        tenantId: this.tenantId,
+        ticketId: objectId,
+        clientId: input.clientId,
+      });
+      if (existing) {
+        return existing;
+      }
+    }
+
     const seq = await this.getNextMessageSeq(objectId);
     const senderType = options.senderType ?? 'AGENT';
     const isInternal = Boolean(input.isInternal);
 
     const messageDoc: Partial<IMessageDocument> = {
       ticketId: objectId,
+      clientId: input.clientId,
       seq,
       senderType,
       body: input.body,
@@ -59,7 +72,22 @@ export class MessageRepository extends BaseTenantRepository<IMessageDocument> {
           : options.senderId;
     }
 
-    const message = await this.create(messageDoc);
+    let message: IMessageDocument;
+    try {
+      message = await this.create(messageDoc);
+    } catch (err: any) {
+      if ((err?.code === 11000 || err?.name === 'MongoServerError') && input.clientId) {
+        const existing = await this.model.findOne({
+          tenantId: this.tenantId,
+          ticketId: objectId,
+          clientId: input.clientId,
+        });
+        if (existing) {
+          return existing;
+        }
+      }
+      throw err;
+    }
 
     // Record timeline event
     await this.eventRepo.recordEvent(objectId, isInternal ? 'NOTE' : 'MESSAGE', {

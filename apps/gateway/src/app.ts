@@ -14,6 +14,7 @@ import { createQuotaMiddleware } from './middleware/quota.middleware.js';
 import { createAuthPassthrough } from './middleware/auth-passthrough.js';
 import { createProxyMiddleware } from './middleware/proxy.js';
 import { createSecurityHeadersMiddleware } from './middleware/security.js';
+import { createGatewayTimingMiddleware } from './middleware/server-timing.middleware.js';
 import { setupGraphQL } from './graphql/server.js';
 
 export interface GatewayConfig {
@@ -44,6 +45,7 @@ export function createApp(config: GatewayConfig = {}): Express {
     'default-secret-at-least-32-chars!!';
 
   app.use(createSecurityHeadersMiddleware());
+  app.use(createGatewayTimingMiddleware());
   app.use(express.json());
   app.use(requestIdMiddleware);
   app.use(createTraceMiddleware('gateway'));
@@ -155,7 +157,12 @@ export function createApp(config: GatewayConfig = {}): Express {
   const aiProxy = createProxyMiddleware({
     targetBaseUrl: aiServiceUrl,
     serviceToken,
-    pathRewrite: (path) => path.replace(/^\/api\/v1\/ai/, '/v1'),
+    pathRewrite: (path) => {
+      if (path.startsWith('/api/v1/ai/draft/stream')) {
+        return path.replace(/^\/api\/v1\/ai\/draft\/stream/, '/v1/draft-response/stream');
+      }
+      return path.replace(/^\/api\/v1\/ai/, '/v1');
+    },
   });
 
   app.use('/api/v1/ai', aiProxy);

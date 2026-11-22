@@ -15,9 +15,12 @@ concurrency:
   group: mobile-${{ github.ref }}
   cancel-in-progress: true
 
+permissions:
+  contents: read
+
 jobs:
   mobile-test:
-    name: Mobile Lint & Unit Tests
+    name: Mobile Quality & Unit Tests
     runs-on: ubuntu-latest
     timeout-minutes: 15
 
@@ -34,16 +37,41 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Mobile Typecheck
+        run: pnpm --filter @supportpilot/mobile typecheck
+
+      - name: Mobile Lint
+        run: pnpm --filter @supportpilot/mobile lint
+
       - name: Build mobile package
         run: pnpm --filter @supportpilot/mobile build
 
       - name: Run Mobile Tests
         run: pnpm --filter @supportpilot/mobile test
 
-      - name: Setup EAS CLI
-        run: npm install -g eas-cli
-
       - name: Validate EAS Config
         run: |
+          node -e "const fs = require('fs'); const config = JSON.parse(fs.readFileSync('apps/mobile/eas.json', 'utf8')); if (!config.build || !config.build.preview || config.build.preview.android?.buildType !== 'apk') throw new Error('eas.json missing valid preview apk profile'); console.log('EAS config valid: preview APK configured');"
+
+  eas-preview-build:
+    name: EAS Android Preview Build
+    needs: mobile-test
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Trigger EAS Preview Build (APK)
+        if: env.EXPO_TOKEN != ''
+        run: |
           cd apps/mobile
-          eas config --platform android || true
+          npx --yes eas-cli build --platform android --profile preview --non-interactive

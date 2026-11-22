@@ -1,6 +1,7 @@
 """Base abstract LLM Provider interface."""
 
 from abc import ABC, abstractmethod
+from collections.abc import AsyncIterator
 from typing import TypeVar
 
 from pydantic import BaseModel
@@ -37,4 +38,14 @@ class LLMProvider(ABC):
     @abstractmethod
     async def get_embeddings(self, texts: list[str]) -> list[list[float]]:
         """Compute normalized vector embeddings for a batch of text strings."""
+        pass
+
+    @abstractmethod
+    async def stream_generate(
+        self,
+        system_prompt: str,
+        user_prompt: str,
+        temperature: float = 0.2,
+    ) -> AsyncIterator[str]:
+        """Stream generated text tokens asynchronously."""
         pass

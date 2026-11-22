@@ -29,7 +29,7 @@ export class BiometricService {
   }
 
   async authenticateAsync(
-    promptMessage: string = 'Unlock SupportPilot Workspace',
+    _promptMessage: string = 'Unlock SupportPilot Workspace',
   ): Promise<BiometricAuthResult> {
     const hasHardware = await this.hasHardwareAsync();
     if (!hasHardware) {

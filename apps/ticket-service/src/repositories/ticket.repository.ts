@@ -207,8 +207,9 @@ export class TicketRepository extends BaseTenantRepository<ITicketDocument> {
       query['priority'] = { $in: priorities };
     }
 
-    if (filterInput.assigneeId && Types.ObjectId.isValid(filterInput.assigneeId)) {
-      query['assigneeId'] = new Types.ObjectId(filterInput.assigneeId);
+    const assignee = filterInput.assigneeId || filterInput.assignedAgentId;
+    if (assignee && Types.ObjectId.isValid(assignee)) {
+      query['assigneeId'] = new Types.ObjectId(assignee);
     }
 
     if (filterInput.tag) {
@@ -229,7 +230,7 @@ export class TicketRepository extends BaseTenantRepository<ITicketDocument> {
     return this.findWithPagination(query, {
       limit: filterInput.limit,
       cursor: filterInput.cursor,
-      sort: { _id: -1 },
+      sort: { updatedAt: -1, _id: -1 },
     });
   }
 
@@ -254,8 +255,9 @@ export class TicketRepository extends BaseTenantRepository<ITicketDocument> {
       query['priority'] = { $in: priorities };
     }
 
-    if (filterInput.assigneeId && Types.ObjectId.isValid(filterInput.assigneeId)) {
-      query['assigneeId'] = new Types.ObjectId(filterInput.assigneeId);
+    const assignee = filterInput.assigneeId || filterInput.assignedAgentId;
+    if (assignee && Types.ObjectId.isValid(assignee)) {
+      query['assigneeId'] = new Types.ObjectId(assignee);
     }
 
     if (filterInput.tag) {
@@ -273,8 +275,16 @@ export class TicketRepository extends BaseTenantRepository<ITicketDocument> {
       query['createdAt'] = dateFilter;
     }
 
+    let queryObj: any = this.model.find(this.scopeFilter(query));
+    if (typeof queryObj.sort === 'function') {
+      queryObj = queryObj.sort({ updatedAt: -1, _id: -1 });
+    }
+    if (typeof queryObj.limit === 'function') {
+      queryObj = queryObj.limit(Math.min(filterInput.limit ?? 20, 50));
+    }
+
     const explained = await (
-      this.model.find(this.scopeFilter(query)) as unknown as {
+      queryObj as unknown as {
         explain: (verbosity: string) => Promise<Record<string, unknown>>;
       }
     ).explain('executionStats');

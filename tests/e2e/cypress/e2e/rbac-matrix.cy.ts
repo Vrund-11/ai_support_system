@@ -223,31 +223,51 @@ describe('RBAC Matrix & Multi-Role Authorization Suite', () => {
     it('TC-T2-RBAC-01 & TC-T2-RBAC-02: Denies unprivileged mutations with HTTP 403 Forbidden', () => {
       loginAs(mockUsers.viewer);
 
-      // Intercept mutation attempt with 403 Forbidden (RFC 7807 problem details)
-      cy.intercept('POST', '/api/v1/tickets', {
-        statusCode: 403,
-        body: {
-          type: 'https://supportpilot.io/errors/forbidden',
-          title: 'Forbidden',
-          status: 403,
-          detail: 'Role VIEWER does not possess permission: tickets:create',
-        },
-      }).as('forbiddenTicketCreate');
-
-      // Intercept settings mutation with 403 Forbidden
-      cy.intercept('POST', '/api/v1/api-keys', {
-        statusCode: 403,
-        body: {
-          type: 'https://supportpilot.io/errors/forbidden',
-          title: 'Forbidden',
-          status: 403,
-          detail: 'Role VIEWER does not possess permission: api-keys:manage',
-        },
-      }).as('forbiddenApiKeyCreate');
-
-      // Verify settings page displays appropriate role restrictions
+      // Verify UI role restrictions: Platform Admin subtab is hidden for VIEWER
       cy.contains('Settings').click();
       cy.contains('Platform Admin').should('not.exist');
+
+      // TC-T2-RBAC-01: Genuinely send unprivileged ticket mutation via cy.request
+      cy.request({
+        method: 'POST',
+        url: '/api/v1/tickets',
+        headers: {
+          Authorization: `Bearer jwt.token.${mockUsers.viewer.role.toLowerCase()}`,
+          'x-tenant-id': tenantId,
+        },
+        body: {
+          subject: 'Unauthorized ticket create attempt',
+          description: 'Viewer role lacks ticket create permission',
+          priority: 'MEDIUM',
+        },
+        failOnStatusCode: false,
+      }).then((response) => {
+        expect(response.status).to.eq(403);
+        expect(response.body).to.have.property('status', 403);
+        expect(response.body).to.have.property('type');
+        expect(response.body.type).to.match(/forbidden/);
+        expect(response.body.detail || response.body.title).to.include('permission');
+      });
+
+      // TC-T2-RBAC-02: Genuinely send unprivileged API key mutation via cy.request
+      cy.request({
+        method: 'POST',
+        url: '/api/v1/api-keys',
+        headers: {
+          Authorization: `Bearer jwt.token.${mockUsers.viewer.role.toLowerCase()}`,
+          'x-tenant-id': tenantId,
+        },
+        body: {
+          name: 'Unauthorized API Key Attempt',
+          scopes: ['tickets:read', 'tickets:write'],
+        },
+        failOnStatusCode: false,
+      }).then((response) => {
+        expect(response.status).to.eq(403);
+        expect(response.body).to.have.property('status', 403);
+        expect(response.body).to.have.property('type');
+        expect(response.body.type).to.match(/forbidden/);
+      });
     });
 
     it('TC-T2-RBAC-04 & TC-T2-RBAC-05: Unauthenticated access redirects or displays error', () => {
@@ -265,6 +285,7 @@ describe('RBAC Matrix & Multi-Role Authorization Suite', () => {
       cy.get('input[type="email"]').clear().type('intruder@unknown.com');
       cy.get('input[type="password"]').clear().type('WrongPassword!');
       cy.get('button[type="submit"]').click();
+      cy.wait('@unauthorizedLogin');
 
       // Ensure user remains on login view and receives rejection
       cy.get('button[type="submit"]').should('be.visible');

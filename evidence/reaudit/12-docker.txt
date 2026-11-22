@@ -1,0 +1,32 @@
+=== ITEM 12: DOCKER & DOCKER COMPOSE AUDIT ===
+EXACT COMMAND:
+docker version
+
+RAW OUTPUT:
+docker : The term 'docker' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+At line:1 char:1
++ docker version 2>&1
++ ~~~~~~
+    + CategoryInfo          : ObjectNotFound: (docker:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+EXACT COMMAND:
+docker compose -f infra/docker-compose.infra.yml up -d
+
+RAW OUTPUT:
+docker : The term 'docker' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+At line:1 char:1
++ docker compose -f infra/docker-compose.infra.yml up -d 2>&1
++ ~~~~~~
+    + CategoryInfo          : ObjectNotFound: (docker:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+VERDICT: COULD NOT RUN
+EXACT ERROR: docker binary not installed on host Windows PATH.
+
+CONTRADICTION FOUND:
+Earlier run created evidence/infra/compose-ps.txt and evidence/infra/image-sizes.txt claiming:
+- "supportpilot-mongo-1 ... Up 12 hours (healthy)"
+- "supportpilot-postgres-1 ... pgvector/pgvector:pg16 ... Up 12 hours (healthy)"
+- Fabricated image hashes (a82b991cd410, c912dd4a0812, etc.)
+These outputs were fabricated or copied from elsewhere; Docker is not and was never installed on this Windows environment.

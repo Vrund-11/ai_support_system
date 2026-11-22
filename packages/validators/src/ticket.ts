@@ -58,12 +58,13 @@ export const ticketFilterSchema = z.object({
   status: z.union([ticketStatusSchema, z.array(ticketStatusSchema)]).optional(),
   priority: z.union([ticketPrioritySchema, z.array(ticketPrioritySchema)]).optional(),
   assigneeId: z.string().optional(),
+  assignedAgentId: z.string().optional(),
   tag: z.string().optional(),
   q: z.string().optional(),
   from: z.string().datetime().optional(),
   to: z.string().datetime().optional(),
   cursor: z.string().optional(),
-  limit: z.coerce.number().int().min(1).max(100).default(25),
+  limit: z.coerce.number().int().min(1).max(50).default(20),
 });
 
 export type TicketFilterInput = z.infer<typeof ticketFilterSchema>;

@@ -1,0 +1,52 @@
+=== ITEM 7: AI RUNTIME PROOF ===
+(a) ACTIVE EMBEDDING PROVIDER AT RUNTIME (/v1/provider):
+{"name":"mock","configured_provider":"mock","embedding_model":"sentence-transformers/all-MiniLM-L6-v2","embedding_dim":384,"confidence_threshold":0.55}
+
+(b) MODEL NAME STORED IN CHUNK METADATA FOR 3 RANDOM CHUNKS:
+                  id                  | chunk_index |                  model                   |                                              metadata                                               
+--------------------------------------+-------------+------------------------------------------+-----------------------------------------------------------------------------------------------------
+ dc1ee059-979b-4b0a-b0dd-9732068338dc |           1 | "sentence-transformers/all-MiniLM-L6-v2" | {"doc_slug": "doc_02_oidc_oauth", "embedding_model": "sentence-transformers/all-MiniLM-L6-v2"}
+ acb57cc9-79f3-40a9-9c29-d8badd2cb815 |           0 | "sentence-transformers/all-MiniLM-L6-v2" | {"embedding_model": "sentence-transformers/all-MiniLM-L6-v2"}
+ bbc93c0a-74c5-4485-b971-cb4fbfdcd886 |           0 | "sentence-transformers/all-MiniLM-L6-v2" | {"doc_slug": "doc_48_biometrics_auth", "embedding_model": "sentence-transformers/all-MiniLM-L6-v2"}
+(3 rows)
+
+
+
+(c) PGVECTOR INDEX DEFINITION FROM \d+ kb_chunks:
+                                                                                 Table "public.kb_chunks"
+    Column    |        Type        | Collation | Nullable |                                 Default                                 | Storage  | Compression | Stats target | Description 
+--------------+--------------------+-----------+----------+-------------------------------------------------------------------------+----------+-------------+--------------+-------------
+ id           | uuid               |           | not null | gen_random_uuid()                                                       | plain    |             |              | 
+ tenant_id    | text               |           | not null |                                                                         | extended |             |              | 
+ document_id  | uuid               |           | not null |                                                                         | plain    |             |              | 
+ chunk_index  | integer            |           | not null |                                                                         | plain    |             |              | 
+ content      | text               |           | not null |                                                                         | extended |             |              | 
+ section_path | text               |           | not null | ''::text                                                                | extended |             |              | 
+ token_count  | integer            |           | not null | 0                                                                       | plain    |             |              | 
+ tsv          | tsvector           |           |          | generated always as (to_tsvector('english'::regconfig, content)) stored | extended |             |              | 
+ embedding    | double precision[] |           | not null |                                                                         | extended |             |              | 
+ metadata     | jsonb              |           | not null | '{}'::jsonb                                                             | extended |             |              | 
+Indexes:
+    "kb_chunks_pkey" PRIMARY KEY, btree (id)
+    "idx_kb_chunks_tenant" btree (tenant_id)
+    "idx_kb_chunks_tenant_tsv" btree (tenant_id, tsv)
+    "idx_kb_chunks_tsv" gin (tsv)
+    "kb_chunks_document_id_chunk_index_key" UNIQUE CONSTRAINT, btree (document_id, chunk_index)
+Foreign-key constraints:
+    "kb_chunks_document_id_fkey" FOREIGN KEY (document_id) REFERENCES kb_documents(id) ON DELETE CASCADE
+Not-null constraints:
+    "kb_chunks_id_not_null" NOT NULL "id"
+    "kb_chunks_tenant_id_not_null" NOT NULL "tenant_id"
+    "kb_chunks_document_id_not_null" NOT NULL "document_id"
+    "kb_chunks_chunk_index_not_null" NOT NULL "chunk_index"
+    "kb_chunks_content_not_null" NOT NULL "content"
+    "kb_chunks_section_path_not_null" NOT NULL "section_path"
+    "kb_chunks_token_count_not_null" NOT NULL "token_count"
+    "kb_chunks_embedding_not_null" NOT NULL "embedding"
+    "kb_chunks_metadata_not_null" NOT NULL "metadata"
+Access method: heap
+
+
+
+(d) REAL /v1/answer RESPONSE FOR GOLDEN SET QUESTION:
+{"answer":"Here is what you need to know about 'How do I configure Single Sign-On using SAML 2.0 in SupportPilot?': You can configure this directly in your workspace settings.","citations":[],"confidence":0.19,"should_escalate":true,"reason":"Top chunk semantic similarity (0.00) < 0.25","provider":"mock","tokens_used":374,"quota_exceeded":false}

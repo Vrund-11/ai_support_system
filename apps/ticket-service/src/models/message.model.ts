@@ -5,6 +5,7 @@ export interface IMessageDocument extends Document {
   tenantId: Types.ObjectId;
   ticketId?: Types.ObjectId;
   conversationId?: Types.ObjectId;
+  clientId?: string;
   seq: number;
   senderType: SenderType;
   senderId?: Types.ObjectId;
@@ -33,6 +34,11 @@ const messageSchema = new Schema<IMessageDocument>(
     conversationId: {
       type: Schema.Types.ObjectId,
       ref: 'Conversation',
+      index: true,
+    },
+    clientId: {
+      type: String,
+      sparse: true,
       index: true,
     },
     seq: {
@@ -85,6 +91,10 @@ const messageSchema = new Schema<IMessageDocument>(
 );
 
 messageSchema.index({ tenantId: 1, ticketId: 1, seq: 1 });
+messageSchema.index(
+  { tenantId: 1, ticketId: 1, clientId: 1 },
+  { unique: true, partialFilterExpression: { clientId: { $type: 'string' } } },
+);
 messageSchema.index({ conversationId: 1, seq: 1 });
 messageSchema.index({ body: 'text' });
 

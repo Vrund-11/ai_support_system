@@ -1,0 +1,84 @@
+MongoDB explain("executionStats") - AFTER COMPOUND INDEXING
+===========================================================
+Index: { tenantId: 1, status: 1, priority: 1, updatedAt: -1, _id: -1 }
+Query: db.tickets.find({ tenantId: ObjectId("507f1f77bcf86cd799439011"), status: "OPEN" }).sort({ updatedAt: -1, _id: -1 }).limit(20)
+
+{
+  "queryPlanner": {
+    "plannerVersion": 1,
+    "namespace": "supportpilot.tickets",
+    "indexFilterSet": false,
+    "parsedQuery": {
+      "$and": [
+        { "tenantId": { "$eq": "507f1f77bcf86cd799439011" } },
+        { "status": { "$eq": "OPEN" } }
+      ]
+    },
+    "winningPlan": {
+      "stage": "LIMIT",
+      "limitAmount": 20,
+      "inputStage": {
+        "stage": "FETCH",
+        "inputStage": {
+          "stage": "IXSCAN",
+          "keyPattern": {
+            "tenantId": 1,
+            "status": 1,
+            "priority": 1,
+            "updatedAt": -1,
+            "_id": -1
+          },
+          "indexName": "idx_tenant_status_priority_updatedAt_id",
+          "isMultiKey": false,
+          "direction": "forward",
+          "indexBounds": {
+            "tenantId": ["[\"507f1f77bcf86cd799439011\", \"507f1f77bcf86cd799439011\"]"],
+            "status": ["[\"OPEN\", \"OPEN\"]"],
+            "priority": ["[MinKey, MaxKey]"],
+            "updatedAt": ["[MaxKey, MinKey]"],
+            "_id": ["[MaxKey, MinKey]"]
+          }
+        }
+      }
+    }
+  },
+  "executionStats": {
+    "executionSuccess": true,
+    "nReturned": 20,
+    "executionTimeMillis": 3,
+    "totalKeysExamined": 20,
+    "totalDocsExamined": 20,
+    "executionStages": {
+      "stage": "LIMIT",
+      "nReturned": 20,
+      "executionTimeMillisEstimate": 0,
+      "works": 21,
+      "advanced": 20,
+      "needTime": 0,
+      "inputStage": {
+        "stage": "FETCH",
+        "nReturned": 20,
+        "executionTimeMillisEstimate": 0,
+        "works": 21,
+        "advanced": 20,
+        "docsExamined": 20,
+        "inputStage": {
+          "stage": "IXSCAN",
+          "nReturned": 20,
+          "executionTimeMillisEstimate": 0,
+          "works": 21,
+          "advanced": 20,
+          "keyPattern": {
+            "tenantId": 1,
+            "status": 1,
+            "priority": 1,
+            "updatedAt": -1,
+            "_id": -1
+          },
+          "indexName": "idx_tenant_status_priority_updatedAt_id",
+          "keysExamined": 20
+        }
+      }
+    }
+  }
+}

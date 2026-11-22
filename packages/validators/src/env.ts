@@ -131,6 +131,11 @@ export const notificationServiceEnvSchema = baseEnvSchema
     DATABASE_URL: z.string().min(1),
     SERVICE_TOKEN: z.string().min(16),
     INTERNAL_SERVICE_TOKEN: z.string().optional(),
+    WEBHOOK_TRANSPORT: z.enum(['http', 'sqs']).default('http'),
+    SQS_WEBHOOK_QUEUE_URL: z.string().optional(),
+    SQS_ENDPOINT: z.string().optional(),
+    AWS_REGION: z.string().default('us-east-1'),
+    WEBHOOK_SIGNING_SECRET: z.string().default('whsec_default_signing_key_32_chars!'),
   })
   .superRefine((data, ctx) => {
     if (data.NODE_ENV === 'production') {

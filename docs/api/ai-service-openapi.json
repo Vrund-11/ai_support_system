@@ -1,0 +1,1788 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "SupportPilot AI Service",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/healthz": {
+      "get": {
+        "summary": "Health",
+        "operationId": "health_healthz_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "type": "object",
+                  "title": "Response Health Healthz Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/health": {
+      "get": {
+        "summary": "Health",
+        "operationId": "health_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "type": "object",
+                  "title": "Response Health Health Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/health/readiness": {
+      "get": {
+        "summary": "Ready",
+        "operationId": "ready_health_readiness_get",
+        "parameters": [
+          {
+            "name": "x-service-token",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Service-Token"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response Ready Health Readiness Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/readyz": {
+      "get": {
+        "summary": "Ready",
+        "operationId": "ready_readyz_get",
+        "parameters": [
+          {
+            "name": "x-service-token",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Service-Token"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response Ready Readyz Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ready": {
+      "get": {
+        "summary": "Ready",
+        "operationId": "ready_ready_get",
+        "parameters": [
+          {
+            "name": "x-service-token",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Service-Token"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response Ready Ready Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/metrics": {
+      "get": {
+        "summary": "Metrics",
+        "operationId": "metrics_metrics_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/provider": {
+      "get": {
+        "summary": "Provider Info",
+        "operationId": "provider_info_v1_provider_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "type": "object",
+                  "title": "Response Provider Info V1 Provider Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/test/generate": {
+      "post": {
+        "summary": "Test Generate",
+        "operationId": "test_generate_v1_test_generate_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GenerateTestRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "type": "object",
+                  "title": "Response Test Generate V1 Test Generate Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/test/answer": {
+      "post": {
+        "summary": "Test Answer",
+        "operationId": "test_answer_v1_test_answer_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GenerateTestRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RagAnswer"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/test/embed": {
+      "post": {
+        "summary": "Test Embed",
+        "operationId": "test_embed_v1_test_embed_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmbedTestRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "type": "object",
+                  "title": "Response Test Embed V1 Test Embed Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/kb/ingest": {
+      "post": {
+        "summary": "Ingest Kb Document",
+        "operationId": "ingest_kb_document_v1_kb_ingest_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IngestDocumentRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "type": "object",
+                  "title": "Response Ingest Kb Document V1 Kb Ingest Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/kb/documents/{document_id}": {
+      "get": {
+        "summary": "Get Kb Document",
+        "operationId": "get_kb_document_v1_kb_documents__document_id__get",
+        "parameters": [
+          {
+            "name": "document_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Document Id"
+            }
+          },
+          {
+            "name": "tenant_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Tenant Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response Get Kb Document V1 Kb Documents  Document Id  Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/kb/documents/{document_id}/chunks": {
+      "get": {
+        "summary": "Get Kb Chunks",
+        "operationId": "get_kb_chunks_v1_kb_documents__document_id__chunks_get",
+        "parameters": [
+          {
+            "name": "document_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Document Id"
+            }
+          },
+          {
+            "name": "tenant_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Tenant Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response Get Kb Chunks V1 Kb Documents  Document Id  Chunks Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/retrieval/search": {
+      "post": {
+        "summary": "Search Kb",
+        "operationId": "search_kb_v1_retrieval_search_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SearchRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "type": "object",
+                  "title": "Response Search Kb V1 Retrieval Search Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/answer": {
+      "post": {
+        "summary": "Generate Answer",
+        "operationId": "generate_answer_v1_answer_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GenerateAnswerRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenerateAnswerResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/draft-response/stream": {
+      "post": {
+        "summary": "Stream Draft Response",
+        "description": "Stream AI draft response token-by-token over Server-Sent Events (SSE) (Feature 31).",
+        "operationId": "stream_draft_response_v1_draft_response_stream_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StreamDraftRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/draft-response/stream": {
+      "post": {
+        "summary": "Stream Draft Response",
+        "description": "Stream AI draft response token-by-token over Server-Sent Events (SSE) (Feature 31).",
+        "operationId": "stream_draft_response_draft_response_stream_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StreamDraftRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/cache/invalidate": {
+      "post": {
+        "summary": "Invalidate Cache",
+        "operationId": "invalidate_cache_v1_cache_invalidate_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CacheInvalidateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "type": "object",
+                  "title": "Response Invalidate Cache V1 Cache Invalidate Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/eval/run": {
+      "post": {
+        "summary": "Run Evaluation",
+        "operationId": "run_evaluation_v1_eval_run_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RunEvalRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "type": "object",
+                  "title": "Response Run Evaluation V1 Eval Run Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/classify": {
+      "post": {
+        "summary": "Classify Ticket",
+        "operationId": "classify_ticket_v1_classify_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClassifyRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClassifyResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/classify/feedback": {
+      "post": {
+        "summary": "Record Classifier Feedback",
+        "operationId": "record_classifier_feedback_v1_classify_feedback_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClassifierFeedbackRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClassifierFeedbackResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/assist/suggest-reply": {
+      "post": {
+        "summary": "Suggest Agent Reply",
+        "operationId": "suggest_agent_reply_v1_assist_suggest_reply_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SuggestReplyRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuggestReplyResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/assist/summarize": {
+      "post": {
+        "summary": "Summarize Thread",
+        "operationId": "summarize_thread_v1_assist_summarize_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SummarizeRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SummarizeResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/quota/{tenant_id}": {
+      "get": {
+        "summary": "Get Tenant Quota",
+        "operationId": "get_tenant_quota_v1_quota__tenant_id__get",
+        "parameters": [
+          {
+            "name": "tenant_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Tenant Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response Get Tenant Quota V1 Quota  Tenant Id  Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/quota/{tenant_id}/reset": {
+      "post": {
+        "summary": "Reset Tenant Quota",
+        "operationId": "reset_tenant_quota_v1_quota__tenant_id__reset_post",
+        "parameters": [
+          {
+            "name": "tenant_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Tenant Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response Reset Tenant Quota V1 Quota  Tenant Id  Reset Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AssistMessageItem": {
+        "properties": {
+          "sender": {
+            "type": "string",
+            "title": "Sender",
+            "description": "Role or sender identifier: customer | agent | ai | system"
+          },
+          "body": {
+            "type": "string",
+            "title": "Body",
+            "description": "Message body text"
+          },
+          "created_at": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Created At",
+            "description": "Timestamp or time string"
+          }
+        },
+        "type": "object",
+        "required": ["sender", "body"],
+        "title": "AssistMessageItem",
+        "description": "Single chat or ticket message."
+      },
+      "CacheInvalidateRequest": {
+        "properties": {
+          "tenant_id": {
+            "type": "string",
+            "title": "Tenant Id",
+            "description": "Tenant ID whose cache entries should be invalidated"
+          }
+        },
+        "type": "object",
+        "required": ["tenant_id"],
+        "title": "CacheInvalidateRequest"
+      },
+      "ChatTurn": {
+        "properties": {
+          "role": {
+            "type": "string",
+            "title": "Role",
+            "description": "Sender role: customer | agent | ai | system"
+          },
+          "content": {
+            "type": "string",
+            "title": "Content",
+            "description": "Message body"
+          }
+        },
+        "type": "object",
+        "required": ["role", "content"],
+        "title": "ChatTurn"
+      },
+      "CitationItem": {
+        "properties": {
+          "chunk_id": {
+            "type": "string",
+            "title": "Chunk Id",
+            "description": "Unique identifier of cited knowledge chunk"
+          },
+          "doc_id": {
+            "type": "string",
+            "title": "Doc Id",
+            "description": "Document ID containing chunk"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title",
+            "description": "Title of source document"
+          }
+        },
+        "type": "object",
+        "required": ["chunk_id", "doc_id", "title"],
+        "title": "CitationItem"
+      },
+      "ClassifierFeedbackRequest": {
+        "properties": {
+          "ticket_id": {
+            "type": "string",
+            "title": "Ticket Id",
+            "description": "Ticket identifier"
+          },
+          "predicted_priority": {
+            "type": "string",
+            "title": "Predicted Priority"
+          },
+          "actual_priority": {
+            "type": "string",
+            "title": "Actual Priority"
+          },
+          "predicted_category": {
+            "type": "string",
+            "title": "Predicted Category"
+          },
+          "actual_category": {
+            "type": "string",
+            "title": "Actual Category"
+          },
+          "tenant_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tenant Id"
+          },
+          "agent_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Agent Id"
+          },
+          "notes": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Notes"
+          }
+        },
+        "type": "object",
+        "required": [
+          "ticket_id",
+          "predicted_priority",
+          "actual_priority",
+          "predicted_category",
+          "actual_category"
+        ],
+        "title": "ClassifierFeedbackRequest",
+        "description": "Agent correction feedback for model monitoring and drift tracking."
+      },
+      "ClassifierFeedbackResponse": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "title": "Status",
+            "default": "recorded"
+          },
+          "ticket_id": {
+            "type": "string",
+            "title": "Ticket Id"
+          },
+          "priority_match": {
+            "type": "boolean",
+            "title": "Priority Match"
+          },
+          "category_match": {
+            "type": "boolean",
+            "title": "Category Match"
+          }
+        },
+        "type": "object",
+        "required": ["ticket_id", "priority_match", "category_match"],
+        "title": "ClassifierFeedbackResponse"
+      },
+      "ClassifyRequest": {
+        "properties": {
+          "subject": {
+            "type": "string",
+            "title": "Subject",
+            "description": "Ticket subject or headline"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description",
+            "description": "Ticket body description"
+          },
+          "first_message": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "First Message",
+            "description": "Customer initial message if separate"
+          },
+          "tenant_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tenant Id",
+            "description": "Tenant scope if available"
+          }
+        },
+        "type": "object",
+        "required": ["subject"],
+        "title": "ClassifyRequest",
+        "description": "Input ticket payload to classify."
+      },
+      "ClassifyResponse": {
+        "properties": {
+          "priority": {
+            "type": "string",
+            "title": "Priority",
+            "description": "Predicted priority: LOW, MEDIUM, HIGH, URGENT"
+          },
+          "category": {
+            "type": "string",
+            "title": "Category",
+            "description": "Predicted category: billing, bug, how-to, account, feature request, other"
+          },
+          "confidence": {
+            "type": "number",
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Confidence",
+            "description": "Calibrated prediction confidence"
+          },
+          "provider": {
+            "type": "string",
+            "title": "Provider",
+            "description": "'model' or 'rules'"
+          },
+          "probabilities": {
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "type": "number"
+                },
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Probabilities",
+            "description": "Class probability distribution"
+          }
+        },
+        "type": "object",
+        "required": ["priority", "category", "confidence", "provider"],
+        "title": "ClassifyResponse",
+        "description": "Predicted priority and category with confidence and provider provenance."
+      },
+      "EmbedTestRequest": {
+        "properties": {
+          "texts": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "minItems": 1,
+            "title": "Texts",
+            "description": "List of strings to embed"
+          }
+        },
+        "type": "object",
+        "required": ["texts"],
+        "title": "EmbedTestRequest"
+      },
+      "GenerateAnswerRequest": {
+        "properties": {
+          "tenant_id": {
+            "type": "string",
+            "title": "Tenant Id"
+          },
+          "conversation_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Conversation Id"
+          },
+          "question": {
+            "type": "string",
+            "title": "Question"
+          },
+          "history": {
+            "items": {
+              "$ref": "#/components/schemas/ChatTurn"
+            },
+            "type": "array",
+            "title": "History"
+          },
+          "retrieved_chunks": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "type": "array",
+            "title": "Retrieved Chunks"
+          },
+          "role_tone": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Role Tone",
+            "description": "Brand voice/tone",
+            "default": "helpful, friendly, and concise"
+          },
+          "confidence_threshold": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Confidence Threshold",
+            "description": "Per-tenant confidence threshold overriding default"
+          }
+        },
+        "type": "object",
+        "required": ["tenant_id", "question"],
+        "title": "GenerateAnswerRequest"
+      },
+      "GenerateAnswerResponse": {
+        "properties": {
+          "answer": {
+            "type": "string",
+            "title": "Answer"
+          },
+          "citations": {
+            "items": {
+              "$ref": "#/components/schemas/CitationItem"
+            },
+            "type": "array",
+            "title": "Citations"
+          },
+          "confidence": {
+            "type": "number",
+            "title": "Confidence"
+          },
+          "should_escalate": {
+            "type": "boolean",
+            "title": "Should Escalate"
+          },
+          "reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reason"
+          },
+          "provider": {
+            "type": "string",
+            "title": "Provider"
+          },
+          "tokens_used": {
+            "type": "integer",
+            "title": "Tokens Used",
+            "default": 0
+          },
+          "quota_exceeded": {
+            "type": "boolean",
+            "title": "Quota Exceeded",
+            "default": false
+          }
+        },
+        "type": "object",
+        "required": ["answer", "citations", "confidence", "should_escalate", "provider"],
+        "title": "GenerateAnswerResponse"
+      },
+      "GenerateTestRequest": {
+        "properties": {
+          "user_prompt": {
+            "type": "string",
+            "title": "User Prompt",
+            "description": "User prompt text"
+          },
+          "system_prompt": {
+            "type": "string",
+            "title": "System Prompt",
+            "default": "You are a helpful customer support AI assistant."
+          },
+          "temperature": {
+            "type": "number",
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Temperature",
+            "default": 0.2
+          }
+        },
+        "type": "object",
+        "required": ["user_prompt"],
+        "title": "GenerateTestRequest"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "IngestDocumentRequest": {
+        "properties": {
+          "tenant_id": {
+            "type": "string",
+            "title": "Tenant Id"
+          },
+          "document_id": {
+            "type": "string",
+            "title": "Document Id"
+          },
+          "text": {
+            "type": "string",
+            "title": "Text"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title",
+            "default": "Untitled Document"
+          },
+          "source": {
+            "type": "string",
+            "title": "Source",
+            "default": "upload"
+          },
+          "s3_key": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "S3 Key"
+          }
+        },
+        "type": "object",
+        "required": ["tenant_id", "document_id", "text"],
+        "title": "IngestDocumentRequest"
+      },
+      "RagAnswer": {
+        "properties": {
+          "answer": {
+            "type": "string",
+            "title": "Answer",
+            "description": "Synthesized customer-facing response"
+          },
+          "citations": {
+            "items": {
+              "$ref": "#/components/schemas/CitationItem"
+            },
+            "type": "array",
+            "title": "Citations",
+            "description": "Citations used"
+          },
+          "confidence": {
+            "type": "number",
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Confidence",
+            "description": "Confidence score from 0.0 to 1.0",
+            "default": 0.85
+          },
+          "self_rating": {
+            "type": "number",
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Self Rating",
+            "description": "Model self-assessed certainty",
+            "default": 0.85
+          },
+          "should_escalate": {
+            "type": "boolean",
+            "title": "Should Escalate",
+            "description": "Flag indicating human agent handoff required",
+            "default": false
+          },
+          "reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reason",
+            "description": "Reason if escalation triggered"
+          }
+        },
+        "type": "object",
+        "required": ["answer"],
+        "title": "RagAnswer"
+      },
+      "RunEvalRequest": {
+        "properties": {
+          "dataset_name": {
+            "type": "string",
+            "title": "Dataset Name",
+            "default": "supportpilot_golden"
+          },
+          "golden_path": {
+            "type": "string",
+            "title": "Golden Path",
+            "default": "tests/ai-eval/golden/supportpilot_golden.jsonl"
+          },
+          "tenant_id": {
+            "type": "string",
+            "title": "Tenant Id",
+            "default": "tenant_eval_01"
+          },
+          "enforce_gate": {
+            "type": "boolean",
+            "title": "Enforce Gate",
+            "default": true
+          }
+        },
+        "type": "object",
+        "title": "RunEvalRequest"
+      },
+      "SearchRequest": {
+        "properties": {
+          "tenant_id": {
+            "type": "string",
+            "title": "Tenant Id",
+            "description": "Tenant ID for strict isolation"
+          },
+          "query": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Query",
+            "description": "Search query string"
+          },
+          "top_k": {
+            "type": "integer",
+            "maximum": 50.0,
+            "minimum": 1.0,
+            "title": "Top K",
+            "default": 5
+          },
+          "vector_top_k": {
+            "type": "integer",
+            "maximum": 100.0,
+            "minimum": 1.0,
+            "title": "Vector Top K",
+            "default": 20
+          },
+          "text_top_k": {
+            "type": "integer",
+            "maximum": 100.0,
+            "minimum": 1.0,
+            "title": "Text Top K",
+            "default": 20
+          },
+          "rrf_k": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Rrf K",
+            "default": 60
+          }
+        },
+        "type": "object",
+        "required": ["tenant_id", "query"],
+        "title": "SearchRequest"
+      },
+      "StreamDraftRequest": {
+        "properties": {
+          "ticket_id": {
+            "type": "string",
+            "title": "Ticket Id",
+            "description": "Ticket ID",
+            "default": ""
+          },
+          "customer_query": {
+            "type": "string",
+            "title": "Customer Query",
+            "description": "Customer inquiry text"
+          },
+          "context_chunks": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Context Chunks",
+            "description": "Optional pre-retrieved context chunks"
+          },
+          "tenant_id": {
+            "type": "string",
+            "title": "Tenant Id",
+            "description": "Tenant ID for retrieval",
+            "default": "default"
+          }
+        },
+        "type": "object",
+        "required": ["customer_query"],
+        "title": "StreamDraftRequest"
+      },
+      "SuggestReplyRequest": {
+        "properties": {
+          "tenant_id": {
+            "type": "string",
+            "title": "Tenant Id",
+            "description": "Tenant scope"
+          },
+          "messages": {
+            "items": {
+              "$ref": "#/components/schemas/AssistMessageItem"
+            },
+            "type": "array",
+            "minItems": 1,
+            "title": "Messages",
+            "description": "Message thread"
+          },
+          "ticket_subject": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ticket Subject",
+            "description": "Ticket subject if available"
+          },
+          "ticket_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ticket Id",
+            "description": "Ticket ID if available"
+          }
+        },
+        "type": "object",
+        "required": ["tenant_id", "messages"],
+        "title": "SuggestReplyRequest",
+        "description": "Payload to request an AI-suggested agent reply."
+      },
+      "SuggestReplyResponse": {
+        "properties": {
+          "suggested_reply": {
+            "type": "string",
+            "title": "Suggested Reply",
+            "description": "Synthesized proposed reply"
+          },
+          "citations": {
+            "items": {
+              "$ref": "#/components/schemas/CitationItem"
+            },
+            "type": "array",
+            "title": "Citations",
+            "description": "Grounding KB citations"
+          },
+          "confidence": {
+            "type": "number",
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Confidence",
+            "description": "Confidence score"
+          },
+          "sources": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Sources",
+            "description": "Titles of consulted documents"
+          }
+        },
+        "type": "object",
+        "required": ["suggested_reply", "confidence"],
+        "title": "SuggestReplyResponse",
+        "description": "Draft reply suggested for the human agent."
+      },
+      "SummarizeRequest": {
+        "properties": {
+          "tenant_id": {
+            "type": "string",
+            "title": "Tenant Id",
+            "description": "Tenant scope"
+          },
+          "messages": {
+            "items": {
+              "$ref": "#/components/schemas/AssistMessageItem"
+            },
+            "type": "array",
+            "minItems": 1,
+            "title": "Messages",
+            "description": "Conversation thread"
+          },
+          "ticket_subject": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ticket Subject",
+            "description": "Ticket subject if available"
+          },
+          "ticket_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ticket Id",
+            "description": "Ticket ID if available"
+          }
+        },
+        "type": "object",
+        "required": ["tenant_id", "messages"],
+        "title": "SummarizeRequest",
+        "description": "Payload to request an AI conversation or ticket summary."
+      },
+      "SummarizeResponse": {
+        "properties": {
+          "summary": {
+            "type": "string",
+            "title": "Summary",
+            "description": "2-3 sentence overview of issue and resolution status"
+          },
+          "key_points": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Key Points",
+            "description": "Bulleted key points or customer constraints"
+          },
+          "sentiment": {
+            "type": "string",
+            "title": "Sentiment",
+            "description": "Customer sentiment: POSITIVE | NEUTRAL | FRUSTRATED | URGENT"
+          },
+          "recommended_action": {
+            "type": "string",
+            "title": "Recommended Action",
+            "description": "Next concrete operational step for the agent"
+          }
+        },
+        "type": "object",
+        "required": ["summary", "sentiment", "recommended_action"],
+        "title": "SummarizeResponse",
+        "description": "Executive summary of the conversation thread."
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": ["loc", "msg", "type"],
+        "title": "ValidationError"
+      }
+    }
+  }
+}

@@ -1,16 +1,19 @@
 """PostgreSQL / pgvector database connection checker."""
 
 import asyncio
+
 import psycopg
 
 from src.config import settings
 
 
 def _sync_check() -> None:
-    with psycopg.connect(settings.database_url, connect_timeout=2) as conn:
-        with conn.cursor() as cur:
-            cur.execute("SELECT 1;")
-            cur.fetchone()
+    with (
+        psycopg.connect(settings.database_url, connect_timeout=2) as conn,
+        conn.cursor() as cur,
+    ):
+        cur.execute("SELECT 1;")
+        cur.fetchone()
 
 
 async def check_db_connection() -> dict[str, str]:

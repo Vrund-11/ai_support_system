@@ -1,0 +1,11 @@
+=== NEWMAN RUN SUMMARY ===
+Iterations: 1 executed, 0 failed
+Requests: 46 executed, 0 failed
+Test-scripts: 46 executed, 0 failed
+Prerequest-scripts: 0 executed, 0 failed
+Assertions: 73 executed, 0 failed
+Failures: 0
+Total run duration: 4.1s
+Average response time: 2ms [min: 1ms, max: 25ms, s.d.: 3ms]
+
+NOTE ON RUNTIME TARGET: Newman was executed via Vitest test runner (tests/api/newman.test.ts) targeting an in-process mock HTTP server (Node http.createServer), NOT live microservice containers.

@@ -1,6 +1,7 @@
 """Tests for ai-service health and readiness endpoints."""
 
 from unittest.mock import AsyncMock, patch
+
 from fastapi.testclient import TestClient
 
 from src.config import settings

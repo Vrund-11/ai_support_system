@@ -24,12 +24,19 @@ export interface AuthState {
   // Actions
   login: (
     credentials: { email: string; password: string; tenantId?: string },
-    apiLoginFn?: Function,
+    apiLoginFn?: (credentials: {
+      email: string;
+      password: string;
+      tenantId?: string;
+    }) => Promise<{ accessToken: string; refreshToken: string; user: MobileUser }>,
   ) => Promise<boolean>;
   loginWithBiometrics: () => Promise<boolean>;
   enableBiometrics: () => Promise<boolean>;
   logout: () => Promise<void>;
   restoreSession: () => Promise<boolean>;
+  refreshSession: (
+    apiRefreshFn?: (refreshToken: string) => Promise<{ accessToken: string; refreshToken: string }>,
+  ) => Promise<boolean>;
   setTokens: (accessToken: string, refreshToken: string, user: MobileUser) => Promise<void>;
   clearError: () => void;
 }
@@ -200,6 +207,46 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       });
       return true;
     } catch {
+      return false;
+    }
+  },
+
+  refreshSession: async (apiRefreshFn) => {
+    const currentRefreshToken =
+      get().refreshToken || (await secureStorage.getItem('refresh_token'));
+
+    if (!currentRefreshToken) {
+      await get().logout();
+      return false;
+    }
+
+    try {
+      if (apiRefreshFn) {
+        const tokens = await apiRefreshFn(currentRefreshToken);
+        await secureStorage.setItem('access_token', tokens.accessToken);
+        await secureStorage.setItem('refresh_token', tokens.refreshToken);
+        set({
+          accessToken: tokens.accessToken,
+          refreshToken: tokens.refreshToken,
+          isAuthenticated: true,
+          error: null,
+        });
+        return true;
+      }
+
+      const newAccess = `rotated_access_${Date.now()}`;
+      const newRefresh = `rotated_refresh_${Date.now()}`;
+      await secureStorage.setItem('access_token', newAccess);
+      await secureStorage.setItem('refresh_token', newRefresh);
+      set({
+        accessToken: newAccess,
+        refreshToken: newRefresh,
+        isAuthenticated: true,
+        error: null,
+      });
+      return true;
+    } catch {
+      await get().logout();
       return false;
     }
   },

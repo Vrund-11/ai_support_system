@@ -11,6 +11,7 @@ export const createMessageSchema = z.object({
   body: z.string().trim().min(1, 'Message body cannot be empty').max(10000),
   isInternal: z.boolean().default(false),
   attachments: z.array(attachmentSchema).default([]),
+  clientId: z.string().uuid().optional(),
 });
 
 export type CreateMessageInput = z.infer<typeof createMessageSchema>;

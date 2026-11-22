@@ -2,7 +2,14 @@
 
 Multi-tenant, AI-assisted customer-support platform with ticketing, real-time live chat, hybrid RAG assistant, BullMQ SLA automation, and React Native agent mobile app.
 
-> **Status:** **v1.0.0 Production-Ready** — All Sprints (0, 1, 2, 3, 4) Complete. Verified with **400+ automated tests** across 12 packages.
+[![CI](https://github.com/Vrund-11/ai_support_system/actions/workflows/ci.yml/badge.svg)](https://github.com/Vrund-11/ai_support_system/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Node](https://img.shields.io/badge/node-%3E%3D22.0.0-brightgreen.svg)](.nvmrc)
+[![Python](https://img.shields.io/badge/python-3.12-blue.svg)](.python-version)
+[![Coverage](https://img.shields.io/badge/coverage-80.04%25-success.svg)](evidence/tests/coverage.md)
+[![Tests](https://img.shields.io/badge/tests-438%20passing-brightgreen.svg)](evidence/tests/test-counts.md)
+
+> **Status:** **v1.0.0 Production-Ready** — Built across 6 iterative development milestones. Verified with **438 automated tests** (361 Vitest + 77 Pytest) across 14 workspace packages with **80.04% line coverage**.
 
 ---
 
@@ -11,8 +18,8 @@ Multi-tenant, AI-assisted customer-support platform with ticketing, real-time li
 ```mermaid
 flowchart TD
     subgraph Clients["Clients"]
-        Web["Web Dashboard (React 19 / Vite)<br/>:3000"]
-        Widget["Embeddable Chat Widget<br/>(React 19 / IIFE)"]
+        Web["Web Dashboard (React 19 / Vite)<br/>:5173"]
+        Widget["Embeddable Portal & Chat Widget<br/>(React 19 / Vite)<br/>:5174"]
         Mobile["Agent Mobile App<br/>(Expo Router / React Native)"]
     end
 
@@ -23,16 +30,16 @@ flowchart TD
 
     subgraph Microservices["Backend Microservices"]
         TicketService["ticket-service :4001<br/>• Strict BaseTenantRepository<br/>• Optimistic Concurrency<br/>• Status State Machine<br/>• API Keys & Webhooks"]
-        AIService["ai-service :8000<br/>• FastAPI & Pydantic<br/>• Hybrid RAG (pgvector + BM25)<br/>• Reciprocal Rank Fusion (RRF)<br/>• ML Priority Classifier (joblib)<br/>• Suggest-Reply & Summarize"]
-        NotifService["notification-service :4003<br/>• BullMQ Job Queues<br/>• SLA Business Hours Timers<br/>• Email Templates & Nodemailer<br/>• DLQ Replay & Monitoring"]
+        AIService["ai-service :8000<br/>• FastAPI & Pydantic<br/>• Hybrid RAG (pgvector HNSW + BM25)<br/>• SBERT MiniLM-L6-v2 (384d)<br/>• ML Priority Classifier (joblib)<br/>• Suggest-Reply & Summarize"]
+        NotifService["notification-service :5001<br/>• BullMQ Job Queues (6 Standardized)<br/>• SLA Business Hours Timers<br/>• Email Templates & Nodemailer<br/>• DLQ Replay & Monitoring"]
     end
 
     subgraph Datastores["Datastores (Local / Emulated)"]
         Mongo[("MongoDB :27017<br/>Tenants, Tickets, Users,<br/>Events, Audit Logs")]
-        Postgres[("PostgreSQL + pgvector :5432<br/>Knowledge Base Chunks,<br/>AI Eval Runs")]
+        Postgres[("PostgreSQL + pgvector :5432<br/>Knowledge Base Chunks (HNSW),<br/>AI Eval Runs")]
         Redis[("Redis :6379<br/>Socket.IO, BullMQ,<br/>Semantic Cache, Rate Limits")]
-        MinIO[("MinIO (AWS S3) :9000<br/>Tenant-Isolated Presigned Uploads")]
-        MailHog["MailHog (SMTP) :1025<br/>Email Verification & Password Reset"]
+        MinIO[("MinIO (AWS S3) :9000 / :9001<br/>Tenant-Isolated Presigned Uploads")]
+        MailHog["MailHog (SMTP) :1025 / :8025<br/>Email Verification & Password Reset"]
     end
 
     subgraph Serverless["AWS Emulation (INT-2)"]
@@ -70,10 +77,10 @@ flowchart TD
 
 ### 1. Prerequisites
 
-- Node.js >= 22
-- pnpm >= 10.11
-- Python 3.12 with uv or venv
-- Docker & Docker Compose (optional for live datastores; tests run hermetically in-memory)
+- **Node.js**: `>= 22` (tested with v22.15.0 / v24.18.0)
+- **pnpm**: `>= 10.11.0`
+- **Python**: `3.12` with `uv` or `venv`
+- **Docker & Docker Compose**: (Optional for full container stack; all unit & integration tests run hermetically in-memory)
 
 ### 2. Installation & Setup
 
@@ -92,11 +99,11 @@ cp .env.example .env
 ### 3. Start Datastores (Docker)
 
 ```bash
-# Start all datastores (Mongo, Postgres/pgvector, Redis, MinIO, MailHog)
-docker compose -f infra/docker/docker-compose.yml up -d
+# Start all local datastores (MongoDB, PostgreSQL/pgvector, Redis, MinIO, MailHog)
+docker compose -f infra/docker-compose.yml up -d
 
 # Or with Prometheus & Grafana observability stack:
-docker compose -f infra/docker/docker-compose.yml --profile obs up -d
+docker compose -f infra/docker-compose.yml --profile obs up -d
 ```
 
 ### 4. Seed Database
@@ -112,8 +119,13 @@ pnpm db:seed
 pnpm dev
 ```
 
-- **Web Dashboard:** `http://localhost:3000` (Login: `owner@acme.com` / `Password123!`)
+Service endpoints available:
+
+- **Web Dashboard:** `http://localhost:5173` (Login: `owner@acme.com` / `Password123!`)
+- **Customer Help Center & Widget:** `http://localhost:5174` (Customer portal and live chat)
 - **API Gateway:** `http://localhost:4000` (GraphQL sandbox: `http://localhost:4000/graphql`)
+- **Ticket Service:** `http://localhost:4001` (OpenAPI Swagger UI: `http://localhost:4001/api/v1/docs`)
+- **Notification Service:** `http://localhost:5001` (Health: `http://localhost:5001/health`)
 - **AI Service:** `http://localhost:8000/docs` (Swagger UI)
 - **Grafana Dashboards:** `http://localhost:3005` (`admin` / `admin`)
 - **MailHog Web UI:** `http://localhost:8025`
@@ -121,24 +133,43 @@ pnpm dev
 ### 6. Verification
 
 ```bash
-pnpm verify   # Runs lint + typecheck + test across all 12 monorepo packages
+pnpm verify   # Runs lint + typecheck + test across all 14 monorepo packages
 ```
 
 ---
 
 ## Measured Engineering Benchmarks
 
-Every performance and quality metric is backed by reproducible automated suites:
+Every performance and quality metric is backed by reproducible automated suites and documented in `evidence/`:
 
-| Benchmark ID | Metric                           | Measured Value                                                                                                                                                                                                                                                               | Standard / Target                              |
-| ------------ | -------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------- |
-| **M02**      | Test Suite Coverage              | **402 passing automated tests** (163 ticket-service, 67 ai-service pytest, 47 gateway, 41 shared-lib, 35 web, 23 notification-service, 14 mobile, 9 widget, 4 validators, 4 lambda dispatcher, 5 hermetic e2e, 2 perf runner, 1 newman runner with 21 collection assertions) | Statement coverage: **88.06%** (Target >= 70%) |
-| **M03**      | Ticket Query Optimization        | Compound index `(tenantId, status, priority, updatedAt)` converted `COLLSCAN` to `IXSCAN`                                                                                                                                                                                    | Examined 25 docs vs full collection scan       |
-| **M04**      | API Throughput & Latency         | **1,110.19 RPS; p50 158.96ms, p95 278.09ms, p99 283.95ms** under 200 concurrent VUs (`k6`)                                                                                                                                                                                   | PRD threshold: p95 < 400ms                     |
-| **M05**      | Real-Time WebSocket Latency      | **p50 1.90ms, p95 3.36ms, p99 3.87ms** across 30 concurrent sockets with 0.00% error rate                                                                                                                                                                                    | PRD threshold: p95 < 300ms                     |
-| **M06**      | Hybrid RAG Precision & Grounding | **Hit@5: 100%, Groundedness: 100%, F1: 1.0** evaluated on 100-question golden dataset                                                                                                                                                                                        | CI gate enforces <= 3% regression              |
-| **M07**      | ML Classifier Macro-F1           | Priority Accuracy: **92.22%**, Priority F1: **0.9220**; Category Accuracy: **100%**, Category F1: **1.0000** on 600-ticket dataset                                                                                                                                           | Outperforms baseline with rules fallback       |
-| **M11**      | Container Image Footprint        | Multi-stage non-root images: `node:22-alpine` with `dumb-init` and `pnpm deploy` pruning                                                                                                                                                                                     | Non-root `UID 10001` container security        |
+| Benchmark ID | Metric                           | Measured Value                                                                                                   | Standard / Target                                 | Evidence Artifact                                                |
+| ------------ | -------------------------------- | ---------------------------------------------------------------------------------------------------------------- | ------------------------------------------------- | ---------------------------------------------------------------- |
+| **M02**      | Test Suite Coverage              | **438 passing tests** (361 Vitest, 77 Pytest, 0 failed)                                                          | Statement coverage: **80.04%** (Target $\ge$ 70%) | `evidence/tests/test-counts.md`<br/>`evidence/tests/coverage.md` |
+| **M03**      | Ticket Query Optimization        | Compound index `(tenantId, status, priority, updatedAt)` converted `COLLSCAN` to `IXSCAN`                        | Examined 20 docs vs full collection scan          | `evidence/perf/before.md`<br/>`evidence/perf/after.md`           |
+| **M04**      | API Throughput & Latency         | **1,110.19 RPS; p50 158.96ms, p95 278.09ms** under 200 concurrent VUs (`k6`)                                     | PRD threshold: p95 < 400ms                        | `tests/perf/tickets.js`<br/>`evidence/perf/machine-specs.txt`    |
+| **M05**      | Real-Time WebSocket Latency      | **p50 1.90ms, p95 3.36ms** across 30 concurrent sockets with 0.00% error rate                                    | PRD threshold: p95 < 300ms                        | `tests/perf/chat.js`                                             |
+| **M06**      | Hybrid RAG Precision & Grounding | **Hit@1: 88.2%, Hit@5: 97.6%, Groundedness: 97.4%, Escalation F1: 0.937** on 115-sample golden dataset           | $\ge$ 85% Groundedness, $\ge$ 80% Escalation      | `evidence/ai/eval-2026-11-22.md`<br/>`evidence/ai/ablation.md`   |
+| **M07**      | ML Classifier Macro-F1           | Priority Accuracy: **92.22%**, F1: **0.9220**; Category Accuracy: **100%**, F1: **1.0000** on 600-ticket dataset | Outperforms baseline with rules fallback          | `evidence/ai/classifier.md`                                      |
+| **M09**      | CI Pass Rate & Execution Time    | **100% green pass rate** across CI (138s), E2E Tests (103s), Deploy Staging Smoke (251s)                         | Green CI across all cloud workflows               | `evidence/infra/ci-runs.txt`                                     |
+| **M10**      | Kubernetes HPA & Rollout         | Automated Kind staging deployment with Ingress NGINX, 5 microservices, HPA 2-5 replicas                          | Verified in staging rollout workflow              | `evidence/infra/k8s-manifests-verified.txt`                      |
+| **M11**      | Container Image Footprint        | Multi-stage non-root images: `node:22-alpine` with `dumb-init` and `pnpm deploy` pruning                         | Non-root `UID 10001` container security           | `infra/docker/`                                                  |
+
+---
+
+## Known Limitations
+
+To maintain strict technical honesty, the following deliberate architectural trade-offs and constraints are documented:
+
+1. **Local Cloud Emulation vs Real AWS**:
+   - No paid AWS account is used. S3 is emulated via MinIO / LocalStack, SQS via LocalStack, and Lambda via SAM Local. AWS SDK v3 client calls utilize dynamic endpoint overrides (`AWS_ENDPOINT_URL`).
+2. **Mobile App Store Submissions**:
+   - The Expo agent application is configured with an EAS preview profile producing standalone Android APKs. Fastlane store publishing lanes (`beta_android`, `upload_to_play_store`) are defined syntactically but not executed in CI due to absence of paid Apple Developer ($99/yr) and Google Play Console ($25) credentials.
+3. **Classifier Training Data Size**:
+   - The ticket priority and category classifier is trained on a synthetic, deterministic dataset of 600 tickets across 6 categories and 4 priorities. While yielding strong macro-F1 on representative customer support inquiries, enterprise production deployments require fine-tuning on domain-specific historical ticket volumes ($\ge 10,000$ samples).
+4. **Local Host Tooling Constraints**:
+   - Development host machines without Docker Desktop or WSL2 run all test suites hermetically in-memory (using MongoMemoryServer, SQLite/in-process embeddings, and mocked Redis). Multi-service container orchestration is validated in GitHub Actions ubuntu-latest runners.
+5. **Streaming AI Draft Cancellation**:
+   - While server-sent events stream partial AI reply tokens to the agent console, mid-stream client disconnections abort server generation without persisting partial drafts into the conversation history.
 
 ---
 
@@ -146,37 +177,43 @@ Every performance and quality metric is backed by reproducible automated suites:
 
 ```
 ├── apps/
-│   ├── gateway/              # Express 5, Apollo GraphQL, Socket.IO, Redis adapter, Rate Limiting
-│   ├── ticket-service/       # Tickets, RBAC, Mongoose base repository, API keys, Webhooks, Rules
-│   ├── ai-service/           # FastAPI, pgvector hybrid RAG, scikit-learn classifier, Agent assist
-│   ├── notification-service/ # BullMQ workers, SLA business hours calculator, email templates
-│   ├── web/                  # React 19, Vite, TanStack Query, Zustand, Tailwind CSS, Apollo Client
-│   ├── widget/               # Embeddable customer chat widget script with offline fallback
+│   ├── gateway/              # Express 5, Apollo GraphQL, Socket.IO, Redis adapter, Rate Limiting (:4000)
+│   ├── ticket-service/       # Tickets, RBAC, Mongoose base repository, API keys, Webhooks, Rules (:4001)
+│   ├── ai-service/           # FastAPI, pgvector HNSW hybrid RAG, scikit-learn classifier, SBERT (:8000)
+│   ├── notification-service/ # BullMQ workers (6 standardized queues), SLA business hours, emails (:5001)
+│   ├── web/                  # React 19, Vite, TanStack Query, Zustand, Tailwind CSS, Apollo (:5173)
+│   ├── widget/               # Customer Portal, Knowledge Base viewer, embeddable live chat (:5174)
 │   └── mobile/               # Expo Router React Native app, biometrics, offline outbox, Fastlane
 ├── packages/
 │   ├── shared-types/         # Shared TypeScript DTOs, interfaces, and role enums
 │   ├── shared-lib/           # Logger (Pino), error handler (RFC 7807), RBAC, Prometheus, Tracing
-│   └── validators/           # Zod schemas & typed environment variable loaders
+│   ├── validators/           # Zod schemas & typed environment variable loaders
+│   └── queue/                # Shared BullMQ queue types and job payload definitions
 ├── infra/
-│   ├── docker/               # Multi-service docker-compose.yml (full and obs profiles)
+│   ├── docker-compose.yml    # Datastores and service compose definitions
 │   ├── k8s/                  # Kubernetes Kind configuration, Kustomize base + staging/prod overlays
-│   ├── aws/                  # Webhook Lambda handler (SAM Local), SQS queues, Terraform IaC
+│   ├── terraform/            # Terraform IaC for SQS, Lambda, S3, IAM policies against LocalStack
+│   ├── sam/                  # AWS SAM Local Lambda webhook dispatcher template and test events
 │   ├── prometheus/           # Prometheus scraping configuration
 │   └── grafana/              # Production Grafana dashboards (Overview, AI Analytics, Queues & SLA)
 ├── tests/
 │   ├── e2e/                  # Cypress & Playwright end-to-end integration test suites
-│   ├── perf/                 # k6 load testing scripts (tickets, chat fan-out, ai-service)
+│   ├── perf/                 # k6 load testing scripts (tickets, chat fan-out, spike)
 │   ├── api/                  # Postman Newman collection and automated test runner
-│   └── ai-eval/              # 100-question golden evaluation dataset and regression runner
+│   └── ai-eval/              # 115-question golden evaluation dataset and regression runner
 ├── docs/
 │   ├── PRD.md                # Complete Product Requirements Document
-│   ├── runbook.md            # Production Operations & Disaster Recovery Runbook
-│   ├── demo-script.md        # 10-minute end-to-end video walkthrough script
+│   ├── 00-decisions-adr.md   # Architectural Decision Records (ADRs 001-015)
+│   ├── 02-architecture-spec.md # Services, network ports, queues, and retrieval specifications
+│   ├── 04-api-contracts.md   # Detailed REST, WebSocket, and GraphQL specifications
+│   ├── INTERVIEW-WALKTHROUGH.md # 15 architectural deep-dives and weakness remediations
+│   ├── AI-ASSISTED-DEVELOPMENT.md # Transparent disclosure of AI tooling and human verification
 │   └── 10-resume-evidence-tracker.md # Defensible, measured engineering achievements
+├── evidence/                 # Empirical evidence repository (tests, security, perf, ai, infra)
 └── scripts/
     ├── seed.ts               # Multi-tenant database seed generator (pnpm db:seed)
-    ├── dev-up.sh / dev-down.sh # Local datastore management scripts
-    └── demo-sprint1 / demo-sprint2 # Interactive shell/PowerShell demo runners
+    ├── count-tests.mjs       # Strict test counter separating unit/integration from E2E/API
+    └── coverage-table.mjs    # Aggregate monorepo line and branch coverage generator
 ```
 
 ---
@@ -193,16 +230,17 @@ Every performance and quality metric is backed by reproducible automated suites:
 
 ## Documentation Links
 
+- [Architectural Decision Records (ADR-001..015)](docs/00-decisions-adr.md)
+- [Architecture & Repository Specification](docs/02-architecture-spec.md)
+- [API Contracts & OpenAPI Specifications](docs/04-api-contracts.md)
+- [Technical Interview Walkthrough Guide](docs/INTERVIEW-WALKTHROUGH.md)
+- [AI-Assisted Development Disclosure](docs/AI-ASSISTED-DEVELOPMENT.md)
 - [Operational Runbook](docs/runbook.md)
-- [Demo Video Walkthrough Script](docs/demo-script.md)
 - [Resume Evidence Tracker](docs/10-resume-evidence-tracker.md)
-- [Sprint Progress Log](docs/11-progress-log.md)
-- [Implementation Roadmap](docs/05-implementation-roadmap.md)
-- [Product Requirements Document (PRD)](docs/PRD.md)
-- [Architecture & ADRs](docs/00-decisions-adr.md)
+- [Build Iterations History](docs/iterations/ITERATION-1.md)
 
 ---
 
 ## License
 
-Private repository. Copyright © 2026 SupportPilot Team. All rights reserved.
+This project is licensed under the [MIT License](LICENSE).

@@ -1,0 +1,14 @@
+[
+  {
+    "name": "Web Entry JS",
+    "path": "apps/web/dist/assets/index-*.js",
+    "limit": "250 kB",
+    "gzip": true
+  },
+  {
+    "name": "Route Chunks",
+    "path": "apps/web/dist/assets/*View-*.js",
+    "limit": "100 kB",
+    "gzip": true
+  }
+]

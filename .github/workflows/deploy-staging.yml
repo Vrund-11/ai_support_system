@@ -9,6 +9,9 @@ concurrency:
   group: deploy-staging
   cancel-in-progress: false
 
+permissions:
+  contents: read
+
 jobs:
   staging-smoke:
     name: Kind Cluster Deploy & Smoke Test

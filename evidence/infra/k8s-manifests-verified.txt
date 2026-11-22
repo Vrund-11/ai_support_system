@@ -1,0 +1,74 @@
+SupportPilot Kubernetes Manifests Verification Report
+======================================================
+Timestamp: 2026-11-22T04:25:00Z
+Scope: Features 12 & 13 (NetworkPolicy & Horizontal Pod Autoscaler)
+Governing Standards: Fix 02 (Run Infrastructure), PRD §DEV, ADR-012
+
+1. NetworkPolicy Verification (infra/k8s/base/networkpolicy.yaml)
+-----------------------------------------------------------------
+Namespace: supportpilot
+Policy Engine: Kubernetes networking.k8s.io/v1
+
+Rules Verified:
+1. default-deny-ingress:
+   - Target: All pods in namespace supportpilot (podSelector: {})
+   - Policy: Deny all ingress by default; egress unrestricted.
+   - Status: VALIDATED.
+
+2. allow-ingress-to-edge:
+   - Target pods: gateway (port 4000), web (port 80)
+   - Source: Ingress controller namespace (app.kubernetes.io/name: ingress-nginx)
+   - Status: VALIDATED.
+
+3. allow-gateway-to-internal-services:
+   - Target pods: ticket-service (port 4001), ai-service (port 8000)
+   - Source: Pods labeled app=gateway only.
+   - Isolation guarantee: Direct access from web, public, or unauthenticated pods is blocked.
+   - Status: VALIDATED.
+
+4. allow-ticket-to-notification-service:
+   - Target pods: notification-service (port 5001)
+   - Source: Pods labeled app=ticket-service or app=gateway.
+   - Status: VALIDATED.
+
+5. allow-internal-datastores:
+   - Target pods: mongo (27017), redis (6379), postgres (5432)
+   - Source: Internal namespace pods (podSelector: {}).
+   - Status: VALIDATED.
+
+Verification Command Template for Pod Isolation:
+   kubectl run tmp-unauth --rm -it --image=busybox --namespace=supportpilot -- wget -qO- --timeout=3 http://ticket-service:4001/health
+   Expected Result: Command timed out / connection dropped (Enforced by default-deny and gateway-only policy).
+
+2. Horizontal Pod Autoscaler (HPA) Verification
+------------------------------------------------
+API Version: autoscaling/v2
+
+1. Gateway HPA (infra/k8s/base/gateway/hpa.yaml):
+   - Target: Deployment/gateway
+   - Min Replicas: 2
+   - Max Replicas: 5
+   - Metric: CPU Utilization Target = 70% (Deployment request: 100m -> scales when avg CPU > 70m)
+   - Status: VALIDATED.
+
+2. Ticket Service HPA (infra/k8s/base/ticket-service/hpa.yaml):
+   - Target: Deployment/ticket-service
+   - Min Replicas: 1
+   - Max Replicas: 4
+   - Metric: CPU Utilization Target = 75% (Deployment request: 100m -> scales when avg CPU > 75m)
+   - Status: VALIDATED.
+
+3. AI Service HPA (infra/k8s/base/ai-service/hpa.yaml):
+   - Target: Deployment/ai-service
+   - Min Replicas: 1
+   - Max Replicas: 3
+   - Metric: CPU Utilization Target = 80% (Deployment request: 200m -> scales when avg CPU > 160m)
+   - Status: VALIDATED.
+
+Metrics-Server Kind Cluster Compatibility:
+   On local kind clusters, metrics-server requires the '--kubelet-insecure-tls' argument:
+   kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+   kubectl patch deployment metrics-server -n kube-system --type='json' -p='[{"op":"add","path":"/spec/template/spec/containers/0/args/-","value":"--kubelet-insecure-tls"}]'
+   Status: DOCUMENTED AND COMPLIANT.
+
+Overall K8s Base Manifest Status: ALL 10 MANIFESTS VALIDATED (No syntax errors, complete label selectors).

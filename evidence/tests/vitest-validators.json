@@ -1,0 +1,112 @@
+{
+  "numTotalTestSuites": 3,
+  "numPassedTestSuites": 3,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 8,
+  "numPassedTests": 8,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1795323417314,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["loadEnv"],
+          "fullName": "loadEnv parses valid base env",
+          "status": "passed",
+          "title": "parses valid base env",
+          "duration": 3.3654999999999973,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["loadEnv"],
+          "fullName": "loadEnv applies defaults for missing optional fields",
+          "status": "passed",
+          "title": "applies defaults for missing optional fields",
+          "duration": 0.44239999999990687,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["loadEnv"],
+          "fullName": "loadEnv exits on invalid env",
+          "status": "passed",
+          "title": "exits on invalid env",
+          "duration": 5.402000000000044,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["loadEnv"],
+          "fullName": "loadEnv coerces PORT string to number",
+          "status": "passed",
+          "title": "coerces PORT string to number",
+          "duration": 0.4836999999999989,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["loadEnv", "production secret guard"],
+          "fullName": "loadEnv production secret guard rejects short secrets (<32 chars) in production",
+          "status": "passed",
+          "title": "rejects short secrets (<32 chars) in production",
+          "duration": 2.0178999999999405,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["loadEnv", "production secret guard"],
+          "fullName": "loadEnv production secret guard rejects dev prefixes (test-, default-, dev-, cluster-secret-) in production",
+          "status": "passed",
+          "title": "rejects dev prefixes (test-, default-, dev-, cluster-secret-) in production",
+          "duration": 1.046699999999987,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["loadEnv", "production secret guard"],
+          "fullName": "loadEnv production secret guard accepts valid 32+ char production secrets without forbidden patterns",
+          "status": "passed",
+          "title": "accepts valid 32+ char production secrets without forbidden patterns",
+          "duration": 0.29849999999999,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["loadEnv", "production secret guard"],
+          "fullName": "loadEnv production secret guard allows dev/test secrets in development mode",
+          "status": "passed",
+          "title": "allows dev/test secrets in development mode",
+          "duration": 0.9724999999999682,
+          "failureMessages": [],
+          "meta": {}
+        }
+      ],
+      "startTime": 1795323418330,
+      "endTime": 1795323418343.9724,
+      "status": "passed",
+      "message": "",
+      "name": "C:/Users/vrund/OneDrive/Desktop/ai_project/packages/validators/tests/env.test.ts"
+    }
+  ]
+}

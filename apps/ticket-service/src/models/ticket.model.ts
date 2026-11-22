@@ -128,6 +128,8 @@ const ticketSchema = new Schema<ITicketDocument>(
 ticketSchema.index({ tenantId: 1, number: 1 }, { unique: true });
 ticketSchema.index({ tenantId: 1, status: 1, priority: 1, updatedAt: -1 });
 ticketSchema.index({ tenantId: 1, assigneeId: 1, status: 1 });
+ticketSchema.index({ tenantId: 1, assigneeId: 1, status: 1, updatedAt: -1 });
+ticketSchema.index({ tenantId: 1, updatedAt: -1, _id: -1 });
 ticketSchema.index({ tenantId: 1, tags: 1, status: 1 });
 ticketSchema.index({ tenantId: 1, createdAt: -1 });
 ticketSchema.index(

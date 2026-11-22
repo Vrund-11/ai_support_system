@@ -1,0 +1,39 @@
+=== PLAYWRIGHT RUN SUMMARY ===
+44 passed (1.1m) across chromium, firefox
+Specs run:
+- tests/e2e/playwright/auth.spec.ts
+- tests/e2e/playwright/knowledge-base.spec.ts
+- tests/e2e/playwright/live-chat-socket.spec.ts
+- tests/e2e/playwright/tenant-isolation.spec.ts
+- tests/e2e/playwright/tickets.spec.ts
+- tests/e2e/playwright/widget-chat.spec.ts
+- tests/e2e/playwright/widget-dashboard-sync.spec.ts
+- tests/e2e/playwright/interactive-demo.spec.ts
+
+=== CYPRESS VERIFY & RUN ===
+No version of Cypress is installed in: C:\Users\vrund\AppData\Local\Cypress\Cache\16.3.0\Cypress
+
+Please reinstall Cypress by running: cypress install
+
+----------
+
+Cypress executable not found at: C:\Users\vrund\AppData\Local\Cypress\Cache\16.3.0\Cypress\Cypress.exe
+
+----------
+
+Platform: win32-x64 (Microsoft Windows 11 Home Single Language - 10.0.26300)
+Cypress Version: 16.3.0
+CYPRESS RUN:
+No version of Cypress is installed in: C:\Users\vrund\AppData\Local\Cypress\Cache\16.3.0\Cypress
+
+Please reinstall Cypress by running: cypress install
+
+----------
+
+Cypress executable not found at: C:\Users\vrund\AppData\Local\Cypress\Cache\16.3.0\Cypress\Cypress.exe
+
+----------
+
+Platform: win32-x64 (Microsoft Windows 11 Home Single Language - 10.0.26300)
+Cypress Version: 16.3.0
+VERDICT: Playwright VERIFIED (44 passed). Cypress NOT SET UP (Cypress.exe not installed in cache).

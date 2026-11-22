@@ -1,0 +1,189 @@
+=== ITEM 3: TEST SUITE RUN RESULTS ===
+VITEST PACKAGES:
+1. packages/validators: 8 passed (1 file) | Lines: 41.61%, Branches: 51.72%, Funcs: 33.33%
+2. packages/shared-lib: 41 passed (7 files) | Lines: 93.47%, Branches: 71.49%, Funcs: 100%
+3. apps/gateway: 53 passed (10 files) | Lines: 73.03%, Branches: 63.00%, Funcs: 77.47%
+4. apps/ticket-service: 245 passed (22 files) | Lines: 83.66%, Branches: 61.44%, Funcs: 84.82%
+5. apps/notification-service: 34 passed (6 files) | Lines: 79.73%, Branches: 68.20%, Funcs: 78.57%
+6. packages/queue: 7 passed (1 file) | Lines: 100%, Branches: 85.71%, Funcs: 100%
+7. apps/admin: 4 passed (1 file)
+8. apps/mobile: 21 passed (4 files)
+9. apps/web: 80 passed (19 files)
+10. apps/widget: 9 passed (4 files)
+Total Vitest: 502 passed across 75 test files
+
+PYTEST SUITE (apps/ai-service):
+86 passed in 29.26s across 13 test files | Statements: 2155, Missed: 524, Coverage: 76%
+
+GRAND TOTAL: 588 passed tests
+
+GIT STATUS AFTER TESTS:
+ M .github/workflows/ai-eval.yml
+ M .github/workflows/ci.yml
+ M .github/workflows/deploy-staging.yml
+ M .github/workflows/e2e.yml
+ M .github/workflows/mobile.yml
+ M .github/workflows/perf.yml
+ M README.md
+ M apps/ai-service/pyproject.toml
+ M apps/ai-service/requirements.txt
+ M apps/ai-service/src/config.py
+ M apps/ai-service/src/eval/repository.py
+ M apps/ai-service/src/eval/runner.py
+ M apps/ai-service/src/ingest/repository.py
+ M apps/ai-service/src/lib/db.py
+ M apps/ai-service/src/main.py
+ M apps/ai-service/src/providers/base.py
+ M apps/ai-service/src/providers/gemini.py
+ M apps/ai-service/src/providers/mock.py
+ M apps/ai-service/src/rag/prompt.py
+ M apps/ai-service/src/rag/service.py
+ M apps/ai-service/src/retrieval/hybrid.py
+ M apps/ai-service/tests/test_api.py
+ M apps/ai-service/tests/test_eval.py
+ M apps/ai-service/tests/test_health.py
+ M apps/ai-service/tests/test_prompt_injection.py
+ M apps/ai-service/uv.lock
+ M apps/gateway/src/app.ts
+ M apps/gateway/src/middleware/proxy.ts
+ M apps/gateway/vitest.config.ts
+ M apps/mobile/app.json
+ M apps/mobile/fastlane/Fastfile
+ M apps/mobile/package.json
+ M apps/mobile/src/lib/auth.store.ts
+ M apps/mobile/src/lib/biometrics.ts
+ M apps/mobile/src/lib/notifications.ts
+ M apps/mobile/src/lib/outbox.ts
+ M apps/mobile/tests/auth.test.ts
+ M apps/mobile/tests/notifications.test.ts
+ M apps/mobile/tests/outbox.test.ts
+ M apps/notification-service/package.json
+ M apps/notification-service/src/types.ts
+ M apps/notification-service/src/workers.ts
+ M apps/notification-service/vitest.config.ts
+ M apps/ticket-service/src/app.ts
+ M apps/ticket-service/src/models/message.model.ts
+ M apps/ticket-service/src/models/ticket.model.ts
+ M apps/ticket-service/src/repositories/base.repository.ts
+ M apps/ticket-service/src/repositories/message.repository.ts
+ M apps/ticket-service/src/repositories/ticket.repository.ts
+ M apps/ticket-service/src/routes/docs.routes.ts
+ M apps/ticket-service/src/routes/ticket.routes.ts
+ M apps/ticket-service/vitest.config.ts
+ M apps/web/package.json
+ M apps/web/src/App.tsx
+ M apps/web/src/components/layout/Shell.tsx
+ M apps/web/src/components/tickets/TicketDetail.tsx
+ M apps/web/src/components/tickets/TicketInbox.tsx
+ M apps/web/src/hooks/useTickets.ts
+ M apps/web/src/lib/api.ts
+ M apps/web/src/test/ticket-detail.test.tsx
+ M apps/web/vite.config.ts
+ M apps/webhook-lambda/vitest.config.ts
+ M "docs/v1 implementation/00-decisions-adr.md"
+ M "docs/v1 implementation/02-architecture-and-repo-structure.md"
+ M "docs/v1 implementation/04-api-contracts.md"
+ M "docs/v1 implementation/10-resume-evidence-tracker.md"
+ M "docs/v1 implementation/11-progress-log.md"
+ M infra/k8s/base/ingress.yaml
+ M infra/k8s/kind-config.yaml
+ M package.json
+ M packages/shared-lib/vitest.config.ts
+ M packages/shared-types/src/index.ts
+ M packages/validators/src/env.ts
+ M packages/validators/src/message.ts
+ M packages/validators/src/ticket.ts
+ M packages/validators/vitest.config.ts
+ M pnpm-lock.yaml
+ D reports/perf/chat-summary.json
+ D reports/perf/tickets-summary.json
+ M reports/videos/demo-widget-final.png
+ M tests/api/newman.test.ts
+ M tests/api/supportpilot-sprint1.collection.json
+ M tests/e2e/cypress/e2e/rbac-matrix.cy.ts
+ M tests/e2e/cypress/e2e/ticket-concurrency.cy.ts
+ M tests/e2e/playwright.config.ts
+ M tests/e2e/playwright/interactive-demo.spec.ts
+ M tests/e2e/playwright/live-chat-socket.spec.ts
+ M tests/e2e/playwright/mock-api.ts
+ M tests/e2e/playwright/tenant-isolation.spec.ts
+ M tests/e2e/playwright/tickets.spec.ts
+ M tests/e2e/reports/playwright-results.json
+ M tests/perf/chat.js
+ D tests/perf/perf-runner.test.ts
+ M tests/perf/ticket-spike.js
+?? .python-version
+?? .size-limit.json
+?? CHANGELOG.md
+?? LICENSE
+?? SECURITY.md
+?? apps/ai-service/.coverage
+?? apps/ai-service/coverage.json
+?? apps/ai-service/src/embeddings.py
+?? apps/ai-service/tests/test_sbert_embeddings.py
+?? apps/gateway/src/middleware/server-timing.middleware.ts
+?? apps/mobile/eslint.config.js
+?? apps/notification-service/src/push/
+?? apps/notification-service/tests/push-provider.test.ts
+?? apps/notification-service/tests/webhook-worker.test.ts
+?? apps/ticket-service/src/middleware/server-timing.middleware.ts
+?? apps/ticket-service/tests/keyset-pagination.test.ts
+?? apps/web/.size-limit.json
+?? apps/web/src/components/tickets/DraftBubble.tsx
+?? apps/web/src/hooks/useStreamingDraft.ts
+?? apps/web/src/lib/optimistic.ts
+?? apps/web/src/test/optimistic.test.tsx
+?? docs/00-decisions-adr.md
+?? docs/02-architecture-spec.md
+?? docs/04-api-contracts.md
+?? docs/10-resume-evidence-tracker.md
+?? docs/11-progress-log.md
+?? docs/AI-ASSISTED-DEVELOPMENT.md
+?? docs/INTERVIEW-WALKTHROUGH.md
+?? docs/api/
+?? docs/iterations/
+?? evidence/BLOCKERS.md
+?? evidence/ai/
+?? evidence/aws/
+?? evidence/endpoints.md
+?? evidence/infra/
+?? evidence/loc-counts.md
+?? evidence/mobile/
+?? evidence/perf/
+?? evidence/reaudit/
+?? evidence/security/audit-before.txt
+?? evidence/tests/coverage.md
+?? evidence/tests/cypress.txt
+?? evidence/tests/newman-summary.json
+?? evidence/tests/newman.txt
+?? evidence/tests/pytest.xml
+?? evidence/tests/test-counts.md
+?? evidence/tests/vitest-gateway.json
+?? evidence/tests/vitest-notification-service.json
+?? evidence/tests/vitest-shared-lib.json
+?? evidence/tests/vitest-ticket-service.json
+?? evidence/tests/vitest-validators.json
+?? infra/docker-compose.infra.yml
+?? infra/docker-compose.yml
+?? infra/k8s/overlays/local/
+?? infra/sam/
+?? infra/terraform/
+?? lighthouserc.json
+?? packages/queue/
+?? scripts/ablation.py
+?? scripts/build-newman-collection.mjs
+?? scripts/count-tests.mjs
+?? scripts/coverage-table.mjs
+?? scripts/generate_corpus.py
+?? scripts/generate_golden_v2.py
+?? scripts/ingest_corpus.py
+?? scripts/list-endpoints.mjs
+?? scripts/measure-perf.ts
+?? scripts/reembed.py
+?? scripts/seed-large.ts
+?? tests/ai-eval/corpus/
+?? tests/ai-eval/golden/README.md
+?? tests/ai-eval/golden/v2.jsonl
+?? tests/ai-eval/run.py
+?? tests/integration/
+?? tests/k6/

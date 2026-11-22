@@ -1,0 +1,40 @@
+=== ITEM 15: LAMBDA / SQS / TERRAFORM AUDIT ===
+1. HANDLER FILES:
+- TypeScript Lambda: infra/aws/lambda/webhook-dispatcher/index.ts (Node.js runtime)
+- Python SAM Lambda: infra/sam/handlers/webhook.py (Python 3.12 runtime)
+
+2. TESTS RUN RESULTS:
+- vitest run infra/aws/lambda/webhook-dispatcher/tests/webhook-dispatcher.test.ts:
+  4 passed in 74ms (1 test file)
+- pytest infra/sam/tests:
+  26 passed in 7.02s across 2 test files (test_dlq_redrive.py, test_webhook.py)
+
+3. SAM LOCAL INVOKE:
+- Command: sam --version
+- Raw output:
+  sam : The term 'sam' is not recognized as the name of a cmdlet, function, script file, or operable program.
+- In-process emulation execution (uv run python infra/sam/invoke_local.py):
+  Event: infra/sam/events/sqs.json
+  Handler: infra.sam.handlers.webhook.handler
+  Execution Status: SUCCESS (2.22 ms)
+  Handler Output: {"batchItemFailures": []}
+  Receiver Verification: event=ticket.created, delivery=evt_sam_test_101, signature=sha256=49649f06...
+
+4. TERRAFORM / TFLOCAL PLAN:
+- Command: tflocal plan
+  Raw output: tflocal : The term 'tflocal' is not recognized as the name of a cmdlet, function, script file, or operable program.
+- Command: cd infra/terraform && terraform plan
+  Raw output:
+  Terraform v1.10.5
+  Plan: 13 to add, 0 to change, 0 to destroy.
+  Changes to Outputs:
+    + attachments_bucket_arn         = (known after apply)
+    + attachments_bucket_name        = (known after apply)
+    + webhook_dispatcher_lambda_arn  = (known after apply)
+    + webhook_signing_secret_ssm_arn = (known after apply)
+    + webhooks_dlq_url               = (known after apply)
+    + webhooks_queue_arn             = (known after apply)
+    + webhooks_queue_url             = (known after apply)
+
+5. STATUS:
+PLAN ONLY. No resources applied to real AWS or LocalStack. No AWS account exists.

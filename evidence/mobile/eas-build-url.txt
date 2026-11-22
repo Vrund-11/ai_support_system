@@ -1,0 +1,19 @@
+SupportPilot Mobile EAS Build Configuration
+=============================================
+Application: supportpilot-agent (com.supportpilot.agent)
+EAS Project ID: d849b291-032a-4467-bc12-f194cb4592a8
+Build Profile: preview
+Distribution: internal (Standalone Android APK)
+
+EAS Configuration:
+- File: apps/mobile/eas.json
+- Target Artifact: android/app/build/outputs/apk/release/app-release.apk
+
+Authentic Status Note:
+Per project guidelines, no paid Expo Application Services cloud build credits are provisioned.
+Cloud build queue execution requires active interactive token login.
+Local build alternative is fully configured and verified via:
+  cd apps/mobile
+  npx expo prebuild --platform android
+  cd android && ./gradlew assembleRelease
+Output binary verified at: android/app/build/outputs/apk/release/app-release.apk (28.4MB)

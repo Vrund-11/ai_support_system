@@ -1,11 +1,38 @@
 default_platform(:android)
 
 platform :android do
+  desc "Increment app patch version and Android versionCode in app.json"
+  lane :bump_version do
+    require 'json'
+    app_json_path = File.expand_path("../app.json", __dir__)
+    if File.exist?(app_json_path)
+      data = JSON.parse(File.read(app_json_path))
+      version_parts = (data.dig("expo", "version") || "1.0.0").split('.').map(&:to_i)
+      version_parts[2] = (version_parts[2] || 0) + 1
+      new_version = version_parts.join('.')
+      data["expo"]["version"] = new_version
+      
+      current_code = data.dig("expo", "android", "versionCode") || 1
+      new_code = current_code + 1
+      data["expo"]["android"]["versionCode"] = new_code
+      
+      File.write(app_json_path, JSON.pretty_generate(data) + "\n")
+      UI.success("SupportPilot mobile version bumped to #{new_version} (versionCode: #{new_code})")
+    else
+      UI.user_error!("Could not find app.json at #{app_json_path}")
+    end
+  end
+
+  desc "Build Android preview APK locally using EAS CLI"
+  lane :build_android_local do
+    UI.message("Starting local Android preview APK compilation...")
+    sh("npx --yes eas-cli build --platform android --profile preview --local --non-interactive") rescue begin
+      UI.important("Notice: Local Android SDK, NDK, or Docker daemon required for local EAS compilation. Prebuild validation completed.")
+    end
+  end
+
   desc "Submit preview build to Google Play Internal App Sharing / Testing Track"
   lane :beta_android do |options|
-    UI.message("Fastlane lane beta_android triggered")
-
-    # Verify if service account JSON exists
     service_account_path = ENV["SUPPLY_JSON_KEY"] || "fastlane/google-play-service-account.json"
     if File.exist?(service_account_path)
       UI.message("Uploading APK to Google Play internal track...")
@@ -15,13 +42,12 @@ platform :android do
         package_name: "com.supportpilot.agent"
       )
     else
-      UI.important("Notice: No Google Play service account detected. Running in verified dry-run mode for CI/CD.")
+      UI.important("Notice: Requires Google Play Console service account. Lane verified in dry-run mode (not executed for store upload).")
     end
   end
 
-  desc "Increment app patch version"
-  lane :bump_version do
-    # Increments version in app.json
-    UI.message("Bumping SupportPilot mobile version")
+  desc "Alias for beta_android"
+  lane :beta do
+    beta_android
   end
 end

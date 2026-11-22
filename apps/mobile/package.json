@@ -7,6 +7,7 @@
     "dev": "echo 'Expo development server: npx expo start'",
     "build": "tsc --build",
     "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
     "test": "vitest run"
   },
   "dependencies": {
@@ -18,8 +19,10 @@
     "zustand": "^5.1.0"
   },
   "devDependencies": {
+    "@supportpilot/eslint-config": "workspace:*",
     "@types/node": "^22.15.0",
     "@types/react": "^19.3.0",
+    "eslint": "^9.27.0",
     "typescript": "^5.8.0",
     "vitest": "^3.2.7"
   }

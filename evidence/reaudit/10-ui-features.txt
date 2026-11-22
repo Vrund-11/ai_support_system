@@ -1,0 +1,41 @@
+=== ITEM 10: ADVANCED UI FEATURES & VERIFICATION ===
+1. GREP AND FILE:LINE LOCATIONS:
+- Optimistic Mutation Helper:
+  apps/web/src/lib/optimistic.ts:26 -> export function useOptimisticMutation<TData, TVariables>
+  apps/web/src/hooks/useTickets.ts:31 -> return useOptimisticMutation({ ... }) for updateTicket
+  apps/web/src/hooks/useTickets.ts:54 -> return useOptimisticMutation({ ... }) for addMessage
+
+- @tanstack/react-virtual Usage:
+  apps/web/src/components/tickets/TicketInbox.tsx:3 -> import { useVirtualizer } from '@tanstack/react-virtual';
+  apps/web/src/components/tickets/TicketInbox.tsx:69 -> const rowVirtualizer = useVirtualizer({ count: tickets.length, ... })
+  apps/web/src/components/tickets/TicketDetail.tsx:2 -> import { useVirtualizer } from '@tanstack/react-virtual';
+  apps/web/src/components/tickets/TicketDetail.tsx:82 -> const messageVirtualizer = useVirtualizer({ count: messages.length, ... })
+
+- prefetchQuery:
+  apps/web/src/components/tickets/TicketInbox.tsx:93 -> void queryClient.prefetchQuery({ queryKey: ['ticket', ticket.id], ... }) [on hover]
+  apps/web/src/components/tickets/TicketInbox.tsx:116 -> void queryClient.prefetchQuery({ queryKey: ['tickets', 'keyset', ...], ... }) [next page]
+
+- Streaming Hook:
+  apps/web/src/hooks/useStreamingDraft.ts:15 -> export function useStreamingDraft()
+  apps/web/src/components/tickets/TicketDetail.tsx:4 -> import { useStreamingDraft } from '../../hooks/useStreamingDraft';
+  apps/web/src/components/tickets/TicketDetail.tsx:47 -> const { draft, isStreaming, error, startDraftStream } = useStreamingDraft();
+
+- clientId Dedupe:
+  apps/web/src/components/tickets/TicketDetail.tsx:68 -> (item) => (m.clientId && item.clientId === m.clientId) || (m.id && item.id === m.id)
+  apps/web/src/components/tickets/TicketDetail.tsx:199 -> const clientId = typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : ...
+  apps/web/src/hooks/useTickets.ts:71 -> id: vars.clientId || `pending_${Date.now()}`
+  apps/web/src/lib/api.ts:361 -> if (clientId) payload['clientId'] = clientId;
+
+2. TESTS RUN RESULTS (pnpm --filter @supportpilot/web exec vitest run src/test/optimistic.test.tsx src/test/ticket-inbox.test.tsx src/test/ticket-detail.test.tsx):
+
+[1m[46m RUN [49m[22m [36mv3.2.7 [39m[90mC:/Users/vrund/OneDrive/Desktop/ai_project/apps/web[39m
+
+ [32m✓[39m src/test/optimistic.test.tsx [2m([22m[2m6 tests[22m[2m)[22m[32m 149[2mms[22m[39m
+ [32m✓[39m src/test/ticket-inbox.test.tsx [2m([22m[2m5 tests[22m[2m)[22m[33m 425[2mms[22m[39m
+ [32m✓[39m src/test/ticket-detail.test.tsx [2m([22m[2m6 tests[22m[2m)[22m[33m 561[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m3 passed[39m[22m[90m (3)[39m
+[2m      Tests [22m [1m[32m17 passed[39m[22m[90m (17)[39m
+[2m   Start at [22m 18:04:49
+[2m   Duration [22m 4.87s[2m (transform 594ms, setup 2.39s, collect 2.09s, tests 1.14s, environment 5.64s, prepare 1.11s)[22m
+

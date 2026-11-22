@@ -2,7 +2,7 @@ import { Router, type Request, type Response } from 'express';
 
 export const docsRouter: Router = Router();
 
-const openApiSpec = {
+export const openApiSpec = {
   openapi: '3.0.3',
   info: {
     title: 'SupportPilot API',

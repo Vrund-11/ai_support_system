@@ -16,9 +16,16 @@ export interface EmailJobPayload extends BaseJobPayload {
 
 export interface PushJobPayload extends BaseJobPayload {
   userId: string;
+  tokens?: string[];
   title: string;
   body: string;
-  data?: Record<string, string>;
+  data?: {
+    type?: string;
+    ticketId?: string;
+    tenantId?: string;
+    url?: string;
+    [key: string]: string | undefined;
+  };
 }
 
 export interface WebhookJobPayload extends BaseJobPayload {

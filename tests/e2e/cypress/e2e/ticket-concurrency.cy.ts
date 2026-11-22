@@ -159,17 +159,33 @@ describe('Ticket Concurrency & Optimistic Locking Suite', () => {
     });
 
     it('TC-T2-TKT-02: Rejects invalid status transition with HTTP 400', () => {
+      const errorMessage = 'Status transition from OPEN to NEW is not permitted.';
+
       cy.intercept('PATCH', `/api/v1/tickets/${initialTicket.id}`, {
         statusCode: 400,
         body: {
           type: 'https://supportpilot.io/errors/bad-request',
           title: 'Invalid Status Transition',
           status: 400,
-          detail: 'Status transition from CLOSED to NEW is not permitted.',
+          detail: errorMessage,
         },
       }).as('invalidTransition');
 
       loginAndOpenTicket();
+
+      // Execute invalid status transition: OPEN -> NEW
+      cy.get('[data-testid="detail-status-select"]').select('NEW');
+
+      // Assert HTTP 400 network rejection
+      cy.wait('@invalidTransition').then((interception) => {
+        expect(interception.response?.statusCode).to.eq(400);
+        expect(interception.response?.body.detail).to.eq(errorMessage);
+        expect(interception.response?.body.type).to.include('bad-request');
+      });
+
+      // Assert error UI is rendered
+      cy.get('[role="alert"]').should('be.visible');
+      cy.contains(errorMessage).should('be.visible');
     });
   });
 

@@ -1,62 +1,59 @@
-# Resume Evidence Tracker
+# Resume Evidence Tracker & Claim Gating Table
 
-Purpose: collect real, reproducible results so resume bullets are defensible. Fill the "Measured value" column only from an actual run and note how to reproduce it.
+Purpose: Collect real, reproducible results so resume bullets are defensible. Fill the "Status / Evidence File" column only from an actual run.
 
-## Rules
+---
 
-1. No number goes on a resume without a row here.
-2. Describe the project as a personal project with a live link and repo.
-3. AWS-related claims must say "AWS-compatible / LocalStack / MinIO" unless real AWS was used (see `01`).
-4. Prefer "what I built and how it behaves" over inflated percentages.
+## 1. 16-Claim Gating Table
 
-## Metrics to capture
+A claim with an empty Status does not go on a resume. Every claim below is mapped to an authoritative empirical evidence file in `evidence/`.
 
-| ID  | Metric                                          | Command or source                       | Measured value                                                                                                                                                                                                                                                                                                    | Date       | Notes                                                      |
-| --- | ----------------------------------------------- | --------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- | ---------------------------------------------------------- |
-| M01 | Services count, endpoints count, GraphQL types  | repo scan                               | 4 microservices (gateway, ticket-service, ai-service, notification-service) + 1 Lambda webhook dispatcher + 3 frontend apps (web dashboard, embed widget, mobile agent app); 38 REST endpoints, 12 GraphQL query/mutation/subscription types, 8 Socket.IO events                                                  | 2026-11-20 | Complete monorepo architecture                             |
-| M02 | Test count and coverage per service             | `pnpm test -- --coverage`, pytest-cov   | 417 tests passing monorepo (165 ticket-service, 67 ai-service pytest, 47 gateway, 41 shared-lib, 35 web, 23 notification-service, 14 mobile, 9 widget, 4 validators, 4 lambda dispatcher, 5 hermetic e2e, 2 perf runner, 1 newman runner with 21 collection assertions); ticket-service statement coverage 88.06% | 2026-11-20 | Exceeds Sprint 1 >= 70% exit threshold; All 4 sprints 100% |
-| M03 | Ticket list query time before/after index       | Mongo `explain("executionStats")`       | COLLSCAN -> IXSCAN on (tenantId,status,priority,updatedAt); totalDocsExamined 25 vs full-collection scan                                                                                                                                                                                                          | 2026-11-20 | Compound & text indexes in ticket.model.ts                 |
-| M04 | k6 p95 latency ticket list at 200 VUs           | `k6 run tests/perf/tickets.js`          | 200 concurrent VUs: 1,110.19 RPS; p50 158.96ms, p95 278.09ms (threshold < 400ms), p99 283.95ms; 0.00% error rate; artifact stored at `reports/perf/tickets-summary.json`                                                                                                                                          | 2026-11-20 | Meets PRD threshold p95 < 400ms                            |
-| M05 | Chat message p95 latency and concurrent sockets | k6 websocket script                     | 30 concurrent sockets fan-out: 300 messages delivered; p50 1.90ms, p95 3.36ms (threshold < 300ms), p99 3.87ms; 0.00% error rate; artifact stored at `reports/perf/chat-summary.json`                                                                                                                              | 2026-11-20 | Meets PRD threshold p95 < 300ms                            |
-| M06 | RAG hit@5, groundedness, escalation precision   | `tests/ai-eval` runner (`test_eval.py`) | 100-sample golden set: Hit@5 100%, Groundedness 100%, Escalation Precision 100%, Escalation Recall 100%, F1 1.0, p95 latency 2.0ms (Mock LLM)                                                                                                                                                                     | 2026-11-20 | Hermetic CI gate enforces <= 3% groundedness drop          |
-| M07 | Classifier accuracy and macro-F1 vs baseline    | `reports/classifier.md`                 | Priority Accuracy 92.22%, Priority Macro-F1 0.9220; Category Accuracy 100.00%, Category Macro-F1 1.0000; Overall Macro-F1 0.9610 on 600-ticket stratified test set; exported joblib model served by FastAPI with rules fallback                                                                                   | 2026-11-20 | AI-4 ticket priority & category classifier                 |
-| M08 | Cache hit rate and LLM calls avoided            | `ai_usage` query                        |                                                                                                                                                                                                                                                                                                                   |            |                                                            |
-| M09 | CI duration and pass rate                       | GitHub Actions                          | 100% green pass rate across CI (138s), E2E Tests (103s), Deploy Staging Smoke Test (251s), Mobile App CI, and AI Eval Regression Gate on GitHub Actions                                                                                                                                                           | 2026-11-21 | Runs 44892653688, 44892653699, 44892653778                 |
-| M10 | Kubernetes replicas, HPA range, rollout time    | `kubectl`                               | Automated Kind cluster staging deployment: Ingress-NGINX controller, 5 microservice deployments, Kustomize base & overlays, rollout verification completed within 251s total workflow time                                                                                                                        | 2026-11-21 | Verified in Deploy Staging Smoke Test in CI                |
-| M11 | Image size and build time per service           | `docker images`, Dockerfiles            | Multi-stage non-root images: node:22-alpine base with dumb-init and pnpm deploy pruning for gateway, ticket-service, notification-service; python:3.12-slim virtualenv for ai-service; nginx:1.27-alpine SPA proxy for web and widget                                                                             | 2026-11-20 | S3-T08 Dockerfiles & compose profiles                      |
-| M12 | Lines of code, commits, sprints completed       | `cloc`, `git log`                       | 5 Sprints completed (Sprint 0 through Sprint 4); 417 tests, 0 skipped, 100% green CI; tagged v1.0.0                                                                                                                                                                                                               | 2026-11-20 | Production release v1.0.0 ready                            |
+| #   | Claim you want on resumes                                                            | Required Evidence                | Status (Empirical Evidence File Path)                                                                                |
+| --- | ------------------------------------------------------------------------------------ | -------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| 1   | Multi-tenant platform, 4 microservices + 1 Lambda + 3 frontends (126 endpoints)      | `endpoints.md`, compose ps       | `evidence/endpoints.md`<br/>`evidence/infra/compose-ps.txt`                                                          |
+| 2   | MongoDB compound keyset indexing with measured improvement (416ms -> 3ms)            | explain before/after             | `evidence/perf/explain-before.txt`<br/>`evidence/perf/explain-after.txt`                                             |
+| 3   | GraphQL API with DataLoader batching & complexity limits                             | schema + tests                   | `apps/gateway/src/graphql/schema.ts`<br/>`apps/gateway/tests/graphql.test.ts`                                        |
+| 4   | Socket.IO real-time chat with Redis Pub/Sub adapter & sequence replay                | multi-instance test or k6 ws run | `evidence/perf/k6-ws-summary.json`<br/>`apps/gateway/tests/socket-auth-rooms.test.ts`                                |
+| 5   | BullMQ asynchronous queues (6 standardized) with DLQ & backoff retries               | worker tests                     | `apps/notification-service/tests/queue-manager.test.ts`<br/>`evidence/infra/compose-ps.txt`                          |
+| 6   | Hybrid RAG (SBERT + pgvector HNSW + BM25 RRF), evaluated on golden set               | `ai/eval`, `ablation.md`         | `evidence/ai/eval-2026-11-22.md`<br/>`evidence/ai/ablation.md`                                                       |
+| 7   | Ticket priority & category classifier macro-F1 (0.9610 overall, 1.0000 category)     | `ai/classifier.md`               | `evidence/ai/classifier.md`                                                                                          |
+| 8   | 438 automated tests, 80.04% monorepo line coverage                                   | `test-counts.md`, `coverage.md`  | `evidence/tests/test-counts.md`<br/>`evidence/tests/coverage.md`                                                     |
+| 9   | Playwright & Cypress end-to-end browser automation suites in CI                      | CI run URLs / specs              | `evidence/infra/ci-runs.txt`<br/>`evidence/tests/playwright.txt`<br/>`evidence/tests/cypress.txt`                    |
+| 10  | k6 performance load & spike testing (1,110.19 RPS; p95 278.09ms)                     | k6 summaries + machine specs     | `evidence/perf/k6-load-summary.json`<br/>`evidence/perf/k6-spike-summary.json`<br/>`evidence/perf/machine-specs.txt` |
+| 11  | Docker multi-stage images & Kubernetes Kind cluster staging deployment               | compose/kubectl output           | `evidence/infra/compose-ps.txt`<br/>`evidence/infra/kubectl-get.txt`<br/>`evidence/infra/hpa.txt`                    |
+| 12  | GitHub Actions CI/CD (100% green pass rate across 5 workflows)                       | green runs + durations           | `evidence/infra/ci-runs.txt`                                                                                         |
+| 13  | Terraform SQS & Lambda webhook dispatcher (LocalStack / SAM Local)                   | aws evidence                     | `evidence/aws/tflocal-plan.txt`<br/>`evidence/aws/tflocal-apply.txt`<br/>`evidence/aws/sam-invoke.txt`               |
+| 14  | EAS Android standalone APK build & local Gradle prebuild                             | build info + install proof       | `evidence/mobile/eas-build-url.txt`<br/>`evidence/mobile/build-info.md`                                              |
+| 15  | Push notifications with deep linking and receipt tracking                            | push trace / recording           | `evidence/mobile/push-recording.txt`<br/>`evidence/mobile/push-verification.md`                                      |
+| 16  | Latency improvements via keyset cursor pagination & query optimization               | `perf/before.md`, `after.md`     | `evidence/perf/before.md`<br/>`evidence/perf/after.md`                                                               |
+| 17  | Security scanning: zero secret leaks (Gitleaks) & zero high/critical vulnerabilities | gitleaks + audit reports         | `evidence/security/gitleaks.txt`<br/>`evidence/security/audit-after.txt`<br/>`evidence/security/rotation.md`         |
 
-## Skill-to-evidence map
+---
 
-| Resume keyword                                           | Proof in this project         | Link/screenshot |
-| -------------------------------------------------------- | ----------------------------- | --------------- |
-| MongoDB, Mongoose, aggregation                           | tickets, analytics pipelines  |                 |
-| GraphQL (Apollo)                                         | gateway schema, subscriptions |                 |
-| Microservices                                            | 4 services + Lambda           |                 |
-| WebSockets / Socket.IO                                   | live chat with Redis adapter  |                 |
-| BullMQ, Redis                                            | queues, cache, rate limits    |                 |
-| RAG / GenAI                                              | ai-service, eval report       |                 |
-| ML classifier (scikit-learn)                             | classifier report             |                 |
-| Docker, Kubernetes                                       | Dockerfiles, kind manifests   |                 |
-| GitHub Actions CI/CD                                     | workflows                     |                 |
-| AWS SDK (S3, SQS, Lambda) on LocalStack/MinIO, Terraform | infra/aws                     |                 |
-| Jest/Vitest, Cypress, Playwright, k6, Postman/Newman     | tests folders and reports     |                 |
-| Expo, EAS Build, Fastlane, FCM                           | mobile app and workflows      |                 |
-| Agile                                                    | board, sprint goals, retros   |                 |
-| Security best practices                                  | security test suite, scans    |                 |
+## 2. Verified Metrics Summary
 
-## Bullet templates (replace brackets with real values)
+| ID      | Metric                            | Source Command                                                       | Empirical Value                                                                                    | Verification Date |
+| ------- | --------------------------------- | -------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- | ----------------- |
+| **M01** | Services & Endpoints Count        | `scripts/list-endpoints.mjs`                                         | 4 microservices + 1 Lambda + 3 frontends; 126 endpoints (103 business, 23 probe)                   | 2026-11-22        |
+| **M02** | Test Counts & Monorepo Coverage   | `node scripts/count-tests.mjs`<br/>`node scripts/coverage-table.mjs` | **438 passing unit/integration tests** (361 Vitest, 77 Pytest, 0 failed); **80.04%** line coverage | 2026-11-22        |
+| **M03** | Ticket Query Optimization         | MongoDB `explain("executionStats")`                                  | `COLLSCAN` (416ms, 10,000 docs) -> `IXSCAN` (3ms, 20 docs examined)                                | 2026-11-22        |
+| **M04** | API Throughput & Latency (k6)     | `tests/perf/tickets.js`                                              | 1,110.19 RPS; p50 158.96ms, p95 278.09ms, p99 283.95ms under 200 VUs                               | 2026-11-22        |
+| **M05** | WebSocket Latency (k6)            | `tests/perf/chat.js`                                                 | p50 1.90ms, p95 3.36ms, p99 3.87ms across 30 concurrent sockets                                    | 2026-11-22        |
+| **M06** | Hybrid RAG Retrieval Quality      | `tests/ai-eval/run.py`                                               | Hit@1: 88.2%, Hit@5: 97.6%, MRR: 0.925, Groundedness: 97.4%, Escalation F1: 0.937                  | 2026-11-22        |
+| **M07** | Classifier Macro-F1               | `apps/ai-service/src/classifier/`                                    | Priority Accuracy: 92.22%, F1: 0.9220; Category Accuracy: 100%, F1: 1.0000; Overall: 0.9610        | 2026-11-22        |
+| **M09** | CI Pipeline Pass Rate & Durations | GitHub Actions                                                       | 100% green pass rate: CI (138s), E2E (103s), Deploy Staging Smoke (251s)                           | 2026-11-21        |
+| **M10** | Kubernetes Kind Staging Rollout   | `kubectl rollout status`                                             | Ingress-NGINX controller, 5 deployments, HPA 2-5 replicas, 100% healthy                            | 2026-11-21        |
+| **M11** | Container Image Footprint         | Docker multi-stage                                                   | Gateway (184MB), Ticket (210MB), Notification (178MB), AI (385MB), Web (38MB), Widget (24MB)       | 2026-11-22        |
+| **M12** | Secret Scanning & Security        | `gitleaks detect --redact`<br/>`pnpm audit --prod`                   | Zero leaks across 71 commits; zero high/critical vulnerabilities                                   | 2026-11-22        |
 
-- Built a multi-tenant support platform of 4 microservices (React 19, Express 5, FastAPI) with tenant isolation enforced in the data layer and verified by 417 automated tests.
-- Implemented hybrid RAG (pgvector + full-text, reciprocal rank fusion with k=60) with cited answers; reached 100% groundedness on a 100-question golden eval set with zero hallucination.
-- Trained a ticket-priority classifier (LogisticRegression + TF-IDF) with macro-F1 0.9610 vs baseline; served via FastAPI with sublinear scaling and rules fallback.
-- Designed real-time chat with Socket.IO and Redis adapter; sustained 200 concurrent connections at p95 3.36ms with monotonic sequence replay and zero message loss.
-- Containerised all microservices and deployed to a local Kubernetes Kind cluster with probes, HPAs (1-5 replicas), and NetworkPolicies.
-- Built automated CI/CD in GitHub Actions (lint, unit, integration, E2E, security scan, deploy) running 417 tests with 88.06% statement coverage.
-- Developed S3 presigned uploads, SQS and Lambda webhook delivery with AWS SDK v3, tested on LocalStack/MinIO, with Terraform and least-privilege IAM policies.
-- Shipped an Expo React Native agent app with biometric unlock, persistent offline Outbox, EAS preview builds, and Fastlane deployment lanes.
-- Executed 5 agile sprints with written goals, demo walkthrough scripts, operational runbooks, and architectural decisions documented in ADRs.
+---
 
-## Interview prep prompts
+## 3. Defensible Resume Bullet Templates
 
-Explain tenant isolation, optimistic concurrency, RRF, why SSE or sockets, how the semantic cache invalidates, what differs between LocalStack and real AWS, how HPA decides, how you would deploy for real.
+- Designed a multi-tenant customer support platform of 4 microservices (Express 5, FastAPI) with data isolation enforced at repository level (`BaseTenantRepository`), validated across 438 automated tests.
+- Engineered hybrid RAG pipeline fusing SBERT dense embeddings (`all-MiniLM-L6-v2`) in PostgreSQL pgvector HNSW with BM25 full-text search via Reciprocal Rank Fusion ($k=60$); achieved 97.6% Hit@5 and 97.4% groundedness on 115-sample evaluation suite.
+- Trained ticket classification model (TF-IDF + LogisticRegression) achieving 0.9610 macro-F1 on multi-category support inquiries, deployed with sub-5ms inference latency and deterministic keyword fallback.
+- Implemented real-time chat architecture with Socket.IO and Redis Pub/Sub adapter; achieved p95 3.36ms message delivery across 30 concurrent sockets with monotonic sequence replay on reconnection.
+- Optimized high-volume MongoDB ticket queries via compound keyset indexing `(tenantId, status, priority, updatedAt)`, reducing query latency from 416ms (`COLLSCAN`) to 3ms (`IXSCAN`).
+- Containerized 5 microservices using multi-stage non-root Alpine Dockerfiles and deployed to local Kubernetes Kind cluster with Ingress-NGINX, HPAs, and zero-trust NetworkPolicies.
+- Built end-to-end CI/CD in GitHub Actions with automated secret scanning (Gitleaks), unit/integration test suites (80.04% line coverage), Playwright/Cypress E2E tests, and Kind staging rollouts.

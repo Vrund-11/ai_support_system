@@ -1,6 +1,7 @@
 """Gemini LLM Provider using Google Gemini REST/SDK API."""
 
 import json
+from collections.abc import AsyncIterator
 from typing import TypeVar
 
 import httpx
@@ -81,3 +82,15 @@ class GeminiLLMProvider(LLMProvider):
     async def get_embeddings(self, texts: list[str]) -> list[list[float]]:
         # Default to local deterministic MiniLM embeddings for speed and consistency
         return await self.mock_fallback.get_embeddings(texts)
+
+    async def stream_generate(
+        self,
+        system_prompt: str,
+        user_prompt: str,
+        temperature: float = 0.2,
+    ) -> AsyncIterator[str]:
+        # Fallback to mock streaming
+        async for token in self.mock_fallback.stream_generate(
+            system_prompt, user_prompt, temperature
+        ):
+            yield token

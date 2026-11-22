@@ -31,7 +31,7 @@ const AUTH_EMAIL = __ENV.AUTH_EMAIL || 'agent1@acme.com';
 const AUTH_PASSWORD = __ENV.AUTH_PASSWORD || 'Password123!';
 
 export function setup() {
-  let token = `visitor:${TENANT_ID}:perf-visitor-setup`;
+  let token = null;
 
   // Attempt login to acquire real agent token
   try {
@@ -156,7 +156,7 @@ export default function (data) {
     });
 
     socket.on('error', function (e) {
-      check(e, { 'socket error caught cleanly': () => true });
+      check(e, { 'socket error free': () => false });
     });
 
     socket.on('close', function () {

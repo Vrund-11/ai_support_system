@@ -38,8 +38,8 @@ test.describe('Multi-Tenancy & Data Isolation Boundaries (TEN)', () => {
 
     // 2. Direct client fetch check via Playwright request context
     const apiRes = await request.get(`${WEB_URL}/api/v1/tickets/tkt_tenant_b_secret`);
-    // Should be intercepted or protected
-    expect([403, 404, 200]).toBeDefined();
+    // Must be protected: returns 403 or 404 (200 strictly forbidden)
+    expect([403, 404]).toContain(apiRes.status());
 
     // 3. Ensure Tenant A tickets table only displays Tenant A tickets
     const table = page.locator('[data-testid="tickets-table"]');

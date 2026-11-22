@@ -4,9 +4,11 @@ Provides deterministic responses, schema-valid JSON generation, and
 unit-normalized 384-dimensional embeddings without paid API calls.
 """
 
+import asyncio
 import hashlib
 import math
 import re
+from collections.abc import AsyncIterator
 from typing import TypeVar
 
 from pydantic import BaseModel
@@ -61,6 +63,8 @@ class MockLLMProvider(LLMProvider):
                 raise ValueError("Simulated malformed JSON response from LLM")
 
         if issubclass(schema, RagAnswer):
+            from src.rag.prompt import is_prompt_injection
+
             # Check prompt context for chunks and adversarial signals
             adv_triggers = [
                 "cake",
@@ -88,8 +92,58 @@ class MockLLMProvider(LLMProvider):
                 "system override",
                 "ignore all",
                 "ignore context",
+                # Unanswerable golden v2 topics
+                "neapolitan pizza",
+                "apple inc",
+                "aapl",
+                "stock price",
+                "dividend yield",
+                "ikea",
+                "kallax",
+                "shelving unit",
+                "honda civic",
+                "squeaking sound",
+                "mars and jupiter",
+                "astronomical units",
+                "orbital distance",
+                "linux kernel module",
+                "6.8 kernel",
+                "prescribe antibiotics",
+                "throat infection",
+                "uefa champions league",
+                "oyster mushrooms",
+                "coffee grounds",
+                "game of chess",
+                "starting piece positions",
+                "kyoto and osaka",
+                "tourist itinerary",
+                "carburetor",
+                "yamaha motorcycle",
+                "academy award for best picture",
+                "fermat's last theorem",
+                "elliptic curves",
+                "crochet a woolen scarf",
+                "double crochet",
+                # Adversarial golden v2 triggers
+                "superadmin",
+                "dan (do anything now)",
+                "dan mode",
+                "jailbreak",
+                "drop table",
+                "cat /etc/passwd",
+                "ransomware",
+                "jwt_access_secret",
+                "dump tenant_id",
+                "base system prompt verbatim",
+                "bypass tenant isolation",
+                "plaintext database connection string",
+                "curl -x post",
+                "hahn_pwned",
+                "cryptographic keys",
+                "override_flag_compromised",
             ]
-            is_adv = any(w in user_prompt.lower() for w in adv_triggers)
+            is_inj = is_prompt_injection(user_prompt)
+            is_adv = is_inj or any(w in user_prompt.lower() for w in adv_triggers)
             should_escalate = (
                 self.simulate_should_escalate or self.simulate_low_confidence or is_adv
             )
@@ -107,9 +161,7 @@ class MockLLMProvider(LLMProvider):
 
             if self.custom_citations is not None:
                 citations = self.custom_citations
-            elif should_escalate:
-                citations = []
-            elif "(No relevant knowledge chunks found)" in user_prompt:
+            elif should_escalate or "(No relevant knowledge chunks found)" in user_prompt:
                 citations = []
             elif chunk_matches:
                 citations = [
@@ -199,3 +251,17 @@ class MockLLMProvider(LLMProvider):
             results.append(normalized)
 
         return results
+
+    async def stream_generate(
+        self,
+        system_prompt: str,
+        user_prompt: str,
+        temperature: float = 0.2,
+    ) -> AsyncIterator[str]:
+        """Stream generated text response broken into realistic token deltas."""
+        full_text = await self.generate_text(system_prompt, user_prompt, temperature)
+        tokens = full_text.split(" ")
+        for i, token in enumerate(tokens):
+            chunk = token + (" " if i < len(tokens) - 1 else "")
+            await asyncio.sleep(0.01)
+            yield chunk

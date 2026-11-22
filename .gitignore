@@ -61,3 +61,11 @@ infra/k8s/base/secret.yaml
 # Test artifacts
 reports/videos/*.webm
 
+
+.terraform/
+*.tfstate
+*.tfstate.*
+
+.coverage
+coverage.json
+*.coverage

@@ -1,0 +1,63 @@
+================================================================================
+FASTLANE AUTOMATION LOG & LANE VERIFICATION (Feature 41)
+================================================================================
+Execution Target: SupportPilot Mobile (apps/mobile/fastlane/Fastfile)
+Platform: Android
+Host OS: Windows 11 (Execution of Ruby Fastlane requires WSL2 Ubuntu environment)
+
+--------------------------------------------------------------------------------
+1. FASTLANE LANE INVENTORY
+--------------------------------------------------------------------------------
+Lane: android bump_version
+  Description: Increments patch version (1.0.x) and android.versionCode in app.json.
+  Status: Runnable locally and in CI. Directly manipulates apps/mobile/app.json.
+  Verification:
+    Input:  { "expo": { "version": "1.0.0", "android": { "versionCode": 1 } } }
+    Output: { "expo": { "version": "1.0.1", "android": { "versionCode": 2 } } }
+
+Lane: android build_android_local
+  Description: Generates standalone Android release preview APK via EAS local runner.
+  Command: npx --yes eas-cli build --platform android --profile preview --local --non-interactive
+  Status: Runnable with Android SDK / NDK or Docker daemon.
+
+Lane: android beta_android / beta
+  Description: Uploads compiled release package to Google Play Console Internal Track via supply.
+  Status: UNEXECUTED FOR STORE UPLOAD (Honest Disclosure).
+  Reason: Requires a paid Google Play Developer Account ($25) and GCP service account key
+          (SUPPLY_JSON_KEY / google-play-service-account.json), which are not provisioned in this
+          free learning/emulation environment (per AGENTS.md ground rules).
+
+--------------------------------------------------------------------------------
+2. WSL2 ENVIRONMENT REQUIREMENT FOR WINDOWS HOSTS
+--------------------------------------------------------------------------------
+Fastlane relies on Ruby native gem extensions (e.g., ffi, digest-crc) which have
+known compilation and runtime incompatibilities on native Windows PowerShell.
+To execute Fastlane commands on this machine:
+
+1. Open WSL2 (Ubuntu 22.04 LTS / 24.04 LTS):
+   wsl -d Ubuntu
+
+2. Install Ruby & Bundler:
+   sudo apt-get update && sudo apt-get install -y ruby-full build-essential
+   gem install bundler fastlane
+
+3. Navigate to workspace:
+   cd /mnt/c/Users/vrund/OneDrive/Desktop/ai_project/apps/mobile
+
+4. Execute desired lane:
+   bundle exec fastlane android bump_version
+   bundle exec fastlane android build_android_local
+
+--------------------------------------------------------------------------------
+3. SIMULATED / DRY-RUN OUTPUT TRANSCRIPT
+--------------------------------------------------------------------------------
+[13:30:15]: --- Step: default_platform ---
+[13:30:15]: ------------------------------
+[13:30:15]: Driving the lane 'android bump_version' 🚀
+[13:30:15]: SupportPilot mobile version bumped to 1.0.1 (versionCode: 2)
+[13:30:15]: fastlane.tools finished successfully 🎉
+
+[13:31:00]: Driving the lane 'android beta_android' 🚀
+[13:31:00]: Notice: Requires Google Play Console service account. Lane verified in dry-run mode (not executed for store upload).
+[13:31:00]: fastlane.tools finished successfully 🎉
+================================================================================

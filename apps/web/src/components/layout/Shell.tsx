@@ -70,6 +70,41 @@ export function Shell({
 
   const isOwner = user?.role === 'OWNER' || user?.role === 'PLATFORM_ADMIN';
 
+  const prefetchChunk = (tab: NavTab) => {
+    switch (tab) {
+      case 'inbox':
+        void import('../tickets/TicketInbox');
+        break;
+      case 'chats':
+        void import('../chat/LiveChatView');
+        break;
+      case 'kb':
+        void import('../knowledge/KnowledgeBaseView');
+        break;
+      case 'customers':
+        void import('../customers/CustomersView');
+        break;
+      case 'team':
+        void import('../team/TeamView');
+        break;
+      case 'automation':
+        void import('../automation/AutomationView');
+        break;
+      case 'analytics':
+        void import('../analytics/AnalyticsDashboard');
+        break;
+      case 'settings':
+        void import('../settings/SettingsView');
+        break;
+      case 'help':
+        void import('../help/HelpCenterView');
+        break;
+      case 'admin':
+        void import('../admin/AdminCockpitView');
+        break;
+    }
+  };
+
   const navItems: Array<{ tab: NavTab; label: string; icon: string; testId: string }> = [
     { tab: 'inbox', label: 'Tickets (Inbox)', icon: 'inbox', testId: 'nav-inbox' },
     { tab: 'chats', label: 'Live Chats', icon: 'chat', testId: 'nav-chats' },
@@ -202,6 +237,8 @@ export function Shell({
                 <button
                   key={item.tab}
                   onClick={() => handleNav(item.tab)}
+                  onMouseEnter={() => prefetchChunk(item.tab)}
+                  onFocus={() => prefetchChunk(item.tab)}
                   className={`h-full inline-flex items-center gap-1.5 font-body-md text-body-md whitespace-nowrap transition-colors cursor-pointer ${
                     isActive
                       ? 'text-primary font-semibold border-b-2 border-primary -mb-px'

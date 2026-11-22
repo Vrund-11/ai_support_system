@@ -1,90 +1,101 @@
-# Architecture and Repository Structure
+# Architecture and Repository Specification
 
-## Services and ports (local)
+## 1. Services and Network Ports
 
-| Service                    | Port        | Stack                      | Owns                             |
-| -------------------------- | ----------- | -------------------------- | -------------------------------- |
-| web (dashboard)            | 5173        | React 19 + Vite            | none                             |
-| widget (dev server)        | 5174        | React + Vite lib           | none                             |
-| gateway                    | 4000        | Express, Apollo, Socket.IO | Redis (sessions, rate limits)    |
-| ticket-service             | 4001        | Express + Mongoose         | MongoDB                          |
-| ai-service                 | 4002        | FastAPI                    | Postgres (pgvector), model files |
-| notification-service       | 4003        | Node + BullMQ              | Redis queues, audit log          |
-| webhook-lambda (SAM local) | 3001        | Node Lambda handler        | none                             |
-| MongoDB                    | 27017       | mongo:7                    |                                  |
-| Postgres                   | 5432        | pgvector/pgvector:pg16     |                                  |
-| Redis                      | 6379        | redis:7                    |                                  |
-| MinIO                      | 9000 / 9001 | S3 API / console           |                                  |
-| MailHog                    | 1025 / 8025 | SMTP / UI                  |                                  |
-| Prometheus / Grafana       | 9090 / 3000 |                            |                                  |
+| Service                        | Port            | Runtime & Framework                               | Datastore / State Owned                                |
+| ------------------------------ | --------------- | ------------------------------------------------- | ------------------------------------------------------ |
+| **web** (Agent Dashboard)      | `5173`          | React 19 + Vite (TypeScript)                      | None (Stateless Client)                                |
+| **widget** (Customer Portal)   | `5174`          | React 19 + Vite (TypeScript)                      | None (Stateless Client)                                |
+| **mobile** (Agent App)         | Expo            | React Native + Expo Router                        | SQLite Outbox (Offline Cache)                          |
+| **gateway**                    | `4000`          | Node.js 22 + Express 5, Apollo GraphQL, Socket.IO | Redis (Sessions, Rate Limits, Socket Adapter)          |
+| **ticket-service**             | `4001`          | Node.js 22 + Express 5 + Mongoose                 | MongoDB 7 (Tenants, Users, Tickets, Events)            |
+| **ai-service**                 | `8000`          | Python 3.12 + FastAPI + Pydantic                  | PostgreSQL 16 + pgvector (HNSW Index), Model Artifacts |
+| **notification-service**       | `5001`          | Node.js 22 + BullMQ                               | Redis (Job Queues, Timers, Dead-Letter Queue)          |
+| **webhook-lambda** (SAM Local) | `3001`          | Python 3.12 / Node.js Lambda Handler              | AWS SQS Queue / LocalStack Emulation                   |
+| **MongoDB**                    | `27017`         | `mongo:7`                                         | Multi-Tenant Document Store                            |
+| **PostgreSQL**                 | `5432`          | `pgvector/pgvector:pg16`                          | Relational Store, Vector Embeddings (HNSW)             |
+| **Redis**                      | `6379`          | `redis:7`                                         | In-Memory Cache, BullMQ Queues, Socket.IO Pub/Sub      |
+| **MinIO**                      | `9000` / `9001` | S3-Compatible Storage Server                      | Object Storage (Tenant Uploads, Attachments)           |
+| **MailHog**                    | `1025` / `8025` | SMTP Server / Inspection Web UI                   | Transactional Email Emulation                          |
+| **Prometheus**                 | `9090`          | Prometheus v2.54                                  | Metrics Scraping & TSDB                                |
+| **Grafana**                    | `3005`          | Grafana v11.1                                     | Observability Dashboards & Telemetry                   |
 
-Only the gateway is exposed to clients. Internal calls carry `x-service-token`.
+_Security Invariant_: Only the **gateway** (`:4000`) and frontends (`:5173`, `:5174`) are exposed to external clients. Direct internal microservice-to-microservice calls carry the shared `x-service-token` secret header.
 
-## Monorepo tree
+---
 
-```
-supportpilot/
-  apps/
-    web/                    React dashboard
-    widget/                 embeddable chat widget
-    mobile/                 Expo agent app
-    gateway/                GraphQL + REST + Socket.IO
-    ticket-service/         tickets, conversations, users, tenants, analytics
-    notification-service/   BullMQ workers (push, email, SLA, webhooks)
-    ai-service/             FastAPI (RAG, classifier, ingestion)
-    webhook-lambda/         Lambda handler for signed webhooks
-  packages/
-    shared-types/           TS types
-    validators/             Zod schemas
-    api-client/             typed client for web and mobile
-    eslint-config/
-  infra/
-    docker/                 Dockerfiles, compose files
-    k8s/                    base + overlays (staging, prod)
-    aws/                    terraform/, iam/, sam/
-    grafana/                dashboards JSON
-  tests/
-    e2e/                    cypress/, playwright/
-    perf/                   k6 scripts
-    api/                    postman collections
-    ai-eval/                golden sets, runner
-  docs/                     this planning pack, ADRs, retros, runbooks
-  .github/                  workflows, templates
-  package.json, pnpm-workspace.yaml, turbo.json
-```
+## 2. Asynchronous Queues & Background Processing
 
-## Layering inside each Node service
+All asynchronous operations are governed by BullMQ running on Redis within `notification-service` (:5001).
+Queue names are standardized as:
 
-`routes/resolvers -> controllers -> services -> repositories -> models`. Only repositories touch the database and always receive `tenantId`. Cross-cutting: `middleware/` (auth, rbac, rate-limit, validation, error), `lib/` (logger, redis, queue, s3), `config/` (env parsing with Zod, fail fast at startup).
+1. **`email`**:
+   - Concurrency: 5
+   - Attempts: 3 with exponential backoff (`delay: 1000ms`)
+   - Responsibilities: Verification emails, password resets, ticket assignment alerts, SLA breach notices via Nodemailer/MailHog.
+2. **`push`**:
+   - Concurrency: 5
+   - Attempts: 3 with exponential backoff (`delay: 1000ms`)
+   - Responsibilities: Mobile agent push notifications dispatched via Expo Push Notification API.
+3. **`webhook`**:
+   - Concurrency: 5
+   - Attempts: 5 with exponential backoff (`delay: 2000ms`)
+   - Responsibilities: HMAC-SHA256 signed HTTP webhooks sent to customer external endpoints.
+4. **`sla`**:
+   - Concurrency: 3
+   - Attempts: 3 with fixed backoff (`delay: 5000ms`)
+   - Responsibilities: Delayed timers tracking 75% SLA warning and 100% breach deadlines across tenant business hours.
+5. **`audit`**:
+   - Concurrency: 10
+   - Attempts: 3 with fixed backoff (`delay: 2000ms`)
+   - Responsibilities: Immutable logging of security events, role modifications, and tenant changes.
+6. **`dlq`**:
+   - Concurrency: 1
+   - Attempts: 1
+   - Responsibilities: Dead-letter queue capturing exhausted failures across all queues for manual triage, root cause analysis, and administrative replay.
 
-## Request flow: customer message
+---
 
-1. Widget connects to gateway Socket.IO with a visitor token.
-2. `message:send` -> gateway validates, forwards to ticket-service `POST /internal/messages`.
-3. ticket-service persists with next `seq`, returns message.
-4. If conversation state is `AI`, gateway calls ai-service `POST /v1/answer`.
-5. Answer persisted as AI message and emitted to the room. If `shouldEscalate`, ticket-service sets `WAITING_AGENT`, creates/links ticket, and enqueues `notifications` job.
-6. notification-service pushes to agents (socket, FCM, email).
+## 3. AI & Knowledge Base Retrieval Architecture
 
-## Request flow: KB ingestion
+### Embedding Provider: SBERT
 
-1. Dashboard asks `POST /kb/uploads/presign`, uploads directly to S3-compatible storage.
-2. Dashboard calls `POST /kb/documents`; gateway enqueues `ingestion` job.
-3. ai-service downloads file, extracts, chunks, embeds, writes chunks, updates status.
-4. Gateway emits `kb:ingestion` event to the tenant room.
+- **Architecture**: Pluggable provider interface `EmbeddingProvider` defined in `apps/ai-service/src/embeddings.py`.
+- **Runtime Provider**: `SbertProvider` utilizing `sentence-transformers/all-MiniLM-L6-v2`.
+- **Dimensions**: 384-dimensional dense vectors, normalized with unit Euclidean length ($L_2 = 1.0$).
+- **Metadata**: Every ingested chunk tracks `embedding_model = "sentence-transformers/all-MiniLM-L6-v2"` ensuring dimensional consistency during retrieval.
 
-## Environment variables (names)
+### Vector Storage & Indexing: PostgreSQL pgvector HNSW
 
-```
-NODE_ENV, PORT, LOG_LEVEL
-MONGODB_URI, DATABASE_URL, REDIS_URL
-JWT_ACCESS_SECRET, JWT_REFRESH_SECRET, SERVICE_TOKEN, WEBHOOK_SIGNING_SECRET
-ALLOWED_ORIGINS
-AWS_REGION, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY
-S3_ENDPOINT, S3_BUCKET, S3_FORCE_PATH_STYLE, SQS_ENDPOINT, LAMBDA_ENDPOINT
-LLM_PROVIDER (mock|gemini|openai), GEMINI_API_KEY, OPENAI_API_KEY
-EMBEDDING_MODEL=sentence-transformers/all-MiniLM-L6-v2
-FCM_SERVICE_ACCOUNT_JSON, RESEND_API_KEY or SMTP_URL
-```
+- **Extension**: `pgvector` on PostgreSQL 16.
+- **Index Type**: **Hierarchical Navigable Small World (HNSW)** with cosine distance operator `vector_cosine_ops`.
+- **Index Definition**:
+  ```sql
+  CREATE INDEX IF NOT EXISTS idx_kb_chunks_embedding
+      ON kb_chunks USING hnsw (embedding vector_cosine_ops)
+      WITH (m = 16, ef_construction = 64);
+  ```
+- **Query Hyperparameters**: Session runtime sets `SET hnsw.ef_search = 40;` to guarantee >98% recall at <5ms retrieval latency.
+- **Hybrid Retrieval & RRF**:
+  - Vector similarity candidates ($k=10$) merged with PostgreSQL Full-Text Search tsvector BM25 candidates ($k=10$).
+  - Rank fusion calculated via Reciprocal Rank Fusion:
+    $$\text{RRF}(d) = \sum_{m \in \{\text{vector}, \text{bm25}\}} \frac{1}{60 + r_m(d)}$$
+  - Tenant boundary enforced at SQL level (`WHERE tenant_id = :tenant_id`).
 
-Each service validates its own env with Zod or Pydantic at boot.
+---
+
+## 4. Architectural Boundaries & Data Isolation
+
+1. **Strict Tenant Scoping (`BaseTenantRepository`)**:
+   - All database reads and writes in `ticket-service` inherit from `BaseTenantRepository<T>`.
+   - Every MongoDB query automatically injects `{ tenantId }`.
+   - Three intentional unscoped operations:
+     1. Initial tenant registration (`registerTenant`)
+     2. SuperAdmin system-wide tenant registry overview
+     3. Microservice health and readiness probes (`/health`, `/ready`)
+2. **Optimistic Concurrency Control**:
+   - Ticket mutations enforce integer `version` field matching.
+   - Concurrent updates detect collisions and return RFC 7807 `409 Conflict`.
+3. **Monotonic Sequence Replay**:
+   - Messages are assigned per-conversation sequential integers via Redis `INCR seq:{conversationId}`.
+   - Clients reconnecting submit `lastSeq` to receive strictly ordered delta replays with zero duplicate messages.

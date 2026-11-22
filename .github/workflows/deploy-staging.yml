@@ -22,7 +22,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Set up Kind Cluster
-        uses: helm/kind-action@v1.10.0
+        uses: helm/kind-action@v1.15.2
         with:
           config: infra/k8s/kind-config.yaml
           cluster_name: supportpilot-staging

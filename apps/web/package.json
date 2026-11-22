@@ -41,7 +41,7 @@
     "postcss": "^8.5.33",
     "size-limit": "^11.1.6",
     "tailwindcss": "^4.3.5",
-    "typescript": "^5.8.0",
+    "typescript": "^6.0.3",
     "vite": "^8.3.8",
     "vitest": "^3.2.7"
   }

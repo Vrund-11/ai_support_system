@@ -20,6 +20,6 @@
     "@supportpilot/eslint-config": "workspace:*",
     "eslint": "^9.27.0",
     "rimraf": "^6.0.0",
-    "typescript": "^5.8.0"
+    "typescript": "^6.0.3"
   }
 }

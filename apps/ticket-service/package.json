@@ -24,7 +24,7 @@
     "ioredis": "^6.0.0",
     "jsonwebtoken": "^9.0.3",
     "mongoose": "^9.12.2",
-    "pino": "^9.6.0"
+    "pino": "^10.4.0"
   },
   "devDependencies": {
     "@supportpilot/eslint-config": "workspace:*",

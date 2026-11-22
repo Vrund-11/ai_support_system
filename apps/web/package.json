@@ -19,7 +19,7 @@
     "@supportpilot/shared-types": "workspace:*",
     "@tanstack/react-query": "^5.108.1",
     "@tanstack/react-virtual": "^3.14.26",
-    "graphql": "^16.15.0",
+    "graphql": "^17.1.0",
     "lucide-react": "^1.77.0",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",

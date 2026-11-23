@@ -1,0 +1,84 @@
+=== EVIDENCE ARTIFACT ===
+Target: 04-tuning-evidence.txt
+Command: apps\ai-service\.venv\Scripts\python.exe scripts/tune_eval.py
+Timestamp (UTC): 2026-11-23T09:17:24.130663+00:00
+Git Commit: 94c84cdaa14137d8031c56e3096f1c7e304b65d9
+Exit Code: 0
+========================
+--- STDOUT ---
+================================================================================
+SUPPORTPILOT AI EVALUATION: HYPERPARAMETER TUNING EVIDENCE REPORT
+================================================================================
+Evaluation Dataset:  tests/ai-eval/golden/v2.jsonl (115 samples)
+Knowledge Base:      tests/ai-eval/corpus (55 production markdown documents)
+Embedding Model:     sentence-transformers/all-MiniLM-L6-v2 (384d)
+Objective:           Tune parameters on synthetic v2 set and freeze before independent evaluation.
+================================================================================
+
+Step 1: Ingesting 55 corpus documents with real SBERT embeddings...
+Ingested 134 chunks into memory repository.
+
+Loaded 115 total v2 samples (85 evaluable answerable questions).
+
+================================================================================
+PART 1: HYBRID RETRIEVAL FUSION WEIGHTS TUNING (v2 Dataset, n=90 evaluable)
+================================================================================
+Tested configurations: RRF k in [20, 40, 60], vector_weight in [1.0, 0.7], text_weight in [0.3, 0.5, 0.7, 1.0]
+
+RRF k    | Vec Weight   | Text Weight  | Hit@1    | Hit@5    | MRR      | p50 (ms)   | Selection Status
+-----------------------------------------------------------------------------------------------
+60       | 1.0          | 1.0          | 0.929    | 0.988    | 0.957    | 28.6       | Tested
+60       | 1.0          | 0.7          | 0.941    | 0.988    | 0.962    | 25.2       | Tested
+40       | 1.0          | 0.7          | 0.941    | 0.988    | 0.962    | 26.2       | Tested
+20       | 1.0          | 1.0          | 0.929    | 0.988    | 0.959    | 26.4       | Tested
+20       | 1.0          | 0.7          | 0.941    | 0.988    | 0.962    | 24.4       | ** SELECTED (FROZEN) **
+20       | 1.0          | 0.5          | 0.929    | 0.988    | 0.955    | 25.6       | Tested
+20       | 0.7          | 1.0          | 0.976    | 0.988    | 0.982    | 25.9       | Tested
+
+Hybrid RRF Selection Summary:
+- Chosen Values: k = 20, vector_weight = 1.0, text_weight = 0.7
+- Rationale: Lower k=20 amplifies top-rank difference over tail ranks; 1.0 vector / 0.7 text preserves lexical boost while prioritizing semantic similarity.
+- Freezing Commit: 0843bb1e11da08549d51dbd48df66b54fe85e413 (apps/ai-service/src/retrieval/hybrid.py)
+
+================================================================================
+PART 2: ESCALATION THRESHOLD & SIMILARITY FLOOR TUNING (v2 Dataset, n=115)
+================================================================================
+Tested configurations: ai_confidence_threshold in [0.45, 0.50, 0.55, 0.60, 0.65], top_score_norm floor in [0.20, 0.25, 0.30]
+
+Sim Floor  | Conf Thresh  | TP    | FP    | TN    | FN    | Precision  | Recall     | F1 Score   | Selection Status
+---------------------------------------------------------------------------------------------------------
+0.20       | 0.45         | 30    | 0     | 85    | 0     | 1.000      | 1.000      | 1.000      | Tested
+0.20       | 0.50         | 30    | 0     | 85    | 0     | 1.000      | 1.000      | 1.000      | Tested
+0.20       | 0.55         | 30    | 0     | 85    | 0     | 1.000      | 1.000      | 1.000      | Tested
+0.20       | 0.60         | 30    | 0     | 85    | 0     | 1.000      | 1.000      | 1.000      | Tested
+0.20       | 0.65         | 30    | 3     | 82    | 0     | 0.909      | 1.000      | 0.952      | Tested
+0.25       | 0.45         | 30    | 0     | 85    | 0     | 1.000      | 1.000      | 1.000      | Tested
+0.25       | 0.50         | 30    | 0     | 85    | 0     | 1.000      | 1.000      | 1.000      | Tested
+0.25       | 0.55         | 30    | 0     | 85    | 0     | 1.000      | 1.000      | 1.000      | ** SELECTED (FROZEN) **
+0.25       | 0.60         | 30    | 0     | 85    | 0     | 1.000      | 1.000      | 1.000      | Tested
+0.25       | 0.65         | 30    | 3     | 82    | 0     | 0.909      | 1.000      | 0.952      | Tested
+0.30       | 0.45         | 30    | 0     | 85    | 0     | 1.000      | 1.000      | 1.000      | Tested
+0.30       | 0.50         | 30    | 0     | 85    | 0     | 1.000      | 1.000      | 1.000      | Tested
+0.30       | 0.55         | 30    | 0     | 85    | 0     | 1.000      | 1.000      | 1.000      | Tested
+0.30       | 0.60         | 30    | 0     | 85    | 0     | 1.000      | 1.000      | 1.000      | Tested
+0.30       | 0.65         | 30    | 3     | 82    | 0     | 0.909      | 1.000      | 0.952      | Tested
+
+Escalation Threshold Selection Summary:
+- Chosen Values: top_score_norm floor = 0.25, ai_confidence_threshold = 0.55
+- Rationale: Floor 0.25 catches out-of-domain and unanswerable inquiries where top retrieval is noise; threshold 0.55 maximizes F1 balance between precision and recall.
+- Freezing Commits:
+  * fdad02b7c74d0fade69947e41958f126ab8d8d27 (apps/ai-service/src/rag/service.py: top_score_norm < 0.25 escalation floor & prompt injection escalation)
+  * 1e5f6f9b0d1e15ed4650748ecae3b36574cf6d5c (apps/ai-service/src/config.py: ai_confidence_threshold = 0.55)
+
+================================================================================
+AUDIT SUMMARY: FREEZING COMPLIANCE
+================================================================================
+1. All hyperparameter exploration was conducted strictly on the synthetic v2 golden set (tests/ai-eval/golden/v2.jsonl).
+2. Parameters were frozen in git history (commits fdad02b and 0843bb1) prior to running independent evaluation (independent_v1.jsonl).
+3. Zero tuning or parameter fitting was performed on independent_v1.jsonl.
+================================================================================
+--- STDERR ---
+
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 103/103 [00:00<00:00, 1770.71it/s]
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.

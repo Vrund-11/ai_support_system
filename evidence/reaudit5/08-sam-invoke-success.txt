@@ -1,0 +1,50 @@
+=== EVIDENCE ARTIFACT ===
+Target: 08-sam-invoke-success.txt
+Command: python scripts/run-sam-webhook-test.py --mode success
+Timestamp (UTC): 2026-11-23T09:22:39.189387+00:00
+Git Commit: 94c84cdaa14137d8031c56e3096f1c7e304b65d9
+Exit Code: 0
+========================
+--- STDOUT ---
+=================================================================
+SAM LOCAL INVOKE: SUCCESSFUL DELIVERY WITH HMAC SIGNATURE
+=================================================================
+Local HTTP receiver listening on http://0.0.0.0:9999/webhook...
+Executing SAM command:
+C:\Program Files\Amazon\AWSSAMCLI\bin\sam.cmd local invoke WebhookFunction -e C:\Users\vrund\OneDrive\Desktop\ai_project\infra\sam\events\sqs-success.json -t C:\Users\vrund\OneDrive\Desktop\ai_project\infra\sam\.aws-sam\build\template.yaml -n C:\Users\vrund\OneDrive\Desktop\ai_project\infra\sam\env.json
+
+============================================================
+>>> LOCAL RECEIVER (PORT 9999) RECEIVED WEBHOOK DELIVERY
+============================================================
+Path: /webhook
+X-SupportPilot-Signature: sha256=49649f062be19c9aa124a5a0b13dfb2a6a8687730f2f4801fe44cb37644bde2e
+X-SupportPilot-Event:     ticket.created
+X-SupportPilot-Delivery:  evt_sam_test_101
+X-SupportPilot-Tenant-Id: tenant_sample_01
+Content-Type:             application/json
+Body:                     {"ticketId":"tkt_101","title":"SAM local test","status":"OPEN"}
+Returning: HTTP 200 OK
+============================================================
+
+--- STDOUT ---
+{"batchItemFailures": []}
+--- STDERR ---
+No current session found, using default AWS::AccountId
+Invoking handlers.webhook.handler (python3.12)
+Local image is up-to-date
+Using local image: public.ecr.aws/lambda/python:3.12-rapid-x86_64.
+
+Mounting C:\Users\vrund\OneDrive\Desktop\ai_project\infra\sam\.aws-sam\build\WebhookFunction as /var/task:ro,delegated, inside runtime container
+SAM_CONTAINER_ID: a38ea71ddcc4de861aadecdc33c9448fa6ad1e2b47f830f3802993624cb2fc1a
+START RequestId: fbdcbaae-1576-43d2-8263-95562ec748f6 Version: $LATEST
+END RequestId: fbdcbaae-1576-43d2-8263-95562ec748f6
+REPORT RequestId: fbdcbaae-1576-43d2-8263-95562ec748f6	Init Duration: 0.06 ms	Duration: 139.63 ms	Billed Duration: 140 ms	Memory Size: 256 MB	Max Memory Used: 256 MB	
+
+
+Invocation Exit Code: 0
+
+VERIFICATION: Webhook delivered successfully to local receiver.
+HMAC Signature header verified: sha256=49649f062be19c9aa124a5a0b13dfb2a6a8687730f2f4801fe44cb37644bde2e
+Event: ticket.created, Delivery ID: evt_sam_test_101
+--- STDERR ---
+

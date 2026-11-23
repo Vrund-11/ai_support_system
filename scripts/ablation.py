@@ -287,16 +287,17 @@ async def run_ablation(
         )
         analysis_points = [
             "### 1. Vector-Only vs. Hybrid Retrieval on Independent Questions",
-            "- **On the independent set (n=33 answerable)**: Dense vector-only retrieval achieved **Hit@5 of 0.939** (Hit@1 0.697, MRR 0.798) compared to Hybrid RRF's **0.818** (Hit@1 0.697, MRR 0.740).",
-            "- **Why Vector-Only Outperformed Hybrid**: Independent queries use colloquial, natural phrasing and synonyms that do not have verbatim lexical overlap with document headings or formal text. BM25 token matching retrieved loosely matched passages from unrelated documents, which diluted the top ranks when merged via reciprocal rank fusion.",
+            f"- **On the independent set (n={evaluable_cnt} answerable)**: Dense vector-only retrieval achieved the highest Hit@5 recall with **Hit@5 of {res_vec.hit_at_5:.3f}** (Hit@1 {res_vec.hit_at_1:.3f}, MRR {res_vec.mrr:.3f}). Hybrid RRF achieved the highest Hit@1 precision with **Hit@1 of {res_hybrid.hit_at_1:.3f}** (Hit@5 {res_hybrid.hit_at_5:.3f}, MRR {res_hybrid.mrr:.3f}).",
+            f"- **Key Takeaway**: Plainly stated: vector-only has the best Hit@5 ({res_vec.hit_at_5:.3f}); hybrid has the best Hit@1 ({res_hybrid.hit_at_1:.3f}); the reranker lowers results; n={evaluable_cnt}.",
+            "- **Why Vector-Only Outperformed Hybrid on Hit@5**: Independent queries use colloquial, natural phrasing and synonyms that do not have verbatim lexical overlap with document headings or formal text. BM25 token matching retrieved loosely matched passages from unrelated documents, which diluted the top ranks when merged via reciprocal rank fusion.",
             "",
             "### 2. Candidate Reranker Behavior",
-            "- The **Hybrid + Reranker** configuration yielded **Hit@1 of 0.545** and **MRR of 0.641**, lower than vector-only (Hit@1 0.697, MRR 0.798).",
+            f"- The **Hybrid + Reranker** configuration yielded **Hit@1 of {res_rerank.hit_at_1:.3f}**, **Hit@5 of {res_rerank.hit_at_5:.3f}**, and **MRR of {res_rerank.mrr:.3f}**, performing lower than Hybrid RRF (Hit@1 {res_hybrid.hit_at_1:.3f}, Hit@5 {res_hybrid.hit_at_5:.3f}, MRR {res_hybrid.mrr:.3f}) and vector-only (Hit@5 {res_vec.hit_at_5:.3f}). The reranker lowers results.",
             "- **Reason**: The heuristic candidate reranker prioritizes heading and exact phrase matches. When independent queries lack verbatim phrases, the reranker penalizes genuinely relevant semantic passages in favor of incidental lexical matches.",
             "",
             "### 3. BM25 and Mock Baseline",
-            "- **BM25 Alone**: Hit@1 0.424, Hit@5 0.727, MRR 0.526. Shows substantial recall degradation when queries do not reuse exact product terminology.",
-            "- **Mock Baseline**: Hit@1 0.091, Hit@5 0.455, MRR 0.228. Demonstrates that simulated SHA-256 pseudo-vectors fail completely at semantic retrieval, underscoring the necessity of real dense embeddings.",
+            f"- **BM25 Alone**: Hit@1 {res_bm25.hit_at_1:.3f}, Hit@5 {res_bm25.hit_at_5:.3f}, MRR {res_bm25.mrr:.3f}. Shows substantial recall degradation when queries do not reuse exact product terminology.",
+            f"- **Mock Baseline**: Hit@1 {res_mock.hit_at_1:.3f}, Hit@5 {res_mock.hit_at_5:.3f}, MRR {res_mock.mrr:.3f}. Demonstrates that simulated SHA-256 pseudo-vectors fail completely at semantic retrieval, underscoring the necessity of real dense embeddings.",
         ]
     else:
         exec_summary = (
@@ -306,13 +307,13 @@ async def run_ablation(
         )
         analysis_points = [
             "### 1. Hybrid RRF Performance",
-            "- **Hybrid RRF**: Combines dense semantic vector search with lexical BM25 matching, capturing both conceptual inquiries and exact keyword identifiers.",
+            f"- **Hybrid RRF**: Hit@1 {res_hybrid.hit_at_1:.3f}, Hit@5 {res_hybrid.hit_at_5:.3f}, MRR {res_hybrid.mrr:.3f}. Combines dense semantic vector search with lexical BM25 matching, capturing both conceptual inquiries and exact keyword identifiers.",
             "",
             "### 2. Impact of Candidate Reranking",
-            "- On synthetic and paraphrased sets matching corpus terminology, candidate reranking provides precision lift by prioritizing exact section headings.",
+            f"- **Hybrid + Reranker**: Hit@1 {res_rerank.hit_at_1:.3f}, Hit@5 {res_rerank.hit_at_5:.3f}, MRR {res_rerank.mrr:.3f}. On synthetic and paraphrased sets matching corpus terminology, candidate reranking provides precision lift by prioritizing exact section headings.",
             "",
             "### 3. Mock Baseline Invalidation",
-            "- The mock baseline confirms that hash pseudo-vectors provide zero semantic grounding.",
+            f"- **Mock Baseline**: Hit@1 {res_mock.hit_at_1:.3f}, Hit@5 {res_mock.hit_at_5:.3f}, MRR {res_mock.mrr:.3f}. Confirms that hash pseudo-vectors provide zero semantic grounding.",
         ]
 
     md_lines = [

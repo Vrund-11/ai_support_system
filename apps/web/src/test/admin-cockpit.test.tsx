@@ -167,9 +167,9 @@ describe('AdminCockpitView Component', () => {
     // KPI Cards
     await waitFor(() => {
       expect(screen.getByText('Total Tenants')).toBeInTheDocument();
+      expect(screen.getByText('11 Active')).toBeInTheDocument();
+      expect(screen.getByText('1 Suspended')).toBeInTheDocument();
     });
-    expect(screen.getByText('11 Active')).toBeInTheDocument();
-    expect(screen.getByText('1 Suspended')).toBeInTheDocument();
 
     expect(screen.getByText('Total Platform Users')).toBeInTheDocument();
     expect(screen.getByText('84')).toBeInTheDocument();

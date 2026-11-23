@@ -36,6 +36,18 @@ async def reembed_chunks(
 
     try:
         conn = await psycopg.AsyncConnection.connect(db_url)
+    except psycopg.OperationalError as exc:
+        if ":5432" in db_url:
+            alt_url = db_url.replace(":5432", ":5433")
+            try:
+                conn = await psycopg.AsyncConnection.connect(alt_url)
+                print(f"Port 5432 unavailable due to local service; successfully connected to pgvector on port 5433.")
+            except Exception:
+                print(f"Failed to connect to database: {exc}")
+                return {"success": False, "error": str(exc), "chunks_reembedded": 0}
+        else:
+            print(f"Failed to connect to database: {exc}")
+            return {"success": False, "error": str(exc), "chunks_reembedded": 0}
     except Exception as exc:
         print(f"Failed to connect to database: {exc}")
         return {"success": False, "error": str(exc), "chunks_reembedded": 0}
@@ -49,12 +61,16 @@ async def reembed_chunks(
 
     async with conn:
         async with conn.cursor() as cur:
-            # Check for pgvector extension
+            # Verify pgvector column
             await cur.execute(
                 "SELECT udt_name FROM information_schema.columns WHERE table_name = 'kb_chunks' AND column_name = 'embedding';"
             )
             col = await cur.fetchone()
-            is_vector_udt = bool(col and col[0] == "vector")
+            if not col or col[0] != "vector":
+                raise RuntimeError(
+                    f"kb_chunks.embedding column is {col[0] if col else 'missing'}, expected 'vector'. "
+                    "Run schema migration before re-embedding."
+                )
 
             query = "SELECT id, content, metadata FROM kb_chunks"
             params: list = []
@@ -97,34 +113,22 @@ async def reembed_chunks(
                 for cid, emb, meta in zip(chunk_ids, embeddings, metas):
                     meta["embedding_model"] = MODEL_NAME
                     meta_json = json.dumps(meta)
-
-                    if is_vector_udt:
-                        emb_str = f"[{','.join(str(x) for x in emb)}]"
-                        await cur.execute(
-                            """
-                            UPDATE kb_chunks
-                            SET embedding = %s::vector,
-                                metadata = %s::jsonb
-                            WHERE id = %s;
-                            """,
-                            (emb_str, meta_json, cid),
-                        )
-                    else:
-                        await cur.execute(
-                            """
-                            UPDATE kb_chunks
-                            SET embedding = %s,
-                                metadata = %s::jsonb
-                            WHERE id = %s;
-                            """,
-                            (emb, meta_json, cid),
-                        )
+                    emb_str = f"[{','.join(str(x) for x in emb)}]"
+                    await cur.execute(
+                        """
+                        UPDATE kb_chunks
+                        SET embedding = %s::vector,
+                            metadata = %s::jsonb
+                        WHERE id = %s;
+                        """,
+                        (emb_str, meta_json, cid),
+                    )
                     total_updated += 1
 
                 await conn.commit()
                 print(f"Processed batch {i // batch_size + 1} / {(total_chunks + batch_size - 1) // batch_size} ({total_updated}/{total_chunks})")
 
-            if reindex and is_vector_udt:
+            if reindex:
                 print("Rebuilding HNSW vector index: idx_kb_chunks_embedding...")
                 try:
                     await cur.execute("REINDEX INDEX idx_kb_chunks_embedding;")

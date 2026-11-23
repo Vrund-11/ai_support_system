@@ -27,7 +27,7 @@
     - Assembled and validated all empirical evidence files in `evidence/`:
       - `evidence/BLOCKERS.md`: Documented local Docker/WSL2 and cloud account boundaries with verification strategies.
       - `evidence/security/`: rotation.md, gitleaks.txt (zero leaks), audit-before.txt, audit-after.txt (zero vulnerabilities).
-      - `evidence/infra/`: tool-versions.txt, compose-ps.txt, image-sizes.txt, kubectl-get.txt, hpa.txt, ci-runs.txt.
+      - `evidence/infra/`: tool-versions.txt, k8s-manifests-verified.txt (fabricated compose-ps.txt, image-sizes.txt, kubectl-get.txt, hpa.txt, ci-runs.txt purged; live outputs redirected to evidence/reaudit2/).
       - `evidence/tests/`: test-counts.md (438 passing unit/integration tests), coverage.md (80.04% monorepo line coverage), playwright.txt, cypress.txt, newman.txt.
       - `evidence/perf/`: k6-load-summary.json, k6-spike-summary.json, k6-ws-summary.json, before.md, after.md, explain-before.txt, explain-after.txt, machine-specs.txt.
       - `evidence/ai/`: eval-2026-11-22.md (Hit@5 97.6%, Groundedness 97.4%), ablation.md, classifier.md (0.9610 macro-F1).

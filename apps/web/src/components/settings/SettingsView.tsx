@@ -466,18 +466,22 @@ export function SettingsView() {
                 </span>
                 <div className="flex flex-wrap items-center gap-2.5">
                   <h3 className="text-lg font-bold text-slate-900 dark:text-zinc-100">
-                    {(subscription?.plan || 'FREE') === 'PRO'
-                      ? 'SupportPilot PRO'
-                      : 'SupportPilot FREE'}
+                    {(subscription?.plan || (subscription as any)?.tier || 'FREE') === 'ENTERPRISE'
+                      ? 'Enterprise SupportPilot'
+                      : (subscription?.plan || (subscription as any)?.tier || 'FREE') === 'PRO'
+                        ? 'SupportPilot PRO'
+                        : 'SupportPilot FREE'}
                   </h3>
                   <span
                     className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold ${
-                      (subscription?.plan || 'FREE') === 'PRO'
-                        ? 'bg-indigo-600 text-white shadow-xs'
-                        : 'bg-slate-100 dark:bg-zinc-800 text-slate-600 dark:text-zinc-400 border border-slate-200 dark:border-zinc-700'
+                      (subscription?.plan || (subscription as any)?.tier || 'FREE') === 'ENTERPRISE'
+                        ? 'bg-purple-600 text-white shadow-xs'
+                        : (subscription?.plan || (subscription as any)?.tier || 'FREE') === 'PRO'
+                          ? 'bg-indigo-600 text-white shadow-xs'
+                          : 'bg-slate-100 dark:bg-zinc-800 text-slate-600 dark:text-zinc-400 border border-slate-200 dark:border-zinc-700'
                     }`}
                   >
-                    {subscription?.plan || 'FREE'}
+                    {subscription?.plan || (subscription as any)?.tier || 'FREE'}
                   </span>
                   <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-100 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 dark:bg-emerald-400 animate-pulse" />
@@ -485,13 +489,15 @@ export function SettingsView() {
                   </span>
                 </div>
                 <p className="text-xs text-slate-500 dark:text-zinc-400">
-                  {(subscription?.plan || 'FREE') === 'PRO'
-                    ? 'Pro professional tier with 10,000 messages/month, 1,000 AI answers, and priority 15-minute SLA.'
-                    : 'Free starter tier with basic quotas. Upgrade anytime to unlock higher throughput and copilot answers.'}
+                  {(subscription?.plan || (subscription as any)?.tier || 'FREE') === 'ENTERPRISE'
+                    ? 'Enterprise tier with 50,000 messages/month, 5,000 AI answers, and dedicated support.'
+                    : (subscription?.plan || (subscription as any)?.tier || 'FREE') === 'PRO'
+                      ? 'Pro professional tier with 10,000 messages/month, 1,000 AI answers, and priority 15-minute SLA.'
+                      : 'Free starter tier with basic quotas. Upgrade anytime to unlock higher throughput and copilot answers.'}
                 </p>
               </div>
 
-              {(subscription?.plan || 'FREE') === 'FREE' ? (
+              {(subscription?.plan || (subscription as any)?.tier || 'FREE') === 'FREE' ? (
                 <button
                   type="button"
                   onClick={() => setIsUpgradeModalOpen(true)}
@@ -504,7 +510,12 @@ export function SettingsView() {
                 <div className="flex flex-wrap items-center gap-3 shrink-0 self-start sm:self-center">
                   <div className="inline-flex items-center gap-1.5 text-emerald-700 dark:text-emerald-400 font-semibold text-xs">
                     <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
-                    <span>Active Pro Subscription</span>
+                    <span>
+                      {(subscription?.plan || (subscription as any)?.tier || 'FREE') ===
+                      'ENTERPRISE'
+                        ? 'Active Enterprise Subscription'
+                        : 'Active Pro Subscription'}
+                    </span>
                   </div>
                   <button
                     type="button"

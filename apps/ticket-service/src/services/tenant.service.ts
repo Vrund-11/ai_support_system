@@ -4,6 +4,7 @@ import { AppError } from '@supportpilot/shared-lib';
 import type { RegisterTenantInput } from '@supportpilot/validators';
 import { Tenant, type ITenantDocument } from '../models/tenant.model.js';
 import { User } from '../models/user.model.js';
+import { generateTokens, type TokenPair } from './auth.service.js';
 
 export interface RegisterTenantResult {
   tenant: {
@@ -24,6 +25,9 @@ export interface RegisterTenantResult {
     status: string;
     createdAt: Date;
   };
+  tokens?: TokenPair;
+  accessToken?: string;
+  refreshToken?: string;
 }
 
 export function slugify(name: string): string {
@@ -103,6 +107,8 @@ export async function registerTenant(input: RegisterTenantInput): Promise<Regist
     throw err;
   }
 
+  const tokens = await generateTokens(user);
+
   return {
     tenant: {
       id: tenant._id.toString(),
@@ -122,5 +128,8 @@ export async function registerTenant(input: RegisterTenantInput): Promise<Regist
       status: user.status,
       createdAt: user.createdAt,
     },
+    tokens,
+    accessToken: tokens.accessToken,
+    refreshToken: tokens.refreshToken,
   };
 }

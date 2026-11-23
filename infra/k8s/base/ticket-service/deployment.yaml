@@ -18,6 +18,7 @@ spec:
       securityContext:
         runAsNonRoot: true
         runAsUser: 1000
+      enableServiceLinks: false
       containers:
         - name: ticket-service
           image: supportpilot/ticket-service:latest

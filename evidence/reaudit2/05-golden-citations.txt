@@ -1,0 +1,60 @@
+=== EVIDENCE ARTIFACT ===
+Target: 05-golden-citations
+Command: python scripts/verify_golden_citations.py
+Timestamp (UTC): 2026-11-22T16:16:22.761348+00:00
+Git Commit: fdad02b7c74d0fade69947e41958f126ab8d8d27
+Exit Code: 0
+========================
+--- STDOUT ---
+{
+  "golden_citations_verified": true,
+  "samples": [
+    {
+      "id": "eval_auth_001",
+      "question": "How do I configure Single Sign-On via SAML in SupportPilot?",
+      "answer_preview": "According to our official documentation: # Single Sign-On Configuration with SAML 2.0",
+      "citation_count": 1,
+      "citations": [
+        {
+          "chunk_id": "84815dc2-e908-46d8-a8f9-50672dae04ee",
+          "doc_id": "doc-kb-001",
+          "title": "SupportPilot Knowledge Base"
+        }
+      ],
+      "confidence": 0.888,
+      "should_escalate": false
+    },
+    {
+      "id": "eval_auth_004",
+      "question": "Where do I find the ACS URL and Entity ID for Okta setup?",
+      "answer_preview": "According to our official documentation: ## Supported Providers",
+      "citation_count": 1,
+      "citations": [
+        {
+          "chunk_id": "10e36c57-7474-4cf9-811a-608438c6e238",
+          "doc_id": "doc-kb-001",
+          "title": "SupportPilot Knowledge Base"
+        }
+      ],
+      "confidence": 0.687,
+      "should_escalate": false
+    },
+    {
+      "id": "eval_auth_011",
+      "question": "How many failed login attempts lock a user account?",
+      "answer_preview": "According to our official documentation: ## Lockout Thresholds",
+      "citation_count": 1,
+      "citations": [
+        {
+          "chunk_id": "ce2175c9-ac66-4572-9d6f-1fb16294f14d",
+          "doc_id": "doc-kb-001",
+          "title": "SupportPilot Knowledge Base"
+        }
+      ],
+      "confidence": 0.876,
+      "should_escalate": false
+    }
+  ]
+}
+--- STDERR ---
+

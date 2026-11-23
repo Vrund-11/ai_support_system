@@ -1,0 +1,50 @@
+=== EVIDENCE ARTIFACT ===
+Target: 05-independent-eval-results.txt
+Command: apps\ai-service\.venv\Scripts\python.exe tests/ai-eval/run.py --dataset tests/ai-eval/golden/independent_v1.jsonl --no-gate --out evidence/reaudit4/independent-eval-report.md --judge-samples 30
+Timestamp (UTC): 2026-11-23T05:02:21.311681+00:00
+Git Commit: f5cd9d7b09450f54517fd3321ca6e7bbe64635d2
+Exit Code: 0
+========================
+--- STDOUT ---
+Connected to PostgreSQL pgvector repository.
+Executing evaluation across 60 samples...
+
+==================================================
+EVALUATION RESULTS
+==================================================
+Embedding Provider:  sbert
+LLM Provider:        mock
+Total Samples:       60
+Hit@1:               0.697
+Hit@5:               0.939
+MRR:                 0.793
+Lexical overlap (mock generator): 0.967
+Escalation Recall:   0.519
+Escalation Precision:0.824
+Escalation F1:       0.637
+p50 Latency:         92.3 ms
+p95 Latency:         130.9 ms
+Tokens/Answer:       26.7
+Regression Gate:     FAILED
+Missed Targets:      Hit@1 (0.697 < 0.700), Escalation Recall (0.519 < 0.800), Escalation F1 (0.637 < 0.800)
+==================================================
+Report written to C:\Users\vrund\OneDrive\Desktop\ai_project\evidence\reaudit4\independent-eval-report.md
+--- STDERR ---
+
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 103/103 [00:00<00:00, 2268.67it/s]
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+LLM-judge request failed with status 429: {
+  "error": {
+    "code": 429,
+    "message": "You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://aistudio.google.com/do. Gracefully proceeding.
+LLM-judge request failed with status 429: {
+  "error": {
+    "code": 429,
+    "message": "You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://aistudio.google.com/do. Gracefully proceeding.
+LLM-judge request failed with status 429: {
+  "error": {
+    "code": 429,
+    "message": "You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://aistudio.google.com/do. Gracefully proceeding.
+Prompt injection attempt detected for tenant 'tenant_eval_01'
+REGRESSION GATE FAILED: Hit@1 (0.697 < 0.700), Escalation Recall (0.519 < 0.800), Escalation F1 (0.637 < 0.800)

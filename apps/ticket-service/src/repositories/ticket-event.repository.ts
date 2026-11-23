@@ -39,6 +39,9 @@ export class TicketEventRepository extends BaseTenantRepository<ITicketEventDocu
 
   /** Get full chronological activity timeline for a ticket */
   async getTimelineForTicket(ticketId: string | Types.ObjectId): Promise<ITicketEventDocument[]> {
+    if (typeof ticketId === 'string' && !Types.ObjectId.isValid(ticketId)) {
+      return [];
+    }
     const objectId = typeof ticketId === 'string' ? new Types.ObjectId(ticketId) : ticketId;
     return this.model
       .find(this.scopeFilter({ ticketId: objectId } as TenantQueryFilter<ITicketEventDocument>))

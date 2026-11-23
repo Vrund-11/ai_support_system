@@ -88,11 +88,14 @@ export function createApp(config: GatewayConfig = {}): Express {
   app.use(createAuthPassthrough(jwtAccessSecret));
 
   // ── Rate Limiters (AUTH-5) ──
-  // Login: 5 requests per 15 minutes per IP
+  // Login: 5 requests per 15 minutes per IP (relaxed in development to support testing)
+  const loginMax =
+    Number(process.env['RATE_LIMIT_LOGIN_MAX']) ||
+    (process.env['NODE_ENV'] === 'development' ? 1000 : 5);
   const loginLimiter = createRateLimiter(
     {
       windowMs: 15 * 60 * 1000,
-      max: 5,
+      max: loginMax,
       prefix: 'rl:login',
     },
     config.redisClient,

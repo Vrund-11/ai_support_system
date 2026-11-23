@@ -16,7 +16,9 @@ ENV PATH="/opt/venv/bin:$PATH"
 
 COPY apps/ai-service/requirements.txt ./
 RUN pip install --no-cache-dir --upgrade pip && \
-    pip install --no-cache-dir -r requirements.txt
+    pip install --no-cache-dir torch --index-url https://download.pytorch.org/whl/cpu && \
+    pip install --no-cache-dir --extra-index-url https://download.pytorch.org/whl/cpu -r requirements.txt && \
+    find /opt/venv -type d -name "__pycache__" -exec rm -rf {} + 2>/dev/null || true
 
 # ── Stage 2: Production Runner ──
 FROM python:3.12-slim AS runner

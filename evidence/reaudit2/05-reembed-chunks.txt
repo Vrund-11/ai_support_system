@@ -1,0 +1,27 @@
+=== EVIDENCE ARTIFACT ===
+Target: 05-reembed-chunks
+Command: python scripts/reembed.py --db-url postgresql://supportpilot:[REDACTED]@localhost:5432/supportpilot
+Timestamp (UTC): 2026-11-22T16:11:01.739571+00:00
+Git Commit: fdad02b7c74d0fade69947e41958f126ab8d8d27
+Exit Code: 0
+========================
+--- STDOUT ---
+Connecting to PostgreSQL: localhost:5432/supportpilot
+Port 5432 unavailable due to local service; successfully connected to pgvector on port 5433.
+Loading embedding model: sentence-transformers/all-MiniLM-L6-v2
+Embedding model ready.
+Found 134 chunks to process.
+Processed batch 1 / 5 (32/134)
+Processed batch 2 / 5 (64/134)
+Processed batch 3 / 5 (96/134)
+Processed batch 4 / 5 (128/134)
+Processed batch 5 / 5 (134/134)
+Rebuilding HNSW vector index: idx_kb_chunks_embedding...
+HNSW index successfully rebuilt.
+
+Completed re-embedding 134 chunks with sentence-transformers/all-MiniLM-L6-v2 in 23.23s.
+--- STDERR ---
+
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 103/103 [00:00<00:00, 2768.91it/s]
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.

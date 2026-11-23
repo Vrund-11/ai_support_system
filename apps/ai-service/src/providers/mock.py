@@ -5,8 +5,6 @@ unit-normalized 384-dimensional embeddings without paid API calls.
 """
 
 import asyncio
-import hashlib
-import math
 import re
 from collections.abc import AsyncIterator
 from typing import TypeVar
@@ -156,7 +154,8 @@ class MockLLMProvider(LLMProvider):
             )
 
             chunk_matches = re.findall(
-                r"\[chunk:([^\]]+)\](?:\s*\([^)]*\))?\s*([^\n\[]+)", user_prompt
+                r"\[chunk:([^\]]+)\](?:\s*\(doc:\s*([^,\)]+)(?:,\s*section:\s*([^,\)]*))?\))?",
+                user_prompt,
             )
 
             if self.custom_citations is not None:
@@ -164,13 +163,32 @@ class MockLLMProvider(LLMProvider):
             elif should_escalate or "(No relevant knowledge chunks found)" in user_prompt:
                 citations = []
             elif chunk_matches:
-                citations = [
-                    CitationItem(
-                        chunk_id=chunk_matches[0][0],
-                        doc_id="doc-kb-001",
-                        title="SupportPilot Knowledge Base",
+                citations = []
+                for m in chunk_matches[:3]:
+                    cid = m[0].strip()
+                    doc_part = m[1].strip() if len(m) > 1 and m[1] else ""
+                    sec_part = m[2].strip() if len(m) > 2 and m[2] else ""
+
+                    resolved_doc = doc_part or (
+                        cid.rsplit("_", 1)[0] if "_" in cid else f"doc_{cid}"
                     )
-                ]
+                    cleaned_doc_title = (
+                        doc_part.removeprefix("doc_").replace("_", " ").title()
+                        if doc_part
+                        else ""
+                    )
+                    resolved_title = (
+                        sec_part
+                        or cleaned_doc_title
+                        or resolved_doc.replace("_", " ").title()
+                    )
+                    citations.append(
+                        CitationItem(
+                            chunk_id=cid,
+                            doc_id=resolved_doc,
+                            title=resolved_title,
+                        )
+                    )
             else:
                 citations = [
                     CitationItem(
@@ -192,7 +210,12 @@ class MockLLMProvider(LLMProvider):
                     "A specialist will assist you with full account details shortly."
                 )
             elif chunk_matches:
-                chunk_snippet = chunk_matches[0][1].strip()[:180]
+                text_match = re.search(r"\[chunk:[^\]]+\](?:\([^\)]*\))?\s*([^\n\r]+)", user_prompt)
+                chunk_snippet = (
+                    text_match.group(1).strip()[:200]
+                    if text_match
+                    else chunk_matches[0][0]
+                )
                 answer_text = f"According to our official documentation: {chunk_snippet}"
             else:
                 answer_text = (
@@ -221,36 +244,10 @@ class MockLLMProvider(LLMProvider):
         return schema.model_validate(dummy_data)
 
     async def get_embeddings(self, texts: list[str]) -> list[list[float]]:
-        """Generate deterministic 384-dimensional unit-normalized embeddings.
+        """Delegate embeddings to configured embedding provider."""
+        from src.embeddings import get_embedding_provider
 
-        Embeddings are derived from MD5/SHA256 hashes of the text content so
-        identical strings always produce identical vectors, and similar strings
-        yield correlated vectors. Vectors are strictly normalized to length 1.0.
-        """
-        results: list[list[float]] = []
-        for text in texts:
-            # Deterministic seed from text
-            text_bytes = text.strip().lower().encode("utf-8")
-            hash_digest = hashlib.sha256(text_bytes).digest()
-
-            # Generate `embedding_dim` pseudo-random floats in [-1.0, 1.0]
-            raw_floats: list[float] = []
-            for i in range(self.embedding_dim):
-                byte_val = hash_digest[i % len(hash_digest)]
-                # Add index variation
-                val = math.sin((byte_val + i * 31) / 256.0 * math.pi)
-                raw_floats.append(val)
-
-            # Normalize to unit length (L2 norm = 1.0)
-            norm = math.sqrt(sum(x * x for x in raw_floats))
-            if norm > 0:
-                normalized = [round(x / norm, 6) for x in raw_floats]
-            else:
-                normalized = [0.0] * self.embedding_dim
-
-            results.append(normalized)
-
-        return results
+        return await get_embedding_provider().aembed(texts)
 
     async def stream_generate(
         self,

@@ -1,0 +1,29 @@
+=== EVIDENCE ARTIFACT ===
+Target: 05-independent-ablation-results.txt
+Command: apps\ai-service\.venv\Scripts\python.exe scripts/ablation.py --dataset tests/ai-eval/golden/independent_v1.jsonl --out evidence/reaudit4/independent-ablation.md
+Timestamp (UTC): 2026-11-23T04:58:21.130372+00:00
+Git Commit: f5cd9d7b09450f54517fd3321ca6e7bbe64635d2
+Exit Code: 0
+========================
+--- STDOUT ---
+Loading evaluation dataset: tests\ai-eval\golden\independent_v1.jsonl
+Loaded 60 total samples (33 evaluable non-escalated questions).
+Ingesting corpus with SbertProvider (all-MiniLM-L6-v2)...
+Ingesting corpus with MockProvider (deterministic hash pseudo-vectors)...
+
+Running ablation evaluations across 5 modes...
+Evaluating Mode 1: BM25 / Full-text Only...
+Evaluating Mode 2: Vector Only (all-MiniLM-L6-v2)...
+Evaluating Mode 3: Hybrid (RRF k=60)...
+Evaluating Mode 4: Hybrid + Candidate Rerank...
+Evaluating Mode 5: Mock Baseline...
+
+Ablation benchmark complete. Report saved to: C:\Users\vrund\OneDrive\Desktop\ai_project\evidence\reaudit4\independent-ablation.md
+--- STDERR ---
+
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 103/103 [00:00<00:00, 2061.86it/s]
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 103/103 [00:00<00:00, 2184.27it/s]

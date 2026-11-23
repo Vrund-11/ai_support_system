@@ -21,6 +21,7 @@ COPY packages/shared-lib/package.json ./packages/shared-lib/
 COPY packages/validators/package.json ./packages/validators/
 COPY packages/eslint-config/package.json ./packages/eslint-config/
 COPY packages/api-client/package.json ./packages/api-client/
+COPY packages/queue/package.json ./packages/queue/
 
 RUN pnpm install --frozen-lockfile
 

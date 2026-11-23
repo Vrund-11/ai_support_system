@@ -103,6 +103,9 @@ export class MessageRepository extends BaseTenantRepository<IMessageDocument> {
     ticketId: string | Types.ObjectId,
     options: { includeInternal?: boolean } = {},
   ): Promise<IMessageDocument[]> {
+    if (typeof ticketId === 'string' && !Types.ObjectId.isValid(ticketId)) {
+      return [];
+    }
     const objectId = typeof ticketId === 'string' ? new Types.ObjectId(ticketId) : ticketId;
     const filter: Record<string, unknown> = { ticketId: objectId };
 

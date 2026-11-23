@@ -31,9 +31,14 @@ from src.classifier import (
     get_classifier_service,
 )
 from src.config import settings
+from src.embeddings import get_embedding_provider
 from src.eval.runner import EvalRunner
 from src.ingest.pipeline import IngestionPipeline
-from src.ingest.repository import get_ingest_repository
+from src.ingest.repository import (
+    PostgresIngestRepository,
+    get_ingest_repository,
+    set_ingest_repository,
+)
 from src.lib.db import check_db_connection
 from src.lib.redis import check_redis_connection
 from src.providers.factory import get_llm_provider
@@ -62,6 +67,17 @@ def verify_production_guards() -> None:
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     verify_production_guards()
+    if settings.database_url:
+        try:
+            repo = PostgresIngestRepository(dsn=settings.database_url)
+            await repo.init_schema()
+            set_ingest_repository(repo)
+        except Exception as exc:
+            if settings.environment in ("production", "prod"):
+                raise RuntimeError(f"Database initialization failed in production: {exc}") from exc
+            import logging
+
+            logging.getLogger(__name__).warning("PostgreSQL init_schema skipped: %s", exc)
     yield
 
 
@@ -153,10 +169,20 @@ async def metrics() -> str:
 # ── Provider Info ──
 @app.get("/v1/provider")
 async def provider_info() -> dict[str, Any]:
-    provider = get_llm_provider()
+    env_str = settings.environment.lower().strip()
+    emb_prov = settings.embedding_provider.lower().strip()
+    if env_str in ("production", "prod") and emb_prov == "mock":
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Mock embedding provider is strictly prohibited in production environment.",
+        )
+    emb_provider = get_embedding_provider()
+    provider_name = getattr(emb_provider, "name", emb_prov)
     return {
-        "name": provider.name,
-        "configured_provider": settings.llm_provider,
+        "name": provider_name,
+        "provider": provider_name,
+        "embedding_provider": provider_name,
+        "configured_provider": settings.embedding_provider,
         "embedding_model": settings.embedding_model,
         "embedding_dim": settings.embedding_dim,
         "confidence_threshold": settings.ai_confidence_threshold,
@@ -205,14 +231,14 @@ async def test_answer(req: GenerateTestRequest) -> RagAnswer:
 
 @app.post("/v1/test/embed")
 async def test_embed(req: EmbedTestRequest) -> dict[str, Any]:
-    provider = get_llm_provider()
+    provider = get_embedding_provider()
     try:
-        embeddings = await provider.get_embeddings(req.texts)
+        embeddings = await provider.aembed(req.texts)
         return {
             "embeddings": embeddings,
             "count": len(embeddings),
             "dimensions": len(embeddings[0]) if embeddings else 0,
-            "provider": provider.name,
+            "provider": getattr(provider, "name", "sbert"),
         }
     except Exception as exc:
         raise HTTPException(status_code=500, detail=str(exc)) from exc

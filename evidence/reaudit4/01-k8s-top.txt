@@ -1,0 +1,20 @@
+=== EVIDENCE ARTIFACT ===
+Target: 01-k8s-top.txt
+Command: kubectl top pods -n supportpilot
+Timestamp (UTC): 2026-11-23T04:54:58.008126+00:00
+Git Commit: f5cd9d7b09450f54517fd3321ca6e7bbe64635d2
+Exit Code: 0
+========================
+--- STDOUT ---
+NAME                                    CPU(cores)   MEMORY(bytes)   
+ai-service-6b7b46ffc-8kzpv              3m           82Mi            
+gateway-96f99db66-862lx                 1m           42Mi            
+gateway-96f99db66-p6p4x                 1m           36Mi            
+mongo-6df6d96cfc-hl9qg                  6m           107Mi           
+notification-service-7f7bc74864-prvz2   5m           74Mi            
+postgres-57f77999d-lcrlq                2m           31Mi            
+redis-6544c694d6-gbwx8                  5m           8Mi             
+ticket-service-58f8749d79-tw7lm         4m           47Mi            
+web-88f7f5bd6-wnhsh                     1m           15Mi
+--- STDERR ---
+

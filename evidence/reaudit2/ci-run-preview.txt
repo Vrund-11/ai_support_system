@@ -1,0 +1,11 @@
+=== EVIDENCE ARTIFACT ===
+Target: ci-run-preview.txt
+Command: gh run list --limit 1 --json databaseId,status,conclusion,url,displayTitle
+Timestamp (UTC): 2026-11-22T17:27:54.086254+00:00
+Git Commit: fdad02b7c74d0fade69947e41958f126ab8d8d27
+Exit Code: 0
+========================
+--- STDOUT ---
+[{"conclusion":"success","databaseId":45031564753,"displayTitle":"docker in /apps/ticket-service - Update #1721492854","status":"completed","url":"https://github.com/Vrund-11/ai_support_system/actions/runs/45031564753"}]
+--- STDERR ---
+

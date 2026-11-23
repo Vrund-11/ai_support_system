@@ -18,6 +18,7 @@ import { RuleRepository } from '../repositories/rule.repository.js';
 import { Ticket } from '../models/ticket.model.js';
 import { AssignmentService } from '../services/assignment.service.js';
 import { validateStatusTransition } from '../lib/transitions.js';
+import { isDbConnected } from '../lib/mongoose.js';
 
 export const ticketRouter: Router = Router();
 
@@ -79,18 +80,25 @@ ticketRouter.get('/public/track', async (req: Request, res: Response, next: Next
       throw new AppError(400, 'ticketNumber must be a valid number', '/errors/validation');
     }
 
-    const ticket = await Ticket.findOne({ number: num });
-    if (!ticket) {
-      throw new AppError(404, 'Ticket not found', '/errors/not-found');
+    const emailStr = String(email).trim().toLowerCase();
+    const { Customer } = await import('../models/customer.model.js');
+    const customers = await Customer.find({ email: emailStr });
+    const customerIds = customers.map((c) => c._id);
+
+    const ticketQuery: Record<string, unknown> = {
+      number: num,
+      customerId: { $in: customerIds },
+    };
+    if (
+      req.query['tenantId'] &&
+      typeof req.query['tenantId'] === 'string' &&
+      Types.ObjectId.isValid(req.query['tenantId'])
+    ) {
+      ticketQuery['tenantId'] = new Types.ObjectId(req.query['tenantId']);
     }
 
-    const { CustomerRepository } = await import('../repositories/customer.repository.js');
-    const customerRepo = new CustomerRepository(ticket.tenantId);
-    const customer = ticket.customerId
-      ? await customerRepo.findById(ticket.customerId.toString())
-      : null;
-
-    if (!customer || customer.email.toLowerCase() !== String(email).trim().toLowerCase()) {
+    const ticket = await Ticket.findOne(ticketQuery);
+    if (!ticket) {
       throw new AppError(404, 'Ticket not found for provided email', '/errors/not-found');
     }
 
@@ -182,6 +190,22 @@ ticketRouter.get('/', async (req: Request, res: Response, next: NextFunction) =>
 // POST /api/v1/tickets — create ticket
 ticketRouter.post('/', async (req: Request, res: Response, next: NextFunction) => {
   try {
+    if (!req.body.customerId) {
+      if (!isDbConnected()) {
+        req.body.customerId = new Types.ObjectId().toString();
+      } else {
+        const email = req.body.customerEmail || req.body.email || `customer-${Date.now()}@acme.com`;
+        const { CustomerRepository } = await import('../repositories/customer.repository.js');
+        const customerRepo = new CustomerRepository(req.user!.tenantId);
+        const customer = await customerRepo.createOrUpdate({
+          name: email.split('@')[0],
+          email,
+          visitorIds: [],
+        });
+        req.body.customerId = customer._id.toString();
+      }
+    }
+
     const parseResult = createTicketSchema.safeParse(req.body);
     if (!parseResult.success) {
       const issue = parseResult.error.issues[0];
@@ -227,7 +251,12 @@ ticketRouter.post('/', async (req: Request, res: Response, next: NextFunction) =
       // Continue without failing ticket creation if rule query fails
     }
 
-    res.status(201).json({ data: ticket });
+    const ticketPayload = typeof ticket.toJSON === 'function' ? ticket.toJSON() : (ticket as any);
+    if (!ticketPayload.id && ticket._id) {
+      ticketPayload.id = ticket._id.toString();
+    }
+
+    res.status(201).json({ data: ticketPayload });
   } catch (err) {
     next(err);
   }
@@ -346,7 +375,7 @@ ticketRouter.post('/:id/link', async (req: Request, res: Response, next: NextFun
       throw new AppError(400, 'Valid targetTicketId is required', '/errors/validation');
     }
     if (!Types.ObjectId.isValid(ticketId)) {
-      throw new AppError(400, 'Valid ticketId is required', '/errors/validation');
+      throw new AppError(404, 'Ticket not found', '/errors/not-found');
     }
 
     const tenantId = req.user!.tenantId;
@@ -381,7 +410,13 @@ ticketRouter.post('/:id/link', async (req: Request, res: Response, next: NextFun
       await targetTicket.save();
     }
 
-    res.status(200).json({ data: sourceTicket });
+    const result =
+      typeof sourceTicket.toJSON === 'function' ? sourceTicket.toJSON() : (sourceTicket as any);
+    if (!result.id && sourceTicket._id) {
+      result.id = sourceTicket._id.toString();
+    }
+
+    res.status(200).json({ data: result });
   } catch (err) {
     next(err);
   }
@@ -391,22 +426,34 @@ ticketRouter.post('/:id/link', async (req: Request, res: Response, next: NextFun
 ticketRouter.get('/:id', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const ticketId = Array.isArray(req.params['id']) ? req.params['id'][0]! : req.params['id']!;
+    if (!Types.ObjectId.isValid(ticketId)) {
+      throw new AppError(404, 'Ticket not found', '/errors/not-found');
+    }
     const tenantId = req.user!.tenantId;
     const ticketRepo = new TicketRepository(tenantId);
-    const eventRepo = new TicketEventRepository(tenantId);
-    const messageRepo = new MessageRepository(tenantId);
-
-    const [ticket, events, messages] = await Promise.all([
-      ticketRepo.findById(ticketId),
-      eventRepo.getTimelineForTicket(ticketId),
-      messageRepo.getMessagesForTicket(ticketId, { includeInternal: true }),
-    ]);
+    const ticket = await ticketRepo.findById(ticketId);
 
     if (!ticket) {
       throw new AppError(404, 'Ticket not found', '/errors/not-found');
     }
 
-    const ticketObj = typeof ticket.toObject === 'function' ? ticket.toObject() : ticket;
+    const eventRepo = new TicketEventRepository(tenantId);
+    const messageRepo = new MessageRepository(tenantId);
+
+    const [events, messages] = await Promise.all([
+      eventRepo.getTimelineForTicket(ticketId),
+      messageRepo.getMessagesForTicket(ticketId, { includeInternal: true }),
+    ]);
+
+    const ticketObj =
+      typeof ticket.toJSON === 'function'
+        ? ticket.toJSON()
+        : typeof ticket.toObject === 'function'
+          ? ticket.toObject()
+          : ticket;
+    if (!ticketObj.id && ticket._id) {
+      ticketObj.id = ticket._id.toString();
+    }
 
     res.status(200).json({
       data: {
@@ -424,6 +471,9 @@ ticketRouter.get('/:id', async (req: Request, res: Response, next: NextFunction)
 ticketRouter.patch('/:id', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const ticketId = Array.isArray(req.params['id']) ? req.params['id'][0]! : req.params['id']!;
+    if (!Types.ObjectId.isValid(ticketId)) {
+      throw new AppError(404, 'Ticket not found', '/errors/not-found');
+    }
     const parseResult = updateTicketSchema.safeParse(req.body);
     if (!parseResult.success) {
       const issue = parseResult.error.issues[0];
@@ -443,7 +493,12 @@ ticketRouter.patch('/:id', async (req: Request, res: Response, next: NextFunctio
       actorId,
     );
 
-    res.status(200).json({ data: updated });
+    const updatedData = typeof updated.toJSON === 'function' ? updated.toJSON() : (updated as any);
+    if (!updatedData.id && updated._id) {
+      updatedData.id = updated._id.toString();
+    }
+
+    res.status(200).json({ data: updatedData });
   } catch (err) {
     next(err);
   }
@@ -453,6 +508,9 @@ ticketRouter.patch('/:id', async (req: Request, res: Response, next: NextFunctio
 ticketRouter.post('/:id/messages', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const ticketId = Array.isArray(req.params['id']) ? req.params['id'][0]! : req.params['id']!;
+    if (!Types.ObjectId.isValid(ticketId)) {
+      throw new AppError(404, 'Ticket not found', '/errors/not-found');
+    }
     const parseResult = createMessageSchema.safeParse(req.body);
     if (!parseResult.success) {
       const issue = parseResult.error.issues[0];

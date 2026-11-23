@@ -1,0 +1,85 @@
+=== EVIDENCE ARTIFACT ===
+Target: 07-perf-benchmark
+Command: pnpm exec tsx scripts/measure-perf.ts
+Timestamp (UTC): 2026-11-22T17:18:06.041397+00:00
+Git Commit: fdad02b7c74d0fade69947e41958f126ab8d8d27
+Exit Code: 0
+========================
+--- STDOUT ---
+================================================================
+ SupportPilot Rigorous Performance Benchmark: Offset vs Keyset 
+================================================================
+[measure-perf] Connected to MongoDB at mongodb://127.0.0.1:27017/supportpilot
+[measure-perf] Ensuring compound indexes...
+[measure-perf] Found 895 matching tickets (status='OPEN', priority='HIGH') for tenant 507f1f77bcf86cd799439011
+
+Benchmark Configuration:
+- Tenant ID:      507f1f77bcf86cd799439011
+- Filter:         { tenantId, status: 'OPEN', priority: 'HIGH' }
+- Sort:           { updatedAt: -1, _id: -1 }
+- Page Size:      20
+- Offset Tested:  500
+- Cursor Date:    2026-11-08T19:26:47.399Z
+- Cursor ID:      6b02aa5214cdf3684f935c1c
+- Warm-up Runs:   5
+- Timed Runs:     30
+
+Query Equivalence Verification:
+- Offset returned: 20 docs
+- Keyset returned: 20 docs
+- Exact Document ID Match: PASSED (100% identical results)
+
+Executing 5 warm-up runs...
+Warm-up completed.
+
+Executing 30 timed benchmark runs...
+  Run  1: Offset = 2.349 ms | Keyset = 1.659 ms
+  Run  2: Offset = 1.399 ms | Keyset = 1.223 ms
+  Run  3: Offset = 1.164 ms | Keyset = 1.025 ms
+  Run  4: Offset = 1.161 ms | Keyset = 1.084 ms
+  Run  5: Offset = 1.510 ms | Keyset = 1.088 ms
+  Run  6: Offset = 1.266 ms | Keyset = 1.167 ms
+  Run  7: Offset = 1.629 ms | Keyset = 1.296 ms
+  Run  8: Offset = 1.804 ms | Keyset = 1.034 ms
+  Run  9: Offset = 1.287 ms | Keyset = 1.116 ms
+  Run 10: Offset = 1.348 ms | Keyset = 1.539 ms
+  Run 11: Offset = 1.949 ms | Keyset = 1.445 ms
+  Run 12: Offset = 1.339 ms | Keyset = 1.356 ms
+  Run 13: Offset = 1.647 ms | Keyset = 1.306 ms
+  Run 14: Offset = 2.028 ms | Keyset = 1.317 ms
+  Run 15: Offset = 2.053 ms | Keyset = 1.513 ms
+  Run 16: Offset = 1.517 ms | Keyset = 1.184 ms
+  Run 17: Offset = 1.401 ms | Keyset = 1.028 ms
+  Run 18: Offset = 1.833 ms | Keyset = 1.323 ms
+  Run 19: Offset = 1.596 ms | Keyset = 1.241 ms
+  Run 20: Offset = 1.494 ms | Keyset = 1.051 ms
+  Run 21: Offset = 1.061 ms | Keyset = 0.946 ms
+  Run 22: Offset = 1.130 ms | Keyset = 0.866 ms
+  Run 23: Offset = 1.266 ms | Keyset = 0.999 ms
+  Run 24: Offset = 1.221 ms | Keyset = 0.877 ms
+  Run 25: Offset = 1.304 ms | Keyset = 1.386 ms
+  Run 26: Offset = 1.250 ms | Keyset = 0.837 ms
+  Run 27: Offset = 1.396 ms | Keyset = 1.042 ms
+  Run 28: Offset = 1.232 ms | Keyset = 0.875 ms
+  Run 29: Offset = 1.072 ms | Keyset = 0.970 ms
+  Run 30: Offset = 1.121 ms | Keyset = 1.002 ms
+
+================================================================
+ Benchmark Results & Statistical Summary
+================================================================
+Metric           | Baseline (Offset) | Optimized (Keyset)
+-----------------+-------------------+-------------------
+Min Latency      |        1.0613 ms |        0.8370 ms
+Max Latency      |        2.3488 ms |        1.6587 ms
+Mean Latency     |        1.4609 ms |        1.1598 ms
+Median (p50)     |        1.3722 ms |        1.1019 ms
+95th %ile (p95)  |        2.0534 ms |        1.5391 ms
+-----------------+-------------------+-------------------
+Median Speedup:   19.7% faster using keyset cursor pagination
+Formula:          ((1.3722 - 1.1019) / 1.3722) * 100 = 19.7%
+================================================================
+
+[measure-perf] Raw JSON benchmark written to: C:\Users\vrund\OneDrive\Desktop\ai_project\evidence\reaudit2\perf-benchmark.json
+[measure-perf] Disconnected from MongoDB. Benchmark completed successfully.
+--- STDERR ---
+

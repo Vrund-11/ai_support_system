@@ -80,8 +80,9 @@ class GeminiLLMProvider(LLMProvider):
         return schema.model_validate(parsed)
 
     async def get_embeddings(self, texts: list[str]) -> list[list[float]]:
-        # Default to local deterministic MiniLM embeddings for speed and consistency
-        return await self.mock_fallback.get_embeddings(texts)
+        from src.embeddings import get_embedding_provider
+
+        return await get_embedding_provider().aembed(texts)
 
     async def stream_generate(
         self,

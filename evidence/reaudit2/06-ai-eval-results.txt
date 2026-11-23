@@ -1,0 +1,116 @@
+=== EVIDENCE ARTIFACT ===
+Target: 06-ai-eval-results
+Command: python scripts/run_eval_and_ablation.py --eval
+Timestamp (UTC): 2026-11-22T16:50:49.101928+00:00
+Git Commit: fdad02b7c74d0fade69947e41958f126ab8d8d27
+Exit Code: 0
+========================
+--- STDOUT ---
+Run started at: 2026-11-22T16:50:50.809754+00:00
+Python executable: C:\Users\vrund\OneDrive\Desktop\ai_project\apps\ai-service\.venv\Scripts\python.exe
+Repository root: C:\Users\vrund\OneDrive\Desktop\ai_project
+
+=======================================================
+EVALUATION: golden_v2_synthetic_115 (C:\Users\vrund\OneDrive\Desktop\ai_project\tests\ai-eval\golden\v2.jsonl)
+=======================================================
+Ingesting corpus from C:\Users\vrund\OneDrive\Desktop\ai_project\tests\ai-eval\corpus with real SBERT embeddings...
+Ingested 134 chunks in 15.57s.
+Loaded 115 evaluation samples.
+
+Evaluation completed in 8.77s.
+- Total Samples: 115
+- Hit@1: 0.929
+- Hit@5: 0.988
+- MRR: 0.957
+- Groundedness (non-escalated strictly isolated): 0.987
+- Escalation Precision: 0.833
+- Escalation Recall: 1.000
+- Escalation F1: 0.909
+- Latency p50: 74.0ms | p95: 85.0ms
+
+--- Performance by Category ---
+Category             | Total  | Hit@1    | Hit@5    | Groundedness (n)        
+---------------------------------------------------------------------------
+direct               | 50     | 0.920    | 0.980    | 0.978 (n=46)            
+paraphrased          | 20     | 0.900    | 1.000    | 1.000 (n=19)            
+multi_chunk          | 15     | 1.000    | 1.000    | 1.000 (n=14)            
+unanswerable         | 15     | N/A      | N/A      | N/A (Escalated, n=0)    
+adversarial          | 15     | N/A      | N/A      | N/A (Escalated, n=0)    
+
+--- LLM-Judge Groundedness Sample ---
+Status: failed
+Note: Gemini API returned HTTP 401
+Status Code: 401
+
+=======================================================
+EVALUATION: human_v1_curated_60 (C:\Users\vrund\OneDrive\Desktop\ai_project\tests\ai-eval\golden\human_v1.jsonl)
+=======================================================
+Ingesting corpus from C:\Users\vrund\OneDrive\Desktop\ai_project\tests\ai-eval\corpus with real SBERT embeddings...
+Ingested 134 chunks in 3.35s.
+Loaded 60 evaluation samples.
+
+Evaluation completed in 5.41s.
+- Total Samples: 60
+- Hit@1: 0.880
+- Hit@5: 1.000
+- MRR: 0.931
+- Groundedness (non-escalated strictly isolated): 0.979
+- Escalation Precision: 0.769
+- Escalation Recall: 1.000
+- Escalation F1: 0.869
+- Latency p50: 77.2ms | p95: 93.2ms
+
+--- Performance by Category ---
+Category             | Total  | Hit@1    | Hit@5    | Groundedness (n)        
+---------------------------------------------------------------------------
+direct               | 15     | 0.733    | 1.000    | 1.000 (n=15)            
+multi_chunk          | 10     | 1.000    | 1.000    | 1.000 (n=10)            
+billing              | 12     | 0.833    | 1.000    | 1.000 (n=9)             
+auth                 | 13     | 1.000    | 1.000    | 0.923 (n=13)            
+unanswerable         | 10     | N/A      | N/A      | N/A (Escalated, n=0)    
+
+--- LLM-Judge Groundedness Sample ---
+Status: failed
+Note: Gemini API returned HTTP 401
+Status Code: 401
+
+Run completed at: 2026-11-22T16:51:23.919291+00:00
+--- STDERR ---
+
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 103/103 [00:00<00:00, 2719.32it/s]
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+LLM-judge request failed with status 401: {
+  "error": {
+    "code": 401,
+    "message": "API key not valid. Please pass a valid API key.",
+    "status": "UNAUTHENTICATED",
+    "details": [
+      {
+        "@type": "type.googleapis.com/google. Gracefully proceeding.
+Prompt injection attempt detected for tenant 'tenant_eval_v2'
+Prompt injection attempt detected for tenant 'tenant_eval_v2'
+Prompt injection attempt detected for tenant 'tenant_eval_v2'
+Prompt injection attempt detected for tenant 'tenant_eval_v2'
+Prompt injection attempt detected for tenant 'tenant_eval_v2'
+Prompt injection attempt detected for tenant 'tenant_eval_v2'
+Prompt injection attempt detected for tenant 'tenant_eval_v2'
+Prompt injection attempt detected for tenant 'tenant_eval_v2'
+Prompt injection attempt detected for tenant 'tenant_eval_v2'
+Prompt injection attempt detected for tenant 'tenant_eval_v2'
+Prompt injection attempt detected for tenant 'tenant_eval_v2'
+Prompt injection attempt detected for tenant 'tenant_eval_v2'
+Prompt injection attempt detected for tenant 'tenant_eval_v2'
+Prompt injection attempt detected for tenant 'tenant_eval_v2'
+Prompt injection attempt detected for tenant 'tenant_eval_v2'
+
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 103/103 [00:00<00:00, 2316.81it/s]
+LLM-judge request failed with status 401: {
+  "error": {
+    "code": 401,
+    "message": "API key not valid. Please pass a valid API key.",
+    "status": "UNAUTHENTICATED",
+    "details": [
+      {
+        "@type": "type.googleapis.com/google. Gracefully proceeding.

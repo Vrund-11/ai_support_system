@@ -935,6 +935,7 @@ function verifySignature(payload, signature, secret) {
     </script>
 
     <!-- SupportPilot Live Chat Widget Script -->
+    <script>window.process = { env: { NODE_ENV: 'production' } };</script>
     <script
       type="module"
       src="/src/embed.tsx"

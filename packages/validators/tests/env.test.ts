@@ -5,6 +5,7 @@ import {
   ticketServiceEnvSchema,
   gatewayEnvSchema,
   notificationServiceEnvSchema,
+  aiServiceEnvSchema,
 } from '../src/env.js';
 
 describe('loadEnv', () => {
@@ -65,10 +66,60 @@ describe('loadEnv', () => {
     }
   });
 
+  describe('aiServiceEnvSchema', () => {
+    it('applies defaults for ai-service env', () => {
+      const result = aiServiceEnvSchema.safeParse({
+        DATABASE_URL: 'postgresql://postgres:postgres@localhost:5432/supportpilot',
+        REDIS_URL: 'redis://localhost:6379',
+      });
+      expect(result.success).toBe(true);
+      if (result.success) {
+        expect(result.data.PORT).toBe(4002);
+        expect(result.data.LLM_PROVIDER).toBe('mock');
+        expect(result.data.S3_BUCKET).toBe('supportpilot-files');
+        expect(result.data.AWS_REGION).toBe('ap-south-1');
+      }
+    });
+
+    it('accepts explicit configuration for gemini and openai', () => {
+      const result = aiServiceEnvSchema.safeParse({
+        DATABASE_URL: 'postgresql://localhost:5432/supportpilot',
+        REDIS_URL: 'redis://localhost:6379',
+        LLM_PROVIDER: 'gemini',
+        GEMINI_API_KEY: 'test-gemini-key',
+        S3_ENDPOINT: 'http://localhost:4566',
+      });
+      expect(result.success).toBe(true);
+      if (result.success) {
+        expect(result.data.LLM_PROVIDER).toBe('gemini');
+        expect(result.data.GEMINI_API_KEY).toBe('test-gemini-key');
+        expect(result.data.S3_ENDPOINT).toBe('http://localhost:4566');
+      }
+    });
+
+    it('rejects invalid LLM_PROVIDER or missing DATABASE_URL', () => {
+      expect(
+        aiServiceEnvSchema.safeParse({
+          DATABASE_URL: '',
+          REDIS_URL: 'redis://localhost:6379',
+        }).success,
+      ).toBe(false);
+
+      expect(
+        aiServiceEnvSchema.safeParse({
+          DATABASE_URL: 'postgresql://localhost:5432/supportpilot',
+          REDIS_URL: 'redis://localhost:6379',
+          LLM_PROVIDER: 'anthropic' as any,
+        }).success,
+      ).toBe(false);
+    });
+  });
+
   describe('production secret guard', () => {
     const valid32Secret1 = 'a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4';
     const valid32Secret2 = 'f6e5d4c3b2a1f6e5d4c3b2a1f6e5d4c3';
     const valid32Secret3 = '9876543210abcdef9876543210abcdef';
+    const valid32Secret4 = 'abcdef1234567890abcdef1234567890';
 
     it('rejects short secrets (<32 chars) in production', () => {
       const result = gatewayEnvSchema.safeParse({
@@ -113,6 +164,87 @@ describe('loadEnv', () => {
           ).toBe(true);
         }
       }
+    });
+
+    it('validates INTERNAL_SERVICE_TOKEN in production across schemas', () => {
+      // Gateway with short INTERNAL_SERVICE_TOKEN
+      const invalidGateway = gatewayEnvSchema.safeParse({
+        NODE_ENV: 'production',
+        PORT: 4000,
+        REDIS_URL: 'redis://localhost:6379',
+        JWT_ACCESS_SECRET: valid32Secret1,
+        JWT_REFRESH_SECRET: valid32Secret2,
+        SERVICE_TOKEN: valid32Secret3,
+        INTERNAL_SERVICE_TOKEN: 'short-token-16c',
+      });
+      expect(invalidGateway.success).toBe(false);
+
+      // Ticket service with valid vs invalid INTERNAL_SERVICE_TOKEN
+      const invalidTicket = ticketServiceEnvSchema.safeParse({
+        NODE_ENV: 'production',
+        MONGODB_URI: 'mongodb://localhost:27017/supportpilot',
+        REDIS_URL: 'redis://localhost:6379',
+        JWT_ACCESS_SECRET: valid32Secret1,
+        JWT_REFRESH_SECRET: valid32Secret2,
+        SERVICE_TOKEN: valid32Secret3,
+        INTERNAL_SERVICE_TOKEN: 'dev-token-that-is-longer-than-32-chars',
+      });
+      expect(invalidTicket.success).toBe(false);
+
+      const validTicket = ticketServiceEnvSchema.safeParse({
+        NODE_ENV: 'production',
+        MONGODB_URI: 'mongodb://localhost:27017/supportpilot',
+        REDIS_URL: 'redis://localhost:6379',
+        JWT_ACCESS_SECRET: valid32Secret1,
+        JWT_REFRESH_SECRET: valid32Secret2,
+        SERVICE_TOKEN: valid32Secret3,
+        INTERNAL_SERVICE_TOKEN: valid32Secret4,
+      });
+      expect(validTicket.success).toBe(true);
+    });
+
+    it('validates notificationServiceEnvSchema in production mode', () => {
+      // Rejects short SERVICE_TOKEN in production
+      const shortServiceToken = notificationServiceEnvSchema.safeParse({
+        NODE_ENV: 'production',
+        PORT: 4003,
+        REDIS_URL: 'redis://localhost:6379',
+        DATABASE_URL: 'postgresql://localhost:5432/supportpilot',
+        SERVICE_TOKEN: 'service-tok-16ch',
+      });
+      expect(shortServiceToken.success).toBe(false);
+
+      // Rejects dev- pattern in production
+      const devPattern = notificationServiceEnvSchema.safeParse({
+        NODE_ENV: 'production',
+        PORT: 4003,
+        REDIS_URL: 'redis://localhost:6379',
+        DATABASE_URL: 'postgresql://localhost:5432/supportpilot',
+        SERVICE_TOKEN: 'dev-abcdef0123456789abcdef01234567',
+      });
+      expect(devPattern.success).toBe(false);
+
+      // Rejects invalid INTERNAL_SERVICE_TOKEN in production
+      const invalidInternal = notificationServiceEnvSchema.safeParse({
+        NODE_ENV: 'production',
+        PORT: 4003,
+        REDIS_URL: 'redis://localhost:6379',
+        DATABASE_URL: 'postgresql://localhost:5432/supportpilot',
+        SERVICE_TOKEN: valid32Secret1,
+        INTERNAL_SERVICE_TOKEN: 'cluster-secret-short',
+      });
+      expect(invalidInternal.success).toBe(false);
+
+      // Accepts valid production configuration
+      const validProd = notificationServiceEnvSchema.safeParse({
+        NODE_ENV: 'production',
+        PORT: 4003,
+        REDIS_URL: 'redis://localhost:6379',
+        DATABASE_URL: 'postgresql://localhost:5432/supportpilot',
+        SERVICE_TOKEN: valid32Secret1,
+        INTERNAL_SERVICE_TOKEN: valid32Secret2,
+      });
+      expect(validProd.success).toBe(true);
     });
 
     it('accepts valid 32+ char production secrets without forbidden patterns', () => {

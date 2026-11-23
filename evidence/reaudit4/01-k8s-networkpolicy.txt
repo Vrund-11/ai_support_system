@@ -1,0 +1,36 @@
+=== EVIDENCE ARTIFACT ===
+Target: 01-k8s-networkpolicy.txt
+Command: powershell -ExecutionPolicy Bypass -File scripts/prove-networkpolicy.ps1
+Timestamp (UTC): 2026-11-23T04:55:35.869322+00:00
+Git Commit: f5cd9d7b09450f54517fd3321ca6e7bbe64635d2
+Exit Code: 0
+========================
+--- STDOUT ---
+=== TEST 1: Direct wget from busybox to ticket-service (MUST FAIL) ===
+Connecting to ticket-service:4001 (10.96.38.232:4001)
+pod "netpol-fail" deleted from supportpilot namespace
+=== TEST 2: wget from gateway deployment to ticket-service (MUST SUCCEED) ===
+{"status":"ok"}
+=== TEST 3: wget from busybox with app=gateway label to ticket-service (MUST SUCCEED) ===
+{"status":"ok"}pod "netpol-pass" deleted from supportpilot namespace
+--- STDERR ---
+kubectl : All commands and output from this session will be recorded in container logs, including credentials and 
+sensitive information passed through the command prompt.
+At C:\Users\vrund\OneDrive\Desktop\ai_project\scripts\prove-networkpolicy.ps1:2 char:1
++ kubectl run netpol-fail --rm -i --restart=Never --image=busybox -n su ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (All commands an...command prompt.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+If you don't see a command prompt, try pressing enter.
+wget: download timed out
+pod supportpilot/netpol-fail terminated (Error)
+kubectl : All commands and output from this session will be recorded in container logs, including credentials and 
+sensitive information passed through the command prompt.
+At C:\Users\vrund\OneDrive\Desktop\ai_project\scripts\prove-networkpolicy.ps1:7 char:1
++ kubectl run netpol-pass --rm -i --restart=Never --image=busybox --lab ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (All commands an...command prompt.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+If you don't see a command prompt, try pressing enter.

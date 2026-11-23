@@ -1,0 +1,332 @@
+=== EVIDENCE ARTIFACT ===
+Target: 04-newman-live
+Command: pnpm exec newman run tests/api/supportpilot-sprint1.collection.json -e tests/api/supportpilot.environment.json -r cli,json --reporter-json-export evidence/reaudit3/newman-live.json
+Timestamp (UTC): 2026-11-23T04:02:10.199497+00:00
+Git Commit: f5cd9d7b09450f54517fd3321ca6e7bbe64635d2
+Exit Code: 1
+========================
+--- STDOUT ---
+newman
+
+SupportPilot Sprint 1 & 2 API Contract Collection
+
+→ 01. Health Check
+  GET http://localhost:4000/health [200 OK, 1.06kB, 35ms]
+  √  Status code is 200
+  √  Service reports healthy
+
+→ 02. Readiness Check
+  GET http://localhost:4000/ready [200 OK, 1.07kB, 5ms]
+  √  Readiness status is 200
+  √  Readiness reports ready or ok
+
+→ 03. Tenant A - Register Owner
+  POST http://localhost:4000/api/v1/auth/register [201 Created, 3.41kB, 399ms]
+  √  Registration returns 201 Created
+  √  Tokens and tenant id returned
+
+→ 04. Tenant A - Login Owner
+  POST http://localhost:4000/api/v1/auth/login [200 OK, 2.15kB, 347ms]
+  √  Login returns 200 OK
+  √  Access token returned
+
+→ 05. Tenant A - Refresh Token
+  POST http://localhost:4000/api/v1/auth/refresh [200 OK, 1.74kB, 12ms]
+  √  Refresh returns 200 OK
+  √  New access token provided
+
+→ 06. Tenant A - Forgot Password
+  POST http://localhost:4000/api/v1/auth/forgot-password [200 OK, 1.25kB, 51ms]
+  √  Forgot password returns 200 OK
+
+→ 07. Tenant A - Logout
+  POST http://localhost:4000/api/v1/auth/logout [204 No Content, 1.18kB, 9ms]
+  √  Logout returns 204 No Content
+
+→ 08. Tenant A - Re-login Owner
+  POST http://localhost:4000/api/v1/auth/login [200 OK, 2.15kB, 379ms]
+  √  Re-login returns 200 OK
+
+→ 09. Tenant B - Register Owner
+  POST http://localhost:4000/api/v1/auth/register [201 Created, 3.4kB, 343ms]
+  √  Tenant B Registration returns 201 Created
+
+→ 10. Tenant B - Login Owner
+  POST http://localhost:4000/api/v1/auth/login [200 OK, 2.15kB, 354ms]
+  √  Tenant B login returns 200 OK
+
+→ 11. Tenant A - Invite Agent Carol
+  POST http://localhost:4000/api/v1/team/invite [201 Created, 1.95kB, 12ms]
+  √  Team invite returns 201 Created
+
+→ 12. Tenant A - Invite Lead Dave
+  POST http://localhost:4000/api/v1/team/invite [201 Created, 1.94kB, 12ms]
+  √  Team invite Lead returns 201 Created
+
+→ 13. Tenant A - List Team Members
+  GET http://localhost:4000/api/v1/team [200 OK, 1.83kB, 11ms]
+  √  List team returns 200 OK
+  √  Team has multiple members
+
+→ 14. RBAC - Agent cannot invite team members (403)
+  POST http://localhost:4000/api/v1/team/invite [403 Forbidden, 1.43kB, 9ms]
+  √  Agent invite rejected with 403 Forbidden
+  1. RFC 7807 error format
+
+→ 15. Tickets - Create High Priority Ticket A1
+  POST http://localhost:4000/api/v1/tickets [201 Created, 1.73kB, 24ms]
+  √  Create Ticket A1 returns 201 Created
+  √  Ticket has NEW status and version 1
+
+→ 16. Tickets - Create Low Priority Ticket A2
+  POST http://localhost:4000/api/v1/tickets [201 Created, 1.71kB, 15ms]
+  √  Create Ticket A2 returns 201 Created
+
+→ 17. Tickets - List Tenant A Tickets
+  GET http://localhost:4000/api/v1/tickets [200 OK, 5.05kB, 11ms]
+  √  List tickets returns 200 OK
+  √  List contains created tickets
+
+→ 18. Tickets - Filter by status NEW
+  GET http://localhost:4000/api/v1/tickets?status=NEW [200 OK, 5.05kB, 10ms]
+  √  Status filter returns 200 OK
+  √  All returned tickets are NEW
+
+→ 19. Tickets - Filter by priority HIGH
+  GET http://localhost:4000/api/v1/tickets?priority=HIGH [200 OK, 3.23kB, 11ms]
+  √  Priority filter returns 200 OK
+  √  All returned tickets are HIGH priority
+
+→ 20. Tickets - Get Ticket A1 Detail
+  GET http://localhost:4000/api/v1/tickets/null [500 Internal Server Error, 1.41kB, 8ms]
+  2. Get detail returns 200 OK
+  3. Includes ticket, messages, and timeline
+
+→ 21. Tickets - Transition Status NEW -> OPEN
+  PATCH http://localhost:4000/api/v1/tickets/null [404 Not Found, 1.4kB, 10ms]
+  4. Transition to OPEN returns 200 OK
+  5. Status is OPEN and version is 2
+
+→ 22. Tickets - Transition Status OPEN -> RESOLVED
+  PATCH http://localhost:4000/api/v1/tickets/null [404 Not Found, 1.4kB, 7ms]
+  6. Transition to RESOLVED returns 200 OK
+  7. Status is RESOLVED and version is 3
+
+→ 23. Messages - Post Internal Note
+  POST http://localhost:4000/api/v1/tickets/null/messages [404 Not Found, 1.41kB, 10ms]
+  8. Post internal note returns 201 Created
+  9. Message marked internal with seq 1
+
+→ 24. Messages - Post Public Reply
+  POST http://localhost:4000/api/v1/tickets/null/messages [404 Not Found, 1.41kB, 8ms]
+ 10. Post public reply returns 201 Created
+ 11. Message is public with seq 2
+
+→ 25. Public Portal - Submit Anonymous Ticket
+  POST http://localhost:4000/api/v1/tickets/public [201 Created, 1.26kB, 14ms]
+  √  Public ticket submission returns 201 Created
+
+→ 26. Public Portal - Track Submitted Ticket
+  GET http://localhost:4000/api/v1/tickets/public/track?ticketNumber=1&email=john@public.com [404 Not Found, 1.37kB, 10ms]
+ 12. Track ticket returns 200 OK
+ 13. Returns ticket tracking details
+
+→ 27. Concurrency - Stale Version Rejection (409 Conflict)
+  PATCH http://localhost:4000/api/v1/tickets/null [404 Not Found, 1.4kB, 8ms]
+ 14. Stale version triggers 409 Conflict
+ 15. RFC 7807 problem details title Conflict
+
+→ 28. State Machine - Invalid Transition Rejection (400 Bad Request)
+  PATCH http://localhost:4000/api/v1/tickets/null [400 Bad Request, 1.5kB, 10ms]
+  √  Invalid transition triggers 400 Bad Request
+  √  Problem details has invalid transition message
+
+→ 29. Tickets - Link Related Tickets
+  POST http://localhost:4000/api/v1/tickets/null/link [400 Bad Request, 1.42kB, 8ms]
+ 16. Link tickets returns 200 OK
+
+→ 30. Tenant B - Create Confidential Ticket B1
+  POST http://localhost:4000/api/v1/tickets [201 Created, 1.71kB, 16ms]
+  √  Tenant B ticket created returns 201
+
+→ 31. Tenant Isolation - Tenant A cannot read Tenant B Ticket (404)
+  GET http://localhost:4000/api/v1/tickets/null [500 Internal Server Error, 1.41kB, 7ms]
+ 17. Cross-tenant read returns 404 Not Found (Opaque Partition)
+
+→ 32. Tenant Isolation - Tenant A cannot update Tenant B Ticket (404)
+  PATCH http://localhost:4000/api/v1/tickets/null [404 Not Found, 1.4kB, 7ms]
+  √  Cross-tenant patch returns 404 Not Found
+
+→ 33. Tenant Isolation - Tenant A cannot inject message to Tenant B Ticket (404)
+  POST http://localhost:4000/api/v1/tickets/null/messages [404 Not Found, 1.41kB, 7ms]
+  √  Cross-tenant message injection returns 404 Not Found
+
+→ 34. Tenant Isolation - Tenant B ticket list isolated
+  GET http://localhost:4000/api/v1/tickets [200 OK, 3.16kB, 10ms]
+  √  Tenant B list returns 200 OK
+  √  Only Tenant B tickets returned
+
+→ 35. Tenant Isolation - Tenant B team list isolated
+  GET http://localhost:4000/api/v1/team [200 OK, 1.46kB, 9ms]
+  √  Tenant B team list returns 200 OK
+  √  Zero Tenant A members present
+
+→ 36. RBAC - Agent cannot view API keys (403)
+  GET http://localhost:4000/api/v1/api-keys [403 Forbidden, 1.42kB, 7ms]
+  √  Agent API key access returns 403 Forbidden
+
+→ 37. RBAC - Lead cannot create API keys (403)
+  POST http://localhost:4000/api/v1/api-keys [403 Forbidden, 1.42kB, 9ms]
+  √  Lead cannot create API keys returns 403 Forbidden
+
+→ 38. RBAC - Owner creates API key (201)
+  POST http://localhost:4000/api/v1/api-keys [201 Created, 1.49kB, 12ms]
+  √  Owner creates API key returns 201 Created
+  √  Secret rawKey starts with sp_live_
+
+→ 39. RBAC - Owner revokes API key (204)
+  DELETE http://localhost:4000/api/v1/api-keys/6b03bacaa797f68986ad0eb9 [204 No Content, 1.18kB, 16ms]
+  √  API key revocation returns 204 No Content
+
+→ 40. RFC 7807 - Empty registration payload (400)
+  POST http://localhost:4000/api/v1/auth/register [400 Bad Request, 1.36kB, 7ms]
+  √  Invalid registration returns 400 Bad Request
+  √  Has RFC 7807 problem details title and status
+
+→ 41. RFC 7807 - Ticket creation missing description (400)
+  POST http://localhost:4000/api/v1/tickets [400 Bad Request, 1.44kB, 12ms]
+  √  Missing description returns 400 Bad Request
+  √  Has validation problem details
+
+→ 42. RFC 7807 - Invalid credentials login (401)
+  POST http://localhost:4000/api/v1/auth/login [401 Unauthorized, 1.33kB, 362ms]
+  √  Invalid login returns 401 Unauthorized
+  √  Problem details has 401 status
+
+→ 43. RFC 7807 - Non-existent ObjectID ticket lookup (404)
+  GET http://localhost:4000/api/v1/tickets/000000000000000000000000 [404 Not Found, 1.42kB, 10ms]
+  √  Non-existent ticket returns 404 Not Found
+  √  Problem details has 404 status
+
+→ 44. Webhooks - Owner registers webhook (201)
+  POST http://localhost:4000/api/v1/webhooks [201 Created, 1.47kB, 11ms]
+  √  Create webhook returns 201 Created
+
+→ 45. Webhooks - Test dispatch ping with HMAC signature
+  POST http://localhost:4000/api/v1/webhooks/6b03bacba797f68986ad0ebd/test [200 OK, 1.43kB, 9ms]
+  √  Test dispatch returns 200 OK
+  √  Delivered with HMAC sha256 signature
+
+→ 46. Webhooks - Owner deletes webhook (204)
+  DELETE http://localhost:4000/api/v1/webhooks/6b03bacba797f68986ad0ebd [204 No Content, 1.18kB, 11ms]
+  √  Delete webhook returns 204 No Content
+
+┌─────────────────────────┬───────────────────┬───────────────────┐
+│                         │          executed │            failed │
+├─────────────────────────┼───────────────────┼───────────────────┤
+│              iterations │                 1 │                 0 │
+├─────────────────────────┼───────────────────┼───────────────────┤
+│                requests │                46 │                 0 │
+├─────────────────────────┼───────────────────┼───────────────────┤
+│            test-scripts │                46 │                 0 │
+├─────────────────────────┼───────────────────┼───────────────────┤
+│      prerequest-scripts │                 0 │                 0 │
+├─────────────────────────┼───────────────────┼───────────────────┤
+│              assertions │                73 │                17 │
+├─────────────────────────┴───────────────────┴───────────────────┤
+│ total run duration: 6.4s                                        │
+├─────────────────────────────────────────────────────────────────┤
+│ total data received: 27.46kB (approx)                           │
+├─────────────────────────────────────────────────────────────────┤
+│ average response time: 57ms [min: 5ms, max: 399ms, s.d.: 118ms] │
+└─────────────────────────────────────────────────────────────────┘
+
+[31m   # [39m[31m failure        [39m[31m detail                                                                             [39m
+[90m     [39m[90m                [39m[90m                                                                                    [39m
+ 01.  AssertionError  RFC 7807 error format                                                              
+                      expected 'Access denied: requires minimum role …' to match /Forbidden|permission/i 
+                      at assertion:1 in test-script                                                      
+                      inside "14. RBAC - Agent cannot invite team members (403)"                         
+[90m     [39m[90m                [39m[90m                                                                                    [39m
+ 02.  AssertionError  Get detail returns 200 OK                                                          
+                      expected response to have status code 200 but got 500                              
+                      at assertion:0 in test-script                                                      
+                      inside "20. Tickets - Get Ticket A1 Detail"                                        
+[90m     [39m[90m                [39m[90m                                                                                    [39m
+ 03.  TypeError       Includes ticket, messages, and timeline                                            
+                      Cannot read properties of undefined (reading 'ticket')                             
+                      at assertion:1 in test-script                                                      
+                      inside "20. Tickets - Get Ticket A1 Detail"                                        
+[90m     [39m[90m                [39m[90m                                                                                    [39m
+ 04.  AssertionError  Transition to OPEN returns 200 OK                                                  
+                      expected response to have status code 200 but got 404                              
+                      at assertion:0 in test-script                                                      
+                      inside "21. Tickets - Transition Status NEW -> OPEN"                               
+[90m     [39m[90m                [39m[90m                                                                                    [39m
+ 05.  TypeError       Status is OPEN and version is 2                                                    
+                      Cannot read properties of undefined (reading 'status')                             
+                      at assertion:1 in test-script                                                      
+                      inside "21. Tickets - Transition Status NEW -> OPEN"                               
+[90m     [39m[90m                [39m[90m                                                                                    [39m
+ 06.  AssertionError  Transition to RESOLVED returns 200 OK                                              
+                      expected response to have status code 200 but got 404                              
+                      at assertion:0 in test-script                                                      
+                      inside "22. Tickets - Transition Status OPEN -> RESOLVED"                          
+[90m     [39m[90m                [39m[90m                                                                                    [39m
+ 07.  TypeError       Status is RESOLVED and version is 3                                                
+                      Cannot read properties of undefined (reading 'status')                             
+                      at assertion:1 in test-script                                                      
+                      inside "22. Tickets - Transition Status OPEN -> RESOLVED"                          
+[90m     [39m[90m                [39m[90m                                                                                    [39m
+ 08.  AssertionError  Post internal note returns 201 Created                                             
+                      expected response to have status code 201 but got 404                              
+                      at assertion:0 in test-script                                                      
+                      inside "23. Messages - Post Internal Note"                                         
+[90m     [39m[90m                [39m[90m                                                                                    [39m
+ 09.  TypeError       Message marked internal with seq 1                                                 
+                      Cannot read properties of undefined (reading 'isInternal')                         
+                      at assertion:1 in test-script                                                      
+                      inside "23. Messages - Post Internal Note"                                         
+[90m     [39m[90m                [39m[90m                                                                                    [39m
+ 10.  AssertionError  Post public reply returns 201 Created                                              
+                      expected response to have status code 201 but got 404                              
+                      at assertion:0 in test-script                                                      
+                      inside "24. Messages - Post Public Reply"                                          
+[90m     [39m[90m                [39m[90m                                                                                    [39m
+ 11.  TypeError       Message is public with seq 2                                                       
+                      Cannot read properties of undefined (reading 'isInternal')                         
+                      at assertion:1 in test-script                                                      
+                      inside "24. Messages - Post Public Reply"                                          
+[90m     [39m[90m                [39m[90m                                                                                    [39m
+ 12.  AssertionError  Track ticket returns 200 OK                                                        
+                      expected response to have status code 200 but got 404                              
+                      at assertion:0 in test-script                                                      
+                      inside "26. Public Portal - Track Submitted Ticket"                                
+[90m     [39m[90m                [39m[90m                                                                                    [39m
+ 13.  AssertionError  Returns ticket tracking details                                                    
+                      expected undefined to be an object                                                 
+                      at assertion:1 in test-script                                                      
+                      inside "26. Public Portal - Track Submitted Ticket"                                
+[90m     [39m[90m                [39m[90m                                                                                    [39m
+ 14.  AssertionError  Stale version triggers 409 Conflict                                                
+                      expected response to have status code 409 but got 404                              
+                      at assertion:0 in test-script                                                      
+                      inside "27. Concurrency - Stale Version Rejection (409 Conflict)"                  
+[90m     [39m[90m                [39m[90m                                                                                    [39m
+ 15.  AssertionError  RFC 7807 problem details title Conflict                                            
+                      expected 'Ticket not found' to include 'Conflict'                                  
+                      at assertion:1 in test-script                                                      
+                      inside "27. Concurrency - Stale Version Rejection (409 Conflict)"                  
+[90m     [39m[90m                [39m[90m                                                                                    [39m
+ 16.  AssertionError  Link tickets returns 200 OK                                                        
+                      expected response to have status code 200 but got 400                              
+                      at assertion:0 in test-script                                                      
+                      inside "29. Tickets - Link Related Tickets"                                        
+[90m     [39m[90m                [39m[90m                                                                                    [39m
+ 17.  AssertionError  Cross-tenant read returns 404 Not Found (Opaque Partition)                         
+                      expected response to have status code 404 but got 500                              
+                      at assertion:0 in test-script                                                      
+                      inside "31. Tenant Isolation - Tenant A cannot read Tenant B Ticket (404)"
+--- STDERR ---
+(node:19280) [DEP0176] DeprecationWarning: fs.F_OK is deprecated, use fs.constants.F_OK instead
+(Use `node --trace-deprecation ...` to show where the warning was created)

@@ -69,3 +69,11 @@ reports/videos/*.webm
 .coverage
 coverage.json
 *.coverage
+
+# SAM / Serverless
+.aws-sam/
+infra/sam/.aws-sam/
+
+# Local scratch
+scratch/
+

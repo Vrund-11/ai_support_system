@@ -8,12 +8,24 @@ from src.config import settings
 
 
 def _sync_check() -> None:
-    with (
-        psycopg.connect(settings.database_url, connect_timeout=2) as conn,
-        conn.cursor() as cur,
-    ):
-        cur.execute("SELECT 1;")
-        cur.fetchone()
+    try:
+        with (
+            psycopg.connect(settings.database_url, connect_timeout=2) as conn,
+            conn.cursor() as cur,
+        ):
+            cur.execute("SELECT 1;")
+            cur.fetchone()
+    except Exception:
+        if ":5432" in settings.database_url:
+            alt_url = settings.database_url.replace(":5432", ":5433")
+            with (
+                psycopg.connect(alt_url, connect_timeout=2) as conn,
+                conn.cursor() as cur,
+            ):
+                cur.execute("SELECT 1;")
+                cur.fetchone()
+        else:
+            raise
 
 
 async def check_db_connection() -> dict[str, str]:

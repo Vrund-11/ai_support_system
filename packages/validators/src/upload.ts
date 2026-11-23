@@ -22,7 +22,7 @@ export type VerifyUploadInput = z.infer<typeof verifyUploadSchema>;
 
 export const registerKbDocumentSchema = z.object({
   title: z.string().trim().min(1, 'Document title required').max(255),
-  source: z.enum(['upload', 'paste', 'url']),
+  source: z.enum(['upload', 'paste', 'url', 'manual']),
   key: z.string().optional(),
   content: z.string().optional(),
   contentType: z.string().default('application/pdf'),

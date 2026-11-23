@@ -1,0 +1,59 @@
+=== EVIDENCE ARTIFACT ===
+Target: 08-sam-invoke
+Command: python scripts/run-sam-invoke.py
+Timestamp (UTC): 2026-11-23T04:48:40.258011+00:00
+Git Commit: f5cd9d7b09450f54517fd3321ca6e7bbe64635d2
+Exit Code: 0
+========================
+--- STDOUT ---
+================================================================================
+1. RUNNING SAM BUILD
+Command: sam build --template C:\Users\vrund\OneDrive\Desktop\ai_project\infra\sam\template.yaml
+================================================================================
+--- BUILD STDOUT ---
+
+Build Succeeded
+
+Built Artifacts  : .aws-sam\build
+Built Template   : .aws-sam\build\template.yaml
+
+Commands you can use next
+=========================
+[*] Validate SAM template: sam validate
+
+[*] Invoke Function: sam local invoke
+
+[*] Test Function in the Cloud: sam sync --stack-name {{stack-name}} --watch
+
+[*] Deploy: sam deploy --guided
+
+--- BUILD STDERR ---
+Building codeuri: C:\Users\vrund\OneDrive\Desktop\ai_project\infra\sam runtime: python3.12 architecture: x86_64 functions: WebhookFunction
+requirements.txt file not found. Continuing the build without dependencies.
+ Running PythonPipBuilder:CopySource
+
+Build Exit Code: 0
+
+================================================================================
+2. RUNNING SAM LOCAL INVOKE
+Command: sam local invoke WebhookFunction -e C:\Users\vrund\OneDrive\Desktop\ai_project\infra\sam\events\sqs.json -t C:\Users\vrund\OneDrive\Desktop\ai_project\infra\sam\.aws-sam\build\template.yaml
+================================================================================
+--- INVOKE STDOUT ---
+{"batchItemFailures": [{"itemIdentifier": "msg-sam-local-001"}]}
+--- INVOKE STDERR ---
+No current session found, using default AWS::AccountId
+Invoking handlers.webhook.handler (python3.12)
+Local image is up-to-date
+Using local image: public.ecr.aws/lambda/python:3.12-rapid-x86_64.
+
+Mounting C:\Users\vrund\OneDrive\Desktop\ai_project\infra\sam\.aws-sam\build\WebhookFunction as /var/task:ro,delegated, inside runtime container
+SAM_CONTAINER_ID: 7ed92871ad5f73952573546909822c2dfc79a85b770d0982a75287dd672975b0
+START RequestId: 43558d95-3f9d-486f-882b-39943f9812ed Version: $LATEST
+[ERROR]	2026-11-23T04:49:28.761Z	43558d95-3f9d-486f-882b-39943f9812ed	Failed to deliver webhook for message msg-sam-local-001: SSRF blocked: URL http://127.0.0.1:9999/webhook targets private, loopback, or invalid destination
+END RequestId: 43558d95-3f9d-486f-882b-39943f9812ed
+REPORT RequestId: 43558d95-3f9d-486f-882b-39943f9812ed	Init Duration: 1.13 ms	Duration: 856.04 ms	Billed Duration: 857 ms	Memory Size: 256 MB	Max Memory Used: 256 MB	
+
+
+Invoke Exit Code: 0
+--- STDERR ---
+

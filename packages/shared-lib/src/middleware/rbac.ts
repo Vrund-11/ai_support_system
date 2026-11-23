@@ -44,12 +44,16 @@ export function requireRoles(...allowedRoles: Role[]) {
       throw new AppError(401, 'Authentication required', '/errors/unauthorized');
     }
     if (!user.role) {
-      throw new AppError(403, 'Access denied: user has no assigned role', '/errors/forbidden');
+      throw new AppError(
+        403,
+        'Forbidden: permission denied: user has no assigned role',
+        '/errors/forbidden',
+      );
     }
     if (allowedRoles.length === 0 || !hasRole(user.role, allowedRoles)) {
       throw new AppError(
         403,
-        `Access denied: requires one of [${allowedRoles.join(', ')}]`,
+        `Forbidden: permission denied: requires one of [${allowedRoles.join(', ')}]`,
         '/errors/forbidden',
       );
     }
@@ -71,12 +75,16 @@ export function requireMinRole(minRole: Role) {
       throw new AppError(401, 'Authentication required', '/errors/unauthorized');
     }
     if (!user.role) {
-      throw new AppError(403, 'Access denied: user has no assigned role', '/errors/forbidden');
+      throw new AppError(
+        403,
+        'Forbidden: permission denied: user has no assigned role',
+        '/errors/forbidden',
+      );
     }
     if (!hasMinRole(user.role, minRole)) {
       throw new AppError(
         403,
-        `Access denied: requires minimum role of ${minRole}`,
+        `Forbidden: permission denied: requires minimum role of ${minRole}`,
         '/errors/forbidden',
       );
     }

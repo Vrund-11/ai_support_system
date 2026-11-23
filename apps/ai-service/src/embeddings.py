@@ -14,6 +14,7 @@ from src.config import settings
 class EmbeddingProvider(Protocol):
     """Protocol for vector embedding providers."""
 
+    name: str
     dim: int
 
     def embed(self, texts: list[str]) -> list[list[float]]:
@@ -27,6 +28,8 @@ class EmbeddingProvider(Protocol):
 
 class SbertProvider:
     """Sentence-Transformers provider using all-MiniLM-L6-v2 (dim 384)."""
+
+    name: str = "sbert"
 
     def __init__(self, model_name: str | None = None, dim: int = 384) -> None:
         self.model_name = model_name or settings.embedding_model
@@ -56,6 +59,8 @@ class SbertProvider:
 
 class MockProvider:
     """Deterministic hash-based unit-normalized mock embedding provider for tests."""
+
+    name: str = "mock"
 
     def __init__(self, dim: int = 384) -> None:
         self.dim = dim

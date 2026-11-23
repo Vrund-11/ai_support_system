@@ -8,20 +8,20 @@ resources:
 
 images:
   - name: supportpilot/gateway
-    newName: supportpilot/gateway
-    newTag: dev
+    newName: infra-gateway
+    newTag: latest
   - name: supportpilot/ticket-service
-    newName: supportpilot/ticket-service
-    newTag: dev
+    newName: infra-ticket-service
+    newTag: latest
   - name: supportpilot/ai-service
-    newName: supportpilot/ai-service
-    newTag: dev
+    newName: infra-ai-service
+    newTag: latest
   - name: supportpilot/notification-service
-    newName: supportpilot/notification-service
-    newTag: dev
+    newName: infra-notification-service
+    newTag: latest
   - name: supportpilot/web
-    newName: supportpilot/web
-    newTag: dev
+    newName: infra-web
+    newTag: latest
 
 patches:
   - patch: |-

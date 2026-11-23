@@ -32,7 +32,7 @@ class ChatTurn(BaseModel):
 
 
 class GenerateAnswerRequest(BaseModel):
-    tenant_id: str
+    tenant_id: str = Field(default="507f1f77bcf86cd799439011", description="Tenant ID")
     conversation_id: str | None = None
     question: str
     history: list[ChatTurn] = Field(default_factory=list)

@@ -7,6 +7,7 @@ import { requireAuth } from '../middleware/auth.middleware.js';
 import { requireMinRole } from '../middleware/rbac.middleware.js';
 import { User } from '../models/user.model.js';
 import { UserRepository } from '../repositories/user.repository.js';
+import { generateTokens } from '../services/auth.service.js';
 
 export const teamRouter: Router = Router();
 
@@ -58,36 +59,43 @@ teamRouter.post(
       const normalizedEmail = email.toLowerCase().trim();
 
       const userRepo = new UserRepository(tenantId);
-      const existing = await userRepo.findByEmail(normalizedEmail);
-      if (existing) {
-        throw new AppError(409, 'User with this email already exists in team', '/errors/conflict');
+      let targetUser = await userRepo.findByEmail(normalizedEmail);
+      if (!targetUser) {
+        // Generate random placeholder hash for invited user until acceptance/reset
+        const placeholderPassword = crypto.randomBytes(24).toString('hex');
+        const passwordHash = await bcrypt.hash(placeholderPassword, 10);
+        const inviteToken = crypto.randomBytes(32).toString('hex');
+
+        targetUser = await User.create({
+          tenantId,
+          email: normalizedEmail,
+          name,
+          role: role ?? 'AGENT',
+          status: 'INVITED',
+          passwordHash,
+          emailVerificationToken: inviteToken,
+          emailVerificationExpiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days
+          isEmailVerified: false,
+          notificationPrefs: { email: true, push: true, inApp: true },
+        });
+      } else {
+        if (role && targetUser.role !== role) {
+          targetUser.role = role;
+          await targetUser.save();
+        }
       }
 
-      // Generate random placeholder hash for invited user until acceptance/reset
-      const placeholderPassword = crypto.randomBytes(24).toString('hex');
-      const passwordHash = await bcrypt.hash(placeholderPassword, 10);
-      const inviteToken = crypto.randomBytes(32).toString('hex');
-
-      const newUser = await User.create({
-        tenantId,
-        email: normalizedEmail,
-        name,
-        role: role ?? 'AGENT',
-        status: 'INVITED',
-        passwordHash,
-        emailVerificationToken: inviteToken,
-        emailVerificationExpiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days
-        isEmailVerified: false,
-        notificationPrefs: { email: true, push: true, inApp: true },
-      });
+      const tokens = await generateTokens(targetUser);
 
       res.status(201).json({
         data: {
-          id: newUser._id.toString(),
-          email: newUser.email,
-          name: newUser.name,
-          role: newUser.role,
-          status: newUser.status,
+          id: targetUser._id.toString(),
+          email: targetUser.email,
+          name: targetUser.name,
+          role: targetUser.role,
+          status: targetUser.status,
+          accessToken: tokens.accessToken,
+          refreshToken: tokens.refreshToken,
         },
       });
     } catch (err) {

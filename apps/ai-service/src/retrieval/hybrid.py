@@ -4,6 +4,7 @@ import asyncio
 from dataclasses import dataclass, field
 from typing import Any
 
+from src.embeddings import EmbeddingProvider, get_embedding_provider
 from src.ingest.repository import BaseIngestRepository, StoredChunk, get_ingest_repository
 from src.providers.base import LLMProvider
 from src.providers.factory import get_llm_provider
@@ -33,9 +34,11 @@ class HybridRetriever:
         self,
         repository: BaseIngestRepository | None = None,
         llm_provider: LLMProvider | None = None,
+        embedding_provider: EmbeddingProvider | None = None,
     ) -> None:
         self._repo = repository
         self._provider = llm_provider
+        self._embedding_provider = embedding_provider
 
     @property
     def repo(self) -> BaseIngestRepository:
@@ -45,15 +48,22 @@ class HybridRetriever:
     def provider(self) -> LLMProvider:
         return self._provider or get_llm_provider()
 
+    @property
+    def embedding_provider(self) -> EmbeddingProvider:
+        return self._embedding_provider or get_embedding_provider()
+
     @staticmethod
     def compute_rrf(
         vector_results: list[tuple[StoredChunk, float]],
         text_results: list[tuple[StoredChunk, float]],
         k: int = 60,
+        vector_weight: float = 1.0,
+        text_weight: float = 1.0,
     ) -> list[SearchResultChunk]:
         """Compute Reciprocal Rank Fusion scores across ranked lists:
 
-        RRF_score(d) = sum(1.0 / (k + rank))
+        RRF_score(d) = sum(weight / (k + rank))
+        Default parameters tuned on v2 benchmark: k=20, vector_weight=1.0, text_weight=0.7.
         """
         scores: dict[str, float] = {}
         chunks_by_id: dict[str, StoredChunk] = {}
@@ -66,13 +76,13 @@ class HybridRetriever:
             chunks_by_id[chunk.id] = chunk
             vector_ranks[chunk.id] = rank
             vector_scores[chunk.id] = v_score
-            scores[chunk.id] = scores.get(chunk.id, 0.0) + (1.0 / (k + rank))
+            scores[chunk.id] = scores.get(chunk.id, 0.0) + (vector_weight / (k + rank))
 
         for rank, (chunk, t_score) in enumerate(text_results, start=1):
             chunks_by_id[chunk.id] = chunk
             text_ranks[chunk.id] = rank
             text_scores[chunk.id] = t_score
-            scores[chunk.id] = scores.get(chunk.id, 0.0) + (1.0 / (k + rank))
+            scores[chunk.id] = scores.get(chunk.id, 0.0) + (text_weight / (k + rank))
 
         sorted_ids = sorted(scores.keys(), key=lambda cid: scores[cid], reverse=True)
         results: list[SearchResultChunk] = []
@@ -132,7 +142,9 @@ class HybridRetriever:
         top_k: int = 5,
         vector_top_k: int = 20,
         text_top_k: int = 20,
-        rrf_k: int = 60,
+        rrf_k: int = 20,
+        vector_weight: float = 1.0,
+        text_weight: float = 0.7,
         mode: str = "hybrid",
     ) -> list[SearchResultChunk]:
         """Execute hybrid search with strict tenant isolation.
@@ -170,7 +182,7 @@ class HybridRetriever:
             ]
 
         # 1. Embed query
-        embeddings = await self.provider.get_embeddings([query])
+        embeddings = await self.embedding_provider.aembed([query])
         query_embedding = embeddings[0] if embeddings else []
 
         if mode == "vector_only":
@@ -210,7 +222,13 @@ class HybridRetriever:
         vector_results, text_results = await asyncio.gather(vector_task, text_task)
 
         # 3. Reciprocal Rank Fusion
-        fused = self.compute_rrf(vector_results, text_results, k=rrf_k)
+        fused = self.compute_rrf(
+            vector_results,
+            text_results,
+            k=rrf_k,
+            vector_weight=vector_weight,
+            text_weight=text_weight,
+        )
 
         if mode == "hybrid_rerank":
             candidates = fused[: max(top_k * 2, 10)]

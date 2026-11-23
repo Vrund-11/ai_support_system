@@ -1,10 +1,10 @@
 {
-  "numTotalTestSuites": 99,
-  "numPassedTestSuites": 99,
+  "numTotalTestSuites": 104,
+  "numPassedTestSuites": 104,
   "numFailedTestSuites": 0,
   "numPendingTestSuites": 0,
-  "numTotalTests": 236,
-  "numPassedTests": 236,
+  "numTotalTests": 245,
+  "numPassedTests": 245,
   "numFailedTests": 0,
   "numPendingTests": 0,
   "numTodoTests": 0,
@@ -24,7 +24,7 @@
     "updated": 0,
     "didUpdate": false
   },
-  "startTime": 1795323476013,
+  "startTime": 1795374230686,
   "success": true,
   "testResults": [
     {
@@ -37,7 +37,7 @@
           "fullName": "Analytics Aggregation Pipelines (ANL-1..4: S3-T07) AnalyticsService Aggregation Logic & Tenant Isolation enforces tenantId in volume aggregation pipeline ($match stage 0)",
           "status": "passed",
           "title": "enforces tenantId in volume aggregation pipeline ($match stage 0)",
-          "duration": 8.470600000000559,
+          "duration": 10.722900000000664,
           "failureMessages": [],
           "meta": {}
         },
@@ -49,7 +49,7 @@
           "fullName": "Analytics Aggregation Pipelines (ANL-1..4: S3-T07) AnalyticsService Aggregation Logic & Tenant Isolation calculates SLA compliance and p50/p90/p99 percentiles from resolution times (ANL-2)",
           "status": "passed",
           "title": "calculates SLA compliance and p50/p90/p99 percentiles from resolution times (ANL-2)",
-          "duration": 3.0485999999982596,
+          "duration": 2.486400000001595,
           "failureMessages": [],
           "meta": {}
         },
@@ -61,7 +61,7 @@
           "fullName": "Analytics Aggregation Pipelines (ANL-1..4: S3-T07) AnalyticsService Aggregation Logic & Tenant Isolation aggregates agent performance with resolution counts and compliance (ANL-3)",
           "status": "passed",
           "title": "aggregates agent performance with resolution counts and compliance (ANL-3)",
-          "duration": 2.234199999998964,
+          "duration": 4.686200000003737,
           "failureMessages": [],
           "meta": {}
         },
@@ -73,7 +73,7 @@
           "fullName": "Analytics Aggregation Pipelines (ANL-1..4: S3-T07) REST Endpoints (/api/v1/analytics) GET /api/v1/analytics/overview returns KPI summary",
           "status": "passed",
           "title": "GET /api/v1/analytics/overview returns KPI summary",
-          "duration": 132.54780000000028,
+          "duration": 323.0587999999989,
           "failureMessages": [],
           "meta": {}
         },
@@ -85,7 +85,7 @@
           "fullName": "Analytics Aggregation Pipelines (ANL-1..4: S3-T07) REST Endpoints (/api/v1/analytics) GET /api/v1/analytics/volume returns rollups (ANL-1)",
           "status": "passed",
           "title": "GET /api/v1/analytics/volume returns rollups (ANL-1)",
-          "duration": 37.89520000000266,
+          "duration": 130.61499999999796,
           "failureMessages": [],
           "meta": {}
         },
@@ -97,7 +97,7 @@
           "fullName": "Analytics Aggregation Pipelines (ANL-1..4: S3-T07) REST Endpoints (/api/v1/analytics) GET /api/v1/analytics/sla returns SLA percentiles (ANL-2)",
           "status": "passed",
           "title": "GET /api/v1/analytics/sla returns SLA percentiles (ANL-2)",
-          "duration": 162.548700000003,
+          "duration": 67.61239999999816,
           "failureMessages": [],
           "meta": {}
         },
@@ -109,7 +109,7 @@
           "fullName": "Analytics Aggregation Pipelines (ANL-1..4: S3-T07) REST Endpoints (/api/v1/analytics) GET /api/v1/analytics/agents returns agent leaderboard (ANL-3)",
           "status": "passed",
           "title": "GET /api/v1/analytics/agents returns agent leaderboard (ANL-3)",
-          "duration": 11.435700000001816,
+          "duration": 199.1094000000012,
           "failureMessages": [],
           "meta": {}
         },
@@ -121,7 +121,7 @@
           "fullName": "Analytics Aggregation Pipelines (ANL-1..4: S3-T07) REST Endpoints (/api/v1/analytics) GET /api/v1/analytics/deflection returns AI self-service deflection (ANL-4)",
           "status": "passed",
           "title": "GET /api/v1/analytics/deflection returns AI self-service deflection (ANL-4)",
-          "duration": 16.60580000000118,
+          "duration": 76.67750000000524,
           "failureMessages": [],
           "meta": {}
         },
@@ -133,13 +133,13 @@
           "fullName": "Analytics Aggregation Pipelines (ANL-1..4: S3-T07) REST Endpoints (/api/v1/analytics) forbids unauthenticated requests",
           "status": "passed",
           "title": "forbids unauthenticated requests",
-          "duration": 18.51680000000124,
+          "duration": 65.86520000000019,
           "failureMessages": [],
           "meta": {}
         }
       ],
-      "startTime": 1795323504434,
-      "endTime": 1795323504830.5168,
+      "startTime": 1795374271540,
+      "endTime": 1795374272422.8652,
       "status": "passed",
       "message": "",
       "name": "C:/Users/vrund/OneDrive/Desktop/ai_project/apps/ticket-service/tests/analytics-aggregation.test.ts"
@@ -154,7 +154,7 @@
           "fullName": "Auth Password Reset & Email Verification Flow (AUTH-4, NOTIF-3) POST /api/v1/auth/forgot-password generates reset token, saves expiration, and dispatches reset email",
           "status": "passed",
           "title": "generates reset token, saves expiration, and dispatches reset email",
-          "duration": 388.1958999999997,
+          "duration": 965.0460000000021,
           "failureMessages": [],
           "meta": {}
         },
@@ -166,7 +166,7 @@
           "fullName": "Auth Password Reset & Email Verification Flow (AUTH-4, NOTIF-3) POST /api/v1/auth/forgot-password returns generic success message when user not found (enumeration defense)",
           "status": "passed",
           "title": "returns generic success message when user not found (enumeration defense)",
-          "duration": 10.828999999999724,
+          "duration": 192.5983000000051,
           "failureMessages": [],
           "meta": {}
         },
@@ -178,7 +178,7 @@
           "fullName": "Auth Password Reset & Email Verification Flow (AUTH-4, NOTIF-3) POST /api/v1/auth/forgot-password rejects invalid email payload with 400 validation error",
           "status": "passed",
           "title": "rejects invalid email payload with 400 validation error",
-          "duration": 10.849099999999453,
+          "duration": 96.96490000000631,
           "failureMessages": [],
           "meta": {}
         },
@@ -190,7 +190,7 @@
           "fullName": "Auth Password Reset & Email Verification Flow (AUTH-4, NOTIF-3) POST /api/v1/auth/reset-password resets password, updates hash, clears token, and revokes Redis sessions",
           "status": "passed",
           "title": "resets password, updates hash, clears token, and revokes Redis sessions",
-          "duration": 1069.2340000000004,
+          "duration": 1864.0757999999987,
           "failureMessages": [],
           "meta": {}
         },
@@ -202,7 +202,7 @@
           "fullName": "Auth Password Reset & Email Verification Flow (AUTH-4, NOTIF-3) POST /api/v1/auth/reset-password rejects expired or invalid reset token with 400",
           "status": "passed",
           "title": "rejects expired or invalid reset token with 400",
-          "duration": 10.248900000000503,
+          "duration": 12.39589999999589,
           "failureMessages": [],
           "meta": {}
         },
@@ -214,7 +214,7 @@
           "fullName": "Auth Password Reset & Email Verification Flow (AUTH-4, NOTIF-3) POST /api/v1/auth/verify-email marks user email verified and clears token",
           "status": "passed",
           "title": "marks user email verified and clears token",
-          "duration": 9.619299999998475,
+          "duration": 12.373700000003737,
           "failureMessages": [],
           "meta": {}
         },
@@ -226,7 +226,7 @@
           "fullName": "Auth Password Reset & Email Verification Flow (AUTH-4, NOTIF-3) POST /api/v1/auth/verify-email rejects invalid or expired verification token with 400",
           "status": "passed",
           "title": "rejects invalid or expired verification token with 400",
-          "duration": 7.312600000001112,
+          "duration": 9.530400000003283,
           "failureMessages": [],
           "meta": {}
         },
@@ -238,13 +238,13 @@
           "fullName": "Auth Password Reset & Email Verification Flow (AUTH-4, NOTIF-3) POST /api/v1/auth/resend-verification dispatches verification email with token if user is unverified",
           "status": "passed",
           "title": "dispatches verification email with token if user is unverified",
-          "duration": 38.34240000000136,
+          "duration": 81.44930000000022,
           "failureMessages": [],
           "meta": {}
         }
       ],
-      "startTime": 1795323484073,
-      "endTime": 1795323485618.3423,
+      "startTime": 1795374269265,
+      "endTime": 1795374272503.4492,
       "status": "passed",
       "message": "",
       "name": "C:/Users/vrund/OneDrive/Desktop/ai_project/apps/ticket-service/tests/auth-reset-verify.test.ts"
@@ -256,7 +256,7 @@
           "fullName": "Auth (S1-T03) POST /login — rejects invalid payload",
           "status": "passed",
           "title": "POST /login — rejects invalid payload",
-          "duration": 197.03080000000045,
+          "duration": 1357.2108999999982,
           "failureMessages": [],
           "meta": {}
         },
@@ -265,7 +265,7 @@
           "fullName": "Auth (S1-T03) POST /login — rejects wrong email",
           "status": "passed",
           "title": "POST /login — rejects wrong email",
-          "duration": 12.523200000000543,
+          "duration": 27.43250000000262,
           "failureMessages": [],
           "meta": {}
         },
@@ -274,7 +274,7 @@
           "fullName": "Auth (S1-T03) POST /login — rejects wrong password",
           "status": "passed",
           "title": "POST /login — rejects wrong password",
-          "duration": 89.91150000000016,
+          "duration": 241.09060000000318,
           "failureMessages": [],
           "meta": {}
         },
@@ -283,7 +283,7 @@
           "fullName": "Auth (S1-T03) POST /login — returns tokens on valid credentials",
           "status": "passed",
           "title": "POST /login — returns tokens on valid credentials",
-          "duration": 20.66059999999925,
+          "duration": 265.67269999999553,
           "failureMessages": [],
           "meta": {}
         },
@@ -292,7 +292,7 @@
           "fullName": "Auth (S1-T03) POST /refresh — rotates tokens",
           "status": "passed",
           "title": "POST /refresh — rotates tokens",
-          "duration": 24.144499999998516,
+          "duration": 140.10550000000512,
           "failureMessages": [],
           "meta": {}
         },
@@ -301,7 +301,7 @@
           "fullName": "Auth (S1-T03) POST /refresh — reuse detection revokes all sessions",
           "status": "passed",
           "title": "POST /refresh — reuse detection revokes all sessions",
-          "duration": 91.3775999999998,
+          "duration": 221.49169999999867,
           "failureMessages": [],
           "meta": {}
         },
@@ -310,7 +310,7 @@
           "fullName": "Auth (S1-T03) POST /refresh — rejects expired token",
           "status": "passed",
           "title": "POST /refresh — rejects expired token",
-          "duration": 145.03020000000106,
+          "duration": 168.94400000000314,
           "failureMessages": [],
           "meta": {}
         },
@@ -319,7 +319,7 @@
           "fullName": "Auth (S1-T03) POST /logout — revokes refresh token and returns 204",
           "status": "passed",
           "title": "POST /logout — revokes refresh token and returns 204",
-          "duration": 19.766200000000026,
+          "duration": 233.22920000000158,
           "failureMessages": [],
           "meta": {}
         },
@@ -328,7 +328,7 @@
           "fullName": "Auth (S1-T03) requireAuth — rejects request without Authorization header",
           "status": "passed",
           "title": "requireAuth — rejects request without Authorization header",
-          "duration": 126.65560000000005,
+          "duration": 68.36420000000362,
           "failureMessages": [],
           "meta": {}
         },
@@ -337,13 +337,13 @@
           "fullName": "Auth (S1-T03) requireAuth — passes with valid access token",
           "status": "passed",
           "title": "requireAuth — passes with valid access token",
-          "duration": 12.95930000000044,
+          "duration": 15.34939999999915,
           "failureMessages": [],
           "meta": {}
         }
       ],
-      "startTime": 1795323484088,
-      "endTime": 1795323484827.9592,
+      "startTime": 1795374271542,
+      "endTime": 1795374274282.3494,
       "status": "passed",
       "message": "",
       "name": "C:/Users/vrund/OneDrive/Desktop/ai_project/apps/ticket-service/tests/auth.test.ts"
@@ -358,7 +358,7 @@
           "fullName": "Billing Engine & Admin Plan Routes (billing.routes.ts, admin.routes.ts) GET /api/v1/billing/subscription returns 401 when unauthenticated",
           "status": "passed",
           "title": "returns 401 when unauthenticated",
-          "duration": 68.04359999999997,
+          "duration": 367.9137999999948,
           "failureMessages": [],
           "meta": {}
         },
@@ -370,7 +370,7 @@
           "fullName": "Billing Engine & Admin Plan Routes (billing.routes.ts, admin.routes.ts) GET /api/v1/billing/subscription returns default FREE plan, limits, and zero usage for free tenant",
           "status": "passed",
           "title": "returns default FREE plan, limits, and zero usage for free tenant",
-          "duration": 32.991799999999785,
+          "duration": 115.4056999999957,
           "failureMessages": [],
           "meta": {}
         },
@@ -382,7 +382,7 @@
           "fullName": "Billing Engine & Admin Plan Routes (billing.routes.ts, admin.routes.ts) GET /api/v1/billing/subscription returns PRO plan limits and reflects tracked usage",
           "status": "passed",
           "title": "returns PRO plan limits and reflects tracked usage",
-          "duration": 18.840299999999843,
+          "duration": 38.248799999993935,
           "failureMessages": [],
           "meta": {}
         },
@@ -394,7 +394,7 @@
           "fullName": "Billing Engine & Admin Plan Routes (billing.routes.ts, admin.routes.ts) POST /api/v1/billing/checkout returns 401 when unauthenticated",
           "status": "passed",
           "title": "returns 401 when unauthenticated",
-          "duration": 330.5739000000003,
+          "duration": 1275.1834000000017,
           "failureMessages": [],
           "meta": {}
         },
@@ -406,7 +406,7 @@
           "fullName": "Billing Engine & Admin Plan Routes (billing.routes.ts, admin.routes.ts) POST /api/v1/billing/checkout rejects invalid plan with 400",
           "status": "passed",
           "title": "rejects invalid plan with 400",
-          "duration": 13.900400000000445,
+          "duration": 114.23629999999685,
           "failureMessages": [],
           "meta": {}
         },
@@ -418,7 +418,7 @@
           "fullName": "Billing Engine & Admin Plan Routes (billing.routes.ts, admin.routes.ts) POST /api/v1/billing/checkout returns mock checkout session when STRIPE_SECRET_KEY is not set",
           "status": "passed",
           "title": "returns mock checkout session when STRIPE_SECRET_KEY is not set",
-          "duration": 39.46590000000106,
+          "duration": 53.82340000000113,
           "failureMessages": [],
           "meta": {}
         },
@@ -430,7 +430,7 @@
           "fullName": "Billing Engine & Admin Plan Routes (billing.routes.ts, admin.routes.ts) POST /api/v1/billing/checkout calls live Stripe API when STRIPE_SECRET_KEY is configured",
           "status": "passed",
           "title": "calls live Stripe API when STRIPE_SECRET_KEY is configured",
-          "duration": 17.76890000000094,
+          "duration": 114.51580000000104,
           "failureMessages": [],
           "meta": {}
         },
@@ -442,7 +442,7 @@
           "fullName": "Billing Engine & Admin Plan Routes (billing.routes.ts, admin.routes.ts) POST /api/v1/billing/checkout returns error when Stripe API call fails",
           "status": "passed",
           "title": "returns error when Stripe API call fails",
-          "duration": 8.913800000000265,
+          "duration": 65.72149999999965,
           "failureMessages": [],
           "meta": {}
         },
@@ -454,7 +454,7 @@
           "fullName": "Billing Engine & Admin Plan Routes (billing.routes.ts, admin.routes.ts) POST /api/v1/billing/simulate-charge returns 401 when unauthenticated",
           "status": "passed",
           "title": "returns 401 when unauthenticated",
-          "duration": 18.05539999999928,
+          "duration": 14.640100000004168,
           "failureMessages": [],
           "meta": {}
         },
@@ -466,7 +466,7 @@
           "fullName": "Billing Engine & Admin Plan Routes (billing.routes.ts, admin.routes.ts) POST /api/v1/billing/simulate-charge returns 400 when cardNumber is missing or empty",
           "status": "passed",
           "title": "returns 400 when cardNumber is missing or empty",
-          "duration": 10.133700000000317,
+          "duration": 62.35369999999966,
           "failureMessages": [],
           "meta": {}
         },
@@ -478,7 +478,7 @@
           "fullName": "Billing Engine & Admin Plan Routes (billing.routes.ts, admin.routes.ts) POST /api/v1/billing/simulate-charge returns 400 when invalid plan is provided",
           "status": "passed",
           "title": "returns 400 when invalid plan is provided",
-          "duration": 8.919799999999668,
+          "duration": 65.69640000000072,
           "failureMessages": [],
           "meta": {}
         },
@@ -490,7 +490,7 @@
           "fullName": "Billing Engine & Admin Plan Routes (billing.routes.ts, admin.routes.ts) POST /api/v1/billing/simulate-charge returns 402 declined when card starts with 400000000002",
           "status": "passed",
           "title": "returns 402 declined when card starts with 400000000002",
-          "duration": 7.066100000000006,
+          "duration": 51.976800000004005,
           "failureMessages": [],
           "meta": {}
         },
@@ -502,7 +502,7 @@
           "fullName": "Billing Engine & Admin Plan Routes (billing.routes.ts, admin.routes.ts) POST /api/v1/billing/simulate-charge returns 402 declined when cvc is 000",
           "status": "passed",
           "title": "returns 402 declined when cvc is 000",
-          "duration": 26.696599999999307,
+          "duration": 24.040600000000268,
           "failureMessages": [],
           "meta": {}
         },
@@ -514,7 +514,7 @@
           "fullName": "Billing Engine & Admin Plan Routes (billing.routes.ts, admin.routes.ts) POST /api/v1/billing/simulate-charge succeeds with standard 4242 test card, updates tenant plan to PRO and returns mock charge data",
           "status": "passed",
           "title": "succeeds with standard 4242 test card, updates tenant plan to PRO and returns mock charge data",
-          "duration": 47.68840000000091,
+          "duration": 66.2103000000061,
           "failureMessages": [],
           "meta": {}
         },
@@ -526,7 +526,7 @@
           "fullName": "Billing Engine & Admin Plan Routes (billing.routes.ts, admin.routes.ts) POST /api/v1/billing/simulate-charge returns 404 if tenant to update does not exist",
           "status": "passed",
           "title": "returns 404 if tenant to update does not exist",
-          "duration": 40.17920000000049,
+          "duration": 64.67740000000049,
           "failureMessages": [],
           "meta": {}
         },
@@ -538,7 +538,7 @@
           "fullName": "Billing Engine & Admin Plan Routes (billing.routes.ts, admin.routes.ts) POST /api/v1/billing/webhook returns 400 when event type is missing",
           "status": "passed",
           "title": "returns 400 when event type is missing",
-          "duration": 22.668499999999767,
+          "duration": 103.6024000000034,
           "failureMessages": [],
           "meta": {}
         },
@@ -550,7 +550,7 @@
           "fullName": "Billing Engine & Admin Plan Routes (billing.routes.ts, admin.routes.ts) POST /api/v1/billing/webhook returns 400 when checkout.session.completed has no tenantId",
           "status": "passed",
           "title": "returns 400 when checkout.session.completed has no tenantId",
-          "duration": 7.48109999999906,
+          "duration": 76.49929999999586,
           "failureMessages": [],
           "meta": {}
         },
@@ -562,7 +562,7 @@
           "fullName": "Billing Engine & Admin Plan Routes (billing.routes.ts, admin.routes.ts) POST /api/v1/billing/webhook handles mock payload and upgrades tenant to PRO",
           "status": "passed",
           "title": "handles mock payload and upgrades tenant to PRO",
-          "duration": 8.227799999998751,
+          "duration": 84.35800000000017,
           "failureMessages": [],
           "meta": {}
         },
@@ -574,7 +574,7 @@
           "fullName": "Billing Engine & Admin Plan Routes (billing.routes.ts, admin.routes.ts) POST /api/v1/billing/webhook handles standard Stripe webhook event format",
           "status": "passed",
           "title": "handles standard Stripe webhook event format",
-          "duration": 7.734000000000378,
+          "duration": 9.840499999998428,
           "failureMessages": [],
           "meta": {}
         },
@@ -586,7 +586,7 @@
           "fullName": "Billing Engine & Admin Plan Routes (billing.routes.ts, admin.routes.ts) POST /api/v1/billing/webhook returns 404 when tenant is not found in database",
           "status": "passed",
           "title": "returns 404 when tenant is not found in database",
-          "duration": 10.735700000001088,
+          "duration": 77.71459999999934,
           "failureMessages": [],
           "meta": {}
         },
@@ -598,7 +598,7 @@
           "fullName": "Billing Engine & Admin Plan Routes (billing.routes.ts, admin.routes.ts) POST /api/v1/billing/webhook acknowledges other webhook events with 200",
           "status": "passed",
           "title": "acknowledges other webhook events with 200",
-          "duration": 18.858100000001286,
+          "duration": 12.821099999993748,
           "failureMessages": [],
           "meta": {}
         },
@@ -610,7 +610,7 @@
           "fullName": "Billing Engine & Admin Plan Routes (billing.routes.ts, admin.routes.ts) PATCH /api/v1/admin/tenants/:id/plan (RBAC & Manual Plan Control) returns 401 when unauthenticated",
           "status": "passed",
           "title": "returns 401 when unauthenticated",
-          "duration": 8.509200000000419,
+          "duration": 65.00439999999799,
           "failureMessages": [],
           "meta": {}
         },
@@ -622,7 +622,7 @@
           "fullName": "Billing Engine & Admin Plan Routes (billing.routes.ts, admin.routes.ts) PATCH /api/v1/admin/tenants/:id/plan (RBAC & Manual Plan Control) returns 403 for AGENT role",
           "status": "passed",
           "title": "returns 403 for AGENT role",
-          "duration": 8.995600000000195,
+          "duration": 49.061900000000605,
           "failureMessages": [],
           "meta": {}
         },
@@ -634,7 +634,7 @@
           "fullName": "Billing Engine & Admin Plan Routes (billing.routes.ts, admin.routes.ts) PATCH /api/v1/admin/tenants/:id/plan (RBAC & Manual Plan Control) returns 403 for LEAD role",
           "status": "passed",
           "title": "returns 403 for LEAD role",
-          "duration": 13.382799999999406,
+          "duration": 12.213499999998021,
           "failureMessages": [],
           "meta": {}
         },
@@ -646,7 +646,7 @@
           "fullName": "Billing Engine & Admin Plan Routes (billing.routes.ts, admin.routes.ts) PATCH /api/v1/admin/tenants/:id/plan (RBAC & Manual Plan Control) rejects invalid plan value with 400",
           "status": "passed",
           "title": "rejects invalid plan value with 400",
-          "duration": 6.9288999999989755,
+          "duration": 71.59610000000248,
           "failureMessages": [],
           "meta": {}
         },
@@ -658,7 +658,7 @@
           "fullName": "Billing Engine & Admin Plan Routes (billing.routes.ts, admin.routes.ts) PATCH /api/v1/admin/tenants/:id/plan (RBAC & Manual Plan Control) allows OWNER to manually upgrade tenant to PRO",
           "status": "passed",
           "title": "allows OWNER to manually upgrade tenant to PRO",
-          "duration": 6.732299999999668,
+          "duration": 8.815199999997276,
           "failureMessages": [],
           "meta": {}
         },
@@ -670,7 +670,7 @@
           "fullName": "Billing Engine & Admin Plan Routes (billing.routes.ts, admin.routes.ts) PATCH /api/v1/admin/tenants/:id/plan (RBAC & Manual Plan Control) allows OWNER to manually downgrade tenant to FREE",
           "status": "passed",
           "title": "allows OWNER to manually downgrade tenant to FREE",
-          "duration": 7.431800000000294,
+          "duration": 90.38300000000163,
           "failureMessages": [],
           "meta": {}
         },
@@ -682,13 +682,13 @@
           "fullName": "Billing Engine & Admin Plan Routes (billing.routes.ts, admin.routes.ts) PATCH /api/v1/admin/tenants/:id/plan (RBAC & Manual Plan Control) returns 404 if tenant to update does not exist",
           "status": "passed",
           "title": "returns 404 if tenant to update does not exist",
-          "duration": 7.2335000000002765,
+          "duration": 13.053299999999581,
           "failureMessages": [],
           "meta": {}
         }
       ],
-      "startTime": 1795323484088,
-      "endTime": 1795323484932.2334,
+      "startTime": 1795374269363,
+      "endTime": 1795374272626.0532,
       "status": "passed",
       "message": "",
       "name": "C:/Users/vrund/OneDrive/Desktop/ai_project/apps/ticket-service/tests/billing.test.ts"
@@ -700,7 +700,7 @@
           "fullName": "Customers, Team, and INT-3 Docs Endpoints Customers API creates or upserts customer with POST /api/v1/customers",
           "status": "passed",
           "title": "creates or upserts customer with POST /api/v1/customers",
-          "duration": 365.66939999999977,
+          "duration": 420.8347999999969,
           "failureMessages": [],
           "meta": {}
         },
@@ -709,7 +709,7 @@
           "fullName": "Customers, Team, and INT-3 Docs Endpoints Customers API lists customers with pagination with GET /api/v1/customers",
           "status": "passed",
           "title": "lists customers with pagination with GET /api/v1/customers",
-          "duration": 17.485099999999875,
+          "duration": 94.75,
           "failureMessages": [],
           "meta": {}
         },
@@ -718,7 +718,7 @@
           "fullName": "Customers, Team, and INT-3 Docs Endpoints Team API lists team members with GET /api/v1/team",
           "status": "passed",
           "title": "lists team members with GET /api/v1/team",
-          "duration": 10.583499999998821,
+          "duration": 66.06009999999515,
           "failureMessages": [],
           "meta": {}
         },
@@ -727,7 +727,7 @@
           "fullName": "Customers, Team, and INT-3 Docs Endpoints Team API invites a new team member with POST /api/v1/team/invite (LEAD required)",
           "status": "passed",
           "title": "invites a new team member with POST /api/v1/team/invite (LEAD required)",
-          "duration": 220.91799999999967,
+          "duration": 638.696299999996,
           "failureMessages": [],
           "meta": {}
         },
@@ -736,7 +736,7 @@
           "fullName": "Customers, Team, and INT-3 Docs Endpoints Team API rejects team invite from non-lead (AGENT)",
           "status": "passed",
           "title": "rejects team invite from non-lead (AGENT)",
-          "duration": 12.487599999998565,
+          "duration": 93.78220000000147,
           "failureMessages": [],
           "meta": {}
         },
@@ -748,7 +748,7 @@
           "fullName": "Customers, Team, and INT-3 Docs Endpoints INT-3: OpenAPI/Swagger Documentation Endpoints serves OpenAPI 3.0 specification JSON at GET /api/v1/docs/openapi.json",
           "status": "passed",
           "title": "serves OpenAPI 3.0 specification JSON at GET /api/v1/docs/openapi.json",
-          "duration": 12.15939999999864,
+          "duration": 34.038000000000466,
           "failureMessages": [],
           "meta": {}
         },
@@ -760,13 +760,13 @@
           "fullName": "Customers, Team, and INT-3 Docs Endpoints INT-3: OpenAPI/Swagger Documentation Endpoints serves Swagger UI HTML page at GET /api/v1/docs",
           "status": "passed",
           "title": "serves Swagger UI HTML page at GET /api/v1/docs",
-          "duration": 38.283799999999246,
+          "duration": 46.6417999999976,
           "failureMessages": [],
           "meta": {}
         }
       ],
-      "startTime": 1795323484060,
-      "endTime": 1795323484738.2837,
+      "startTime": 1795374278483,
+      "endTime": 1795374279939.6418,
       "status": "passed",
       "message": "",
       "name": "C:/Users/vrund/OneDrive/Desktop/ai_project/apps/ticket-service/tests/customers-team-docs.test.ts"
@@ -778,7 +778,7 @@
           "fullName": "ticket-service health endpoints GET /health returns minimal 200 { status: \"ok\" } without metadata",
           "status": "passed",
           "title": "returns minimal 200 { status: \"ok\" } without metadata",
-          "duration": 47.15729999999985,
+          "duration": 172.6389999999992,
           "failureMessages": [],
           "meta": {}
         },
@@ -787,7 +787,7 @@
           "fullName": "ticket-service health endpoints GET /ready and /health/readiness unauthenticated GET /ready returns 200 { status: \"ready\" } with zero dependency names",
           "status": "passed",
           "title": "unauthenticated GET /ready returns 200 { status: \"ready\" } with zero dependency names",
-          "duration": 14.043399999999565,
+          "duration": 81.69259999999849,
           "failureMessages": [],
           "meta": {}
         },
@@ -796,7 +796,7 @@
           "fullName": "ticket-service health endpoints GET /ready and /health/readiness unauthenticated GET /ready returns 503 { status: \"not_ready\" } with zero dependency names when DB disconnected",
           "status": "passed",
           "title": "unauthenticated GET /ready returns 503 { status: \"not_ready\" } with zero dependency names when DB disconnected",
-          "duration": 10.669300000000476,
+          "duration": 46.520400000001246,
           "failureMessages": [],
           "meta": {}
         },
@@ -805,7 +805,7 @@
           "fullName": "ticket-service health endpoints GET /ready and /health/readiness unauthenticated GET /ready returns 503 { status: \"not_ready\" } when Redis disconnected",
           "status": "passed",
           "title": "unauthenticated GET /ready returns 503 { status: \"not_ready\" } when Redis disconnected",
-          "duration": 15.091300000000047,
+          "duration": 15.690200000000914,
           "failureMessages": [],
           "meta": {}
         },
@@ -814,7 +814,7 @@
           "fullName": "ticket-service health endpoints GET /ready and /health/readiness authenticated GET /ready returns dependency status when x-service-token is valid",
           "status": "passed",
           "title": "authenticated GET /ready returns dependency status when x-service-token is valid",
-          "duration": 8.113900000000285,
+          "duration": 50.026300000001356,
           "failureMessages": [],
           "meta": {}
         },
@@ -823,13 +823,13 @@
           "fullName": "ticket-service health endpoints GET /ready and /health/readiness unauthenticated GET /health/readiness alias works identically",
           "status": "passed",
           "title": "unauthenticated GET /health/readiness alias works identically",
-          "duration": 15.877999999999702,
+          "duration": 70.37410000000091,
           "failureMessages": [],
           "meta": {}
         }
       ],
-      "startTime": 1795323484088,
-      "endTime": 1795323484199.878,
+      "startTime": 1795374291575,
+      "endTime": 1795374292013.374,
       "status": "passed",
       "message": "",
       "name": "C:/Users/vrund/OneDrive/Desktop/ai_project/apps/ticket-service/tests/health.test.ts"
@@ -841,7 +841,7 @@
           "fullName": "Integrations & Admin REST APIs (INT-1, INT-2, ADM-1, ADM-2, ADM-3) should create API key, hash secret, return rawKey once, and log audit event",
           "status": "passed",
           "title": "should create API key, hash secret, return rawKey once, and log audit event",
-          "duration": 225.28690000000006,
+          "duration": 925.2135000000053,
           "failureMessages": [],
           "meta": {}
         },
@@ -850,7 +850,7 @@
           "fullName": "Integrations & Admin REST APIs (INT-1, INT-2, ADM-1, ADM-2, ADM-3) should list active API keys masking raw secrets and revoke key",
           "status": "passed",
           "title": "should list active API keys masking raw secrets and revoke key",
-          "duration": 33.46770000000106,
+          "duration": 232.2280000000028,
           "failureMessages": [],
           "meta": {}
         },
@@ -859,7 +859,7 @@
           "fullName": "Integrations & Admin REST APIs (INT-1, INT-2, ADM-1, ADM-2, ADM-3) should create webhook subscription, test HMAC-SHA256 signature ping, and delete webhook",
           "status": "passed",
           "title": "should create webhook subscription, test HMAC-SHA256 signature ping, and delete webhook",
-          "duration": 28.327300000000832,
+          "duration": 294.0492000000013,
           "failureMessages": [],
           "meta": {}
         },
@@ -868,7 +868,7 @@
           "fullName": "Integrations & Admin REST APIs (INT-1, INT-2, ADM-1, ADM-2, ADM-3) should list audit events with pagination and filters",
           "status": "passed",
           "title": "should list audit events with pagination and filters",
-          "duration": 20.305500000000393,
+          "duration": 235.10589999999502,
           "failureMessages": [],
           "meta": {}
         },
@@ -877,7 +877,7 @@
           "fullName": "Integrations & Admin REST APIs (INT-1, INT-2, ADM-1, ADM-2, ADM-3) should list tenant feature flags and toggle state",
           "status": "passed",
           "title": "should list tenant feature flags and toggle state",
-          "duration": 63.08560000000034,
+          "duration": 84.42320000000473,
           "failureMessages": [],
           "meta": {}
         },
@@ -886,7 +886,7 @@
           "fullName": "Integrations & Admin REST APIs (INT-1, INT-2, ADM-1, ADM-2, ADM-3) should return platform health and tenant list for owner",
           "status": "passed",
           "title": "should return platform health and tenant list for owner",
-          "duration": 16.213200000000143,
+          "duration": 136.808100000002,
           "failureMessages": [],
           "meta": {}
         },
@@ -895,7 +895,7 @@
           "fullName": "Integrations & Admin REST APIs (INT-1, INT-2, ADM-1, ADM-2, ADM-3) should reject agent role from creating API keys and webhooks (RBAC)",
           "status": "passed",
           "title": "should reject agent role from creating API keys and webhooks (RBAC)",
-          "duration": 16.667900000000373,
+          "duration": 144.6820000000007,
           "failureMessages": [],
           "meta": {}
         },
@@ -904,7 +904,7 @@
           "fullName": "Integrations & Admin REST APIs (INT-1, INT-2, ADM-1, ADM-2, ADM-3) GET /api/v1/admin/metrics returns 200 with platform metrics",
           "status": "passed",
           "title": "GET /api/v1/admin/metrics returns 200 with platform metrics",
-          "duration": 41.49569999999949,
+          "duration": 36.794300000001385,
           "failureMessages": [],
           "meta": {}
         },
@@ -913,7 +913,7 @@
           "fullName": "Integrations & Admin REST APIs (INT-1, INT-2, ADM-1, ADM-2, ADM-3) GET /api/v1/admin/tenants/:id returns 200 with enriched tenant detail, quotas, feature flags",
           "status": "passed",
           "title": "GET /api/v1/admin/tenants/:id returns 200 with enriched tenant detail, quotas, feature flags",
-          "duration": 74.63860000000022,
+          "duration": 45.86049999999523,
           "failureMessages": [],
           "meta": {}
         },
@@ -922,7 +922,7 @@
           "fullName": "Integrations & Admin REST APIs (INT-1, INT-2, ADM-1, ADM-2, ADM-3) PATCH /api/v1/admin/tenants/:id/quotas returns 200 with updated quotas",
           "status": "passed",
           "title": "PATCH /api/v1/admin/tenants/:id/quotas returns 200 with updated quotas",
-          "duration": 58.773700000001554,
+          "duration": 82.6791000000012,
           "failureMessages": [],
           "meta": {}
         },
@@ -931,7 +931,7 @@
           "fullName": "Integrations & Admin REST APIs (INT-1, INT-2, ADM-1, ADM-2, ADM-3) GET /api/v1/admin/tenants/:id/audit-logs returns 200 with tenant audit trail",
           "status": "passed",
           "title": "GET /api/v1/admin/tenants/:id/audit-logs returns 200 with tenant audit trail",
-          "duration": 32.438100000001214,
+          "duration": 55.64799999999377,
           "failureMessages": [],
           "meta": {}
         },
@@ -940,7 +940,7 @@
           "fullName": "Integrations & Admin REST APIs (INT-1, INT-2, ADM-1, ADM-2, ADM-3) POST /api/v1/admin/tenants returns 201 and provisions tenant",
           "status": "passed",
           "title": "POST /api/v1/admin/tenants returns 201 and provisions tenant",
-          "duration": 150.14290000000074,
+          "duration": 597.3004000000001,
           "failureMessages": [],
           "meta": {}
         },
@@ -949,16 +949,133 @@
           "fullName": "Integrations & Admin REST APIs (INT-1, INT-2, ADM-1, ADM-2, ADM-3) Non-OWNER token (e.g. AGENT/LEAD) receives 403 on all admin routes",
           "status": "passed",
           "title": "Non-OWNER token (e.g. AGENT/LEAD) receives 403 on all admin routes",
-          "duration": 76.47790000000168,
+          "duration": 62.30819999999949,
           "failureMessages": [],
           "meta": {}
         }
       ],
-      "startTime": 1795323484073,
-      "endTime": 1795323484915.4778,
+      "startTime": 1795374272725,
+      "endTime": 1795374275663.308,
       "status": "passed",
       "message": "",
       "name": "C:/Users/vrund/OneDrive/Desktop/ai_project/apps/ticket-service/tests/integrations-admin.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [
+            "Feature 33 & 34: Keyset Pagination, Compound Indexes & Message ClientId Idempotency",
+            "MongoDB Compound Index Declarations"
+          ],
+          "fullName": "Feature 33 & 34: Keyset Pagination, Compound Indexes & Message ClientId Idempotency MongoDB Compound Index Declarations declares compound index on (tenantId, status, priority, updatedAt: -1)",
+          "status": "passed",
+          "title": "declares compound index on (tenantId, status, priority, updatedAt: -1)",
+          "duration": 4.588800000001356,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": [
+            "Feature 33 & 34: Keyset Pagination, Compound Indexes & Message ClientId Idempotency",
+            "MongoDB Compound Index Declarations"
+          ],
+          "fullName": "Feature 33 & 34: Keyset Pagination, Compound Indexes & Message ClientId Idempotency MongoDB Compound Index Declarations declares compound index on (tenantId, assigneeId, status, updatedAt: -1)",
+          "status": "passed",
+          "title": "declares compound index on (tenantId, assigneeId, status, updatedAt: -1)",
+          "duration": 0.6718000000000757,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": [
+            "Feature 33 & 34: Keyset Pagination, Compound Indexes & Message ClientId Idempotency",
+            "MongoDB Compound Index Declarations"
+          ],
+          "fullName": "Feature 33 & 34: Keyset Pagination, Compound Indexes & Message ClientId Idempotency MongoDB Compound Index Declarations declares compound index on (tenantId, updatedAt: -1, _id: -1)",
+          "status": "passed",
+          "title": "declares compound index on (tenantId, updatedAt: -1, _id: -1)",
+          "duration": 0.439699999998993,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": [
+            "Feature 33 & 34: Keyset Pagination, Compound Indexes & Message ClientId Idempotency",
+            "MongoDB Compound Index Declarations"
+          ],
+          "fullName": "Feature 33 & 34: Keyset Pagination, Compound Indexes & Message ClientId Idempotency MongoDB Compound Index Declarations declares unique partial compound index on (tenantId, ticketId, clientId) in Message model",
+          "status": "passed",
+          "title": "declares unique partial compound index on (tenantId, ticketId, clientId) in Message model",
+          "duration": 0.5584999999991851,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": [
+            "Feature 33 & 34: Keyset Pagination, Compound Indexes & Message ClientId Idempotency",
+            "Keyset Cursor Pagination"
+          ],
+          "fullName": "Feature 33 & 34: Keyset Pagination, Compound Indexes & Message ClientId Idempotency Keyset Cursor Pagination decodes base64 JSON cursor and builds (updatedAt, _id) compound inequality filter",
+          "status": "passed",
+          "title": "decodes base64 JSON cursor and builds (updatedAt, _id) compound inequality filter",
+          "duration": 24.333699999999226,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": [
+            "Feature 33 & 34: Keyset Pagination, Compound Indexes & Message ClientId Idempotency",
+            "Keyset Cursor Pagination"
+          ],
+          "fullName": "Feature 33 & 34: Keyset Pagination, Compound Indexes & Message ClientId Idempotency Keyset Cursor Pagination caps pagination limit at 50 even if higher limit requested",
+          "status": "passed",
+          "title": "caps pagination limit at 50 even if higher limit requested",
+          "duration": 6.5939999999973224,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": [
+            "Feature 33 & 34: Keyset Pagination, Compound Indexes & Message ClientId Idempotency",
+            "Keyset Cursor Pagination"
+          ],
+          "fullName": "Feature 33 & 34: Keyset Pagination, Compound Indexes & Message ClientId Idempotency Keyset Cursor Pagination encodes last item as base64 cursor when hasMore is true",
+          "status": "passed",
+          "title": "encodes last item as base64 cursor when hasMore is true",
+          "duration": 2.5951999999997497,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": [
+            "Feature 33 & 34: Keyset Pagination, Compound Indexes & Message ClientId Idempotency",
+            "Keyset Cursor Pagination"
+          ],
+          "fullName": "Feature 33 & 34: Keyset Pagination, Compound Indexes & Message ClientId Idempotency Keyset Cursor Pagination handles cursor with invalid date without throwing CastError",
+          "status": "passed",
+          "title": "handles cursor with invalid date without throwing CastError",
+          "duration": 3.1085999999995693,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": [
+            "Feature 33 & 34: Keyset Pagination, Compound Indexes & Message ClientId Idempotency",
+            "Message clientId Idempotency & Deduplication"
+          ],
+          "fullName": "Feature 33 & 34: Keyset Pagination, Compound Indexes & Message ClientId Idempotency Message clientId Idempotency & Deduplication returns existing message without creating duplicate when identical clientId is submitted",
+          "status": "passed",
+          "title": "returns existing message without creating duplicate when identical clientId is submitted",
+          "duration": 4.403800000000047,
+          "failureMessages": [],
+          "meta": {}
+        }
+      ],
+      "startTime": 1795374289986,
+      "endTime": 1795374290062.4038,
+      "status": "passed",
+      "message": "",
+      "name": "C:/Users/vrund/OneDrive/Desktop/ai_project/apps/ticket-service/tests/keyset-pagination.test.ts"
     },
     {
       "assertionResults": [
@@ -970,7 +1087,7 @@
           "fullName": "TEN-4, TKT-4, TKT-8, TKT-6, NOTIF-4 Backend Tests TEN-4: Tenant Quota Tracking & Middleware sets X-Quota-Remaining-* headers on responses",
           "status": "passed",
           "title": "sets X-Quota-Remaining-* headers on responses",
-          "duration": 68.25390000000061,
+          "duration": 282.5455000000002,
           "failureMessages": [],
           "meta": {}
         },
@@ -982,7 +1099,7 @@
           "fullName": "TEN-4, TKT-4, TKT-8, TKT-6, NOTIF-4 Backend Tests TEN-4: Tenant Quota Tracking & Middleware returns 429 when tenant daily message quota is exhausted",
           "status": "passed",
           "title": "returns 429 when tenant daily message quota is exhausted",
-          "duration": 99.25889999999981,
+          "duration": 630.8496999999988,
           "failureMessages": [],
           "meta": {}
         },
@@ -994,7 +1111,7 @@
           "fullName": "TEN-4, TKT-4, TKT-8, TKT-6, NOTIF-4 Backend Tests TKT-4: Round-robin and Least-loaded AssignmentService cycles agents via round-robin",
           "status": "passed",
           "title": "cycles agents via round-robin",
-          "duration": 1.4619999999995343,
+          "duration": 2.0339999999996508,
           "failureMessages": [],
           "meta": {}
         },
@@ -1006,7 +1123,7 @@
           "fullName": "TEN-4, TKT-4, TKT-8, TKT-6, NOTIF-4 Backend Tests TKT-4: Round-robin and Least-loaded AssignmentService picks agent with fewest open tickets in least-loaded",
           "status": "passed",
           "title": "picks agent with fewest open tickets in least-loaded",
-          "duration": 0.9720999999999549,
+          "duration": 1.2690999999977066,
           "failureMessages": [],
           "meta": {}
         },
@@ -1018,7 +1135,7 @@
           "fullName": "TEN-4, TKT-4, TKT-8, TKT-6, NOTIF-4 Backend Tests TKT-8: Bulk Ticket Actions (POST /api/v1/tickets/bulk) bulk assigns tickets to target agent",
           "status": "passed",
           "title": "bulk assigns tickets to target agent",
-          "duration": 19.214500000000044,
+          "duration": 240.67139999999927,
           "failureMessages": [],
           "meta": {}
         },
@@ -1030,7 +1147,7 @@
           "fullName": "TEN-4, TKT-4, TKT-8, TKT-6, NOTIF-4 Backend Tests TKT-8: Bulk Ticket Actions (POST /api/v1/tickets/bulk) bulk tags tickets",
           "status": "passed",
           "title": "bulk tags tickets",
-          "duration": 62.780399999999645,
+          "duration": 131.6851999999999,
           "failureMessages": [],
           "meta": {}
         },
@@ -1042,7 +1159,7 @@
           "fullName": "TEN-4, TKT-4, TKT-8, TKT-6, NOTIF-4 Backend Tests TKT-6: Ticket Custom Fields & Linking Tickets links two tickets bidirectionally",
           "status": "passed",
           "title": "links two tickets bidirectionally",
-          "duration": 37.3738000000003,
+          "duration": 54.46630000000005,
           "failureMessages": [],
           "meta": {}
         },
@@ -1054,13 +1171,13 @@
           "fullName": "TEN-4, TKT-4, TKT-8, TKT-6, NOTIF-4 Backend Tests NOTIF-4: User Notification Preferences updates user notification preferences via PATCH /api/v1/users/me/preferences",
           "status": "passed",
           "title": "updates user notification preferences via PATCH /api/v1/users/me/preferences",
-          "duration": 39.88619999999992,
+          "duration": 74.68409999999858,
           "failureMessages": [],
           "meta": {}
         }
       ],
-      "startTime": 1795323484088,
-      "endTime": 1795323484419.8862,
+      "startTime": 1795374276246,
+      "endTime": 1795374277717.684,
       "status": "passed",
       "message": "",
       "name": "C:/Users/vrund/OneDrive/Desktop/ai_project/apps/ticket-service/tests/quota-assignment-bulk.test.ts"
@@ -1075,7 +1192,7 @@
           "fullName": "T-AUTH-03: RBAC Matrix Tests (AUTH-3) Public Route: GET /api/v1/public allows unauthenticated requests",
           "status": "passed",
           "title": "allows unauthenticated requests",
-          "duration": 57.936499999999796,
+          "duration": 61.865499999999884,
           "failureMessages": [],
           "meta": {}
         },
@@ -1087,7 +1204,7 @@
           "fullName": "T-AUTH-03: RBAC Matrix Tests (AUTH-3) Public Route: GET /api/v1/public allows authenticated user with role PLATFORM_ADMIN",
           "status": "passed",
           "title": "allows authenticated user with role PLATFORM_ADMIN",
-          "duration": 20.612499999999272,
+          "duration": 20.23790000000008,
           "failureMessages": [],
           "meta": {}
         },
@@ -1099,7 +1216,7 @@
           "fullName": "T-AUTH-03: RBAC Matrix Tests (AUTH-3) Public Route: GET /api/v1/public allows authenticated user with role OWNER",
           "status": "passed",
           "title": "allows authenticated user with role OWNER",
-          "duration": 8.320000000000618,
+          "duration": 15.567800000000716,
           "failureMessages": [],
           "meta": {}
         },
@@ -1111,7 +1228,7 @@
           "fullName": "T-AUTH-03: RBAC Matrix Tests (AUTH-3) Public Route: GET /api/v1/public allows authenticated user with role LEAD",
           "status": "passed",
           "title": "allows authenticated user with role LEAD",
-          "duration": 10.791000000000167,
+          "duration": 47.14190000000235,
           "failureMessages": [],
           "meta": {}
         },
@@ -1123,7 +1240,7 @@
           "fullName": "T-AUTH-03: RBAC Matrix Tests (AUTH-3) Public Route: GET /api/v1/public allows authenticated user with role AGENT",
           "status": "passed",
           "title": "allows authenticated user with role AGENT",
-          "duration": 8.854599999999664,
+          "duration": 30.125199999998586,
           "failureMessages": [],
           "meta": {}
         },
@@ -1135,7 +1252,7 @@
           "fullName": "T-AUTH-03: RBAC Matrix Tests (AUTH-3) Public Route: GET /api/v1/public allows authenticated user with role VIEWER",
           "status": "passed",
           "title": "allows authenticated user with role VIEWER",
-          "duration": 10.643199999999524,
+          "duration": 26.449400000001333,
           "failureMessages": [],
           "meta": {}
         },
@@ -1147,7 +1264,7 @@
           "fullName": "T-AUTH-03: RBAC Matrix Tests (AUTH-3) AGENT+ Route: GET /api/v1/tickets (requireMinRole(\"AGENT\")) rejects unauthenticated request with 401",
           "status": "passed",
           "title": "rejects unauthenticated request with 401",
-          "duration": 8.742299999999886,
+          "duration": 10.301400000000285,
           "failureMessages": [],
           "meta": {}
         },
@@ -1159,7 +1276,7 @@
           "fullName": "T-AUTH-03: RBAC Matrix Tests (AUTH-3) AGENT+ Route: GET /api/v1/tickets (requireMinRole(\"AGENT\")) role PLATFORM_ADMIN returns 200",
           "status": "passed",
           "title": "role PLATFORM_ADMIN returns 200",
-          "duration": 11.312799999999697,
+          "duration": 14.180899999999383,
           "failureMessages": [],
           "meta": {}
         },
@@ -1171,7 +1288,7 @@
           "fullName": "T-AUTH-03: RBAC Matrix Tests (AUTH-3) AGENT+ Route: GET /api/v1/tickets (requireMinRole(\"AGENT\")) role OWNER returns 200",
           "status": "passed",
           "title": "role OWNER returns 200",
-          "duration": 9.268100000000231,
+          "duration": 12.325600000000122,
           "failureMessages": [],
           "meta": {}
         },
@@ -1183,7 +1300,7 @@
           "fullName": "T-AUTH-03: RBAC Matrix Tests (AUTH-3) AGENT+ Route: GET /api/v1/tickets (requireMinRole(\"AGENT\")) role LEAD returns 200",
           "status": "passed",
           "title": "role LEAD returns 200",
-          "duration": 7.730199999999968,
+          "duration": 15.518400000000838,
           "failureMessages": [],
           "meta": {}
         },
@@ -1195,7 +1312,7 @@
           "fullName": "T-AUTH-03: RBAC Matrix Tests (AUTH-3) AGENT+ Route: GET /api/v1/tickets (requireMinRole(\"AGENT\")) role AGENT returns 200",
           "status": "passed",
           "title": "role AGENT returns 200",
-          "duration": 6.994400000000496,
+          "duration": 8.362900000000081,
           "failureMessages": [],
           "meta": {}
         },
@@ -1207,7 +1324,7 @@
           "fullName": "T-AUTH-03: RBAC Matrix Tests (AUTH-3) AGENT+ Route: GET /api/v1/tickets (requireMinRole(\"AGENT\")) role VIEWER returns 403",
           "status": "passed",
           "title": "role VIEWER returns 403",
-          "duration": 8.731900000000678,
+          "duration": 9.942399999999907,
           "failureMessages": [],
           "meta": {}
         },
@@ -1219,7 +1336,7 @@
           "fullName": "T-AUTH-03: RBAC Matrix Tests (AUTH-3) LEAD+ Route: GET /api/v1/analytics (requireMinRole(\"LEAD\")) rejects unauthenticated request with 401",
           "status": "passed",
           "title": "rejects unauthenticated request with 401",
-          "duration": 6.408500000000458,
+          "duration": 7.114700000001903,
           "failureMessages": [],
           "meta": {}
         },
@@ -1231,7 +1348,7 @@
           "fullName": "T-AUTH-03: RBAC Matrix Tests (AUTH-3) LEAD+ Route: GET /api/v1/analytics (requireMinRole(\"LEAD\")) role PLATFORM_ADMIN returns 200",
           "status": "passed",
           "title": "role PLATFORM_ADMIN returns 200",
-          "duration": 7.399900000000343,
+          "duration": 8.87869999999748,
           "failureMessages": [],
           "meta": {}
         },
@@ -1243,7 +1360,7 @@
           "fullName": "T-AUTH-03: RBAC Matrix Tests (AUTH-3) LEAD+ Route: GET /api/v1/analytics (requireMinRole(\"LEAD\")) role OWNER returns 200",
           "status": "passed",
           "title": "role OWNER returns 200",
-          "duration": 7.666699999999764,
+          "duration": 8.456999999998516,
           "failureMessages": [],
           "meta": {}
         },
@@ -1255,7 +1372,7 @@
           "fullName": "T-AUTH-03: RBAC Matrix Tests (AUTH-3) LEAD+ Route: GET /api/v1/analytics (requireMinRole(\"LEAD\")) role LEAD returns 200",
           "status": "passed",
           "title": "role LEAD returns 200",
-          "duration": 7.734699999999975,
+          "duration": 8.236300000000483,
           "failureMessages": [],
           "meta": {}
         },
@@ -1267,7 +1384,7 @@
           "fullName": "T-AUTH-03: RBAC Matrix Tests (AUTH-3) LEAD+ Route: GET /api/v1/analytics (requireMinRole(\"LEAD\")) role AGENT returns 403",
           "status": "passed",
           "title": "role AGENT returns 403",
-          "duration": 6.569600000000719,
+          "duration": 10.169600000001083,
           "failureMessages": [],
           "meta": {}
         },
@@ -1279,7 +1396,7 @@
           "fullName": "T-AUTH-03: RBAC Matrix Tests (AUTH-3) LEAD+ Route: GET /api/v1/analytics (requireMinRole(\"LEAD\")) role VIEWER returns 403",
           "status": "passed",
           "title": "role VIEWER returns 403",
-          "duration": 8.466199999999844,
+          "duration": 8.265400000000227,
           "failureMessages": [],
           "meta": {}
         },
@@ -1291,7 +1408,7 @@
           "fullName": "T-AUTH-03: RBAC Matrix Tests (AUTH-3) OWNER/LEAD Route: POST /api/v1/kb/uploads (requireRoles(\"OWNER\", \"LEAD\")) rejects unauthenticated request with 401",
           "status": "passed",
           "title": "rejects unauthenticated request with 401",
-          "duration": 6.24330000000009,
+          "duration": 7.73399999999674,
           "failureMessages": [],
           "meta": {}
         },
@@ -1303,7 +1420,7 @@
           "fullName": "T-AUTH-03: RBAC Matrix Tests (AUTH-3) OWNER/LEAD Route: POST /api/v1/kb/uploads (requireRoles(\"OWNER\", \"LEAD\")) role PLATFORM_ADMIN returns 200",
           "status": "passed",
           "title": "role PLATFORM_ADMIN returns 200",
-          "duration": 25.455000000000837,
+          "duration": 9.334399999999732,
           "failureMessages": [],
           "meta": {}
         },
@@ -1315,7 +1432,7 @@
           "fullName": "T-AUTH-03: RBAC Matrix Tests (AUTH-3) OWNER/LEAD Route: POST /api/v1/kb/uploads (requireRoles(\"OWNER\", \"LEAD\")) role OWNER returns 200",
           "status": "passed",
           "title": "role OWNER returns 200",
-          "duration": 13.587799999999334,
+          "duration": 43.49510000000009,
           "failureMessages": [],
           "meta": {}
         },
@@ -1327,7 +1444,7 @@
           "fullName": "T-AUTH-03: RBAC Matrix Tests (AUTH-3) OWNER/LEAD Route: POST /api/v1/kb/uploads (requireRoles(\"OWNER\", \"LEAD\")) role LEAD returns 200",
           "status": "passed",
           "title": "role LEAD returns 200",
-          "duration": 12.812200000000303,
+          "duration": 51.09640000000218,
           "failureMessages": [],
           "meta": {}
         },
@@ -1339,7 +1456,7 @@
           "fullName": "T-AUTH-03: RBAC Matrix Tests (AUTH-3) OWNER/LEAD Route: POST /api/v1/kb/uploads (requireRoles(\"OWNER\", \"LEAD\")) role AGENT returns 403",
           "status": "passed",
           "title": "role AGENT returns 403",
-          "duration": 6.921100000000479,
+          "duration": 24.620100000000093,
           "failureMessages": [],
           "meta": {}
         },
@@ -1351,7 +1468,7 @@
           "fullName": "T-AUTH-03: RBAC Matrix Tests (AUTH-3) OWNER/LEAD Route: POST /api/v1/kb/uploads (requireRoles(\"OWNER\", \"LEAD\")) role VIEWER returns 403",
           "status": "passed",
           "title": "role VIEWER returns 403",
-          "duration": 6.753099999999904,
+          "duration": 46.82420000000275,
           "failureMessages": [],
           "meta": {}
         },
@@ -1363,7 +1480,7 @@
           "fullName": "T-AUTH-03: RBAC Matrix Tests (AUTH-3) OWNER Only Route: PUT /api/v1/settings (requireRoles(\"OWNER\")) rejects unauthenticated request with 401",
           "status": "passed",
           "title": "rejects unauthenticated request with 401",
-          "duration": 8.867299999999886,
+          "duration": 60.34549999999945,
           "failureMessages": [],
           "meta": {}
         },
@@ -1375,7 +1492,7 @@
           "fullName": "T-AUTH-03: RBAC Matrix Tests (AUTH-3) OWNER Only Route: PUT /api/v1/settings (requireRoles(\"OWNER\")) role PLATFORM_ADMIN returns 200",
           "status": "passed",
           "title": "role PLATFORM_ADMIN returns 200",
-          "duration": 7.26720000000023,
+          "duration": 27.255600000000413,
           "failureMessages": [],
           "meta": {}
         },
@@ -1387,7 +1504,7 @@
           "fullName": "T-AUTH-03: RBAC Matrix Tests (AUTH-3) OWNER Only Route: PUT /api/v1/settings (requireRoles(\"OWNER\")) role OWNER returns 200",
           "status": "passed",
           "title": "role OWNER returns 200",
-          "duration": 7.0361000000002605,
+          "duration": 7.95969999999943,
           "failureMessages": [],
           "meta": {}
         },
@@ -1399,7 +1516,7 @@
           "fullName": "T-AUTH-03: RBAC Matrix Tests (AUTH-3) OWNER Only Route: PUT /api/v1/settings (requireRoles(\"OWNER\")) role LEAD returns 403",
           "status": "passed",
           "title": "role LEAD returns 403",
-          "duration": 25.28349999999955,
+          "duration": 7.2585999999973865,
           "failureMessages": [],
           "meta": {}
         },
@@ -1411,7 +1528,7 @@
           "fullName": "T-AUTH-03: RBAC Matrix Tests (AUTH-3) OWNER Only Route: PUT /api/v1/settings (requireRoles(\"OWNER\")) role AGENT returns 403",
           "status": "passed",
           "title": "role AGENT returns 403",
-          "duration": 6.851799999999457,
+          "duration": 6.926100000000588,
           "failureMessages": [],
           "meta": {}
         },
@@ -1423,7 +1540,7 @@
           "fullName": "T-AUTH-03: RBAC Matrix Tests (AUTH-3) OWNER Only Route: PUT /api/v1/settings (requireRoles(\"OWNER\")) role VIEWER returns 403",
           "status": "passed",
           "title": "role VIEWER returns 403",
-          "duration": 10.189000000000306,
+          "duration": 8.561900000000605,
           "failureMessages": [],
           "meta": {}
         },
@@ -1435,7 +1552,7 @@
           "fullName": "T-AUTH-03: RBAC Matrix Tests (AUTH-3) Deny-By-Default: GET /api/v1/locked (requireRoles()) rejects role PLATFORM_ADMIN with 403 when no roles permitted",
           "status": "passed",
           "title": "rejects role PLATFORM_ADMIN with 403 when no roles permitted",
-          "duration": 7.86660000000029,
+          "duration": 8.014800000000832,
           "failureMessages": [],
           "meta": {}
         },
@@ -1447,7 +1564,7 @@
           "fullName": "T-AUTH-03: RBAC Matrix Tests (AUTH-3) Deny-By-Default: GET /api/v1/locked (requireRoles()) rejects role OWNER with 403 when no roles permitted",
           "status": "passed",
           "title": "rejects role OWNER with 403 when no roles permitted",
-          "duration": 8.470100000000457,
+          "duration": 7.117799999999988,
           "failureMessages": [],
           "meta": {}
         },
@@ -1459,7 +1576,7 @@
           "fullName": "T-AUTH-03: RBAC Matrix Tests (AUTH-3) Deny-By-Default: GET /api/v1/locked (requireRoles()) rejects role LEAD with 403 when no roles permitted",
           "status": "passed",
           "title": "rejects role LEAD with 403 when no roles permitted",
-          "duration": 12.136900000000423,
+          "duration": 7.61109999999826,
           "failureMessages": [],
           "meta": {}
         },
@@ -1471,7 +1588,7 @@
           "fullName": "T-AUTH-03: RBAC Matrix Tests (AUTH-3) Deny-By-Default: GET /api/v1/locked (requireRoles()) rejects role AGENT with 403 when no roles permitted",
           "status": "passed",
           "title": "rejects role AGENT with 403 when no roles permitted",
-          "duration": 7.563000000000102,
+          "duration": 8.263999999999214,
           "failureMessages": [],
           "meta": {}
         },
@@ -1483,13 +1600,13 @@
           "fullName": "T-AUTH-03: RBAC Matrix Tests (AUTH-3) Deny-By-Default: GET /api/v1/locked (requireRoles()) rejects role VIEWER with 403 when no roles permitted",
           "status": "passed",
           "title": "rejects role VIEWER with 403 when no roles permitted",
-          "duration": 10.490099999999984,
+          "duration": 8.224200000000565,
           "failureMessages": [],
           "meta": {}
         }
       ],
-      "startTime": 1795323481243,
-      "endTime": 1795323481643.49,
+      "startTime": 1795374262771,
+      "endTime": 1795374263442.224,
       "status": "passed",
       "message": "",
       "name": "C:/Users/vrund/OneDrive/Desktop/ai_project/apps/ticket-service/tests/rbac-matrix.test.ts"
@@ -1501,7 +1618,7 @@
           "fullName": "Auth Register (POST /api/v1/auth/register) rejects invalid payload with 400 problem details",
           "status": "passed",
           "title": "rejects invalid payload with 400 problem details",
-          "duration": 164.70629999999983,
+          "duration": 820.0397000000012,
           "failureMessages": [],
           "meta": {}
         },
@@ -1510,7 +1627,7 @@
           "fullName": "Auth Register (POST /api/v1/auth/register) slugify helper generates clean url-friendly slug",
           "status": "passed",
           "title": "slugify helper generates clean url-friendly slug",
-          "duration": 0.8104000000002998,
+          "duration": 89.54579999999987,
           "failureMessages": [],
           "meta": {}
         },
@@ -1519,13 +1636,13 @@
           "fullName": "Auth Register (POST /api/v1/auth/register) registers tenant and owner user successfully",
           "status": "passed",
           "title": "registers tenant and owner user successfully",
-          "duration": 587.6565999999993,
+          "duration": 3497.0239,
           "failureMessages": [],
           "meta": {}
         }
       ],
-      "startTime": 1795323484060,
-      "endTime": 1795323484814.6565,
+      "startTime": 1795374269242,
+      "endTime": 1795374273650.024,
       "status": "passed",
       "message": "",
       "name": "C:/Users/vrund/OneDrive/Desktop/ai_project/apps/ticket-service/tests/register.test.ts"
@@ -1537,7 +1654,7 @@
           "fullName": "Rules Engine REST API & Ticket Automation (AUTO-3) allows LEAD to create a new automation rule, while AGENT is forbidden",
           "status": "passed",
           "title": "allows LEAD to create a new automation rule, while AGENT is forbidden",
-          "duration": 666.5681000000004,
+          "duration": 1244.3130999999994,
           "failureMessages": [],
           "meta": {}
         },
@@ -1546,7 +1663,7 @@
           "fullName": "Rules Engine REST API & Ticket Automation (AUTO-3) enforces strict cross-tenant isolation on rule listing and retrieval (TEN-1)",
           "status": "passed",
           "title": "enforces strict cross-tenant isolation on rule listing and retrieval (TEN-1)",
-          "duration": 100.00370000000112,
+          "duration": 351.4628999999986,
           "failureMessages": [],
           "meta": {}
         },
@@ -1555,7 +1672,7 @@
           "fullName": "Rules Engine REST API & Ticket Automation (AUTO-3) automatically triggers matching rules on ticket creation to assign agent and bump priority",
           "status": "passed",
           "title": "automatically triggers matching rules on ticket creation to assign agent and bump priority",
-          "duration": 35.943600000000515,
+          "duration": 228.54290000000037,
           "failureMessages": [],
           "meta": {}
         },
@@ -1564,13 +1681,13 @@
           "fullName": "Rules Engine REST API & Ticket Automation (AUTO-3) allows dry-run test evaluation of rules via /test-evaluate",
           "status": "passed",
           "title": "allows dry-run test evaluation of rules via /test-evaluate",
-          "duration": 71.85570000000007,
+          "duration": 88.29759999999806,
           "failureMessages": [],
           "meta": {}
         }
       ],
-      "startTime": 1795323484107,
-      "endTime": 1795323484981.8557,
+      "startTime": 1795374270171,
+      "endTime": 1795374272085.2976,
       "status": "passed",
       "message": "",
       "name": "C:/Users/vrund/OneDrive/Desktop/ai_project/apps/ticket-service/tests/rules-api.test.ts"
@@ -1585,7 +1702,7 @@
           "fullName": "Ticket Service Security Pass (TEN-1..3: Cross-Tenant Isolation & Observability) 1. Cross-Tenant Data Isolation (TEN-1, TEN-2, TEN-3) prevents Tenant Alpha from reading Tenant Beta ticket by ID (returns 404, never data)",
           "status": "passed",
           "title": "prevents Tenant Alpha from reading Tenant Beta ticket by ID (returns 404, never data)",
-          "duration": 96.91319999999996,
+          "duration": 303.2569000000003,
           "failureMessages": [],
           "meta": {}
         },
@@ -1597,7 +1714,7 @@
           "fullName": "Ticket Service Security Pass (TEN-1..3: Cross-Tenant Isolation & Observability) 1. Cross-Tenant Data Isolation (TEN-1, TEN-2, TEN-3) ensures ticket list queries strictly filter by tenantId, preventing cross-tenant leakage",
           "status": "passed",
           "title": "ensures ticket list queries strictly filter by tenantId, preventing cross-tenant leakage",
-          "duration": 36.32510000000002,
+          "duration": 343.206299999998,
           "failureMessages": [],
           "meta": {}
         },
@@ -1609,7 +1726,7 @@
           "fullName": "Ticket Service Security Pass (TEN-1..3: Cross-Tenant Isolation & Observability) 1. Cross-Tenant Data Isolation (TEN-1, TEN-2, TEN-3) enforces tenant namespacing on S3 presigned attachment keys",
           "status": "passed",
           "title": "enforces tenant namespacing on S3 presigned attachment keys",
-          "duration": 299.47269999999935,
+          "duration": 865.546699999999,
           "failureMessages": [],
           "meta": {}
         },
@@ -1621,13 +1738,13 @@
           "fullName": "Ticket Service Security Pass (TEN-1..3: Cross-Tenant Isolation & Observability) 2. Observability & Tracing propagates W3C traceparent headers and exposes Prometheus metrics",
           "status": "passed",
           "title": "propagates W3C traceparent headers and exposes Prometheus metrics",
-          "duration": 95.67099999999846,
+          "duration": 395.37280000000464,
           "failureMessages": [],
           "meta": {}
         }
       ],
-      "startTime": 1795323484078,
-      "endTime": 1795323484607.671,
+      "startTime": 1795374269316,
+      "endTime": 1795374271226.3728,
       "status": "passed",
       "message": "",
       "name": "C:/Users/vrund/OneDrive/Desktop/ai_project/apps/ticket-service/tests/security-pass.test.ts"
@@ -1639,7 +1756,7 @@
           "fullName": "Seed Data Generator (S4-T09) generates 50 realistic tickets across statuses, priorities, and categories",
           "status": "passed",
           "title": "generates 50 realistic tickets across statuses, priorities, and categories",
-          "duration": 6.219999999997526,
+          "duration": 13.01260000000002,
           "failureMessages": [],
           "meta": {}
         },
@@ -1648,13 +1765,13 @@
           "fullName": "Seed Data Generator (S4-T09) runs hermetic seed dry-run and outputs expected resource counts",
           "status": "passed",
           "title": "runs hermetic seed dry-run and outputs expected resource counts",
-          "duration": 13.393099999997503,
+          "duration": 21.76889999999912,
           "failureMessages": [],
           "meta": {}
         }
       ],
-      "startTime": 1795323507796,
-      "endTime": 1795323507816.393,
+      "startTime": 1795374287850,
+      "endTime": 1795374287884.7688,
       "status": "passed",
       "message": "",
       "name": "C:/Users/vrund/OneDrive/Desktop/ai_project/apps/ticket-service/tests/seed.test.ts"
@@ -1669,7 +1786,7 @@
           "fullName": "Status Transitions (S1-T07: TKT-2 / T-TKT-01) Unit Transition Checks verifies exact PRD transition matrix",
           "status": "passed",
           "title": "verifies exact PRD transition matrix",
-          "duration": 5.636500000000069,
+          "duration": 6.202199999999721,
           "failureMessages": [],
           "meta": {}
         },
@@ -1681,7 +1798,7 @@
           "fullName": "Status Transitions (S1-T07: TKT-2 / T-TKT-01) Unit Transition Checks validateStatusTransition throws AppError 400 with /errors/invalid-status-transition",
           "status": "passed",
           "title": "validateStatusTransition throws AppError 400 with /errors/invalid-status-transition",
-          "duration": 1.055699999999888,
+          "duration": 1.3145000000004075,
           "failureMessages": [],
           "meta": {}
         },
@@ -1693,7 +1810,7 @@
           "fullName": "Status Transitions (S1-T07: TKT-2 / T-TKT-01) Unit Transition Checks validateStatusTransition succeeds on valid transition",
           "status": "passed",
           "title": "validateStatusTransition succeeds on valid transition",
-          "duration": 1.4439000000002125,
+          "duration": 2.109099999999671,
           "failureMessages": [],
           "meta": {}
         },
@@ -1705,7 +1822,7 @@
           "fullName": "Status Transitions (S1-T07: TKT-2 / T-TKT-01) Property-Based Testing with fast-check property: self-transitions are always valid (idempotent)",
           "status": "passed",
           "title": "property: self-transitions are always valid (idempotent)",
-          "duration": 5.182299999999941,
+          "duration": 16.98279999999977,
           "failureMessages": [],
           "meta": {}
         },
@@ -1717,7 +1834,7 @@
           "fullName": "Status Transitions (S1-T07: TKT-2 / T-TKT-01) Property-Based Testing with fast-check property: no status can ever transition back to NEW",
           "status": "passed",
           "title": "property: no status can ever transition back to NEW",
-          "duration": 1.3166000000001077,
+          "duration": 2.5734000000011292,
           "failureMessages": [],
           "meta": {}
         },
@@ -1729,7 +1846,7 @@
           "fullName": "Status Transitions (S1-T07: TKT-2 / T-TKT-01) Property-Based Testing with fast-check property: CLOSED is terminal and cannot transition to any other status",
           "status": "passed",
           "title": "property: CLOSED is terminal and cannot transition to any other status",
-          "duration": 1.1269999999999527,
+          "duration": 4.070400000000518,
           "failureMessages": [],
           "meta": {}
         },
@@ -1741,7 +1858,7 @@
           "fullName": "Status Transitions (S1-T07: TKT-2 / T-TKT-01) Property-Based Testing with fast-check property: canTransitionStatus consistency matches ALLOWED_STATUS_TRANSITIONS lookup table",
           "status": "passed",
           "title": "property: canTransitionStatus consistency matches ALLOWED_STATUS_TRANSITIONS lookup table",
-          "duration": 2.676400000000285,
+          "duration": 3.639100000000326,
           "failureMessages": [],
           "meta": {}
         },
@@ -1753,7 +1870,7 @@
           "fullName": "Status Transitions (S1-T07: TKT-2 / T-TKT-01) Property-Based Testing with fast-check property: validateStatusTransition throws if and only if canTransitionStatus is false",
           "status": "passed",
           "title": "property: validateStatusTransition throws if and only if canTransitionStatus is false",
-          "duration": 22.533500000000004,
+          "duration": 17.34350000000086,
           "failureMessages": [],
           "meta": {}
         },
@@ -1765,13 +1882,13 @@
           "fullName": "Status Transitions (S1-T07: TKT-2 / T-TKT-01) Property-Based Testing with fast-check property: random paths from NEW only reach CLOSED via valid intermediate states",
           "status": "passed",
           "title": "property: random paths from NEW only reach CLOSED via valid intermediate states",
-          "duration": 8.77659999999969,
+          "duration": 15.653199999998833,
           "failureMessages": [],
           "meta": {}
         }
       ],
-      "startTime": 1795323488863,
-      "endTime": 1795323488913.7766,
+      "startTime": 1795374282038,
+      "endTime": 1795374282110.6533,
       "status": "passed",
       "message": "",
       "name": "C:/Users/vrund/OneDrive/Desktop/ai_project/apps/ticket-service/tests/status-transition.test.ts"
@@ -1786,7 +1903,7 @@
           "fullName": "SuperAdmin Platform Portal APIs (superadmin.routes.ts) Authentication & Access Control Login with wrong credentials -> 401",
           "status": "passed",
           "title": "Login with wrong credentials -> 401",
-          "duration": 164.558,
+          "duration": 1317.0931000000055,
           "failureMessages": [],
           "meta": {}
         },
@@ -1798,7 +1915,7 @@
           "fullName": "SuperAdmin Platform Portal APIs (superadmin.routes.ts) Authentication & Access Control Login with correct env credentials -> 200 + token",
           "status": "passed",
           "title": "Login with correct env credentials -> 200 + token",
-          "duration": 22.38509999999951,
+          "duration": 67.70430000000488,
           "failureMessages": [],
           "meta": {}
         },
@@ -1810,7 +1927,7 @@
           "fullName": "SuperAdmin Platform Portal APIs (superadmin.routes.ts) Authentication & Access Control Protected routes without token -> 401",
           "status": "passed",
           "title": "Protected routes without token -> 401",
-          "duration": 23.530800000000454,
+          "duration": 76.93850000000384,
           "failureMessages": [],
           "meta": {}
         },
@@ -1822,7 +1939,7 @@
           "fullName": "SuperAdmin Platform Portal APIs (superadmin.routes.ts) Authentication & Access Control Protected routes with regular tenant user token -> 403",
           "status": "passed",
           "title": "Protected routes with regular tenant user token -> 403",
-          "duration": 11.380699999999706,
+          "duration": 68.92750000000524,
           "failureMessages": [],
           "meta": {}
         },
@@ -1834,7 +1951,7 @@
           "fullName": "SuperAdmin Platform Portal APIs (superadmin.routes.ts) Protected SuperAdmin Endpoints GET /api/v1/superadmin/auth/me -> 200",
           "status": "passed",
           "title": "GET /api/v1/superadmin/auth/me -> 200",
-          "duration": 26.107299999999668,
+          "duration": 122.592899999996,
           "failureMessages": [],
           "meta": {}
         },
@@ -1846,7 +1963,7 @@
           "fullName": "SuperAdmin Platform Portal APIs (superadmin.routes.ts) Protected SuperAdmin Endpoints GET /api/v1/superadmin/metrics -> 200",
           "status": "passed",
           "title": "GET /api/v1/superadmin/metrics -> 200",
-          "duration": 79.38879999999881,
+          "duration": 144.76550000000134,
           "failureMessages": [],
           "meta": {}
         },
@@ -1858,7 +1975,7 @@
           "fullName": "SuperAdmin Platform Portal APIs (superadmin.routes.ts) Protected SuperAdmin Endpoints GET /api/v1/superadmin/registrations -> 200",
           "status": "passed",
           "title": "GET /api/v1/superadmin/registrations -> 200",
-          "duration": 22.675999999999476,
+          "duration": 188.32420000000275,
           "failureMessages": [],
           "meta": {}
         },
@@ -1870,7 +1987,7 @@
           "fullName": "SuperAdmin Platform Portal APIs (superadmin.routes.ts) Protected SuperAdmin Endpoints GET /api/v1/superadmin/subscriptions -> 200",
           "status": "passed",
           "title": "GET /api/v1/superadmin/subscriptions -> 200",
-          "duration": 38.8786999999993,
+          "duration": 111.017399999997,
           "failureMessages": [],
           "meta": {}
         },
@@ -1882,7 +1999,7 @@
           "fullName": "SuperAdmin Platform Portal APIs (superadmin.routes.ts) Protected SuperAdmin Endpoints GET /api/v1/superadmin/tenants -> 200",
           "status": "passed",
           "title": "GET /api/v1/superadmin/tenants -> 200",
-          "duration": 106.9445999999989,
+          "duration": 22.276599999997416,
           "failureMessages": [],
           "meta": {}
         },
@@ -1894,7 +2011,7 @@
           "fullName": "SuperAdmin Platform Portal APIs (superadmin.routes.ts) Protected SuperAdmin Endpoints PATCH /api/v1/superadmin/tenants/:id/status -> 200",
           "status": "passed",
           "title": "PATCH /api/v1/superadmin/tenants/:id/status -> 200",
-          "duration": 24.206600000001345,
+          "duration": 76.22339999999531,
           "failureMessages": [],
           "meta": {}
         },
@@ -1906,7 +2023,7 @@
           "fullName": "SuperAdmin Platform Portal APIs (superadmin.routes.ts) Protected SuperAdmin Endpoints PATCH /api/v1/superadmin/tenants/:id/plan -> 200",
           "status": "passed",
           "title": "PATCH /api/v1/superadmin/tenants/:id/plan -> 200",
-          "duration": 65.39699999999903,
+          "duration": 201.46650000000227,
           "failureMessages": [],
           "meta": {}
         },
@@ -1918,7 +2035,7 @@
           "fullName": "SuperAdmin Platform Portal APIs (superadmin.routes.ts) Protected SuperAdmin Endpoints PATCH /api/v1/superadmin/tenants/:id/quotas -> 200",
           "status": "passed",
           "title": "PATCH /api/v1/superadmin/tenants/:id/quotas -> 200",
-          "duration": 56.66219999999885,
+          "duration": 94.09449999999924,
           "failureMessages": [],
           "meta": {}
         },
@@ -1930,13 +2047,13 @@
           "fullName": "SuperAdmin Platform Portal APIs (superadmin.routes.ts) Protected SuperAdmin Endpoints GET /api/v1/superadmin/audit-logs -> 200",
           "status": "passed",
           "title": "GET /api/v1/superadmin/audit-logs -> 200",
-          "duration": 12.363100000000486,
+          "duration": 53.34850000000006,
           "failureMessages": [],
           "meta": {}
         }
       ],
-      "startTime": 1795323484079,
-      "endTime": 1795323484734.363,
+      "startTime": 1795374272299,
+      "endTime": 1795374274846.3484,
       "status": "passed",
       "message": "",
       "name": "C:/Users/vrund/OneDrive/Desktop/ai_project/apps/ticket-service/tests/superadmin-api.test.ts"
@@ -1951,7 +2068,7 @@
           "fullName": "BaseTenantRepository (S1-T05 / TEN-1) Constructor & Unscoped Query Prevention throws AppError 400 when tenantId is empty or undefined",
           "status": "passed",
           "title": "throws AppError 400 when tenantId is empty or undefined",
-          "duration": 8.131599999998798,
+          "duration": 5.938700000000608,
           "failureMessages": [],
           "meta": {}
         },
@@ -1963,7 +2080,7 @@
           "fullName": "BaseTenantRepository (S1-T05 / TEN-1) Constructor & Unscoped Query Prevention throws AppError 400 when tenantId string has invalid hex format",
           "status": "passed",
           "title": "throws AppError 400 when tenantId string has invalid hex format",
-          "duration": 0.6908000000003085,
+          "duration": 0.8580000000001746,
           "failureMessages": [],
           "meta": {}
         },
@@ -1975,7 +2092,7 @@
           "fullName": "BaseTenantRepository (S1-T05 / TEN-1) Constructor & Unscoped Query Prevention accepts valid string and converts to Types.ObjectId",
           "status": "passed",
           "title": "accepts valid string and converts to Types.ObjectId",
-          "duration": 1.1234999999996944,
+          "duration": 1.8274000000001251,
           "failureMessages": [],
           "meta": {}
         },
@@ -1987,7 +2104,7 @@
           "fullName": "BaseTenantRepository (S1-T05 / TEN-1) Constructor & Unscoped Query Prevention accepts valid Types.ObjectId directly",
           "status": "passed",
           "title": "accepts valid Types.ObjectId directly",
-          "duration": 0.3241999999991094,
+          "duration": 0.4048000000002503,
           "failureMessages": [],
           "meta": {}
         },
@@ -1999,7 +2116,7 @@
           "fullName": "BaseTenantRepository (S1-T05 / TEN-1) scopeFilter & Cross-Tenant Filter Injection Prevention injects tenantId into empty filter",
           "status": "passed",
           "title": "injects tenantId into empty filter",
-          "duration": 2.1718000000000757,
+          "duration": 1.8500000000003638,
           "failureMessages": [],
           "meta": {}
         },
@@ -2011,7 +2128,7 @@
           "fullName": "BaseTenantRepository (S1-T05 / TEN-1) scopeFilter & Cross-Tenant Filter Injection Prevention preserves existing query parameters while scoping tenantId",
           "status": "passed",
           "title": "preserves existing query parameters while scoping tenantId",
-          "duration": 1.4284999999999854,
+          "duration": 2.3078999999997905,
           "failureMessages": [],
           "meta": {}
         },
@@ -2023,7 +2140,7 @@
           "fullName": "BaseTenantRepository (S1-T05 / TEN-1) scopeFilter & Cross-Tenant Filter Injection Prevention allows matching tenantId in query",
           "status": "passed",
           "title": "allows matching tenantId in query",
-          "duration": 0.43800000000010186,
+          "duration": 0.5295999999998457,
           "failureMessages": [],
           "meta": {}
         },
@@ -2035,7 +2152,7 @@
           "fullName": "BaseTenantRepository (S1-T05 / TEN-1) scopeFilter & Cross-Tenant Filter Injection Prevention throws 403 AppError when query attempts cross-tenant filter injection",
           "status": "passed",
           "title": "throws 403 AppError when query attempts cross-tenant filter injection",
-          "duration": 0.6722000000008848,
+          "duration": 17.51850000000013,
           "failureMessages": [],
           "meta": {}
         },
@@ -2047,7 +2164,7 @@
           "fullName": "BaseTenantRepository (S1-T05 / TEN-1) Cross-Tenant Data Isolation (T-TEN-01) Tenant A repo can read Tenant A record",
           "status": "passed",
           "title": "Tenant A repo can read Tenant A record",
-          "duration": 2.97400000000016,
+          "duration": 7.514599999998609,
           "failureMessages": [],
           "meta": {}
         },
@@ -2059,7 +2176,7 @@
           "fullName": "BaseTenantRepository (S1-T05 / TEN-1) Cross-Tenant Data Isolation (T-TEN-01) Tenant B repo CANNOT read Tenant A record via findById (returns null)",
           "status": "passed",
           "title": "Tenant B repo CANNOT read Tenant A record via findById (returns null)",
-          "duration": 2.4218000000000757,
+          "duration": 7.28899999999885,
           "failureMessages": [],
           "meta": {}
         },
@@ -2071,7 +2188,7 @@
           "fullName": "BaseTenantRepository (S1-T05 / TEN-1) Cross-Tenant Data Isolation (T-TEN-01) Tenant B repo CANNOT read Tenant A record via findOne (returns null)",
           "status": "passed",
           "title": "Tenant B repo CANNOT read Tenant A record via findOne (returns null)",
-          "duration": 3.411599999999453,
+          "duration": 1.0565999999998894,
           "failureMessages": [],
           "meta": {}
         },
@@ -2083,7 +2200,7 @@
           "fullName": "BaseTenantRepository (S1-T05 / TEN-1) Cross-Tenant Data Isolation (T-TEN-01) Tenant B repo CANNOT list Tenant A records via find",
           "status": "passed",
           "title": "Tenant B repo CANNOT list Tenant A records via find",
-          "duration": 2.403200000000652,
+          "duration": 3.5908999999992375,
           "failureMessages": [],
           "meta": {}
         },
@@ -2095,7 +2212,7 @@
           "fullName": "BaseTenantRepository (S1-T05 / TEN-1) Cross-Tenant Data Isolation (T-TEN-01) Tenant B repo count() does NOT count Tenant A records",
           "status": "passed",
           "title": "Tenant B repo count() does NOT count Tenant A records",
-          "duration": 1.9006000000008498,
+          "duration": 1.2438999999994849,
           "failureMessages": [],
           "meta": {}
         },
@@ -2107,7 +2224,7 @@
           "fullName": "BaseTenantRepository (S1-T05 / TEN-1) Cross-Tenant Data Isolation (T-TEN-01) Tenant B repo CANNOT update Tenant A record via updateById (returns null)",
           "status": "passed",
           "title": "Tenant B repo CANNOT update Tenant A record via updateById (returns null)",
-          "duration": 1.3163999999997031,
+          "duration": 8.614600000000792,
           "failureMessages": [],
           "meta": {}
         },
@@ -2119,7 +2236,7 @@
           "fullName": "BaseTenantRepository (S1-T05 / TEN-1) Cross-Tenant Data Isolation (T-TEN-01) Tenant B repo CANNOT delete Tenant A record via deleteById (returns false)",
           "status": "passed",
           "title": "Tenant B repo CANNOT delete Tenant A record via deleteById (returns false)",
-          "duration": 1.0877000000000407,
+          "duration": 5.093899999999849,
           "failureMessages": [],
           "meta": {}
         },
@@ -2131,7 +2248,7 @@
           "fullName": "BaseTenantRepository (S1-T05 / TEN-1) Cross-Tenant Data Isolation (T-TEN-01) Tenant A repo can update Tenant A record",
           "status": "passed",
           "title": "Tenant A repo can update Tenant A record",
-          "duration": 2.1643000000003667,
+          "duration": 1.1310000000012224,
           "failureMessages": [],
           "meta": {}
         },
@@ -2143,7 +2260,7 @@
           "fullName": "BaseTenantRepository (S1-T05 / TEN-1) Cross-Tenant Data Isolation (T-TEN-01) Tenant A repo can delete Tenant A record",
           "status": "passed",
           "title": "Tenant A repo can delete Tenant A record",
-          "duration": 1.0740999999998166,
+          "duration": 0.9333000000005995,
           "failureMessages": [],
           "meta": {}
         },
@@ -2155,7 +2272,7 @@
           "fullName": "BaseTenantRepository (S1-T05 / TEN-1) create and UserRepository concrete implementation create() forcibly sets tenantId to repository scope",
           "status": "passed",
           "title": "create() forcibly sets tenantId to repository scope",
-          "duration": 9.614000000001397,
+          "duration": 25.65309999999954,
           "failureMessages": [],
           "meta": {}
         },
@@ -2167,13 +2284,13 @@
           "fullName": "BaseTenantRepository (S1-T05 / TEN-1) create and UserRepository concrete implementation UserRepository extends BaseTenantRepository and provides findByEmail scoped to tenant",
           "status": "passed",
           "title": "UserRepository extends BaseTenantRepository and provides findByEmail scoped to tenant",
-          "duration": 5.167499999999563,
+          "duration": 13.412700000000768,
           "failureMessages": [],
           "meta": {}
         }
       ],
-      "startTime": 1795323497878,
-      "endTime": 1795323497928.1675,
+      "startTime": 1795374287187,
+      "endTime": 1795374287306.4126,
       "status": "passed",
       "message": "",
       "name": "C:/Users/vrund/OneDrive/Desktop/ai_project/apps/ticket-service/tests/tenant-repository.test.ts"
@@ -2188,7 +2305,7 @@
           "fullName": "Ticket Counter Resilience & Fallback (Step 8) Cold Cache Miss Fallback initializes sequence from max ticket number in DB on cold cache miss",
           "status": "passed",
           "title": "initializes sequence from max ticket number in DB on cold cache miss",
-          "duration": 6.463400000000547,
+          "duration": 11.515000000003056,
           "failureMessages": [],
           "meta": {}
         },
@@ -2200,7 +2317,7 @@
           "fullName": "Ticket Counter Resilience & Fallback (Step 8) Cold Cache Miss Fallback initializes sequence to 1 for brand new tenant with no previous tickets",
           "status": "passed",
           "title": "initializes sequence to 1 for brand new tenant with no previous tickets",
-          "duration": 1.596799999999348,
+          "duration": 2.037899999999354,
           "failureMessages": [],
           "meta": {}
         },
@@ -2212,7 +2329,7 @@
           "fullName": "Ticket Counter Resilience & Fallback (Step 8) Multi-Tenant Counter Isolation increments Tenant A and Tenant B sequence counters independently",
           "status": "passed",
           "title": "increments Tenant A and Tenant B sequence counters independently",
-          "duration": 0.987699999997858,
+          "duration": 1.8526999999994587,
           "failureMessages": [],
           "meta": {}
         },
@@ -2224,7 +2341,7 @@
           "fullName": "Ticket Counter Resilience & Fallback (Step 8) Concurrent Ticket Number Allocation generates unique monotonic sequence numbers across concurrent requests",
           "status": "passed",
           "title": "generates unique monotonic sequence numbers across concurrent requests",
-          "duration": 1.1998999999996158,
+          "duration": 1.979299999999057,
           "failureMessages": [],
           "meta": {}
         },
@@ -2236,7 +2353,7 @@
           "fullName": "Ticket Counter Resilience & Fallback (Step 8) Duplicate Key Error (Code 11000) Collision Recovery reconciles counter and retries when MongoDB throws code 11000 duplicate key error",
           "status": "passed",
           "title": "reconciles counter and retries when MongoDB throws code 11000 duplicate key error",
-          "duration": 3.590700000000652,
+          "duration": 41.20759999999791,
           "failureMessages": [],
           "meta": {}
         },
@@ -2248,13 +2365,13 @@
           "fullName": "Ticket Counter Resilience & Fallback (Step 8) Redis Outage Fallback falls back to MongoDB Counter when Redis is completely unavailable",
           "status": "passed",
           "title": "falls back to MongoDB Counter when Redis is completely unavailable",
-          "duration": 3.5131000000001222,
+          "duration": 9.850099999999657,
           "failureMessages": [],
           "meta": {}
         }
       ],
-      "startTime": 1795323511322,
-      "endTime": 1795323511339.5132,
+      "startTime": 1795374290081,
+      "endTime": 1795374290149.85,
       "status": "passed",
       "message": "",
       "name": "C:/Users/vrund/OneDrive/Desktop/ai_project/apps/ticket-service/tests/ticket-counter.test.ts"
@@ -2269,7 +2386,7 @@
           "fullName": "Ticket Messages & Activity Timeline (S1-T08: TKT-5, 10) POST /api/v1/tickets/:id/messages (TKT-5) adds public reply and records MESSAGE event on timeline",
           "status": "passed",
           "title": "adds public reply and records MESSAGE event on timeline",
-          "duration": 181.4414999999999,
+          "duration": 1466.857299999996,
           "failureMessages": [],
           "meta": {}
         },
@@ -2281,7 +2398,7 @@
           "fullName": "Ticket Messages & Activity Timeline (S1-T08: TKT-5, 10) POST /api/v1/tickets/:id/messages (TKT-5) adds internal note and records NOTE event on timeline",
           "status": "passed",
           "title": "adds internal note and records NOTE event on timeline",
-          "duration": 38.6242000000002,
+          "duration": 129.4623000000065,
           "failureMessages": [],
           "meta": {}
         },
@@ -2293,7 +2410,7 @@
           "fullName": "Ticket Messages & Activity Timeline (S1-T08: TKT-5, 10) POST /api/v1/tickets/:id/messages (TKT-5) rejects empty message body with 400",
           "status": "passed",
           "title": "rejects empty message body with 400",
-          "duration": 34.90560000000005,
+          "duration": 79.5711999999985,
           "failureMessages": [],
           "meta": {}
         },
@@ -2305,7 +2422,7 @@
           "fullName": "Ticket Messages & Activity Timeline (S1-T08: TKT-5, 10) POST /api/v1/tickets/:id/messages (TKT-5) returns 404 when ticket does not exist",
           "status": "passed",
           "title": "returns 404 when ticket does not exist",
-          "duration": 19.37289999999939,
+          "duration": 214.85519999999815,
           "failureMessages": [],
           "meta": {}
         },
@@ -2317,7 +2434,7 @@
           "fullName": "Ticket Messages & Activity Timeline (S1-T08: TKT-5, 10) POST /api/v1/tickets/:id/messages (TKT-5) Tenant B cannot add message to Tenant A ticket (returns 404)",
           "status": "passed",
           "title": "Tenant B cannot add message to Tenant A ticket (returns 404)",
-          "duration": 50.0570000000007,
+          "duration": 216.70479999999952,
           "failureMessages": [],
           "meta": {}
         },
@@ -2329,7 +2446,7 @@
           "fullName": "Ticket Messages & Activity Timeline (S1-T08: TKT-5, 10) PATCH /api/v1/tickets/:id Event Tracking (TKT-10 / T-TKT-01) records STATUS, PRIORITY, and TAG events on update",
           "status": "passed",
           "title": "records STATUS, PRIORITY, and TAG events on update",
-          "duration": 111.35750000000007,
+          "duration": 91.99840000000404,
           "failureMessages": [],
           "meta": {}
         },
@@ -2341,7 +2458,7 @@
           "fullName": "Ticket Messages & Activity Timeline (S1-T08: TKT-5, 10) PATCH /api/v1/tickets/:id Event Tracking (TKT-10 / T-TKT-01) records ASSIGN event when ticket is assigned to an agent",
           "status": "passed",
           "title": "records ASSIGN event when ticket is assigned to an agent",
-          "duration": 26.032900000000154,
+          "duration": 28.607100000001083,
           "failureMessages": [],
           "meta": {}
         },
@@ -2353,13 +2470,13 @@
           "fullName": "Ticket Messages & Activity Timeline (S1-T08: TKT-5, 10) GET /api/v1/tickets/:id Details with Events & Messages returns ticket with full events timeline and message thread",
           "status": "passed",
           "title": "returns ticket with full events timeline and message thread",
-          "duration": 31.78359999999884,
+          "duration": 405.8573000000033,
           "failureMessages": [],
           "meta": {}
         }
       ],
-      "startTime": 1795323484073,
-      "endTime": 1795323484590.7837,
+      "startTime": 1795374270118,
+      "endTime": 1795374272753.8574,
       "status": "passed",
       "message": "",
       "name": "C:/Users/vrund/OneDrive/Desktop/ai_project/apps/ticket-service/tests/ticket-messages-events.test.ts"
@@ -2374,7 +2491,7 @@
           "fullName": "Ticket Indexes & Search (S1-T09: TKT-7) Mongoose Schema Index Declarations defines compound unique index on (tenantId, number)",
           "status": "passed",
           "title": "defines compound unique index on (tenantId, number)",
-          "duration": 3.8519000000014785,
+          "duration": 4.806700000001001,
           "failureMessages": [],
           "meta": {}
         },
@@ -2386,7 +2503,7 @@
           "fullName": "Ticket Indexes & Search (S1-T09: TKT-7) Mongoose Schema Index Declarations defines compound index on (tenantId, status, priority, updatedAt)",
           "status": "passed",
           "title": "defines compound index on (tenantId, status, priority, updatedAt)",
-          "duration": 0.699400000001333,
+          "duration": 0.8333000000020547,
           "failureMessages": [],
           "meta": {}
         },
@@ -2398,7 +2515,7 @@
           "fullName": "Ticket Indexes & Search (S1-T09: TKT-7) Mongoose Schema Index Declarations defines compound index on (tenantId, assigneeId, status)",
           "status": "passed",
           "title": "defines compound index on (tenantId, assigneeId, status)",
-          "duration": 0.7171999999991385,
+          "duration": 0.4827999999979511,
           "failureMessages": [],
           "meta": {}
         },
@@ -2410,7 +2527,7 @@
           "fullName": "Ticket Indexes & Search (S1-T09: TKT-7) Mongoose Schema Index Declarations defines compound index on (tenantId, tags, status)",
           "status": "passed",
           "title": "defines compound index on (tenantId, tags, status)",
-          "duration": 7.335299999998824,
+          "duration": 1.0803000000014435,
           "failureMessages": [],
           "meta": {}
         },
@@ -2422,7 +2539,7 @@
           "fullName": "Ticket Indexes & Search (S1-T09: TKT-7) Mongoose Schema Index Declarations defines compound index on (tenantId, createdAt)",
           "status": "passed",
           "title": "defines compound index on (tenantId, createdAt)",
-          "duration": 2.6639000000031956,
+          "duration": 0.9311000000016065,
           "failureMessages": [],
           "meta": {}
         },
@@ -2434,7 +2551,7 @@
           "fullName": "Ticket Indexes & Search (S1-T09: TKT-7) Mongoose Schema Index Declarations defines tenant-scoped compound text search index with weighted fields",
           "status": "passed",
           "title": "defines tenant-scoped compound text search index with weighted fields",
-          "duration": 2.2399999999979627,
+          "duration": 3.0652999999983876,
           "failureMessages": [],
           "meta": {}
         },
@@ -2446,7 +2563,7 @@
           "fullName": "Ticket Indexes & Search (S1-T09: TKT-7) Free-text and Multi-filter Query Building builds scoped free text search query when q is specified",
           "status": "passed",
           "title": "builds scoped free text search query when q is specified",
-          "duration": 7.851700000002893,
+          "duration": 24.365499999999884,
           "failureMessages": [],
           "meta": {}
         },
@@ -2458,7 +2575,7 @@
           "fullName": "Ticket Indexes & Search (S1-T09: TKT-7) Free-text and Multi-filter Query Building builds multi-filter query with status, priority, assignee, tag, date range",
           "status": "passed",
           "title": "builds multi-filter query with status, priority, assignee, tag, date range",
-          "duration": 7.737199999999575,
+          "duration": 8.32470000000103,
           "failureMessages": [],
           "meta": {}
         },
@@ -2470,13 +2587,13 @@
           "fullName": "Ticket Indexes & Search (S1-T09: TKT-7) explainListTickets Execution Stats calls .explain(\"executionStats\") on query and returns execution plan",
           "status": "passed",
           "title": "calls .explain(\"executionStats\") on query and returns execution plan",
-          "duration": 1.5205999999998312,
+          "duration": 1.8531000000002678,
           "failureMessages": [],
           "meta": {}
         }
       ],
-      "startTime": 1795323509197,
-      "endTime": 1795323509232.5205,
+      "startTime": 1795374289895,
+      "endTime": 1795374289941.853,
       "status": "passed",
       "message": "",
       "name": "C:/Users/vrund/OneDrive/Desktop/ai_project/apps/ticket-service/tests/ticket-search-indexes.test.ts"
@@ -2491,7 +2608,7 @@
           "fullName": "Ticket Service & Endpoints (S1-T06: TKT-1, 3, 9) POST /api/v1/tickets (Create Ticket - TKT-1, 3) rejects invalid payload with 400 validation error",
           "status": "passed",
           "title": "rejects invalid payload with 400 validation error",
-          "duration": 202.53959999999915,
+          "duration": 1525.0537999999942,
           "failureMessages": [],
           "meta": {}
         },
@@ -2503,7 +2620,7 @@
           "fullName": "Ticket Service & Endpoints (S1-T06: TKT-1, 3, 9) POST /api/v1/tickets (Create Ticket - TKT-1, 3) creates ticket with auto-incremented number and initial version 1",
           "status": "passed",
           "title": "creates ticket with auto-incremented number and initial version 1",
-          "duration": 91.5731999999989,
+          "duration": 504.5943000000043,
           "failureMessages": [],
           "meta": {}
         },
@@ -2515,7 +2632,7 @@
           "fullName": "Ticket Service & Endpoints (S1-T06: TKT-1, 3, 9) GET /api/v1/tickets (List Tickets) lists all tickets for authenticated tenant",
           "status": "passed",
           "title": "lists all tickets for authenticated tenant",
-          "duration": 47.807199999999284,
+          "duration": 346.9699000000037,
           "failureMessages": [],
           "meta": {}
         },
@@ -2527,7 +2644,7 @@
           "fullName": "Ticket Service & Endpoints (S1-T06: TKT-1, 3, 9) GET /api/v1/tickets (List Tickets) filters tickets by priority",
           "status": "passed",
           "title": "filters tickets by priority",
-          "duration": 156.44859999999971,
+          "duration": 139.30160000000615,
           "failureMessages": [],
           "meta": {}
         },
@@ -2539,7 +2656,7 @@
           "fullName": "Ticket Service & Endpoints (S1-T06: TKT-1, 3, 9) GET /api/v1/tickets (List Tickets) Tenant B sees 0 tickets (tenant isolation)",
           "status": "passed",
           "title": "Tenant B sees 0 tickets (tenant isolation)",
-          "duration": 74.42360000000008,
+          "duration": 196.32650000000285,
           "failureMessages": [],
           "meta": {}
         },
@@ -2551,7 +2668,7 @@
           "fullName": "Ticket Service & Endpoints (S1-T06: TKT-1, 3, 9) GET /api/v1/tickets/:id (Get Ticket Details) returns ticket details for valid ID within tenant",
           "status": "passed",
           "title": "returns ticket details for valid ID within tenant",
-          "duration": 18.563900000001013,
+          "duration": 146.30289999999513,
           "failureMessages": [],
           "meta": {}
         },
@@ -2563,7 +2680,7 @@
           "fullName": "Ticket Service & Endpoints (S1-T06: TKT-1, 3, 9) GET /api/v1/tickets/:id (Get Ticket Details) returns 404 when ticket belongs to different tenant",
           "status": "passed",
           "title": "returns 404 when ticket belongs to different tenant",
-          "duration": 19.680499999998574,
+          "duration": 216.6356999999989,
           "failureMessages": [],
           "meta": {}
         },
@@ -2575,7 +2692,7 @@
           "fullName": "Ticket Service & Endpoints (S1-T06: TKT-1, 3, 9) PATCH /api/v1/tickets/:id (Optimistic Concurrency - TKT-9 / T-TKT-02) updates ticket and increments version when version matches",
           "status": "passed",
           "title": "updates ticket and increments version when version matches",
-          "duration": 43.22739999999976,
+          "duration": 149.278999999995,
           "failureMessages": [],
           "meta": {}
         },
@@ -2587,7 +2704,7 @@
           "fullName": "Ticket Service & Endpoints (S1-T06: TKT-1, 3, 9) PATCH /api/v1/tickets/:id (Optimistic Concurrency - TKT-9 / T-TKT-02) rejects update with 409 Conflict when version is stale (concurrent modification)",
           "status": "passed",
           "title": "rejects update with 409 Conflict when version is stale (concurrent modification)",
-          "duration": 44.280400000001464,
+          "duration": 121.11230000000069,
           "failureMessages": [],
           "meta": {}
         },
@@ -2599,13 +2716,13 @@
           "fullName": "Ticket Service & Endpoints (S1-T06: TKT-1, 3, 9) PATCH /api/v1/tickets/:id (Optimistic Concurrency - TKT-9 / T-TKT-02) returns 404 when Tenant B tries to update Tenant A ticket",
           "status": "passed",
           "title": "returns 404 when Tenant B tries to update Tenant A ticket",
-          "duration": 54.99109999999928,
+          "duration": 20.42960000000312,
           "failureMessages": [],
           "meta": {}
         }
       ],
-      "startTime": 1795323484112,
-      "endTime": 1795323484867.9912,
+      "startTime": 1795374269302,
+      "endTime": 1795374272671.4297,
       "status": "passed",
       "message": "",
       "name": "C:/Users/vrund/OneDrive/Desktop/ai_project/apps/ticket-service/tests/ticket.test.ts"
@@ -2620,7 +2737,7 @@
           "fullName": "S2-T05: S3 Presigned Uploads, Magic Bytes Verification & Attachments (KB-1, T-FILE-01) 1. Magic Bytes & File Signature Detection (Unit Tests) detects genuine PDF magic bytes",
           "status": "passed",
           "title": "detects genuine PDF magic bytes",
-          "duration": 5.643399999999929,
+          "duration": 9.436000000001513,
           "failureMessages": [],
           "meta": {}
         },
@@ -2632,7 +2749,7 @@
           "fullName": "S2-T05: S3 Presigned Uploads, Magic Bytes Verification & Attachments (KB-1, T-FILE-01) 1. Magic Bytes & File Signature Detection (Unit Tests) detects genuine PNG magic bytes",
           "status": "passed",
           "title": "detects genuine PNG magic bytes",
-          "duration": 1.2153000000007523,
+          "duration": 1.7220000000015716,
           "failureMessages": [],
           "meta": {}
         },
@@ -2644,7 +2761,7 @@
           "fullName": "S2-T05: S3 Presigned Uploads, Magic Bytes Verification & Attachments (KB-1, T-FILE-01) 1. Magic Bytes & File Signature Detection (Unit Tests) detects genuine JPEG magic bytes",
           "status": "passed",
           "title": "detects genuine JPEG magic bytes",
-          "duration": 0.9173000000000684,
+          "duration": 1.4235999999946216,
           "failureMessages": [],
           "meta": {}
         },
@@ -2656,7 +2773,7 @@
           "fullName": "S2-T05: S3 Presigned Uploads, Magic Bytes Verification & Attachments (KB-1, T-FILE-01) 1. Magic Bytes & File Signature Detection (Unit Tests) detects genuine GIF magic bytes",
           "status": "passed",
           "title": "detects genuine GIF magic bytes",
-          "duration": 0.6604000000006636,
+          "duration": 0.9615000000048894,
           "failureMessages": [],
           "meta": {}
         },
@@ -2668,7 +2785,7 @@
           "fullName": "S2-T05: S3 Presigned Uploads, Magic Bytes Verification & Attachments (KB-1, T-FILE-01) 1. Magic Bytes & File Signature Detection (Unit Tests) detects genuine plain text and JSON",
           "status": "passed",
           "title": "detects genuine plain text and JSON",
-          "duration": 0.9852999999993699,
+          "duration": 1.3624999999956344,
           "failureMessages": [],
           "meta": {}
         },
@@ -2680,7 +2797,7 @@
           "fullName": "S2-T05: S3 Presigned Uploads, Magic Bytes Verification & Attachments (KB-1, T-FILE-01) 1. Magic Bytes & File Signature Detection (Unit Tests) flags executables (MZ and ELF) and rejects them",
           "status": "passed",
           "title": "flags executables (MZ and ELF) and rejects them",
-          "duration": 0.9868999999998778,
+          "duration": 1.474900000001071,
           "failureMessages": [],
           "meta": {}
         },
@@ -2692,7 +2809,7 @@
           "fullName": "S2-T05: S3 Presigned Uploads, Magic Bytes Verification & Attachments (KB-1, T-FILE-01) 1. Magic Bytes & File Signature Detection (Unit Tests) rejects mismatched MIME types (e.g. PNG bytes claimed as PDF)",
           "status": "passed",
           "title": "rejects mismatched MIME types (e.g. PNG bytes claimed as PDF)",
-          "duration": 0.5850000000000364,
+          "duration": 0.8424999999988358,
           "failureMessages": [],
           "meta": {}
         },
@@ -2704,7 +2821,7 @@
           "fullName": "S2-T05: S3 Presigned Uploads, Magic Bytes Verification & Attachments (KB-1, T-FILE-01) 1. Magic Bytes & File Signature Detection (Unit Tests) rejects binary files containing null bytes declared as text/plain",
           "status": "passed",
           "title": "rejects binary files containing null bytes declared as text/plain",
-          "duration": 0.5991000000003623,
+          "duration": 0.8792000000030384,
           "failureMessages": [],
           "meta": {}
         },
@@ -2716,7 +2833,7 @@
           "fullName": "S2-T05: S3 Presigned Uploads, Magic Bytes Verification & Attachments (KB-1, T-FILE-01) 2. Presigned Upload Endpoint (POST /api/v1/uploads/presign) returns presigned URL and tenant-isolated key for authenticated user",
           "status": "passed",
           "title": "returns presigned URL and tenant-isolated key for authenticated user",
-          "duration": 279.8185999999996,
+          "duration": 2241.5810000000056,
           "failureMessages": [],
           "meta": {}
         },
@@ -2728,7 +2845,7 @@
           "fullName": "S2-T05: S3 Presigned Uploads, Magic Bytes Verification & Attachments (KB-1, T-FILE-01) 2. Presigned Upload Endpoint (POST /api/v1/uploads/presign) sanitizes filename to prevent directory traversal in S3 key",
           "status": "passed",
           "title": "sanitizes filename to prevent directory traversal in S3 key",
-          "duration": 19.6283999999996,
+          "duration": 87.94340000000375,
           "failureMessages": [],
           "meta": {}
         },
@@ -2740,7 +2857,7 @@
           "fullName": "S2-T05: S3 Presigned Uploads, Magic Bytes Verification & Attachments (KB-1, T-FILE-01) 2. Presigned Upload Endpoint (POST /api/v1/uploads/presign) rejects unauthenticated upload requests with 401",
           "status": "passed",
           "title": "rejects unauthenticated upload requests with 401",
-          "duration": 9.470100000000457,
+          "duration": 68.13739999999962,
           "failureMessages": [],
           "meta": {}
         },
@@ -2752,7 +2869,7 @@
           "fullName": "S2-T05: S3 Presigned Uploads, Magic Bytes Verification & Attachments (KB-1, T-FILE-01) 2. Presigned Upload Endpoint (POST /api/v1/uploads/presign) rejects files exceeding 50MB with 400 validation error",
           "status": "passed",
           "title": "rejects files exceeding 50MB with 400 validation error",
-          "duration": 31.22109999999884,
+          "duration": 114.9997000000003,
           "failureMessages": [],
           "meta": {}
         },
@@ -2764,7 +2881,7 @@
           "fullName": "S2-T05: S3 Presigned Uploads, Magic Bytes Verification & Attachments (KB-1, T-FILE-01) 3. Knowledge Base Uploads (POST /api/v1/kb/uploads/presign - RBAC) allows OWNER and LEAD to generate KB upload URL",
           "status": "passed",
           "title": "allows OWNER and LEAD to generate KB upload URL",
-          "duration": 48.78020000000106,
+          "duration": 225.29529999999795,
           "failureMessages": [],
           "meta": {}
         },
@@ -2776,7 +2893,7 @@
           "fullName": "S2-T05: S3 Presigned Uploads, Magic Bytes Verification & Attachments (KB-1, T-FILE-01) 3. Knowledge Base Uploads (POST /api/v1/kb/uploads/presign - RBAC) forbids AGENT from generating KB presigned upload URL with 403",
           "status": "passed",
           "title": "forbids AGENT from generating KB presigned upload URL with 403",
-          "duration": 9.279099999999744,
+          "duration": 88.64600000000064,
           "failureMessages": [],
           "meta": {}
         },
@@ -2788,7 +2905,7 @@
           "fullName": "S2-T05: S3 Presigned Uploads, Magic Bytes Verification & Attachments (KB-1, T-FILE-01) 4. T-FILE-01: Spoofed Extension Rejected via Magic Bytes rejects spoofed PE executable disguised as PDF in validate-direct with 400",
           "status": "passed",
           "title": "rejects spoofed PE executable disguised as PDF in validate-direct with 400",
-          "duration": 12.840699999998833,
+          "duration": 70.23170000000391,
           "failureMessages": [],
           "meta": {}
         },
@@ -2800,7 +2917,7 @@
           "fullName": "S2-T05: S3 Presigned Uploads, Magic Bytes Verification & Attachments (KB-1, T-FILE-01) 4. T-FILE-01: Spoofed Extension Rejected via Magic Bytes accepts genuine PDF buffer in validate-direct with 200",
           "status": "passed",
           "title": "accepts genuine PDF buffer in validate-direct with 200",
-          "duration": 8.297600000001694,
+          "duration": 81.22540000000299,
           "failureMessages": [],
           "meta": {}
         },
@@ -2812,7 +2929,7 @@
           "fullName": "S2-T05: S3 Presigned Uploads, Magic Bytes Verification & Attachments (KB-1, T-FILE-01) 4. T-FILE-01: Spoofed Extension Rejected via Magic Bytes verifies S3 uploaded file and rejects spoofed executable",
           "status": "passed",
           "title": "verifies S3 uploaded file and rejects spoofed executable",
-          "duration": 13.477300000000469,
+          "duration": 78.69670000000042,
           "failureMessages": [],
           "meta": {}
         },
@@ -2824,7 +2941,7 @@
           "fullName": "S2-T05: S3 Presigned Uploads, Magic Bytes Verification & Attachments (KB-1, T-FILE-01) 4. T-FILE-01: Spoofed Extension Rejected via Magic Bytes verifies S3 uploaded file and accepts genuine PDF",
           "status": "passed",
           "title": "verifies S3 uploaded file and accepts genuine PDF",
-          "duration": 8.84439999999995,
+          "duration": 113.27799999999843,
           "failureMessages": [],
           "meta": {}
         },
@@ -2836,7 +2953,7 @@
           "fullName": "S2-T05: S3 Presigned Uploads, Magic Bytes Verification & Attachments (KB-1, T-FILE-01) 4. T-FILE-01: Spoofed Extension Rejected via Magic Bytes rejects spoofed file when registering KB document (POST /api/v1/kb/documents)",
           "status": "passed",
           "title": "rejects spoofed file when registering KB document (POST /api/v1/kb/documents)",
-          "duration": 61.67950000000019,
+          "duration": 105.76290000000154,
           "failureMessages": [],
           "meta": {}
         },
@@ -2848,7 +2965,7 @@
           "fullName": "S2-T05: S3 Presigned Uploads, Magic Bytes Verification & Attachments (KB-1, T-FILE-01) 4. T-FILE-01: Spoofed Extension Rejected via Magic Bytes accepts genuine document when registering KB document (POST /api/v1/kb/documents)",
           "status": "passed",
           "title": "accepts genuine document when registering KB document (POST /api/v1/kb/documents)",
-          "duration": 11.064700000000812,
+          "duration": 15.351199999997334,
           "failureMessages": [],
           "meta": {}
         },
@@ -2860,7 +2977,7 @@
           "fullName": "S2-T05: S3 Presigned Uploads, Magic Bytes Verification & Attachments (KB-1, T-FILE-01) 5. Cross-Tenant Storage & Attachment Isolation rejects verify request for S3 key belonging to another tenant with 403",
           "status": "passed",
           "title": "rejects verify request for S3 key belonging to another tenant with 403",
-          "duration": 17.921699999998964,
+          "duration": 84.26550000000134,
           "failureMessages": [],
           "meta": {}
         },
@@ -2872,7 +2989,7 @@
           "fullName": "S2-T05: S3 Presigned Uploads, Magic Bytes Verification & Attachments (KB-1, T-FILE-01) 5. Cross-Tenant Storage & Attachment Isolation rejects ticket creation with attachments belonging to another tenant with 403",
           "status": "passed",
           "title": "rejects ticket creation with attachments belonging to another tenant with 403",
-          "duration": 12.491500000000087,
+          "duration": 70.05219999999827,
           "failureMessages": [],
           "meta": {}
         },
@@ -2884,7 +3001,7 @@
           "fullName": "S2-T05: S3 Presigned Uploads, Magic Bytes Verification & Attachments (KB-1, T-FILE-01) 5. Cross-Tenant Storage & Attachment Isolation creates ticket with valid tenant attachments and stores them",
           "status": "passed",
           "title": "creates ticket with valid tenant attachments and stores them",
-          "duration": 31.586199999999735,
+          "duration": 141.45330000000104,
           "failureMessages": [],
           "meta": {}
         },
@@ -2896,7 +3013,7 @@
           "fullName": "S2-T05: S3 Presigned Uploads, Magic Bytes Verification & Attachments (KB-1, T-FILE-01) 5. Cross-Tenant Storage & Attachment Isolation rejects ticket message with attachments belonging to another tenant with 403",
           "status": "passed",
           "title": "rejects ticket message with attachments belonging to another tenant with 403",
-          "duration": 25.361899999999878,
+          "duration": 55.89860000000044,
           "failureMessages": [],
           "meta": {}
         },
@@ -2908,13 +3025,13 @@
           "fullName": "S2-T05: S3 Presigned Uploads, Magic Bytes Verification & Attachments (KB-1, T-FILE-01) 5. Cross-Tenant Storage & Attachment Isolation adds ticket message with valid tenant attachment",
           "status": "passed",
           "title": "adds ticket message with valid tenant attachment",
-          "duration": 43.60869999999886,
+          "duration": 93.26579999999376,
           "failureMessages": [],
           "meta": {}
         }
       ],
-      "startTime": 1795323484081,
-      "endTime": 1795323484740.6086,
+      "startTime": 1795374269319,
+      "endTime": 1795374273076.2659,
       "status": "passed",
       "message": "",
       "name": "C:/Users/vrund/OneDrive/Desktop/ai_project/apps/ticket-service/tests/uploads-attachments.test.ts"

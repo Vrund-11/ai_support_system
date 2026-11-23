@@ -1,0 +1,12 @@
+=== EVIDENCE ARTIFACT ===
+Target: lambda-sam-invoke.txt
+Command: sam local invoke WebhookFunction --event infra/sam/events/event.json
+Timestamp (UTC): 2026-11-22T17:28:06.833910+00:00
+Git Commit: fdad02b7c74d0fade69947e41958f126ab8d8d27
+Exit Code: 1
+========================
+--- STDOUT ---
+
+--- STDERR ---
+'sam' is not recognized as an internal or external command,
+operable program or batch file.

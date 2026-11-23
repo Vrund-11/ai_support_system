@@ -124,10 +124,6 @@
       "med": 0
     }
   },
-  "setup_data": {
-    "tenantId": "507f1f77bcf86cd799439011",
-    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1MDdmMTkxZTgxMGMxOTcyOWRlODYwYWMiLCJ0ZW5hbnRJZCI6IjUwN2YxZjc3YmNmODZjZDc5OTQzOTAxMSIsInJvbGUiOiJBR0VOVCIsImlhdCI6MTc5NTQwNDg4NiwiZXhwIjoxNzk1NDA1Nzg2fQ.7J5onGaRezSEBbuybRs6kOs4mBppX8LMXj7_xmGyx24"
-  },
   "root_group": {
     "path": "",
     "id": "d41d8cd98f00b204e9800998ecf8427e",

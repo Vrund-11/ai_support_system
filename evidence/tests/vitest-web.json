@@ -1,0 +1,949 @@
+{
+  "numTotalTestSuites": 42,
+  "numPassedTestSuites": 42,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 80,
+  "numPassedTests": 80,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1795411217044,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["AdminCockpitView Component"],
+          "fullName": "AdminCockpitView Component renders KPI telemetry cards and tenant directory list",
+          "status": "passed",
+          "title": "renders KPI telemetry cards and tenant directory list",
+          "duration": 497.3625000000002,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["AdminCockpitView Component"],
+          "fullName": "AdminCockpitView Component filters tenants by search query and plan filter chips",
+          "status": "passed",
+          "title": "filters tenants by search query and plan filter chips",
+          "duration": 717.6737999999996,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["AdminCockpitView Component"],
+          "fullName": "AdminCockpitView Component opens slide-over inspection drawer on clicking Inspect and edits quotas",
+          "status": "passed",
+          "title": "opens slide-over inspection drawer on clicking Inspect and edits quotas",
+          "duration": 748.0897999999997,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["AdminCockpitView Component"],
+          "fullName": "AdminCockpitView Component toggles tenant status between ACTIVE and SUSPENDED",
+          "status": "passed",
+          "title": "toggles tenant status between ACTIVE and SUSPENDED",
+          "duration": 141.0722999999998,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["AdminCockpitView Component"],
+          "fullName": "AdminCockpitView Component provisions new tenant via modal form",
+          "status": "passed",
+          "title": "provisions new tenant via modal form",
+          "duration": 1620.3841999999986,
+          "failureMessages": [],
+          "meta": {}
+        }
+      ],
+      "startTime": 1795411224100,
+      "endTime": 1795411227824.3843,
+      "status": "passed",
+      "message": "",
+      "name": "C:/Users/vrund/OneDrive/Desktop/ai_project/apps/web/src/test/admin-cockpit.test.tsx"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["AnalyticsDashboard Component (ANL-1..4: S3-T07)"],
+          "fullName": "AnalyticsDashboard Component (ANL-1..4: S3-T07) renders dashboard with KPI cards, volume chart, SLA percentiles, and agent performance table",
+          "status": "passed",
+          "title": "renders dashboard with KPI cards, volume chart, SLA percentiles, and agent performance table",
+          "duration": 229.6819000000005,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["AnalyticsDashboard Component (ANL-1..4: S3-T07)"],
+          "fullName": "AnalyticsDashboard Component (ANL-1..4: S3-T07) switches time range and reloads metrics when 30 Days clicked",
+          "status": "passed",
+          "title": "switches time range and reloads metrics when 30 Days clicked",
+          "duration": 322.6187,
+          "failureMessages": [],
+          "meta": {}
+        }
+      ],
+      "startTime": 1795411224303,
+      "endTime": 1795411224855.6187,
+      "status": "passed",
+      "message": "",
+      "name": "C:/Users/vrund/OneDrive/Desktop/ai_project/apps/web/src/test/analytics-dashboard.test.tsx"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["useAuthStore"],
+          "fullName": "useAuthStore initializes as unauthenticated when storage is empty",
+          "status": "passed",
+          "title": "initializes as unauthenticated when storage is empty",
+          "duration": 1.9603000000006432,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["useAuthStore"],
+          "fullName": "useAuthStore sets authentication state and updates localStorage",
+          "status": "passed",
+          "title": "sets authentication state and updates localStorage",
+          "duration": 1.0423000000000684,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["useAuthStore"],
+          "fullName": "useAuthStore clears authentication state and removes localStorage items",
+          "status": "passed",
+          "title": "clears authentication state and removes localStorage items",
+          "duration": 0.33729999999923166,
+          "failureMessages": [],
+          "meta": {}
+        }
+      ],
+      "startTime": 1795411229023,
+      "endTime": 1795411229026.3374,
+      "status": "passed",
+      "message": "",
+      "name": "C:/Users/vrund/OneDrive/Desktop/ai_project/apps/web/src/test/auth.store.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["AutomationView Component"],
+          "fullName": "AutomationView Component renders rules tab and lists rules",
+          "status": "passed",
+          "title": "renders rules tab and lists rules",
+          "duration": 125.92339999999967,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["AutomationView Component"],
+          "fullName": "AutomationView Component toggles rule enabled status",
+          "status": "passed",
+          "title": "toggles rule enabled status",
+          "duration": 63.71950000000015,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["AutomationView Component"],
+          "fullName": "AutomationView Component switches to SLA Policies tab and updates policies",
+          "status": "passed",
+          "title": "switches to SLA Policies tab and updates policies",
+          "duration": 137.7588999999998,
+          "failureMessages": [],
+          "meta": {}
+        }
+      ],
+      "startTime": 1795411224585,
+      "endTime": 1795411224912.7588,
+      "status": "passed",
+      "message": "",
+      "name": "C:/Users/vrund/OneDrive/Desktop/ai_project/apps/web/src/test/automation-view.test.tsx"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["Billing API client (TEN-4, SUB-1)"],
+          "fullName": "Billing API client (TEN-4, SUB-1) getSubscription returns subscription info or fallback defaults",
+          "status": "passed",
+          "title": "getSubscription returns subscription info or fallback defaults",
+          "duration": 3.9513000000006286,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["Billing API client (TEN-4, SUB-1)"],
+          "fullName": "Billing API client (TEN-4, SUB-1) createCheckout returns checkout session payload",
+          "status": "passed",
+          "title": "createCheckout returns checkout session payload",
+          "duration": 0.6284999999998035,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["Billing API client (TEN-4, SUB-1)"],
+          "fullName": "Billing API client (TEN-4, SUB-1) simulateWebhook triggers test payment webhook",
+          "status": "passed",
+          "title": "simulateWebhook triggers test payment webhook",
+          "duration": 0.5235999999995329,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["Billing API client (TEN-4, SUB-1)"],
+          "fullName": "Billing API client (TEN-4, SUB-1) updateTenantPlan updates tenant plan",
+          "status": "passed",
+          "title": "updateTenantPlan updates tenant plan",
+          "duration": 0.30709999999999127,
+          "failureMessages": [],
+          "meta": {}
+        }
+      ],
+      "startTime": 1795411228959,
+      "endTime": 1795411228964.5237,
+      "status": "passed",
+      "message": "",
+      "name": "C:/Users/vrund/OneDrive/Desktop/ai_project/apps/web/src/test/billing-api.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["CustomersView Component"],
+          "fullName": "CustomersView Component renders customer list and table",
+          "status": "passed",
+          "title": "renders customer list and table",
+          "duration": 191.52689999999984,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["CustomersView Component"],
+          "fullName": "CustomersView Component filters customers on search input change",
+          "status": "passed",
+          "title": "filters customers on search input change",
+          "duration": 157.58770000000004,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["CustomersView Component"],
+          "fullName": "CustomersView Component opens and closes customer details modal",
+          "status": "passed",
+          "title": "opens and closes customer details modal",
+          "duration": 86.10369999999966,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["CustomersView Component"],
+          "fullName": "CustomersView Component opens add customer modal and creates customer",
+          "status": "passed",
+          "title": "opens add customer modal and creates customer",
+          "duration": 141.96080000000075,
+          "failureMessages": [],
+          "meta": {}
+        }
+      ],
+      "startTime": 1795411224163,
+      "endTime": 1795411224740.9607,
+      "status": "passed",
+      "message": "",
+      "name": "C:/Users/vrund/OneDrive/Desktop/ai_project/apps/web/src/test/customers-view.test.tsx"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["HelpCenterView Component (Public Help Center & Status)"],
+          "fullName": "HelpCenterView Component (Public Help Center & Status) renders search banner, system status, and filter categories",
+          "status": "passed",
+          "title": "renders search banner, system status, and filter categories",
+          "duration": 208.9926999999998,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["HelpCenterView Component (Public Help Center & Status)"],
+          "fullName": "HelpCenterView Component (Public Help Center & Status) filters articles by search query and category pill",
+          "status": "passed",
+          "title": "filters articles by search query and category pill",
+          "duration": 286.77289999999994,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["HelpCenterView Component (Public Help Center & Status)"],
+          "fullName": "HelpCenterView Component (Public Help Center & Status) opens article detail, displays markdown, and records feedback rating",
+          "status": "passed",
+          "title": "opens article detail, displays markdown, and records feedback rating",
+          "duration": 214.02130000000034,
+          "failureMessages": [],
+          "meta": {}
+        }
+      ],
+      "startTime": 1795411224133,
+      "endTime": 1795411224843.0212,
+      "status": "passed",
+      "message": "",
+      "name": "C:/Users/vrund/OneDrive/Desktop/ai_project/apps/web/src/test/help-center.test.tsx"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["KnowledgeBaseView Component (S2-T14)"],
+          "fullName": "KnowledgeBaseView Component (S2-T14) renders empty state when knowledge base has no documents",
+          "status": "passed",
+          "title": "renders empty state when knowledge base has no documents",
+          "duration": 210.52840000000015,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["KnowledgeBaseView Component (S2-T14)"],
+          "fullName": "KnowledgeBaseView Component (S2-T14) renders list of knowledge base documents with status chips and chunk counts",
+          "status": "passed",
+          "title": "renders list of knowledge base documents with status chips and chunk counts",
+          "duration": 141.08680000000004,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["KnowledgeBaseView Component (S2-T14)"],
+          "fullName": "KnowledgeBaseView Component (S2-T14) switches to test console and executes test retrieval query",
+          "status": "passed",
+          "title": "switches to test console and executes test retrieval query",
+          "duration": 1197.8931000000011,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["KnowledgeBaseView Component (S2-T14)"],
+          "fullName": "KnowledgeBaseView Component (S2-T14) opens upload modal and registers new document",
+          "status": "passed",
+          "title": "opens upload modal and registers new document",
+          "duration": 439.78479999999945,
+          "failureMessages": [],
+          "meta": {}
+        }
+      ],
+      "startTime": 1795411224431,
+      "endTime": 1795411226420.785,
+      "status": "passed",
+      "message": "",
+      "name": "C:/Users/vrund/OneDrive/Desktop/ai_project/apps/web/src/test/knowledge-base.test.tsx"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["LiveChatView Component (S2-T14)"],
+          "fullName": "LiveChatView Component (S2-T14) renders live chat console with queue tabs and active conversation",
+          "status": "passed",
+          "title": "renders live chat console with queue tabs and active conversation",
+          "duration": 387.78539999999975,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["LiveChatView Component (S2-T14)"],
+          "fullName": "LiveChatView Component (S2-T14) displays message thread with customer and AI citation chips",
+          "status": "passed",
+          "title": "displays message thread with customer and AI citation chips",
+          "duration": 63.85859999999957,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["LiveChatView Component (S2-T14)"],
+          "fullName": "LiveChatView Component (S2-T14) displays AI suggestion panel and copies suggestion into composer on click",
+          "status": "passed",
+          "title": "displays AI suggestion panel and copies suggestion into composer on click",
+          "duration": 128.86229999999978,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["LiveChatView Component (S2-T14)"],
+          "fullName": "LiveChatView Component (S2-T14) allows agent to send a reply in the active conversation",
+          "status": "passed",
+          "title": "allows agent to send a reply in the active conversation",
+          "duration": 1153.6829000000007,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["LiveChatView Component (S2-T14)"],
+          "fullName": "LiveChatView Component (S2-T14) allows agent to take over waiting conversation",
+          "status": "passed",
+          "title": "allows agent to take over waiting conversation",
+          "duration": 92.44310000000041,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["LiveChatView Component (S2-T14)"],
+          "fullName": "LiveChatView Component (S2-T14) generates thread summary with sentiment and key points (AI-6)",
+          "status": "passed",
+          "title": "generates thread summary with sentiment and key points (AI-6)",
+          "duration": 116.09720000000016,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["LiveChatView Component (S2-T14)"],
+          "fullName": "LiveChatView Component (S2-T14) regenerates AI reply suggestion on refresh (AI-5)",
+          "status": "passed",
+          "title": "regenerates AI reply suggestion on refresh (AI-5)",
+          "duration": 104.67540000000008,
+          "failureMessages": [],
+          "meta": {}
+        }
+      ],
+      "startTime": 1795411224117,
+      "endTime": 1795411226165.6753,
+      "status": "passed",
+      "message": "",
+      "name": "C:/Users/vrund/OneDrive/Desktop/ai_project/apps/web/src/test/live-chat.test.tsx"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["LoginForm"],
+          "fullName": "LoginForm renders email and password inputs and submit button",
+          "status": "passed",
+          "title": "renders email and password inputs and submit button",
+          "duration": 86.88870000000043,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["LoginForm"],
+          "fullName": "LoginForm authenticates user and stores credentials on valid submission",
+          "status": "passed",
+          "title": "authenticates user and stores credentials on valid submission",
+          "duration": 101.71129999999994,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["LoginForm"],
+          "fullName": "LoginForm displays error banner when authentication fails",
+          "status": "passed",
+          "title": "displays error banner when authentication fails",
+          "duration": 97.78790000000026,
+          "failureMessages": [],
+          "meta": {}
+        }
+      ],
+      "startTime": 1795411224063,
+      "endTime": 1795411224349.7878,
+      "status": "passed",
+      "message": "",
+      "name": "C:/Users/vrund/OneDrive/Desktop/ai_project/apps/web/src/test/login-form.test.tsx"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["NotificationBell Component"],
+          "fullName": "NotificationBell Component renders bell button and badge when unread notifications exist",
+          "status": "passed",
+          "title": "renders bell button and badge when unread notifications exist",
+          "duration": 54.123500000000604,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["NotificationBell Component"],
+          "fullName": "NotificationBell Component toggles dropdown and marks notification as read when clicked",
+          "status": "passed",
+          "title": "toggles dropdown and marks notification as read when clicked",
+          "duration": 37.34820000000036,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["NotificationBell Component"],
+          "fullName": "NotificationBell Component marks all notifications as read",
+          "status": "passed",
+          "title": "marks all notifications as read",
+          "duration": 10.62369999999919,
+          "failureMessages": [],
+          "meta": {}
+        }
+      ],
+      "startTime": 1795411229267,
+      "endTime": 1795411229369.6238,
+      "status": "passed",
+      "message": "",
+      "name": "C:/Users/vrund/OneDrive/Desktop/ai_project/apps/web/src/test/notification-bell.test.tsx"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["Feature 34: Optimistic Updates Helper & Message Deduplication"],
+          "fullName": "Feature 34: Optimistic Updates Helper & Message Deduplication optimistically updates query cache before mutation resolves",
+          "status": "passed",
+          "title": "optimistically updates query cache before mutation resolves",
+          "duration": 117.22010000000046,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["Feature 34: Optimistic Updates Helper & Message Deduplication"],
+          "fullName": "Feature 34: Optimistic Updates Helper & Message Deduplication rolls back query cache and displays toast on server error (500)",
+          "status": "passed",
+          "title": "rolls back query cache and displays toast on server error (500)",
+          "duration": 14.781299999999646,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["Feature 34: Optimistic Updates Helper & Message Deduplication"],
+          "fullName": "Feature 34: Optimistic Updates Helper & Message Deduplication detects 409 conflict and shows reload conflict warning",
+          "status": "passed",
+          "title": "detects 409 conflict and shows reload conflict warning",
+          "duration": 10.667000000000371,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["Feature 37: Streaming Draft Hook & DraftBubble Component"],
+          "fullName": "Feature 37: Streaming Draft Hook & DraftBubble Component renders live tokens, citations, and confidence score in DraftBubble",
+          "status": "passed",
+          "title": "renders live tokens, citations, and confidence score in DraftBubble",
+          "duration": 53.138200000000325,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["Feature 37: Streaming Draft Hook & DraftBubble Component"],
+          "fullName": "Feature 37: Streaming Draft Hook & DraftBubble Component shows thinking indicator when isThinking is true",
+          "status": "passed",
+          "title": "shows thinking indicator when isThinking is true",
+          "duration": 17.053499999999985,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["Feature 37: Streaming Draft Hook & DraftBubble Component"],
+          "fullName": "Feature 37: Streaming Draft Hook & DraftBubble Component aborts stream on unmount",
+          "status": "passed",
+          "title": "aborts stream on unmount",
+          "duration": 4.2979999999997744,
+          "failureMessages": [],
+          "meta": {}
+        }
+      ],
+      "startTime": 1795411224087,
+      "endTime": 1795411224305.298,
+      "status": "passed",
+      "message": "",
+      "name": "C:/Users/vrund/OneDrive/Desktop/ai_project/apps/web/src/test/optimistic.test.tsx"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["PublicTicketTracker Component"],
+          "fullName": "PublicTicketTracker Component renders lookup inputs and handles successful ticket lookup",
+          "status": "passed",
+          "title": "renders lookup inputs and handles successful ticket lookup",
+          "duration": 274.8842999999997,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["PublicTicketTracker Component"],
+          "fullName": "PublicTicketTracker Component renders error notice when lookup fails with ApiError",
+          "status": "passed",
+          "title": "renders error notice when lookup fails with ApiError",
+          "duration": 121.33139999999912,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["PublicTicketTracker Component"],
+          "fullName": "PublicTicketTracker Component fires onBack callback when back button clicked",
+          "status": "passed",
+          "title": "fires onBack callback when back button clicked",
+          "duration": 261.2461000000003,
+          "failureMessages": [],
+          "meta": {}
+        }
+      ],
+      "startTime": 1795411224129,
+      "endTime": 1795411224787.246,
+      "status": "passed",
+      "message": "",
+      "name": "C:/Users/vrund/OneDrive/Desktop/ai_project/apps/web/src/test/public-ticket-tracker.test.tsx"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["SettingsView Component (INT-1, INT-2, ADM-1, ADM-2, ADM-3)"],
+          "fullName": "SettingsView Component (INT-1, INT-2, ADM-1, ADM-2, ADM-3) renders API keys sub-tab, shows keys, and opens generate modal",
+          "status": "passed",
+          "title": "renders API keys sub-tab, shows keys, and opens generate modal",
+          "duration": 560.6692999999996,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["SettingsView Component (INT-1, INT-2, ADM-1, ADM-2, ADM-3)"],
+          "fullName": "SettingsView Component (INT-1, INT-2, ADM-1, ADM-2, ADM-3) navigates to webhooks tab, lists subscriptions, and handles ping",
+          "status": "passed",
+          "title": "navigates to webhooks tab, lists subscriptions, and handles ping",
+          "duration": 304.41969999999947,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["SettingsView Component (INT-1, INT-2, ADM-1, ADM-2, ADM-3)"],
+          "fullName": "SettingsView Component (INT-1, INT-2, ADM-1, ADM-2, ADM-3) navigates to feature flags tab and toggles flag",
+          "status": "passed",
+          "title": "navigates to feature flags tab and toggles flag",
+          "duration": 191.1854000000003,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["SettingsView Component (INT-1, INT-2, ADM-1, ADM-2, ADM-3)"],
+          "fullName": "SettingsView Component (INT-1, INT-2, ADM-1, ADM-2, ADM-3) navigates to billing tab, renders quotas and PRO features, and upgrades plan via simulated Stripe",
+          "status": "passed",
+          "title": "navigates to billing tab, renders quotas and PRO features, and upgrades plan via simulated Stripe",
+          "duration": 434.4197000000004,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["SettingsView Component (INT-1, INT-2, ADM-1, ADM-2, ADM-3)"],
+          "fullName": "SettingsView Component (INT-1, INT-2, ADM-1, ADM-2, ADM-3) supports simulated webhook payment in upgrade modal",
+          "status": "passed",
+          "title": "supports simulated webhook payment in upgrade modal",
+          "duration": 296.9427999999989,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["SettingsView Component (INT-1, INT-2, ADM-1, ADM-2, ADM-3)"],
+          "fullName": "SettingsView Component (INT-1, INT-2, ADM-1, ADM-2, ADM-3) allows owner to update tenant plan in admin tab",
+          "status": "passed",
+          "title": "allows owner to update tenant plan in admin tab",
+          "duration": 180.38990000000013,
+          "failureMessages": [],
+          "meta": {}
+        }
+      ],
+      "startTime": 1795411224342,
+      "endTime": 1795411226311.39,
+      "status": "passed",
+      "message": "",
+      "name": "C:/Users/vrund/OneDrive/Desktop/ai_project/apps/web/src/test/settings-view.test.tsx"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["Shell Component"],
+          "fullName": "Shell Component renders navigation tabs including Customers, Team, and Automation",
+          "status": "passed",
+          "title": "renders navigation tabs including Customers, Team, and Automation",
+          "duration": 55.96630000000005,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["Shell Component"],
+          "fullName": "Shell Component toggles dark mode class and persists to localStorage",
+          "status": "passed",
+          "title": "toggles dark mode class and persists to localStorage",
+          "duration": 24.61959999999999,
+          "failureMessages": [],
+          "meta": {}
+        }
+      ],
+      "startTime": 1795411229159,
+      "endTime": 1795411229240.6196,
+      "status": "passed",
+      "message": "",
+      "name": "C:/Users/vrund/OneDrive/Desktop/ai_project/apps/web/src/test/shell.test.tsx"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [
+            "StripeCheckoutModal & Billing Simulation (STRIPE-FRONTEND)",
+            "api.billing.simulateCharge client"
+          ],
+          "fullName": "StripeCheckoutModal & Billing Simulation (STRIPE-FRONTEND) api.billing.simulateCharge client successfully processes valid charge payload with chargeId and next billing date",
+          "status": "passed",
+          "title": "successfully processes valid charge payload with chargeId and next billing date",
+          "duration": 45.696500000000015,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": [
+            "StripeCheckoutModal & Billing Simulation (STRIPE-FRONTEND)",
+            "api.billing.simulateCharge client"
+          ],
+          "fullName": "StripeCheckoutModal & Billing Simulation (STRIPE-FRONTEND) api.billing.simulateCharge client rejects with 402 Card Declined when test decline card number is used",
+          "status": "passed",
+          "title": "rejects with 402 Card Declined when test decline card number is used",
+          "duration": 3.760599999999613,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": [
+            "StripeCheckoutModal & Billing Simulation (STRIPE-FRONTEND)",
+            "StripeCheckoutModal UI component"
+          ],
+          "fullName": "StripeCheckoutModal & Billing Simulation (STRIPE-FRONTEND) StripeCheckoutModal UI component renders plan summary, pro features, and powered by stripe emulation badge",
+          "status": "passed",
+          "title": "renders plan summary, pro features, and powered by stripe emulation badge",
+          "duration": 326.3768,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": [
+            "StripeCheckoutModal & Billing Simulation (STRIPE-FRONTEND)",
+            "StripeCheckoutModal UI component"
+          ],
+          "fullName": "StripeCheckoutModal & Billing Simulation (STRIPE-FRONTEND) StripeCheckoutModal UI component auto-spaces card number every 4 digits up to 19 characters",
+          "status": "passed",
+          "title": "auto-spaces card number every 4 digits up to 19 characters",
+          "duration": 472.70589999999993,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": [
+            "StripeCheckoutModal & Billing Simulation (STRIPE-FRONTEND)",
+            "StripeCheckoutModal UI component"
+          ],
+          "fullName": "StripeCheckoutModal & Billing Simulation (STRIPE-FRONTEND) StripeCheckoutModal UI component quick-fills 4242 test card when clicking helper button",
+          "status": "passed",
+          "title": "quick-fills 4242 test card when clicking helper button",
+          "duration": 124.19910000000164,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": [
+            "StripeCheckoutModal & Billing Simulation (STRIPE-FRONTEND)",
+            "StripeCheckoutModal UI component"
+          ],
+          "fullName": "StripeCheckoutModal & Billing Simulation (STRIPE-FRONTEND) StripeCheckoutModal UI component quick-fills test decline card and shows error banner on payment submission",
+          "status": "passed",
+          "title": "quick-fills test decline card and shows error banner on payment submission",
+          "duration": 195.20459999999912,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": [
+            "StripeCheckoutModal & Billing Simulation (STRIPE-FRONTEND)",
+            "StripeCheckoutModal UI component"
+          ],
+          "fullName": "StripeCheckoutModal & Billing Simulation (STRIPE-FRONTEND) StripeCheckoutModal UI component completes successful charge, renders green checkmark and returns to workspace",
+          "status": "passed",
+          "title": "completes successful charge, renders green checkmark and returns to workspace",
+          "duration": 200.36219999999958,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": [
+            "StripeCheckoutModal & Billing Simulation (STRIPE-FRONTEND)",
+            "StripeCheckoutModal UI component"
+          ],
+          "fullName": "StripeCheckoutModal & Billing Simulation (STRIPE-FRONTEND) StripeCheckoutModal UI component does not render when isOpen is false",
+          "status": "passed",
+          "title": "does not render when isOpen is false",
+          "duration": 3.539600000000064,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": [
+            "StripeCheckoutModal & Billing Simulation (STRIPE-FRONTEND)",
+            "SettingsView integration with Stripe Checkout"
+          ],
+          "fullName": "StripeCheckoutModal & Billing Simulation (STRIPE-FRONTEND) SettingsView integration with Stripe Checkout opens StripeCheckoutModal on Upgrade to PRO and refreshes subscription on payment completion",
+          "status": "passed",
+          "title": "opens StripeCheckoutModal on Upgrade to PRO and refreshes subscription on payment completion",
+          "duration": 536.2771000000012,
+          "failureMessages": [],
+          "meta": {}
+        }
+      ],
+      "startTime": 1795411224512,
+      "endTime": 1795411226421.277,
+      "status": "passed",
+      "message": "",
+      "name": "C:/Users/vrund/OneDrive/Desktop/ai_project/apps/web/src/test/stripe-checkout.test.tsx"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["TeamView Component"],
+          "fullName": "TeamView Component renders team member list with role badge and status",
+          "status": "passed",
+          "title": "renders team member list with role badge and status",
+          "duration": 256.46730000000025,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["TeamView Component"],
+          "fullName": "TeamView Component opens invite modal and submits member invitation",
+          "status": "passed",
+          "title": "opens invite modal and submits member invitation",
+          "duration": 165.22579999999925,
+          "failureMessages": [],
+          "meta": {}
+        }
+      ],
+      "startTime": 1795411224096,
+      "endTime": 1795411224518.2258,
+      "status": "passed",
+      "message": "",
+      "name": "C:/Users/vrund/OneDrive/Desktop/ai_project/apps/web/src/test/team-view.test.tsx"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["TicketDetail"],
+          "fullName": "TicketDetail renders ticket details, messages, and activity timeline",
+          "status": "passed",
+          "title": "renders ticket details, messages, and activity timeline",
+          "duration": 230.44700000000012,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["TicketDetail"],
+          "fullName": "TicketDetail updates ticket status and passes current version",
+          "status": "passed",
+          "title": "updates ticket status and passes current version",
+          "duration": 128.9299000000001,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["TicketDetail"],
+          "fullName": "TicketDetail posts an internal note when internal tab is selected",
+          "status": "passed",
+          "title": "posts an internal note when internal tab is selected",
+          "duration": 126.29089999999997,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["TicketDetail"],
+          "fullName": "TicketDetail displays conflict warning when update returns 409",
+          "status": "passed",
+          "title": "displays conflict warning when update returns 409",
+          "duration": 137.21799999999985,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["TicketDetail"],
+          "fullName": "TicketDetail summarizes ticket thread and displays sentiment badge (AI-6)",
+          "status": "passed",
+          "title": "summarizes ticket thread and displays sentiment badge (AI-6)",
+          "duration": 130.9363000000003,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["TicketDetail"],
+          "fullName": "TicketDetail drafts reply into composer using AI suggest (AI-5)",
+          "status": "passed",
+          "title": "drafts reply into composer using AI suggest (AI-5)",
+          "duration": 81.96519999999964,
+          "failureMessages": [],
+          "meta": {}
+        }
+      ],
+      "startTime": 1795411224554,
+      "endTime": 1795411225390.965,
+      "status": "passed",
+      "message": "",
+      "name": "C:/Users/vrund/OneDrive/Desktop/ai_project/apps/web/src/test/ticket-detail.test.tsx"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["TicketInbox"],
+          "fullName": "TicketInbox renders ticket list with numbers, subjects, statuses and priorities",
+          "status": "passed",
+          "title": "renders ticket list with numbers, subjects, statuses and priorities",
+          "duration": 268.83910000000014,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["TicketInbox"],
+          "fullName": "TicketInbox calls onSelectTicket when a ticket row is clicked",
+          "status": "passed",
+          "title": "calls onSelectTicket when a ticket row is clicked",
+          "duration": 124.54680000000008,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["TicketInbox"],
+          "fullName": "TicketInbox filters tickets when status filter dropdown is changed",
+          "status": "passed",
+          "title": "filters tickets when status filter dropdown is changed",
+          "duration": 145.41880000000037,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["TicketInbox"],
+          "fullName": "TicketInbox shows empty state when no tickets match",
+          "status": "passed",
+          "title": "shows empty state when no tickets match",
+          "duration": 90.08579999999984,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["TicketInbox"],
+          "fullName": "TicketInbox supports checkbox selection and bulk actions bar",
+          "status": "passed",
+          "title": "supports checkbox selection and bulk actions bar",
+          "duration": 200.92000000000007,
+          "failureMessages": [],
+          "meta": {}
+        }
+      ],
+      "startTime": 1795411223897,
+      "endTime": 1795411224726.92,
+      "status": "passed",
+      "message": "",
+      "name": "C:/Users/vrund/OneDrive/Desktop/ai_project/apps/web/src/test/ticket-inbox.test.tsx"
+    }
+  ]
+}

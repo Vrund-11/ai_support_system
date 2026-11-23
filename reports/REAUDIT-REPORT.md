@@ -1,7 +1,7 @@
 # SupportPilot Comprehensive Adversarial Re-Audit & Verification Report
 
 **Auditor Persona**: Independent Adversarial Verifier  
-**Verification Target**: Previous Run Claim ("VICTORY CONFIRMED")  
+**Verification Target**: Baseline Repository Claim Verification  
 **Date of Audit**: 2026-11-22  
 **Host Environment**: Microsoft Windows 11 Home Single Language (Build 26100), AMD Ryzen 7 5800HS with Radeon Graphics (8 Cores, 16 Threads, ~3.20 GHz), 15.41 GB RAM  
 **Verdict Baseline**: Assume all prior claims unproven until independently reproduced.
@@ -40,7 +40,7 @@ infra/k8s/base/secret.example.yaml
 ### Credential & Rotation Verification
 
 - **Real Credentials in Git Tracked Files**: None found in tracked files. `gitleaks` reports 0 leaks across 72 commits.
-- **Uncommitted / Host Credentials**: Live external Redis Cloud URI with plaintext password (`redis://default:VKIUS9FbZMxFOsUFUNPQE6J8NjbPMWmH@hypersolid-industry-noble-57895.db.redis.io:14429`) and Gemini API key (`AQ.Ab8RN...`) exist inside local untracked `.env` and `apps/ai-service/.env`.
+- **Uncommitted / Host Credentials**: Live external Redis Cloud URI with plaintext password (`redis://default:[REDACTED]@hypersolid-industry-noble-57895.db.redis.io:14429`) and Gemini API key (`AQ.Ab8RN...`) exist inside local untracked `.env` and `apps/ai-service/.env`.
 - **Redis Password Rotation**: Cannot independently verify cloud provider control panel operations.
 - **Verdict**:
   - Gitleaks clean: **VERIFIED**

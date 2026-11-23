@@ -1,0 +1,33 @@
+=== EVIDENCE ARTIFACT ===
+Target: 05-pytest-ai-service
+Command: pytest apps/ai-service/tests
+Timestamp (UTC): 2026-11-22T16:17:21.516790+00:00
+Git Commit: fdad02b7c74d0fade69947e41958f126ab8d8d27
+Exit Code: 0
+========================
+--- STDOUT ---
+============================= test session starts =============================
+platform win32 -- Python 3.12.13, pytest-9.2.0, pluggy-1.7.0
+rootdir: C:\Users\vrund\OneDrive\Desktop\ai_project\apps\ai-service
+configfile: pyproject.toml
+plugins: anyio-4.16.0, asyncio-1.5.0, cov-7.1.0
+asyncio: mode=Mode.AUTO, debug=False, asyncio_default_fixture_loop_scope=function, asyncio_default_test_loop_scope=function
+collected 87 items
+
+apps\ai-service\tests\test_api.py ........                               [  9%]
+apps\ai-service\tests\test_assist.py .....                               [ 14%]
+apps\ai-service\tests\test_cache.py ......                               [ 21%]
+apps\ai-service\tests\test_classifier.py ..........                      [ 33%]
+apps\ai-service\tests\test_eval.py ......                                [ 40%]
+apps\ai-service\tests\test_health.py .......                             [ 48%]
+apps\ai-service\tests\test_ingest.py .........                           [ 58%]
+apps\ai-service\tests\test_prompt_injection.py ..                        [ 60%]
+apps\ai-service\tests\test_providers.py ........                         [ 70%]
+apps\ai-service\tests\test_quota.py ......                               [ 77%]
+apps\ai-service\tests\test_rag.py ..........                             [ 88%]
+apps\ai-service\tests\test_retrieval.py ......                           [ 95%]
+apps\ai-service\tests\test_sbert_embeddings.py ....                      [100%]
+
+============================= 87 passed in 30.14s =============================
+--- STDERR ---
+

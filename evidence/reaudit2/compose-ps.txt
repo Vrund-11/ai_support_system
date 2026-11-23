@@ -1,0 +1,12 @@
+=== EVIDENCE ARTIFACT ===
+Target: compose-ps.txt
+Command: docker compose -f infra/docker-compose.infra.yml ps
+Timestamp (UTC): 2026-11-22T17:25:31.713011+00:00
+Git Commit: fdad02b7c74d0fade69947e41958f126ab8d8d27
+Exit Code: 0
+========================
+--- STDOUT ---
+NAME          IMAGE                    COMMAND                  SERVICE    CREATED       STATUS                 PORTS
+sp-postgres   pgvector/pgvector:pg16   "docker-entrypoint.s…"   postgres   2 hours ago   Up 2 hours (healthy)   0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp, 0.0.0.0:5433->5432/tcp, [::]:5433->5432/tcp
+--- STDERR ---
+

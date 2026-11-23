@@ -276,3 +276,118 @@ async def test_regression_gate_fails_on_hit_at_5_drop(setup_eval_env):
 
     assert metrics.hit_at_5 < (0.95 - 0.03)
     assert metrics.passed_regression_gate is False
+
+
+def test_load_ai_written_v1_dataset():
+    """Verify loading and schema validation of the 60-question ai_written_v1 golden dataset."""
+    golden_path = Path("tests/ai-eval/golden/ai_written_v1.jsonl")
+    if not golden_path.exists():
+        golden_path = Path("../../tests/ai-eval/golden/ai_written_v1.jsonl")
+
+    samples = EvalRunner.load_golden_set(golden_path)
+    assert len(samples) == 60
+
+    # Verify categories
+    types = {s.type for s in samples}
+    assert "direct" in types
+    assert "multi_chunk" in types
+    assert "billing" in types
+    assert "auth" in types
+    assert "unanswerable" in types
+
+    # Verify escalation flags
+    for s in samples:
+        if s.type == "unanswerable":
+            assert s.should_escalate is True
+        else:
+            assert s.should_escalate is False
+            assert len(s.expected_doc_ids) > 0
+
+
+def test_skip_human_v1_dataset_if_insufficient_rows():
+    """Verify human_v1.jsonl is skipped when fewer than 40 human-authored rows are present."""
+    human_path = Path("tests/ai-eval/golden/human_v1.jsonl")
+    if not human_path.exists():
+        human_path = Path("../../tests/ai-eval/golden/human_v1.jsonl")
+
+    rows = []
+    if human_path.exists():
+        with open(human_path, encoding="utf-8-sig") as f:
+            rows = [line.strip() for line in f if line.strip()]
+
+    if len(rows) < 40:
+        pytest.skip(
+            f"human_v1.jsonl contains {len(rows)} rows (< 40 required human rows); "
+            "skipping evaluation."
+        )
+
+    samples = EvalRunner.load_golden_set(human_path)
+    assert len(samples) >= 40
+
+
+@pytest.mark.asyncio
+async def test_groundedness_non_escalated_isolation(setup_eval_env):
+    """Verify groundedness is computed over non-escalated rows without dummy 1.0 padding."""
+    _, repo, eval_repo = setup_eval_env
+
+    provider = MockLLMProvider()
+    pipeline = IngestionPipeline(repository=repo, llm_provider=provider)
+    await pipeline.ingest_document(
+        tenant_id="t_iso",
+        document_id="doc_24_invoices_tax",
+        title="Invoices and VAT Tax Documentation",
+        raw_text="Invoices and VAT receipts can be downloaded directly from the billing portal.",
+    )
+
+    samples = [
+        # Answerable sample with KB chunk in repo -> non-escalated row
+        EvalSample(
+            id="s_ans",
+            tenant_id="t_iso",
+            question="Where is my invoice?",
+            type="billing",
+            expected_doc_ids=["doc_24_invoices_tax"],
+            should_escalate=False,
+        ),
+        # Escalated sample -> should NOT be assigned 1.0 groundedness
+        EvalSample(
+            id="s_esc",
+            tenant_id="t_iso",
+            question="Give me pizza recipe",
+            type="unanswerable",
+            expected_doc_ids=[],
+            should_escalate=True,
+        ),
+    ]
+
+    retriever = HybridRetriever(repository=repo, llm_provider=provider)
+    rag_service = RagService(retriever=retriever, llm_provider=provider)
+    runner = EvalRunner(
+        retriever=retriever,
+        rag_service=rag_service,
+        llm_provider=provider,
+        eval_repository=eval_repo,
+    )
+
+    metrics = await runner.run_evaluation(
+        dataset_name="groundedness_isolation_test",
+        samples=samples,
+        tenant_id="t_iso",
+        enforce_gate=False,
+    )
+
+    # Total samples is 2
+    assert metrics.total_samples == 2
+
+    # Unanswerable category must NOT have 1.0 groundedness assigned
+    unans_stats = metrics.by_type.get("unanswerable", {})
+    assert unans_stats.get("grounded_n", 0) == 0
+    assert unans_stats.get("groundedness") is None
+
+    # Billing category had 1 non-escalated row
+    billing_stats = metrics.by_type.get("billing", {})
+    assert billing_stats.get("grounded_n") == 1
+
+    # Overall groundedness must only be computed over the 1 non-escalated row
+    assert metrics.details["evaluable_non_escalated_grounded"] == 1
+    assert metrics.llm_judge_sample is not None

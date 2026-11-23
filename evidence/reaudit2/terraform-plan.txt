@@ -1,0 +1,337 @@
+=== EVIDENCE ARTIFACT ===
+Target: terraform-plan.txt
+Command: terraform -chdir=infra/aws/terraform plan
+Timestamp (UTC): 2026-11-22T17:28:47.116614+00:00
+Git Commit: fdad02b7c74d0fade69947e41958f126ab8d8d27
+Exit Code: 0
+========================
+--- STDOUT ---
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  [32m+[0m create[0m
+
+Terraform will perform the following actions:
+
+[1m  # aws_iam_role.lambda_exec[0m will be created
+[0m  [32m+[0m[0m resource "aws_iam_role" "lambda_exec" {
+      [32m+[0m[0m arn                   = (known after apply)
+      [32m+[0m[0m assume_role_policy    = jsonencode(
+            {
+              [32m+[0m[0m Statement = [
+                  [32m+[0m[0m {
+                      [32m+[0m[0m Action    = "sts:AssumeRole"
+                      [32m+[0m[0m Effect    = "Allow"
+                      [32m+[0m[0m Principal = {
+                          [32m+[0m[0m Service = "lambda.amazonaws.com"
+                        }
+                    },
+                ]
+              [32m+[0m[0m Version   = "2012-10-17"
+            }
+        )
+      [32m+[0m[0m create_date           = (known after apply)
+      [32m+[0m[0m force_detach_policies = false
+      [32m+[0m[0m id                    = (known after apply)
+      [32m+[0m[0m managed_policy_arns   = (known after apply)
+      [32m+[0m[0m max_session_duration  = 3600
+      [32m+[0m[0m name                  = "supportpilot-webhook-lambda-role-dev"
+      [32m+[0m[0m name_prefix           = (known after apply)
+      [32m+[0m[0m path                  = "/"
+      [32m+[0m[0m tags_all              = {
+          [32m+[0m[0m "Environment" = "dev"
+          [32m+[0m[0m "ManagedBy"   = "Terraform"
+          [32m+[0m[0m "Project"     = "SupportPilot"
+        }
+      [32m+[0m[0m unique_id             = (known after apply)
+
+      [32m+[0m[0m inline_policy (known after apply)
+    }
+
+[1m  # aws_iam_role_policy.lambda_policy[0m will be created
+[0m  [32m+[0m[0m resource "aws_iam_role_policy" "lambda_policy" {
+      [32m+[0m[0m id          = (known after apply)
+      [32m+[0m[0m name        = "supportpilot-webhook-lambda-policy-dev"
+      [32m+[0m[0m name_prefix = (known after apply)
+      [32m+[0m[0m policy      = (known after apply)
+      [32m+[0m[0m role        = (known after apply)
+    }
+
+[1m  # aws_lambda_event_source_mapping.sqs_trigger[0m will be created
+[0m  [32m+[0m[0m resource "aws_lambda_event_source_mapping" "sqs_trigger" {
+      [32m+[0m[0m arn                                = (known after apply)
+      [32m+[0m[0m batch_size                         = 10
+      [32m+[0m[0m enabled                            = true
+      [32m+[0m[0m event_source_arn                   = (known after apply)
+      [32m+[0m[0m function_arn                       = (known after apply)
+      [32m+[0m[0m function_name                      = (known after apply)
+      [32m+[0m[0m function_response_types            = [
+          [32m+[0m[0m "ReportBatchItemFailures",
+        ]
+      [32m+[0m[0m id                                 = (known after apply)
+      [32m+[0m[0m last_modified                      = (known after apply)
+      [32m+[0m[0m last_processing_result             = (known after apply)
+      [32m+[0m[0m maximum_batching_window_in_seconds = 5
+      [32m+[0m[0m maximum_record_age_in_seconds      = (known after apply)
+      [32m+[0m[0m maximum_retry_attempts             = (known after apply)
+      [32m+[0m[0m parallelization_factor             = (known after apply)
+      [32m+[0m[0m state                              = (known after apply)
+      [32m+[0m[0m state_transition_reason            = (known after apply)
+      [32m+[0m[0m tags_all                           = {
+          [32m+[0m[0m "Environment" = "dev"
+          [32m+[0m[0m "ManagedBy"   = "Terraform"
+          [32m+[0m[0m "Project"     = "SupportPilot"
+        }
+      [32m+[0m[0m uuid                               = (known after apply)
+
+      [32m+[0m[0m amazon_managed_kafka_event_source_config (known after apply)
+
+      [32m+[0m[0m self_managed_kafka_event_source_config (known after apply)
+    }
+
+[1m  # aws_lambda_function.webhook_dispatcher[0m will be created
+[0m  [32m+[0m[0m resource "aws_lambda_function" "webhook_dispatcher" {
+      [32m+[0m[0m architectures                  = (known after apply)
+      [32m+[0m[0m arn                            = (known after apply)
+      [32m+[0m[0m code_sha256                    = (known after apply)
+      [32m+[0m[0m filename                       = "./dummy-lambda.zip"
+      [32m+[0m[0m function_name                  = "supportpilot-webhook-dispatcher-dev"
+      [32m+[0m[0m handler                        = "index.handler"
+      [32m+[0m[0m id                             = (known after apply)
+      [32m+[0m[0m invoke_arn                     = (known after apply)
+      [32m+[0m[0m last_modified                  = (known after apply)
+      [32m+[0m[0m memory_size                    = 256
+      [32m+[0m[0m package_type                   = "Zip"
+      [32m+[0m[0m publish                        = false
+      [32m+[0m[0m qualified_arn                  = (known after apply)
+      [32m+[0m[0m qualified_invoke_arn           = (known after apply)
+      [32m+[0m[0m reserved_concurrent_executions = -1
+      [32m+[0m[0m role                           = (known after apply)
+      [32m+[0m[0m runtime                        = "nodejs22.x"
+      [32m+[0m[0m signing_job_arn                = (known after apply)
+      [32m+[0m[0m signing_profile_version_arn    = (known after apply)
+      [32m+[0m[0m skip_destroy                   = false
+      [32m+[0m[0m source_code_hash               = "qRm6Vb6FQd1iwmKEqzAAbAmxf/dSsmwfJ+hUQJeR084="
+      [32m+[0m[0m source_code_size               = (known after apply)
+      [32m+[0m[0m tags_all                       = {
+          [32m+[0m[0m "Environment" = "dev"
+          [32m+[0m[0m "ManagedBy"   = "Terraform"
+          [32m+[0m[0m "Project"     = "SupportPilot"
+        }
+      [32m+[0m[0m timeout                        = 10
+      [32m+[0m[0m version                        = (known after apply)
+
+      [32m+[0m[0m environment {
+          [32m+[0m[0m variables = {
+              [32m+[0m[0m "NODE_ENV"               = "production"
+              [32m+[0m[0m "WEBHOOK_DEFAULT_SECRET" = "whsec_default_signing_key_32_chars!"
+            }
+        }
+
+      [32m+[0m[0m ephemeral_storage (known after apply)
+
+      [32m+[0m[0m logging_config (known after apply)
+
+      [32m+[0m[0m tracing_config (known after apply)
+    }
+
+[1m  # aws_s3_bucket.attachments[0m will be created
+[0m  [32m+[0m[0m resource "aws_s3_bucket" "attachments" {
+      [32m+[0m[0m acceleration_status         = (known after apply)
+      [32m+[0m[0m acl                         = (known after apply)
+      [32m+[0m[0m arn                         = (known after apply)
+      [32m+[0m[0m bucket                      = "supportpilot-attachments-dev"
+      [32m+[0m[0m bucket_domain_name          = (known after apply)
+      [32m+[0m[0m bucket_prefix               = (known after apply)
+      [32m+[0m[0m bucket_regional_domain_name = (known after apply)
+      [32m+[0m[0m force_destroy               = true
+      [32m+[0m[0m hosted_zone_id              = (known after apply)
+      [32m+[0m[0m id                          = (known after apply)
+      [32m+[0m[0m object_lock_enabled         = (known after apply)
+      [32m+[0m[0m policy                      = (known after apply)
+      [32m+[0m[0m region                      = (known after apply)
+      [32m+[0m[0m request_payer               = (known after apply)
+      [32m+[0m[0m tags_all                    = {
+          [32m+[0m[0m "Environment" = "dev"
+          [32m+[0m[0m "ManagedBy"   = "Terraform"
+          [32m+[0m[0m "Project"     = "SupportPilot"
+        }
+      [32m+[0m[0m website_domain              = (known after apply)
+      [32m+[0m[0m website_endpoint            = (known after apply)
+
+      [32m+[0m[0m cors_rule (known after apply)
+
+      [32m+[0m[0m grant (known after apply)
+
+      [32m+[0m[0m lifecycle_rule (known after apply)
+
+      [32m+[0m[0m logging (known after apply)
+
+      [32m+[0m[0m object_lock_configuration (known after apply)
+
+      [32m+[0m[0m replication_configuration (known after apply)
+
+      [32m+[0m[0m server_side_encryption_configuration (known after apply)
+
+      [32m+[0m[0m versioning (known after apply)
+
+      [32m+[0m[0m website (known after apply)
+    }
+
+[1m  # aws_s3_bucket_lifecycle_configuration.attachments_lifecycle[0m will be created
+[0m  [32m+[0m[0m resource "aws_s3_bucket_lifecycle_configuration" "attachments_lifecycle" {
+      [32m+[0m[0m bucket                                 = (known after apply)
+      [32m+[0m[0m expected_bucket_owner                  = (known after apply)
+      [32m+[0m[0m id                                     = (known after apply)
+      [32m+[0m[0m transition_default_minimum_object_size = "all_storage_classes_128K"
+
+      [32m+[0m[0m rule {
+          [32m+[0m[0m id     = "abort-incomplete-multipart-uploads"
+          [32m+[0m[0m status = "Enabled"
+            [90m# (1 unchanged attribute hidden)[0m[0m
+
+          [32m+[0m[0m abort_incomplete_multipart_upload {
+              [32m+[0m[0m days_after_initiation = 7
+            }
+        }
+    }
+
+[1m  # aws_s3_bucket_server_side_encryption_configuration.attachments_encryption[0m will be created
+[0m  [32m+[0m[0m resource "aws_s3_bucket_server_side_encryption_configuration" "attachments_encryption" {
+      [32m+[0m[0m bucket = (known after apply)
+      [32m+[0m[0m id     = (known after apply)
+
+      [32m+[0m[0m rule {
+          [32m+[0m[0m apply_server_side_encryption_by_default {
+              [32m+[0m[0m sse_algorithm     = "AES256"
+                [90m# (1 unchanged attribute hidden)[0m[0m
+            }
+        }
+    }
+
+[1m  # aws_sqs_queue.webhooks[0m will be created
+[0m  [32m+[0m[0m resource "aws_sqs_queue" "webhooks" {
+      [32m+[0m[0m arn                               = (known after apply)
+      [32m+[0m[0m content_based_deduplication       = false
+      [32m+[0m[0m deduplication_scope               = (known after apply)
+      [32m+[0m[0m delay_seconds                     = 0
+      [32m+[0m[0m fifo_queue                        = false
+      [32m+[0m[0m fifo_throughput_limit             = (known after apply)
+      [32m+[0m[0m id                                = (known after apply)
+      [32m+[0m[0m kms_data_key_reuse_period_seconds = (known after apply)
+      [32m+[0m[0m max_message_size                  = 262144
+      [32m+[0m[0m message_retention_seconds         = 345600
+      [32m+[0m[0m name                              = "supportpilot-webhooks-dev"
+      [32m+[0m[0m name_prefix                       = (known after apply)
+      [32m+[0m[0m policy                            = (known after apply)
+      [32m+[0m[0m receive_wait_time_seconds         = 0
+      [32m+[0m[0m redrive_allow_policy              = (known after apply)
+      [32m+[0m[0m redrive_policy                    = (known after apply)
+      [32m+[0m[0m sqs_managed_sse_enabled           = (known after apply)
+      [32m+[0m[0m tags_all                          = {
+          [32m+[0m[0m "Environment" = "dev"
+          [32m+[0m[0m "ManagedBy"   = "Terraform"
+          [32m+[0m[0m "Project"     = "SupportPilot"
+        }
+      [32m+[0m[0m url                               = (known after apply)
+      [32m+[0m[0m visibility_timeout_seconds        = 30
+    }
+
+[1m  # aws_sqs_queue.webhooks_dlq[0m will be created
+[0m  [32m+[0m[0m resource "aws_sqs_queue" "webhooks_dlq" {
+      [32m+[0m[0m arn                               = (known after apply)
+      [32m+[0m[0m content_based_deduplication       = false
+      [32m+[0m[0m deduplication_scope               = (known after apply)
+      [32m+[0m[0m delay_seconds                     = 0
+      [32m+[0m[0m fifo_queue                        = false
+      [32m+[0m[0m fifo_throughput_limit             = (known after apply)
+      [32m+[0m[0m id                                = (known after apply)
+      [32m+[0m[0m kms_data_key_reuse_period_seconds = (known after apply)
+      [32m+[0m[0m max_message_size                  = 262144
+      [32m+[0m[0m message_retention_seconds         = 1209600
+      [32m+[0m[0m name                              = "supportpilot-webhooks-dlq-dev"
+      [32m+[0m[0m name_prefix                       = (known after apply)
+      [32m+[0m[0m policy                            = (known after apply)
+      [32m+[0m[0m receive_wait_time_seconds         = 0
+      [32m+[0m[0m redrive_allow_policy              = (known after apply)
+      [32m+[0m[0m redrive_policy                    = (known after apply)
+      [32m+[0m[0m sqs_managed_sse_enabled           = (known after apply)
+      [32m+[0m[0m tags_all                          = {
+          [32m+[0m[0m "Environment" = "dev"
+          [32m+[0m[0m "ManagedBy"   = "Terraform"
+          [32m+[0m[0m "Project"     = "SupportPilot"
+        }
+      [32m+[0m[0m url                               = (known after apply)
+      [32m+[0m[0m visibility_timeout_seconds        = 30
+    }
+
+[1m  # aws_ssm_parameter.s3_bucket[0m will be created
+[0m  [32m+[0m[0m resource "aws_ssm_parameter" "s3_bucket" {
+      [32m+[0m[0m arn            = (known after apply)
+      [32m+[0m[0m data_type      = (known after apply)
+      [32m+[0m[0m has_value_wo   = (known after apply)
+      [32m+[0m[0m id             = (known after apply)
+      [32m+[0m[0m insecure_value = (known after apply)
+      [32m+[0m[0m key_id         = (known after apply)
+      [32m+[0m[0m name           = "/supportpilot/dev/s3_bucket"
+      [32m+[0m[0m tags_all       = {
+          [32m+[0m[0m "Environment" = "dev"
+          [32m+[0m[0m "ManagedBy"   = "Terraform"
+          [32m+[0m[0m "Project"     = "SupportPilot"
+        }
+      [32m+[0m[0m tier           = (known after apply)
+      [32m+[0m[0m type           = "String"
+      [32m+[0m[0m value          = (sensitive value)
+      [32m+[0m[0m version        = (known after apply)
+    }
+
+[1m  # aws_ssm_parameter.sqs_queue_url[0m will be created
+[0m  [32m+[0m[0m resource "aws_ssm_parameter" "sqs_queue_url" {
+      [32m+[0m[0m arn            = (known after apply)
+      [32m+[0m[0m data_type      = (known after apply)
+      [32m+[0m[0m has_value_wo   = (known after apply)
+      [32m+[0m[0m id             = (known after apply)
+      [32m+[0m[0m insecure_value = (known after apply)
+      [32m+[0m[0m key_id         = (known after apply)
+      [32m+[0m[0m name           = "/supportpilot/dev/webhooks_queue_url"
+      [32m+[0m[0m tags_all       = {
+          [32m+[0m[0m "Environment" = "dev"
+          [32m+[0m[0m "ManagedBy"   = "Terraform"
+          [32m+[0m[0m "Project"     = "SupportPilot"
+        }
+      [32m+[0m[0m tier           = (known after apply)
+      [32m+[0m[0m type           = "String"
+      [32m+[0m[0m value          = (sensitive value)
+      [32m+[0m[0m version        = (known after apply)
+    }
+
+[1mPlan:[0m 11 to add, 0 to change, 0 to destroy.
+[0m
+Changes to Outputs:
+  [32m+[0m[0m attachments_bucket_arn        = (known after apply)
+  [32m+[0m[0m attachments_bucket_name       = (known after apply)
+  [32m+[0m[0m webhook_dispatcher_lambda_arn = (known after apply)
+  [32m+[0m[0m webhooks_dlq_url              = (known after apply)
+  [32m+[0m[0m webhooks_queue_arn            = (known after apply)
+  [32m+[0m[0m webhooks_queue_url            = (known after apply)
+[33m╷[0m[0m
+[33m│[0m [0m[1m[33mWarning: [0m[0m[1mInvalid Attribute Combination[0m
+[33m│[0m [0m
+[33m│[0m [0m[0m  with aws_s3_bucket_lifecycle_configuration.attachments_lifecycle,
+[33m│[0m [0m  on main.tf line 57, in resource "aws_s3_bucket_lifecycle_configuration" "attachments_lifecycle":
+[33m│[0m [0m  57: resource "aws_s3_bucket_lifecycle_configuration" "attachments_lifecycle" [4m{[0m[0m
+[33m│[0m [0m
+[33m│[0m [0mNo attribute specified when one (and only one) of
+[33m│[0m [0m[rule[0].filter,rule[0].prefix] is required
+[33m│[0m [0m
+[33m│[0m [0mThis will be an error in a future version of the provider
+[33m│[0m [0m
+[33m│[0m [0m(and one more similar warning elsewhere)
+[33m╵[0m[0m
+[90m
+─────────────────────────────────────────────────────────────────────────────[0m
+
+Note: You didn't use the -out option to save this plan, so Terraform can't
+guarantee to take exactly these actions if you run "terraform apply" now.
+--- STDERR ---
+

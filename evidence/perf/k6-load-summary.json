@@ -1,54 +1,165 @@
 {
-  "root_group": {
-    "name": "",
-    "path": "",
-    "id": "d41d8cd98f00b204e9800998ecf8427e",
-    "groups": [],
-    "checks": [
-      {
-        "name": "is status 200",
-        "path": "::is status 200",
-        "id": "548d37ca5f33793206f7832e7ea54fb5",
-        "passes": 33305,
-        "fails": 0
-      },
-      {
-        "name": "response has data array",
-        "path": "::response has data array",
-        "id": "673f32468352e850b656722d3e110b41",
-        "passes": 33305,
-        "fails": 0
-      }
-    ]
-  },
   "metrics": {
-    "http_req_duration": {
-      "avg": 164.21,
-      "min": 45.12,
-      "med": 158.96,
-      "max": 312.45,
-      "p(90)": 242.11,
-      "p(95)": 278.09,
-      "p(99)": 283.95
-    },
     "http_reqs": {
-      "count": 33305,
-      "rate": 1110.19
+      "rate": 175.83719717785132,
+      "count": 21186
     },
-    "http_req_failed": {
-      "passes": 0,
-      "fails": 33305,
-      "value": 0.0
+    "http_req_tls_handshaking": {
+      "min": 0,
+      "med": 0,
+      "max": 0,
+      "p(90)": 0,
+      "p(95)": 0,
+      "avg": 0
+    },
+    "data_received": {
+      "count": 943246456,
+      "rate": 7828651.612903873
+    },
+    "http_req_duration{expected_response:true}": {
+      "avg": 30.110480765600034,
+      "min": 1.7358,
+      "med": 6.6859,
+      "max": 1234.9398,
+      "p(90)": 69.26935,
+      "p(95)": 127.5622
     },
     "vus": {
+      "value": 4,
       "min": 1,
-      "max": 200,
-      "value": 200
+      "max": 199
+    },
+    "http_req_duration": {
+      "avg": 30.110480765600034,
+      "min": 1.7358,
+      "med": 6.6859,
+      "max": 1234.9398,
+      "p(90)": 69.26935,
+      "p(95)": 127.5622
+    },
+    "http_req_blocked": {
+      "max": 13.5146,
+      "p(90)": 0,
+      "p(95)": 0,
+      "avg": 0.006575276125743415,
+      "min": 0,
+      "med": 0
+    },
+    "http_req_failed": {
+      "fails": 21186,
+      "passes": 0,
+      "thresholds": {
+        "rate<0.01": false
+      },
+      "value": 0
+    },
+    "http_req_waiting": {
+      "max": 1234.9398,
+      "p(90)": 69.2357,
+      "p(95)": 127.310075,
+      "avg": 29.884235669781958,
+      "min": 1.7358,
+      "med": 6.4468499999999995
+    },
+    "iteration_duration": {
+      "med": 508.90935,
+      "max": 1738.6859,
+      "p(90)": 571.5319499999999,
+      "p(95)": 630.0283999999996,
+      "avg": 532.3311118060795,
+      "min": 502.4239
+    },
+    "checks": {
+      "passes": 42369,
+      "fails": 0,
+      "value": 1
+    },
+    "data_sent": {
+      "rate": 87033.42852774305,
+      "count": 10486349
+    },
+    "http_req_connecting": {
+      "min": 0,
+      "med": 0,
+      "max": 2.4914,
+      "p(90)": 0,
+      "p(95)": 0,
+      "avg": 0.005046728971962619
+    },
+    "http_req_receiving": {
+      "p(90)": 0.7253499999999999,
+      "p(95)": 0.91515,
+      "avg": 0.22414637496459938,
+      "min": 0,
+      "med": 0,
+      "max": 3.4663
     },
     "vus_max": {
+      "value": 200,
       "min": 200,
-      "max": 200,
-      "value": 200
+      "max": 200
+    },
+    "iterations": {
+      "count": 21184,
+      "rate": 175.8205978011707
+    },
+    "http_req_duration{endpoint:tickets_list}": {
+      "p(95)": 127.56319999999998,
+      "avg": 30.109068551737266,
+      "min": 1.7358,
+      "med": 6.6859,
+      "max": 1234.9398,
+      "p(90)": 69.23873,
+      "thresholds": {
+        "p(95)<400": false,
+        "p(99)<800": false
+      }
+    },
+    "http_req_sending": {
+      "max": 1.8948,
+      "p(90)": 0,
+      "p(95)": 0,
+      "avg": 0.00209872085339375,
+      "min": 0,
+      "med": 0
     }
+  },
+  "root_group": {
+    "path": "",
+    "id": "d41d8cd98f00b204e9800998ecf8427e",
+    "groups": {
+      "setup": {
+        "path": "::setup",
+        "id": "5c0f8025f7e0b6654089e5b00e950f1a",
+        "groups": {},
+        "checks": {
+          "ticket service healthy": {
+            "passes": 1,
+            "fails": 0,
+            "name": "ticket service healthy",
+            "path": "::setup::ticket service healthy",
+            "id": "bb46cec37613235b71aaf8fba1fd47e9"
+          }
+        },
+        "name": "setup"
+      }
+    },
+    "checks": {
+      "status is 200": {
+        "name": "status is 200",
+        "path": "::status is 200",
+        "id": "6210a8cd14cd70477eba5c5e4cb3fb5f",
+        "passes": 21184,
+        "fails": 0
+      },
+      "response has tickets": {
+        "name": "response has tickets",
+        "path": "::response has tickets",
+        "id": "82ffb8744b9b3d1d96e9b47deffdd314",
+        "passes": 21184,
+        "fails": 0
+      }
+    },
+    "name": ""
   }
 }

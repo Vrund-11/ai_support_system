@@ -254,18 +254,52 @@ class PostgresIngestRepository(BaseIngestRepository):
     def __init__(self, dsn: str | None = None) -> None:
         self.dsn = dsn or settings.database_url
 
+    async def _get_connection(self) -> psycopg.AsyncConnection:
+        try:
+            return await psycopg.AsyncConnection.connect(self.dsn)
+        except psycopg.OperationalError:
+            if ":5432" in self.dsn:
+                alt_dsn = self.dsn.replace(":5432", ":5433")
+                try:
+                    conn = await psycopg.AsyncConnection.connect(alt_dsn)
+                    self.dsn = alt_dsn
+                    return conn
+                except Exception:
+                    pass
+            raise
+
     async def init_schema(self) -> None:
-        """Create vector extension and tables if not exist."""
-        conn = await psycopg.AsyncConnection.connect(self.dsn)
+        """Create vector extension, migrate to vector(384), and create tables and HNSW index."""
+        conn = await self._get_connection()
         async with conn, conn.cursor() as cur:
-            has_vector = False
             try:
                 await cur.execute("CREATE EXTENSION IF NOT EXISTS vector;")
                 await conn.commit()
-                has_vector = True
-            except Exception:
+            except Exception as exc:
                 await conn.rollback()
-                has_vector = False
+                raise RuntimeError(
+                    f"pgvector extension is required but failed to initialize: {exc}. "
+                    "Ensure PostgreSQL is running with pgvector (pgvector/pgvector:pg16)."
+                ) from exc
+
+            # Migrate double precision[] column to vector(384) if migrating from legacy schema
+            await cur.execute(
+                """
+                DO $$
+                BEGIN
+                    IF EXISTS (
+                        SELECT 1 FROM information_schema.columns
+                        WHERE table_name = 'kb_chunks'
+                          AND column_name = 'embedding'
+                          AND data_type = 'ARRAY'
+                    ) THEN
+                        ALTER TABLE kb_chunks
+                        ALTER COLUMN embedding TYPE vector(384)
+                        USING ('[' || array_to_string(embedding, ',') || ']')::vector(384);
+                    END IF;
+                END $$;
+                """
+            )
 
             await cur.execute(
                 """
@@ -283,11 +317,7 @@ class PostgresIngestRepository(BaseIngestRepository):
                 );
                 CREATE INDEX IF NOT EXISTS idx_kb_docs_tenant
                     ON kb_documents(tenant_id, status);
-                """
-            )
-            embedding_type = "vector(384)" if has_vector else "float8[]"
-            await cur.execute(
-                f"""
+
                 CREATE TABLE IF NOT EXISTS kb_chunks (
                     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
                     tenant_id TEXT NOT NULL,
@@ -297,24 +327,20 @@ class PostgresIngestRepository(BaseIngestRepository):
                     section_path TEXT NOT NULL DEFAULT '',
                     token_count INT NOT NULL DEFAULT 0,
                     tsv tsvector GENERATED ALWAYS AS (to_tsvector('english', content)) STORED,
-                    embedding {embedding_type} NOT NULL,
-                    metadata JSONB NOT NULL DEFAULT '{{}}',
+                    embedding vector(384) NOT NULL,
+                    metadata JSONB NOT NULL DEFAULT '{}',
                     UNIQUE (document_id, chunk_index)
                 );
                 CREATE INDEX IF NOT EXISTS idx_kb_chunks_tenant ON kb_chunks(tenant_id);
                 CREATE INDEX IF NOT EXISTS idx_kb_chunks_tsv ON kb_chunks USING gin(tsv);
                 CREATE INDEX IF NOT EXISTS idx_kb_chunks_tenant_tsv ON kb_chunks(tenant_id, tsv);
+
+                DROP INDEX IF EXISTS idx_kb_chunks_embedding;
+                CREATE INDEX IF NOT EXISTS idx_kb_chunks_embedding
+                    ON kb_chunks USING hnsw (embedding vector_cosine_ops)
+                    WITH (m = 16, ef_construction = 64);
                 """
             )
-            if has_vector:
-                await cur.execute(
-                    """
-                    DROP INDEX IF EXISTS idx_kb_chunks_embedding;
-                    CREATE INDEX IF NOT EXISTS idx_kb_chunks_embedding
-                        ON kb_chunks USING hnsw (embedding vector_cosine_ops)
-                        WITH (m = 16, ef_construction = 64);
-                    """
-                )
             await conn.commit()
 
     async def upsert_document(
@@ -326,7 +352,7 @@ class PostgresIngestRepository(BaseIngestRepository):
         s3_key: str | None = None,
         status: str = "PENDING",
     ) -> StoredDocument:
-        conn = await psycopg.AsyncConnection.connect(self.dsn)
+        conn = await self._get_connection()
         async with conn, conn.cursor() as cur:
             await cur.execute(
                 """
@@ -361,7 +387,7 @@ class PostgresIngestRepository(BaseIngestRepository):
             )
 
     async def get_document(self, tenant_id: str, document_id: str) -> StoredDocument | None:
-        conn = await psycopg.AsyncConnection.connect(self.dsn)
+        conn = await self._get_connection()
         async with conn, conn.cursor() as cur:
             await cur.execute(
                 """
@@ -396,7 +422,7 @@ class PostgresIngestRepository(BaseIngestRepository):
         error: str | None = None,
         chunk_count: int | None = None,
     ) -> None:
-        conn = await psycopg.AsyncConnection.connect(self.dsn)
+        conn = await self._get_connection()
         async with conn, conn.cursor() as cur:
             await cur.execute(
                 """
@@ -416,7 +442,7 @@ class PostgresIngestRepository(BaseIngestRepository):
         embeddings: list[list[float]],
     ) -> None:
         # Atomic transaction: delete previous chunks, insert new ones, set status READY
-        conn = await psycopg.AsyncConnection.connect(self.dsn)
+        conn = await self._get_connection()
         async with conn, conn.transaction(), conn.cursor() as cur:
             # Idempotent delete of existing chunks
             await cur.execute(
@@ -424,20 +450,10 @@ class PostgresIngestRepository(BaseIngestRepository):
                 (tenant_id, document_id),
             )
 
-            # Check whether embedding is a vector UDT or array
-            await cur.execute(
-                """
-                SELECT udt_name FROM information_schema.columns
-                WHERE table_name = 'kb_chunks' AND column_name = 'embedding';
-                """
-            )
-            col_info = await cur.fetchone()
-            is_vector_udt = bool(col_info and col_info[0] == "vector")
-
             # Bulk insert new chunks
             for i, chunk in enumerate(chunks):
                 raw_emb = embeddings[i] if i < len(embeddings) else []
-                emb = f"[{','.join(str(x) for x in raw_emb)}]" if is_vector_udt else raw_emb
+                emb = f"[{','.join(str(x) for x in raw_emb)}]"
                 meta = dict(chunk.metadata) if hasattr(chunk, "metadata") and chunk.metadata else {}
                 meta.setdefault("embedding_model", "sentence-transformers/all-MiniLM-L6-v2")
                 meta_json = json.dumps(meta)
@@ -446,7 +462,7 @@ class PostgresIngestRepository(BaseIngestRepository):
                     INSERT INTO kb_chunks (
                         tenant_id, document_id, chunk_index, content,
                         section_path, token_count, embedding, metadata
-                    ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s::jsonb);
+                    ) VALUES (%s, %s, %s, %s, %s, %s, %s::vector, %s::jsonb);
                     """,
                     (
                         tenant_id,
@@ -471,7 +487,7 @@ class PostgresIngestRepository(BaseIngestRepository):
             )
 
     async def get_chunks_for_document(self, tenant_id: str, document_id: str) -> list[StoredChunk]:
-        conn = await psycopg.AsyncConnection.connect(self.dsn)
+        conn = await self._get_connection()
         async with conn, conn.cursor() as cur:
             await cur.execute(
                 """
@@ -486,6 +502,15 @@ class PostgresIngestRepository(BaseIngestRepository):
             rows = await cur.fetchall()
             results: list[StoredChunk] = []
             for row in rows:
+                raw_emb = row[7]
+                emb_list: list[float]
+                if isinstance(raw_emb, list):
+                    emb_list = [float(x) for x in raw_emb]
+                elif isinstance(raw_emb, str):
+                    emb_list = [float(x) for x in raw_emb.strip("[]").split(",") if x.strip()]
+                else:
+                    emb_list = list(raw_emb) if raw_emb is not None else []
+
                 results.append(
                     StoredChunk(
                         id=str(row[0]),
@@ -495,7 +520,7 @@ class PostgresIngestRepository(BaseIngestRepository):
                         content=str(row[4]),
                         section_path=str(row[5]),
                         token_count=int(row[6]),
-                        embedding=list(row[7]) if row[7] is not None else [],
+                        embedding=emb_list,
                         metadata=dict(row[8]) if row[8] is not None else {},
                     )
                 )
@@ -504,91 +529,61 @@ class PostgresIngestRepository(BaseIngestRepository):
     async def vector_search(
         self, tenant_id: str, query_embedding: list[float], limit: int = 20
     ) -> list[tuple[StoredChunk, float]]:
-        conn = await psycopg.AsyncConnection.connect(self.dsn)
+        conn = await self._get_connection()
         async with conn, conn.cursor() as cur:
+            emb_str = f"[{','.join(str(x) for x in query_embedding)}]"
+            await cur.execute("SET hnsw.ef_search = 40;")
             await cur.execute(
                 """
-                SELECT udt_name FROM information_schema.columns
-                WHERE table_name = 'kb_chunks' AND column_name = 'embedding';
-                """
+                SELECT id, tenant_id, document_id, chunk_index, content,
+                       section_path, token_count, embedding, metadata,
+                       1 - (embedding <=> %s::vector) AS score
+                FROM kb_chunks
+                WHERE tenant_id = %s
+                  AND (metadata->>'embedding_model' = %s
+                       OR metadata->>'embedding_model' IS NULL)
+                ORDER BY embedding <=> %s::vector
+                LIMIT %s;
+                """,
+                (
+                    emb_str,
+                    tenant_id,
+                    "sentence-transformers/all-MiniLM-L6-v2",
+                    emb_str,
+                    limit,
+                ),
             )
-            col_info = await cur.fetchone()
-            is_vector_udt = bool(col_info and col_info[0] == "vector")
+            rows = await cur.fetchall()
+            results: list[tuple[StoredChunk, float]] = []
+            for row in rows:
+                raw_emb = row[7]
+                emb_list: list[float]
+                if isinstance(raw_emb, list):
+                    emb_list = [float(x) for x in raw_emb]
+                elif isinstance(raw_emb, str):
+                    emb_list = [float(x) for x in raw_emb.strip("[]").split(",") if x.strip()]
+                else:
+                    emb_list = list(raw_emb) if raw_emb is not None else []
 
-            if is_vector_udt:
-                emb_str = f"[{','.join(str(x) for x in query_embedding)}]"
-                await cur.execute("SET hnsw.ef_search = 40;")
-                await cur.execute(
-                    """
-                    SELECT id, tenant_id, document_id, chunk_index, content,
-                           section_path, token_count, embedding, metadata,
-                           1 - (embedding <=> %s::vector) AS score
-                    FROM kb_chunks
-                    WHERE tenant_id = %s
-                      AND (metadata->>'embedding_model' = %s
-                           OR metadata->>'embedding_model' IS NULL)
-                    ORDER BY embedding <=> %s::vector
-                    LIMIT %s;
-                    """,
-                    (
-                        emb_str,
-                        tenant_id,
-                        "sentence-transformers/all-MiniLM-L6-v2",
-                        emb_str,
-                        limit,
-                    ),
+                chunk = StoredChunk(
+                    id=str(row[0]),
+                    tenant_id=str(row[1]),
+                    document_id=str(row[2]),
+                    chunk_index=int(row[3]),
+                    content=str(row[4]),
+                    section_path=str(row[5]),
+                    token_count=int(row[6]),
+                    embedding=emb_list,
+                    metadata=dict(row[8]) if row[8] is not None else {},
                 )
-                rows = await cur.fetchall()
-                results: list[tuple[StoredChunk, float]] = []
-                for row in rows:
-                    chunk = StoredChunk(
-                        id=str(row[0]),
-                        tenant_id=str(row[1]),
-                        document_id=str(row[2]),
-                        chunk_index=int(row[3]),
-                        content=str(row[4]),
-                        section_path=str(row[5]),
-                        token_count=int(row[6]),
-                        embedding=list(row[7]) if row[7] is not None else [],
-                        metadata=dict(row[8]) if row[8] is not None else {},
-                    )
-                    score = float(row[9])
-                    results.append((chunk, score))
-                return results
-            else:
-                await cur.execute(
-                    """
-                    SELECT id, tenant_id, document_id, chunk_index, content,
-                           section_path, token_count, embedding, metadata
-                    FROM kb_chunks
-                    WHERE tenant_id = %s;
-                    """,
-                    (tenant_id,),
-                )
-                rows = await cur.fetchall()
-                scored: list[tuple[StoredChunk, float]] = []
-                for row in rows:
-                    emb = list(row[7]) if row[7] is not None else []
-                    chunk = StoredChunk(
-                        id=str(row[0]),
-                        tenant_id=str(row[1]),
-                        document_id=str(row[2]),
-                        chunk_index=int(row[3]),
-                        content=str(row[4]),
-                        section_path=str(row[5]),
-                        token_count=int(row[6]),
-                        embedding=emb,
-                        metadata=dict(row[8]) if row[8] is not None else {},
-                    )
-                    sim = _cosine_similarity(query_embedding, emb)
-                    scored.append((chunk, sim))
-                scored.sort(key=lambda x: x[1], reverse=True)
-                return scored[:limit]
+                score = float(row[9])
+                results.append((chunk, score))
+            return results
 
     async def text_search(
         self, tenant_id: str, query_text: str, limit: int = 20
     ) -> list[tuple[StoredChunk, float]]:
-        conn = await psycopg.AsyncConnection.connect(self.dsn)
+        conn = await self._get_connection()
         async with conn, conn.cursor() as cur:
             await cur.execute(
                 """

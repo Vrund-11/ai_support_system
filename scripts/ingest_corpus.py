@@ -50,13 +50,13 @@ async def ingest_corpus(
 
     # Determine repository
     if repository is None:
-        try:
-            repo = PostgresIngestRepository(dsn=db_url or settings.database_url)
+        target_dsn = db_url or settings.database_url
+        if target_dsn:
+            repo = PostgresIngestRepository(dsn=target_dsn)
             await repo.init_schema()
             repository = repo
             print("Using PostgresIngestRepository (PostgreSQL pgvector)")
-        except Exception as exc:
-            print(f"PostgreSQL connection failed ({exc}). Falling back to MemoryIngestRepository.")
+        else:
             repository = MemoryIngestRepository()
 
     embedding_provider = get_embedding_provider("sbert")

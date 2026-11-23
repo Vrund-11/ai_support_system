@@ -5,7 +5,8 @@
       "C:\\Users\\vrund\\OneDrive\\Desktop\\ai_project\\node_modules\\@playwright\\test\\cli.js",
       "test",
       "--config",
-      "tests/e2e/playwright.config.ts"
+      "tests/e2e/playwright.config.ts",
+      "--project=live"
     ],
     "configFile": "C:\\Users\\vrund\\OneDrive\\Desktop\\ai_project\\tests\\e2e\\playwright.config.ts",
     "rootDir": "C:/Users/vrund/OneDrive/Desktop/ai_project/tests/e2e/playwright",
@@ -30,9 +31,9 @@
         "metadata": {
           "actualWorkers": 4
         },
-        "id": "chromium",
-        "name": "chromium",
-        "testDir": "C:/Users/vrund/OneDrive/Desktop/ai_project/tests/e2e/playwright",
+        "id": "mocked",
+        "name": "mocked",
+        "testDir": "C:/Users/vrund/OneDrive/Desktop/ai_project/tests/e2e/playwright/mocked",
         "testIgnore": [],
         "testMatch": ["**/*.@(spec|test).?(c|m)[jt]s?(x)"],
         "timeout": 60000
@@ -44,9 +45,9 @@
         "metadata": {
           "actualWorkers": 4
         },
-        "id": "firefox",
-        "name": "firefox",
-        "testDir": "C:/Users/vrund/OneDrive/Desktop/ai_project/tests/e2e/playwright",
+        "id": "live",
+        "name": "live",
+        "testDir": "C:/Users/vrund/OneDrive/Desktop/ai_project/tests/e2e/playwright/live",
         "testIgnore": [],
         "testMatch": ["**/*.@(spec|test).?(c|m)[jt]s?(x)"],
         "timeout": 60000
@@ -62,14 +63,13 @@
         "metadata": {
           "actualWorkers": 4
         },
-        "name": "chromium",
-        "testDir": "C:\\Users\\vrund\\OneDrive\\Desktop\\ai_project\\tests\\e2e\\playwright",
-        "snapshotDir": "C:\\Users\\vrund\\OneDrive\\Desktop\\ai_project\\tests\\e2e\\playwright",
+        "name": "live",
+        "testDir": "C:\\Users\\vrund\\OneDrive\\Desktop\\ai_project\\tests\\e2e\\playwright\\live",
+        "snapshotDir": "C:\\Users\\vrund\\OneDrive\\Desktop\\ai_project\\tests\\e2e\\playwright\\live",
         "testIgnore": [],
         "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
         "timeout": 60000,
         "use": {
-          "baseURL": "http://localhost:5174",
           "trace": "on-first-retry",
           "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/159.0.8154.6 Safari/537.36",
           "viewport": {
@@ -83,47 +83,12 @@
           "deviceScaleFactor": 1,
           "isMobile": false,
           "hasTouch": false,
-          "defaultBrowserType": "chromium"
+          "defaultBrowserType": "chromium",
+          "baseURL": "http://localhost:3000"
         },
         "dependencies": [],
         "ignoreSnapshots": false,
-        "__projectId": "chromium"
-      },
-      {
-        "grep": {},
-        "grepInvert": null,
-        "outputDir": "C:\\Users\\vrund\\OneDrive\\Desktop\\ai_project\\test-results",
-        "repeatEach": 1,
-        "retries": 0,
-        "metadata": {
-          "actualWorkers": 4
-        },
-        "name": "firefox",
-        "testDir": "C:\\Users\\vrund\\OneDrive\\Desktop\\ai_project\\tests\\e2e\\playwright",
-        "snapshotDir": "C:\\Users\\vrund\\OneDrive\\Desktop\\ai_project\\tests\\e2e\\playwright",
-        "testIgnore": [],
-        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
-        "timeout": 60000,
-        "use": {
-          "baseURL": "http://localhost:5174",
-          "trace": "on-first-retry",
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:159.0) Gecko/20100101 Firefox/159.0",
-          "viewport": {
-            "width": 1280,
-            "height": 720
-          },
-          "screen": {
-            "width": 1920,
-            "height": 1080
-          },
-          "deviceScaleFactor": 1,
-          "isMobile": false,
-          "hasTouch": false,
-          "defaultBrowserType": "firefox"
-        },
-        "dependencies": [],
-        "ignoreSnapshots": false,
-        "__projectId": "firefox"
+        "__projectId": "live"
       }
     ],
     "quiet": false,
@@ -132,7 +97,13 @@
       [
         "json",
         {
-          "outputFile": "reports/playwright-results.json"
+          "outputFile": "C:\\Users\\vrund\\OneDrive\\Desktop\\ai_project\\reports\\playwright-results.json"
+        }
+      ],
+      [
+        "json",
+        {
+          "outputFile": "C:\\Users\\vrund\\OneDrive\\Desktop\\ai_project\\tests\\e2e\\reports\\playwright-results.json"
         }
       ]
     ],
@@ -150,20 +121,20 @@
   },
   "suites": [
     {
-      "title": "auth.spec.ts",
-      "file": "auth.spec.ts",
+      "title": "live\\01-login.live.spec.ts",
+      "file": "live/01-login.live.spec.ts",
       "column": 0,
       "line": 0,
       "specs": [],
       "suites": [
         {
-          "title": "Agent Authentication & Session Lifecycle (AUTH)",
-          "file": "auth.spec.ts",
-          "line": 6,
+          "title": "Live Stack E2E: Authentication & Session Lifecycle (01-login)",
+          "file": "live/01-login.live.spec.ts",
+          "line": 5,
           "column": 6,
           "specs": [
             {
-              "title": "TC-T1-AUTH-01: successful agent login navigates to dashboard with session",
+              "title": "successful login with seeded admin credentials grants access to dashboard",
               "ok": true,
               "tags": [],
               "tests": [
@@ -171,42 +142,19 @@
                   "timeout": 60000,
                   "annotations": [],
                   "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
+                  "projectId": "live",
+                  "projectName": "live",
                   "results": [
                     {
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 5060,
+                      "duration": 1124,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-22T12:22:58.994Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                },
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 4,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 7389,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-11-22T12:23:16.677Z",
+                      "startTime": "2026-11-23T03:54:36.299Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -214,13 +162,13 @@
                   "status": "expected"
                 }
               ],
-              "id": "d748ac400d08b85935ef-4a529620a8b973984839",
-              "file": "auth.spec.ts",
-              "line": 15,
+              "id": "72ebb206891dfc2b29f5-2b15a36cfd231b4b69f5",
+              "file": "live/01-login.live.spec.ts",
+              "line": 12,
               "column": 3
             },
             {
-              "title": "TC-T1-AUTH-04: agent logout terminates session and returns to login form",
+              "title": "invalid password displays RFC 7807 problem details error banner",
               "ok": true,
               "tags": [],
               "tests": [
@@ -228,42 +176,19 @@
                   "timeout": 60000,
                   "annotations": [],
                   "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
+                  "projectId": "live",
+                  "projectName": "live",
                   "results": [
                     {
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 1943,
+                      "duration": 876,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-22T12:23:04.445Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                },
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 4,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 6959,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-11-22T12:23:26.853Z",
+                      "startTime": "2026-11-23T03:54:37.647Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -271,180 +196,9 @@
                   "status": "expected"
                 }
               ],
-              "id": "d748ac400d08b85935ef-40a27632363b2d240223",
-              "file": "auth.spec.ts",
-              "line": 39,
-              "column": 3
-            },
-            {
-              "title": "TC-T2-AUTH-02: invalid credentials display RFC 7807 problem details error banner",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 0,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 1781,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-11-22T12:23:06.428Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                },
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 4,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 4859,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-11-22T12:23:33.840Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "d748ac400d08b85935ef-1f032a402354072bb1aa",
-              "file": "auth.spec.ts",
-              "line": 60,
-              "column": 3
-            },
-            {
-              "title": "TC-T2-AUTH-03: rate limited login displays 429 problem details message",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 0,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 1618,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-11-22T12:23:08.233Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                },
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 4,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 4169,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-11-22T12:23:38.727Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "d748ac400d08b85935ef-ce04fea933c15886db22",
-              "file": "auth.spec.ts",
-              "line": 73,
-              "column": 3
-            },
-            {
-              "title": "TC-T2-AUTH-04: toggles password field visibility masking",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 0,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 1281,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-11-22T12:23:09.876Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                },
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 4,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 5280,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-11-22T12:23:42.915Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "d748ac400d08b85935ef-b485a8f45a1c52f5390c",
-              "file": "auth.spec.ts",
-              "line": 86,
+              "id": "72ebb206891dfc2b29f5-07940f7db3f3a7cf1831",
+              "file": "live/01-login.live.spec.ts",
+              "line": 52,
               "column": 3
             }
           ]
@@ -452,20 +206,20 @@
       ]
     },
     {
-      "title": "interactive-demo.spec.ts",
-      "file": "interactive-demo.spec.ts",
+      "title": "live\\02-create-ticket.live.spec.ts",
+      "file": "live/02-create-ticket.live.spec.ts",
       "column": 0,
       "line": 0,
       "specs": [],
       "suites": [
         {
-          "title": "SupportPilot Interactive Product Walkthrough & Video Recording",
-          "file": "interactive-demo.spec.ts",
-          "line": 4,
+          "title": "Live Stack E2E: Agent Ticket Creation & Queue Verification (02-create-ticket)",
+          "file": "live/02-create-ticket.live.spec.ts",
+          "line": 5,
           "column": 6,
           "specs": [
             {
-              "title": "executes interactive customer live chat and offline ticketing walkthrough",
+              "title": "creates a new ticket in modal and verifies persistence in queue and detail view",
               "ok": true,
               "tags": [],
               "tests": [
@@ -473,50 +227,19 @@
                   "timeout": 60000,
                   "annotations": [],
                   "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
+                  "projectId": "live",
+                  "projectName": "live",
                   "results": [
                     {
                       "workerIndex": 1,
                       "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 16236,
+                      "duration": 1899,
                       "errors": [],
-                      "stdout": [
-                        {
-                          "text": "[VIDEO RECORDED] Video saved at: C:\\Users\\vrund\\OneDrive\\Desktop\\ai_project\\reports\\videos\\page@84a2cb8a8bf3051776e076ed5296eefe.webm\n"
-                        }
-                      ],
+                      "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-22T12:22:58.990Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                },
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 5,
-                      "parallelIndex": 1,
-                      "status": "passed",
-                      "duration": 16985,
-                      "errors": [],
-                      "stdout": [
-                        {
-                          "text": "[VIDEO RECORDED] Video saved at: C:\\Users\\vrund\\OneDrive\\Desktop\\ai_project\\reports\\videos\\page@444fb99200a332ef1468f823afb2b15b.webm\n"
-                        }
-                      ],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-11-22T12:23:16.857Z",
+                      "startTime": "2026-11-23T03:54:36.333Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -524,9 +247,9 @@
                   "status": "expected"
                 }
               ],
-              "id": "311c4291e6578c293608-7df1311cd4ad23697d11",
-              "file": "interactive-demo.spec.ts",
-              "line": 5,
+              "id": "5e85ec3fc3cefb2d5c7e-07e68e1c81fb51dfd4c6",
+              "file": "live/02-create-ticket.live.spec.ts",
+              "line": 18,
               "column": 3
             }
           ]
@@ -534,151 +257,20 @@
       ]
     },
     {
-      "title": "knowledge-base.spec.ts",
-      "file": "knowledge-base.spec.ts",
+      "title": "live\\03-widget-to-dashboard.live.spec.ts",
+      "file": "live/03-widget-to-dashboard.live.spec.ts",
       "column": 0,
       "line": 0,
       "specs": [],
       "suites": [
         {
-          "title": "Knowledge Base Management, Ingestion & Grounding (KB / AI)",
-          "file": "knowledge-base.spec.ts",
-          "line": 6,
-          "column": 6,
-          "specs": [
-            {
-              "title": "TC-T1-KB-02: KB upload shows status change from PROCESSING to READY",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 2,
-                      "parallelIndex": 2,
-                      "status": "passed",
-                      "duration": 6127,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-11-22T12:22:59.024Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                },
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 6,
-                      "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 12696,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-11-22T12:23:19.971Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "6cef38864ba78f033746-427949b3a4e44527d421",
-              "file": "knowledge-base.spec.ts",
-              "line": 30,
-              "column": 3
-            },
-            {
-              "title": "TC-T1-KB-05: Test Retrieval Console returns grounded RAG answer and citations",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 2,
-                      "parallelIndex": 2,
-                      "status": "passed",
-                      "duration": 2512,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-11-22T12:23:05.487Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                },
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 6,
-                      "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 7163,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-11-22T12:23:33.859Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "6cef38864ba78f033746-d8d978015d26655f3693",
-              "file": "knowledge-base.spec.ts",
-              "line": 64,
-              "column": 3
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "title": "live-chat-socket.spec.ts",
-      "file": "live-chat-socket.spec.ts",
-      "column": 0,
-      "line": 0,
-      "specs": [],
-      "suites": [
-        {
-          "title": "Realtime Live Chat & Agent Takeover (SOCKET / CHAT)",
-          "file": "live-chat-socket.spec.ts",
+          "title": "Live Stack E2E: Widget Offline Ticket Omnichannel Sync (03-widget-to-dashboard)",
+          "file": "live/03-widget-to-dashboard.live.spec.ts",
           "line": 7,
           "column": 6,
           "specs": [
             {
-              "title": "agent reply appears live in widget and dashboard console",
+              "title": "customer submits offline widget ticket and agent views it in dashboard inbox",
               "ok": true,
               "tags": [],
               "tests": [
@@ -686,42 +278,19 @@
                   "timeout": 60000,
                   "annotations": [],
                   "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
+                  "projectId": "live",
+                  "projectName": "live",
                   "results": [
                     {
-                      "workerIndex": 3,
-                      "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 7047,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-11-22T12:22:59.017Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                },
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 7,
+                      "workerIndex": 2,
                       "parallelIndex": 2,
                       "status": "passed",
-                      "duration": 11143,
+                      "duration": 4143,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-22T12:23:20.552Z",
+                      "startTime": "2026-11-23T03:54:36.311Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -729,8 +298,8 @@
                   "status": "expected"
                 }
               ],
-              "id": "0bb035d6b87d32050d2b-d491dd460ba0c7c635f4",
-              "file": "live-chat-socket.spec.ts",
+              "id": "aa86c5fd7485abc23b0e-fe851b2c03975267f3aa",
+              "file": "live/03-widget-to-dashboard.live.spec.ts",
               "line": 8,
               "column": 3
             }
@@ -739,20 +308,20 @@
       ]
     },
     {
-      "title": "tenant-isolation.spec.ts",
-      "file": "tenant-isolation.spec.ts",
+      "title": "live\\04-tenant-isolation.live.spec.ts",
+      "file": "live/04-tenant-isolation.live.spec.ts",
       "column": 0,
       "line": 0,
       "specs": [],
       "suites": [
         {
-          "title": "Multi-Tenancy & Data Isolation Boundaries (TEN)",
-          "file": "tenant-isolation.spec.ts",
+          "title": "Live Stack E2E: Tenant Isolation Verification (04-tenant-isolation)",
+          "file": "live/04-tenant-isolation.live.spec.ts",
           "line": 6,
           "column": 6,
           "specs": [
             {
-              "title": "TC-T1-TEN-02: tenant A cannot access tenant B ticket URL (expects 403/404)",
+              "title": "strictly prevents cross-tenant ticket query and mutation across API and UI boundaries",
               "ok": true,
               "tags": [],
               "tests": [
@@ -760,42 +329,19 @@
                   "timeout": 60000,
                   "annotations": [],
                   "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
+                  "projectId": "live",
+                  "projectName": "live",
                   "results": [
                     {
                       "workerIndex": 3,
                       "parallelIndex": 3,
                       "status": "passed",
-                      "duration": 2160,
+                      "duration": 2171,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-22T12:23:06.426Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                },
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 7,
-                      "parallelIndex": 2,
-                      "status": "passed",
-                      "duration": 4857,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-11-22T12:23:33.539Z",
+                      "startTime": "2026-11-23T03:54:36.298Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -803,66 +349,9 @@
                   "status": "expected"
                 }
               ],
-              "id": "7d8e83e4ff540a62ed2c-9485c66fc6b853a9a1c7",
-              "file": "tenant-isolation.spec.ts",
-              "line": 21,
-              "column": 3
-            },
-            {
-              "title": "TC-T2-TEN-01: cross-tenant ticket mutation is rejected with 403 problem details",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 3,
-                      "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 1670,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-11-22T12:23:08.616Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                },
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 7,
-                      "parallelIndex": 2,
-                      "status": "passed",
-                      "duration": 4145,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-11-22T12:23:38.430Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "7d8e83e4ff540a62ed2c-85e09440196990662630",
-              "file": "tenant-isolation.spec.ts",
-              "line": 50,
+              "id": "8fdfa7a47e09c0b24a75-6fd8e83c6c0cff1d44db",
+              "file": "live/04-tenant-isolation.live.spec.ts",
+              "line": 7,
               "column": 3
             }
           ]
@@ -870,20 +359,20 @@
       ]
     },
     {
-      "title": "tickets.spec.ts",
-      "file": "tickets.spec.ts",
+      "title": "live\\05-reply.live.spec.ts",
+      "file": "live/05-reply.live.spec.ts",
       "column": 0,
       "line": 0,
       "specs": [],
       "suites": [
         {
-          "title": "Ticket Lifecycle, Management & Concurrency (TKT)",
-          "file": "tickets.spec.ts",
-          "line": 6,
+          "title": "Live Stack E2E: Public Reply and Internal Note Submission (05-reply)",
+          "file": "live/05-reply.live.spec.ts",
+          "line": 5,
           "column": 6,
           "specs": [
             {
-              "title": "TC-T1-TKT-01: creates new ticket from dashboard modal and displays detail view",
+              "title": "submits public reply and internal note, asserting thread persistence after reload",
               "ok": true,
               "tags": [],
               "tests": [
@@ -891,42 +380,19 @@
                   "timeout": 60000,
                   "annotations": [],
                   "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
+                  "projectId": "live",
+                  "projectName": "live",
                   "results": [
                     {
-                      "workerIndex": 2,
-                      "parallelIndex": 2,
-                      "status": "passed",
-                      "duration": 2833,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-11-22T12:23:08.051Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                },
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 5,
+                      "workerIndex": 1,
                       "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 5621,
+                      "duration": 2440,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-22T12:23:35.571Z",
+                      "startTime": "2026-11-23T03:54:38.467Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -934,237 +400,9 @@
                   "status": "expected"
                 }
               ],
-              "id": "d0af0b82280f1821db49-5ed8f98e28050f97de4f",
-              "file": "tickets.spec.ts",
-              "line": 23,
-              "column": 3
-            },
-            {
-              "title": "TC-T1-TKT-03: updates ticket status and reflects state change in detail view",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 2,
-                      "parallelIndex": 2,
-                      "status": "passed",
-                      "duration": 2230,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-11-22T12:23:10.908Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                },
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 5,
-                      "parallelIndex": 1,
-                      "status": "passed",
-                      "duration": 5027,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-11-22T12:23:41.231Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "d0af0b82280f1821db49-08c53e8812539a34e87a",
-              "file": "tickets.spec.ts",
-              "line": 62,
-              "column": 3
-            },
-            {
-              "title": "TC-T2-TKT-01: displays 409 conflict warning and reloads latest server data",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 2,
-                      "parallelIndex": 2,
-                      "status": "passed",
-                      "duration": 2631,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-11-22T12:23:13.158Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                },
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 5,
-                      "parallelIndex": 1,
-                      "status": "passed",
-                      "duration": 4590,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-11-22T12:23:46.295Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "d0af0b82280f1821db49-49aa800d48ff82336279",
-              "file": "tickets.spec.ts",
-              "line": 82,
-              "column": 3
-            },
-            {
-              "title": "TC-T2-TKT-02: filters tickets by priority chips in inbox view",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 2,
-                      "parallelIndex": 2,
-                      "status": "passed",
-                      "duration": 1717,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-11-22T12:23:15.808Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                },
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 5,
-                      "parallelIndex": 1,
-                      "status": "passed",
-                      "duration": 4722,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-11-22T12:23:50.907Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "d0af0b82280f1821db49-b7b62cfcdb084b1bfc67",
-              "file": "tickets.spec.ts",
-              "line": 147,
-              "column": 3
-            },
-            {
-              "title": "TC-T3-VIRT-01: virtualizes large inbox table rendering under 100 row nodes with 5,000 items",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 2,
-                      "parallelIndex": 2,
-                      "status": "passed",
-                      "duration": 1848,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-11-22T12:23:17.543Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                },
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 5,
-                      "parallelIndex": 1,
-                      "status": "passed",
-                      "duration": 3048,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-11-22T12:23:55.646Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "d0af0b82280f1821db49-f68b6d9815d3caa04ee4",
-              "file": "tickets.spec.ts",
-              "line": 174,
+              "id": "472b496ccd9e890eaf21-e454fbf449cbeb983e5d",
+              "file": "live/05-reply.live.spec.ts",
+              "line": 18,
               "column": 3
             }
           ]
@@ -1172,20 +410,20 @@
       ]
     },
     {
-      "title": "widget-chat.spec.ts",
-      "file": "widget-chat.spec.ts",
+      "title": "live\\06-kb-upload.live.spec.ts",
+      "file": "live/06-kb-upload.live.spec.ts",
       "column": 0,
       "line": 0,
       "specs": [],
       "suites": [
         {
-          "title": "Widget on Static Host Page & Live Chat AI Flow",
-          "file": "widget-chat.spec.ts",
-          "line": 3,
+          "title": "Live Stack E2E: Knowledge Base Document Ingestion & RAG Retrieval (06-kb-upload)",
+          "file": "live/06-kb-upload.live.spec.ts",
+          "line": 5,
           "column": 6,
           "specs": [
             {
-              "title": "loads static host page with embedded SupportPilot script",
+              "title": "LEAD agent uploads document via POST /api/v1/kb/documents and tests retrieval synthesis",
               "ok": true,
               "tags": [],
               "tests": [
@@ -1193,344 +431,19 @@
                   "timeout": 60000,
                   "annotations": [],
                   "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 3,
-                      "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 1572,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-11-22T12:23:10.326Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                },
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 6,
-                      "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 2122,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-11-22T12:23:41.081Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "4340a82a94341d4d0614-f81397f24814411d2ba8",
-              "file": "widget-chat.spec.ts",
-              "line": 23,
-              "column": 3
-            },
-            {
-              "title": "opens widget window when bubble button is clicked",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 3,
-                      "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 1485,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-11-22T12:23:11.921Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                },
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 6,
-                      "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 2878,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-11-22T12:23:43.236Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "4340a82a94341d4d0614-ebd5ac10c11e2218772a",
-              "file": "widget-chat.spec.ts",
-              "line": 34,
-              "column": 3
-            },
-            {
-              "title": "allows typing a message and verifies optimistic send",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 3,
-                      "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 2148,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-11-22T12:23:13.433Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                },
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 6,
-                      "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 2942,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-11-22T12:23:46.139Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "4340a82a94341d4d0614-6a959192f63e43c8b379",
-              "file": "widget-chat.spec.ts",
-              "line": 48,
-              "column": 3
-            },
-            {
-              "title": "switches to offline leave-a-message form tab",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 3,
-                      "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 1665,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-11-22T12:23:15.607Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                },
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 6,
-                      "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 2336,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-11-22T12:23:49.105Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "4340a82a94341d4d0614-771b9dab353971d907f8",
-              "file": "widget-chat.spec.ts",
-              "line": 69,
-              "column": 3
-            },
-            {
-              "title": "controls widget visibility via programmatic window.SupportPilot API",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 3,
-                      "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 1388,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-11-22T12:23:17.293Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                },
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 6,
-                      "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 2784,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-11-22T12:23:51.468Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "4340a82a94341d4d0614-c09fa1bba2229f32aa2e",
-              "file": "widget-chat.spec.ts",
-              "line": 82,
-              "column": 3
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "title": "widget-dashboard-sync.spec.ts",
-      "file": "widget-dashboard-sync.spec.ts",
-      "column": 0,
-      "line": 0,
-      "specs": [],
-      "suites": [
-        {
-          "title": "Widget to Dashboard Omnichannel Synchronization (TC-T3-10 / TC-T4-E2E-01)",
-          "file": "widget-dashboard-sync.spec.ts",
-          "line": 7,
-          "column": 6,
-          "specs": [
-            {
-              "title": "customer submits offline widget ticket and agent dashboard inbox sees it",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
+                  "projectId": "live",
+                  "projectName": "live",
                   "results": [
                     {
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 3883,
+                      "duration": 1759,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-22T12:23:11.220Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                },
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 7,
-                      "parallelIndex": 2,
-                      "status": "passed",
-                      "duration": 6565,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-11-22T12:23:42.621Z",
+                      "startTime": "2026-11-23T03:54:38.570Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1538,9 +451,9 @@
                   "status": "expected"
                 }
               ],
-              "id": "52420d1b14805aa52325-94bd89234778ab7b45f7",
-              "file": "widget-dashboard-sync.spec.ts",
-              "line": 8,
+              "id": "ae18739e75ff560019bb-5720945c5e5e05a3a6b1",
+              "file": "live/06-kb-upload.live.spec.ts",
+              "line": 18,
               "column": 3
             }
           ]
@@ -1550,9 +463,9 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2026-11-22T12:22:54.322Z",
-    "duration": 65574.085,
-    "expected": 44,
+    "startTime": "2026-11-23T03:54:35.543Z",
+    "duration": 5468.279,
+    "expected": 7,
     "skipped": 0,
     "unexpected": 0,
     "flaky": 0

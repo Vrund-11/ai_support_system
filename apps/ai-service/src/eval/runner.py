@@ -69,6 +69,9 @@ class EvalMetrics:
     generation_latency_ms: dict[str, float] = field(default_factory=dict)
     by_type: dict[str, Any] = field(default_factory=dict)
     details: dict[str, Any] = field(default_factory=dict)
+    llm_judge_sample: dict[str, Any] | None = None
+    llm_judge_results: list[dict[str, Any]] = field(default_factory=list)
+    gate_failures: list[str] = field(default_factory=list)
 
 
 class EvalRunner:
@@ -86,6 +89,103 @@ class EvalRunner:
         self.provider = llm_provider or get_llm_provider()
         self.eval_repo = eval_repository or get_eval_repository()
 
+    async def evaluate_llm_judge_sample(
+        self,
+        question: str,
+        context: str,
+        answer: str,
+    ) -> dict[str, Any]:
+        """Evaluate groundedness of a sample answer using Gemini LLM-judge.
+
+        Gracefully handles missing or invalid GEMINI_API_KEY with clear logging.
+        """
+        api_key = os.getenv("GEMINI_API_KEY") or getattr(self.provider, "api_key", None)
+        if not api_key:
+            logger.info("LLM-judge evaluation skipped: GEMINI_API_KEY is not set.")
+            return {
+                "status": "skipped",
+                "reason": "GEMINI_API_KEY environment variable not set",
+                "score": None,
+                "grounded": None,
+                "feedback": "Evaluation skipped due to missing API key.",
+            }
+
+        prompt = (
+            "You are an impartial AI evaluator. Evaluate whether the provided Answer is "
+            "strictly grounded in the Reference Context. Every factual claim in the Answer must "
+            "be supported by the Context.\n\n"
+            f"Question: {question}\n\n"
+            f"Reference Context: {context}\n\n"
+            f"Answer: {answer}\n\n"
+            "Respond in JSON format with keys:\n"
+            "- 'grounded': boolean (true if all claims supported, false otherwise)\n"
+            "- 'score': float between 0.0 and 1.0 representing percentage of grounded claims\n"
+            "- 'reasoning': short explanation of your judgment\n"
+            "- 'unsupported_claims': list of strings containing unsupported claims "
+            "(empty if fully grounded)\n"
+        )
+
+        url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash-lite:generateContent?key={api_key}"
+        payload = {
+            "contents": [{"parts": [{"text": prompt}]}],
+            "generationConfig": {"temperature": 0.0},
+        }
+
+        try:
+            import httpx
+
+            async with httpx.AsyncClient(timeout=25.0) as client:
+                resp = await client.post(url, json=payload)
+                if resp.status_code == 404:
+                    # Fallback to gemini-3.8-flash if flash-lite is unavailable
+                    fallback_url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key={api_key}"
+                    resp = await client.post(fallback_url, json=payload)
+                if resp.status_code != 200:
+                    logger.warning(
+                        "LLM-judge request failed with status %d: %s. Gracefully proceeding.",
+                        resp.status_code,
+                        resp.text[:200],
+                    )
+                    return {
+                        "status": "failed",
+                        "status_code": resp.status_code,
+                        "reason": f"Gemini API returned HTTP {resp.status_code}",
+                        "error_details": resp.text[:200],
+                        "score": None,
+                        "grounded": None,
+                    }
+                data = resp.json()
+                raw_text = data["candidates"][0]["content"]["parts"][0]["text"].strip()
+                if raw_text.startswith("```json"):
+                    raw_text = raw_text[7:]
+                if raw_text.startswith("```"):
+                    raw_text = raw_text[3:]
+                if raw_text.endswith("```"):
+                    raw_text = raw_text[:-3]
+                parsed = json.loads(raw_text.strip())
+                logger.info(
+                    "LLM-judge evaluation succeeded: grounded=%s, score=%s",
+                    parsed.get("grounded"),
+                    parsed.get("score"),
+                )
+                return {
+                    "status": "success",
+                    "grounded": parsed.get("grounded"),
+                    "score": parsed.get("score"),
+                    "reasoning": parsed.get("reasoning"),
+                    "unsupported_claims": parsed.get("unsupported_claims", []),
+                }
+        except Exception as exc:
+            logger.warning(
+                "LLM-judge evaluation encountered exception: %s. Gracefully proceeding.", exc
+            )
+            return {
+                "status": "error",
+                "reason": str(exc),
+                "score": None,
+                "grounded": None,
+            }
+
     @staticmethod
     def load_golden_set(filepath: str | Path) -> list[EvalSample]:
         """Load and validate JSONL golden dataset."""
@@ -94,7 +194,7 @@ class EvalRunner:
             raise FileNotFoundError(f"Golden dataset not found at {path}")
 
         samples: list[EvalSample] = []
-        with open(path, encoding="utf-8") as f:
+        with open(path, encoding="utf-8-sig") as f:
             for line_no, line in enumerate(f, start=1):
                 raw = line.strip()
                 if not raw:
@@ -117,7 +217,9 @@ class EvalRunner:
                         tenant_id=data.get("tenant_id", "tenant_eval_01"),
                         question=data["question"],
                         category=data.get("category", q_type),
-                        expected_doc_ids=data.get("expected_doc_ids", []),
+                        expected_doc_ids=(
+                            data.get("expected_doc_ids") or data.get("expected_doc_slugs", [])
+                        ),
                         expected_chunk_ids=data.get("expected_chunk_ids", []),
                         should_escalate=exp_esc,
                         type=q_type,
@@ -140,6 +242,7 @@ class EvalRunner:
         enforce_gate: bool = True,
         commit_sha: str = "",
         dataset_version: str = "v2",
+        max_judge_samples: int = 0,
     ) -> EvalMetrics:
         """Run evaluation across all samples and compute detailed RAG metrics."""
         emb_latencies: list[float] = []
@@ -161,6 +264,8 @@ class EvalRunner:
         fn = 0
 
         by_type_stats: dict[str, dict[str, Any]] = {}
+        llm_judge_sample: dict[str, Any] | None = None
+        llm_judge_results: list[dict[str, Any]] = []
 
         for sample in samples:
             target_tenant = tenant_id or sample.tenant_id
@@ -172,6 +277,7 @@ class EvalRunner:
                     "hit_at_5": 0,
                     "mrr_sum": 0.0,
                     "grounded_sum": 0.0,
+                    "grounded_count": 0,
                     "escalated": 0,
                 }
             by_type_stats[st_type]["total"] += 1
@@ -260,45 +366,76 @@ class EvalRunner:
             total_tokens += tokens
 
             # 5. Sentence-Level Groundedness
+            # CRITICAL (R4): Groundedness is strictly calculated over non-escalated rows.
+            # Never assign 1.0 to escalated rows!
             actual_esc = answer_resp.should_escalate
-            if actual_esc:
-                by_type_stats[st_type]["escalated"] += 1
-                grounded_scores.append(1.0)
-                by_type_stats[st_type]["grounded_sum"] += 1.0
-            elif answer_resp.citations:
-                cited_ids = {c.chunk_id for c in answer_resp.citations}
-                cited_chunks = [
-                    c for c in top_chunks if c.id in cited_ids or c.chunk_index in cited_ids
-                ]
-                if not cited_chunks:
-                    cited_chunks = top_chunks[:2]
+            exp_esc = sample.should_escalate or sample.expected_escalate
+            is_non_escalated = (not actual_esc) and (not exp_esc)
 
-                cited_text = " ".join(c.content.lower() for c in cited_chunks)
-                sentences = [s.strip() for s in re.split(r"(?<=[.!?])\s+", ans_text) if s.strip()]
-                if sentences:
-                    supported = 0
-                    for sent in sentences:
-                        sent_words = [w for w in re.findall(r"\w+", sent.lower()) if len(w) > 3]
-                        if not sent_words:
-                            supported += 1
-                        else:
-                            overlap = sum(1 for w in sent_words if w in cited_text) / len(
-                                sent_words
-                            )
-                            if overlap >= 0.40:
+            if is_non_escalated:
+                if answer_resp.citations:
+                    cited_ids = {c.chunk_id for c in answer_resp.citations}
+                    cited_chunks = [
+                        c for c in top_chunks if c.id in cited_ids or c.chunk_index in cited_ids
+                    ]
+                    if not cited_chunks:
+                        cited_chunks = top_chunks[:2]
+
+                    cited_text = " ".join(c.content.lower() for c in cited_chunks)
+                    raw_sents = re.split(r"(?<=[.!?])\s+", ans_text)
+                    sentences = [s.strip() for s in raw_sents if s.strip()]
+                    if sentences:
+                        supported = 0
+                        for sent in sentences:
+                            sent_words = [w for w in re.findall(r"\w+", sent.lower()) if len(w) > 3]
+                            if not sent_words:
                                 supported += 1
-                    s_score = supported / len(sentences)
-                    grounded_scores.append(s_score)
-                    by_type_stats[st_type]["grounded_sum"] += s_score
+                            else:
+                                overlap = sum(1 for w in sent_words if w in cited_text) / len(
+                                    sent_words
+                                )
+                                if overlap >= 0.40:
+                                    supported += 1
+                        s_score = supported / len(sentences)
+                    else:
+                        s_score = 1.0
+
+                    # Run samples through LLM-judge (up to max_judge_samples)
+                    if len(llm_judge_results) < max_judge_samples:
+                        try:
+                            judge_entry = await self.evaluate_llm_judge_sample(
+                                question=sample.question,
+                                context=cited_text,
+                                answer=ans_text,
+                            )
+                            judge_entry["sample_id"] = sample.id
+                            judge_entry["question"] = sample.question
+                            llm_judge_results.append(judge_entry)
+                            if llm_judge_sample is None:
+                                llm_judge_sample = judge_entry
+                        except Exception as judge_exc:
+                            logger.warning("LLM-judge call error: %s", judge_exc)
+                            err_entry = {
+                                "status": "error",
+                                "reason": str(judge_exc),
+                                "sample_id": sample.id,
+                                "question": sample.question,
+                            }
+                            llm_judge_results.append(err_entry)
+                            if llm_judge_sample is None:
+                                llm_judge_sample = err_entry
                 else:
-                    grounded_scores.append(1.0)
-                    by_type_stats[st_type]["grounded_sum"] += 1.0
+                    # Answer generated with 0 citations when non-escalated is ungrounded
+                    s_score = 0.0
+
+                grounded_scores.append(s_score)
+                by_type_stats[st_type]["grounded_sum"] += s_score
+                by_type_stats[st_type]["grounded_count"] += 1
             else:
-                # Answer generated with 0 citations when chunks exist is ungrounded
-                grounded_scores.append(0.0)
+                if actual_esc:
+                    by_type_stats[st_type]["escalated"] += 1
 
             # 6. Escalation Confusion Matrix
-            exp_esc = sample.should_escalate or sample.expected_escalate
             if exp_esc and actual_esc:
                 tp += 1
             elif not exp_esc and actual_esc:
@@ -307,6 +444,21 @@ class EvalRunner:
                 tn += 1
             elif exp_esc and not actual_esc:
                 fn += 1
+
+        if llm_judge_sample is None:
+            llm_judge_sample = {
+                "status": "skipped",
+                "reason": "No non-escalated row with citations evaluated",
+            }
+
+        # Calculate category groundedness and counts
+        for _q_type, stats in by_type_stats.items():
+            g_cnt = stats.get("grounded_count", 0)
+            stats["grounded_n"] = g_cnt
+            if g_cnt > 0:
+                stats["groundedness"] = round(stats["grounded_sum"] / g_cnt, 3)
+            else:
+                stats["groundedness"] = None
 
         total = len(samples)
         hit_at_1 = (
@@ -324,7 +476,11 @@ class EvalRunner:
             if evaluable_non_escalated > 0
             else 1.0
         )
-        groundedness = round(sum(grounded_scores) / total, 3) if total > 0 else 1.0
+        groundedness = (
+            round(sum(grounded_scores) / len(grounded_scores), 3)
+            if grounded_scores
+            else 1.0
+        )
 
         prec = round(tp / (tp + fp), 3) if (tp + fp) > 0 else 1.0
         rec = round(tp / (tp + fn), 3) if (tp + fn) > 0 else 1.0
@@ -341,7 +497,21 @@ class EvalRunner:
         gen_p50 = _percentile(gen_latencies, 0.50)
         gen_p95 = _percentile(gen_latencies, 0.95)
 
-        # 7. Regression Gate against baseline row in ai_eval_runs
+        # 7. Regression Gate against benchmarks & baseline
+        gate_failures = []
+        if hit_at_1 < 0.700:
+            gate_failures.append(f"Hit@1 ({hit_at_1:.3f} < 0.700)")
+        if hit_at_5 < 0.850:
+            gate_failures.append(f"Hit@5 ({hit_at_5:.3f} < 0.850)")
+        if mrr < 0.750:
+            gate_failures.append(f"MRR ({mrr:.3f} < 0.750)")
+        if prec < 0.800:
+            gate_failures.append(f"Escalation Precision ({prec:.3f} < 0.800)")
+        if rec < 0.800:
+            gate_failures.append(f"Escalation Recall ({rec:.3f} < 0.800)")
+        if f1 < 0.800:
+            gate_failures.append(f"Escalation F1 ({f1:.3f} < 0.800)")
+
         baseline = await self.eval_repo.get_latest_baseline(dataset_name)
         passed_gate = True
         baseline_groundedness = None
@@ -353,16 +523,14 @@ class EvalRunner:
             if groundedness < (baseline.groundedness - 0.03):
                 passed_gate = False
                 logger.error(
-                    "REGRESSION GATE FAILED: groundedness %.3f dropped > 0.03 from baseline %.3f",
-                    groundedness,
-                    baseline.groundedness,
+                    "REGRESSION GATE FAILED: groundedness %.3f dropped > 0.03 from baseline "
+                    f"{baseline.groundedness:.3f}"
                 )
             if hit_at_5 < (baseline.hit_at_5 - 0.03):
                 passed_gate = False
                 logger.error(
-                    "REGRESSION GATE FAILED: hit_at_5 %.3f dropped > 0.03 from baseline %.3f",
-                    hit_at_5,
-                    baseline.hit_at_5,
+                    f"REGRESSION GATE FAILED: hit_at_5 {hit_at_5:.3f} dropped > 0.03 from baseline "
+                    f"{baseline.hit_at_5:.3f}"
                 )
 
         run_id = f"eval_run_{uuid.uuid4().hex[:8]}"
@@ -390,9 +558,11 @@ class EvalRunner:
                 "tn": tn,
                 "fn": fn,
                 "evaluable_non_escalated": evaluable_non_escalated,
+                "evaluable_non_escalated_grounded": len(grounded_scores),
                 "hit_at_1": hit_at_1,
                 "mrr": mrr,
                 "tokens_per_answer": tokens_per_answer,
+                "llm_judge_sample": llm_judge_sample,
                 "latencies": {
                     "embedding": {"p50": emb_p50, "p95": emb_p95},
                     "retrieval": {"p50": ret_p50, "p95": ret_p95},
@@ -427,4 +597,7 @@ class EvalRunner:
             generation_latency_ms={"p50": gen_p50, "p95": gen_p95},
             by_type=by_type_stats,
             details=record.metadata,
+            llm_judge_sample=llm_judge_sample,
+            llm_judge_results=llm_judge_results,
+            gate_failures=gate_failures,
         )

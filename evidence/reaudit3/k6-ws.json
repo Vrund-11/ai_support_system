@@ -152,10 +152,6 @@
       }
     }
   },
-  "setup_data": {
-    "tenantId": "507f1f77bcf86cd799439011",
-    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1MDdmMTkxZTgxMGMxOTcyOWRlODYwYWMiLCJ0ZW5hbnRJZCI6IjUwN2YxZjc3YmNmODZjZDc5OTQzOTAxMSIsInJvbGUiOiJBR0VOVCIsImlhdCI6MTc5NTQwNTA3OCwiZXhwIjoxNzk1NDA1OTc4fQ.qrJ6R6WkRjo2m5IgTtkVxRHy0Sa2_oEuvXJbo45sj7w"
-  },
   "root_group": {
     "id": "d41d8cd98f00b204e9800998ecf8427e",
     "groups": {},

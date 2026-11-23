@@ -74,9 +74,23 @@ class PostgresEvalRepository(BaseEvalRepository):
     def __init__(self, dsn: str | None = None) -> None:
         self.dsn = dsn or settings.database_url
 
+    async def _get_connection(self) -> psycopg.AsyncConnection:
+        try:
+            return await psycopg.AsyncConnection.connect(self.dsn)
+        except psycopg.OperationalError:
+            if ":5432" in self.dsn:
+                alt_dsn = self.dsn.replace(":5432", ":5433")
+                try:
+                    conn = await psycopg.AsyncConnection.connect(alt_dsn)
+                    self.dsn = alt_dsn
+                    return conn
+                except Exception:
+                    pass
+            raise
+
     async def init_schema(self) -> None:
         """Create ai_eval_runs table if not exists."""
-        conn = await psycopg.AsyncConnection.connect(self.dsn)
+        conn = await self._get_connection()
         async with conn, conn.cursor() as cur:
             await cur.execute(
                 """
@@ -101,7 +115,7 @@ class PostgresEvalRepository(BaseEvalRepository):
             await conn.commit()
 
     async def save_run(self, record: EvalRunRecord) -> str:
-        conn = await psycopg.AsyncConnection.connect(self.dsn)
+        conn = await self._get_connection()
         async with conn, conn.cursor() as cur:
             await cur.execute(
                 """
@@ -142,7 +156,7 @@ class PostgresEvalRepository(BaseEvalRepository):
             return record.id
 
     async def get_latest_baseline(self, dataset_name: str) -> EvalRunRecord | None:
-        conn = await psycopg.AsyncConnection.connect(self.dsn)
+        conn = await self._get_connection()
         async with conn, conn.cursor() as cur:
             await cur.execute(
                 """
@@ -175,7 +189,7 @@ class PostgresEvalRepository(BaseEvalRepository):
             )
 
     async def list_runs(self, limit: int = 10) -> list[EvalRunRecord]:
-        conn = await psycopg.AsyncConnection.connect(self.dsn)
+        conn = await self._get_connection()
         async with conn, conn.cursor() as cur:
             await cur.execute(
                 """

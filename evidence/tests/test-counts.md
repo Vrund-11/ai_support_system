@@ -1,27 +1,39 @@
 # SupportPilot Test Counts
 
-_Generated: 2026-11-22T11:53:59.290Z_
-_Integrity Mode: Strict — Unit/Integration tests separated from E2E/API assertions_
+_Generated: 2026-11-23T05:20:51.946Z_
+_Integrity Policy: Strict Runner Separation — Zero static fakes, no Newman assertions in test totals, no browser multipliers_
 
-## Unit & Integration Test Suites
+## 1. Automated Test Suites Summary (Discrete Tests by Tool)
 
-| Package / Directory                | Framework  | Test Suites | Total Tests | Passed  | Failed | Skipped |  Status  |
-| ---------------------------------- | ---------- | :---------: | :---------: | :-----: | :----: | :-----: | :------: |
-| `packages/validators`              | Vitest     |      3      |      8      |    8    |   0    |    0    |   PASS   |
-| `packages/shared-lib`              | Vitest     |     19      |     41      |   41    |   0    |    0    |   PASS   |
-| `apps/gateway`                     | Vitest     |     22      |     53      |   53    |   0    |    0    |   PASS   |
-| `apps/ticket-service`              | Vitest     |     99      |     236     |   236   |   0    |    0    |   PASS   |
-| `apps/notification-service`        | Vitest     |     12      |     23      |   23    |   0    |    0    |   PASS   |
-| **Subtotal (TypeScript / Vitest)** | **Vitest** |   **155**   |   **361**   | **361** | **0**  |  **0**  | **PASS** |
-| `apps/ai-service`                  | Pytest     |     12      |     77      |   77    |   0    |    0    |   PASS   |
-| **Subtotal (Python / Pytest)**     | **Pytest** |   **12**    |   **77**    | **77**  | **0**  |  **0**  | **PASS** |
-| **TOTAL UNIT & INTEGRATION**       | —          |   **167**   |   **438**   | **438** | **0**  |  **0**  | **PASS** |
+| Test Suite / Tool                                    | Framework           | Suites  | Total Tests | Passed  | Failed | Skipped |  Status  |
+| ---------------------------------------------------- | ------------------- | :-----: | :---------: | :-----: | :----: | :-----: | :------: |
+| Vitest (TypeScript Services)                         | Vitest              |   262   |     568     |   568   |   0    |    0    |   PASS   |
+| Pytest (AI Service)                                  | Pytest              |   13    |     90      |   89    |   0    |    1    |   PASS   |
+| **Unit and integration (Vitest + pytest)**           | **Vitest + Pytest** | **275** |   **658**   | **657** | **0**  |  **1**  | **PASS** |
+| Playwright (Mocked E2E)                              | Playwright          |    8    |     21      |   21    |   0    |    0    |   PASS   |
+| Playwright (Live E2E)                                | Playwright          |    6    |      7      |    7    |   0    |    0    |   PASS   |
+| Cypress (Role & Security E2E)                        | Cypress             |    3    |     14      |   14    |   0    |    0    |   PASS   |
+| **Total Automated Tests (E2E + Unit + Integration)** | **All Runners**     | **292** |   **700**   | **699** | **0**  |  **1**  | **PASS** |
 
-## End-to-End, Contract & Benchmark Suites (Reported Separately)
+## 2. Vitest Package Breakdown (TypeScript)
 
-| Suite Classification   | Tool / Engine    | Target Scope                | Discrete Items | Assertions / VUs | Status |
-| ---------------------- | ---------------- | --------------------------- | :------------: | :--------------: | :----: |
-| API Contract Suite     | Newman (Postman) | Gateway REST Endpoints      |  46 requests   |  73 assertions   |  PASS  |
-| Browser E2E Automation | Playwright       | Widget, Dashboard, Realtime |  8 spec files  | 42 passing tests |  PASS  |
-| Security & Role E2E    | Cypress          | Admin Cockpit & RBAC Matrix |  3 spec files  |  22 assertions   |  PASS  |
-| Load & Spike Benchmark | k6               | Gateway / Ticket Service    |  4 scenarios   |     500 VUs      |  PASS  |
+| Package / Directory         | Framework  | Test Suites | Total Tests | Passed  | Failed | Skipped |  Status  |
+| --------------------------- | ---------- | :---------: | :---------: | :-----: | :----: | :-----: | :------: |
+| `packages/validators`       | Vitest     |     43      |     99      |   99    |   0    |    0    |   PASS   |
+| `packages/shared-lib`       | Vitest     |     19      |     41      |   41    |   0    |    0    |   PASS   |
+| `packages/queue`            | Vitest     |      2      |      7      |    7    |   0    |    0    |   PASS   |
+| `apps/gateway`              | Vitest     |     22      |     53      |   53    |   0    |    0    |   PASS   |
+| `apps/ticket-service`       | Vitest     |     104     |     245     |   245   |   0    |    0    |   PASS   |
+| `apps/notification-service` | Vitest     |     22      |     34      |   34    |   0    |    0    |   PASS   |
+| `apps/web`                  | Vitest     |     42      |     80      |   80    |   0    |    0    |   PASS   |
+| `apps/widget`               | Vitest     |      8      |      9      |    9    |   0    |    0    |   PASS   |
+| **Vitest Subtotal**         | **Vitest** |   **262**   |   **568**   | **568** | **0**  |  **0**  | **PASS** |
+
+## 3. Contract & Benchmark Suites (Excluded from Discrete Test Totals)
+
+| Suite / Tool             | Target Scope                | Volume / Requests |           Outcomes & Assertions           | Status |
+| ------------------------ | --------------------------- | :---------------: | :---------------------------------------: | :----: |
+| Newman (Postman)         | Gateway REST API Contract   |    46 requests    |         73 assertions (0 failed)          |  PASS  |
+| k6 (Load Benchmark)      | Load & Latency Verification |  21186 requests   | 0 checks passed (0 failed, p95: 127.56ms) |  PASS  |
+| k6 (Spike Benchmark)     | Load & Latency Verification |  20454 requests   | 0 checks passed (0 failed, p95: 739.17ms) |  FAIL  |
+| k6 (WebSocket Benchmark) | Load & Latency Verification |    1 requests     | 0 checks passed (0 failed, p95: 91.91ms)  |  PASS  |

@@ -1,0 +1,48 @@
+=== EVIDENCE ARTIFACT ===
+Target: 06-ablation-results
+Command: python scripts/run_eval_and_ablation.py --ablation
+Timestamp (UTC): 2026-11-22T16:51:33.448109+00:00
+Git Commit: fdad02b7c74d0fade69947e41958f126ab8d8d27
+Exit Code: 0
+========================
+--- STDOUT ---
+Run started at: 2026-11-22T16:51:35.187557+00:00
+Python executable: C:\Users\vrund\OneDrive\Desktop\ai_project\apps\ai-service\.venv\Scripts\python.exe
+Repository root: C:\Users\vrund\OneDrive\Desktop\ai_project
+
+=======================================================
+RETRIEVAL ABLATION STUDY: v2.jsonl
+=======================================================
+Loaded 115 total samples (85 evaluable non-escalated questions).
+Ingesting corpus with real SBERT (sentence-transformers/all-MiniLM-L6-v2)...
+Ingesting corpus with MockProvider (SHA-256 pseudo-vectors)...
+
+Running ablation configurations...
+Evaluating ablation configuration: dense_only...
+  -> Hit@1: 0.906 | Hit@5: 0.976 | MRR: 0.941 | p50: 25.2ms
+Evaluating ablation configuration: sparse_only...
+  -> Hit@1: 0.894 | Hit@5: 0.976 | MRR: 0.933 | p50: 1.3ms
+Evaluating ablation configuration: hybrid_no_rerank...
+  -> Hit@1: 0.929 | Hit@5: 0.988 | MRR: 0.957 | p50: 30.6ms
+Evaluating ablation configuration: hybrid_rerank...
+  -> Hit@1: 0.918 | Hit@5: 0.976 | MRR: 0.943 | p50: 29.9ms
+Evaluating ablation configuration: mock_baseline...
+  -> Hit@1: 0.165 | Hit@5: 0.824 | MRR: 0.372 | p50: 10.5ms
+
+==========================================================================================
+RETRIEVAL ABLATION RESULTS SUMMARY
+==========================================================================================
+Ablation Label       | Hit@1    | Hit@5    | MRR      | p50 (ms)   | p95 (ms)   | Notes
+--------------------------------------------------------------------------------------------------------------
+dense_only           | 0.906    | 0.976    | 0.941    | 25.2       | 32.7       | Dense vector search using SBERT all-MiniLM-L6-v2 (384d cosine similarity).
+sparse_only          | 0.894    | 0.976    | 0.933    | 1.3        | 2.0        | Lexical keyword token search (BM25 / tsvector token matching).
+hybrid_no_rerank     | 0.929    | 0.988    | 0.957    | 30.6       | 35.9       | Reciprocal Rank Fusion (RRF k=60) combining dense vector and lexical lists.
+hybrid_rerank        | 0.918    | 0.976    | 0.943    | 29.9       | 34.5       | Hybrid RRF followed by candidate lexical section and phrase reranker.
+mock_baseline        | 0.165    | 0.824    | 0.372    | 10.5       | 17.2       | Deterministic hash pseudo-vectors baseline showing failure of simulated metrics.
+
+Run completed at: 2026-11-22T16:51:57.784971+00:00
+--- STDERR ---
+
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 103/103 [00:00<00:00, 3044.41it/s]
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.

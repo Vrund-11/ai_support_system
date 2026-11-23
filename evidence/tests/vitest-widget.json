@@ -1,0 +1,148 @@
+{
+  "numTotalTestSuites": 8,
+  "numPassedTestSuites": 8,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 9,
+  "numPassedTests": 9,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1795411239868,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["OfflineForm"],
+          "fullName": "OfflineForm renders all required offline form fields",
+          "status": "passed",
+          "title": "renders all required offline form fields",
+          "duration": 79.66889999999967,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["OfflineForm"],
+          "fullName": "OfflineForm submits offline message and displays confirmation with ticket number",
+          "status": "passed",
+          "title": "submits offline message and displays confirmation with ticket number",
+          "duration": 45.892399999999725,
+          "failureMessages": [],
+          "meta": {}
+        }
+      ],
+      "startTime": 1795411243442,
+      "endTime": 1795411243567.8923,
+      "status": "passed",
+      "message": "",
+      "name": "C:/Users/vrund/OneDrive/Desktop/ai_project/apps/widget/src/test/OfflineForm.test.tsx"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["WidgetApp"],
+          "fullName": "WidgetApp renders closed bubble initially, opens chat window on click",
+          "status": "passed",
+          "title": "renders closed bubble initially, opens chat window on click",
+          "duration": 88.65869999999995,
+          "failureMessages": [],
+          "meta": {}
+        }
+      ],
+      "startTime": 1795411243490,
+      "endTime": 1795411243578.6587,
+      "status": "passed",
+      "message": "",
+      "name": "C:/Users/vrund/OneDrive/Desktop/ai_project/apps/widget/src/test/WidgetApp.test.tsx"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["WidgetBubble"],
+          "fullName": "WidgetBubble renders closed bubble launcher with unread badge",
+          "status": "passed",
+          "title": "renders closed bubble launcher with unread badge",
+          "duration": 118.47820000000002,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["WidgetBubble"],
+          "fullName": "WidgetBubble renders close icon when widget is open",
+          "status": "passed",
+          "title": "renders close icon when widget is open",
+          "duration": 5.071599999999762,
+          "failureMessages": [],
+          "meta": {}
+        }
+      ],
+      "startTime": 1795411243441,
+      "endTime": 1795411243565.0715,
+      "status": "passed",
+      "message": "",
+      "name": "C:/Users/vrund/OneDrive/Desktop/ai_project/apps/widget/src/test/WidgetBubble.test.tsx"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["WidgetChat"],
+          "fullName": "WidgetChat renders chat window with title, messages, and citation chips",
+          "status": "passed",
+          "title": "renders chat window with title, messages, and citation chips",
+          "duration": 78.98219999999992,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["WidgetChat"],
+          "fullName": "WidgetChat renders typing indicator when isTyping is true",
+          "status": "passed",
+          "title": "renders typing indicator when isTyping is true",
+          "duration": 9.946100000000115,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["WidgetChat"],
+          "fullName": "WidgetChat submits typed message and notifies typing on input change",
+          "status": "passed",
+          "title": "submits typed message and notifies typing on input change",
+          "duration": 23.031800000000203,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["WidgetChat"],
+          "fullName": "WidgetChat switches between Live Chat and Offline tabs",
+          "status": "passed",
+          "title": "switches between Live Chat and Offline tabs",
+          "duration": 16.143999999999778,
+          "failureMessages": [],
+          "meta": {}
+        }
+      ],
+      "startTime": 1795411243479,
+      "endTime": 1795411243607.144,
+      "status": "passed",
+      "message": "",
+      "name": "C:/Users/vrund/OneDrive/Desktop/ai_project/apps/widget/src/test/WidgetChat.test.tsx"
+    }
+  ]
+}

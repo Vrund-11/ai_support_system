@@ -1,4 +1,10 @@
 import { defineConfig, devices } from '@playwright/test';
+import path from 'path';
+
+const isLive =
+  process.env.PLAYWRIGHT_LIVE === 'true' ||
+  process.env.npm_lifecycle_event === 'test:playwright:live' ||
+  process.argv.some((arg) => arg.includes('live'));
 
 export default defineConfig({
   testDir: './playwright',
@@ -8,33 +14,47 @@ export default defineConfig({
   },
   workers: process.env.CI ? 2 : 4,
   fullyParallel: false,
-  reporter: [['list'], ['json', { outputFile: 'reports/playwright-results.json' }]],
+  reporter: [
+    ['list'],
+    ['json', { outputFile: path.resolve(__dirname, '../../reports/playwright-results.json') }],
+    ['json', { outputFile: path.resolve(__dirname, 'reports/playwright-results.json') }],
+  ],
   use: {
-    baseURL: process.env.PLAYWRIGHT_BASE_URL || 'http://localhost:5174',
     trace: 'on-first-retry',
   },
-  webServer: [
-    {
-      command: 'pnpm --filter @supportpilot/web dev --port 5173',
-      port: 5173,
-      reuseExistingServer: true,
-      timeout: 60000,
-    },
-    {
-      command: 'pnpm --filter @supportpilot/widget dev --port 5174',
-      port: 5174,
-      reuseExistingServer: true,
-      timeout: 60000,
-    },
-  ],
+  webServer:
+    isLive || process.env.SKIP_WEBSERVER === 'true'
+      ? undefined
+      : [
+          {
+            command: 'pnpm --filter @supportpilot/web dev --port 5173',
+            port: 5173,
+            reuseExistingServer: true,
+            timeout: 60000,
+          },
+          {
+            command: 'pnpm --filter @supportpilot/widget dev --port 5174',
+            port: 5174,
+            reuseExistingServer: true,
+            timeout: 60000,
+          },
+        ],
   projects: [
     {
-      name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      name: 'mocked',
+      testDir: './playwright/mocked',
+      use: {
+        ...devices['Desktop Chrome'],
+        baseURL: process.env.PLAYWRIGHT_BASE_URL || 'http://localhost:5174',
+      },
     },
     {
-      name: 'firefox',
-      use: { ...devices['Desktop Firefox'] },
+      name: 'live',
+      testDir: './playwright/live',
+      use: {
+        ...devices['Desktop Chrome'],
+        baseURL: process.env.PLAYWRIGHT_LIVE_URL || 'http://localhost:3000',
+      },
     },
   ],
 });

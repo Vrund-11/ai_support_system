@@ -161,9 +161,5 @@
       "min": 500,
       "max": 500
     }
-  },
-  "setup_data": {
-    "tenantId": "507f1f77bcf86cd799439011",
-    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1MDdmMTkxZTgxMGMxOTcyOWRlODYwYWMiLCJ0ZW5hbnRJZCI6IjUwN2YxZjc3YmNmODZjZDc5OTQzOTAxMSIsInJvbGUiOiJBR0VOVCIsImlhdCI6MTc5NTQwNTAwNywiZXhwIjoxNzk1NDA1OTA3fQ.Lt8sE0IfH-V9wkGJX23ZTlZ-r2Bk6HvJMW05yDXMxeM"
   }
 }

@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { setupMockApi, createInitialMockStore } from './mock-api';
+import { setupMockApi, createInitialMockStore } from '../mock-api';
 
 const WEB_URL = process.env.PLAYWRIGHT_WEB_URL || 'http://localhost:5173';
 

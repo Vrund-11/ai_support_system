@@ -1,0 +1,47 @@
+=== EVIDENCE ARTIFACT ===
+Target: 05-gemini-execution.txt
+Command: apps\ai-service\.venv\Scripts\python.exe scripts/verify_gemini_execution.py
+Timestamp (UTC): 2026-11-23T04:58:02.743918+00:00
+Git Commit: f5cd9d7b09450f54517fd3321ca6e7bbe64635d2
+Exit Code: 0
+========================
+--- STDOUT ---
+=================================================================
+VERIFICATION: Google Gemini API Execution for /v1/answer & Judge
+=================================================================
+Loaded .env from: C:\Users\vrund\OneDrive\Desktop\ai_project\apps\ai-service\.env
+GEMINI_API_KEY configured: Yes
+Key length: 53 chars
+Masked key: AQ.A...z-LA
+
+--- 1. Testing /v1/answer Generation via Gemini API ---
+Response HTTP Status: 200
+Response Body:
+{
+  "candidates": [
+    {
+      "content": {
+        "parts": [
+          {
+            "text": "Hello! I’m the SupportPilot AI assistant. I’d be happy to help you configure Single Sign-On (SSO) using SAML 2.0. \n\nSetting up SAML 2.0 allows your users to log in to SupportPilot using your organizati...
+
+--- 2. Testing LLM-Judge Groundedness Evaluation via Gemini API ---
+Response HTTP Status: 200
+Response Body:
+{
+  "candidates": [
+    {
+      "content": {
+        "parts": [
+          {
+            "text": "**Evaluation:**\n\nThe Answer is **strictly grounded** in the Reference Context. \n\n* **Reference Context:** \"SAML 2.0 SSO can be configured in Security Settings with your IdP metadata XML.\"\n* **Answ...
+
+=================================================================
+VERDICT: VERIFIED
+=================================================================
+VERIFIED: Google Gemini API execution for /v1/answer generation and
+LLM-judge groundedness evaluation completed successfully with authentic API key.
+Both API endpoints returned HTTP 200 OK with authentic LLM-generated responses.
+=================================================================
+--- STDERR ---
+

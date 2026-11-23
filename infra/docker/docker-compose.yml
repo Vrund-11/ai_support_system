@@ -143,6 +143,9 @@ services:
       DATABASE_URL: postgresql://supportpilot:supportpilot@postgres:5432/supportpilot
       REDIS_URL: redis://redis:6379
       LLM_PROVIDER: mock
+      EMBEDDING_PROVIDER: sbert
+      EMBEDDING_MODEL: sentence-transformers/all-MiniLM-L6-v2
+      EMBEDDING_DIM: 384
       SERVICE_TOKEN: default-service-token
     depends_on:
       postgres:

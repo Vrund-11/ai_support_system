@@ -1,141 +1,22 @@
 === EVIDENCE ARTIFACT ===
 Target: 04-playwright-live
 Command: npx playwright test --config tests/e2e/playwright.config.ts --project=live
-Timestamp (UTC): 2026-11-23T03:38:10.800762+00:00
-Git Commit: fdad02b7c74d0fade69947e41958f126ab8d8d27
-Exit Code: 1
+Timestamp (UTC): 2026-11-23T03:54:33.106427+00:00
+Git Commit: 2bd2fa6b36661497cce05e0a437dacdbe027d00c
+Exit Code: 0
 ========================
 --- STDOUT ---
 
 Running 7 tests using 4 workers
 
-  x  1 [live] › tests\e2e\playwright\live\01-login.live.spec.ts:12:3 › Live Stack E2E: Authentication & Session Lifecycle (01-login) › successful login with seeded admin credentials grants access to dashboard (1.7s)
-  ok 3 [live] › tests\e2e\playwright\live\04-tenant-isolation.live.spec.ts:7:3 › Live Stack E2E: Tenant Isolation Verification (04-tenant-isolation) › strictly prevents cross-tenant ticket query and mutation across API and UI boundaries (2.2s)
-  x  4 [live] › tests\e2e\playwright\live\02-create-ticket.live.spec.ts:18:3 › Live Stack E2E: Agent Ticket Creation & Queue Verification (02-create-ticket) › creates a new ticket in modal and verifies persistence in queue and detail view (2.8s)
-  ok 6 [live] › tests\e2e\playwright\live\01-login.live.spec.ts:52:3 › Live Stack E2E: Authentication & Session Lifecycle (01-login) › invalid password displays RFC 7807 problem details error banner (895ms)
-  x  7 [live] › tests\e2e\playwright\live\06-kb-upload.live.spec.ts:18:3 › Live Stack E2E: Knowledge Base Document Ingestion & RAG Retrieval (06-kb-upload) › LEAD agent uploads document via POST /api/v1/kb/documents and tests retrieval synthesis (1.4s)
-  x  5 [live] › tests\e2e\playwright\live\05-reply.live.spec.ts:18:3 › Live Stack E2E: Public Reply and Internal Note Submission (05-reply) › submits public reply and internal note, asserting thread persistence after reload (11.4s)
-  x  2 [live] › tests\e2e\playwright\live\03-widget-to-dashboard.live.spec.ts:8:3 › Live Stack E2E: Widget Offline Ticket Omnichannel Sync (03-widget-to-dashboard) › customer submits offline widget ticket and agent views it in dashboard inbox (17.1s)
+  ok 2 [live] › tests\e2e\playwright\live\01-login.live.spec.ts:12:3 › Live Stack E2E: Authentication & Session Lifecycle (01-login) › successful login with seeded admin credentials grants access to dashboard (1.1s)
+  ok 4 [live] › tests\e2e\playwright\live\02-create-ticket.live.spec.ts:18:3 › Live Stack E2E: Agent Ticket Creation & Queue Verification (02-create-ticket) › creates a new ticket in modal and verifies persistence in queue and detail view (1.9s)
+  ok 5 [live] › tests\e2e\playwright\live\01-login.live.spec.ts:52:3 › Live Stack E2E: Authentication & Session Lifecycle (01-login) › invalid password displays RFC 7807 problem details error banner (876ms)
+  ok 1 [live] › tests\e2e\playwright\live\04-tenant-isolation.live.spec.ts:7:3 › Live Stack E2E: Tenant Isolation Verification (04-tenant-isolation) › strictly prevents cross-tenant ticket query and mutation across API and UI boundaries (2.2s)
+  ok 7 [live] › tests\e2e\playwright\live\06-kb-upload.live.spec.ts:18:3 › Live Stack E2E: Knowledge Base Document Ingestion & RAG Retrieval (06-kb-upload) › LEAD agent uploads document via POST /api/v1/kb/documents and tests retrieval synthesis (1.8s)
+  ok 3 [live] › tests\e2e\playwright\live\03-widget-to-dashboard.live.spec.ts:8:3 › Live Stack E2E: Widget Offline Ticket Omnichannel Sync (03-widget-to-dashboard) › customer submits offline widget ticket and agent views it in dashboard inbox (4.1s)
+  ok 6 [live] › tests\e2e\playwright\live\05-reply.live.spec.ts:18:3 › Live Stack E2E: Public Reply and Internal Note Submission (05-reply) › submits public reply and internal note, asserting thread persistence after reload (2.4s)
 
-
-  1) [live] › tests\e2e\playwright\live\01-login.live.spec.ts:12:3 › Live Stack E2E: Authentication & Session Lifecycle (01-login) › successful login with seeded admin credentials grants access to dashboard 
-
-    Error: expect(locator).toBeVisible() failed
-
-    Locator: getByText('Bob Lead').or(getByText('BL'))
-    Expected: visible
-    Error: strict mode violation: getByText('Bob Lead').or(getByText('BL')) resolved to 2 elements:
-        1) <div class="w-8 h-8 rounded-full bg-primary/10 text-primary font-bold text-xs flex items-center justify-center ring-1 ring-border">BL</div> aka getByText('BL')
-        2) <span class="font-headline-sm text-body-sm text-text-primary font-medium leading-none">Bob Lead</span> aka getByText('Bob Lead')
-
-    Call log:
-      - Expect "toBeVisible" getByText('Bob Lead').or(getByText('BL')) with timeout 10000ms
-      - waiting for getByText('Bob Lead').or(getByText('BL'))
-
-
-      47 |
-      48 |     // Verify user profile display (Bob Lead / LEAD role)
-    > 49 |     await expect(page.getByText('Bob Lead').or(page.getByText('BL'))).toBeVisible();
-         |                                                                       ^
-      50 |   });
-      51 |
-      52 |   test('invalid password displays RFC 7807 problem details error banner', async ({ page }) => {
-        at C:\Users\vrund\OneDrive\Desktop\ai_project\tests\e2e\playwright\live\01-login.live.spec.ts:49:71
-
-    Error Context: test-results\01-login.live-Live-Stack-E-ce85a--grants-access-to-dashboard-live\error-context.md
-
-  2) [live] › tests\e2e\playwright\live\02-create-ticket.live.spec.ts:18:3 › Live Stack E2E: Agent Ticket Creation & Queue Verification (02-create-ticket) › creates a new ticket in modal and verifies persistence in queue and detail view 
-
-    Error: expect(received).toBe(expected) // Object.is equality
-
-    Expected: 201
-    Received: 400
-
-      55 |
-      56 |     const createResponse = await createResponsePromise;
-    > 57 |     expect(createResponse.status()).toBe(201);
-         |                                     ^
-      58 |
-      59 |     const body = await createResponse.json();
-      60 |     const createdTicket = body.data || body;
-        at C:\Users\vrund\OneDrive\Desktop\ai_project\tests\e2e\playwright\live\02-create-ticket.live.spec.ts:57:37
-
-    Error Context: test-results\02-create-ticket.live-Live-253d1-ce-in-queue-and-detail-view-live\error-context.md
-
-  3) [live] › tests\e2e\playwright\live\03-widget-to-dashboard.live.spec.ts:8:3 › Live Stack E2E: Widget Offline Ticket Omnichannel Sync (03-widget-to-dashboard) › customer submits offline widget ticket and agent views it in dashboard inbox 
-
-    Error: expect(locator).toBeVisible() failed
-
-    Locator: locator('[data-testid="widget-bubble-button"]')
-    Expected: visible
-    Timeout: 15000ms
-    Error: element(s) not found
-
-    Call log:
-      - Expect "toBeVisible" locator('[data-testid="widget-bubble-button"]') with timeout 15000ms
-      - waiting for locator('[data-testid="widget-bubble-button"]')
-
-
-      33 |     // Open chat bubble
-      34 |     const bubbleBtn = customerPage.locator('[data-testid="widget-bubble-button"]');
-    > 35 |     await expect(bubbleBtn).toBeVisible({ timeout: 15000 });
-         |                             ^
-      36 |     await bubbleBtn.click();
-      37 |
-      38 |     // Switch to offline form
-        at C:\Users\vrund\OneDrive\Desktop\ai_project\tests\e2e\playwright\live\03-widget-to-dashboard.live.spec.ts:35:29
-
-    Error Context: test-results\03-widget-to-dashboard.liv-85163-views-it-in-dashboard-inbox-live\error-context.md
-
-  4) [live] › tests\e2e\playwright\live\05-reply.live.spec.ts:18:3 › Live Stack E2E: Public Reply and Internal Note Submission (05-reply) › submits public reply and internal note, asserting thread persistence after reload 
-
-    Error: expect(locator).toBeVisible() failed
-
-    Locator: locator('[data-testid="ticket-detail-view"]')
-    Expected: visible
-    Timeout: 10000ms
-    Error: element(s) not found
-
-    Call log:
-      - Expect "toBeVisible" locator('[data-testid="ticket-detail-view"]') with timeout 10000ms
-      - waiting for locator('[data-testid="ticket-detail-view"]')
-
-
-      42 |
-      43 |     const detailView = page.locator('[data-testid="ticket-detail-view"]');
-    > 44 |     await expect(detailView).toBeVisible({ timeout: 10000 });
-         |                              ^
-      45 |
-      46 |     // 2. Submit Public Reply
-      47 |     const publicTab = page.locator('[data-testid="composer-public-tab"]');
-        at C:\Users\vrund\OneDrive\Desktop\ai_project\tests\e2e\playwright\live\05-reply.live.spec.ts:44:30
-
-    Error Context: test-results\05-reply.live-Live-Stack-E-8a963-ad-persistence-after-reload-live\error-context.md
-
-  5) [live] › tests\e2e\playwright\live\06-kb-upload.live.spec.ts:18:3 › Live Stack E2E: Knowledge Base Document Ingestion & RAG Retrieval (06-kb-upload) › LEAD agent uploads document via POST /api/v1/kb/documents and tests retrieval synthesis 
-
-    Error: expect(received).toContain(expected) // indexOf
-
-    Expected value: 400
-    Received array: [200, 201, 202]
-
-      56 |
-      57 |     const uploadResponse = await uploadResponsePromise;
-    > 58 |     expect([200, 201, 202]).toContain(uploadResponse.status());
-         |                             ^
-      59 |
-      60 |     // 5. Verify new document appears in documents table with status chip
-      61 |     await expect(page.locator(`text=${docTitle}`).first()).toBeVisible({ timeout: 10000 });
-        at C:\Users\vrund\OneDrive\Desktop\ai_project\tests\e2e\playwright\live\06-kb-upload.live.spec.ts:58:29
-
-    Error Context: test-results\06-kb-upload.live-Live-Sta-784ec-d-tests-retrieval-synthesis-live\error-context.md
-
-  5 failed
-    [live] › tests\e2e\playwright\live\01-login.live.spec.ts:12:3 › Live Stack E2E: Authentication & Session Lifecycle (01-login) › successful login with seeded admin credentials grants access to dashboard 
-    [live] › tests\e2e\playwright\live\02-create-ticket.live.spec.ts:18:3 › Live Stack E2E: Agent Ticket Creation & Queue Verification (02-create-ticket) › creates a new ticket in modal and verifies persistence in queue and detail view 
-    [live] › tests\e2e\playwright\live\03-widget-to-dashboard.live.spec.ts:8:3 › Live Stack E2E: Widget Offline Ticket Omnichannel Sync (03-widget-to-dashboard) › customer submits offline widget ticket and agent views it in dashboard inbox 
-    [live] › tests\e2e\playwright\live\05-reply.live.spec.ts:18:3 › Live Stack E2E: Public Reply and Internal Note Submission (05-reply) › submits public reply and internal note, asserting thread persistence after reload 
-    [live] › tests\e2e\playwright\live\06-kb-upload.live.spec.ts:18:3 › Live Stack E2E: Knowledge Base Document Ingestion & RAG Retrieval (06-kb-upload) › LEAD agent uploads document via POST /api/v1/kb/documents and tests retrieval synthesis 
-  2 passed (18.7s)
+  7 passed (5.5s)
 --- STDERR ---
 npm warn Unknown project config "force-legacy-deploy". This will stop working in the next major version of npm.

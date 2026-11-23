@@ -63,7 +63,8 @@ export function KnowledgeBaseView() {
 
   // 2. Register document mutation
   const registerMutation = useMutation({
-    mutationFn: (payload: { title: string; source: string }) => api.kb.register(payload),
+    mutationFn: (payload: { title: string; source: string; content?: string }) =>
+      api.kb.register(payload),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['kb-documents'] });
       setIsUploadModalOpen(false);
@@ -84,7 +85,8 @@ export function KnowledgeBaseView() {
     }
     registerMutation.mutate({
       title: newTitle.trim(),
-      source: 'manual',
+      source: newContent.trim() ? 'paste' : 'manual',
+      content: newContent.trim() || undefined,
     });
   };
 

@@ -1,0 +1,16 @@
+=== EVIDENCE ARTIFACT ===
+Target: 04-ingest-corpus
+Command: python scripts/ingest_corpus.py
+Timestamp (UTC): 2026-11-22T16:10:21.094075+00:00
+Git Commit: fdad02b7c74d0fade69947e41958f126ab8d8d27
+Exit Code: 0
+========================
+--- STDOUT ---
+Discovered 55 corpus documents in tests\ai-eval\corpus
+Using PostgresIngestRepository (PostgreSQL pgvector)
+Ingestion complete: 55 documents, 134 chunks in 24.89s.
+--- STDERR ---
+
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 103/103 [00:00<00:00, 1955.38it/s]
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.

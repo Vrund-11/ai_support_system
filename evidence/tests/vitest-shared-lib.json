@@ -24,7 +24,7 @@
     "updated": 0,
     "didUpdate": false
   },
-  "startTime": 1795323430380,
+  "startTime": 1795374169840,
   "success": true,
   "testResults": [
     {
@@ -34,7 +34,7 @@
           "fullName": "errorHandler returns RFC 7807 for AppError",
           "status": "passed",
           "title": "returns RFC 7807 for AppError",
-          "duration": 7.287000000000035,
+          "duration": 19.106199999999717,
           "failureMessages": [],
           "meta": {}
         },
@@ -43,7 +43,7 @@
           "fullName": "errorHandler returns 500 for unexpected errors",
           "status": "passed",
           "title": "returns 500 for unexpected errors",
-          "duration": 1.5018999999999778,
+          "duration": 3.4450999999999112,
           "failureMessages": [],
           "meta": {}
         },
@@ -52,13 +52,13 @@
           "fullName": "errorHandler includes requestId when available",
           "status": "passed",
           "title": "includes requestId when available",
-          "duration": 0.9202999999999975,
+          "duration": 16.501800000000003,
           "failureMessages": [],
           "meta": {}
         }
       ],
-      "startTime": 1795323431506,
-      "endTime": 1795323431515.9204,
+      "startTime": 1795374173242,
+      "endTime": 1795374173280.5017,
       "status": "passed",
       "message": "",
       "name": "C:/Users/vrund/OneDrive/Desktop/ai_project/packages/shared-lib/tests/error-handler.test.ts"
@@ -70,7 +70,7 @@
           "fullName": "createLogger creates a logger with the given service name",
           "status": "passed",
           "title": "creates a logger with the given service name",
-          "duration": 6.983899999999949,
+          "duration": 15.28670000000011,
           "failureMessages": [],
           "meta": {}
         },
@@ -79,13 +79,13 @@
           "fullName": "createLogger respects the level parameter",
           "status": "passed",
           "title": "respects the level parameter",
-          "duration": 1.0386000000000877,
+          "duration": 1.8733000000001994,
           "failureMessages": [],
           "meta": {}
         }
       ],
-      "startTime": 1795323431507,
-      "endTime": 1795323431515.0386,
+      "startTime": 1795374173106,
+      "endTime": 1795374173123.8733,
       "status": "passed",
       "message": "",
       "name": "C:/Users/vrund/OneDrive/Desktop/ai_project/packages/shared-lib/tests/logger.test.ts"
@@ -97,7 +97,7 @@
           "fullName": "Observability - Metrics Registry & Prometheus Formatter registers and increments counters with labels",
           "status": "passed",
           "title": "registers and increments counters with labels",
-          "duration": 2.23050000000012,
+          "duration": 5.096700000000055,
           "failureMessages": [],
           "meta": {}
         },
@@ -106,7 +106,7 @@
           "fullName": "Observability - Metrics Registry & Prometheus Formatter registers and sets gauges",
           "status": "passed",
           "title": "registers and sets gauges",
-          "duration": 0.3443999999999505,
+          "duration": 0.9313000000001921,
           "failureMessages": [],
           "meta": {}
         },
@@ -115,7 +115,7 @@
           "fullName": "Observability - Metrics Registry & Prometheus Formatter records histogram observations and calculates cumulative buckets, count, and sum",
           "status": "passed",
           "title": "records histogram observations and calculates cumulative buckets, count, and sum",
-          "duration": 0.42899999999985994,
+          "duration": 1.7129000000004453,
           "failureMessages": [],
           "meta": {}
         },
@@ -124,7 +124,7 @@
           "fullName": "Observability - Metrics Registry & Prometheus Formatter resets all metric values on reset()",
           "status": "passed",
           "title": "resets all metric values on reset()",
-          "duration": 0.23610000000007858,
+          "duration": 1.4155000000000655,
           "failureMessages": [],
           "meta": {}
         },
@@ -133,7 +133,7 @@
           "fullName": "Observability - OpenTelemetry W3C Tracing & Span Lifecycle generates valid 32-hex traceId and 16-hex spanId",
           "status": "passed",
           "title": "generates valid 32-hex traceId and 16-hex spanId",
-          "duration": 1.384599999999864,
+          "duration": 3.5427999999992608,
           "failureMessages": [],
           "meta": {}
         },
@@ -142,7 +142,7 @@
           "fullName": "Observability - OpenTelemetry W3C Tracing & Span Lifecycle parses and formats W3C traceparent headers correctly",
           "status": "passed",
           "title": "parses and formats W3C traceparent headers correctly",
-          "duration": 0.4576999999999316,
+          "duration": 1.4675000000006548,
           "failureMessages": [],
           "meta": {}
         },
@@ -151,7 +151,7 @@
           "fullName": "Observability - OpenTelemetry W3C Tracing & Span Lifecycle returns null for malformed traceparents",
           "status": "passed",
           "title": "returns null for malformed traceparents",
-          "duration": 0.22839999999996508,
+          "duration": 0.4231999999992695,
           "failureMessages": [],
           "meta": {}
         },
@@ -160,7 +160,7 @@
           "fullName": "Observability - OpenTelemetry W3C Tracing & Span Lifecycle creates spans, captures attributes, and calculates duration on end()",
           "status": "passed",
           "title": "creates spans, captures attributes, and calculates duration on end()",
-          "duration": 25.03410000000008,
+          "duration": 23.299299999999675,
           "failureMessages": [],
           "meta": {}
         },
@@ -169,13 +169,13 @@
           "fullName": "Observability - Express Middleware Integration instruments HTTP requests with traceparent headers and prometheus metrics",
           "status": "passed",
           "title": "instruments HTTP requests with traceparent headers and prometheus metrics",
-          "duration": 50.15869999999995,
+          "duration": 191.65689999999995,
           "failureMessages": [],
           "meta": {}
         }
       ],
-      "startTime": 1795323432053,
-      "endTime": 1795323432134.1587,
+      "startTime": 1795374174791,
+      "endTime": 1795374175021.657,
       "status": "passed",
       "message": "",
       "name": "C:/Users/vrund/OneDrive/Desktop/ai_project/packages/shared-lib/tests/observability.test.ts"
@@ -187,7 +187,7 @@
           "fullName": "RBAC (Role-Based Access Control) ROLE_HIERARCHY and helpers defines expected role ranks",
           "status": "passed",
           "title": "defines expected role ranks",
-          "duration": 2.1187999999999647,
+          "duration": 3.982699999999568,
           "failureMessages": [],
           "meta": {}
         },
@@ -196,7 +196,7 @@
           "fullName": "RBAC (Role-Based Access Control) ROLE_HIERARCHY and helpers hasMinRole checks hierarchy properly",
           "status": "passed",
           "title": "hasMinRole checks hierarchy properly",
-          "duration": 0.9076999999999771,
+          "duration": 1.100800000000163,
           "failureMessages": [],
           "meta": {}
         },
@@ -205,7 +205,7 @@
           "fullName": "RBAC (Role-Based Access Control) ROLE_HIERARCHY and helpers hasRole checks explicitly allowed roles",
           "status": "passed",
           "title": "hasRole checks explicitly allowed roles",
-          "duration": 0.4189000000000078,
+          "duration": 0.5358999999998559,
           "failureMessages": [],
           "meta": {}
         },
@@ -217,7 +217,7 @@
           "fullName": "RBAC (Role-Based Access Control) requireRoles middleware (deny-by-default) throws 401 when request is unauthenticated",
           "status": "passed",
           "title": "throws 401 when request is unauthenticated",
-          "duration": 2.2878999999999223,
+          "duration": 3.45450000000028,
           "failureMessages": [],
           "meta": {}
         },
@@ -229,7 +229,7 @@
           "fullName": "RBAC (Role-Based Access Control) requireRoles middleware (deny-by-default) throws 403 when user has no assigned role",
           "status": "passed",
           "title": "throws 403 when user has no assigned role",
-          "duration": 0.6307999999999083,
+          "duration": 0.9406999999996515,
           "failureMessages": [],
           "meta": {}
         },
@@ -241,7 +241,7 @@
           "fullName": "RBAC (Role-Based Access Control) requireRoles middleware (deny-by-default) throws 403 when allowedRoles is empty (deny-by-default)",
           "status": "passed",
           "title": "throws 403 when allowedRoles is empty (deny-by-default)",
-          "duration": 0.5427999999999429,
+          "duration": 0.9143000000003667,
           "failureMessages": [],
           "meta": {}
         },
@@ -253,7 +253,7 @@
           "fullName": "RBAC (Role-Based Access Control) requireRoles middleware (deny-by-default) throws 403 when user role is not allowed",
           "status": "passed",
           "title": "throws 403 when user role is not allowed",
-          "duration": 1.4844000000000506,
+          "duration": 1.7881000000002132,
           "failureMessages": [],
           "meta": {}
         },
@@ -265,7 +265,7 @@
           "fullName": "RBAC (Role-Based Access Control) requireRoles middleware (deny-by-default) calls next() when user role is allowed",
           "status": "passed",
           "title": "calls next() when user role is allowed",
-          "duration": 0.9291000000000622,
+          "duration": 1.1943999999998596,
           "failureMessages": [],
           "meta": {}
         },
@@ -277,7 +277,7 @@
           "fullName": "RBAC (Role-Based Access Control) requireRoles middleware (deny-by-default) calls next() for PLATFORM_ADMIN on any role check",
           "status": "passed",
           "title": "calls next() for PLATFORM_ADMIN on any role check",
-          "duration": 0.47050000000001546,
+          "duration": 0.548200000000179,
           "failureMessages": [],
           "meta": {}
         },
@@ -286,7 +286,7 @@
           "fullName": "RBAC (Role-Based Access Control) requireMinRole middleware throws 401 when request is unauthenticated",
           "status": "passed",
           "title": "throws 401 when request is unauthenticated",
-          "duration": 0.7887999999999238,
+          "duration": 0.9981999999999971,
           "failureMessages": [],
           "meta": {}
         },
@@ -295,7 +295,7 @@
           "fullName": "RBAC (Role-Based Access Control) requireMinRole middleware throws 403 when user role is below minimum",
           "status": "passed",
           "title": "throws 403 when user role is below minimum",
-          "duration": 0.4855999999999767,
+          "duration": 1.684099999999944,
           "failureMessages": [],
           "meta": {}
         },
@@ -304,7 +304,7 @@
           "fullName": "RBAC (Role-Based Access Control) requireMinRole middleware calls next() when user role is at minimum",
           "status": "passed",
           "title": "calls next() when user role is at minimum",
-          "duration": 0.3968999999999596,
+          "duration": 0.5704999999998108,
           "failureMessages": [],
           "meta": {}
         },
@@ -313,13 +313,13 @@
           "fullName": "RBAC (Role-Based Access Control) requireMinRole middleware calls next() when user role is above minimum",
           "status": "passed",
           "title": "calls next() when user role is above minimum",
-          "duration": 0.37259999999992033,
+          "duration": 0.6028999999998632,
           "failureMessages": [],
           "meta": {}
         }
       ],
-      "startTime": 1795323431414,
-      "endTime": 1795323431427.3726,
+      "startTime": 1795374172811,
+      "endTime": 1795374172829.6028,
       "status": "passed",
       "message": "",
       "name": "C:/Users/vrund/OneDrive/Desktop/ai_project/packages/shared-lib/tests/rbac.test.ts"
@@ -331,7 +331,7 @@
           "fullName": "requestIdMiddleware generates a UUID when no x-request-id header",
           "status": "passed",
           "title": "generates a UUID when no x-request-id header",
-          "duration": 5.649500000000103,
+          "duration": 10.704999999999927,
           "failureMessages": [],
           "meta": {}
         },
@@ -340,13 +340,13 @@
           "fullName": "requestIdMiddleware reuses existing x-request-id from upstream",
           "status": "passed",
           "title": "reuses existing x-request-id from upstream",
-          "duration": 0.8052999999999884,
+          "duration": 1.524499999999989,
           "failureMessages": [],
           "meta": {}
         }
       ],
-      "startTime": 1795323431455,
-      "endTime": 1795323431461.8054,
+      "startTime": 1795374172857,
+      "endTime": 1795374172869.5244,
       "status": "passed",
       "message": "",
       "name": "C:/Users/vrund/OneDrive/Desktop/ai_project/packages/shared-lib/tests/request-id.test.ts"
@@ -358,7 +358,7 @@
           "fullName": "Automation Rules Engine (AUTO-3) evaluates status, priority, and tag conditions accurately",
           "status": "passed",
           "title": "evaluates status, priority, and tag conditions accurately",
-          "duration": 2.7200000000000273,
+          "duration": 4.910599999999704,
           "failureMessages": [],
           "meta": {}
         },
@@ -367,7 +367,7 @@
           "fullName": "Automation Rules Engine (AUTO-3) evaluates keyword condition across subject, description, and message text",
           "status": "passed",
           "title": "evaluates keyword condition across subject, description, and message text",
-          "duration": 0.5805000000000291,
+          "duration": 0.9005000000001928,
           "failureMessages": [],
           "meta": {}
         },
@@ -376,7 +376,7 @@
           "fullName": "Automation Rules Engine (AUTO-3) evaluates rule condition logic with AND and OR operators",
           "status": "passed",
           "title": "evaluates rule condition logic with AND and OR operators",
-          "duration": 0.5705000000000382,
+          "duration": 0.7887000000000626,
           "failureMessages": [],
           "meta": {}
         },
@@ -385,7 +385,7 @@
           "fullName": "Automation Rules Engine (AUTO-3) applies action modifications: ASSIGN, ADD_TAG, REMOVE_TAG, SET_PRIORITY, ESCALATE, NOTIFY",
           "status": "passed",
           "title": "applies action modifications: ASSIGN, ADD_TAG, REMOVE_TAG, SET_PRIORITY, ESCALATE, NOTIFY",
-          "duration": 1.7267000000000507,
+          "duration": 5.98660000000018,
           "failureMessages": [],
           "meta": {}
         },
@@ -394,13 +394,13 @@
           "fullName": "Automation Rules Engine (AUTO-3) executes multiple ordered rules sequentially and enforces tenant isolation",
           "status": "passed",
           "title": "executes multiple ordered rules sequentially and enforces tenant isolation",
-          "duration": 1.7381000000000313,
+          "duration": 4.007599999999911,
           "failureMessages": [],
           "meta": {}
         }
       ],
-      "startTime": 1795323431406,
-      "endTime": 1795323431412.738,
+      "startTime": 1795374173758,
+      "endTime": 1795374173774.0076,
       "status": "passed",
       "message": "",
       "name": "C:/Users/vrund/OneDrive/Desktop/ai_project/packages/shared-lib/tests/rules-engine.test.ts"
@@ -412,7 +412,7 @@
           "fullName": "SLA Business Hours & Property-Based Calculator (AUTO-1) correctly detects if a timestamp falls within business hours",
           "status": "passed",
           "title": "correctly detects if a timestamp falls within business hours",
-          "duration": 1.5855000000001382,
+          "duration": 4.923800000000028,
           "failureMessages": [],
           "meta": {}
         },
@@ -421,7 +421,7 @@
           "fullName": "SLA Business Hours & Property-Based Calculator (AUTO-1) fast-forwards weekend or evening timestamps to the start of the next business window",
           "status": "passed",
           "title": "fast-forwards weekend or evening timestamps to the start of the next business window",
-          "duration": 0.37629999999990105,
+          "duration": 1.3355000000001382,
           "failureMessages": [],
           "meta": {}
         },
@@ -430,7 +430,7 @@
           "fullName": "SLA Business Hours & Property-Based Calculator (AUTO-1) calculates deadline crossing overnight and weekend boundaries correctly",
           "status": "passed",
           "title": "calculates deadline crossing overnight and weekend boundaries correctly",
-          "duration": 0.36429999999995744,
+          "duration": 0.9967000000001462,
           "failureMessages": [],
           "meta": {}
         },
@@ -439,7 +439,7 @@
           "fullName": "SLA Business Hours & Property-Based Calculator (AUTO-1) Property: deadline is always >= startTime for any non-negative target minutes",
           "status": "passed",
           "title": "Property: deadline is always >= startTime for any non-negative target minutes",
-          "duration": 14.553300000000036,
+          "duration": 29.41439999999966,
           "failureMessages": [],
           "meta": {}
         },
@@ -448,7 +448,7 @@
           "fullName": "SLA Business Hours & Property-Based Calculator (AUTO-1) Property: monotonicity — larger target minutes never result in an earlier deadline",
           "status": "passed",
           "title": "Property: monotonicity — larger target minutes never result in an earlier deadline",
-          "duration": 10.174999999999955,
+          "duration": 20.635600000000068,
           "failureMessages": [],
           "meta": {}
         },
@@ -457,7 +457,7 @@
           "fullName": "SLA Business Hours & Property-Based Calculator (AUTO-1) Property: 75% warning time is always <= 100% breach time",
           "status": "passed",
           "title": "Property: 75% warning time is always <= 100% breach time",
-          "duration": 12.219000000000051,
+          "duration": 55.86760000000004,
           "failureMessages": [],
           "meta": {}
         },
@@ -466,13 +466,13 @@
           "fullName": "SLA Business Hours & Property-Based Calculator (AUTO-1) Property: determinism — running calculation twice with identical parameters returns identical timestamp",
           "status": "passed",
           "title": "Property: determinism — running calculation twice with identical parameters returns identical timestamp",
-          "duration": 10.772400000000061,
+          "duration": 20.23969999999963,
           "failureMessages": [],
           "meta": {}
         }
       ],
-      "startTime": 1795323431515,
-      "endTime": 1795323431565.7725,
+      "startTime": 1795374172609,
+      "endTime": 1795374172744.2397,
       "status": "passed",
       "message": "",
       "name": "C:/Users/vrund/OneDrive/Desktop/ai_project/packages/shared-lib/tests/sla-calculator.property.test.ts"

@@ -14,3 +14,6 @@ data:
   SMTP_HOST: 'mailhog.supportpilot.svc.cluster.local'
   SMTP_PORT: '1025'
   LLM_PROVIDER: 'mock'
+  EMBEDDING_PROVIDER: 'sbert'
+  EMBEDDING_MODEL: 'sentence-transformers/all-MiniLM-L6-v2'
+  EMBEDDING_DIM: '384'

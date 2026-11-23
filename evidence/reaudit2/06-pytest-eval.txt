@@ -1,0 +1,21 @@
+=== EVIDENCE ARTIFACT ===
+Target: 06-pytest-eval
+Command: pytest apps/ai-service/tests/test_eval.py
+Timestamp (UTC): 2026-11-22T16:52:15.907624+00:00
+Git Commit: fdad02b7c74d0fade69947e41958f126ab8d8d27
+Exit Code: 0
+========================
+--- STDOUT ---
+============================= test session starts =============================
+platform win32 -- Python 3.12.13, pytest-9.2.0, pluggy-1.7.0
+rootdir: C:\Users\vrund\OneDrive\Desktop\ai_project\apps\ai-service
+configfile: pyproject.toml
+plugins: anyio-4.16.0, asyncio-1.5.0, cov-7.1.0
+asyncio: mode=Mode.AUTO, debug=False, asyncio_default_fixture_loop_scope=function, asyncio_default_test_loop_scope=function
+collected 8 items
+
+apps\ai-service\tests\test_eval.py ........                              [100%]
+
+============================= 8 passed in 23.50s ==============================
+--- STDERR ---
+

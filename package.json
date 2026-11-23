@@ -17,6 +17,7 @@
     "test": "turbo run test",
     "test:ci": "turbo run test -- --coverage",
     "test:postman": "vitest run tests/api/newman.test.ts",
+    "test:newman:live": "newman run tests/api/supportpilot-sprint1.collection.json -e tests/api/supportpilot.environment.json -r cli,json --reporter-json-export evidence/reaudit2/newman-live-summary.json",
     "test:e2e": "vitest run tests/e2e/e2e-runner.test.ts",
     "test:concurrency": "vitest run tests/integration/in-process-concurrency.test.ts",
     "test:k6:tickets": "k6 run tests/perf/tickets.js --summary-export evidence/perf/k6-load-summary.json",

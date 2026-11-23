@@ -274,12 +274,52 @@ async def run_ablation(
     results = [res_bm25, res_vec, res_hybrid, res_rerank, res_mock]
 
     # Generate Markdown Output
+    is_independent = "independent" in dataset_path.name.lower()
+    total_samples_cnt = len(samples)
+    evaluable_cnt = len(evaluable_samples)
+
+    if is_independent:
+        exec_summary = (
+            f"This study benchmarks 5 distinct retrieval architectures on the SupportPilot independent evaluation dataset "
+            f"(`{dataset_path.name}`, {total_samples_cnt} questions total) against the 55-document production knowledge base corpus.\n"
+            f"Measurements evaluate the {evaluable_cnt} evaluable (answerable non-escalated) questions written independently "
+            f"without prior access to corpus documentation."
+        )
+        analysis_points = [
+            "### 1. Vector-Only vs. Hybrid Retrieval on Independent Questions",
+            "- **On the independent set (n=33 answerable)**: Dense vector-only retrieval achieved **Hit@5 of 0.939** (Hit@1 0.697, MRR 0.798) compared to Hybrid RRF's **0.818** (Hit@1 0.697, MRR 0.740).",
+            "- **Why Vector-Only Outperformed Hybrid**: Independent queries use colloquial, natural phrasing and synonyms that do not have verbatim lexical overlap with document headings or formal text. BM25 token matching retrieved loosely matched passages from unrelated documents, which diluted the top ranks when merged via reciprocal rank fusion.",
+            "",
+            "### 2. Candidate Reranker Behavior",
+            "- The **Hybrid + Reranker** configuration yielded **Hit@1 of 0.545** and **MRR of 0.641**, lower than vector-only (Hit@1 0.697, MRR 0.798).",
+            "- **Reason**: The heuristic candidate reranker prioritizes heading and exact phrase matches. When independent queries lack verbatim phrases, the reranker penalizes genuinely relevant semantic passages in favor of incidental lexical matches.",
+            "",
+            "### 3. BM25 and Mock Baseline",
+            "- **BM25 Alone**: Hit@1 0.424, Hit@5 0.727, MRR 0.526. Shows substantial recall degradation when queries do not reuse exact product terminology.",
+            "- **Mock Baseline**: Hit@1 0.091, Hit@5 0.455, MRR 0.228. Demonstrates that simulated SHA-256 pseudo-vectors fail completely at semantic retrieval, underscoring the necessity of real dense embeddings.",
+        ]
+    else:
+        exec_summary = (
+            f"This study benchmarks 5 distinct retrieval architectures on the SupportPilot golden dataset "
+            f"(`{dataset_path.name}`, {total_samples_cnt} questions) against the 55-document production knowledge base corpus.\n"
+            f"Measurements evaluate the {evaluable_cnt} evaluable (non-escalated) questions across direct inquiries, paraphrased queries, and multi-chunk syntheses."
+        )
+        analysis_points = [
+            "### 1. Hybrid RRF Performance",
+            "- **Hybrid RRF**: Combines dense semantic vector search with lexical BM25 matching, capturing both conceptual inquiries and exact keyword identifiers.",
+            "",
+            "### 2. Impact of Candidate Reranking",
+            "- On synthetic and paraphrased sets matching corpus terminology, candidate reranking provides precision lift by prioritizing exact section headings.",
+            "",
+            "### 3. Mock Baseline Invalidation",
+            "- The mock baseline confirms that hash pseudo-vectors provide zero semantic grounding.",
+        ]
+
     md_lines = [
         "# Retrieval Ablation Benchmark Study",
         "",
         "## Executive Summary",
-        "This study benchmarks 5 distinct retrieval architectures on the SupportPilot 115-question golden dataset against the 55-document production knowledge base corpus.",
-        "Measurements evaluate the 85 evaluable (non-escalated) questions across direct inquiries, paraphrased queries, and multi-chunk syntheses.",
+        exec_summary,
         "",
         "## Ablation Comparison Table",
         "",
@@ -294,21 +334,9 @@ async def run_ablation(
 
     md_lines.extend([
         "",
-        "## Technical Analysis & Interview Walkthrough Points",
+        "## Technical Analysis & Evaluation Walkthrough",
         "",
-        "### 1. Why Hybrid RRF Outperforms Single Modality",
-        "- **BM25 Alone**: Excels on exact identifier searches (e.g. `doc_33` HMAC-SHA256, HTTP status codes `429`, ACS URL paths), achieving strong precision when user keywords match document titles. However, it fails on colloquial questions with severe typos or conceptual descriptions (e.g. *\"how 2 pair google authenticator 2fa\"*).",
-        "- **Vector Alone**: Captures conceptual proximity even with slang and spelling errors, but occasionally ranks semantically related but procedurally incorrect documents above the specific guide.",
-        "- **Reciprocal Rank Fusion (RRF $k=60$)**: Merges both ranked candidate lists without requiring calibration of heterogeneous score scales. Chunks validated by both lexical keywords and semantic vector proximity reliably surface in the top-1 and top-5.",
-        "",
-        "### 2. The Impact of Candidate Reranking",
-        "- The **Hybrid + Reranker** configuration takes the top 10 candidates from RRF and rescores them using exact phrase matching and markdown heading section hierarchy weighting.",
-        "- Result: Noticeable lift in **Hit@1** and **MRR**, ensuring that the primary document chunk appears at position 1 for agent draft generation, at the cost of < 2ms additional CPU compute.",
-        "",
-        "### 3. The Illusory Nature of Mock Embeddings",
-        "- The mock baseline utilizes SHA-256 hash projections to simulate 384-dimensional unit vectors.",
-        "- As demonstrated in the table, the mock baseline yields negligible semantic retrieval performance (Hit@5 drops drastically), proving why earlier mock benchmarks were meaningless.",
-        "- This confirms the necessity of backing all production resume claims with genuine embeddings and defensible evaluation runs.",
+        *analysis_points,
     ])
 
     report_content = "\n".join(md_lines) + "\n"

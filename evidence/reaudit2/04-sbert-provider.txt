@@ -1,0 +1,11 @@
+=== EVIDENCE ARTIFACT ===
+Target: 04-sbert-provider
+Command: curl -s http://localhost:8000/v1/provider
+Timestamp (UTC): 2026-11-22T16:14:04.373933+00:00
+Git Commit: fdad02b7c74d0fade69947e41958f126ab8d8d27
+Exit Code: 0
+========================
+--- STDOUT ---
+{"name":"sbert","provider":"sbert","embedding_provider":"sbert","configured_provider":"sbert","embedding_model":"sentence-transformers/all-MiniLM-L6-v2","embedding_dim":384,"confidence_threshold":0.55}
+--- STDERR ---
+

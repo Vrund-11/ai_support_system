@@ -1,0 +1,16 @@
+=== EVIDENCE ARTIFACT ===
+Target: 05-db-dx.txt
+Command: docker exec sp-postgres psql -U supportpilot -d supportpilot -c "\dx"
+Timestamp (UTC): 2026-11-22T15:26:34.156731+00:00
+Git Commit: fdad02b7c74d0fade69947e41958f126ab8d8d27
+Exit Code: 0
+========================
+--- STDOUT ---
+                             List of installed extensions
+  Name   | Version |   Schema   |                     Description                      
+---------+---------+------------+------------------------------------------------------
+ plpgsql | 1.0     | pg_catalog | PL/pgSQL procedural language
+ vector  | 0.8.7   | public     | vector data type and ivfflat and hnsw access methods
+(2 rows)
+--- STDERR ---
+

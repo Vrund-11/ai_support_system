@@ -7,10 +7,7 @@ import { runSeed } from '../apps/ticket-service/src/seed.js';
 
 const mode = process.env['SEED_MODE'] || 'mongo';
 const mongoUri = process.env['MONGODB_URI'] || 'mongodb://127.0.0.1:27017/supportpilot';
-const redisUrl = process.env['REDIS_URL'];
-if (!redisUrl) {
-  throw new Error('REDIS_URL environment variable is required');
-}
+const redisUrl = process.env['REDIS_URL'] || 'redis://127.0.0.1:6379';
 
 console.log(`[Seed] Starting SupportPilot full database seed (mode: ${mode})...`);
 

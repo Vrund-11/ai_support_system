@@ -1,6 +1,6 @@
 === EVIDENCE ARTIFACT ===
 Target: 04-ready-notification-service
-Command: curl.exe -s -i -H 'x-service-token: supportpilot-internal-service-token-32c!' http://localhost:5001/health/readiness
+Command: curl.exe -s -i -H 'x-service-token: [REDACTED_TOKEN]' http://localhost:5001/health/readiness
 Timestamp (UTC): 2026-11-23T03:31:40.866002+00:00
 Git Commit: fdad02b7c74d0fade69947e41958f126ab8d8d27
 Exit Code: 0

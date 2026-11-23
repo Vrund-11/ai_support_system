@@ -1,0 +1,31 @@
+=== EVIDENCE ARTIFACT ===
+Target: test-counts
+Command: node scripts/count-tests.mjs
+Timestamp (UTC): 2026-11-23T05:20:51.739202+00:00
+Git Commit: f5cd9d7b09450f54517fd3321ca6e7bbe64635d2
+Exit Code: 0
+========================
+--- STDOUT ---
+Parsing dynamic test result files (strict honesty mode)...
+Test counts report successfully written to evidence/reaudit4/test-counts.md
+
+==================================================
+SupportPilot Per-Tool Test Counts Table
+==================================================
+Vitest (packages & services):           568 (passed: 568, failed: 0)
+Pytest (ai-service):                     90 (passed: 89, failed: 0)
+--------------------------------------------------
+Unit and integration (Vitest + pytest): 658 (passed: 657, failed: 0)
+--------------------------------------------------
+Playwright (mocked):                     21 (passed: 21, failed: 0)
+Playwright (live):                        7 (passed: 7, failed: 0)
+Cypress:                                 14 (passed: 14, failed: 0)
+--------------------------------------------------
+Total Automated Tests:                  700 (passed: 699, failed: 0)
+==================================================
+Separate Suites (NOT summed into test total):
+Newman (API Contract):                   46 requests, 73 assertions (0 failed)
+k6 Benchmarks:                           3 scenarios executed
+==================================================
+--- STDERR ---
+

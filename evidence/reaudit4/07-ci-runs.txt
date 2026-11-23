@@ -1,0 +1,120 @@
+=== EVIDENCE ARTIFACT ===
+Target: 07-ci-runs
+Command: python scripts/ci-runs-table.py
+Timestamp (UTC): 2026-11-23T04:47:49.353719+00:00
+Git Commit: f5cd9d7b09450f54517fd3321ca6e7bbe64635d2
+Exit Code: 0
+========================
+--- STDOUT ---
+================================================================================
+GITHUB ACTIONS WORKFLOW RUNS AUDIT (branch: main)
+================================================================================
+
+### Workflow: ci.yml (CI)
+CLI Output:
+completed	failure	chore: sync repository state without large binaries or coverage files	CI	main	push	45029074320	2m37s	2026-11-22T13:44:35Z
+completed	failure	docs(audit): generate repo evidence report and demo assets	CI	main	push	44916188435	1m25s	2026-11-21T14:52:37Z
+completed	success	docs: record M09 and M10 GitHub Actions and K8s Kind evidence	CI	main	push	44893167606	2m6s	2026-11-21T10:11:47Z
+completed	success	fix(k8s): remove non-root constraint from web nginx deployment to bin…	CI	main	push	44892653688	2m18s	2026-11-21T10:05:31Z
+completed	success	fix(ci): optimize Kind staging and prod rollout verification	CI	main	push	44892000766	1m53s	2026-11-21T09:57:26Z
+
+Structured Run Table:
+Run ID        Conclusion   Status      Created At             URL
+---------------------------------------------------------------------------------------------------------
+45029074320   failure      completed   2026-11-22T13:44:35Z   https://github.com/Vrund-11/ai_support_system/actions/runs/45029074320
+44916188435   failure      completed   2026-11-21T14:52:37Z   https://github.com/Vrund-11/ai_support_system/actions/runs/44916188435
+44893167606   success      completed   2026-11-21T10:11:47Z   https://github.com/Vrund-11/ai_support_system/actions/runs/44893167606
+44892653688   success      completed   2026-11-21T10:05:31Z   https://github.com/Vrund-11/ai_support_system/actions/runs/44892653688
+44892000766   success      completed   2026-11-21T09:57:26Z   https://github.com/Vrund-11/ai_support_system/actions/runs/44892000766
+
+### Workflow: e2e.yml (E2E Tests)
+CLI Output:
+completed	failure	chore: sync repository state without large binaries or coverage files	E2E Tests	main	push	45029074326	1m56s	2026-11-22T13:44:35Z
+completed	success	docs(audit): generate repo evidence report and demo assets	E2E Tests	main	push	44916188493	1m46s	2026-11-21T14:52:37Z
+completed	success	docs: record M09 and M10 GitHub Actions and K8s Kind evidence	E2E Tests	main	push	44893167571	1m38s	2026-11-21T10:11:47Z
+completed	success	fix(k8s): remove non-root constraint from web nginx deployment to bin…	E2E Tests	main	push	44892653699	1m43s	2026-11-21T10:05:31Z
+completed	success	fix(ci): optimize Kind staging and prod rollout verification	E2E Tests	main	push	44892000684	2m1s	2026-11-21T09:57:26Z
+
+Structured Run Table:
+Run ID        Conclusion   Status      Created At             URL
+---------------------------------------------------------------------------------------------------------
+45029074326   failure      completed   2026-11-22T13:44:35Z   https://github.com/Vrund-11/ai_support_system/actions/runs/45029074326
+44916188493   success      completed   2026-11-21T14:52:37Z   https://github.com/Vrund-11/ai_support_system/actions/runs/44916188493
+44893167571   success      completed   2026-11-21T10:11:47Z   https://github.com/Vrund-11/ai_support_system/actions/runs/44893167571
+44892653699   success      completed   2026-11-21T10:05:31Z   https://github.com/Vrund-11/ai_support_system/actions/runs/44892653699
+44892000684   success      completed   2026-11-21T09:57:26Z   https://github.com/Vrund-11/ai_support_system/actions/runs/44892000684
+
+### Workflow: deploy.yml (Deploy (Generic))
+Status: Workflow file 'deploy.yml' does not exist on default branch.
+Details: HTTP 404: workflow deploy.yml not found on the default branch (https://api.github.com/repos/Vrund-11/ai_support_system/actions/workflows/deploy.yml)
+
+### Workflow: deploy-staging.yml (Deploy Staging Smoke Test)
+CLI Output:
+completed	failure	chore: sync repository state without large binaries or coverage files	Deploy Staging Smoke Test	main	push	45029074338	7m50s	2026-11-22T13:44:35Z
+completed	success	docs(audit): generate repo evidence report and demo assets	Deploy Staging Smoke Test	main	push	44916188400	4m38s	2026-11-21T14:52:37Z
+completed	success	docs: record M09 and M10 GitHub Actions and K8s Kind evidence	Deploy Staging Smoke Test	main	push	44893167656	4m14s	2026-11-21T10:11:47Z
+completed	success	fix(k8s): remove non-root constraint from web nginx deployment to bin…	Deploy Staging Smoke Test	main	push	44892653778	4m11s	2026-11-21T10:05:31Z
+completed	failure	fix(ci): optimize Kind staging and prod rollout verification	Deploy Staging Smoke Test	main	push	44892000715	5m32s	2026-11-21T09:57:26Z
+
+Structured Run Table:
+Run ID        Conclusion   Status      Created At             URL
+---------------------------------------------------------------------------------------------------------
+45029074338   failure      completed   2026-11-22T13:44:35Z   https://github.com/Vrund-11/ai_support_system/actions/runs/45029074338
+44916188400   success      completed   2026-11-21T14:52:37Z   https://github.com/Vrund-11/ai_support_system/actions/runs/44916188400
+44893167656   success      completed   2026-11-21T10:11:47Z   https://github.com/Vrund-11/ai_support_system/actions/runs/44893167656
+44892653778   success      completed   2026-11-21T10:05:31Z   https://github.com/Vrund-11/ai_support_system/actions/runs/44892653778
+44892000715   failure      completed   2026-11-21T09:57:26Z   https://github.com/Vrund-11/ai_support_system/actions/runs/44892000715
+
+### Workflow: deploy-prod.yml (Deploy Production)
+CLI Output:
+(no runs found on branch main)
+
+### Workflow: ai-eval.yml (AI Eval Regression Gate)
+CLI Output:
+completed	success	chore: sync repository state without large binaries or coverage files	AI Eval Regression Gate	main	push	45029074364	2m14s	2026-11-22T13:44:35Z
+completed	success	docs(audit): generate repo evidence report and demo assets	AI Eval Regression Gate	main	push	44916188398	29s	2026-11-21T14:52:37Z
+completed	success	feat: complete PRD P0/P1 gaps — quotas, round-robin assignment, bulk …	AI Eval Regression Gate	main	push	44815240774	34s	2026-11-20T20:52:22Z
+
+Structured Run Table:
+Run ID        Conclusion   Status      Created At             URL
+---------------------------------------------------------------------------------------------------------
+45029074364   success      completed   2026-11-22T13:44:35Z   https://github.com/Vrund-11/ai_support_system/actions/runs/45029074364
+44916188398   success      completed   2026-11-21T14:52:37Z   https://github.com/Vrund-11/ai_support_system/actions/runs/44916188398
+44815240774   success      completed   2026-11-20T20:52:22Z   https://github.com/Vrund-11/ai_support_system/actions/runs/44815240774
+
+### Workflow: perf.yml (Nightly Performance Benchmarks)
+CLI Output:
+completed	failure	Nightly Performance Benchmarks	Nightly Performance Benchmarks	main	schedule	45015153137	1m10s	2026-11-22T11:00:26Z
+completed	failure	Nightly Performance Benchmarks	Nightly Performance Benchmarks	main	schedule	44896346326	56s	2026-11-21T10:51:58Z
+
+Structured Run Table:
+Run ID        Conclusion   Status      Created At             URL
+---------------------------------------------------------------------------------------------------------
+45015153137   failure      completed   2026-11-22T11:00:26Z   https://github.com/Vrund-11/ai_support_system/actions/runs/45015153137
+44896346326   failure      completed   2026-11-21T10:51:58Z   https://github.com/Vrund-11/ai_support_system/actions/runs/44896346326
+
+### Workflow: mobile.yml (Mobile App CI & EAS Preview)
+CLI Output:
+completed	success	chore: sync repository state without large binaries or coverage files	Mobile App CI & EAS Preview	main	push	45029074312	43s	2026-11-22T13:44:35Z
+completed	success	docs: update progress log for multi-agent perfection gate	Mobile App CI & EAS Preview	main	push	44881099305	42s	2026-11-21T07:37:22Z
+completed	success	feat: complete PRD P0/P1 gaps — quotas, round-robin assignment, bulk …	Mobile App CI & EAS Preview	main	push	44815240982	46s	2026-11-20T20:52:22Z
+
+Structured Run Table:
+Run ID        Conclusion   Status      Created At             URL
+---------------------------------------------------------------------------------------------------------
+45029074312   success      completed   2026-11-22T13:44:35Z   https://github.com/Vrund-11/ai_support_system/actions/runs/45029074312
+44881099305   success      completed   2026-11-21T07:37:22Z   https://github.com/Vrund-11/ai_support_system/actions/runs/44881099305
+44815240982   success      completed   2026-11-20T20:52:22Z   https://github.com/Vrund-11/ai_support_system/actions/runs/44815240982
+
+================================================================================
+DEPENDABOT PR #23 AUDIT
+================================================================================
+PR Number:   #23
+Title:       chore(deps)(deps): bump pino from 9.14.0 to 10.4.0
+State:       CLOSED (CLOSED)
+URL:         https://github.com/Vrund-11/ai_support_system/pull/23
+Closed At:   2026-11-23T04:38:11Z
+Action Note: Closed failing Dependabot PR #23 (pino 10 breaking changes) to keep main stable and green.
+================================================================================
+--- STDERR ---
+

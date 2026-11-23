@@ -387,4 +387,86 @@ describe('Ticket Service & Endpoints (S1-T06: TKT-1, 3, 9)', () => {
       expect(patchRes.status).toBe(404);
     });
   });
+
+  describe('Newman Contract & Regression Tests (Bug fixes)', () => {
+    it('returns id string in POST /api/v1/tickets response for postman variables', async () => {
+      const res = await request(app)
+        .post('/api/v1/tickets')
+        .set('Authorization', `Bearer ${tokenA}`)
+        .send({
+          subject: 'Contract test ticket',
+          description: 'Testing that id is defined in response data',
+          customerId: customerId.toString(),
+          priority: 'HIGH',
+        });
+
+      expect(res.status).toBe(201);
+      expect(res.body.data.id).toBeDefined();
+      expect(typeof res.body.data.id).toBe('string');
+      expect(res.body.data.id).toBe(res.body.data._id);
+      expect(res.body.data.status).toBe('NEW');
+      expect(res.body.data.version).toBe(1);
+    });
+
+    it('returns 404 (not 500) on GET /api/v1/tickets/:id with invalid ObjectId string like "null"', async () => {
+      const res = await request(app)
+        .get('/api/v1/tickets/null')
+        .set('Authorization', `Bearer ${tokenA}`);
+
+      expect(res.status).toBe(404);
+      expect(res.body.type).toBe('/errors/not-found');
+    });
+
+    it('returns 404 (not 500) on PATCH /api/v1/tickets/:id with invalid ObjectId string like "null"', async () => {
+      const res = await request(app)
+        .patch('/api/v1/tickets/null')
+        .set('Authorization', `Bearer ${tokenA}`)
+        .send({ version: 1, status: 'OPEN' });
+
+      expect(res.status).toBe(404);
+      expect(res.body.type).toBe('/errors/not-found');
+    });
+
+    it('returns 404 on POST /api/v1/tickets/:id/link with invalid ObjectId', async () => {
+      const res = await request(app)
+        .post('/api/v1/tickets/null/link')
+        .set('Authorization', `Bearer ${tokenA}`)
+        .send({ targetTicketId: new Types.ObjectId().toString(), linkType: 'RELATES_TO' });
+
+      expect(res.status).toBe(404);
+      expect(res.body.type).toBe('/errors/not-found');
+    });
+
+    it('returns 404 on POST /api/v1/tickets/:id/messages with invalid ObjectId', async () => {
+      const res = await request(app)
+        .post('/api/v1/tickets/null/messages')
+        .set('Authorization', `Bearer ${tokenA}`)
+        .send({ body: 'Some internal note', isInternal: true });
+
+      expect(res.status).toBe(404);
+      expect(res.body.type).toBe('/errors/not-found');
+    });
+
+    it('returns id string in PATCH /api/v1/tickets/:id response', async () => {
+      const createRes = await request(app)
+        .post('/api/v1/tickets')
+        .set('Authorization', `Bearer ${tokenA}`)
+        .send({
+          subject: 'Patch ID test ticket',
+          description: 'Testing that id is defined after patch',
+          customerId: customerId.toString(),
+        });
+
+      const ticketId = createRes.body.data.id;
+
+      const patchRes = await request(app)
+        .patch(`/api/v1/tickets/${ticketId}`)
+        .set('Authorization', `Bearer ${tokenA}`)
+        .send({ version: 1, status: 'OPEN' });
+
+      expect(patchRes.status).toBe(200);
+      expect(patchRes.body.data.id).toBe(ticketId);
+      expect(patchRes.body.data.status).toBe('OPEN');
+    });
+  });
 });

@@ -1,0 +1,11 @@
+=== EVIDENCE ARTIFACT ===
+Target: 08-health-curls.txt
+Command: curl -s http://localhost:8000/health
+Timestamp (UTC): 2026-11-22T17:26:50.850145+00:00
+Git Commit: fdad02b7c74d0fade69947e41958f126ab8d8d27
+Exit Code: 0
+========================
+--- STDOUT ---
+{"status":"ok"}
+--- STDERR ---
+

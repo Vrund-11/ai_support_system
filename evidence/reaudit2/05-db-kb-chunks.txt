@@ -1,0 +1,33 @@
+=== EVIDENCE ARTIFACT ===
+Target: 05-db-kb-chunks.txt
+Command: docker exec sp-postgres psql -U supportpilot -d supportpilot -c "\d+ kb_chunks"
+Timestamp (UTC): 2026-11-22T15:26:22.216833+00:00
+Git Commit: fdad02b7c74d0fade69947e41958f126ab8d8d27
+Exit Code: 0
+========================
+--- STDOUT ---
+                                                                             Table "public.kb_chunks"
+    Column    |    Type     | Collation | Nullable |                                 Default                                 | Storage  | Compression | Stats target | Description 
+--------------+-------------+-----------+----------+-------------------------------------------------------------------------+----------+-------------+--------------+-------------
+ id           | uuid        |           | not null | gen_random_uuid()                                                       | plain    |             |              | 
+ tenant_id    | text        |           | not null |                                                                         | extended |             |              | 
+ document_id  | uuid        |           | not null |                                                                         | plain    |             |              | 
+ chunk_index  | integer     |           | not null |                                                                         | plain    |             |              | 
+ content      | text        |           | not null |                                                                         | extended |             |              | 
+ section_path | text        |           | not null | ''::text                                                                | extended |             |              | 
+ token_count  | integer     |           | not null | 0                                                                       | plain    |             |              | 
+ tsv          | tsvector    |           |          | generated always as (to_tsvector('english'::regconfig, content)) stored | extended |             |              | 
+ embedding    | vector(384) |           | not null |                                                                         | external |             |              | 
+ metadata     | jsonb       |           | not null | '{}'::jsonb                                                             | extended |             |              | 
+Indexes:
+    "kb_chunks_pkey" PRIMARY KEY, btree (id)
+    "idx_kb_chunks_embedding" hnsw (embedding vector_cosine_ops) WITH (m='16', ef_construction='64')
+    "idx_kb_chunks_tenant" btree (tenant_id)
+    "idx_kb_chunks_tenant_tsv" btree (tenant_id, tsv)
+    "idx_kb_chunks_tsv" gin (tsv)
+    "kb_chunks_document_id_chunk_index_key" UNIQUE CONSTRAINT, btree (document_id, chunk_index)
+Foreign-key constraints:
+    "kb_chunks_document_id_fkey" FOREIGN KEY (document_id) REFERENCES kb_documents(id) ON DELETE CASCADE
+Access method: heap
+--- STDERR ---
+

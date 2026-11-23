@@ -55,7 +55,7 @@ export function CreateTicketModal({ isOpen, onClose, onSuccess }: CreateTicketMo
       setCustomerEmail('');
       setTags(['billing', 'enterprise']);
       onClose();
-      onSuccess(ticket.id);
+      onSuccess((ticket as any)?.id || (ticket as any)?._id);
     } catch (err: unknown) {
       const errorMsg =
         err instanceof Error ? err.message : 'Failed to create ticket. Please verify inputs.';

@@ -1,8 +1,8 @@
 === EVIDENCE ARTIFACT ===
 Target: test-counts.txt
 Command: node scripts/count-tests.mjs
-Timestamp (UTC): 2026-11-23T03:41:46.549620+00:00
-Git Commit: fdad02b7c74d0fade69947e41958f126ab8d8d27
+Timestamp (UTC): 2026-11-23T03:57:52.825214+00:00
+Git Commit: 2bd2fa6b36661497cce05e0a437dacdbe027d00c
 Exit Code: 0
 ========================
 --- STDOUT ---

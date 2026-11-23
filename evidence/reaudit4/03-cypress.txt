@@ -1,0 +1,143 @@
+=== EVIDENCE ARTIFACT ===
+Target: 03-cypress.txt
+Command: npx cypress run --config-file tests/e2e/cypress.config.ts --config baseUrl=http://localhost:3000
+Timestamp (UTC): 2026-11-23T04:51:53.958884+00:00
+Git Commit: f5cd9d7b09450f54517fd3321ca6e7bbe64635d2
+Exit Code: 0
+========================
+--- STDOUT ---
+
+
+====================================================================================================
+
+  (Run Starting)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Cypress:        16.3.0                                                                         │
+  │ Browser:        Electron 150 (headless) (deprecated)                                           │
+  │ Node Version:   v24.18.0 (C:\Program Files\nodejs\node.exe)                                    │
+  │ Specs:          3 found (rbac-matrix.cy.ts, sprint2-handoff.cy.ts, ticket-concurrency.cy.ts)   │
+  │ Searched:       tests/e2e/cypress/e2e/**/*.cy.{js,jsx,ts,tsx}                                  │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+Warning: The Electron browser is deprecated as a test browser and will be removed in a future version of Cypress.
+
+Switch to Chrome or another installed browser to avoid a breaking change when you upgrade.
+
+Read more about supported browsers: https://on.cypress.io/launching-browsers
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  rbac-matrix.cy.ts                                                               (1 of 3)
+
+
+  RBAC Matrix & Multi-Role Authorization Suite
+    Tier 1: Role Permissions & Privileged View Rendering
+      √ TC-T1-RBAC-04: OWNER role has access to Platform Cockpit, Billing, and Team Admin (2563ms)
+      √ TC-T1-RBAC-03: LEAD role can access Team and Automation but NOT Platform Cockpit (1167ms)
+      √ TC-T1-RBAC-01: AGENT role has access to Inbox and Live Chats but NOT Cockpit or Admin subtab (757ms)
+      √ TC-T1-RBAC-02: VIEWER role can inspect tickets and read-only settings (967ms)
+    Tier 2: Authorization Boundaries & 403 Forbidden Defense
+      √ TC-T2-RBAC-01 & TC-T2-RBAC-02: Denies unprivileged mutations with HTTP 403 Forbidden (867ms)
+      √ TC-T2-RBAC-04 & TC-T2-RBAC-05: Unauthenticated access redirects or displays error (613ms)
+    Tier 3: Multi-Role Session Isolation & Cross-Role Consistency
+      √ TC-T3-09: Role elevation and degradation across sequential sessions (1237ms)
+
+
+  7 passing (8s)
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        7                                                                                │
+  │ Passing:      7                                                                                │
+  │ Failing:      0                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  0                                                                                │
+  │ Video:        false                                                                            │
+  │ Duration:     8 seconds                                                                        │
+  │ Spec Ran:     rbac-matrix.cy.ts                                                                │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  sprint2-handoff.cy.ts                                                           (2 of 3)
+
+
+  Sprint 2 Agent Flow & Live Chat Handoff E2E
+    √ allows agent to log in, view dashboard, and create a ticket (1386ms)
+    √ navigates to Live Chats view and reviews AI-assisted escalation queue (1094ms)
+    √ allows agent to view knowledge base documents and status (1026ms)
+
+
+  3 passing (4s)
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        3                                                                                │
+  │ Passing:      3                                                                                │
+  │ Failing:      0                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  0                                                                                │
+  │ Video:        false                                                                            │
+  │ Duration:     3 seconds                                                                        │
+  │ Spec Ran:     sprint2-handoff.cy.ts                                                            │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  ticket-concurrency.cy.ts                                                        (3 of 3)
+
+
+  Ticket Concurrency & Optimistic Locking Suite
+    Tier 1: Nominal Lifecycle & Version Tracking
+      √ TC-T1-TKT-02 & TC-T1-TKT-03: Successfully updates ticket status with matching version (2408ms)
+    Tier 2: Optimistic Concurrency Conflict Detection
+      √ TC-T2-TKT-01: Displays conflict warning prompt on HTTP 409 Conflict (1566ms)
+      √ TC-T2-TKT-02: Rejects invalid status transition with HTTP 400 (1428ms)
+    Tier 3: Pairwise Concurrent Mutation & Recovery
+      √ TC-T3-05: Concurrent edit triggers 409, refetches version 2, and allows subsequent save (1405ms)
+
+
+  4 passing (7s)
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        4                                                                                │
+  │ Passing:      4                                                                                │
+  │ Failing:      0                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  0                                                                                │
+  │ Video:        false                                                                            │
+  │ Duration:     6 seconds                                                                        │
+  │ Spec Ran:     ticket-concurrency.cy.ts                                                         │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+====================================================================================================
+
+  (Run Finished)
+
+
+       Spec                                              Tests  Passing  Failing  Pending  Skipped  
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ √  rbac-matrix.cy.ts                        00:08        7        7        -        -        - │
+  ├────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ √  sprint2-handoff.cy.ts                    00:03        3        3        -        -        - │
+  ├────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ √  ticket-concurrency.cy.ts                 00:06        4        4        -        -        - │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+    √  All specs passed!                        00:19       14       14        -        -        -
+--- STDERR ---
+npm warn Unknown project config "force-legacy-deploy". This will stop working in the next major version of npm.

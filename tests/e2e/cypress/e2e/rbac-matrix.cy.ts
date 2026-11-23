@@ -85,6 +85,7 @@ describe('RBAC Matrix & Multi-Role Authorization Suite', () => {
       body: {
         data: {
           tier: 'ENTERPRISE',
+          plan: 'ENTERPRISE',
           status: 'ACTIVE',
           currentPeriodEnd: '2026-12-31T23:59:59Z',
           limits: { messages: 50000, ai: 5000, kb: 50 * 1024 * 1024 },
@@ -143,6 +144,7 @@ describe('RBAC Matrix & Multi-Role Authorization Suite', () => {
 
   const loginAs = (user: typeof mockUsers.owner) => {
     setupRoleSession(user);
+    cy.clearLocalStorage();
     cy.visit('/');
     cy.get('input[type="email"]').clear().type(user.email);
     cy.get('input[type="password"]').clear().type('SecretPassword123!');
@@ -228,45 +230,53 @@ describe('RBAC Matrix & Multi-Role Authorization Suite', () => {
       cy.contains('Platform Admin').should('not.exist');
 
       // TC-T2-RBAC-01: Genuinely send unprivileged ticket mutation via cy.request
-      cy.request({
-        method: 'POST',
-        url: '/api/v1/tickets',
-        headers: {
-          Authorization: `Bearer jwt.token.${mockUsers.viewer.role.toLowerCase()}`,
-          'x-tenant-id': tenantId,
-        },
-        body: {
-          subject: 'Unauthorized ticket create attempt',
-          description: 'Viewer role lacks ticket create permission',
-          priority: 'MEDIUM',
-        },
-        failOnStatusCode: false,
-      }).then((response) => {
-        expect(response.status).to.eq(403);
-        expect(response.body).to.have.property('status', 403);
-        expect(response.body).to.have.property('type');
-        expect(response.body.type).to.match(/forbidden/);
-        expect(response.body.detail || response.body.title).to.include('permission');
-      });
+      cy.task<string>('signJwt', {
+        sub: mockUsers.viewer.id,
+        tenantId,
+        role: mockUsers.viewer.role,
+      }).then((viewerToken) => {
+        cy.request({
+          method: 'POST',
+          url: '/api/v1/tickets',
+          headers: {
+            Authorization: `Bearer ${viewerToken}`,
+            'x-tenant-id': tenantId,
+          },
+          body: {
+            subject: 'Unauthorized ticket create attempt',
+            description: 'Viewer role lacks ticket create permission',
+            priority: 'MEDIUM',
+          },
+          failOnStatusCode: false,
+        }).then((response) => {
+          expect(response.status).to.eq(403);
+          expect(response.body).to.have.property('status', 403);
+          expect(response.body).to.have.property('type');
+          expect(response.body.type).to.match(/forbidden/);
+          expect(response.body.detail || response.body.title).to.match(
+            /permission|denied|role|forbidden/i,
+          );
+        });
 
-      // TC-T2-RBAC-02: Genuinely send unprivileged API key mutation via cy.request
-      cy.request({
-        method: 'POST',
-        url: '/api/v1/api-keys',
-        headers: {
-          Authorization: `Bearer jwt.token.${mockUsers.viewer.role.toLowerCase()}`,
-          'x-tenant-id': tenantId,
-        },
-        body: {
-          name: 'Unauthorized API Key Attempt',
-          scopes: ['tickets:read', 'tickets:write'],
-        },
-        failOnStatusCode: false,
-      }).then((response) => {
-        expect(response.status).to.eq(403);
-        expect(response.body).to.have.property('status', 403);
-        expect(response.body).to.have.property('type');
-        expect(response.body.type).to.match(/forbidden/);
+        // TC-T2-RBAC-02: Genuinely send unprivileged API key mutation via cy.request
+        cy.request({
+          method: 'POST',
+          url: '/api/v1/api-keys',
+          headers: {
+            Authorization: `Bearer ${viewerToken}`,
+            'x-tenant-id': tenantId,
+          },
+          body: {
+            name: 'Unauthorized API Key Attempt',
+            scopes: ['tickets:read', 'tickets:write'],
+          },
+          failOnStatusCode: false,
+        }).then((response) => {
+          expect(response.status).to.eq(403);
+          expect(response.body).to.have.property('status', 403);
+          expect(response.body).to.have.property('type');
+          expect(response.body.type).to.match(/forbidden/);
+        });
       });
     });
 

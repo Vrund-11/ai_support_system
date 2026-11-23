@@ -133,7 +133,7 @@ jobs:
           echo "Rollout failed! Initiating emergency rollback..."
           SERVICES=("gateway" "ticket-service" "ai-service" "notification-service" "web")
           for SVC in "${SERVICES[@]}"; do
-            kubectl rollout undo "deployment/$SVC" -n supportpilot || true
+            kubectl rollout undo "deployment/$SVC" -n supportpilot
           done
 
       - name: Verify Cluster Resources & Pods

@@ -65,8 +65,31 @@ export function AppContent() {
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
   const [authView, setAuthView] = useState<'login' | 'register' | 'track'>('login');
   const [currentTab, setCurrentTab] = useState<NavTab>('inbox');
-  const [selectedTicketId, setSelectedTicketId] = useState<string | null>(null);
+  const [selectedTicketId, setSelectedTicketId] = useState<string | null>(() => {
+    if (typeof window !== 'undefined') {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get('ticketId') || sessionStorage.getItem('sp_selected_ticket_id');
+    }
+    return null;
+  });
   const [isCreateOpen, setIsCreateOpen] = useState(false);
+
+  const handleSelectTicket = (id: string | null) => {
+    setSelectedTicketId(id);
+    if (typeof window !== 'undefined') {
+      if (id) {
+        sessionStorage.setItem('sp_selected_ticket_id', id);
+        const url = new URL(window.location.href);
+        url.searchParams.set('ticketId', id);
+        window.history.replaceState({}, '', url.toString());
+      } else {
+        sessionStorage.removeItem('sp_selected_ticket_id');
+        const url = new URL(window.location.href);
+        url.searchParams.delete('ticketId');
+        window.history.replaceState({}, '', url.toString());
+      }
+    }
+  };
 
   if (!isAuthenticated) {
     if (authView === 'register') {
@@ -101,11 +124,11 @@ export function AppContent() {
       activeTab={currentTab}
       onOpenCreateModal={() => setIsCreateOpen(true)}
       onNavigateInbox={() => {
-        setSelectedTicketId(null);
+        handleSelectTicket(null);
         setCurrentTab('inbox');
       }}
       onNavigateTab={(tab) => {
-        setSelectedTicketId(null);
+        handleSelectTicket(null);
         setCurrentTab(tab);
       }}
     >
@@ -147,10 +170,10 @@ export function AppContent() {
       >
         {currentTab === 'inbox' &&
           (selectedTicketId ? (
-            <TicketDetail ticketId={selectedTicketId} onBack={() => setSelectedTicketId(null)} />
+            <TicketDetail ticketId={selectedTicketId} onBack={() => handleSelectTicket(null)} />
           ) : (
             <TicketInbox
-              onSelectTicket={(id) => setSelectedTicketId(id)}
+              onSelectTicket={(id) => handleSelectTicket(id)}
               onOpenCreate={() => setIsCreateOpen(true)}
             />
           ))}
@@ -161,7 +184,7 @@ export function AppContent() {
         onClose={() => setIsCreateOpen(false)}
         onSuccess={(id) => {
           setCurrentTab('inbox');
-          setSelectedTicketId(id);
+          handleSelectTicket(id);
         }}
       />
     </Shell>

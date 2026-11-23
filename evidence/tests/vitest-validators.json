@@ -1,10 +1,10 @@
 {
-  "numTotalTestSuites": 3,
-  "numPassedTestSuites": 3,
+  "numTotalTestSuites": 43,
+  "numPassedTestSuites": 43,
   "numFailedTestSuites": 0,
   "numPendingTestSuites": 0,
-  "numTotalTests": 8,
-  "numPassedTests": 8,
+  "numTotalTests": 99,
+  "numPassedTests": 99,
   "numFailedTests": 0,
   "numPendingTests": 0,
   "numTodoTests": 0,
@@ -24,9 +24,306 @@
     "updated": 0,
     "didUpdate": false
   },
-  "startTime": 1795323417314,
+  "startTime": 1795374161716,
   "success": true,
   "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["auth schemas", "registerTenantSchema"],
+          "fullName": "auth schemas registerTenantSchema parses valid registration payload and transforms email",
+          "status": "passed",
+          "title": "parses valid registration payload and transforms email",
+          "duration": 24.18179999999984,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["auth schemas", "registerTenantSchema"],
+          "fullName": "auth schemas registerTenantSchema trims tenantName and name whitespace",
+          "status": "passed",
+          "title": "trims tenantName and name whitespace",
+          "duration": 1.0076999999996588,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["auth schemas", "registerTenantSchema"],
+          "fullName": "auth schemas registerTenantSchema rejects tenantName shorter than 2 chars or longer than 100 chars",
+          "status": "passed",
+          "title": "rejects tenantName shorter than 2 chars or longer than 100 chars",
+          "duration": 4.8431000000000495,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["auth schemas", "registerTenantSchema"],
+          "fullName": "auth schemas registerTenantSchema rejects name shorter than 2 chars or longer than 100 chars",
+          "status": "passed",
+          "title": "rejects name shorter than 2 chars or longer than 100 chars",
+          "duration": 2.159899999999652,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["auth schemas", "registerTenantSchema"],
+          "fullName": "auth schemas registerTenantSchema rejects invalid email formats",
+          "status": "passed",
+          "title": "rejects invalid email formats",
+          "duration": 27.03859999999986,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["auth schemas", "registerTenantSchema"],
+          "fullName": "auth schemas registerTenantSchema rejects password shorter than 8 chars or longer than 128 chars",
+          "status": "passed",
+          "title": "rejects password shorter than 8 chars or longer than 128 chars",
+          "duration": 2.039600000000064,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["auth schemas", "registerTenantSchema"],
+          "fullName": "auth schemas registerTenantSchema rejects missing required fields",
+          "status": "passed",
+          "title": "rejects missing required fields",
+          "duration": 4.65059999999994,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["auth schemas", "loginSchema"],
+          "fullName": "auth schemas loginSchema parses valid login credentials and normalizes email",
+          "status": "passed",
+          "title": "parses valid login credentials and normalizes email",
+          "duration": 1.5156999999999243,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["auth schemas", "loginSchema"],
+          "fullName": "auth schemas loginSchema rejects invalid email",
+          "status": "passed",
+          "title": "rejects invalid email",
+          "duration": 0.9716000000003078,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["auth schemas", "loginSchema"],
+          "fullName": "auth schemas loginSchema rejects empty password",
+          "status": "passed",
+          "title": "rejects empty password",
+          "duration": 0.8868000000002212,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["auth schemas", "refreshSchema"],
+          "fullName": "auth schemas refreshSchema accepts valid refresh token",
+          "status": "passed",
+          "title": "accepts valid refresh token",
+          "duration": 0.9291000000002896,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["auth schemas", "refreshSchema"],
+          "fullName": "auth schemas refreshSchema rejects empty refresh token",
+          "status": "passed",
+          "title": "rejects empty refresh token",
+          "duration": 0.9371000000001004,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["auth schemas", "logoutSchema"],
+          "fullName": "auth schemas logoutSchema accepts valid logout payload",
+          "status": "passed",
+          "title": "accepts valid logout payload",
+          "duration": 1.0207000000000335,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["auth schemas", "logoutSchema"],
+          "fullName": "auth schemas logoutSchema rejects empty token",
+          "status": "passed",
+          "title": "rejects empty token",
+          "duration": 0.7654999999999745,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["auth schemas", "forgotPasswordSchema"],
+          "fullName": "auth schemas forgotPasswordSchema accepts valid email and lowercases it",
+          "status": "passed",
+          "title": "accepts valid email and lowercases it",
+          "duration": 1.1628000000000611,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["auth schemas", "forgotPasswordSchema"],
+          "fullName": "auth schemas forgotPasswordSchema rejects invalid email",
+          "status": "passed",
+          "title": "rejects invalid email",
+          "duration": 1.2725000000000364,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["auth schemas", "resetPasswordSchema"],
+          "fullName": "auth schemas resetPasswordSchema accepts valid token and new password",
+          "status": "passed",
+          "title": "accepts valid token and new password",
+          "duration": 1.3326999999999316,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["auth schemas", "resetPasswordSchema"],
+          "fullName": "auth schemas resetPasswordSchema rejects empty token",
+          "status": "passed",
+          "title": "rejects empty token",
+          "duration": 0.6290999999996529,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["auth schemas", "resetPasswordSchema"],
+          "fullName": "auth schemas resetPasswordSchema rejects password < 8 chars or > 128 chars",
+          "status": "passed",
+          "title": "rejects password < 8 chars or > 128 chars",
+          "duration": 1.0230000000001382,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["auth schemas", "verifyEmailSchema"],
+          "fullName": "auth schemas verifyEmailSchema accepts valid token",
+          "status": "passed",
+          "title": "accepts valid token",
+          "duration": 5.3202000000001135,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["auth schemas", "verifyEmailSchema"],
+          "fullName": "auth schemas verifyEmailSchema rejects empty token",
+          "status": "passed",
+          "title": "rejects empty token",
+          "duration": 1.157799999999952,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["auth schemas", "resendVerificationSchema"],
+          "fullName": "auth schemas resendVerificationSchema accepts valid email and lowercases it",
+          "status": "passed",
+          "title": "accepts valid email and lowercases it",
+          "duration": 1.1631999999999607,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["auth schemas", "resendVerificationSchema"],
+          "fullName": "auth schemas resendVerificationSchema rejects malformed email",
+          "status": "passed",
+          "title": "rejects malformed email",
+          "duration": 0.7521999999999025,
+          "failureMessages": [],
+          "meta": {}
+        }
+      ],
+      "startTime": 1795374165520,
+      "endTime": 1795374165608.7522,
+      "status": "passed",
+      "message": "",
+      "name": "C:/Users/vrund/OneDrive/Desktop/ai_project/packages/validators/tests/auth.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["customer schemas", "createCustomerSchema"],
+          "fullName": "customer schemas createCustomerSchema parses valid customer with defaults",
+          "status": "passed",
+          "title": "parses valid customer with defaults",
+          "duration": 10.829999999999927,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["customer schemas", "createCustomerSchema"],
+          "fullName": "customer schemas createCustomerSchema parses valid customer with all optional fields",
+          "status": "passed",
+          "title": "parses valid customer with all optional fields",
+          "duration": 1.4895000000001346,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["customer schemas", "createCustomerSchema"],
+          "fullName": "customer schemas createCustomerSchema rejects invalid email",
+          "status": "passed",
+          "title": "rejects invalid email",
+          "duration": 3.4868999999998778,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["customer schemas", "createCustomerSchema"],
+          "fullName": "customer schemas createCustomerSchema rejects empty name or name > 150 chars",
+          "status": "passed",
+          "title": "rejects empty name or name > 150 chars",
+          "duration": 2.3243999999999687,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["customer schemas", "createCustomerSchema"],
+          "fullName": "customer schemas createCustomerSchema rejects missing required fields",
+          "status": "passed",
+          "title": "rejects missing required fields",
+          "duration": 1.1362000000003718,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["customer schemas", "customerFilterSchema"],
+          "fullName": "customer schemas customerFilterSchema applies default limit of 25 when empty",
+          "status": "passed",
+          "title": "applies default limit of 25 when empty",
+          "duration": 1.474500000000262,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["customer schemas", "customerFilterSchema"],
+          "fullName": "customer schemas customerFilterSchema parses full filter query with string coerced limit",
+          "status": "passed",
+          "title": "parses full filter query with string coerced limit",
+          "duration": 1.1037000000001171,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["customer schemas", "customerFilterSchema"],
+          "fullName": "customer schemas customerFilterSchema validates limit boundaries (1 to 100)",
+          "status": "passed",
+          "title": "validates limit boundaries (1 to 100)",
+          "duration": 2.4477999999999156,
+          "failureMessages": [],
+          "meta": {}
+        }
+      ],
+      "startTime": 1795374165699,
+      "endTime": 1795374165724.4478,
+      "status": "passed",
+      "message": "",
+      "name": "C:/Users/vrund/OneDrive/Desktop/ai_project/packages/validators/tests/customer.test.ts"
+    },
     {
       "assertionResults": [
         {
@@ -34,7 +331,7 @@
           "fullName": "loadEnv parses valid base env",
           "status": "passed",
           "title": "parses valid base env",
-          "duration": 3.3654999999999973,
+          "duration": 13.569500000000062,
           "failureMessages": [],
           "meta": {}
         },
@@ -43,7 +340,7 @@
           "fullName": "loadEnv applies defaults for missing optional fields",
           "status": "passed",
           "title": "applies defaults for missing optional fields",
-          "duration": 0.44239999999990687,
+          "duration": 8.674199999999928,
           "failureMessages": [],
           "meta": {}
         },
@@ -52,7 +349,7 @@
           "fullName": "loadEnv exits on invalid env",
           "status": "passed",
           "title": "exits on invalid env",
-          "duration": 5.402000000000044,
+          "duration": 17.914299999999912,
           "failureMessages": [],
           "meta": {}
         },
@@ -61,7 +358,34 @@
           "fullName": "loadEnv coerces PORT string to number",
           "status": "passed",
           "title": "coerces PORT string to number",
-          "duration": 0.4836999999999989,
+          "duration": 1.14449999999988,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["loadEnv", "aiServiceEnvSchema"],
+          "fullName": "loadEnv aiServiceEnvSchema applies defaults for ai-service env",
+          "status": "passed",
+          "title": "applies defaults for ai-service env",
+          "duration": 11.71810000000005,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["loadEnv", "aiServiceEnvSchema"],
+          "fullName": "loadEnv aiServiceEnvSchema accepts explicit configuration for gemini and openai",
+          "status": "passed",
+          "title": "accepts explicit configuration for gemini and openai",
+          "duration": 1.3197000000000116,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["loadEnv", "aiServiceEnvSchema"],
+          "fullName": "loadEnv aiServiceEnvSchema rejects invalid LLM_PROVIDER or missing DATABASE_URL",
+          "status": "passed",
+          "title": "rejects invalid LLM_PROVIDER or missing DATABASE_URL",
+          "duration": 1.0202999999996791,
           "failureMessages": [],
           "meta": {}
         },
@@ -70,7 +394,7 @@
           "fullName": "loadEnv production secret guard rejects short secrets (<32 chars) in production",
           "status": "passed",
           "title": "rejects short secrets (<32 chars) in production",
-          "duration": 2.0178999999999405,
+          "duration": 4.0680999999999585,
           "failureMessages": [],
           "meta": {}
         },
@@ -79,7 +403,25 @@
           "fullName": "loadEnv production secret guard rejects dev prefixes (test-, default-, dev-, cluster-secret-) in production",
           "status": "passed",
           "title": "rejects dev prefixes (test-, default-, dev-, cluster-secret-) in production",
-          "duration": 1.046699999999987,
+          "duration": 2.7424000000000888,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["loadEnv", "production secret guard"],
+          "fullName": "loadEnv production secret guard validates INTERNAL_SERVICE_TOKEN in production across schemas",
+          "status": "passed",
+          "title": "validates INTERNAL_SERVICE_TOKEN in production across schemas",
+          "duration": 1.4033000000003995,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["loadEnv", "production secret guard"],
+          "fullName": "loadEnv production secret guard validates notificationServiceEnvSchema in production mode",
+          "status": "passed",
+          "title": "validates notificationServiceEnvSchema in production mode",
+          "duration": 7.746700000000146,
           "failureMessages": [],
           "meta": {}
         },
@@ -88,7 +430,7 @@
           "fullName": "loadEnv production secret guard accepts valid 32+ char production secrets without forbidden patterns",
           "status": "passed",
           "title": "accepts valid 32+ char production secrets without forbidden patterns",
-          "duration": 0.29849999999999,
+          "duration": 4.023200000000088,
           "failureMessages": [],
           "meta": {}
         },
@@ -97,16 +439,556 @@
           "fullName": "loadEnv production secret guard allows dev/test secrets in development mode",
           "status": "passed",
           "title": "allows dev/test secrets in development mode",
-          "duration": 0.9724999999999682,
+          "duration": 1.7971999999999753,
           "failureMessages": [],
           "meta": {}
         }
       ],
-      "startTime": 1795323418330,
-      "endTime": 1795323418343.9724,
+      "startTime": 1795374165758,
+      "endTime": 1795374165837.797,
       "status": "passed",
       "message": "",
       "name": "C:/Users/vrund/OneDrive/Desktop/ai_project/packages/validators/tests/env.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["message schemas", "attachmentSchema"],
+          "fullName": "message schemas attachmentSchema parses valid attachment object",
+          "status": "passed",
+          "title": "parses valid attachment object",
+          "duration": 62.82709999999997,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["message schemas", "attachmentSchema"],
+          "fullName": "message schemas attachmentSchema accepts 0 byte attachment",
+          "status": "passed",
+          "title": "accepts 0 byte attachment",
+          "duration": 0.518500000000131,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["message schemas", "attachmentSchema"],
+          "fullName": "message schemas attachmentSchema rejects negative or non-integer size",
+          "status": "passed",
+          "title": "rejects negative or non-integer size",
+          "duration": 6.8706999999999425,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["message schemas", "attachmentSchema"],
+          "fullName": "message schemas attachmentSchema rejects empty strings for key, name, or mime",
+          "status": "passed",
+          "title": "rejects empty strings for key, name, or mime",
+          "duration": 3.610200000000077,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["message schemas", "createMessageSchema"],
+          "fullName": "message schemas createMessageSchema parses minimal message with defaults",
+          "status": "passed",
+          "title": "parses minimal message with defaults",
+          "duration": 5.9789999999998145,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["message schemas", "createMessageSchema"],
+          "fullName": "message schemas createMessageSchema parses complete message with attachments and clientId",
+          "status": "passed",
+          "title": "parses complete message with attachments and clientId",
+          "duration": 9.306099999999788,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["message schemas", "createMessageSchema"],
+          "fullName": "message schemas createMessageSchema rejects empty body or whitespace-only body",
+          "status": "passed",
+          "title": "rejects empty body or whitespace-only body",
+          "duration": 1.7249000000001615,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["message schemas", "createMessageSchema"],
+          "fullName": "message schemas createMessageSchema rejects body longer than 10000 characters",
+          "status": "passed",
+          "title": "rejects body longer than 10000 characters",
+          "duration": 0.9193000000000211,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["message schemas", "createMessageSchema"],
+          "fullName": "message schemas createMessageSchema rejects invalid uuid for clientId",
+          "status": "passed",
+          "title": "rejects invalid uuid for clientId",
+          "duration": 1.7753999999999905,
+          "failureMessages": [],
+          "meta": {}
+        }
+      ],
+      "startTime": 1795374165483,
+      "endTime": 1795374165577.7754,
+      "status": "passed",
+      "message": "",
+      "name": "C:/Users/vrund/OneDrive/Desktop/ai_project/packages/validators/tests/message.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["team schemas", "inviteTeamMemberSchema"],
+          "fullName": "team schemas inviteTeamMemberSchema parses minimal invite with default AGENT role",
+          "status": "passed",
+          "title": "parses minimal invite with default AGENT role",
+          "duration": 26.722099999999955,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["team schemas", "inviteTeamMemberSchema"],
+          "fullName": "team schemas inviteTeamMemberSchema accepts explicit valid roles",
+          "status": "passed",
+          "title": "accepts explicit valid roles",
+          "duration": 27.62390000000005,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["team schemas", "inviteTeamMemberSchema"],
+          "fullName": "team schemas inviteTeamMemberSchema rejects invalid role",
+          "status": "passed",
+          "title": "rejects invalid role",
+          "duration": 16.490299999999934,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["team schemas", "inviteTeamMemberSchema"],
+          "fullName": "team schemas inviteTeamMemberSchema rejects invalid email",
+          "status": "passed",
+          "title": "rejects invalid email",
+          "duration": 8.651200000000244,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["team schemas", "inviteTeamMemberSchema"],
+          "fullName": "team schemas inviteTeamMemberSchema rejects empty name or name > 150 chars",
+          "status": "passed",
+          "title": "rejects empty name or name > 150 chars",
+          "duration": 2.983400000000074,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["team schemas", "updateNotificationPrefsSchema"],
+          "fullName": "team schemas updateNotificationPrefsSchema parses valid notification prefs",
+          "status": "passed",
+          "title": "parses valid notification prefs",
+          "duration": 3.108099999999922,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["team schemas", "updateNotificationPrefsSchema"],
+          "fullName": "team schemas updateNotificationPrefsSchema accepts empty object (all optional)",
+          "status": "passed",
+          "title": "accepts empty object (all optional)",
+          "duration": 2.048899999999776,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["team schemas", "updateNotificationPrefsSchema"],
+          "fullName": "team schemas updateNotificationPrefsSchema rejects non-boolean values",
+          "status": "passed",
+          "title": "rejects non-boolean values",
+          "duration": 1.425199999999677,
+          "failureMessages": [],
+          "meta": {}
+        }
+      ],
+      "startTime": 1795374165500,
+      "endTime": 1795374165592.4253,
+      "status": "passed",
+      "message": "",
+      "name": "C:/Users/vrund/OneDrive/Desktop/ai_project/packages/validators/tests/team.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["ticket schemas", "ticketStatusSchema"],
+          "fullName": "ticket schemas ticketStatusSchema accepts all valid ticket statuses",
+          "status": "passed",
+          "title": "accepts all valid ticket statuses",
+          "duration": 4.844600000000355,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["ticket schemas", "ticketStatusSchema"],
+          "fullName": "ticket schemas ticketStatusSchema rejects invalid status",
+          "status": "passed",
+          "title": "rejects invalid status",
+          "duration": 27.967999999999847,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["ticket schemas", "ticketPrioritySchema"],
+          "fullName": "ticket schemas ticketPrioritySchema accepts all valid ticket priorities",
+          "status": "passed",
+          "title": "accepts all valid ticket priorities",
+          "duration": 1.206000000000131,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["ticket schemas", "ticketPrioritySchema"],
+          "fullName": "ticket schemas ticketPrioritySchema rejects invalid priority",
+          "status": "passed",
+          "title": "rejects invalid priority",
+          "duration": 1.3283999999998741,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["ticket schemas", "createTicketSchema"],
+          "fullName": "ticket schemas createTicketSchema parses minimal ticket and assigns defaults",
+          "status": "passed",
+          "title": "parses minimal ticket and assigns defaults",
+          "duration": 12.261399999999867,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["ticket schemas", "createTicketSchema"],
+          "fullName": "ticket schemas createTicketSchema parses full ticket with all fields populated",
+          "status": "passed",
+          "title": "parses full ticket with all fields populated",
+          "duration": 11.486499999999978,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["ticket schemas", "createTicketSchema"],
+          "fullName": "ticket schemas createTicketSchema validates subject length boundaries (3 to 250)",
+          "status": "passed",
+          "title": "validates subject length boundaries (3 to 250)",
+          "duration": 11.296000000000276,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["ticket schemas", "createTicketSchema"],
+          "fullName": "ticket schemas createTicketSchema validates description length boundaries (5 to 10000)",
+          "status": "passed",
+          "title": "validates description length boundaries (5 to 10000)",
+          "duration": 2.657600000000002,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["ticket schemas", "createTicketSchema"],
+          "fullName": "ticket schemas createTicketSchema rejects empty customerId",
+          "status": "passed",
+          "title": "rejects empty customerId",
+          "duration": 6.121200000000044,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["ticket schemas", "updateTicketSchema"],
+          "fullName": "ticket schemas updateTicketSchema requires a positive integer version",
+          "status": "passed",
+          "title": "requires a positive integer version",
+          "duration": 8.26379999999972,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["ticket schemas", "updateTicketSchema"],
+          "fullName": "ticket schemas updateTicketSchema allows updating fields including nullable assigneeId",
+          "status": "passed",
+          "title": "allows updating fields including nullable assigneeId",
+          "duration": 1.7501000000002023,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["ticket schemas", "bulkTicketActionSchema"],
+          "fullName": "ticket schemas bulkTicketActionSchema parses ASSIGN action with string value or null value",
+          "status": "passed",
+          "title": "parses ASSIGN action with string value or null value",
+          "duration": 7.142999999999574,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["ticket schemas", "bulkTicketActionSchema"],
+          "fullName": "ticket schemas bulkTicketActionSchema parses TAG action with string or array of strings",
+          "status": "passed",
+          "title": "parses TAG action with string or array of strings",
+          "duration": 4.718499999999949,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["ticket schemas", "bulkTicketActionSchema"],
+          "fullName": "ticket schemas bulkTicketActionSchema parses STATUS action with string value",
+          "status": "passed",
+          "title": "parses STATUS action with string value",
+          "duration": 2.842200000000048,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["ticket schemas", "bulkTicketActionSchema"],
+          "fullName": "ticket schemas bulkTicketActionSchema rejects empty ticketIds array or empty string in ticketIds",
+          "status": "passed",
+          "title": "rejects empty ticketIds array or empty string in ticketIds",
+          "duration": 1.9812999999999192,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["ticket schemas", "bulkTicketActionSchema"],
+          "fullName": "ticket schemas bulkTicketActionSchema rejects invalid action or invalid value type",
+          "status": "passed",
+          "title": "rejects invalid action or invalid value type",
+          "duration": 4.087300000000141,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["ticket schemas", "ticketFilterSchema"],
+          "fullName": "ticket schemas ticketFilterSchema applies default limit of 20",
+          "status": "passed",
+          "title": "applies default limit of 20",
+          "duration": 2.505999999999858,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["ticket schemas", "ticketFilterSchema"],
+          "fullName": "ticket schemas ticketFilterSchema parses single status or array of statuses",
+          "status": "passed",
+          "title": "parses single status or array of statuses",
+          "duration": 0.6275000000000546,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["ticket schemas", "ticketFilterSchema"],
+          "fullName": "ticket schemas ticketFilterSchema parses single priority or array of priorities",
+          "status": "passed",
+          "title": "parses single priority or array of priorities",
+          "duration": 0.5230000000001382,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["ticket schemas", "ticketFilterSchema"],
+          "fullName": "ticket schemas ticketFilterSchema parses date filters in ISO 8601 format",
+          "status": "passed",
+          "title": "parses date filters in ISO 8601 format",
+          "duration": 1.2494000000001506,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["ticket schemas", "ticketFilterSchema"],
+          "fullName": "ticket schemas ticketFilterSchema rejects invalid date strings",
+          "status": "passed",
+          "title": "rejects invalid date strings",
+          "duration": 1.2626000000000204,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["ticket schemas", "ticketFilterSchema"],
+          "fullName": "ticket schemas ticketFilterSchema coerces limit string and checks boundaries (1 to 50)",
+          "status": "passed",
+          "title": "coerces limit string and checks boundaries (1 to 50)",
+          "duration": 3.54300000000012,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["ticket schemas", "ticketFilterSchema"],
+          "fullName": "ticket schemas ticketFilterSchema parses general search and identifier filters",
+          "status": "passed",
+          "title": "parses general search and identifier filters",
+          "duration": 0.7788999999997941,
+          "failureMessages": [],
+          "meta": {}
+        }
+      ],
+      "startTime": 1795374165503,
+      "endTime": 1795374165635.7788,
+      "status": "passed",
+      "message": "",
+      "name": "C:/Users/vrund/OneDrive/Desktop/ai_project/packages/validators/tests/ticket.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["ticket transitions", "ALLOWED_STATUS_TRANSITIONS mapping"],
+          "fullName": "ticket transitions ALLOWED_STATUS_TRANSITIONS mapping defines expected transitions for each state",
+          "status": "passed",
+          "title": "defines expected transitions for each state",
+          "duration": 5.167899999999918,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["ticket transitions", "canTransitionStatus"],
+          "fullName": "ticket transitions canTransitionStatus allows idempotent self-transitions for all states",
+          "status": "passed",
+          "title": "allows idempotent self-transitions for all states",
+          "duration": 1.1660999999999149,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["ticket transitions", "canTransitionStatus"],
+          "fullName": "ticket transitions canTransitionStatus allows valid state machine forward transitions",
+          "status": "passed",
+          "title": "allows valid state machine forward transitions",
+          "duration": 0.9962000000000444,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["ticket transitions", "canTransitionStatus"],
+          "fullName": "ticket transitions canTransitionStatus disallows invalid state transitions",
+          "status": "passed",
+          "title": "disallows invalid state transitions",
+          "duration": 0.7989999999999782,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["ticket transitions", "canTransitionStatus"],
+          "fullName": "ticket transitions canTransitionStatus returns false for unknown statuses safely",
+          "status": "passed",
+          "title": "returns false for unknown statuses safely",
+          "duration": 0.43280000000004293,
+          "failureMessages": [],
+          "meta": {}
+        }
+      ],
+      "startTime": 1795374164783,
+      "endTime": 1795374164792.799,
+      "status": "passed",
+      "message": "",
+      "name": "C:/Users/vrund/OneDrive/Desktop/ai_project/packages/validators/tests/transitions.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["upload schemas", "presignUploadSchema"],
+          "fullName": "upload schemas presignUploadSchema parses valid upload request with default attachment purpose",
+          "status": "passed",
+          "title": "parses valid upload request with default attachment purpose",
+          "duration": 9.452900000000227,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["upload schemas", "presignUploadSchema"],
+          "fullName": "upload schemas presignUploadSchema accepts kb_document purpose",
+          "status": "passed",
+          "title": "accepts kb_document purpose",
+          "duration": 0.8717999999998938,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["upload schemas", "presignUploadSchema"],
+          "fullName": "upload schemas presignUploadSchema validates file size boundaries (positive up to 50MB)",
+          "status": "passed",
+          "title": "validates file size boundaries (positive up to 50MB)",
+          "duration": 5.5,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["upload schemas", "presignUploadSchema"],
+          "fullName": "upload schemas presignUploadSchema rejects empty or excessively long filename / contentType",
+          "status": "passed",
+          "title": "rejects empty or excessively long filename / contentType",
+          "duration": 3.480199999999968,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["upload schemas", "verifyUploadSchema"],
+          "fullName": "upload schemas verifyUploadSchema parses valid verify upload payload",
+          "status": "passed",
+          "title": "parses valid verify upload payload",
+          "duration": 1.349500000000262,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["upload schemas", "verifyUploadSchema"],
+          "fullName": "upload schemas verifyUploadSchema rejects empty strings for key or contentType",
+          "status": "passed",
+          "title": "rejects empty strings for key or contentType",
+          "duration": 1.324200000000019,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["upload schemas", "registerKbDocumentSchema"],
+          "fullName": "upload schemas registerKbDocumentSchema parses upload source document with default contentType",
+          "status": "passed",
+          "title": "parses upload source document with default contentType",
+          "duration": 2.5088999999998123,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["upload schemas", "registerKbDocumentSchema"],
+          "fullName": "upload schemas registerKbDocumentSchema parses paste source document with custom contentType",
+          "status": "passed",
+          "title": "parses paste source document with custom contentType",
+          "duration": 0.6667999999999665,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["upload schemas", "registerKbDocumentSchema"],
+          "fullName": "upload schemas registerKbDocumentSchema parses url source document",
+          "status": "passed",
+          "title": "parses url source document",
+          "duration": 0.8362999999999374,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["upload schemas", "registerKbDocumentSchema"],
+          "fullName": "upload schemas registerKbDocumentSchema rejects invalid source or invalid title",
+          "status": "passed",
+          "title": "rejects invalid source or invalid title",
+          "duration": 2.1948999999999614,
+          "failureMessages": [],
+          "meta": {}
+        }
+      ],
+      "startTime": 1795374165693,
+      "endTime": 1795374165722.1948,
+      "status": "passed",
+      "message": "",
+      "name": "C:/Users/vrund/OneDrive/Desktop/ai_project/packages/validators/tests/upload.test.ts"
     }
   ]
 }

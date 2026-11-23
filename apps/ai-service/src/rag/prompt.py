@@ -155,9 +155,12 @@ def build_user_prompt(
     if chunks:
         context_lines: list[str] = ["--- Knowledge Context ---"]
         for c in chunks:
-            doc_info = f" (doc: {c.document_id}"
+            doc_identifier = c.metadata.get("doc_slug") or c.document_id
+            doc_info = f" (doc: {doc_identifier}"
             if c.section_path:
                 doc_info += f", section: {c.section_path}"
+            elif c.metadata.get("title"):
+                doc_info += f", section: {c.metadata.get('title')}"
             doc_info += ")"
             context_lines.append(f"[chunk:{c.id}]{doc_info} {c.content}")
         context_lines.append("--- End Context ---")

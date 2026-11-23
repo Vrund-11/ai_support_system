@@ -3,6 +3,7 @@
 from dataclasses import dataclass
 
 from src.cache.semantic import get_semantic_cache
+from src.embeddings import EmbeddingProvider, get_embedding_provider
 from src.ingest.chunker import DocumentChunk, DocumentChunker
 from src.ingest.extract import clean_text
 from src.ingest.repository import BaseIngestRepository, get_ingest_repository
@@ -28,11 +29,13 @@ class IngestionPipeline:
         self,
         repository: BaseIngestRepository | None = None,
         llm_provider: LLMProvider | None = None,
+        embedding_provider: EmbeddingProvider | None = None,
         chunker: DocumentChunker | None = None,
         batch_size: int = 32,
     ) -> None:
         self.repository = repository or get_ingest_repository()
         self.llm_provider = llm_provider or get_llm_provider()
+        self.embedding_provider = embedding_provider or get_embedding_provider()
         self.chunker = chunker or DocumentChunker(target_tokens=500, overlap_tokens=80)
         self.batch_size = batch_size
 
@@ -83,7 +86,7 @@ class IngestionPipeline:
             for i in range(0, len(chunks), self.batch_size):
                 batch = chunks[i : i + self.batch_size]
                 texts = [c.content for c in batch]
-                batch_embeddings = await self.llm_provider.get_embeddings(texts)
+                batch_embeddings = await self.embedding_provider.aembed(texts)
                 all_embeddings.extend(batch_embeddings)
 
             # 6. Idempotently write to repository in a single transaction

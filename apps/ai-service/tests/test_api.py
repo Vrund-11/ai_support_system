@@ -110,3 +110,22 @@ def test_production_startup_guard():
     finally:
         settings.environment = original_env
         settings.embedding_provider = original_provider
+
+
+def test_get_provider_rejects_mock_in_production():
+    """Verify GET /v1/provider rejects mock when ENVIRONMENT=production."""
+    from src.config import settings
+
+    original_env = settings.environment
+    original_provider = settings.embedding_provider
+
+    try:
+        settings.environment = "production"
+        settings.embedding_provider = "mock"
+        response = client.get("/v1/provider")
+        assert response.status_code == 400
+        assert "Mock embedding provider is strictly prohibited" in response.json()["detail"]
+    finally:
+        settings.environment = original_env
+        settings.embedding_provider = original_provider
+

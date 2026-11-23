@@ -15,7 +15,7 @@ services:
       PORT: '4001'
       MONGODB_URI: mongodb://mongo:27017/supportpilot
       REDIS_URL: redis://redis:6379
-      SERVICE_TOKEN: supportpilot-internal-service-token-32c!
+      SERVICE_TOKEN: ${SERVICE_TOKEN:-supportpilot-internal-service-token-32c!}
       JWT_ACCESS_SECRET: supportpilot-jwt-access-secret-32-chars!
       JWT_REFRESH_SECRET: supportpilot-jwt-refresh-secret-32-chars!
       NOTIFICATION_SERVICE_URL: http://notification-service:5001
@@ -38,7 +38,7 @@ services:
       EMBEDDING_PROVIDER: sbert
       EMBEDDING_MODEL: sentence-transformers/all-MiniLM-L6-v2
       EMBEDDING_DIM: 384
-      SERVICE_TOKEN: supportpilot-internal-service-token-32c!
+      SERVICE_TOKEN: ${SERVICE_TOKEN:-supportpilot-internal-service-token-32c!}
     networks:
       - default
 
@@ -54,7 +54,7 @@ services:
       NODE_ENV: development
       PORT: '5001'
       REDIS_URL: redis://redis:6379
-      SERVICE_TOKEN: supportpilot-internal-service-token-32c!
+      SERVICE_TOKEN: ${SERVICE_TOKEN:-supportpilot-internal-service-token-32c!}
       SMTP_HOST: mailhog
       SMTP_PORT: '1025'
     networks:
@@ -75,7 +75,7 @@ services:
       TICKET_SERVICE_URL: http://ticket-service:4001
       AI_SERVICE_URL: http://ai-service:8000
       NOTIFICATION_SERVICE_URL: http://notification-service:5001
-      SERVICE_TOKEN: supportpilot-internal-service-token-32c!
+      SERVICE_TOKEN: ${SERVICE_TOKEN:-supportpilot-internal-service-token-32c!}
       JWT_ACCESS_SECRET: supportpilot-jwt-access-secret-32-chars!
     depends_on:
       - ticket-service

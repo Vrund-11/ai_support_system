@@ -1,0 +1,119 @@
+=== EVIDENCE ARTIFACT ===
+Target: 06-containers.txt
+Command: powershell -ExecutionPolicy Bypass -File scripts/verify-containers.ps1
+Timestamp (UTC): 2026-11-23T04:52:41.775160+00:00
+Git Commit: f5cd9d7b09450f54517fd3321ca6e7bbe64635d2
+Exit Code: 0
+========================
+--- STDOUT ---
+=== DOCKER IMAGES (OLD VS NEW & STALE REMOVAL) ===
+REPOSITORY                     TAG                 SIZE      IMAGE ID
+infra-ticket-service           latest              315MB     73b69f2850d3
+infra-gateway                  latest              300MB     b5dcfbfd9389
+infra-web                      latest              74.9MB    bb1363451870
+infra-widget                   latest              74.7MB    2f9130c5b82e
+infra-ai-service               latest              1.73GB    9ea886ed7151
+public.ecr.aws/lambda/python   3.12-rapid-x86_64   796MB     87f9d781ef06
+infra-notification-service     latest              306MB     4519bd0f91e4
+public.ecr.aws/lambda/python   3.12-x86_64         758MB     c1f818c2235d
+mongo                          7                   1.2GB     41e8195b2791
+pgvector/pgvector              pg16                647MB     484e838076e0
+node                           22-alpine           239MB     1314fb30ec37
+redis                          7-alpine            58.5MB    7f7d30b7fdd0
+kindest/node                   <none>              1.34GB    a1ed56cfb0e7
+mailhog/mailhog                latest              572MB     8d76a3d4ffa3
+
+=== CONTAINER STATUS & HEALTH ===
+NAME                      IMAGE                                                                     COMMAND                  SERVICE                CREATED              STATUS                        PORTS
+sp-ai-service             infra-ai-service                                                          "uvicorn src.main:ap…"   ai-service             About a minute ago   Up About a minute (healthy)   0.0.0.0:8000->8000/tcp, [::]:8000->8000/tcp
+sp-gateway                infra-gateway                                                             "dumb-init -- node d…"   gateway                33 seconds ago       Up 29 seconds (healthy)       0.0.0.0:4000->4000/tcp, [::]:4000->4000/tcp
+sp-mailhog                mailhog/mailhog:latest                                                    "MailHog"                mailhog                10 hours ago         Up 10 hours (healthy)         0.0.0.0:1025->1025/tcp, [::]:1025->1025/tcp, 0.0.0.0:8025->8025/tcp, [::]:8025->8025/tcp
+sp-mongo                  mongo:7                                                                   "docker-entrypoint.s…"   mongo                  10 hours ago         Up 10 hours (healthy)         0.0.0.0:27017->27017/tcp, [::]:27017->27017/tcp
+sp-notification-service   sha256:74718de8047fe9eeb3beb75346a77b851db3eb2658169ce7b3c8fecc2d42f085   "dumb-init -- node d…"   notification-service   About an hour ago    Up About an hour (healthy)    0.0.0.0:5001->5001/tcp, [::]:5001->5001/tcp
+sp-postgres               pgvector/pgvector:pg16                                                    "docker-entrypoint.s…"   postgres               13 hours ago         Up 13 hours (healthy)         0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp, 0.0.0.0:5433->5432/tcp, [::]:5433->5432/tcp
+sp-redis                  redis:7-alpine                                                            "docker-entrypoint.s…"   redis                  10 hours ago         Up 10 hours (healthy)         0.0.0.0:6379->6379/tcp, [::]:6379->6379/tcp
+sp-ticket-service         infra-ticket-service                                                      "dumb-init -- node d…"   ticket-service         37 seconds ago       Up 29 seconds (healthy)       0.0.0.0:4001->4001/tcp, [::]:4001->4001/tcp
+sp-web                    infra-web                                                                 "/docker-entrypoint.…"   web                    About a minute ago   Up About a minute (healthy)   0.0.0.0:3000->80/tcp, [::]:3000->80/tcp
+sp-widget                 infra-widget                                                              "/docker-entrypoint.…"   widget                 About a minute ago   Up About a minute (healthy)   0.0.0.0:3001->80/tcp, [::]:3001->80/tcp
+
+=== CONTAINER HEALTH INSPECTIONS ===
+/sp-web: healthy (streak=0)
+/sp-widget: healthy (streak=0)
+/sp-ai-service: healthy (streak=0)
+
+=== WIDGET HTTP HEADERS (PORT 3001) ===
+HTTP/1.1 200 OK
+Server: nginx/1.27.5
+Date: Mon, 23 Nov 2026 04:52:43 GMT
+Content-Type: text/html
+Content-Length: 56458
+Last-Modified: Mon, 23 Nov 2026 04:49:54 GMT
+Connection: keep-alive
+ETag: "6b03c5f2-dc8a"
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Methods: GET, OPTIONS
+Access-Control-Allow-Headers: DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range
+X-Content-Type-Options: nosniff
+Accept-Ranges: bytes
+
+
+=== WIDGET BUNDLE (PORT 3001 /widget.js) ===
+HTTP/1.1 200 OK
+Server: nginx/1.27.5
+Date: Mon, 23 Nov 2026 04:52:43 GMT
+Content-Type: application/javascript
+Content-Length: 387564
+Last-Modified: Mon, 23 Nov 2026 04:49:52 GMT
+Connection: keep-alive
+ETag: "6b03c5f0-5e9ec"
+Expires: Wed, 23 Dec 2026 04:52:43 GMT
+Cache-Control: max-age=2592000
+Access-Control-Allow-Origin: *
+Cache-Control: public, no-transform
+Accept-Ranges: bytes
+
+
+=== WIDGET JS CONTENT PREVIEW (FIRST 3 LINES) ===
+// \0rolldown/runtime.js
+var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescriptor, r = Object.getOwnPropertyNames, i = Object.getPrototypeOf, a = Object.prototype.hasOwnProperty, o = (e, t) => () => (t || (e((t = { exports: {} }).exports, t, t.exports), e = null), t.exports), s = (e, n) => {
+	let r = {};
+
+=== WEB HEALTH & HEADERS (PORT 3000) ===
+HTTP/1.1 200 OK
+Server: nginx/1.27.5
+Date: Mon, 23 Nov 2026 04:52:43 GMT
+Content-Type: text/html
+Content-Length: 1039
+Last-Modified: Mon, 23 Nov 2026 04:50:54 GMT
+Connection: keep-alive
+ETag: "6b03c62e-40f"
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
+X-XSS-Protection: 1; mode=block
+Accept-Ranges: bytes
+
+
+=== AI-SERVICE HEALTH (PORT 8000) ===
+{"status":"ok"}
+--- STDERR ---
+  % Total    % Received % Xferd  Average Speed  Time    Time    Time   Current
+                                 Dload  Upload  Total   Spent   Left   Speed
+
+  0      0   0      0   0      0      0      0                              0
+  0  56458   0      0   0      0      0      0                              0
+  0  56458   0      0   0      0      0      0                              0
+  0  56458   0      0   0      0      0      0                              0
+  % Total    % Received % Xferd  Average Speed  Time    Time    Time   Current
+                                 Dload  Upload  Total   Spent   Left   Speed
+
+  0      0   0      0   0      0      0      0                              0
+  0 378.4k   0      0   0      0      0      0                              0
+  0 378.4k   0      0   0      0      0      0                              0
+  0 378.4k   0      0   0      0      0      0                              0
+  % Total    % Received % Xferd  Average Speed  Time    Time    Time   Current
+                                 Dload  Upload  Total   Spent   Left   Speed
+
+  0      0   0      0   0      0      0      0                              0
+  0   1039   0      0   0      0      0      0                              0
+  0   1039   0      0   0      0      0      0                              0
+  0   1039   0      0   0      0      0      0                              0

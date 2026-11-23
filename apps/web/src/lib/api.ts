@@ -325,14 +325,30 @@ export const api = {
       if (params.limit) query.set('limit', String(params.limit));
 
       const qs = query.toString();
-      return request<{ data: TicketDto[]; meta?: { cursor?: string; hasMore?: boolean } }>(
-        `/tickets${qs ? `?${qs}` : ''}`,
-      );
+      const res = await request<{
+        data: TicketDto[];
+        meta?: { cursor?: string; hasMore?: boolean };
+      }>(`/tickets${qs ? `?${qs}` : ''}`);
+      if (res && Array.isArray(res.data)) {
+        res.data = res.data.map((t: any) => ({ ...t, id: t.id || t._id }));
+      }
+      return res;
     },
 
     async get(id: string): Promise<TicketDetailResponse> {
-      const res = await request<ApiResponse<TicketDetailResponse>>(`/tickets/${id}`);
-      return res.data;
+      const res = await request<ApiResponse<any>>(`/tickets/${id}`);
+      const raw = res.data;
+      if (!raw) return raw;
+      if (raw.ticket) {
+        raw.ticket.id = raw.ticket.id || raw.ticket._id;
+        return raw;
+      }
+      const ticket = { ...raw, id: raw.id || raw._id };
+      return {
+        ticket,
+        timeline: raw.events || raw.timeline || [],
+        messages: raw.messages || [],
+      } as any;
     },
 
     async create(payload: CreateTicketPayload): Promise<TicketDto> {
@@ -340,7 +356,11 @@ export const api = {
         method: 'POST',
         body: JSON.stringify(payload),
       });
-      return res.data;
+      const t = res.data as any;
+      if (t) {
+        t.id = t.id || t._id;
+      }
+      return t;
     },
 
     async update(id: string, payload: UpdateTicketPayload): Promise<TicketDto> {
@@ -442,6 +462,7 @@ export const api = {
     async register(payload: {
       title: string;
       source: string;
+      content?: string;
       key?: string;
       contentType?: string;
     }): Promise<{
@@ -461,12 +482,18 @@ export const api = {
   },
 
   ai: {
-    async answer(question: string): Promise<{
+    async answer(
+      question: string,
+      tenantId?: string,
+    ): Promise<{
       answer: string;
       citations: Array<{ chunkId: string; docId: string; title: string }>;
       confidence: number;
       shouldEscalate: boolean;
     }> {
+      const storedTenantId =
+        (typeof localStorage !== 'undefined' && localStorage.getItem('supportpilot_tenant_id')) ||
+        '507f1f77bcf86cd799439011';
       return request<{
         answer: string;
         citations: Array<{ chunkId: string; docId: string; title: string }>;
@@ -474,7 +501,7 @@ export const api = {
         shouldEscalate: boolean;
       }>('/ai/answer', {
         method: 'POST',
-        body: JSON.stringify({ question }),
+        body: JSON.stringify({ question, tenant_id: tenantId || storedTenantId }),
       });
     },
 
@@ -1134,7 +1161,8 @@ export const DEFAULT_PLATFORM_TENANTS: PlatformTenantItem[] = [
 ];
 
 export interface SubscriptionInfo {
-  plan: 'FREE' | 'PRO';
+  plan?: 'FREE' | 'PRO' | 'ENTERPRISE' | string;
+  tier?: 'FREE' | 'PRO' | 'ENTERPRISE' | string;
   limits: { messages: number; ai: number; kb: number };
   usage: { messages: number; ai: number; kb: number };
 }

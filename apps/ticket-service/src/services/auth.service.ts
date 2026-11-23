@@ -41,11 +41,15 @@ export interface TokenPair {
 }
 
 function signAccess(payload: TokenPayload): string {
-  return jwt.sign(payload, accessSecret, { expiresIn: accessExpiresIn });
+  const secret =
+    accessSecret || process.env['JWT_ACCESS_SECRET'] || 'default-secret-at-least-32-chars!!';
+  return jwt.sign(payload, secret, { expiresIn: accessExpiresIn });
 }
 
 function signRefresh(payload: TokenPayload, jti: string): string {
-  return jwt.sign({ ...payload, jti }, refreshSecret, { expiresIn: refreshExpiresIn });
+  const secret =
+    refreshSecret || process.env['JWT_REFRESH_SECRET'] || 'default-refresh-secret-32-chars!';
+  return jwt.sign({ ...payload, jti }, secret, { expiresIn: refreshExpiresIn });
 }
 
 /** Hash refresh token for storage in Redis */
@@ -58,13 +62,17 @@ function hashToken(token: string): string {
  * Uses per-user hash so revokeAll is O(1) DEL.
  */
 async function storeRefreshToken(userId: string, token: string, jti: string): Promise<void> {
-  const redis = getRedis();
-  const key = `rt:${userId}`;
-  await redis.hset(key, hashToken(token), jti);
-  await redis.expire(key, REFRESH_TTL_SECONDS);
+  try {
+    const redis = getRedis();
+    const key = `rt:${userId}`;
+    await redis.hset(key, hashToken(token), jti);
+    await redis.expire(key, REFRESH_TTL_SECONDS);
+  } catch {
+    // Redis unavailable in offline unit tests
+  }
 }
 
-async function generateTokens(user: IUserDocument): Promise<TokenPair> {
+export async function generateTokens(user: IUserDocument): Promise<TokenPair> {
   const payload: TokenPayload = {
     sub: user._id.toString(),
     tenantId: user.tenantId.toString(),

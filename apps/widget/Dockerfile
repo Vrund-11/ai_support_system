@@ -21,6 +21,7 @@ COPY packages/shared-lib/package.json ./packages/shared-lib/
 COPY packages/validators/package.json ./packages/validators/
 COPY packages/eslint-config/package.json ./packages/eslint-config/
 COPY packages/api-client/package.json ./packages/api-client/
+COPY packages/queue/package.json ./packages/queue/
 
 RUN pnpm install --frozen-lockfile
 
@@ -32,11 +33,15 @@ RUN pnpm --filter @supportpilot/widget... build
 # ── Stage 2: Production Nginx Runner ──
 FROM nginx:1.27-alpine AS runner
 
+COPY apps/widget/nginx.conf /etc/nginx/conf.d/default.conf
 COPY --from=builder /app/apps/widget/dist /usr/share/nginx/html
+COPY apps/widget/index.html /usr/share/nginx/html/index.html
+RUN sed -i 's|/src/index.css|/widget.css|g' /usr/share/nginx/html/index.html && \
+    sed -i 's|/src/embed.tsx|/widget.js|g' /usr/share/nginx/html/index.html
 
 EXPOSE 80
 
 HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=3 \
-  CMD wget -qO- http://localhost:80/ || exit 1
+  CMD wget --spider -q http://localhost:80/ || exit 1
 
 CMD ["nginx", "-g", "daemon off;"]

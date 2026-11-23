@@ -1,10 +1,10 @@
 {
-  "numTotalTestSuites": 12,
-  "numPassedTestSuites": 12,
+  "numTotalTestSuites": 22,
+  "numPassedTestSuites": 22,
   "numFailedTestSuites": 0,
   "numPendingTestSuites": 0,
-  "numTotalTests": 23,
-  "numPassedTests": 23,
+  "numTotalTests": 34,
+  "numPassedTests": 34,
   "numFailedTests": 0,
   "numPendingTests": 0,
   "numTodoTests": 0,
@@ -24,7 +24,7 @@
     "updated": 0,
     "didUpdate": false
   },
-  "startTime": 1795323462580,
+  "startTime": 1795374185824,
   "success": true,
   "testResults": [
     {
@@ -37,7 +37,7 @@
           "fullName": "Email Service & MailHog SMTP Integration (NOTIF-3, AUTH-4) renderEmailTemplate renders verify_email template with verification link and expiration",
           "status": "passed",
           "title": "renders verify_email template with verification link and expiration",
-          "duration": 1.8275000000003274,
+          "duration": 4.638699999999517,
           "failureMessages": [],
           "meta": {}
         },
@@ -49,7 +49,7 @@
           "fullName": "Email Service & MailHog SMTP Integration (NOTIF-3, AUTH-4) renderEmailTemplate renders password_reset template with reset link and 1-hour expiration",
           "status": "passed",
           "title": "renders password_reset template with reset link and 1-hour expiration",
-          "duration": 0.35359999999991487,
+          "duration": 0.8469000000004598,
           "failureMessages": [],
           "meta": {}
         },
@@ -61,7 +61,7 @@
           "fullName": "Email Service & MailHog SMTP Integration (NOTIF-3, AUTH-4) renderEmailTemplate renders ticket_update template with snippet and ticket number",
           "status": "passed",
           "title": "renders ticket_update template with snippet and ticket number",
-          "duration": 0.36180000000013024,
+          "duration": 0.7803999999996449,
           "failureMessages": [],
           "meta": {}
         },
@@ -73,7 +73,7 @@
           "fullName": "Email Service & MailHog SMTP Integration (NOTIF-3, AUTH-4) renderEmailTemplate renders sla_alert template with milestone stage",
           "status": "passed",
           "title": "renders sla_alert template with milestone stage",
-          "duration": 0.20779999999967913,
+          "duration": 0.5206000000007407,
           "failureMessages": [],
           "meta": {}
         },
@@ -85,7 +85,7 @@
           "fullName": "Email Service & MailHog SMTP Integration (NOTIF-3, AUTH-4) EmailTransporter sends email and records into TestMailbox when SMTP offline or mocked",
           "status": "passed",
           "title": "sends email and records into TestMailbox when SMTP offline or mocked",
-          "duration": 18.029199999999946,
+          "duration": 136.08889999999974,
           "failureMessages": [],
           "meta": {}
         },
@@ -97,7 +97,7 @@
           "fullName": "Email Service & MailHog SMTP Integration (NOTIF-3, AUTH-4) NotificationDispatchers.processEmail dispatches email and honors idempotency key",
           "status": "passed",
           "title": "dispatches email and honors idempotency key",
-          "duration": 31.796800000000076,
+          "duration": 167.73429999999917,
           "failureMessages": [],
           "meta": {}
         },
@@ -109,13 +109,13 @@
           "fullName": "Email Service & MailHog SMTP Integration (NOTIF-3, AUTH-4) Email inspection endpoint allows querying sent emails by recipient via HTTP API",
           "status": "passed",
           "title": "allows querying sent emails by recipient via HTTP API",
-          "duration": 201.3090000000002,
+          "duration": 1023.273799999999,
           "failureMessages": [],
           "meta": {}
         }
       ],
-      "startTime": 1795323464906,
-      "endTime": 1795323465160.309,
+      "startTime": 1795374193271,
+      "endTime": 1795374194606.2737,
       "status": "passed",
       "message": "",
       "name": "C:/Users/vrund/OneDrive/Desktop/ai_project/apps/notification-service/tests/email-service.test.ts"
@@ -127,7 +127,7 @@
           "fullName": "Notification Service REST API (NOTIF-5) responds with 200 on /health probe without authentication",
           "status": "passed",
           "title": "responds with 200 on /health probe without authentication",
-          "duration": 39.085099999999784,
+          "duration": 99.78819999999996,
           "failureMessages": [],
           "meta": {}
         },
@@ -136,7 +136,7 @@
           "fullName": "Notification Service REST API (NOTIF-5) rejects unauthenticated requests to protected endpoints with 401",
           "status": "passed",
           "title": "rejects unauthenticated requests to protected endpoints with 401",
-          "duration": 35.15350000000035,
+          "duration": 101.23809999999958,
           "failureMessages": [],
           "meta": {}
         },
@@ -145,7 +145,7 @@
           "fullName": "Notification Service REST API (NOTIF-5) validates request payload and enqueues job with 202 Accepted",
           "status": "passed",
           "title": "validates request payload and enqueues job with 202 Accepted",
-          "duration": 12.01030000000037,
+          "duration": 36.10269999999946,
           "failureMessages": [],
           "meta": {}
         },
@@ -154,7 +154,7 @@
           "fullName": "Notification Service REST API (NOTIF-5) returns queue metrics across all notification queues",
           "status": "passed",
           "title": "returns queue metrics across all notification queues",
-          "duration": 9.930499999999938,
+          "duration": 20.288400000000365,
           "failureMessages": [],
           "meta": {}
         },
@@ -163,16 +163,73 @@
           "fullName": "Notification Service REST API (NOTIF-5) lists and replays dead-letter queue records for a tenant",
           "status": "passed",
           "title": "lists and replays dead-letter queue records for a tenant",
-          "duration": 19.172500000000127,
+          "duration": 75.70489999999972,
           "failureMessages": [],
           "meta": {}
         }
       ],
-      "startTime": 1795323464784,
-      "endTime": 1795323464900.1726,
+      "startTime": 1795374193187,
+      "endTime": 1795374193520.7048,
       "status": "passed",
       "message": "",
       "name": "C:/Users/vrund/OneDrive/Desktop/ai_project/apps/notification-service/tests/notification-api.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [
+            "Feature 42: Production Push Notification Provider & Invalid Token Cleanup",
+            "TestPushProvider"
+          ],
+          "fullName": "Feature 42: Production Push Notification Provider & Invalid Token Cleanup TestPushProvider dispatches push notification and ensures deep link format supportpilot://ticket/:id",
+          "status": "passed",
+          "title": "dispatches push notification and ensures deep link format supportpilot://ticket/:id",
+          "duration": 31.28980000000047,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": [
+            "Feature 42: Production Push Notification Provider & Invalid Token Cleanup",
+            "TestPushProvider"
+          ],
+          "fullName": "Feature 42: Production Push Notification Provider & Invalid Token Cleanup TestPushProvider identifies invalid or unregistered device tokens for cleanup",
+          "status": "passed",
+          "title": "identifies invalid or unregistered device tokens for cleanup",
+          "duration": 1.251299999999901,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": [
+            "Feature 42: Production Push Notification Provider & Invalid Token Cleanup",
+            "ExpoPushProvider"
+          ],
+          "fullName": "Feature 42: Production Push Notification Provider & Invalid Token Cleanup ExpoPushProvider sends HTTP POST to Expo API and extracts DeviceNotRegistered error tokens",
+          "status": "passed",
+          "title": "sends HTTP POST to Expo API and extracts DeviceNotRegistered error tokens",
+          "duration": 10.887099999999919,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": [
+            "Feature 42: Production Push Notification Provider & Invalid Token Cleanup",
+            "NotificationDispatchers processPush integration"
+          ],
+          "fullName": "Feature 42: Production Push Notification Provider & Invalid Token Cleanup NotificationDispatchers processPush integration processes push job and returns delivery stats",
+          "status": "passed",
+          "title": "processes push job and returns delivery stats",
+          "duration": 22.85990000000038,
+          "failureMessages": [],
+          "meta": {}
+        }
+      ],
+      "startTime": 1795374190304,
+      "endTime": 1795374190371.8599,
+      "status": "passed",
+      "message": "",
+      "name": "C:/Users/vrund/OneDrive/Desktop/ai_project/apps/notification-service/tests/push-provider.test.ts"
     },
     {
       "assertionResults": [
@@ -181,7 +238,7 @@
           "fullName": "QueueManager & BullMQ Configuration (NOTIF-5) configures exponential backoff and retry limits for notification queues per NOTIF-5",
           "status": "passed",
           "title": "configures exponential backoff and retry limits for notification queues per NOTIF-5",
-          "duration": 2.748199999999997,
+          "duration": 7.803600000000188,
           "failureMessages": [],
           "meta": {}
         },
@@ -190,7 +247,7 @@
           "fullName": "QueueManager & BullMQ Configuration (NOTIF-5) enforces idempotency: duplicate job keys are acquired once and subsequent attempts rejected",
           "status": "passed",
           "title": "enforces idempotency: duplicate job keys are acquired once and subsequent attempts rejected",
-          "duration": 0.5572000000001935,
+          "duration": 1.6174000000000888,
           "failureMessages": [],
           "meta": {}
         },
@@ -199,7 +256,7 @@
           "fullName": "QueueManager & BullMQ Configuration (NOTIF-5) consumer skips processing when duplicate job arrives with same idempotency key",
           "status": "passed",
           "title": "consumer skips processing when duplicate job arrives with same idempotency key",
-          "duration": 39.24589999999989,
+          "duration": 301.6783999999998,
           "failureMessages": [],
           "meta": {}
         },
@@ -208,7 +265,7 @@
           "fullName": "QueueManager & BullMQ Configuration (NOTIF-5) routes failed jobs to DLQ with full metadata when retry attempts are exhausted",
           "status": "passed",
           "title": "routes failed jobs to DLQ with full metadata when retry attempts are exhausted",
-          "duration": 1.4669999999998709,
+          "duration": 2.257900000000518,
           "failureMessages": [],
           "meta": {}
         },
@@ -217,7 +274,7 @@
           "fullName": "QueueManager & BullMQ Configuration (NOTIF-5) enforces strict cross-tenant isolation on DLQ records (TEN-1)",
           "status": "passed",
           "title": "enforces strict cross-tenant isolation on DLQ records (TEN-1)",
-          "duration": 0.585700000000088,
+          "duration": 0.9359999999996944,
           "failureMessages": [],
           "meta": {}
         },
@@ -226,13 +283,13 @@
           "fullName": "QueueManager & BullMQ Configuration (NOTIF-5) allows replaying a DLQ record back into its source queue and cleans up DLQ entry",
           "status": "passed",
           "title": "allows replaying a DLQ record back into its source queue and cleans up DLQ entry",
-          "duration": 2.849999999999909,
+          "duration": 4.467400000000453,
           "failureMessages": [],
           "meta": {}
         }
       ],
-      "startTime": 1795323464420,
-      "endTime": 1795323464467.85,
+      "startTime": 1795374191981,
+      "endTime": 1795374192300.4673,
       "status": "passed",
       "message": "",
       "name": "C:/Users/vrund/OneDrive/Desktop/ai_project/apps/notification-service/tests/queue-manager.test.ts"
@@ -244,7 +301,7 @@
           "fullName": "SLA Automation & Delayed Job Processing (AUTO-1, AUTO-2, T-SLA-01) schedules 4 delayed timer jobs (75% and 100% for FR and Resolution) on ticket creation",
           "status": "passed",
           "title": "schedules 4 delayed timer jobs (75% and 100% for FR and Resolution) on ticket creation",
-          "duration": 3.6538000000000466,
+          "duration": 10.291400000000067,
           "failureMessages": [],
           "meta": {}
         },
@@ -253,7 +310,7 @@
           "fullName": "SLA Automation & Delayed Job Processing (AUTO-1, AUTO-2, T-SLA-01) triggers 75% warning when timer job fires on an unresolved ticket",
           "status": "passed",
           "title": "triggers 75% warning when timer job fires on an unresolved ticket",
-          "duration": 0.6486999999999625,
+          "duration": 1.9664000000002488,
           "failureMessages": [],
           "meta": {}
         },
@@ -262,7 +319,7 @@
           "fullName": "SLA Automation & Delayed Job Processing (AUTO-1, AUTO-2, T-SLA-01) triggers 100% breach event when timer job fires on an unresolved ticket",
           "status": "passed",
           "title": "triggers 100% breach event when timer job fires on an unresolved ticket",
-          "duration": 0.5318999999999505,
+          "duration": 1.190099999999802,
           "failureMessages": [],
           "meta": {}
         },
@@ -271,7 +328,7 @@
           "fullName": "SLA Automation & Delayed Job Processing (AUTO-1, AUTO-2, T-SLA-01) T-SLA-01: skips SLA warning and breach when ticket is already RESOLVED or CLOSED",
           "status": "passed",
           "title": "T-SLA-01: skips SLA warning and breach when ticket is already RESOLVED or CLOSED",
-          "duration": 0.4492000000000189,
+          "duration": 1.264299999999821,
           "failureMessages": [],
           "meta": {}
         },
@@ -280,16 +337,109 @@
           "fullName": "SLA Automation & Delayed Job Processing (AUTO-1, AUTO-2, T-SLA-01) T-SLA-01: skips FIRST_RESPONSE timer when first response has already been provided",
           "status": "passed",
           "title": "T-SLA-01: skips FIRST_RESPONSE timer when first response has already been provided",
-          "duration": 0.3347999999998592,
+          "duration": 0.9785999999994601,
           "failureMessages": [],
           "meta": {}
         }
       ],
-      "startTime": 1795323464437,
-      "endTime": 1795323464442.3347,
+      "startTime": 1795374192219,
+      "endTime": 1795374192234.9785,
       "status": "passed",
       "message": "",
       "name": "C:/Users/vrund/OneDrive/Desktop/ai_project/apps/notification-service/tests/sla-automation.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [
+            "Notification Service Webhook Worker (Feature 45)",
+            "SQS Transport (WEBHOOK_TRANSPORT=sqs)"
+          ],
+          "fullName": "Notification Service Webhook Worker (Feature 45) SQS Transport (WEBHOOK_TRANSPORT=sqs) publishes formatted message to SQS and returns success payload",
+          "status": "passed",
+          "title": "publishes formatted message to SQS and returns success payload",
+          "duration": 35.084900000000744,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": [
+            "Notification Service Webhook Worker (Feature 45)",
+            "SQS Transport (WEBHOOK_TRANSPORT=sqs)"
+          ],
+          "fullName": "Notification Service Webhook Worker (Feature 45) SQS Transport (WEBHOOK_TRANSPORT=sqs) propagates error when SQS publish fails so BullMQ can retry",
+          "status": "passed",
+          "title": "propagates error when SQS publish fails so BullMQ can retry",
+          "duration": 10.555699999999888,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": [
+            "Notification Service Webhook Worker (Feature 45)",
+            "SQS Transport (WEBHOOK_TRANSPORT=sqs)"
+          ],
+          "fullName": "Notification Service Webhook Worker (Feature 45) SQS Transport (WEBHOOK_TRANSPORT=sqs) releases idempotency key on SQS publish failure so subsequent retry attempt succeeds",
+          "status": "passed",
+          "title": "releases idempotency key on SQS publish failure so subsequent retry attempt succeeds",
+          "duration": 9.348599999999351,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": [
+            "Notification Service Webhook Worker (Feature 45)",
+            "HTTP Transport (WEBHOOK_TRANSPORT=http)"
+          ],
+          "fullName": "Notification Service Webhook Worker (Feature 45) HTTP Transport (WEBHOOK_TRANSPORT=http) signs payload with HMAC-SHA256 and dispatches direct POST request",
+          "status": "passed",
+          "title": "signs payload with HMAC-SHA256 and dispatches direct POST request",
+          "duration": 22.960700000000543,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": [
+            "Notification Service Webhook Worker (Feature 45)",
+            "HTTP Transport (WEBHOOK_TRANSPORT=http)"
+          ],
+          "fullName": "Notification Service Webhook Worker (Feature 45) HTTP Transport (WEBHOOK_TRANSPORT=http) throws error when subscriber returns non-2xx status code",
+          "status": "passed",
+          "title": "throws error when subscriber returns non-2xx status code",
+          "duration": 4.104400000000169,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": [
+            "Notification Service Webhook Worker (Feature 45)",
+            "HTTP Transport (WEBHOOK_TRANSPORT=http)"
+          ],
+          "fullName": "Notification Service Webhook Worker (Feature 45) HTTP Transport (WEBHOOK_TRANSPORT=http) releases idempotency key on HTTP delivery failure so retry attempt succeeds",
+          "status": "passed",
+          "title": "releases idempotency key on HTTP delivery failure so retry attempt succeeds",
+          "duration": 6.696700000000419,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": [
+            "Notification Service Webhook Worker (Feature 45)",
+            "Idempotency Handling"
+          ],
+          "fullName": "Notification Service Webhook Worker (Feature 45) Idempotency Handling skips duplicate webhook job execution",
+          "status": "passed",
+          "title": "skips duplicate webhook job execution",
+          "duration": 2.679500000000189,
+          "failureMessages": [],
+          "meta": {}
+        }
+      ],
+      "startTime": 1795374190401,
+      "endTime": 1795374190493.6794,
+      "status": "passed",
+      "message": "",
+      "name": "C:/Users/vrund/OneDrive/Desktop/ai_project/apps/notification-service/tests/webhook-worker.test.ts"
     }
   ]
 }

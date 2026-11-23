@@ -9,7 +9,20 @@ updates:
       time: '06:00'
       timezone: 'Etc/UTC'
     target-branch: 'main'
-    open-pull-requests-limit: 10
+    open-pull-requests-limit: 2
+    groups:
+      dependencies:
+        patterns:
+          - '*'
+    ignore:
+      - dependency-name: 'node'
+        update-types: ['version-update:semver-major']
+      - dependency-name: '@types/node'
+        update-types: ['version-update:semver-major']
+      - dependency-name: 'typescript'
+        update-types: ['version-update:semver-major']
+      - dependency-name: 'eslint'
+        update-types: ['version-update:semver-major']
     commit-message:
       prefix: 'chore(deps)'
       prefix-development: 'chore(deps-dev)'
@@ -27,7 +40,11 @@ updates:
       time: '06:00'
       timezone: 'Etc/UTC'
     target-branch: 'main'
-    open-pull-requests-limit: 5
+    open-pull-requests-limit: 2
+    groups:
+      python-dependencies:
+        patterns:
+          - '*'
     commit-message:
       prefix: 'chore(deps-python)'
       include: 'scope'
@@ -44,7 +61,16 @@ updates:
       time: '06:00'
       timezone: 'Etc/UTC'
     target-branch: 'main'
-    open-pull-requests-limit: 5
+    open-pull-requests-limit: 1
+    groups:
+      docker-infra:
+        patterns:
+          - '*'
+    ignore:
+      - dependency-name: 'mongo'
+        update-types: ['version-update:semver-major']
+      - dependency-name: 'redis'
+        update-types: ['version-update:semver-major']
     commit-message:
       prefix: 'chore(deps-docker)'
       include: 'scope'
@@ -58,6 +84,10 @@ updates:
     schedule:
       interval: 'weekly'
     target-branch: 'main'
+    open-pull-requests-limit: 1
+    ignore:
+      - dependency-name: 'python'
+        update-types: ['version-update:semver-major']
     commit-message:
       prefix: 'chore(deps-docker)'
 
@@ -66,6 +96,10 @@ updates:
     schedule:
       interval: 'weekly'
     target-branch: 'main'
+    open-pull-requests-limit: 1
+    ignore:
+      - dependency-name: 'node'
+        update-types: ['version-update:semver-major']
     commit-message:
       prefix: 'chore(deps-docker)'
 
@@ -74,6 +108,10 @@ updates:
     schedule:
       interval: 'weekly'
     target-branch: 'main'
+    open-pull-requests-limit: 1
+    ignore:
+      - dependency-name: 'node'
+        update-types: ['version-update:semver-major']
     commit-message:
       prefix: 'chore(deps-docker)'
 
@@ -82,6 +120,10 @@ updates:
     schedule:
       interval: 'weekly'
     target-branch: 'main'
+    open-pull-requests-limit: 1
+    ignore:
+      - dependency-name: 'node'
+        update-types: ['version-update:semver-major']
     commit-message:
       prefix: 'chore(deps-docker)'
 
@@ -90,6 +132,10 @@ updates:
     schedule:
       interval: 'weekly'
     target-branch: 'main'
+    open-pull-requests-limit: 1
+    ignore:
+      - dependency-name: 'node'
+        update-types: ['version-update:semver-major']
     commit-message:
       prefix: 'chore(deps-docker)'
 
@@ -98,6 +144,10 @@ updates:
     schedule:
       interval: 'weekly'
     target-branch: 'main'
+    open-pull-requests-limit: 1
+    ignore:
+      - dependency-name: 'node'
+        update-types: ['version-update:semver-major']
     commit-message:
       prefix: 'chore(deps-docker)'
 
@@ -110,7 +160,11 @@ updates:
       time: '06:00'
       timezone: 'Etc/UTC'
     target-branch: 'main'
-    open-pull-requests-limit: 5
+    open-pull-requests-limit: 1
+    groups:
+      actions:
+        patterns:
+          - '*'
     commit-message:
       prefix: 'chore(deps-actions)'
       include: 'scope'

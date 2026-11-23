@@ -1,8 +1,8 @@
 === EVIDENCE ARTIFACT ===
 Target: 04-ci-runs
 Command: python scripts/ci-runs-table.py
-Timestamp (UTC): 2026-11-23T12:33:04.125270+00:00
-Git Commit: 1e63837f4b02ba10307b8c1169a675a6854d4f48
+Timestamp (UTC): 2026-11-23T13:28:12.193607+00:00
+Git Commit: 4a0b48f9db3f2985e0bc96f5f1003e5627722357
 Exit Code: 0
 ========================
 --- STDOUT ---
@@ -12,54 +12,54 @@ GITHUB ACTIONS WORKFLOW RUNS AUDIT (branch: main)
 
 ### Workflow: ci.yml (CI)
 CLI Output:
+completed	success	fix(ai): format imports in gemini provider to pass ruff I001	CI	main	push	45183777591	2m15s	2026-11-23T13:25:30Z
+completed	failure	docs(audit): generate reaudit report 6 and verify monorepo integrity	CI	main	push	45182835990	2m25s	2026-11-23T13:19:48Z
+completed	success	docs(evidence): capture audited CI runs evidence for reaudit6	CI	main	push	45175607611	2m42s	2026-11-23T12:34:35Z
 completed	success	fix(e2e): add mock rbac responder in cypress node events for cy.request	CI	main	push	45171725578	2m17s	2026-11-23T12:10:06Z
 completed	success	fix(ci): unmask e2e cypress runner and add live compose workflow	CI	main	push	45153355483	2m25s	2026-11-23T10:08:32Z
-completed	success	docs(audit): generate reaudit report 5 and capture reaudit 5 empirica…	CI	main	push	45148612911	2m47s	2026-11-23T09:36:42Z
-completed	success	docs(evidence): capture audited CI runs evidence for reaudit5	CI	main	push	45147636053	2m39s	2026-11-23T09:30:24Z
-completed	success	fix(ci): fix admin cockpit test timing in CI and e2e cypress handling	CI	main	push	45146512001	2m14s	2026-11-23T09:23:01Z
 
 Structured Run Table:
 Run ID        Conclusion   Status      Created At             URL
 ---------------------------------------------------------------------------------------------------------
+45183777591   success      completed   2026-11-23T13:25:30Z   https://github.com/Vrund-11/ai_support_system/actions/runs/45183777591
+45182835990   failure      completed   2026-11-23T13:19:48Z   https://github.com/Vrund-11/ai_support_system/actions/runs/45182835990
+45175607611   success      completed   2026-11-23T12:34:35Z   https://github.com/Vrund-11/ai_support_system/actions/runs/45175607611
 45171725578   success      completed   2026-11-23T12:10:06Z   https://github.com/Vrund-11/ai_support_system/actions/runs/45171725578
 45153355483   success      completed   2026-11-23T10:08:32Z   https://github.com/Vrund-11/ai_support_system/actions/runs/45153355483
-45148612911   success      completed   2026-11-23T09:36:42Z   https://github.com/Vrund-11/ai_support_system/actions/runs/45148612911
-45147636053   success      completed   2026-11-23T09:30:24Z   https://github.com/Vrund-11/ai_support_system/actions/runs/45147636053
-45146512001   success      completed   2026-11-23T09:23:01Z   https://github.com/Vrund-11/ai_support_system/actions/runs/45146512001
 
 ### Workflow: e2e.yml (E2E Tests)
 CLI Output:
+in_progress		fix(ai): format imports in gemini provider to pass ruff I001	E2E Tests	main	push	45183777549	2m45s	2026-11-23T13:25:30Z
+completed	success	docs(audit): generate reaudit report 6 and verify monorepo integrity	E2E Tests	main	push	45182836010	3m42s	2026-11-23T13:19:48Z
+completed	success	docs(evidence): capture audited CI runs evidence for reaudit6	E2E Tests	main	push	45175607762	5m41s	2026-11-23T12:34:35Z
 completed	success	fix(e2e): add mock rbac responder in cypress node events for cy.request	E2E Tests	main	push	45171725637	3m10s	2026-11-23T12:10:06Z
 completed	failure	fix(ci): unmask e2e cypress runner and add live compose workflow	E2E Tests	main	push	45153355263	1m54s	2026-11-23T10:08:32Z
-completed	success	docs(audit): generate reaudit report 5 and capture reaudit 5 empirica…	E2E Tests	main	push	45148613050	2m33s	2026-11-23T09:36:42Z
-completed	success	docs(evidence): capture audited CI runs evidence for reaudit5	E2E Tests	main	push	45147635832	2m45s	2026-11-23T09:30:23Z
-completed	success	fix(ci): fix admin cockpit test timing in CI and e2e cypress handling	E2E Tests	main	push	45146512005	2m53s	2026-11-23T09:23:01Z
 
 Structured Run Table:
 Run ID        Conclusion   Status      Created At             URL
 ---------------------------------------------------------------------------------------------------------
+45183777549                in_progress 2026-11-23T13:25:30Z   https://github.com/Vrund-11/ai_support_system/actions/runs/45183777549
+45182836010   success      completed   2026-11-23T13:19:48Z   https://github.com/Vrund-11/ai_support_system/actions/runs/45182836010
+45175607762   success      completed   2026-11-23T12:34:35Z   https://github.com/Vrund-11/ai_support_system/actions/runs/45175607762
 45171725637   success      completed   2026-11-23T12:10:06Z   https://github.com/Vrund-11/ai_support_system/actions/runs/45171725637
 45153355263   failure      completed   2026-11-23T10:08:32Z   https://github.com/Vrund-11/ai_support_system/actions/runs/45153355263
-45148613050   success      completed   2026-11-23T09:36:42Z   https://github.com/Vrund-11/ai_support_system/actions/runs/45148613050
-45147635832   success      completed   2026-11-23T09:30:23Z   https://github.com/Vrund-11/ai_support_system/actions/runs/45147635832
-45146512005   success      completed   2026-11-23T09:23:01Z   https://github.com/Vrund-11/ai_support_system/actions/runs/45146512005
 
 ### Workflow: deploy-staging.yml (Deploy Staging Smoke Test)
 CLI Output:
+in_progress		fix(ai): format imports in gemini provider to pass ruff I001	Deploy Staging Smoke Test	main	push	45183777628	2m47s	2026-11-23T13:25:30Z
+completed	success	docs(audit): generate reaudit report 6 and verify monorepo integrity	Deploy Staging Smoke Test	main	push	45182836182	5m23s	2026-11-23T13:19:48Z
+completed	failure	docs(evidence): capture audited CI runs evidence for reaudit6	Deploy Staging Smoke Test	main	push	45175607651	23s	2026-11-23T12:34:35Z
 completed	success	fix(e2e): add mock rbac responder in cypress node events for cy.request	Deploy Staging Smoke Test	main	push	45171725619	5m49s	2026-11-23T12:10:06Z
 completed	success	fix(ci): unmask e2e cypress runner and add live compose workflow	Deploy Staging Smoke Test	main	push	45153355276	5m42s	2026-11-23T10:08:32Z
-completed	success	docs(audit): generate reaudit report 5 and capture reaudit 5 empirica…	Deploy Staging Smoke Test	main	push	45148613064	5m52s	2026-11-23T09:36:42Z
-completed	success	docs(evidence): capture audited CI runs evidence for reaudit5	Deploy Staging Smoke Test	main	push	45147635816	5m54s	2026-11-23T09:30:23Z
-completed	success	fix(ci): fix admin cockpit test timing in CI and e2e cypress handling	Deploy Staging Smoke Test	main	push	45146512335	6m4s	2026-11-23T09:23:01Z
 
 Structured Run Table:
 Run ID        Conclusion   Status      Created At             URL
 ---------------------------------------------------------------------------------------------------------
+45183777628                in_progress 2026-11-23T13:25:30Z   https://github.com/Vrund-11/ai_support_system/actions/runs/45183777628
+45182836182   success      completed   2026-11-23T13:19:48Z   https://github.com/Vrund-11/ai_support_system/actions/runs/45182836182
+45175607651   failure      completed   2026-11-23T12:34:35Z   https://github.com/Vrund-11/ai_support_system/actions/runs/45175607651
 45171725619   success      completed   2026-11-23T12:10:06Z   https://github.com/Vrund-11/ai_support_system/actions/runs/45171725619
 45153355276   success      completed   2026-11-23T10:08:32Z   https://github.com/Vrund-11/ai_support_system/actions/runs/45153355276
-45148613064   success      completed   2026-11-23T09:36:42Z   https://github.com/Vrund-11/ai_support_system/actions/runs/45148613064
-45147635816   success      completed   2026-11-23T09:30:23Z   https://github.com/Vrund-11/ai_support_system/actions/runs/45147635816
-45146512335   success      completed   2026-11-23T09:23:01Z   https://github.com/Vrund-11/ai_support_system/actions/runs/45146512335
 
 ### Workflow: deploy-prod.yml (Deploy Production)
 Status: not executed
@@ -67,20 +67,20 @@ Details: Workflow deploy-prod.yml has never been executed on branch main.
 
 ### Workflow: ai-eval.yml (AI Eval Regression Gate)
 CLI Output:
+completed	success	fix(ai): format imports in gemini provider to pass ruff I001	AI Eval Regression Gate	main	push	45183777528	2m39s	2026-11-23T13:25:30Z
+completed	cancelled	docs(audit): generate reaudit report 6 and verify monorepo integrity	AI Eval Regression Gate	main	push	45182836181	5m57s	2026-11-23T13:19:48Z
 completed	success	AI Eval Regression Gate	AI Eval Regression Gate	main	schedule	45151438525	2m10s	2026-11-23T09:55:52Z
 completed	success	AI Eval Regression Gate	AI Eval Regression Gate	main	workflow_dispatch	45145539891	2m28s	2026-11-23T09:16:32Z
 completed	success	chore(ci): tame dependabot with grouped updates and major bump ignores	AI Eval Regression Gate	main	push	45129894761	2m20s	2026-11-23T07:16:29Z
-completed	success	chore: sync repository state without large binaries or coverage files	AI Eval Regression Gate	main	push	45029074364	2m14s	2026-11-22T13:44:35Z
-completed	success	docs(audit): generate repo evidence report and demo assets	AI Eval Regression Gate	main	push	44916188398	29s	2026-11-21T14:52:37Z
 
 Structured Run Table:
 Run ID        Conclusion   Status      Created At             URL
 ---------------------------------------------------------------------------------------------------------
+45183777528   success      completed   2026-11-23T13:25:30Z   https://github.com/Vrund-11/ai_support_system/actions/runs/45183777528
+45182836181   cancelled    completed   2026-11-23T13:19:48Z   https://github.com/Vrund-11/ai_support_system/actions/runs/45182836181
 45151438525   success      completed   2026-11-23T09:55:52Z   https://github.com/Vrund-11/ai_support_system/actions/runs/45151438525
 45145539891   success      completed   2026-11-23T09:16:32Z   https://github.com/Vrund-11/ai_support_system/actions/runs/45145539891
 45129894761   success      completed   2026-11-23T07:16:29Z   https://github.com/Vrund-11/ai_support_system/actions/runs/45129894761
-45029074364   success      completed   2026-11-22T13:44:35Z   https://github.com/Vrund-11/ai_support_system/actions/runs/45029074364
-44916188398   success      completed   2026-11-21T14:52:37Z   https://github.com/Vrund-11/ai_support_system/actions/runs/44916188398
 
 ### Workflow: perf.yml (Nightly Performance Benchmarks)
 CLI Output:
@@ -196,6 +196,17 @@ End-to-End Test Suite	Run Cypress Headless	Alternatively, you can run 'cypress i
 ================================================================================
 FINAL PROOF: LATEST 20 RUNS ON MAIN
 ================================================================================
+in_progress		fix(ai): format imports in gemini provider to pass ruff I001	Deploy Staging Smoke Test	main	push	45183777628	2m59s	2026-11-23T13:25:30Z
+in_progress		fix(ai): format imports in gemini provider to pass ruff I001	E2E Tests	main	push	45183777549	2m59s	2026-11-23T13:25:30Z
+completed	success	fix(ai): format imports in gemini provider to pass ruff I001	AI Eval Regression Gate	main	push	45183777528	2m39s	2026-11-23T13:25:30Z
+completed	success	fix(ai): format imports in gemini provider to pass ruff I001	CI	main	push	45183777591	2m15s	2026-11-23T13:25:30Z
+completed	failure	docs(audit): generate reaudit report 6 and verify monorepo integrity	CI	main	push	45182835990	2m25s	2026-11-23T13:19:48Z
+completed	success	docs(audit): generate reaudit report 6 and verify monorepo integrity	E2E Tests	main	push	45182836010	3m42s	2026-11-23T13:19:48Z
+completed	success	docs(audit): generate reaudit report 6 and verify monorepo integrity	Deploy Staging Smoke Test	main	push	45182836182	5m23s	2026-11-23T13:19:48Z
+completed	cancelled	docs(audit): generate reaudit report 6 and verify monorepo integrity	AI Eval Regression Gate	main	push	45182836181	5m57s	2026-11-23T13:19:48Z
+completed	success	docs(evidence): capture audited CI runs evidence for reaudit6	CI	main	push	45175607611	2m42s	2026-11-23T12:34:35Z
+completed	failure	docs(evidence): capture audited CI runs evidence for reaudit6	Deploy Staging Smoke Test	main	push	45175607651	23s	2026-11-23T12:34:35Z
+completed	success	docs(evidence): capture audited CI runs evidence for reaudit6	E2E Tests	main	push	45175607762	5m41s	2026-11-23T12:34:35Z
 completed	success	fix(e2e): add mock rbac responder in cypress node events for cy.request	CI	main	push	45171725578	2m17s	2026-11-23T12:10:06Z
 completed	success	fix(e2e): add mock rbac responder in cypress node events for cy.request	E2E Tests	main	push	45171725637	3m10s	2026-11-23T12:10:06Z
 completed	success	fix(e2e): add mock rbac responder in cypress node events for cy.request	Deploy Staging Smoke Test	main	push	45171725619	5m49s	2026-11-23T12:10:06Z
@@ -205,17 +216,6 @@ completed	failure	fix(ci): unmask e2e cypress runner and add live compose workfl
 completed	success	fix(ci): unmask e2e cypress runner and add live compose workflow	CI	main	push	45153355483	2m25s	2026-11-23T10:08:32Z
 completed	success	AI Eval Regression Gate	AI Eval Regression Gate	main	schedule	45151438525	2m10s	2026-11-23T09:55:52Z
 completed	success	docs(audit): generate reaudit report 5 and capture reaudit 5 empirica…	E2E Tests	main	push	45148613050	2m33s	2026-11-23T09:36:42Z
-completed	success	docs(audit): generate reaudit report 5 and capture reaudit 5 empirica…	CI	main	push	45148612911	2m47s	2026-11-23T09:36:42Z
-completed	success	docs(audit): generate reaudit report 5 and capture reaudit 5 empirica…	Deploy Staging Smoke Test	main	push	45148613064	5m52s	2026-11-23T09:36:42Z
-completed	success	docs(evidence): capture audited CI runs evidence for reaudit5	CI	main	push	45147636053	2m39s	2026-11-23T09:30:24Z
-completed	success	docs(evidence): capture audited CI runs evidence for reaudit5	Deploy Staging Smoke Test	main	push	45147635816	5m54s	2026-11-23T09:30:23Z
-completed	success	docs(evidence): capture audited CI runs evidence for reaudit5	E2E Tests	main	push	45147635832	2m45s	2026-11-23T09:30:23Z
-completed	success	fix(ci): fix admin cockpit test timing in CI and e2e cypress handling	CI	main	push	45146512001	2m14s	2026-11-23T09:23:01Z
-completed	success	fix(ci): fix admin cockpit test timing in CI and e2e cypress handling	E2E Tests	main	push	45146512005	2m53s	2026-11-23T09:23:01Z
-completed	success	fix(ci): fix admin cockpit test timing in CI and e2e cypress handling	Deploy Staging Smoke Test	main	push	45146512335	6m4s	2026-11-23T09:23:01Z
-completed	success	AI Eval Regression Gate	AI Eval Regression Gate	main	workflow_dispatch	45145539891	2m28s	2026-11-23T09:16:32Z
-completed	success	Mobile App CI & EAS Preview	Mobile App CI & EAS Preview	main	workflow_dispatch	45145533209	41s	2026-11-23T09:16:29Z
-completed	failure	fix(ci): fix deploy-staging secret copy, e2e mocked project, and perf…	CI	main	push	45145485576	2m47s	2026-11-23T09:16:09Z
 
 ================================================================================
 DEPENDABOT PR #23 AUDIT

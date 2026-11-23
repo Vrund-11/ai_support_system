@@ -26,6 +26,24 @@ class SearchResultChunk:
     text_score: float | None = None
     metadata: dict[str, Any] = field(default_factory=dict)
 
+    def to_dict(self) -> dict[str, Any]:
+        """Convert search result chunk to serializable dictionary preserving all scores."""
+        return {
+            "id": self.id,
+            "document_id": self.document_id,
+            "chunk_index": self.chunk_index,
+            "content": self.content,
+            "section_path": self.section_path,
+            "token_count": self.token_count,
+            "score": self.score,
+            "rrf_score": self.rrf_score,
+            "vector_rank": self.vector_rank,
+            "text_rank": self.text_rank,
+            "vector_score": self.vector_score,
+            "text_score": self.text_score,
+            "metadata": self.metadata,
+        }
+
 
 class HybridRetriever:
     """Combines vector similarity search and keyword full-text search with RRF."""

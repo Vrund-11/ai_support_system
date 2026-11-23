@@ -1,0 +1,257 @@
+{
+  "metadata": {
+    "eval_timestamp_utc": "2026-11-23T13:11:20Z",
+    "judge_model": "gemini-3.5-flash-lite",
+    "answered_rows_n": 24,
+    "refusal_rows_excluded": 36,
+    "grounded_count": 15,
+    "mean_groundedness": 0.7292,
+    "integrity_note": "Evaluated strictly on answered non-refusal rows. No refusal rows scored as 1.0."
+  },
+  "results": [
+    {
+      "sample_id": "ind_001",
+      "question": "How do I add a new agent to my team?",
+      "judge_model": "gemini-3.5-flash-lite",
+      "verdict": "GROUNDED",
+      "score": 1.0,
+      "quoted_evidence": "1. Navigate to **Team Settings > Members > Invite User**. | 2. Enter the agent's corporate email address and select their assigned Role and Skill Groups. | 3. An invitation link valid for 72 hours is sent. If unredeemed, admins can resend or revoke the invitation.",
+      "reasoning": "All steps mentioned in the Answer (navigating to Team Settings > Members > Invite User, entering the corporate email address, and selecting assigned Role and Skill Groups) are directly supported by the Reference Context under 'Inviting Agents'.",
+      "unsupported_claims": []
+    },
+    {
+      "sample_id": "ind_003",
+      "question": "Where do I find my API key?",
+      "judge_model": "gemini-3.5-flash-lite",
+      "verdict": "GROUNDED",
+      "score": 1.0,
+      "quoted_evidence": "## Generating API Keys | 1. Navigate to **Settings > Integrations > API Keys**. | 2. Click **Generate New Key**, enter a descriptive name, and select permissions (read-only or read-write).",
+      "reasoning": "Every factual claim made in the answer (navigating to Settings > Integrations > API Keys, clicking Generate New Key, entering a descriptive name, and selecting permissions) is directly supported by step 1 and step 2 of the Reference Context.",
+      "unsupported_claims": []
+    },
+    {
+      "sample_id": "ind_005",
+      "question": "What happens when a ticket breaches its SLA?",
+      "judge_model": "gemini-3.5-flash-lite",
+      "verdict": "UNGROUNDED",
+      "score": 0.0,
+      "quoted_evidence": "- **New**: Freshly created ticket received via email, web form, API, or chat. Not yet assigned or responded to. | - **Open**: Assigned to an agent or queue and awaiting initial or follow-up agent action. | - **Pending**: Waiting on additional information or confirmation from the customer. SLA timers",
+      "reasoning": "All claims supported by reference documentation.",
+      "unsupported_claims": []
+    },
+    {
+      "sample_id": "ind_006",
+      "question": "How do I turn on two-factor authentication?",
+      "judge_model": "gemini-3.5-flash-lite",
+      "verdict": "GROUNDED",
+      "score": 1.0,
+      "quoted_evidence": "# Multi-Factor Authentication and TOTP Pairing | Multi-Factor Authentication (MFA) adds a critical layer of defense against credential stuffing and brute force attacks. | ## Pairing Authenticator Apps",
+      "reasoning": "Every step and statement in the Answer is directly taken from the 'Pairing Authenticator Apps' section of the Reference Context.",
+      "unsupported_claims": []
+    },
+    {
+      "sample_id": "ind_009",
+      "question": "How do I create a canned reply?",
+      "judge_model": "gemini-3.5-flash-lite",
+      "verdict": "UNGROUNDED",
+      "score": 0.0,
+      "quoted_evidence": "Navigate to **Settings > Workflows > Macros**. Macros can combine multiple actions: | - Insert formatted canned responses with template placeholders (e.g. `{{customer.first_name}}`, `{{ticket.id}}`). | - Update ticket priority, status, and assignment group.",
+      "reasoning": "All claims supported by reference documentation.",
+      "unsupported_claims": []
+    },
+    {
+      "sample_id": "ind_014",
+      "question": "How do I merge two duplicate tickets?",
+      "judge_model": "gemini-3.5-flash-lite",
+      "verdict": "UNGROUNDED",
+      "score": 0.9,
+      "quoted_evidence": "1. Open the primary ticket that should remain active. | 2. Select **Ticket Actions > Merge into another ticket**. | 3. Enter the Target Ticket ID.",
+      "reasoning": "Almost all steps match the reference context. However, the reference context states 'The secondary ticket is marked as Solved with an automated reference link, and all future emails to the secondary ticket thread will append to the primary ticket.' The answer omits the second half of this sentence regarding future emails appending to the primary ticket, but the portion it includes is technically supported. Wait, looking closely at the last sentence: the answer stops short of the full sentence in the context. However, everything in the answer is factually present in the context. Let's re-evaluate: does truncation make it unsupported? No, but let's check if there are any outside facts. No outside facts are added.",
+      "unsupported_claims": []
+    },
+    {
+      "sample_id": "ind_015",
+      "question": "Can I change my company logo and brand colour in the widget?",
+      "judge_model": "gemini-3.5-flash-lite",
+      "verdict": "GROUNDED",
+      "score": 1.0,
+      "quoted_evidence": "# Chat Widget Customization and Branding | Customize the chat widget appearance to seamlessly match your organization's brand identity. | ## Configurable Attributes",
+      "reasoning": "All claims in the Answer are directly supported by the Reference Context under the 'Configurable Attributes' section (uploading custom PNG/SVG brand logo, setting a primary hex color code for the widget launcher bubble and header banner).",
+      "unsupported_claims": []
+    },
+    {
+      "sample_id": "ind_016",
+      "question": "cant log in keeps saying account locked",
+      "judge_model": "gemini-3.5-flash-lite",
+      "verdict": "GROUNDED",
+      "score": 1.0,
+      "quoted_evidence": "## Lockout Thresholds | - After 5 consecutive failed login attempts within 15 minutes, the account is temporarily locked for 15 minutes. | - After 10 consecutive failed attempts, the account enters a hardened locked state requiring email verification or admin intervention.",
+      "reasoning": "Every factual claim in the answer regarding the lockout thresholds (5 attempts in 15 minutes, 10 attempts for hardened state) and unlock procedures (automated email link with 15-minute expiration, admin manual unlock via Settings > Team > [User Profile]) is directly supported by the reference context.",
+      "unsupported_claims": []
+    },
+    {
+      "sample_id": "ind_017",
+      "question": "how 2 get notifications on my phone when a customer replies",
+      "judge_model": "gemini-3.5-flash-lite",
+      "verdict": "GROUNDED",
+      "score": 1.0,
+      "quoted_evidence": "# Mobile Push Notification Setup | Push notifications alert agents to urgent customer inquiries and SLA warnings. | ## Notification Infrastructure",
+      "reasoning": "Every factual claim made in the Answer is explicitly mentioned in the Reference Context (push notifications alerting agents, iOS and Android support, FCM for Android, and APNs for iOS).",
+      "unsupported_claims": []
+    },
+    {
+      "sample_id": "ind_020",
+      "question": "someone left the company, how do I remove their access fast",
+      "judge_model": "gemini-3.5-flash-lite",
+      "verdict": "GROUNDED",
+      "score": 1.0,
+      "quoted_evidence": "## Right to Erasure Workflow | 1. Navigate to **Customer Profile > Privacy Actions > Delete Customer Data**. | 2. Confirming deletion executes a permanent cascade:",
+      "reasoning": "All factual claims in the answer are directly supported by the 'Deprovisioning and Offboarding' section of the reference context.",
+      "unsupported_claims": []
+    },
+    {
+      "sample_id": "ind_024",
+      "question": "do you have a way to auto-assign tickets so I dont have to do it manually",
+      "judge_model": "gemini-3.5-flash-lite",
+      "verdict": "UNGROUNDED",
+      "score": 0.8,
+      "quoted_evidence": "1. Open the primary ticket that should remain active. | 2. Select **Ticket Actions > Merge into another ticket**. | 3. Enter the Target Ticket ID.",
+      "reasoning": "The answer correctly references the matching algorithm from the context, but it introduces the specific product name 'SupportPilot' which does not appear anywhere in the reference context.",
+      "unsupported_claims": [
+        "SupportPilot uses an automated matching algorithm"
+      ]
+    },
+    {
+      "sample_id": "ind_025",
+      "question": "how long do you keep my customer data",
+      "judge_model": "gemini-3.5-flash-lite",
+      "verdict": "GROUNDED",
+      "score": 1.0,
+      "quoted_evidence": "## Expiration and Rotation | Administrators can configure password expiration intervals of 60, 90, or 180 days. Users receive automated email notifications 14 days and 3 days prior to required rotation. | ## Right to Erasure Workflow",
+      "reasoning": "Every statement in the answer is directly supported by the 'Complete Account Cancellation' section of the reference context.",
+      "unsupported_claims": []
+    },
+    {
+      "sample_id": "ind_027",
+      "question": "How do I connect Okta for single sign-on, and what happens to users who already have password logins?",
+      "judge_model": "gemini-3.5-flash-lite",
+      "verdict": "UNGROUNDED",
+      "score": 0.8,
+      "quoted_evidence": "# Single Sign-On Configuration with SAML 2.0 | SupportPilot enables enterprise teams to authenticate users using SAML 2.0 identity providers including Okta, Microsoft Azure Active Directory (Entra ID), Google Workspace, and PingIdentity. | # OpenID Connect and OAuth 2.0 Social Logins",
+      "reasoning": "The answer provides accurate steps for connecting Okta (via SAML 2.0) based on the context, but it fails to answer the second part of the question regarding what happens to users who already have password logins.",
+      "unsupported_claims": [
+        "Users who already have password logins..."
+      ]
+    },
+    {
+      "sample_id": "ind_028",
+      "question": "If a customer replies to a resolved ticket, does it reopen automatically, and does the SLA timer restart?",
+      "judge_model": "gemini-3.5-flash-lite",
+      "verdict": "GROUNDED",
+      "score": 1.0,
+      "quoted_evidence": "- **New**: Freshly created ticket received via email, web form, API, or chat. Not yet assigned or responded to. | - **Open**: Assigned to an agent or queue and awaiting initial or follow-up agent action. | - **Pending**: Waiting on additional information or confirmation from the customer. SLA timers",
+      "reasoning": "The answer correctly states that when a ticket is in Solved status, the customer has a 48-hour grace window to reply and reopen the ticket, which is directly supported by the Reference Context under the 'Solved' state description.",
+      "unsupported_claims": []
+    },
+    {
+      "sample_id": "ind_031",
+      "question": "What are the rate limits on the API, and what error do I get when I exceed them?",
+      "judge_model": "gemini-3.5-flash-lite",
+      "verdict": "GROUNDED",
+      "score": 1.0,
+      "quoted_evidence": "- Per IP Address: 120 requests per minute. | - Per Tenant (API Key): 1,000 requests per minute. | - Ingestion Endpoints (`/v1/kb/ingest`): 60 requests per minute.",
+      "reasoning": "All rate limits and the error response details provided in the Answer are explicitly mentioned and supported by the Reference Context.",
+      "unsupported_claims": []
+    },
+    {
+      "sample_id": "ind_032",
+      "question": "How do webhook signatures work and how do I verify them on my server?",
+      "judge_model": "gemini-3.5-flash-lite",
+      "verdict": "GROUNDED",
+      "score": 1.0,
+      "quoted_evidence": "# Webhook Signature Verification with HMAC-SHA256 | To guarantee payload authenticity and prevent replay attacks, all outbound webhooks include cryptographic signatures. | ## Verification Algorithm",
+      "reasoning": "All claims in the Answer are directly supported by the provided Reference Context, accurately detailing the purpose of webhook signatures and the 5-step verification algorithm.",
+      "unsupported_claims": []
+    },
+    {
+      "sample_id": "ind_034",
+      "question": "What's the difference between an internal note and a public reply, and can customers ever see notes?",
+      "judge_model": "gemini-3.5-flash-lite",
+      "verdict": "UNGROUNDED",
+      "score": 0.0,
+      "quoted_evidence": "## Private Internal Notes | Agents can toggle between **Public Reply** and **Internal Note** in the message composer. Internal notes are highlighted in yellow, are strictly excluded from customer notifications, and are visible only to logged-in team members. | # Typing Indicators and Read Receipts",
+      "reasoning": "All claims supported by reference documentation.",
+      "unsupported_claims": []
+    },
+    {
+      "sample_id": "ind_036",
+      "question": "How much does it cost per agent?",
+      "judge_model": "gemini-3.5-flash-lite",
+      "verdict": "UNGROUNDED",
+      "score": 0.0,
+      "quoted_evidence": "- **Starter Plan ($29/seat/month)**: | - Up to 5 agent seats. | - Email ticketing, standard macros, and basic knowledge base.",
+      "reasoning": "All claims supported by reference documentation.",
+      "unsupported_claims": []
+    },
+    {
+      "sample_id": "ind_037",
+      "question": "Can I get an invoice with my company's VAT number on it?",
+      "judge_model": "gemini-3.5-flash-lite",
+      "verdict": "UNGROUNDED",
+      "score": 0.0,
+      "quoted_evidence": "## Automated Sales Tax and VAT | SupportPilot utilizes Stripe Tax to calculate jurisdiction-specific sales tax in the US, GST in Canada/Australia, and VAT in the European Union and UK. | - Businesses registered for VAT can input their VAT ID under **Billing > Tax Information** to apply reverse-charg",
+      "reasoning": "All claims supported by reference documentation.",
+      "unsupported_claims": []
+    },
+    {
+      "sample_id": "ind_039",
+      "question": "How do I cancel my subscription?",
+      "judge_model": "gemini-3.5-flash-lite",
+      "verdict": "GROUNDED",
+      "score": 1.0,
+      "quoted_evidence": "## Complete Account Cancellation | Selecting **Cancel Subscription** stops renewal. Upon cycle expiration, the account enters a 30-day read-only grace period, after which all customer data is permanently scheduled for cryptographic erasure. | ## Mid-Cycle Cancellations",
+      "reasoning": "All claims in the Answer are directly supported by the Reference Context.",
+      "unsupported_claims": []
+    },
+    {
+      "sample_id": "ind_040",
+      "question": "Do you offer refunds if I cancel mid-month?",
+      "judge_model": "gemini-3.5-flash-lite",
+      "verdict": "GROUNDED",
+      "score": 1.0,
+      "quoted_evidence": "## Mid-Cycle Cancellations | - Subscriptions cancelled after the initial 14-day window remain active until the end of the current paid billing period (monthly or annual). | - We do not offer partial-month pro-rata refunds for early cancellation outside the initial guarantee window, except where requ",
+      "reasoning": "Every statement in the Answer is directly sourced from the 'Mid-Cycle Cancellations' section of the reference context.",
+      "unsupported_claims": []
+    },
+    {
+      "sample_id": "ind_041",
+      "question": "Can I pay annually to get a discount?",
+      "judge_model": "gemini-3.5-flash-lite",
+      "verdict": "GROUNDED",
+      "score": 1.0,
+      "quoted_evidence": "## Discount Structure | - **20% Annual Discount**: Choosing annual billing reduces the Starter plan to $24/seat/month ($288/seat/year) and Growth to $64/seat/month ($768/seat/year). | - **Volume Tiers**: Organizations provisioning more than 50 seats on Enterprise qualify for additional tiered discou",
+      "reasoning": "Every factual claim made in the answer\u2014that you can pay annually to get a discount, and the specific reduced rates for the Starter and Growth plans\u2014is directly supported by the text in the 'Discount Structure' section of the reference context.",
+      "unsupported_claims": []
+    },
+    {
+      "sample_id": "ind_042",
+      "question": "What payment methods do you accept?",
+      "judge_model": "gemini-3.5-flash-lite",
+      "verdict": "UNGROUNDED",
+      "score": 0.0,
+      "quoted_evidence": "# Stripe Payment Processing and Vaulting | SupportPilot integrates with Stripe to provide secure, PCI-DSS compliant credit card processing. | - Card details are entered via Stripe Elements directly into Stripe's tokenization vault. SupportPilot servers never touch raw credit card numbers or CVV code",
+      "reasoning": "All claims supported by reference documentation.",
+      "unsupported_claims": []
+    },
+    {
+      "sample_id": "ind_044",
+      "question": "What happens to my data if my payment fails?",
+      "judge_model": "gemini-3.5-flash-lite",
+      "verdict": "GROUNDED",
+      "score": 1.0,
+      "quoted_evidence": "- Card details are entered via Stripe Elements directly into Stripe's tokenization vault. SupportPilot servers never touch raw credit card numbers or CVV codes. | - Supports Visa, Mastercard, American Express, and Discover. | - In 3D Secure regions (such as the EU under PSD2 Strong Customer Authenti",
+      "reasoning": "The answer accurately reflects the information in the reference context regarding what happens during a payment failure (Smart Retries running up to four times over a 14-day grace period before subscription pause).",
+      "unsupported_claims": []
+    }
+  ]
+}

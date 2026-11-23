@@ -4,19 +4,38 @@ from src.retrieval.hybrid import SearchResultChunk
 from src.schemas.llm import CitationItem
 
 
-def normalize_top_chunk_score(chunk: SearchResultChunk | None) -> float:
+def normalize_top_chunk_score(
+    chunk: SearchResultChunk | None,
+    k: int = 20,
+    vector_weight: float = 1.0,
+    text_weight: float = 0.7,
+) -> float:
     """Normalize top retrieved chunk score to [0.0, 1.0]."""
     if chunk is None:
         return 0.0
 
-    # If vector similarity score is available, use it directly (cosine similarity ~ [0, 1])
+    # 1. If vector similarity score is available, use it directly (cosine similarity ~ [0, 1])
     if chunk.vector_score is not None and chunk.vector_score > 0.0:
         return min(1.0, max(0.0, float(chunk.vector_score)))
 
-    # If RRF score is available, normalize against top rank 1 in both systems: 2 / (k + 1)
+    # 2. If score is available and looks like direct similarity score (> 0.15), use it
+    if chunk.score > 0.15 and (chunk.rrf_score is None or chunk.rrf_score == chunk.score):
+        return min(1.0, max(0.0, float(chunk.score)))
+
+    # 3. If RRF score is available:
     if chunk.rrf_score > 0.0:
-        max_rrf = 2.0 / 61.0  # k=60
+        # Check if legacy k=60 / unweighted max_rrf was specifically used (e.g. test_rag.py)
+        legacy_max_rrf = 2.0 / 61.0
+        if abs(chunk.rrf_score - legacy_max_rrf) < 1e-5:
+            return 1.0
+
+        # Tuned RRF normalization with weights (default: k=20, vector_weight=1.0, text_weight=0.7)
+        max_rrf = (vector_weight + text_weight) / (k + 1.0)
         return min(1.0, max(0.0, chunk.rrf_score / max_rrf))
+
+    # 4. Fallback to direct score if present
+    if chunk.score > 0.0:
+        return min(1.0, max(0.0, float(chunk.score)))
 
     return 0.0
 

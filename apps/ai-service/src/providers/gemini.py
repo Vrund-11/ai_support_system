@@ -20,7 +20,24 @@ class GeminiLLMProvider(LLMProvider):
     name: str = "gemini"
 
     def __init__(self, api_key: str | None = None) -> None:
-        self.api_key = api_key or settings.gemini_api_key
+        import os
+        from pathlib import Path
+        from dotenv import dotenv_values
+
+        key = api_key or os.getenv("GEMINI_API_KEY") or settings.gemini_api_key
+        if not key or not str(key).endswith("z-LA"):
+            # Check dotenv files with override to avoid stale system env
+            for p in [
+                Path("apps/ai-service/.env"),
+                Path(".env"),
+                Path(__file__).resolve().parent.parent.parent / ".env",
+            ]:
+                if p.exists():
+                    v = dotenv_values(p)
+                    if v.get("GEMINI_API_KEY"):
+                        key = v["GEMINI_API_KEY"]
+                        break
+        self.api_key = key
         self.mock_fallback = MockLLMProvider()
 
     async def generate_text(
@@ -39,8 +56,11 @@ class GeminiLLMProvider(LLMProvider):
             "generationConfig": {"temperature": temperature},
         }
 
-        async with httpx.AsyncClient(timeout=30.0) as client:
+        async with httpx.AsyncClient(timeout=35.0) as client:
             resp = await client.post(url, json=payload)
+            if resp.status_code == 404:
+                url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key={self.api_key}"
+                resp = await client.post(url, json=payload)
             if resp.status_code != 200:
                 # Fallback to mock if API returns error (e.g. rate limit, quota, invalid key)
                 return await self.mock_fallback.generate_text(

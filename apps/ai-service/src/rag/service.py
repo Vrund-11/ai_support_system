@@ -50,21 +50,51 @@ class RagService:
         chunks: list[SearchResultChunk] = []
         if req.retrieved_chunks:
             for item in req.retrieved_chunks:
+                score_val = item.get("score")
+                rrf_val = item.get("rrf_score")
+                vector_val = item.get("vector_score")
+                text_val = item.get("text_score")
+
+                parsed_vector_score = float(vector_val) if vector_val is not None else None
+                parsed_text_score = float(text_val) if text_val is not None else None
+                parsed_rrf_score = (
+                    float(rrf_val)
+                    if rrf_val is not None
+                    else (float(score_val) if score_val is not None else 0.0)
+                )
+                parsed_score = (
+                    float(score_val)
+                    if score_val is not None
+                    else (
+                        parsed_vector_score
+                        if parsed_vector_score is not None
+                        else parsed_rrf_score
+                    )
+                )
+
+                if parsed_vector_score is None and score_val is not None:
+                    try:
+                        s_flt = float(score_val)
+                        if 0.0 < s_flt <= 1.0 and (rrf_val is None or float(rrf_val) != s_flt):
+                            parsed_vector_score = s_flt
+                    except (ValueError, TypeError):
+                        pass
+
                 chunks.append(
                     SearchResultChunk(
                         id=str(item.get("id", "")),
                         document_id=str(item.get("document_id", "")),
-                        chunk_index=int(item.get("chunk_index", 0)),
+                        chunk_index=int(item.get("chunk_index", 0) or 0),
                         content=str(item.get("content", "")),
                         section_path=str(item.get("section_path", "")),
-                        token_count=int(item.get("token_count", 0)),
-                        score=float(item.get("score", 0.0)),
-                        rrf_score=float(item.get("rrf_score", item.get("score", 0.0))),
+                        token_count=int(item.get("token_count", 0) or 0),
+                        score=parsed_score,
+                        rrf_score=parsed_rrf_score,
                         vector_rank=item.get("vector_rank"),
                         text_rank=item.get("text_rank"),
-                        vector_score=item.get("vector_score"),
-                        text_score=item.get("text_score"),
-                        metadata=item.get("metadata", {}),
+                        vector_score=parsed_vector_score,
+                        text_score=parsed_text_score,
+                        metadata=item.get("metadata", {}) or {},
                     )
                 )
         else:

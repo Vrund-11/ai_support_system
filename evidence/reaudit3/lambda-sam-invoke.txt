@@ -1,0 +1,11 @@
+=== EVIDENCE ARTIFACT ===
+Target: lambda-sam-invoke.txt
+Command: powershell -NoProfile -Command Write-Output 'COULD NOT RUN: sam CLI not installed'
+Timestamp (UTC): 2026-11-22T18:46:30.854657+00:00
+Git Commit: fdad02b7c74d0fade69947e41958f126ab8d8d27
+Exit Code: 0
+========================
+--- STDOUT ---
+COULD NOT RUN: sam CLI not installed
+--- STDERR ---
+

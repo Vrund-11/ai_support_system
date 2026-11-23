@@ -1,0 +1,410 @@
+=== EVIDENCE ARTIFACT ===
+Target: newman-live.txt
+Command: pnpm exec newman run tests/api/supportpilot-sprint1.collection.json -e tests/api/supportpilot.environment.json --reporters cli,json --reporter-json-export evidence/reaudit3/newman-live.json
+Timestamp (UTC): 2026-11-23T03:26:27.912496+00:00
+Git Commit: fdad02b7c74d0fade69947e41958f126ab8d8d27
+Exit Code: 1
+========================
+--- STDOUT ---
+newman
+
+SupportPilot Sprint 1 & 2 API Contract Collection
+
+→ 01. Health Check
+  GET http://localhost:4000/health [200 OK, 1.06kB, 31ms]
+  √  Status code is 200
+  √  Service reports healthy
+
+→ 02. Readiness Check
+  GET http://localhost:4000/ready [200 OK, 1.07kB, 4ms]
+  √  Readiness status is 200
+  √  Readiness reports ready or ok
+
+→ 03. Tenant A - Register Owner
+  POST http://localhost:4000/api/v1/auth/register [201 Created, 2.23kB, 388ms]
+  √  Registration returns 201 Created
+  1. Tokens and tenant id returned
+
+→ 04. Tenant A - Login Owner
+  POST http://localhost:4000/api/v1/auth/login [200 OK, 2.15kB, 296ms]
+  √  Login returns 200 OK
+  √  Access token returned
+
+→ 05. Tenant A - Refresh Token
+  POST http://localhost:4000/api/v1/auth/refresh [401 Unauthorized, 1.33kB, 11ms]
+  2. Refresh returns 200 OK
+  3. New access token provided
+
+→ 06. Tenant A - Forgot Password
+  POST http://localhost:4000/api/v1/auth/forgot-password [200 OK, 1.25kB, 63ms]
+  √  Forgot password returns 200 OK
+
+→ 07. Tenant A - Logout
+  POST http://localhost:4000/api/v1/auth/logout [204 No Content, 1.18kB, 11ms]
+  √  Logout returns 204 No Content
+
+→ 08. Tenant A - Re-login Owner
+  POST http://localhost:4000/api/v1/auth/login [200 OK, 2.15kB, 313ms]
+  √  Re-login returns 200 OK
+
+→ 09. Tenant B - Register Owner
+  POST http://localhost:4000/api/v1/auth/register [201 Created, 2.22kB, 307ms]
+  √  Tenant B Registration returns 201 Created
+
+→ 10. Tenant B - Login Owner
+  POST http://localhost:4000/api/v1/auth/login [200 OK, 2.15kB, 310ms]
+  √  Tenant B login returns 200 OK
+
+→ 11. Tenant A - Invite Agent Carol
+  POST http://localhost:4000/api/v1/team/invite [201 Created, 1.37kB, 96ms]
+  √  Team invite returns 201 Created
+
+→ 12. Tenant A - Invite Lead Dave
+  POST http://localhost:4000/api/v1/team/invite [201 Created, 1.37kB, 83ms]
+  √  Team invite Lead returns 201 Created
+
+→ 13. Tenant A - List Team Members
+  GET http://localhost:4000/api/v1/team [200 OK, 1.83kB, 13ms]
+  √  List team returns 200 OK
+  √  Team has multiple members
+
+→ 14. RBAC - Agent cannot invite team members (403)
+  POST http://localhost:4000/api/v1/team/invite [401 Unauthorized, 1.33kB, 7ms]
+  4. Agent invite rejected with 403 Forbidden
+  5. RFC 7807 error format
+
+→ 15. Tickets - Create High Priority Ticket A1
+  POST http://localhost:4000/api/v1/tickets [400 Bad Request, 1.44kB, 11ms]
+  6. Create Ticket A1 returns 201 Created
+  7. Ticket has NEW status and version 1
+
+→ 16. Tickets - Create Low Priority Ticket A2
+  POST http://localhost:4000/api/v1/tickets [400 Bad Request, 1.44kB, 8ms]
+  8. Create Ticket A2 returns 201 Created
+  9⠄ TypeError in test-script
+
+→ 17. Tickets - List Tenant A Tickets
+  GET http://localhost:4000/api/v1/tickets [200 OK, 1.32kB, 18ms]
+  √  List tickets returns 200 OK
+ 10. List contains created tickets
+
+→ 18. Tickets - Filter by status NEW
+  GET http://localhost:4000/api/v1/tickets?status=NEW [200 OK, 1.32kB, 11ms]
+  √  Status filter returns 200 OK
+  √  All returned tickets are NEW
+
+→ 19. Tickets - Filter by priority HIGH
+  GET http://localhost:4000/api/v1/tickets?priority=HIGH [200 OK, 1.32kB, 9ms]
+  √  Priority filter returns 200 OK
+  √  All returned tickets are HIGH priority
+
+→ 20. Tickets - Get Ticket A1 Detail
+  GET http://localhost:4000/api/v1/tickets/{{ticketA1_id}} [500 Internal Server Error, 1.43kB, 8ms]
+ 11. Get detail returns 200 OK
+ 12. Includes ticket, messages, and timeline
+
+→ 21. Tickets - Transition Status NEW -> OPEN
+  PATCH http://localhost:4000/api/v1/tickets/{{ticketA1_id}} [404 Not Found, 1.42kB, 8ms]
+ 13. Transition to OPEN returns 200 OK
+ 14. Status is OPEN and version is 2
+
+→ 22. Tickets - Transition Status OPEN -> RESOLVED
+  PATCH http://localhost:4000/api/v1/tickets/{{ticketA1_id}} [404 Not Found, 1.42kB, 8ms]
+ 15. Transition to RESOLVED returns 200 OK
+ 16. Status is RESOLVED and version is 3
+
+→ 23. Messages - Post Internal Note
+  POST http://localhost:4000/api/v1/tickets/{{ticketA1_id}}/messages [404 Not Found, 1.43kB, 9ms]
+ 17. Post internal note returns 201 Created
+ 18. Message marked internal with seq 1
+
+→ 24. Messages - Post Public Reply
+  POST http://localhost:4000/api/v1/tickets/{{ticketA1_id}}/messages [404 Not Found, 1.43kB, 8ms]
+ 19. Post public reply returns 201 Created
+ 20. Message is public with seq 2
+
+→ 25. Public Portal - Submit Anonymous Ticket
+  POST http://localhost:4000/api/v1/tickets/public [400 Bad Request, 1.34kB, 8ms]
+ 21. Public ticket submission returns 201 Created
+ 22⠄ TypeError in test-script
+
+→ 26. Public Portal - Track Submitted Ticket
+  GET http://localhost:4000/api/v1/tickets/public/track?ticketNumber={{public_ticket_number}}&email=john@public.com [400 Bad Request, 1.4kB, 7ms]
+ 23. Track ticket returns 200 OK
+ 24. Returns ticket tracking details
+
+→ 27. Concurrency - Stale Version Rejection (409 Conflict)
+  PATCH http://localhost:4000/api/v1/tickets/{{ticketA1_id}} [404 Not Found, 1.42kB, 7ms]
+ 25. Stale version triggers 409 Conflict
+ 26. RFC 7807 problem details title Conflict
+
+→ 28. State Machine - Invalid Transition Rejection (400 Bad Request)
+  PATCH http://localhost:4000/api/v1/tickets/{{ticketA1_id}} [400 Bad Request, 1.52kB, 9ms]
+  √  Invalid transition triggers 400 Bad Request
+  √  Problem details has invalid transition message
+
+→ 29. Tickets - Link Related Tickets
+  POST http://localhost:4000/api/v1/tickets/{{ticketA1_id}}/link [400 Bad Request, 1.44kB, 8ms]
+ 27. Link tickets returns 200 OK
+
+→ 30. Tenant B - Create Confidential Ticket B1
+  POST http://localhost:4000/api/v1/tickets [400 Bad Request, 1.44kB, 8ms]
+ 28. Tenant B ticket created returns 201
+ 29⠄ TypeError in test-script
+
+→ 31. Tenant Isolation - Tenant A cannot read Tenant B Ticket (404)
+  GET http://localhost:4000/api/v1/tickets/{{ticketB1_id}} [500 Internal Server Error, 1.43kB, 7ms]
+ 30. Cross-tenant read returns 404 Not Found (Opaque Partition)
+
+→ 32. Tenant Isolation - Tenant A cannot update Tenant B Ticket (404)
+  PATCH http://localhost:4000/api/v1/tickets/{{ticketB1_id}} [404 Not Found, 1.42kB, 7ms]
+  √  Cross-tenant patch returns 404 Not Found
+
+→ 33. Tenant Isolation - Tenant A cannot inject message to Tenant B Ticket (404)
+  POST http://localhost:4000/api/v1/tickets/{{ticketB1_id}}/messages [404 Not Found, 1.43kB, 8ms]
+  √  Cross-tenant message injection returns 404 Not Found
+
+→ 34. Tenant Isolation - Tenant B ticket list isolated
+  GET http://localhost:4000/api/v1/tickets [200 OK, 1.32kB, 9ms]
+  √  Tenant B list returns 200 OK
+  √  Only Tenant B tickets returned
+
+→ 35. Tenant Isolation - Tenant B team list isolated
+  GET http://localhost:4000/api/v1/team [200 OK, 1.46kB, 9ms]
+  √  Tenant B team list returns 200 OK
+  √  Zero Tenant A members present
+
+→ 36. RBAC - Agent cannot view API keys (403)
+  GET http://localhost:4000/api/v1/api-keys [401 Unauthorized, 1.33kB, 7ms]
+ 31. Agent API key access returns 403 Forbidden
+
+→ 37. RBAC - Lead cannot create API keys (403)
+  POST http://localhost:4000/api/v1/api-keys [401 Unauthorized, 1.33kB, 7ms]
+ 32. Lead cannot create API keys returns 403 Forbidden
+
+→ 38. RBAC - Owner creates API key (201)
+  POST http://localhost:4000/api/v1/api-keys [201 Created, 1.49kB, 13ms]
+  √  Owner creates API key returns 201 Created
+  √  Secret rawKey starts with sp_live_
+
+→ 39. RBAC - Owner revokes API key (204)
+  DELETE http://localhost:4000/api/v1/api-keys/6b03b26b2b9a5d69438a550c [204 No Content, 1.18kB, 15ms]
+  √  API key revocation returns 204 No Content
+
+→ 40. RFC 7807 - Empty registration payload (400)
+  POST http://localhost:4000/api/v1/auth/register [400 Bad Request, 1.36kB, 7ms]
+  √  Invalid registration returns 400 Bad Request
+  √  Has RFC 7807 problem details title and status
+
+→ 41. RFC 7807 - Ticket creation missing description (400)
+  POST http://localhost:4000/api/v1/tickets [400 Bad Request, 1.44kB, 7ms]
+  √  Missing description returns 400 Bad Request
+  √  Has validation problem details
+
+→ 42. RFC 7807 - Invalid credentials login (401)
+  POST http://localhost:4000/api/v1/auth/login [401 Unauthorized, 1.33kB, 303ms]
+  √  Invalid login returns 401 Unauthorized
+  √  Problem details has 401 status
+
+→ 43. RFC 7807 - Non-existent ObjectID ticket lookup (404)
+  GET http://localhost:4000/api/v1/tickets/000000000000000000000000 [404 Not Found, 1.42kB, 10ms]
+  √  Non-existent ticket returns 404 Not Found
+  √  Problem details has 404 status
+
+→ 44. Webhooks - Owner registers webhook (201)
+  POST http://localhost:4000/api/v1/webhooks [201 Created, 1.47kB, 10ms]
+  √  Create webhook returns 201 Created
+
+→ 45. Webhooks - Test dispatch ping with HMAC signature
+  POST http://localhost:4000/api/v1/webhooks/6b03b26c2b9a5d69438a550f/test [200 OK, 1.43kB, 8ms]
+  √  Test dispatch returns 200 OK
+  √  Delivered with HMAC sha256 signature
+
+→ 46. Webhooks - Owner deletes webhook (204)
+  DELETE http://localhost:4000/api/v1/webhooks/6b03b26c2b9a5d69438a550f [204 No Content, 1.18kB, 11ms]
+  √  Delete webhook returns 204 No Content
+
+┌─────────────────────────┬───────────────────┬───────────────────┐
+│                         │          executed │            failed │
+├─────────────────────────┼───────────────────┼───────────────────┤
+│              iterations │                 1 │                 0 │
+├─────────────────────────┼───────────────────┼───────────────────┤
+│                requests │                46 │                 0 │
+├─────────────────────────┼───────────────────┼───────────────────┤
+│            test-scripts │                46 │                 3 │
+├─────────────────────────┼───────────────────┼───────────────────┤
+│      prerequest-scripts │                 0 │                 0 │
+├─────────────────────────┼───────────────────┼───────────────────┤
+│              assertions │                73 │                29 │
+├─────────────────────────┴───────────────────┴───────────────────┤
+│ total run duration: 6.2s                                        │
+├─────────────────────────────────────────────────────────────────┤
+│ total data received: 11.78kB (approx)                           │
+├─────────────────────────────────────────────────────────────────┤
+│ average response time: 54ms [min: 4ms, max: 388ms, s.d.: 104ms] │
+└─────────────────────────────────────────────────────────────────┘
+
+[31m   # [39m[31m failure        [39m[31m detail                                                                      [39m
+[90m     [39m[90m                [39m[90m                                                                             [39m
+ 01.  AssertionError  Tokens and tenant id returned                                               
+                      expected undefined to be a string                                           
+                      at assertion:1 in test-script                                               
+                      inside "03. Tenant A - Register Owner"                                      
+[90m     [39m[90m                [39m[90m                                                                             [39m
+ 02.  AssertionError  Refresh returns 200 OK                                                      
+                      expected response to have status code 200 but got 401                       
+                      at assertion:0 in test-script                                               
+                      inside "05. Tenant A - Refresh Token"                                       
+[90m     [39m[90m                [39m[90m                                                                             [39m
+ 03.  TypeError       New access token provided                                                   
+                      Cannot read properties of undefined (reading 'accessToken')                 
+                      at assertion:1 in test-script                                               
+                      inside "05. Tenant A - Refresh Token"                                       
+[90m     [39m[90m                [39m[90m                                                                             [39m
+ 04.  AssertionError  Agent invite rejected with 403 Forbidden                                    
+                      expected response to have status code 403 but got 401                       
+                      at assertion:0 in test-script                                               
+                      inside "14. RBAC - Agent cannot invite team members (403)"                  
+[90m     [39m[90m                [39m[90m                                                                             [39m
+ 05.  AssertionError  RFC 7807 error format                                                       
+                      expected 'Invalid or expired access token' to match /Forbidden|permission/i 
+                      at assertion:1 in test-script                                               
+                      inside "14. RBAC - Agent cannot invite team members (403)"                  
+[90m     [39m[90m                [39m[90m                                                                             [39m
+ 06.  AssertionError  Create Ticket A1 returns 201 Created                                        
+                      expected response to have status code 201 but got 400                       
+                      at assertion:0 in test-script                                               
+                      inside "15. Tickets - Create High Priority Ticket A1"                       
+[90m     [39m[90m                [39m[90m                                                                             [39m
+ 07.  TypeError       Ticket has NEW status and version 1                                         
+                      Cannot read properties of undefined (reading 'status')                      
+                      at assertion:1 in test-script                                               
+                      inside "15. Tickets - Create High Priority Ticket A1"                       
+[90m     [39m[90m                [39m[90m                                                                             [39m
+ 08.  AssertionError  Create Ticket A2 returns 201 Created                                        
+                      expected response to have status code 201 but got 400                       
+                      at assertion:0 in test-script                                               
+                      inside "16. Tickets - Create Low Priority Ticket A2"                        
+[90m     [39m[90m                [39m[90m                                                                             [39m
+ 09.  TypeError                                                                                   
+                      Cannot read properties of undefined (reading 'id')                          
+                      at test-script                                                              
+                      inside "16. Tickets - Create Low Priority Ticket A2"                        
+[90m     [39m[90m                [39m[90m                                                                             [39m
+ 10.  AssertionError  List contains created tickets                                               
+                      expected +0 to be at least 2                                                
+                      at assertion:1 in test-script                                               
+                      inside "17. Tickets - List Tenant A Tickets"                                
+[90m     [39m[90m                [39m[90m                                                                             [39m
+ 11.  AssertionError  Get detail returns 200 OK                                                   
+                      expected response to have status code 200 but got 500                       
+                      at assertion:0 in test-script                                               
+                      inside "20. Tickets - Get Ticket A1 Detail"                                 
+[90m     [39m[90m                [39m[90m                                                                             [39m
+ 12.  TypeError       Includes ticket, messages, and timeline                                     
+                      Cannot read properties of undefined (reading 'ticket')                      
+                      at assertion:1 in test-script                                               
+                      inside "20. Tickets - Get Ticket A1 Detail"                                 
+[90m     [39m[90m                [39m[90m                                                                             [39m
+ 13.  AssertionError  Transition to OPEN returns 200 OK                                           
+                      expected response to have status code 200 but got 404                       
+                      at assertion:0 in test-script                                               
+                      inside "21. Tickets - Transition Status NEW -> OPEN"                        
+[90m     [39m[90m                [39m[90m                                                                             [39m
+ 14.  TypeError       Status is OPEN and version is 2                                             
+                      Cannot read properties of undefined (reading 'status')                      
+                      at assertion:1 in test-script                                               
+                      inside "21. Tickets - Transition Status NEW -> OPEN"                        
+[90m     [39m[90m                [39m[90m                                                                             [39m
+ 15.  AssertionError  Transition to RESOLVED returns 200 OK                                       
+                      expected response to have status code 200 but got 404                       
+                      at assertion:0 in test-script                                               
+                      inside "22. Tickets - Transition Status OPEN -> RESOLVED"                   
+[90m     [39m[90m                [39m[90m                                                                             [39m
+ 16.  TypeError       Status is RESOLVED and version is 3                                         
+                      Cannot read properties of undefined (reading 'status')                      
+                      at assertion:1 in test-script                                               
+                      inside "22. Tickets - Transition Status OPEN -> RESOLVED"                   
+[90m     [39m[90m                [39m[90m                                                                             [39m
+ 17.  AssertionError  Post internal note returns 201 Created                                      
+                      expected response to have status code 201 but got 404                       
+                      at assertion:0 in test-script                                               
+                      inside "23. Messages - Post Internal Note"                                  
+[90m     [39m[90m                [39m[90m                                                                             [39m
+ 18.  TypeError       Message marked internal with seq 1                                          
+                      Cannot read properties of undefined (reading 'isInternal')                  
+                      at assertion:1 in test-script                                               
+                      inside "23. Messages - Post Internal Note"                                  
+[90m     [39m[90m                [39m[90m                                                                             [39m
+ 19.  AssertionError  Post public reply returns 201 Created                                       
+                      expected response to have status code 201 but got 404                       
+                      at assertion:0 in test-script                                               
+                      inside "24. Messages - Post Public Reply"                                   
+[90m     [39m[90m                [39m[90m                                                                             [39m
+ 20.  TypeError       Message is public with seq 2                                                
+                      Cannot read properties of undefined (reading 'isInternal')                  
+                      at assertion:1 in test-script                                               
+                      inside "24. Messages - Post Public Reply"                                   
+[90m     [39m[90m                [39m[90m                                                                             [39m
+ 21.  AssertionError  Public ticket submission returns 201 Created                                
+                      expected response to have status code 201 but got 400                       
+                      at assertion:0 in test-script                                               
+                      inside "25. Public Portal - Submit Anonymous Ticket"                        
+[90m     [39m[90m                [39m[90m                                                                             [39m
+ 22.  TypeError                                                                                   
+                      Cannot read properties of undefined (reading 'number')                      
+                      at test-script                                                              
+                      inside "25. Public Portal - Submit Anonymous Ticket"                        
+[90m     [39m[90m                [39m[90m                                                                             [39m
+ 23.  AssertionError  Track ticket returns 200 OK                                                 
+                      expected response to have status code 200 but got 400                       
+                      at assertion:0 in test-script                                               
+                      inside "26. Public Portal - Track Submitted Ticket"                         
+[90m     [39m[90m                [39m[90m                                                                             [39m
+ 24.  AssertionError  Returns ticket tracking details                                             
+                      expected undefined to be an object                                          
+                      at assertion:1 in test-script                                               
+                      inside "26. Public Portal - Track Submitted Ticket"                         
+[90m     [39m[90m                [39m[90m                                                                             [39m
+ 25.  AssertionError  Stale version triggers 409 Conflict                                         
+                      expected response to have status code 409 but got 404                       
+                      at assertion:0 in test-script                                               
+                      inside "27. Concurrency - Stale Version Rejection (409 Conflict)"           
+[90m     [39m[90m                [39m[90m                                                                             [39m
+ 26.  AssertionError  RFC 7807 problem details title Conflict                                     
+                      expected 'Ticket not found' to include 'Conflict'                           
+                      at assertion:1 in test-script                                               
+                      inside "27. Concurrency - Stale Version Rejection (409 Conflict)"           
+[90m     [39m[90m                [39m[90m                                                                             [39m
+ 27.  AssertionError  Link tickets returns 200 OK                                                 
+                      expected response to have status code 200 but got 400                       
+                      at assertion:0 in test-script                                               
+                      inside "29. Tickets - Link Related Tickets"                                 
+[90m     [39m[90m                [39m[90m                                                                             [39m
+ 28.  AssertionError  Tenant B ticket created returns 201                                         
+                      expected response to have status code 201 but got 400                       
+                      at assertion:0 in test-script                                               
+                      inside "30. Tenant B - Create Confidential Ticket B1"                       
+[90m     [39m[90m                [39m[90m                                                                             [39m
+ 29.  TypeError                                                                                   
+                      Cannot read properties of undefined (reading 'id')                          
+                      at test-script                                                              
+                      inside "30. Tenant B - Create Confidential Ticket B1"                       
+[90m     [39m[90m                [39m[90m                                                                             [39m
+ 30.  AssertionError  Cross-tenant read returns 404 Not Found (Opaque Partition)                  
+                      expected response to have status code 404 but got 500                       
+                      at assertion:0 in test-script                                               
+                      inside "31. Tenant Isolation - Tenant A cannot read Tenant B Ticket (404)"  
+[90m     [39m[90m                [39m[90m                                                                             [39m
+ 31.  AssertionError  Agent API key access returns 403 Forbidden                                  
+                      expected response to have status code 403 but got 401                       
+                      at assertion:0 in test-script                                               
+                      inside "36. RBAC - Agent cannot view API keys (403)"                        
+[90m     [39m[90m                [39m[90m                                                                             [39m
+ 32.  AssertionError  Lead cannot create API keys returns 403 Forbidden                           
+                      expected response to have status code 403 but got 401                       
+                      at assertion:0 in test-script                                               
+                      inside "37. RBAC - Lead cannot create API keys (403)"
+--- STDERR ---
+(node:26080) [DEP0176] DeprecationWarning: fs.F_OK is deprecated, use fs.constants.F_OK instead
+(Use `node --trace-deprecation ...` to show where the warning was created)

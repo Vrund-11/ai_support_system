@@ -1,0 +1,33 @@
+=== EVIDENCE ARTIFACT ===
+Target: 04-health-gateway
+Command: curl.exe -s -i http://localhost:4000/health
+Timestamp (UTC): 2026-11-23T03:30:49.707998+00:00
+Git Commit: fdad02b7c74d0fade69947e41958f126ab8d8d27
+Exit Code: 0
+========================
+--- STDOUT ---
+HTTP/1.1 200 OK
+X-Powered-By: Express
+X-Content-Type-Options: nosniff
+X-Frame-Options: DENY
+X-XSS-Protection: 0
+Strict-Transport-Security: max-age=31536000; includeSubDomains
+Referrer-Policy: strict-origin-when-cross-origin
+Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' ws: wss: http: https:;
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Methods: GET, POST, PUT, PATCH, DELETE, OPTIONS
+Access-Control-Allow-Headers: Content-Type, Authorization, x-tenant-id, x-user-id, x-user-role, traceparent, x-request-id
+Access-Control-Expose-Headers: traceparent, x-request-id
+x-request-id: ede86d0e-d958-4650-a4e3-b8dbbe9218e7
+traceparent: 00-8bf4c02da6aeaf7cd08de0d2ab532298-10b3baae4dfecba5-01
+Content-Type: application/json; charset=utf-8
+Content-Length: 15
+ETag: W/"f-VaSQ4oDUiZblZNAEkkN+sX+q3Sg"
+Server-Timing: gateway;dur=0.3
+Date: Mon, 23 Nov 2026 03:30:49 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"status":"ok"}
+--- STDERR ---
+

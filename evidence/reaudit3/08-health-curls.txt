@@ -1,0 +1,36 @@
+=== GET http://localhost:4000/health ===
+Status: 200
+Body: {"status":"ok"}
+
+=== GET http://localhost:4001/health ===
+Status: 200
+Body: {"status":"ok"}
+
+=== GET http://localhost:5001/health ===
+Status: 200
+Body: {"status":"ok"}
+
+=== GET http://localhost:8000/health ===
+Status: 200
+Body: {"status":"ok"}
+
+=== GET http://localhost:3000/ ===
+Status: 200
+Body: <!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scal... (truncated)
+
+=== GET http://localhost:3001/ ===
+Status: 200
+Body: <!DOCTYPE html>
+<html>
+<head>
+<title>Welcome to nginx!</title>
+<style>
+html { color-scheme: light dark; }
+body { width: 35em; margin: 0 auto;
+font-family: Tahoma, Verdana, Arial, sans-serif; }
+</style... (truncated)

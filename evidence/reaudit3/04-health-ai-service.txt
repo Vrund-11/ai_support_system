@@ -1,0 +1,18 @@
+=== EVIDENCE ARTIFACT ===
+Target: 04-health-ai-service
+Command: curl.exe -s -i http://localhost:8000/health
+Timestamp (UTC): 2026-11-23T03:31:26.365288+00:00
+Git Commit: fdad02b7c74d0fade69947e41958f126ab8d8d27
+Exit Code: 0
+========================
+--- STDOUT ---
+HTTP/1.1 200 OK
+date: Mon, 23 Nov 2026 03:31:25 GMT
+server: uvicorn
+content-length: 15
+content-type: application/json
+vary: Origin
+
+{"status":"ok"}
+--- STDERR ---
+

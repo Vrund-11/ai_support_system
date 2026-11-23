@@ -1,0 +1,42 @@
+=== EVIDENCE ARTIFACT ===
+Target: 06-independent-eval-results
+Command: apps\ai-service\.venv\Scripts\python.exe tests/ai-eval/run.py --dataset tests/ai-eval/golden/independent_v1.jsonl --no-gate --out evidence/reaudit3/independent-eval-report.md
+Timestamp (UTC): 2026-11-22T18:53:17.878176+00:00
+Git Commit: fdad02b7c74d0fade69947e41958f126ab8d8d27
+Exit Code: 0
+========================
+--- STDOUT ---
+Connected to PostgreSQL pgvector repository.
+Executing evaluation across 60 samples...
+
+==================================================
+EVALUATION RESULTS
+==================================================
+Embedding Provider:  sbert
+LLM Provider:        mock
+Total Samples:       60
+Hit@1:               0.697
+Hit@5:               0.939
+MRR:                 0.798
+Lexical overlap (mock generator): 0.000
+Escalation F1:       0.353
+p50 Latency:         161.4 ms
+p95 Latency:         235.3 ms
+Tokens/Answer:       9.1
+Regression Gate:     PASSED
+==================================================
+Report written to C:\Users\vrund\OneDrive\Desktop\ai_project\evidence\reaudit3\independent-eval-report.md
+--- STDERR ---
+
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 103/103 [00:00<00:00, 2331.69it/s]
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+LLM-judge request failed with status 401: {
+  "error": {
+    "code": 401,
+    "message": "API key not valid. Please pass a valid API key.",
+    "status": "UNAUTHENTICATED",
+    "details": [
+      {
+        "@type": "type.googleapis.com/google. Gracefully proceeding.
+Prompt injection attempt detected for tenant 'tenant_eval_01'

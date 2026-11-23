@@ -1,0 +1,27 @@
+=== EVIDENCE ARTIFACT ===
+Target: compose-infra-up.txt
+Command: docker compose -f infra/docker-compose.infra.yml up -d
+Timestamp (UTC): 2026-11-22T18:31:14.784367+00:00
+Git Commit: fdad02b7c74d0fade69947e41958f126ab8d8d27
+Exit Code: 0
+========================
+--- STDOUT ---
+
+--- STDERR ---
+ Container sp-postgres Running 
+ Container sp-mailhog Creating 
+ Volume infra_mongo-data Creating 
+ Volume infra_redis-data Creating 
+ Volume infra_mongo-data Created 
+ Container sp-mongo Creating 
+ Volume infra_redis-data Created 
+ Container sp-redis Creating 
+ Container sp-mailhog Created 
+ Container sp-mongo Created 
+ Container sp-redis Created 
+ Container sp-redis Starting 
+ Container sp-mailhog Starting 
+ Container sp-mongo Starting 
+ Container sp-redis Started 
+ Container sp-mailhog Started 
+ Container sp-mongo Started

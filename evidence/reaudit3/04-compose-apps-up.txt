@@ -1,0 +1,617 @@
+=== EVIDENCE ARTIFACT ===
+Target: 04-compose-apps-up
+Command: docker compose -f infra/docker-compose.yml up -d --build
+Timestamp (UTC): 2026-11-23T03:28:42.745169+00:00
+Git Commit: fdad02b7c74d0fade69947e41958f126ab8d8d27
+Exit Code: 0
+========================
+--- STDOUT ---
+#1 [internal] load local bake definitions
+#1 reading from stdin 3.03kB done
+#1 DONE 0.0s
+
+#2 [notification-service internal] load build definition from Dockerfile
+#2 transferring dockerfile: 1.80kB 0.0s done
+#2 DONE 0.0s
+
+#3 [widget internal] load build definition from Dockerfile
+#3 transferring dockerfile: 1.52kB 0.0s done
+#3 DONE 0.0s
+
+#4 [ai-service internal] load build definition from Dockerfile
+#4 transferring dockerfile: 1.30kB 0.0s done
+#4 DONE 0.1s
+
+#5 [ticket-service internal] load build definition from Dockerfile
+#5 transferring dockerfile: 1.76kB 0.0s done
+#5 DONE 0.1s
+
+#6 [web internal] load build definition from Dockerfile
+#6 transferring dockerfile: 1.56kB 0.0s done
+#6 DONE 0.1s
+
+#7 [gateway internal] load build definition from Dockerfile
+#7 transferring dockerfile: 1.72kB done
+#7 DONE 0.1s
+
+#8 [gateway internal] load metadata for docker.io/library/node:22-alpine
+#8 DONE 0.1s
+
+#9 [ticket-service internal] load .dockerignore
+#9 transferring context: 293B done
+#9 DONE 0.0s
+
+#10 [web internal] load metadata for docker.io/library/nginx:1.27-alpine
+#10 ...
+
+#11 [gateway builder  1/23] FROM docker.io/library/node:22-alpine@sha256:1314fb30ec37592d5845e5a160d522c0e680972aa534549940b8d73bde88481a
+#11 resolve docker.io/library/node:22-alpine@sha256:1314fb30ec37592d5845e5a160d522c0e680972aa534549940b8d73bde88481a 0.0s done
+#11 DONE 0.0s
+
+#12 [auth] library/python:pull token for registry-1.docker.io
+#12 DONE 0.0s
+
+#13 [notification-service internal] load build context
+#13 ...
+
+#14 [auth] library/nginx:pull token for registry-1.docker.io
+#14 DONE 0.0s
+
+#13 [notification-service internal] load build context
+#13 ...
+
+#9 [web internal] load .dockerignore
+#9 transferring context: 293B done
+#9 DONE 0.0s
+
+#11 [web builder  1/23] FROM docker.io/library/node:22-alpine@sha256:1314fb30ec37592d5845e5a160d522c0e680972aa534549940b8d73bde88481a
+#11 resolve docker.io/library/node:22-alpine@sha256:1314fb30ec37592d5845e5a160d522c0e680972aa534549940b8d73bde88481a 0.0s done
+#11 DONE 0.0s
+
+#10 [web internal] load metadata for docker.io/library/nginx:1.27-alpine
+#10 DONE 1.6s
+
+#15 [ticket-service internal] load build context
+#15 transferring context: 4.43MB 1.4s done
+#15 DONE 1.5s
+
+#13 [notification-service internal] load build context
+#13 ...
+
+#16 [ticket-service builder  6/23] COPY apps/ticket-service/package.json ./apps/ticket-service/
+#16 CACHED
+
+#17 [ticket-service builder 14/23] COPY packages/shared-lib/package.json ./packages/shared-lib/
+#17 CACHED
+
+#18 [ticket-service builder 16/23] COPY packages/eslint-config/package.json ./packages/eslint-config/
+#18 CACHED
+
+#19 [ticket-service builder  9/23] COPY apps/widget/package.json ./apps/widget/
+#19 CACHED
+
+#20 [ticket-service builder 15/23] COPY packages/validators/package.json ./packages/validators/
+#20 CACHED
+
+#21 [ticket-service builder  5/23] COPY apps/gateway/package.json ./apps/gateway/
+#21 CACHED
+
+#22 [ticket-service builder 12/23] COPY apps/admin/package.json ./apps/admin/
+#22 CACHED
+
+#23 [ticket-service builder 19/23] RUN pnpm install --frozen-lockfile
+#23 CACHED
+
+#24 [ticket-service builder 18/23] COPY packages/queue/package.json ./packages/queue/
+#24 CACHED
+
+#25 [ticket-service builder 22/23] RUN pnpm --filter @supportpilot/ticket-service... build
+#25 CACHED
+
+#26 [ticket-service builder  8/23] COPY apps/web/package.json ./apps/web/
+#26 CACHED
+
+#27 [ticket-service builder 23/23] RUN pnpm --filter @supportpilot/ticket-service deploy --legacy --prod /prod/ticket-service
+#27 CACHED
+
+#28 [ticket-service builder  4/23] COPY pnpm-lock.yaml pnpm-workspace.yaml package.json turbo.json tsconfig.base.json .npmrc ./
+#28 CACHED
+
+#29 [ticket-service builder 11/23] COPY apps/webhook-lambda/package.json ./apps/webhook-lambda/
+#29 CACHED
+
+#30 [ticket-service builder  7/23] COPY apps/notification-service/package.json ./apps/notification-service/
+#30 CACHED
+
+#31 [ticket-service builder 10/23] COPY apps/mobile/package.json ./apps/mobile/
+#31 CACHED
+
+#32 [ticket-service builder 21/23] COPY apps/ticket-service/ ./apps/ticket-service/
+#32 CACHED
+
+#33 [ticket-service builder 17/23] COPY packages/api-client/package.json ./packages/api-client/
+#33 CACHED
+
+#34 [ticket-service runner 3/4] RUN apk add --no-cache dumb-init wget
+#34 CACHED
+
+#35 [ticket-service builder 13/23] COPY packages/shared-types/package.json ./packages/shared-types/
+#35 CACHED
+
+#36 [ticket-service runner 4/4] COPY --chown=node:node --from=builder /prod/ticket-service /app
+#36 CACHED
+
+#37 [web runner 1/2] FROM docker.io/library/nginx:1.27-alpine@sha256:65645c7bb6a0661892a8b03b89d0743208a18dd2f3f17a54ef4b76fb8e2f2a10
+#37 resolve docker.io/library/nginx:1.27-alpine@sha256:65645c7bb6a0661892a8b03b89d0743208a18dd2f3f17a54ef4b76fb8e2f2a10 0.1s done
+#37 DONE 0.1s
+
+#38 [widget internal] load build context
+#38 transferring context: 14.76kB 0.1s done
+#38 DONE 0.1s
+
+#39 [web internal] load build context
+#39 transferring context: 23.83kB 0.1s done
+#39 DONE 0.1s
+
+#40 [widget builder  7/22] COPY apps/notification-service/package.json ./apps/notification-service/
+#40 CACHED
+
+#41 [widget builder 21/22] COPY apps/widget/ ./apps/widget/
+#41 CACHED
+
+#42 [widget builder  6/22] COPY apps/ticket-service/package.json ./apps/ticket-service/
+#42 CACHED
+
+#43 [widget builder 17/22] COPY packages/api-client/package.json ./packages/api-client/
+#43 CACHED
+
+#44 [widget builder 13/22] COPY packages/shared-types/package.json ./packages/shared-types/
+#44 CACHED
+
+#45 [widget builder 11/22] COPY apps/webhook-lambda/package.json ./apps/webhook-lambda/
+#45 CACHED
+
+#46 [widget builder 12/22] COPY apps/admin/package.json ./apps/admin/
+#46 CACHED
+
+#47 [widget builder  4/22] COPY pnpm-lock.yaml pnpm-workspace.yaml package.json turbo.json tsconfig.base.json .npmrc ./
+#47 CACHED
+
+#48 [widget builder  5/22] COPY apps/gateway/package.json ./apps/gateway/
+#48 CACHED
+
+#49 [widget builder  9/22] COPY apps/widget/package.json ./apps/widget/
+#49 CACHED
+
+#50 [widget builder 15/22] COPY packages/validators/package.json ./packages/validators/
+#50 CACHED
+
+#51 [widget builder 10/22] COPY apps/mobile/package.json ./apps/mobile/
+#51 CACHED
+
+#52 [widget builder 14/22] COPY packages/shared-lib/package.json ./packages/shared-lib/
+#52 CACHED
+
+#53 [widget builder  8/22] COPY apps/web/package.json ./apps/web/
+#53 CACHED
+
+#54 [widget builder 22/22] RUN pnpm --filter @supportpilot/widget... build
+#54 CACHED
+
+#55 [widget builder 20/22] COPY packages/ ./packages/
+#55 CACHED
+
+#56 [widget builder 18/22] COPY packages/queue/package.json ./packages/queue/
+#56 CACHED
+
+#57 [widget builder 19/22] RUN pnpm install --frozen-lockfile
+#57 CACHED
+
+#58 [widget builder 16/22] COPY packages/eslint-config/package.json ./packages/eslint-config/
+#58 CACHED
+
+#59 [widget runner 2/2] COPY --from=builder /app/apps/widget/dist /usr/share/nginx/html
+#59 CACHED
+
+#60 [web builder 20/23] COPY packages/ ./packages/
+#60 CACHED
+
+#61 [web builder 10/22] COPY apps/mobile/package.json ./apps/mobile/
+#61 CACHED
+
+#62 [web builder  5/22] COPY apps/gateway/package.json ./apps/gateway/
+#62 CACHED
+
+#63 [web builder 18/22] COPY packages/queue/package.json ./packages/queue/
+#63 CACHED
+
+#64 [web builder 11/22] COPY apps/webhook-lambda/package.json ./apps/webhook-lambda/
+#64 CACHED
+
+#65 [web builder 17/22] COPY packages/api-client/package.json ./packages/api-client/
+#65 CACHED
+
+#66 [web builder 16/22] COPY packages/eslint-config/package.json ./packages/eslint-config/
+#66 CACHED
+
+#67 [web builder  2/23] WORKDIR /app
+#67 CACHED
+
+#68 [web builder 19/22] RUN pnpm install --frozen-lockfile
+#68 CACHED
+
+#69 [web builder  9/22] COPY apps/widget/package.json ./apps/widget/
+#69 CACHED
+
+#70 [web builder  3/23] RUN corepack enable && corepack prepare pnpm@10.11.0 --activate
+#70 CACHED
+
+#71 [web builder  6/22] COPY apps/ticket-service/package.json ./apps/ticket-service/
+#71 CACHED
+
+#72 [web builder  8/22] COPY apps/web/package.json ./apps/web/
+#72 CACHED
+
+#73 [web builder 13/22] COPY packages/shared-types/package.json ./packages/shared-types/
+#73 CACHED
+
+#74 [web builder 12/22] COPY apps/admin/package.json ./apps/admin/
+#74 CACHED
+
+#75 [web builder  7/22] COPY apps/notification-service/package.json ./apps/notification-service/
+#75 CACHED
+
+#76 [web builder 15/22] COPY packages/validators/package.json ./packages/validators/
+#76 CACHED
+
+#77 [web builder 14/22] COPY packages/shared-lib/package.json ./packages/shared-lib/
+#77 CACHED
+
+#78 [web builder  4/22] COPY pnpm-lock.yaml pnpm-workspace.yaml package.json turbo.json tsconfig.base.json .npmrc ./
+#78 CACHED
+
+#79 [web builder 20/22] COPY packages/ ./packages/
+#79 CACHED
+
+#13 [notification-service internal] load build context
+#13 transferring context: 2.37MB 1.6s done
+#13 DONE 1.6s
+
+#60 [notification-service builder 20/23] COPY packages/ ./packages/
+#60 CACHED
+
+#80 [gateway internal] load build context
+#80 transferring context: 3.03MB 1.6s done
+#80 DONE 1.6s
+
+#81 [notification-service builder  8/23] COPY apps/web/package.json ./apps/web/
+#81 CACHED
+
+#82 [notification-service builder  9/23] COPY apps/widget/package.json ./apps/widget/
+#82 CACHED
+
+#83 [notification-service builder  5/23] COPY apps/gateway/package.json ./apps/gateway/
+#83 CACHED
+
+#84 [notification-service builder 16/23] COPY packages/eslint-config/package.json ./packages/eslint-config/
+#84 CACHED
+
+#85 [notification-service builder 15/23] COPY packages/validators/package.json ./packages/validators/
+#85 CACHED
+
+#86 [notification-service builder 18/23] COPY packages/queue/package.json ./packages/queue/
+#86 CACHED
+
+#87 [notification-service builder 14/23] COPY packages/shared-lib/package.json ./packages/shared-lib/
+#87 CACHED
+
+#88 [notification-service builder  6/23] COPY apps/ticket-service/package.json ./apps/ticket-service/
+#88 CACHED
+
+#89 [notification-service builder 11/23] COPY apps/webhook-lambda/package.json ./apps/webhook-lambda/
+#89 CACHED
+
+#90 [notification-service builder 23/23] RUN pnpm --filter @supportpilot/notification-service deploy --legacy --prod /prod/notification-service
+#90 CACHED
+
+#91 [notification-service builder 19/23] RUN pnpm install --frozen-lockfile
+#91 CACHED
+
+#92 [notification-service builder 21/23] COPY apps/notification-service/ ./apps/notification-service/
+#92 CACHED
+
+#93 [notification-service builder  4/23] COPY pnpm-lock.yaml pnpm-workspace.yaml package.json turbo.json tsconfig.base.json .npmrc ./
+#93 CACHED
+
+#94 [notification-service builder 12/23] COPY apps/admin/package.json ./apps/admin/
+#94 CACHED
+
+#95 [notification-service builder 17/23] COPY packages/api-client/package.json ./packages/api-client/
+#95 CACHED
+
+#96 [notification-service builder 22/23] RUN pnpm --filter @supportpilot/notification-service... build
+#96 CACHED
+
+#97 [notification-service builder 13/23] COPY packages/shared-types/package.json ./packages/shared-types/
+#97 CACHED
+
+#98 [notification-service builder 10/23] COPY apps/mobile/package.json ./apps/mobile/
+#98 CACHED
+
+#99 [notification-service builder  7/23] COPY apps/notification-service/package.json ./apps/notification-service/
+#99 CACHED
+
+#100 [notification-service builder 20/23] COPY packages/ ./packages/
+#100 CACHED
+
+#101 [gateway builder 15/23] COPY packages/validators/package.json ./packages/validators/
+#101 CACHED
+
+#34 [gateway runner 3/4] RUN apk add --no-cache dumb-init wget
+#34 CACHED
+
+#102 [gateway builder  8/23] COPY apps/web/package.json ./apps/web/
+#102 CACHED
+
+#103 [gateway builder 12/23] COPY apps/admin/package.json ./apps/admin/
+#103 CACHED
+
+#104 [gateway builder  5/23] COPY apps/gateway/package.json ./apps/gateway/
+#104 CACHED
+
+#70 [gateway builder  3/23] RUN corepack enable && corepack prepare pnpm@10.11.0 --activate
+#70 CACHED
+
+#105 [gateway builder 17/23] COPY packages/api-client/package.json ./packages/api-client/
+#105 CACHED
+
+#106 [gateway builder  6/23] COPY apps/ticket-service/package.json ./apps/ticket-service/
+#106 CACHED
+
+#107 [gateway builder 14/23] COPY packages/shared-lib/package.json ./packages/shared-lib/
+#107 CACHED
+
+#108 [gateway builder  9/23] COPY apps/widget/package.json ./apps/widget/
+#108 CACHED
+
+#109 [gateway builder 23/23] RUN pnpm --filter @supportpilot/gateway deploy --legacy --prod /prod/gateway
+#109 CACHED
+
+#110 [gateway builder  7/23] COPY apps/notification-service/package.json ./apps/notification-service/
+#110 CACHED
+
+#111 [gateway builder 19/23] RUN pnpm install --frozen-lockfile
+#111 CACHED
+
+#112 [gateway builder 20/23] COPY packages/ ./packages/
+#112 CACHED
+
+#113 [gateway builder 16/23] COPY packages/eslint-config/package.json ./packages/eslint-config/
+#113 CACHED
+
+#114 [gateway builder 18/23] COPY packages/queue/package.json ./packages/queue/
+#114 CACHED
+
+#115 [gateway builder 21/23] COPY apps/gateway/ ./apps/gateway/
+#115 CACHED
+
+#116 [gateway builder 22/23] RUN pnpm --filter @supportpilot/gateway... build
+#116 CACHED
+
+#117 [gateway builder 11/23] COPY apps/webhook-lambda/package.json ./apps/webhook-lambda/
+#117 CACHED
+
+#118 [gateway builder 13/23] COPY packages/shared-types/package.json ./packages/shared-types/
+#118 CACHED
+
+#67 [gateway builder  2/23] WORKDIR /app
+#67 CACHED
+
+#119 [gateway builder 10/23] COPY apps/mobile/package.json ./apps/mobile/
+#119 CACHED
+
+#120 [gateway builder  4/23] COPY pnpm-lock.yaml pnpm-workspace.yaml package.json turbo.json tsconfig.base.json .npmrc ./
+#120 CACHED
+
+#121 [gateway runner 4/4] COPY --chown=node:node --from=builder /prod/gateway /app
+#121 CACHED
+
+#122 [notification-service runner 4/4] COPY --chown=node:node --from=builder /prod/notification-service /app
+#122 CACHED
+
+#123 [notification-service] exporting to image
+#123 exporting layers done
+#123 exporting manifest sha256:479c8453a7fe106c7b266586926cbd93e4b7328c9a76f5ceabbdeb9f866a6eca 0.0s done
+#123 exporting config sha256:25079f0c1428e9ab4d1d8fe6f1daacc4cd8eecdf0972489fc119101d03108f6a 0.0s done
+#123 ...
+
+#9 [ai-service internal] load .dockerignore
+#9 transferring context: 293B done
+#9 DONE 0.0s
+
+#124 [ai-service internal] load metadata for docker.io/library/python:3.12-slim
+#124 DONE 1.9s
+
+#125 [ticket-service] exporting to image
+#125 exporting layers done
+#125 exporting manifest sha256:8c21a2d43b8eb4e4076b9394504eae84793c9e6619b3590f3af3cd3349de88c5 done
+#125 exporting config sha256:ff69ec8a936e4069eb97863ee513e31d25ea6316649f3f92f774271ce7427ce8 done
+#125 exporting attestation manifest sha256:f117545e2ef8d4e9a3f08ff45069ff35d9cb096d369e4a6b5c6a58ce3320563c 0.0s done
+#125 exporting manifest list sha256:96938408215dd1b0351cdea5fd7a99c8cd229621a5102cf1de035a5d932b95a2 0.0s done
+#125 naming to docker.io/library/infra-ticket-service:latest 0.0s done
+#125 unpacking to docker.io/library/infra-ticket-service:latest 0.0s done
+#125 DONE 0.2s
+
+#126 [ai-service internal] load build context
+#126 transferring context: 368.81kB 0.1s done
+#126 DONE 0.1s
+
+#123 [notification-service] exporting to image
+#123 exporting attestation manifest sha256:8974d89d020d91a4dee4fe4d9eccaf27c6fb9f33c1e842bd937b1ed8c74fa9b5
+#123 ...
+
+#127 [widget] exporting to image
+#127 exporting layers done
+#127 exporting manifest sha256:08734685d885a51c2b8c94e9b3308bd24a1478c7ea770eb0b54f12bef0c0c647 0.0s done
+#127 exporting config sha256:3be55436412ca08e13a53d7fad36b3a966ead5615f29def772b0a8282bb93fb0 done
+#127 exporting attestation manifest sha256:a692794ad656dcd62da109ba9aecd1911b902b65e6062807eb78ad751d71438e 0.0s done
+#127 exporting manifest list sha256:40b4acddb76bf6cec7fa1096cf8e061006c2b298601e43a61abee1c89b765446 0.0s done
+#127 naming to docker.io/library/infra-widget:latest 0.0s done
+#127 unpacking to docker.io/library/infra-widget:latest 0.1s done
+#127 DONE 0.3s
+
+#128 [web builder 21/22] COPY apps/web/ ./apps/web/
+#128 DONE 0.3s
+
+#129 [ai-service builder 1/6] FROM docker.io/library/python:3.12-slim@sha256:5e2bdb1b0d542d5039cffb8181c65930093949194a65c365dfb1b0fe13a4fa5b
+#129 resolve docker.io/library/python:3.12-slim@sha256:5e2bdb1b0d542d5039cffb8181c65930093949194a65c365dfb1b0fe13a4fa5b 0.2s done
+#129 DONE 0.2s
+
+#123 [notification-service] exporting to image
+#123 exporting attestation manifest sha256:8974d89d020d91a4dee4fe4d9eccaf27c6fb9f33c1e842bd937b1ed8c74fa9b5 0.1s done
+#123 exporting manifest list sha256:4519bd0f91e4d8bca1e89c5aa831301aefb4ee5f71678fe7d33f6fcb5f2b1b15
+#123 exporting manifest list sha256:4519bd0f91e4d8bca1e89c5aa831301aefb4ee5f71678fe7d33f6fcb5f2b1b15 0.1s done
+#123 naming to docker.io/library/infra-notification-service:latest 0.0s done
+#123 unpacking to docker.io/library/infra-notification-service:latest 0.0s done
+#123 DONE 0.3s
+
+#130 [ai-service runner 6/7] COPY --chown=appuser:appgroup apps/ai-service/src /app/src
+#130 CACHED
+
+#131 [ai-service builder 5/6] COPY apps/ai-service/requirements.txt ./
+#131 CACHED
+
+#132 [ai-service runner 3/7] RUN apt-get update && apt-get install -y --no-install-recommends     curl     && rm -rf /var/lib/apt/lists/*
+#132 CACHED
+
+#133 [ai-service builder 4/6] RUN python -m venv /opt/venv
+#133 CACHED
+
+#134 [ai-service runner 5/7] COPY --from=builder /opt/venv /opt/venv
+#134 CACHED
+
+#135 [ai-service builder 3/6] RUN apt-get update && apt-get install -y --no-install-recommends     build-essential     curl     && rm -rf /var/lib/apt/lists/*
+#135 CACHED
+
+#136 [ai-service builder 2/6] WORKDIR /app
+#136 CACHED
+
+#137 [ai-service builder 6/6] RUN pip install --no-cache-dir --upgrade pip &&     pip install --no-cache-dir -r requirements.txt
+#137 CACHED
+
+#138 [ai-service runner 4/7] RUN groupadd -g 1001 appgroup &&     useradd -u 1001 -g appgroup -s /bin/bash -m appuser
+#138 CACHED
+
+#139 [ai-service runner 7/7] COPY --chown=appuser:appgroup apps/ai-service/models /app/models
+#139 CACHED
+
+#140 [gateway] exporting to image
+#140 exporting layers done
+#140 exporting manifest sha256:052602cb71ddae5c0548065caa0bbaa4dbfbc6033ccb83433b7d1a2397e5f928 0.0s done
+#140 exporting config sha256:59f66de5c38284b669cb3e1ce5fa20e0856c1657f9cfd97b6eba7070a317f70c 0.0s done
+#140 exporting attestation manifest sha256:4b1efbd454c66c3085c29049208db9b9470b86e2e1346eb04610b481fbc5ec02 0.1s done
+#140 exporting manifest list sha256:e1a83834a902c42dab007237d6b7c484b15329f933590fd5f901b25233c668c4 0.0s done
+#140 naming to docker.io/library/infra-gateway:latest 0.0s done
+#140 unpacking to docker.io/library/infra-gateway:latest 0.0s done
+#140 DONE 0.3s
+
+#141 [ai-service] exporting to image
+#141 exporting layers done
+#141 exporting manifest sha256:1a2ab725c0a6679e850c5e93599eb7fe446ec9f8baca7d8302212a196560dac4 done
+#141 exporting config sha256:58dbf84c4fbbc62a23434ac629c37e409a0176cd76627f39b5347f49a98c5786 done
+#141 exporting attestation manifest sha256:b3e887e4c5f047cc2ed0a8ccfeb53dda72d367885d8b1f55ed9e2fb0f4961474 0.1s done
+#141 exporting manifest list sha256:325f9e1a828b6f4ae773ff3fcbe9710f1a695b2b7312c9a196e4740267985e1d
+#141 exporting manifest list sha256:325f9e1a828b6f4ae773ff3fcbe9710f1a695b2b7312c9a196e4740267985e1d 0.0s done
+#141 naming to docker.io/library/infra-ai-service:latest done
+#141 unpacking to docker.io/library/infra-ai-service:latest 0.0s done
+#141 DONE 0.2s
+
+#142 [ticket-service] resolving provenance for metadata file
+#142 DONE 0.1s
+
+#143 [ai-service] resolving provenance for metadata file
+#143 DONE 0.0s
+
+#144 [gateway] resolving provenance for metadata file
+#144 DONE 0.1s
+
+#145 [widget] resolving provenance for metadata file
+#145 DONE 0.1s
+
+#146 [notification-service] resolving provenance for metadata file
+#146 DONE 0.0s
+
+#147 [web builder 22/22] RUN pnpm --filter @supportpilot/web... build
+#147 2.380 Scope: 3 of 15 workspace projects
+#147 2.385 packages/shared-types build$ tsc --build
+#147 3.936 packages/shared-types build: Done
+#147 3.938 apps/web build$ tsc -b && vite build
+#147 14.13 apps/web build: vite v8.3.8 building client environment for production...
+#147 14.21 apps/web build: transforming...
+#147 14.85 apps/web build: ✓ 2771 modules transformed.
+#147 15.03 apps/web build: rendering chunks...
+#147 15.19 apps/web build: computing gzip size...
+#147 15.20 apps/web build: dist/index.html                               1.03 kB │ gzip:   0.58 kB
+#147 15.20 apps/web build: dist/assets/index-BGTudpCu.css              110.29 kB │ gzip:  17.11 kB
+#147 15.20 apps/web build: dist/assets/trash-CWgqumD-.js                 0.37 kB │ gzip:   0.24 kB
+#147 15.20 apps/web build: dist/assets/file-text-CRp8W7Q0.js             0.41 kB │ gzip:   0.27 kB
+#147 15.20 apps/web build: dist/assets/sparkles-C_nOviDs.js              0.63 kB │ gzip:   0.35 kB
+#147 15.20 apps/web build: dist/assets/HelpCenterView-CDscUtyB.js       15.56 kB │ gzip:   4.27 kB
+#147 15.20 apps/web build: dist/assets/TeamView-BaIAulbL.js             19.09 kB │ gzip:   3.76 kB
+#147 15.20 apps/web build: dist/assets/api-B5BAKhv5.js                  19.75 kB │ gzip:   6.66 kB
+#147 15.20 apps/web build: dist/assets/CustomersView-Dyar4xMl.js        20.99 kB │ gzip:   3.65 kB
+#147 15.20 apps/web build: dist/assets/AutomationView-C8ryTugb.js       21.76 kB │ gzip:   4.59 kB
+#147 15.20 apps/web build: dist/assets/LiveChatView-IXIt-mQj.js         23.92 kB │ gzip:   5.52 kB
+#147 15.20 apps/web build: dist/assets/TicketInbox-BDUxYkGK.js          26.26 kB │ gzip:   5.19 kB
+#147 15.20 apps/web build: dist/assets/AnalyticsDashboard-DQ7MUEYZ.js   29.68 kB │ gzip:   4.87 kB
+#147 15.20 apps/web build: dist/assets/KnowledgeBaseView-CkrGx8cw.js    30.45 kB │ gzip:   6.62 kB
+#147 15.20 apps/web build: dist/assets/AdminCockpitView-B4JcqmAk.js     33.44 kB │ gzip:   6.78 kB
+#147 15.20 apps/web build: dist/assets/esm-Ci0YS2hg.js                  33.85 kB │ gzip:  10.10 kB
+#147 15.20 apps/web build: dist/assets/TicketDetail-CQMWWdyk.js         41.58 kB │ gzip:   9.53 kB
+#147 15.21 apps/web build: dist/assets/SettingsView-BoTnL0nm.js         70.23 kB │ gzip:  13.35 kB
+#147 15.21 apps/web build: dist/assets/index-DuOn6fKG.js               494.21 kB │ gzip: 145.09 kB
+#147 15.21 apps/web build: ✓ built in 1.07s
+#147 15.27 apps/web build: Done
+#147 DONE 15.3s
+
+#148 [web runner 2/3] COPY --from=builder /app/apps/web/dist /usr/share/nginx/html
+#148 CACHED
+
+#149 [web runner 3/3] COPY apps/web/nginx.conf /etc/nginx/conf.d/default.conf
+#149 DONE 0.0s
+
+#150 [web] exporting to image
+#150 exporting layers 0.1s done
+#150 exporting manifest sha256:8c562715bc58b56d259b9857e9ec49d18bef78f9b8758633c7b7f8e560747dd4 0.0s done
+#150 exporting config sha256:3d34074fb512c8f5b7ddaa0739108cae7d946cae041b37f87cc931d71038959f 0.0s done
+#150 exporting attestation manifest sha256:6d5103f91dfd0f3609608c720c9c0998d022ebc3b61ad09cd75c5b4a37f657e1 0.0s done
+#150 exporting manifest list sha256:20b05d788436020ba94d7a4bd178b035a5472d7f8aa8c129aabdf92eb96f5f5a 0.0s done
+#150 naming to docker.io/library/infra-web:latest done
+#150 unpacking to docker.io/library/infra-web:latest 0.0s done
+#150 DONE 0.2s
+
+#151 [web] resolving provenance for metadata file
+#151 DONE 0.0s
+--- STDERR ---
+ Image infra-gateway Building 
+ Image infra-web Building 
+ Image infra-widget Building 
+ Image infra-ticket-service Building 
+ Image infra-ai-service Building 
+ Image infra-notification-service Building 
+ Image infra-gateway Built 
+ Image infra-notification-service Built 
+ Image infra-web Built 
+ Image infra-widget Built 
+ Image infra-ai-service Built 
+ Image infra-ticket-service Built 
+time="2026-11-23T08:59:04+05:30" level=warning msg="Found orphan containers (sp-redis, sp-mongo, sp-mailhog, sp-postgres) for this project. If you removed or renamed this service in your compose file, you can run this command with the --remove-orphans flag to clean it up."
+ Container sp-widget Running 
+ Container sp-ticket-service Running 
+ Container sp-ai-service Running 
+ Container sp-notification-service Running 
+ Container sp-gateway Running 
+ Container sp-web Recreate 
+ Container sp-web Recreated 
+ Container sp-web Starting 
+ Container sp-web Started

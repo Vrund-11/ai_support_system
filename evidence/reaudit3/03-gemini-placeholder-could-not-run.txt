@@ -1,0 +1,82 @@
+=== EVIDENCE ARTIFACT ===
+Target: 03-gemini-placeholder-could-not-run
+Command: python scripts/verify_gemini_execution.py
+Timestamp (UTC): 2026-11-22T18:55:54.850244+00:00
+Git Commit: fdad02b7c74d0fade69947e41958f126ab8d8d27
+Exit Code: 1
+========================
+--- STDOUT ---
+=================================================================
+VERIFICATION: Google Gemini API Execution for /v1/answer & Judge
+=================================================================
+Loaded .env from: C:\Users\vrund\OneDrive\Desktop\ai_project\apps\ai-service\.env
+GEMINI_API_KEY configured: Yes
+Key length: 24 chars
+Masked key: your...here
+
+--- 1. Testing /v1/answer Generation via Gemini API ---
+Response HTTP Status: 400
+Response Body:
+{
+  "error": {
+    "code": 400,
+    "message": "API key not valid. Please pass a valid API key.",
+    "status": "INVALID_ARGUMENT",
+    "details": [
+      {
+        "@type": "type.googleapis.com/google.rpc.ErrorInfo",
+        "reason": "API_KEY_INVALID",
+        "domain": "googleapis.com",
+        "metadata": {
+          "service": "generativelanguage.googleapis.com"
+        }
+      },
+      {
+        "@type": "type.googleapis.com/google.rpc.LocalizedMessage",
+        "locale": "en-US",
+        "message": "API key not valid. Please pass a valid API key."
+      }
+    ]
+  }
+}
+
+
+--- 2. Testing LLM-Judge Groundedness Evaluation via Gemini API ---
+Response HTTP Status: 400
+Response Body:
+{
+  "error": {
+    "code": 400,
+    "message": "API key not valid. Please pass a valid API key.",
+    "status": "INVALID_ARGUMENT",
+    "details": [
+      {
+        "@type": "type.googleapis.com/google.rpc.ErrorInfo",
+        "reason": "API_KEY_INVALID",
+        "domain": "googleapis.com",
+        "metadata": {
+          "service": "generativelanguage.googleapis.com"
+        }
+      },
+      {
+        "@type": "type.googleapis.com/google.rpc.LocalizedMessage",
+        "locale": "en-US",
+        "message": "API key not valid. Please pass a valid API key."
+      }
+    ]
+  }
+}
+
+
+=================================================================
+VERDICT: COULD NOT RUN
+=================================================================
+COULD NOT RUN: Real Gemini LLM generation for /v1/answer and LLM-judge
+groundedness evaluation could not execute because GEMINI_API_KEY is a
+placeholder ('your-gemini-api-key-here').
+Google Generative Language API returned HTTP 400 INVALID_ARGUMENT (API_KEY_INVALID).
+To enable real LLM generation, the human operator must set a genuine
+Google Gemini API key in apps/ai-service/.env and rerun evaluation.
+=================================================================
+--- STDERR ---
+

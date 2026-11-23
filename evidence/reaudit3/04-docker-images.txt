@@ -1,0 +1,11 @@
+=== EVIDENCE ARTIFACT ===
+Target: 04-docker-images
+Command: docker images --format 'table {{.Repository}}\t{{.Tag}}\t{{.Size}}'
+Timestamp (UTC): 2026-11-23T03:30:44.654909+00:00
+Git Commit: fdad02b7c74d0fade69947e41958f126ab8d8d27
+Exit Code: 0
+========================
+--- STDOUT ---
+
+--- STDERR ---
+

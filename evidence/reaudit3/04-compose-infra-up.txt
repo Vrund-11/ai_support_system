@@ -1,0 +1,15 @@
+=== EVIDENCE ARTIFACT ===
+Target: 04-compose-infra-up
+Command: docker compose -f infra/docker-compose.infra.yml up -d
+Timestamp (UTC): 2026-11-23T03:28:36.342575+00:00
+Git Commit: fdad02b7c74d0fade69947e41958f126ab8d8d27
+Exit Code: 0
+========================
+--- STDOUT ---
+
+--- STDERR ---
+time="2026-11-23T08:58:36+05:30" level=warning msg="Found orphan containers (sp-ai-service, sp-web, sp-widget, sp-gateway, sp-notification-service, sp-ticket-service) for this project. If you removed or renamed this service in your compose file, you can run this command with the --remove-orphans flag to clean it up."
+ Container sp-postgres Running 
+ Container sp-redis Running 
+ Container sp-mailhog Running 
+ Container sp-mongo Running

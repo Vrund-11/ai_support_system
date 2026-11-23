@@ -1,0 +1,23 @@
+=== EVIDENCE ARTIFACT ===
+Target: 04-ready-ticket-service
+Command: curl.exe -s -i -H 'x-service-token: supportpilot-internal-service-token-32c!' http://localhost:4001/health/readiness
+Timestamp (UTC): 2026-11-23T03:31:20.638542+00:00
+Git Commit: fdad02b7c74d0fade69947e41958f126ab8d8d27
+Exit Code: 0
+========================
+--- STDOUT ---
+HTTP/1.1 200 OK
+X-Powered-By: Express
+x-request-id: 7005749a-9a34-4fed-8061-c2efe9d3cc84
+traceparent: 00-8593c3ce4a71d9a906351d5dddb098b6-80cd472805915ab3-01
+Content-Type: application/json; charset=utf-8
+Content-Length: 18
+ETag: W/"12-4TtQgvFNX2eV2jVHUVwyech4XJg"
+Server-Timing: total;dur=0.5
+Date: Mon, 23 Nov 2026 03:31:20 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"status":"ready"}
+--- STDERR ---
+

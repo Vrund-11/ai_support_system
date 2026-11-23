@@ -1,0 +1,21 @@
+=== EVIDENCE ARTIFACT ===
+Target: 04-compose-ps
+Command: docker compose -f infra/docker-compose.infra.yml -f infra/docker-compose.yml ps
+Timestamp (UTC): 2026-11-23T03:30:40.012597+00:00
+Git Commit: fdad02b7c74d0fade69947e41958f126ab8d8d27
+Exit Code: 0
+========================
+--- STDOUT ---
+NAME                      IMAGE                                                                     COMMAND                  SERVICE                CREATED              STATUS                        PORTS
+sp-ai-service             sha256:17dc6e0a928e0e44ad5e70f132531264260a6e74ad62a259d924d62e10f0b111   "uvicorn src.main:ap…"   ai-service             5 minutes ago        Up 5 minutes (healthy)        0.0.0.0:8000->8000/tcp, [::]:8000->8000/tcp
+sp-gateway                sha256:69aeb28ed86207b7fb753debe3724a6ec8037917883b5920ff358c6475967206   "dumb-init -- node d…"   gateway                6 minutes ago        Up 6 minutes (healthy)        0.0.0.0:4000->4000/tcp, [::]:4000->4000/tcp
+sp-mailhog                mailhog/mailhog:latest                                                    "MailHog"                mailhog                9 hours ago          Up 9 hours (healthy)          0.0.0.0:1025->1025/tcp, [::]:1025->1025/tcp, 0.0.0.0:8025->8025/tcp, [::]:8025->8025/tcp
+sp-mongo                  mongo:7                                                                   "docker-entrypoint.s…"   mongo                  9 hours ago          Up 9 hours (healthy)          0.0.0.0:27017->27017/tcp, [::]:27017->27017/tcp
+sp-notification-service   sha256:74718de8047fe9eeb3beb75346a77b851db3eb2658169ce7b3c8fecc2d42f085   "dumb-init -- node d…"   notification-service   6 minutes ago        Up 6 minutes (healthy)        0.0.0.0:5001->5001/tcp, [::]:5001->5001/tcp
+sp-postgres               pgvector/pgvector:pg16                                                    "docker-entrypoint.s…"   postgres               12 hours ago         Up 12 hours (healthy)         0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp, 0.0.0.0:5433->5432/tcp, [::]:5433->5432/tcp
+sp-redis                  redis:7-alpine                                                            "docker-entrypoint.s…"   redis                  9 hours ago          Up 9 hours (healthy)          0.0.0.0:6379->6379/tcp, [::]:6379->6379/tcp
+sp-ticket-service         sha256:aa7ac35794416c6351f694e5c4f79eccb1241bb032ea08c6229a264d9af2f005   "dumb-init -- node d…"   ticket-service         6 minutes ago        Up 6 minutes (healthy)        0.0.0.0:4001->4001/tcp, [::]:4001->4001/tcp
+sp-web                    infra-web                                                                 "/docker-entrypoint.…"   web                    About a minute ago   Up About a minute (healthy)   0.0.0.0:3000->80/tcp, [::]:3000->80/tcp
+sp-widget                 sha256:1a5097f1a66b89ad1d7ff38b671fc4a47effc07db4cff680edd048ea0eeb37bd   "/docker-entrypoint.…"   widget                 6 minutes ago        Up 6 minutes (healthy)        0.0.0.0:3001->80/tcp, [::]:3001->80/tcp
+--- STDERR ---
+

@@ -1,0 +1,39 @@
+=== EVIDENCE ARTIFACT ===
+Target: kubectl-apply.txt
+Command: kubectl apply -k infra/k8s/overlays/local
+Timestamp (UTC): 2026-11-22T19:00:42.094373+00:00
+Git Commit: fdad02b7c74d0fade69947e41958f126ab8d8d27
+Exit Code: 0
+========================
+--- STDOUT ---
+namespace/supportpilot created
+configmap/supportpilot-config created
+secret/supportpilot-secrets created
+service/ai-service created
+service/gateway created
+service/mongo created
+service/notification-service created
+service/postgres created
+service/redis created
+service/ticket-service created
+service/web created
+deployment.apps/ai-service created
+deployment.apps/gateway created
+deployment.apps/mongo created
+deployment.apps/notification-service created
+deployment.apps/postgres created
+deployment.apps/redis created
+deployment.apps/ticket-service created
+deployment.apps/web created
+poddisruptionbudget.policy/gateway-pdb created
+horizontalpodautoscaler.autoscaling/ai-service-hpa created
+horizontalpodautoscaler.autoscaling/gateway-hpa created
+horizontalpodautoscaler.autoscaling/ticket-service-hpa created
+ingress.networking.k8s.io/supportpilot-ingress created
+networkpolicy.networking.k8s.io/allow-gateway-to-internal-services created
+networkpolicy.networking.k8s.io/allow-ingress-to-edge created
+networkpolicy.networking.k8s.io/allow-internal-datastores created
+networkpolicy.networking.k8s.io/allow-ticket-to-notification-service created
+networkpolicy.networking.k8s.io/default-deny-ingress created
+--- STDERR ---
+

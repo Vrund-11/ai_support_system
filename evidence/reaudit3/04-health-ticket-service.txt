@@ -1,0 +1,23 @@
+=== EVIDENCE ARTIFACT ===
+Target: 04-health-ticket-service
+Command: curl.exe -s -i http://localhost:4001/health
+Timestamp (UTC): 2026-11-23T03:31:15.021648+00:00
+Git Commit: fdad02b7c74d0fade69947e41958f126ab8d8d27
+Exit Code: 0
+========================
+--- STDOUT ---
+HTTP/1.1 200 OK
+X-Powered-By: Express
+x-request-id: 54d79d09-9769-40a4-a9f1-f9b7801f12bf
+traceparent: 00-3e9b2c929aed265a52247f0294b25b25-d03b6454c0b1a0b9-01
+Content-Type: application/json; charset=utf-8
+Content-Length: 15
+ETag: W/"f-VaSQ4oDUiZblZNAEkkN+sX+q3Sg"
+Server-Timing: total;dur=0.4
+Date: Mon, 23 Nov 2026 03:31:15 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"status":"ok"}
+--- STDERR ---
+

@@ -1,0 +1,20 @@
+=== EVIDENCE ARTIFACT ===
+Target: ci-runs.txt
+Command: gh run list --limit 10
+Timestamp (UTC): 2026-11-22T18:45:10.391042+00:00
+Git Commit: fdad02b7c74d0fade69947e41958f126ab8d8d27
+Exit Code: 0
+========================
+--- STDOUT ---
+completed	success	docker in /apps/ticket-service - Update #1721492854	Dependabot Updates	main	dynamic	45031564753	33s	2026-11-22T14:12:35Z
+completed	success	docker in /apps/widget - Update #1721492856	Dependabot Updates	main	dynamic	45031564634	42s	2026-11-22T14:12:35Z
+completed	success	docker in /apps/ai-service - Update #1721492842	Dependabot Updates	main	dynamic	45031564622	40s	2026-11-22T14:12:35Z
+completed	success	docker in /apps/notification-service - Update #1721492847	Dependabot Updates	main	dynamic	45031564565	40s	2026-11-22T14:12:35Z
+completed	success	docker in /apps/gateway - Update #1721492849	Dependabot Updates	main	dynamic	45031564466	39s	2026-11-22T14:12:35Z
+completed	success	docker in /apps/web - Update #1721492855	Dependabot Updates	main	dynamic	45031564422	38s	2026-11-22T14:12:35Z
+completed	failure	chore(deps)(deps): bump pino from 9.14.0 to 10.4.0	E2E Tests	dependabot/npm_and_yarn/main/pino-10.4.0	pull_request	45029451786	1m38s	2026-11-22T13:48:54Z
+completed	success	chore(deps)(deps): bump pino from 9.14.0 to 10.4.0	CI	dependabot/npm_and_yarn/main/pino-10.4.0	pull_request	45029451752	2m16s	2026-11-22T13:48:54Z
+completed	success	chore(deps-dev)(deps-dev): bump @types/node from 22.20.5 to 26.6.6	Mobile App CI & EAS Preview	dependabot/npm_and_yarn/main/types/node-26.6.6	pull_request	45029427309	30s	2026-11-22T13:48:37Z
+completed	success	chore(deps-dev)(deps-dev): bump @types/node from 22.20.5 to 26.6.6	CI	dependabot/npm_and_yarn/main/types/node-26.6.6	pull_request	45029427298	2m16s	2026-11-22T13:48:37Z
+--- STDERR ---
+

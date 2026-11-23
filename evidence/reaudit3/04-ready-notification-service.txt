@@ -1,0 +1,21 @@
+=== EVIDENCE ARTIFACT ===
+Target: 04-ready-notification-service
+Command: curl.exe -s -i -H 'x-service-token: supportpilot-internal-service-token-32c!' http://localhost:5001/health/readiness
+Timestamp (UTC): 2026-11-23T03:31:40.866002+00:00
+Git Commit: fdad02b7c74d0fade69947e41958f126ab8d8d27
+Exit Code: 0
+========================
+--- STDOUT ---
+HTTP/1.1 200 OK
+X-Powered-By: Express
+x-request-id: a93ad8e1-08b8-4f55-8526-2903b9f95b43
+Content-Type: application/json; charset=utf-8
+Content-Length: 18
+ETag: W/"12-4TtQgvFNX2eV2jVHUVwyech4XJg"
+Date: Mon, 23 Nov 2026 03:31:40 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"status":"ready"}
+--- STDERR ---
+

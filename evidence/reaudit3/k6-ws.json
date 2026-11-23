@@ -1,0 +1,181 @@
+{
+  "metrics": {
+    "ws_msgs_sent": {
+      "count": 3575,
+      "rate": 27.541174288602168
+    },
+    "http_req_failed": {
+      "passes": 0,
+      "fails": 1,
+      "value": 0
+    },
+    "ws_session_duration": {
+      "avg": 15006.017012771741,
+      "min": 15002.1292,
+      "med": 15004.4642,
+      "max": 15036.6769,
+      "p(90)": 15010.73796,
+      "p(95)": 15014.08081
+    },
+    "http_reqs": {
+      "rate": 0.007703824975832774,
+      "count": 1
+    },
+    "http_req_waiting": {
+      "avg": 91.9126,
+      "min": 91.9126,
+      "med": 91.9126,
+      "max": 91.9126,
+      "p(90)": 91.9126,
+      "p(95)": 91.9126
+    },
+    "http_req_tls_handshaking": {
+      "avg": 0,
+      "min": 0,
+      "med": 0,
+      "max": 0,
+      "p(90)": 0,
+      "p(95)": 0
+    },
+    "http_req_duration{expected_response:true}": {
+      "avg": 91.9126,
+      "min": 91.9126,
+      "med": 91.9126,
+      "max": 91.9126,
+      "p(90)": 91.9126,
+      "p(95)": 91.9126
+    },
+    "ws_connecting": {
+      "p(90)": 9.735930000000009,
+      "p(95)": 12.963664999999999,
+      "avg": 5.2745380597014915,
+      "min": 1.7458,
+      "med": 3.7197,
+      "max": 35.9016
+    },
+    "vus_max": {
+      "value": 100,
+      "min": 100,
+      "max": 100
+    },
+    "data_received": {
+      "rate": 160620.1361549528,
+      "count": 20849401
+    },
+    "http_req_sending": {
+      "med": 0,
+      "max": 0,
+      "p(90)": 0,
+      "p(95)": 0,
+      "avg": 0,
+      "min": 0
+    },
+    "data_sent": {
+      "count": 604155,
+      "rate": 4654.30437827425
+    },
+    "http_req_blocked": {
+      "max": 12.0595,
+      "p(90)": 12.0595,
+      "p(95)": 12.0595,
+      "avg": 12.0595,
+      "min": 12.0595,
+      "med": 12.0595
+    },
+    "iterations": {
+      "count": 361,
+      "rate": 2.7810808162756313
+    },
+    "ws_sessions": {
+      "count": 402,
+      "rate": 3.096937640284775
+    },
+    "checks": {
+      "passes": 736,
+      "fails": 0,
+      "thresholds": {
+        "rate>0.99": false
+      },
+      "value": 1
+    },
+    "http_req_receiving": {
+      "avg": 0,
+      "min": 0,
+      "med": 0,
+      "max": 0,
+      "p(90)": 0,
+      "p(95)": 0
+    },
+    "iteration_duration": {
+      "max": 16036.9857,
+      "p(90)": 16011.3662,
+      "p(95)": 16014.4074,
+      "avg": 16006.504451523537,
+      "min": 16002.2087,
+      "med": 16004.988
+    },
+    "http_req_duration": {
+      "avg": 91.9126,
+      "min": 91.9126,
+      "med": 91.9126,
+      "max": 91.9126,
+      "p(90)": 91.9126,
+      "p(95)": 91.9126
+    },
+    "http_req_connecting": {
+      "avg": 0.5231,
+      "min": 0.5231,
+      "med": 0.5231,
+      "max": 0.5231,
+      "p(90)": 0.5231,
+      "p(95)": 0.5231
+    },
+    "vus": {
+      "min": 0,
+      "max": 100,
+      "value": 4
+    },
+    "ws_msgs_received": {
+      "count": 68844,
+      "rate": 530.3621266362314
+    },
+    "ws_msg_latency": {
+      "p(95)": 7,
+      "avg": 2.112233850595453,
+      "min": 0,
+      "med": 1,
+      "max": 29,
+      "p(90)": 5,
+      "thresholds": {
+        "p(95)<300": false,
+        "p(99)<600": false
+      }
+    }
+  },
+  "setup_data": {
+    "tenantId": "507f1f77bcf86cd799439011",
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1MDdmMTkxZTgxMGMxOTcyOWRlODYwYWMiLCJ0ZW5hbnRJZCI6IjUwN2YxZjc3YmNmODZjZDc5OTQzOTAxMSIsInJvbGUiOiJBR0VOVCIsImlhdCI6MTc5NTQwNTA3OCwiZXhwIjoxNzk1NDA1OTc4fQ.qrJ6R6WkRjo2m5IgTtkVxRHy0Sa2_oEuvXJbo45sj7w"
+  },
+  "root_group": {
+    "id": "d41d8cd98f00b204e9800998ecf8427e",
+    "groups": {},
+    "checks": {
+      "ws closed cleanly": {
+        "id": "0331959ab85942e9a9b4042710e8a2b6",
+        "passes": 368,
+        "fails": 0,
+        "name": "ws closed cleanly",
+        "path": "::ws closed cleanly"
+      },
+      "connected successfully": {
+        "name": "connected successfully",
+        "path": "::connected successfully",
+        "id": "36f62af976620d57da7894059a1f4d25",
+        "passes": 368,
+        "fails": 0
+      }
+    },
+    "name": "",
+    "path": ""
+  }
+}

@@ -1,0 +1,21 @@
+=== EVIDENCE ARTIFACT ===
+Target: compose-ps.txt
+Command: docker compose -f infra/docker-compose.yml ps
+Timestamp (UTC): 2026-11-23T03:25:46.914812+00:00
+Git Commit: fdad02b7c74d0fade69947e41958f126ab8d8d27
+Exit Code: 0
+========================
+--- STDOUT ---
+NAME                      IMAGE                        COMMAND                  SERVICE                CREATED              STATUS                          PORTS
+sp-ai-service             infra-ai-service             "uvicorn src.main:ap…"   ai-service             11 seconds ago       Up 10 seconds (healthy)         0.0.0.0:8000->8000/tcp, [::]:8000->8000/tcp
+sp-gateway                infra-gateway                "dumb-init -- node d…"   gateway                About a minute ago   Up About a minute (healthy)     0.0.0.0:4000->4000/tcp, [::]:4000->4000/tcp
+sp-mailhog                mailhog/mailhog:latest       "MailHog"                mailhog                9 hours ago          Up 9 hours (healthy)            0.0.0.0:1025->1025/tcp, [::]:1025->1025/tcp, 0.0.0.0:8025->8025/tcp, [::]:8025->8025/tcp
+sp-mongo                  mongo:7                      "docker-entrypoint.s…"   mongo                  9 hours ago          Up 9 hours (healthy)            0.0.0.0:27017->27017/tcp, [::]:27017->27017/tcp
+sp-notification-service   infra-notification-service   "dumb-init -- node d…"   notification-service   About a minute ago   Up About a minute (healthy)     0.0.0.0:5001->5001/tcp, [::]:5001->5001/tcp
+sp-postgres               pgvector/pgvector:pg16       "docker-entrypoint.s…"   postgres               12 hours ago         Up 12 hours (healthy)           0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp, 0.0.0.0:5433->5432/tcp, [::]:5433->5432/tcp
+sp-redis                  redis:7-alpine               "docker-entrypoint.s…"   redis                  9 hours ago          Up 9 hours (healthy)            0.0.0.0:6379->6379/tcp, [::]:6379->6379/tcp
+sp-ticket-service         infra-ticket-service         "dumb-init -- node d…"   ticket-service         About a minute ago   Up About a minute (healthy)     0.0.0.0:4001->4001/tcp, [::]:4001->4001/tcp
+sp-web                    infra-web                    "/docker-entrypoint.…"   web                    About a minute ago   Up About a minute (unhealthy)   0.0.0.0:3000->80/tcp, [::]:3000->80/tcp
+sp-widget                 infra-widget                 "/docker-entrypoint.…"   widget                 About a minute ago   Up About a minute (healthy)     0.0.0.0:3001->80/tcp, [::]:3001->80/tcp
+--- STDERR ---
+

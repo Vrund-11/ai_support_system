@@ -1,0 +1,462 @@
+=== EVIDENCE ARTIFACT ===
+Target: k6-ws.txt
+Command: "C:\Program Files\k6\k6.exe" run tests/perf/chat.js --summary-export evidence/reaudit3/k6-ws.json
+Timestamp (UTC): 2026-11-23T03:37:58.327095+00:00
+Git Commit: fdad02b7c74d0fade69947e41958f126ab8d8d27
+Exit Code: 0
+========================
+--- STDOUT ---
+
+         /\      Grafana   /‾‾/  
+    /\  /  \     |\  __   /  /   
+   /  \/    \    | |/ /  /   ‾‾\ 
+  /          \   |   (  |  (‾)  |
+ / __________ \  |_|\_\  \_____/ 
+
+
+     execution: local
+        script: tests/perf/chat.js
+        output: -
+
+     scenarios: (100.00%) 1 scenario, 100 max VUs, 2m10s max duration (incl. graceful stop):
+              * chat_websocket_load: Up to 100 looping VUs for 2m0s over 3 stages (gracefulRampDown: 10s, gracefulStop: 30s)
+
+
+running (0m01.0s), 000/100 VUs, 0 complete and 0 interrupted iterations
+chat_websocket_load   [   1% ] 000/100 VUs  0m00.9s/2m00.0s
+
+running (0m02.0s), 001/100 VUs, 0 complete and 0 interrupted iterations
+chat_websocket_load   [   2% ] 001/100 VUs  0m01.9s/2m00.0s
+
+running (0m03.0s), 002/100 VUs, 0 complete and 0 interrupted iterations
+chat_websocket_load   [   2% ] 002/100 VUs  0m02.9s/2m00.0s
+
+running (0m04.0s), 003/100 VUs, 0 complete and 0 interrupted iterations
+chat_websocket_load   [   3% ] 003/100 VUs  0m03.9s/2m00.0s
+
+running (0m05.0s), 004/100 VUs, 0 complete and 0 interrupted iterations
+chat_websocket_load   [   4% ] 004/100 VUs  0m04.9s/2m00.0s
+
+running (0m06.0s), 004/100 VUs, 0 complete and 0 interrupted iterations
+chat_websocket_load   [   5% ] 004/100 VUs  0m05.9s/2m00.0s
+
+running (0m07.0s), 005/100 VUs, 0 complete and 0 interrupted iterations
+chat_websocket_load   [   6% ] 005/100 VUs  0m06.9s/2m00.0s
+
+running (0m08.0s), 006/100 VUs, 0 complete and 0 interrupted iterations
+chat_websocket_load   [   7% ] 006/100 VUs  0m07.9s/2m00.0s
+
+running (0m09.0s), 007/100 VUs, 0 complete and 0 interrupted iterations
+chat_websocket_load   [   7% ] 007/100 VUs  0m08.9s/2m00.0s
+
+running (0m10.0s), 008/100 VUs, 0 complete and 0 interrupted iterations
+chat_websocket_load   [   8% ] 008/100 VUs  0m09.9s/2m00.0s
+
+running (0m11.0s), 009/100 VUs, 0 complete and 0 interrupted iterations
+chat_websocket_load   [   9% ] 009/100 VUs  0m10.9s/2m00.0s
+
+running (0m12.0s), 009/100 VUs, 0 complete and 0 interrupted iterations
+chat_websocket_load   [  10% ] 009/100 VUs  0m11.9s/2m00.0s
+
+running (0m13.0s), 010/100 VUs, 0 complete and 0 interrupted iterations
+chat_websocket_load   [  11% ] 010/100 VUs  0m12.9s/2m00.0s
+
+running (0m14.0s), 011/100 VUs, 0 complete and 0 interrupted iterations
+chat_websocket_load   [  12% ] 011/100 VUs  0m13.9s/2m00.0s
+
+running (0m15.0s), 012/100 VUs, 0 complete and 0 interrupted iterations
+chat_websocket_load   [  12% ] 012/100 VUs  0m14.9s/2m00.0s
+
+running (0m16.0s), 013/100 VUs, 0 complete and 0 interrupted iterations
+chat_websocket_load   [  13% ] 013/100 VUs  0m15.9s/2m00.0s
+
+running (0m17.0s), 014/100 VUs, 0 complete and 0 interrupted iterations
+chat_websocket_load   [  14% ] 014/100 VUs  0m16.9s/2m00.0s
+
+running (0m18.0s), 014/100 VUs, 1 complete and 0 interrupted iterations
+chat_websocket_load   [  15% ] 014/100 VUs  0m17.9s/2m00.0s
+
+running (0m19.0s), 015/100 VUs, 2 complete and 0 interrupted iterations
+chat_websocket_load   [  16% ] 015/100 VUs  0m18.9s/2m00.0s
+
+running (0m20.0s), 016/100 VUs, 3 complete and 0 interrupted iterations
+chat_websocket_load   [  17% ] 016/100 VUs  0m19.9s/2m00.0s
+
+running (0m21.0s), 017/100 VUs, 4 complete and 0 interrupted iterations
+chat_websocket_load   [  17% ] 017/100 VUs  0m20.9s/2m00.0s
+
+running (0m22.0s), 018/100 VUs, 4 complete and 0 interrupted iterations
+chat_websocket_load   [  18% ] 018/100 VUs  0m21.9s/2m00.0s
+
+running (0m23.0s), 019/100 VUs, 5 complete and 0 interrupted iterations
+chat_websocket_load   [  19% ] 019/100 VUs  0m22.9s/2m00.0s
+
+running (0m24.0s), 019/100 VUs, 6 complete and 0 interrupted iterations
+chat_websocket_load   [  20% ] 019/100 VUs  0m23.9s/2m00.0s
+
+running (0m25.0s), 020/100 VUs, 7 complete and 0 interrupted iterations
+chat_websocket_load   [  21% ] 020/100 VUs  0m24.9s/2m00.0s
+
+running (0m26.0s), 021/100 VUs, 8 complete and 0 interrupted iterations
+chat_websocket_load   [  22% ] 021/100 VUs  0m25.9s/2m00.0s
+
+running (0m27.0s), 022/100 VUs, 9 complete and 0 interrupted iterations
+chat_websocket_load   [  22% ] 022/100 VUs  0m26.9s/2m00.0s
+
+running (0m28.0s), 023/100 VUs, 9 complete and 0 interrupted iterations
+chat_websocket_load   [  23% ] 023/100 VUs  0m27.9s/2m00.0s
+
+running (0m29.0s), 024/100 VUs, 10 complete and 0 interrupted iterations
+chat_websocket_load   [  24% ] 024/100 VUs  0m28.9s/2m00.0s
+
+running (0m30.0s), 024/100 VUs, 11 complete and 0 interrupted iterations
+chat_websocket_load   [  25% ] 024/100 VUs  0m29.9s/2m00.0s
+
+running (0m31.0s), 026/100 VUs, 12 complete and 0 interrupted iterations
+chat_websocket_load   [  26% ] 026/100 VUs  0m30.9s/2m00.0s
+
+running (0m32.0s), 027/100 VUs, 13 complete and 0 interrupted iterations
+chat_websocket_load   [  27% ] 027/100 VUs  0m31.9s/2m00.0s
+
+running (0m33.0s), 028/100 VUs, 14 complete and 0 interrupted iterations
+chat_websocket_load   [  27% ] 028/100 VUs  0m32.9s/2m00.0s
+
+running (0m34.0s), 029/100 VUs, 15 complete and 0 interrupted iterations
+chat_websocket_load   [  28% ] 029/100 VUs  0m33.9s/2m00.0s
+
+running (0m35.0s), 031/100 VUs, 17 complete and 0 interrupted iterations
+chat_websocket_load   [  29% ] 031/100 VUs  0m34.9s/2m00.0s
+
+running (0m36.0s), 032/100 VUs, 19 complete and 0 interrupted iterations
+chat_websocket_load   [  30% ] 032/100 VUs  0m35.9s/2m00.0s
+
+running (0m37.0s), 033/100 VUs, 21 complete and 0 interrupted iterations
+chat_websocket_load   [  31% ] 033/100 VUs  0m36.9s/2m00.0s
+
+running (0m38.0s), 034/100 VUs, 22 complete and 0 interrupted iterations
+chat_websocket_load   [  32% ] 034/100 VUs  0m37.9s/2m00.0s
+
+running (0m39.0s), 036/100 VUs, 24 complete and 0 interrupted iterations
+chat_websocket_load   [  32% ] 036/100 VUs  0m38.9s/2m00.0s
+
+running (0m40.0s), 037/100 VUs, 25 complete and 0 interrupted iterations
+chat_websocket_load   [  33% ] 037/100 VUs  0m39.9s/2m00.0s
+
+running (0m41.0s), 038/100 VUs, 27 complete and 0 interrupted iterations
+chat_websocket_load   [  34% ] 038/100 VUs  0m40.9s/2m00.0s
+
+running (0m42.0s), 039/100 VUs, 29 complete and 0 interrupted iterations
+chat_websocket_load   [  35% ] 039/100 VUs  0m41.9s/2m00.0s
+
+running (0m43.0s), 041/100 VUs, 31 complete and 0 interrupted iterations
+chat_websocket_load   [  36% ] 041/100 VUs  0m42.9s/2m00.0s
+
+running (0m44.0s), 042/100 VUs, 32 complete and 0 interrupted iterations
+chat_websocket_load   [  37% ] 042/100 VUs  0m43.9s/2m00.0s
+
+running (0m45.0s), 043/100 VUs, 34 complete and 0 interrupted iterations
+chat_websocket_load   [  37% ] 043/100 VUs  0m44.9s/2m00.0s
+
+running (0m46.0s), 044/100 VUs, 35 complete and 0 interrupted iterations
+chat_websocket_load   [  38% ] 044/100 VUs  0m45.9s/2m00.0s
+
+running (0m47.0s), 046/100 VUs, 38 complete and 0 interrupted iterations
+chat_websocket_load   [  39% ] 046/100 VUs  0m46.9s/2m00.0s
+
+running (0m48.0s), 047/100 VUs, 40 complete and 0 interrupted iterations
+chat_websocket_load   [  40% ] 047/100 VUs  0m47.9s/2m00.0s
+
+running (0m49.0s), 048/100 VUs, 42 complete and 0 interrupted iterations
+chat_websocket_load   [  41% ] 048/100 VUs  0m48.9s/2m00.0s
+
+running (0m50.0s), 049/100 VUs, 44 complete and 0 interrupted iterations
+chat_websocket_load   [  42% ] 049/100 VUs  0m49.9s/2m00.0s
+
+running (0m51.0s), 051/100 VUs, 48 complete and 0 interrupted iterations
+chat_websocket_load   [  42% ] 051/100 VUs  0m50.9s/2m00.0s
+
+running (0m52.0s), 052/100 VUs, 51 complete and 0 interrupted iterations
+chat_websocket_load   [  43% ] 052/100 VUs  0m51.9s/2m00.0s
+
+running (0m53.0s), 053/100 VUs, 54 complete and 0 interrupted iterations
+chat_websocket_load   [  44% ] 053/100 VUs  0m52.9s/2m00.0s
+
+running (0m54.0s), 054/100 VUs, 56 complete and 0 interrupted iterations
+chat_websocket_load   [  45% ] 054/100 VUs  0m53.9s/2m00.0s
+
+running (0m55.0s), 056/100 VUs, 60 complete and 0 interrupted iterations
+chat_websocket_load   [  46% ] 056/100 VUs  0m54.9s/2m00.0s
+
+running (0m56.0s), 057/100 VUs, 62 complete and 0 interrupted iterations
+chat_websocket_load   [  47% ] 057/100 VUs  0m55.9s/2m00.0s
+
+running (0m57.0s), 058/100 VUs, 65 complete and 0 interrupted iterations
+chat_websocket_load   [  47% ] 058/100 VUs  0m56.9s/2m00.0s
+
+running (0m58.0s), 059/100 VUs, 68 complete and 0 interrupted iterations
+chat_websocket_load   [  48% ] 059/100 VUs  0m57.9s/2m00.0s
+
+running (0m59.0s), 061/100 VUs, 72 complete and 0 interrupted iterations
+chat_websocket_load   [  49% ] 061/100 VUs  0m58.9s/2m00.0s
+
+running (1m00.0s), 062/100 VUs, 74 complete and 0 interrupted iterations
+chat_websocket_load   [  50% ] 062/100 VUs  0m59.9s/2m00.0s
+
+running (1m01.0s), 063/100 VUs, 77 complete and 0 interrupted iterations
+chat_websocket_load   [  51% ] 063/100 VUs  1m00.9s/2m00.0s
+
+running (1m02.0s), 064/100 VUs, 79 complete and 0 interrupted iterations
+chat_websocket_load   [  52% ] 064/100 VUs  1m01.9s/2m00.0s
+
+running (1m03.0s), 066/100 VUs, 84 complete and 0 interrupted iterations
+chat_websocket_load   [  52% ] 066/100 VUs  1m02.9s/2m00.0s
+
+running (1m04.0s), 067/100 VUs, 87 complete and 0 interrupted iterations
+chat_websocket_load   [  53% ] 067/100 VUs  1m03.9s/2m00.0s
+
+running (1m05.0s), 068/100 VUs, 90 complete and 0 interrupted iterations
+chat_websocket_load   [  54% ] 068/100 VUs  1m04.9s/2m00.0s
+
+running (1m06.0s), 069/100 VUs, 93 complete and 0 interrupted iterations
+chat_websocket_load   [  55% ] 069/100 VUs  1m05.9s/2m00.0s
+
+running (1m07.0s), 071/100 VUs, 99 complete and 0 interrupted iterations
+chat_websocket_load   [  56% ] 071/100 VUs  1m06.9s/2m00.0s
+
+running (1m08.0s), 072/100 VUs, 103 complete and 0 interrupted iterations
+chat_websocket_load   [  57% ] 072/100 VUs  1m07.9s/2m00.0s
+
+running (1m09.0s), 073/100 VUs, 107 complete and 0 interrupted iterations
+chat_websocket_load   [  57% ] 073/100 VUs  1m08.9s/2m00.0s
+
+running (1m10.0s), 074/100 VUs, 110 complete and 0 interrupted iterations
+chat_websocket_load   [  58% ] 074/100 VUs  1m09.9s/2m00.0s
+
+running (1m11.0s), 076/100 VUs, 116 complete and 0 interrupted iterations
+chat_websocket_load   [  59% ] 076/100 VUs  1m10.9s/2m00.0s
+
+running (1m12.0s), 077/100 VUs, 119 complete and 0 interrupted iterations
+chat_websocket_load   [  60% ] 077/100 VUs  1m11.9s/2m00.0s
+
+running (1m13.0s), 078/100 VUs, 123 complete and 0 interrupted iterations
+chat_websocket_load   [  61% ] 078/100 VUs  1m12.9s/2m00.0s
+
+running (1m14.0s), 079/100 VUs, 127 complete and 0 interrupted iterations
+chat_websocket_load   [  62% ] 079/100 VUs  1m13.9s/2m00.0s
+
+running (1m15.0s), 081/100 VUs, 133 complete and 0 interrupted iterations
+chat_websocket_load   [  62% ] 081/100 VUs  1m14.9s/2m00.0s
+
+running (1m16.0s), 082/100 VUs, 136 complete and 0 interrupted iterations
+chat_websocket_load   [  63% ] 082/100 VUs  1m15.9s/2m00.0s
+
+running (1m17.0s), 083/100 VUs, 140 complete and 0 interrupted iterations
+chat_websocket_load   [  64% ] 083/100 VUs  1m16.9s/2m00.0s
+
+running (1m18.0s), 084/100 VUs, 143 complete and 0 interrupted iterations
+chat_websocket_load   [  65% ] 084/100 VUs  1m17.9s/2m00.0s
+
+running (1m19.0s), 086/100 VUs, 150 complete and 0 interrupted iterations
+chat_websocket_load   [  66% ] 086/100 VUs  1m18.9s/2m00.0s
+
+running (1m20.0s), 087/100 VUs, 154 complete and 0 interrupted iterations
+chat_websocket_load   [  67% ] 087/100 VUs  1m19.9s/2m00.0s
+
+running (1m21.0s), 088/100 VUs, 158 complete and 0 interrupted iterations
+chat_websocket_load   [  67% ] 088/100 VUs  1m20.9s/2m00.0s
+
+running (1m22.0s), 089/100 VUs, 162 complete and 0 interrupted iterations
+chat_websocket_load   [  68% ] 089/100 VUs  1m21.9s/2m00.0s
+
+running (1m23.0s), 091/100 VUs, 170 complete and 0 interrupted iterations
+chat_websocket_load   [  69% ] 091/100 VUs  1m22.9s/2m00.0s
+
+running (1m24.0s), 092/100 VUs, 175 complete and 0 interrupted iterations
+chat_websocket_load   [  70% ] 092/100 VUs  1m23.9s/2m00.0s
+
+running (1m25.0s), 093/100 VUs, 180 complete and 0 interrupted iterations
+chat_websocket_load   [  71% ] 093/100 VUs  1m24.9s/2m00.0s
+
+running (1m26.0s), 094/100 VUs, 184 complete and 0 interrupted iterations
+chat_websocket_load   [  72% ] 094/100 VUs  1m25.9s/2m00.0s
+
+running (1m27.0s), 096/100 VUs, 192 complete and 0 interrupted iterations
+chat_websocket_load   [  72% ] 096/100 VUs  1m26.9s/2m00.0s
+
+running (1m28.0s), 097/100 VUs, 196 complete and 0 interrupted iterations
+chat_websocket_load   [  73% ] 097/100 VUs  1m27.9s/2m00.0s
+
+running (1m29.0s), 098/100 VUs, 201 complete and 0 interrupted iterations
+chat_websocket_load   [  74% ] 098/100 VUs  1m28.9s/2m00.0s
+
+running (1m30.0s), 099/100 VUs, 206 complete and 0 interrupted iterations
+chat_websocket_load   [  75% ] 099/100 VUs  1m29.9s/2m00.0s
+
+running (1m31.0s), 100/100 VUs, 214 complete and 0 interrupted iterations
+chat_websocket_load   [  76% ] 100/100 VUs  1m30.9s/2m00.0s
+
+running (1m32.0s), 100/100 VUs, 218 complete and 0 interrupted iterations
+chat_websocket_load   [  77% ] 100/100 VUs  1m31.9s/2m00.0s
+
+running (1m33.0s), 100/100 VUs, 223 complete and 0 interrupted iterations
+chat_websocket_load   [  77% ] 100/100 VUs  1m32.9s/2m00.0s
+
+running (1m34.0s), 100/100 VUs, 227 complete and 0 interrupted iterations
+chat_websocket_load   [  78% ] 100/100 VUs  1m33.9s/2m00.0s
+
+running (1m35.0s), 099/100 VUs, 236 complete and 0 interrupted iterations
+chat_websocket_load   [  79% ] 099/100 VUs  1m34.9s/2m00.0s
+
+running (1m36.0s), 098/100 VUs, 241 complete and 0 interrupted iterations
+chat_websocket_load   [  80% ] 098/100 VUs  1m35.9s/2m00.0s
+
+running (1m37.0s), 097/100 VUs, 246 complete and 0 interrupted iterations
+chat_websocket_load   [  81% ] 097/100 VUs  1m36.9s/2m00.0s
+
+running (1m38.0s), 096/100 VUs, 251 complete and 0 interrupted iterations
+chat_websocket_load   [  82% ] 096/100 VUs  1m37.9s/2m00.0s
+
+running (1m39.0s), 094/100 VUs, 261 complete and 0 interrupted iterations
+chat_websocket_load   [  82% ] 094/100 VUs  1m38.9s/2m00.0s
+
+running (1m40.0s), 092/100 VUs, 267 complete and 0 interrupted iterations
+chat_websocket_load   [  83% ] 092/100 VUs  1m39.9s/2m00.0s
+
+running (1m41.0s), 088/100 VUs, 273 complete and 2 interrupted iterations
+chat_websocket_load   [  84% ] 088/100 VUs  1m40.9s/2m00.0s
+
+running (1m42.0s), 082/100 VUs, 278 complete and 6 interrupted iterations
+chat_websocket_load   [  85% ] 082/100 VUs  1m41.9s/2m00.0s
+
+running (1m43.0s), 080/100 VUs, 286 complete and 6 interrupted iterations
+chat_websocket_load   [  86% ] 080/100 VUs  1m42.9s/2m00.0s
+
+running (1m44.0s), 078/100 VUs, 290 complete and 6 interrupted iterations
+chat_websocket_load   [  87% ] 078/100 VUs  1m43.9s/2m00.0s
+
+running (1m45.0s), 075/100 VUs, 295 complete and 7 interrupted iterations
+chat_websocket_load   [  87% ] 075/100 VUs  1m44.9s/2m00.0s
+
+running (1m46.0s), 070/100 VUs, 300 complete and 10 interrupted iterations
+chat_websocket_load   [  88% ] 070/100 VUs  1m45.9s/2m00.0s
+
+running (1m47.0s), 066/100 VUs, 307 complete and 11 interrupted iterations
+chat_websocket_load   [  89% ] 066/100 VUs  1m46.9s/2m00.0s
+
+running (1m48.0s), 065/100 VUs, 310 complete and 11 interrupted iterations
+chat_websocket_load   [  90% ] 065/100 VUs  1m47.9s/2m00.0s
+
+running (1m49.0s), 063/100 VUs, 314 complete and 11 interrupted iterations
+chat_websocket_load   [  91% ] 063/100 VUs  1m48.9s/2m00.0s
+
+running (1m50.0s), 058/100 VUs, 317 complete and 14 interrupted iterations
+chat_websocket_load   [  92% ] 058/100 VUs  1m49.9s/2m00.0s
+
+running (1m51.0s), 052/100 VUs, 323 complete and 17 interrupted iterations
+chat_websocket_load   [  92% ] 052/100 VUs  1m50.9s/2m00.0s
+
+running (1m52.0s), 051/100 VUs, 326 complete and 17 interrupted iterations
+chat_websocket_load   [  93% ] 051/100 VUs  1m51.9s/2m00.0s
+
+running (1m53.0s), 049/100 VUs, 329 complete and 17 interrupted iterations
+chat_websocket_load   [  94% ] 049/100 VUs  1m52.9s/2m00.0s
+
+running (1m54.0s), 045/100 VUs, 332 complete and 19 interrupted iterations
+chat_websocket_load   [  95% ] 045/100 VUs  1m53.9s/2m00.0s
+
+running (1m55.0s), 038/100 VUs, 338 complete and 22 interrupted iterations
+chat_websocket_load   [  96% ] 038/100 VUs  1m54.9s/2m00.0s
+
+running (1m56.0s), 037/100 VUs, 341 complete and 22 interrupted iterations
+chat_websocket_load   [  97% ] 037/100 VUs  1m55.9s/2m00.0s
+
+running (1m57.0s), 035/100 VUs, 344 complete and 22 interrupted iterations
+chat_websocket_load   [  97% ] 035/100 VUs  1m56.9s/2m00.0s
+
+running (1m58.0s), 032/100 VUs, 346 complete and 23 interrupted iterations
+chat_websocket_load   [  98% ] 032/100 VUs  1m57.9s/2m00.0s
+
+running (1m59.0s), 026/100 VUs, 350 complete and 26 interrupted iterations
+chat_websocket_load   [  99% ] 026/100 VUs  1m58.9s/2m00.0s
+
+running (2m00.0s), 023/100 VUs, 351 complete and 28 interrupted iterations
+chat_websocket_load   [ 100% ] 023/100 VUs  1m59.9s/2m00.0s
+
+running (2m01.0s), 021/100 VUs, 353 complete and 28 interrupted iterations
+chat_websocket_load ↓ [ 100% ] 023/100 VUs  2m0s
+
+running (2m02.0s), 019/100 VUs, 355 complete and 28 interrupted iterations
+chat_websocket_load ↓ [ 100% ] 023/100 VUs  2m0s
+
+running (2m03.0s), 014/100 VUs, 357 complete and 31 interrupted iterations
+chat_websocket_load ↓ [ 100% ] 023/100 VUs  2m0s
+
+running (2m04.0s), 012/100 VUs, 357 complete and 33 interrupted iterations
+chat_websocket_load ↓ [ 100% ] 023/100 VUs  2m0s
+
+running (2m05.0s), 011/100 VUs, 358 complete and 33 interrupted iterations
+chat_websocket_load ↓ [ 100% ] 023/100 VUs  2m0s
+
+running (2m06.0s), 008/100 VUs, 359 complete and 35 interrupted iterations
+chat_websocket_load ↓ [ 100% ] 023/100 VUs  2m0s
+
+running (2m07.0s), 005/100 VUs, 360 complete and 37 interrupted iterations
+chat_websocket_load ↓ [ 100% ] 023/100 VUs  2m0s
+
+running (2m08.0s), 005/100 VUs, 360 complete and 37 interrupted iterations
+chat_websocket_load ↓ [ 100% ] 023/100 VUs  2m0s
+
+running (2m09.0s), 004/100 VUs, 360 complete and 38 interrupted iterations
+chat_websocket_load ↓ [ 100% ] 023/100 VUs  2m0s
+
+
+  █ THRESHOLDS 
+
+    checks
+    ✓ 'rate>0.99' rate=100.00%
+
+    ws_msg_latency
+    ✓ 'p(95)<300' p(95)=7
+    ✓ 'p(99)<600' p(99)=13
+
+
+  █ TOTAL RESULTS 
+
+    checks_total.......: 736     5.670015/s
+    checks_succeeded...: 100.00% 736 out of 736
+    checks_failed......: 0.00%   0 out of 736
+
+    ✓ ws closed cleanly
+    ✓ connected successfully
+
+    HTTP
+    http_req_duration..............: avg=91.91ms  min=91.91ms med=91.91ms max=91.91ms p(90)=91.91ms p(95)=91.91ms
+      { expected_response:true }...: avg=91.91ms  min=91.91ms med=91.91ms max=91.91ms p(90)=91.91ms p(95)=91.91ms
+    http_req_failed................: 0.00%  0 out of 1
+    http_reqs......................: 1      0.007704/s
+
+    EXECUTION
+    iteration_duration.............: avg=16s      min=16s     med=16s     max=16.03s  p(90)=16.01s  p(95)=16.01s 
+    iterations.....................: 361    2.781081/s
+    vus............................: 4      min=0        max=100
+    vus_max........................: 100    min=100      max=100
+
+    NETWORK
+    data_received..................: 21 MB  161 kB/s
+    data_sent......................: 604 kB 4.7 kB/s
+
+    WEBSOCKET
+    ws_connecting..................: avg=5.27ms   min=1.74ms  med=3.71ms  max=35.9ms  p(90)=9.73ms  p(95)=12.96ms
+    ws_msg_latency.................: avg=2.112234 min=0       med=1       max=29      p(90)=5       p(95)=7      
+    ws_msgs_received...............: 68844  530.362127/s
+    ws_msgs_sent...................: 3575   27.541174/s
+    ws_session_duration............: avg=15s      min=15s     med=15s     max=15.03s  p(90)=15.01s  p(95)=15.01s 
+    ws_sessions....................: 402    3.096938/s
+
+
+
+
+running (2m09.8s), 000/100 VUs, 361 complete and 41 interrupted iterations
+chat_websocket_load ✓ [ 100% ] 000/100 VUs  2m0s
+--- STDERR ---
+

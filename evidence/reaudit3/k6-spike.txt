@@ -1,0 +1,301 @@
+=== EVIDENCE ARTIFACT ===
+Target: k6-spike.txt
+Command: "C:\Program Files\k6\k6.exe" run tests/perf/ticket-spike.js --summary-export evidence/reaudit3/k6-spike.json
+Timestamp (UTC): 2026-11-23T03:36:47.313259+00:00
+Git Commit: fdad02b7c74d0fade69947e41958f126ab8d8d27
+Exit Code: 99
+========================
+--- STDOUT ---
+
+         /\      Grafana   /‾‾/  
+    /\  /  \     |\  __   /  /   
+   /  \/    \    | |/ /  /   ‾‾\ 
+  /          \   |   (  |  (‾)  |
+ / __________ \  |_|\_\  \_____/ 
+
+
+     execution: local
+        script: tests/perf/ticket-spike.js
+        output: -
+
+     scenarios: (100.00%) 1 scenario, 500 max VUs, 1m20s max duration (incl. graceful stop):
+              * ticket_spike_scenario: Up to 500 looping VUs for 1m10s over 5 stages (gracefulRampDown: 10s, gracefulStop: 30s)
+
+
+running (0m00.9s), 004/500 VUs, 9 complete and 0 interrupted iterations
+ticket_spike_scenario   [   1% ] 004/500 VUs  0m00.8s/1m10.0s
+
+running (0m01.9s), 008/500 VUs, 63 complete and 0 interrupted iterations
+ticket_spike_scenario   [   3% ] 008/500 VUs  0m01.8s/1m10.0s
+
+running (0m02.9s), 013/500 VUs, 163 complete and 0 interrupted iterations
+ticket_spike_scenario   [   4% ] 013/500 VUs  0m02.8s/1m10.0s
+
+running (0m03.9s), 019/500 VUs, 305 complete and 0 interrupted iterations
+ticket_spike_scenario   [   5% ] 019/500 VUs  0m03.8s/1m10.0s
+
+running (0m04.9s), 023/500 VUs, 495 complete and 0 interrupted iterations
+ticket_spike_scenario   [   7% ] 023/500 VUs  0m04.8s/1m10.0s
+
+running (0m05.9s), 029/500 VUs, 725 complete and 0 interrupted iterations
+ticket_spike_scenario   [   8% ] 029/500 VUs  0m05.8s/1m10.0s
+
+running (0m06.9s), 033/500 VUs, 1003 complete and 0 interrupted iterations
+ticket_spike_scenario   [  10% ] 033/500 VUs  0m06.8s/1m10.0s
+
+running (0m07.9s), 039/500 VUs, 1301 complete and 0 interrupted iterations
+ticket_spike_scenario   [  11% ] 039/500 VUs  0m07.8s/1m10.0s
+
+running (0m08.9s), 043/500 VUs, 1492 complete and 0 interrupted iterations
+ticket_spike_scenario   [  13% ] 043/500 VUs  0m08.8s/1m10.0s
+
+running (0m09.9s), 048/500 VUs, 1771 complete and 0 interrupted iterations
+ticket_spike_scenario   [  14% ] 048/500 VUs  0m09.8s/1m10.0s
+
+running (0m10.9s), 085/500 VUs, 1975 complete and 0 interrupted iterations
+ticket_spike_scenario   [  15% ] 085/500 VUs  0m10.8s/1m10.0s
+
+running (0m11.9s), 130/500 VUs, 2213 complete and 0 interrupted iterations
+ticket_spike_scenario   [  17% ] 130/500 VUs  0m11.8s/1m10.0s
+
+running (0m12.9s), 175/500 VUs, 2483 complete and 0 interrupted iterations
+ticket_spike_scenario   [  18% ] 175/500 VUs  0m12.8s/1m10.0s
+
+running (0m13.9s), 220/500 VUs, 2709 complete and 0 interrupted iterations
+ticket_spike_scenario   [  20% ] 220/500 VUs  0m13.8s/1m10.0s
+
+running (0m14.9s), 265/500 VUs, 2930 complete and 0 interrupted iterations
+ticket_spike_scenario   [  21% ] 265/500 VUs  0m14.8s/1m10.0s
+
+running (0m15.9s), 310/500 VUs, 3212 complete and 0 interrupted iterations
+ticket_spike_scenario   [  23% ] 310/500 VUs  0m15.8s/1m10.0s
+
+running (0m16.9s), 356/500 VUs, 3473 complete and 0 interrupted iterations
+ticket_spike_scenario   [  24% ] 356/500 VUs  0m16.8s/1m10.0s
+
+running (0m17.9s), 400/500 VUs, 3814 complete and 0 interrupted iterations
+ticket_spike_scenario   [  25% ] 400/500 VUs  0m17.8s/1m10.0s
+
+running (0m18.9s), 445/500 VUs, 4160 complete and 0 interrupted iterations
+ticket_spike_scenario   [  27% ] 445/500 VUs  0m18.8s/1m10.0s
+
+running (0m19.9s), 491/500 VUs, 4498 complete and 0 interrupted iterations
+ticket_spike_scenario   [  28% ] 491/500 VUs  0m19.8s/1m10.0s
+
+running (0m20.9s), 500/500 VUs, 4810 complete and 0 interrupted iterations
+ticket_spike_scenario   [  30% ] 500/500 VUs  0m20.8s/1m10.0s
+
+running (0m21.9s), 500/500 VUs, 5169 complete and 0 interrupted iterations
+ticket_spike_scenario   [  31% ] 500/500 VUs  0m21.8s/1m10.0s
+
+running (0m22.9s), 500/500 VUs, 5479 complete and 0 interrupted iterations
+ticket_spike_scenario   [  33% ] 500/500 VUs  0m22.8s/1m10.0s
+
+running (0m23.9s), 500/500 VUs, 5787 complete and 0 interrupted iterations
+ticket_spike_scenario   [  34% ] 500/500 VUs  0m23.8s/1m10.0s
+
+running (0m24.9s), 500/500 VUs, 6043 complete and 0 interrupted iterations
+ticket_spike_scenario   [  35% ] 500/500 VUs  0m24.8s/1m10.0s
+
+running (0m25.9s), 500/500 VUs, 6288 complete and 0 interrupted iterations
+ticket_spike_scenario   [  37% ] 500/500 VUs  0m25.8s/1m10.0s
+
+running (0m26.9s), 500/500 VUs, 6637 complete and 0 interrupted iterations
+ticket_spike_scenario   [  38% ] 500/500 VUs  0m26.8s/1m10.0s
+
+running (0m27.9s), 500/500 VUs, 6866 complete and 0 interrupted iterations
+ticket_spike_scenario   [  40% ] 500/500 VUs  0m27.8s/1m10.0s
+
+running (0m28.9s), 500/500 VUs, 7045 complete and 0 interrupted iterations
+ticket_spike_scenario   [  41% ] 500/500 VUs  0m28.8s/1m10.0s
+
+running (0m29.9s), 500/500 VUs, 7296 complete and 0 interrupted iterations
+ticket_spike_scenario   [  43% ] 500/500 VUs  0m29.8s/1m10.0s
+
+running (0m30.9s), 500/500 VUs, 7664 complete and 0 interrupted iterations
+ticket_spike_scenario   [  44% ] 500/500 VUs  0m30.8s/1m10.0s
+
+running (0m31.9s), 500/500 VUs, 8031 complete and 0 interrupted iterations
+ticket_spike_scenario   [  45% ] 500/500 VUs  0m31.8s/1m10.0s
+
+running (0m32.9s), 500/500 VUs, 8404 complete and 0 interrupted iterations
+ticket_spike_scenario   [  47% ] 500/500 VUs  0m32.8s/1m10.0s
+
+running (0m33.9s), 500/500 VUs, 8772 complete and 0 interrupted iterations
+ticket_spike_scenario   [  48% ] 500/500 VUs  0m33.8s/1m10.0s
+
+running (0m34.9s), 500/500 VUs, 9064 complete and 0 interrupted iterations
+ticket_spike_scenario   [  50% ] 500/500 VUs  0m34.8s/1m10.0s
+
+running (0m35.9s), 500/500 VUs, 9443 complete and 0 interrupted iterations
+ticket_spike_scenario   [  51% ] 500/500 VUs  0m35.8s/1m10.0s
+
+running (0m36.9s), 500/500 VUs, 9762 complete and 0 interrupted iterations
+ticket_spike_scenario   [  53% ] 500/500 VUs  0m36.8s/1m10.0s
+
+running (0m37.9s), 500/500 VUs, 10173 complete and 0 interrupted iterations
+ticket_spike_scenario   [  54% ] 500/500 VUs  0m37.8s/1m10.0s
+
+running (0m38.9s), 500/500 VUs, 10553 complete and 0 interrupted iterations
+ticket_spike_scenario   [  55% ] 500/500 VUs  0m38.8s/1m10.0s
+
+running (0m39.9s), 500/500 VUs, 10928 complete and 0 interrupted iterations
+ticket_spike_scenario   [  57% ] 500/500 VUs  0m39.8s/1m10.0s
+
+running (0m40.9s), 500/500 VUs, 11298 complete and 0 interrupted iterations
+ticket_spike_scenario   [  58% ] 500/500 VUs  0m40.8s/1m10.0s
+
+running (0m41.9s), 500/500 VUs, 11681 complete and 0 interrupted iterations
+ticket_spike_scenario   [  60% ] 500/500 VUs  0m41.8s/1m10.0s
+
+running (0m42.9s), 500/500 VUs, 12100 complete and 0 interrupted iterations
+ticket_spike_scenario   [  61% ] 500/500 VUs  0m42.8s/1m10.0s
+
+running (0m43.9s), 500/500 VUs, 12513 complete and 0 interrupted iterations
+ticket_spike_scenario   [  63% ] 500/500 VUs  0m43.8s/1m10.0s
+
+running (0m44.9s), 500/500 VUs, 12909 complete and 0 interrupted iterations
+ticket_spike_scenario   [  64% ] 500/500 VUs  0m44.8s/1m10.0s
+
+running (0m45.9s), 500/500 VUs, 13229 complete and 0 interrupted iterations
+ticket_spike_scenario   [  65% ] 500/500 VUs  0m45.8s/1m10.0s
+
+running (0m46.9s), 500/500 VUs, 13599 complete and 0 interrupted iterations
+ticket_spike_scenario   [  67% ] 500/500 VUs  0m46.8s/1m10.0s
+
+running (0m47.9s), 500/500 VUs, 13945 complete and 0 interrupted iterations
+ticket_spike_scenario   [  68% ] 500/500 VUs  0m47.8s/1m10.0s
+
+running (0m48.9s), 500/500 VUs, 14321 complete and 0 interrupted iterations
+ticket_spike_scenario   [  70% ] 500/500 VUs  0m48.8s/1m10.0s
+
+running (0m49.9s), 500/500 VUs, 14705 complete and 0 interrupted iterations
+ticket_spike_scenario   [  71% ] 500/500 VUs  0m49.8s/1m10.0s
+
+running (0m50.9s), 500/500 VUs, 15094 complete and 0 interrupted iterations
+ticket_spike_scenario   [  73% ] 500/500 VUs  0m50.8s/1m10.0s
+
+running (0m51.9s), 500/500 VUs, 15452 complete and 0 interrupted iterations
+ticket_spike_scenario   [  74% ] 500/500 VUs  0m51.8s/1m10.0s
+
+running (0m52.9s), 500/500 VUs, 15847 complete and 0 interrupted iterations
+ticket_spike_scenario   [  75% ] 500/500 VUs  0m52.8s/1m10.0s
+
+running (0m53.9s), 500/500 VUs, 16221 complete and 0 interrupted iterations
+ticket_spike_scenario   [  77% ] 500/500 VUs  0m53.8s/1m10.0s
+
+running (0m54.9s), 497/500 VUs, 16603 complete and 0 interrupted iterations
+ticket_spike_scenario   [  78% ] 497/500 VUs  0m54.8s/1m10.0s
+
+running (0m55.9s), 465/500 VUs, 16921 complete and 0 interrupted iterations
+ticket_spike_scenario   [  80% ] 465/500 VUs  0m55.8s/1m10.0s
+
+running (0m56.9s), 407/500 VUs, 17253 complete and 0 interrupted iterations
+ticket_spike_scenario   [  81% ] 407/500 VUs  0m56.8s/1m10.0s
+
+running (0m57.9s), 357/500 VUs, 17561 complete and 0 interrupted iterations
+ticket_spike_scenario   [  83% ] 357/500 VUs  0m57.8s/1m10.0s
+
+running (0m58.9s), 317/500 VUs, 17885 complete and 0 interrupted iterations
+ticket_spike_scenario   [  84% ] 317/500 VUs  0m58.8s/1m10.0s
+
+running (0m59.9s), 262/500 VUs, 18253 complete and 0 interrupted iterations
+ticket_spike_scenario   [  85% ] 262/500 VUs  0m59.8s/1m10.0s
+
+running (1m00.9s), 181/500 VUs, 18581 complete and 35 interrupted iterations
+ticket_spike_scenario   [  87% ] 181/500 VUs  1m00.8s/1m10.0s
+
+running (1m01.9s), 088/500 VUs, 18923 complete and 80 interrupted iterations
+ticket_spike_scenario   [  88% ] 088/500 VUs  1m01.8s/1m10.0s
+
+running (1m02.9s), 057/500 VUs, 19237 complete and 92 interrupted iterations
+ticket_spike_scenario   [  90% ] 057/500 VUs  1m02.8s/1m10.0s
+
+running (1m03.9s), 032/500 VUs, 19510 complete and 92 interrupted iterations
+ticket_spike_scenario   [  91% ] 032/500 VUs  1m03.8s/1m10.0s
+
+running (1m04.9s), 027/500 VUs, 19766 complete and 92 interrupted iterations
+ticket_spike_scenario   [  93% ] 027/500 VUs  1m04.8s/1m10.0s
+
+running (1m05.9s), 022/500 VUs, 19994 complete and 92 interrupted iterations
+ticket_spike_scenario   [  94% ] 022/500 VUs  1m05.8s/1m10.0s
+
+running (1m06.9s), 017/500 VUs, 20178 complete and 92 interrupted iterations
+ticket_spike_scenario   [  95% ] 017/500 VUs  1m06.8s/1m10.0s
+
+running (1m07.9s), 012/500 VUs, 20314 complete and 92 interrupted iterations
+ticket_spike_scenario   [  97% ] 012/500 VUs  1m07.8s/1m10.0s
+
+running (1m08.9s), 007/500 VUs, 20404 complete and 92 interrupted iterations
+ticket_spike_scenario   [  98% ] 007/500 VUs  1m08.8s/1m10.0s
+
+running (1m09.9s), 002/500 VUs, 20446 complete and 92 interrupted iterations
+ticket_spike_scenario   [ 100% ] 002/500 VUs  1m09.8s/1m10.0s
+
+
+  █ THRESHOLDS 
+
+    http_req_duration{endpoint:tickets_spike}
+    ✗ 'p(95)<400' p(95)=739.16ms
+    ✗ 'p(99)<800' p(99)=22.64s
+
+    http_req_failed
+    ✓ 'rate<0.01' rate=0.09%
+
+
+  █ TOTAL RESULTS 
+
+    checks_total.......: 40905  583.047888/s
+    checks_succeeded...: 99.90% 40865 out of 40905
+    checks_failed......: 0.09%  40 out of 40905
+
+    ✓ ticket service healthy
+    ✗ spike response 200
+      ↳  99% — ✓ 20432 / ✗ 20
+    ✗ spike payload valid
+      ↳  99% — ✓ 20432 / ✗ 20
+
+    HTTP
+    http_req_duration..............: avg=834.03ms min=2.51ms   med=394.61ms max=44.12s p(90)=675.71ms p(95)=739.16ms
+      { endpoint:tickets_spike }...: avg=834.11ms min=2.51ms   med=394.64ms max=44.12s p(90)=675.72ms p(95)=739.16ms
+      { expected_response:true }...: avg=805.48ms min=2.51ms   med=394.1ms  max=44.12s p(90)=675.13ms p(95)=736.84ms
+    http_req_failed................: 0.09%  20 out of 20454
+    http_reqs......................: 20454  291.545325/s
+
+    EXECUTION
+    iteration_duration.............: avg=930.15ms min=104.66ms med=496.9ms  max=44.22s p(90)=777.86ms p(95)=841.75ms
+    iterations.....................: 20449  291.474056/s
+    vus............................: 2      min=2           max=500
+    vus_max........................: 500    min=500         max=500
+
+    NETWORK
+    data_received..................: 910 MB 13 MB/s
+    data_sent......................: 10 MB  147 kB/s
+
+
+
+
+running (1m10.2s), 000/500 VUs, 20449 complete and 92 interrupted iterations
+ticket_spike_scenario ✓ [ 100% ] 000/500 VUs  1m10s
+--- STDERR ---
+time="2026-11-23T09:07:29+05:30" level=warning msg="Request Failed" error="Get \"http://localhost:4001/api/v1/tickets?status=OPEN&page=1&limit=25\": read tcp 127.0.0.1:52546->127.0.0.1:4001: wsarecv: An existing connection was forcibly closed by the remote host."
+time="2026-11-23T09:07:29+05:30" level=warning msg="Request Failed" error="Get \"http://localhost:4001/api/v1/tickets?status=OPEN&page=1&limit=25\": read tcp 127.0.0.1:52547->127.0.0.1:4001: wsarecv: An existing connection was forcibly closed by the remote host."
+time="2026-11-23T09:07:29+05:30" level=warning msg="Request Failed" error="Get \"http://localhost:4001/api/v1/tickets?status=OPEN&page=1&limit=25\": read tcp 127.0.0.1:52548->127.0.0.1:4001: wsarecv: An existing connection was forcibly closed by the remote host."
+time="2026-11-23T09:07:29+05:30" level=warning msg="Request Failed" error="Get \"http://localhost:4001/api/v1/tickets?status=OPEN&page=1&limit=25\": read tcp 127.0.0.1:52549->127.0.0.1:4001: wsarecv: An existing connection was forcibly closed by the remote host."
+time="2026-11-23T09:07:29+05:30" level=warning msg="Request Failed" error="Get \"http://localhost:4001/api/v1/tickets?status=OPEN&page=1&limit=25\": read tcp 127.0.0.1:52566->127.0.0.1:4001: wsarecv: An existing connection was forcibly closed by the remote host."
+time="2026-11-23T09:07:29+05:30" level=warning msg="Request Failed" error="Get \"http://localhost:4001/api/v1/tickets?status=OPEN&page=1&limit=25\": read tcp 127.0.0.1:52567->127.0.0.1:4001: wsarecv: An existing connection was forcibly closed by the remote host."
+time="2026-11-23T09:07:29+05:30" level=warning msg="Request Failed" error="Get \"http://localhost:4001/api/v1/tickets?status=OPEN&page=1&limit=25\": read tcp 127.0.0.1:52568->127.0.0.1:4001: wsarecv: An existing connection was forcibly closed by the remote host."
+time="2026-11-23T09:07:29+05:30" level=warning msg="Request Failed" error="Get \"http://localhost:4001/api/v1/tickets?status=OPEN&page=1&limit=25\": read tcp 127.0.0.1:52569->127.0.0.1:4001: wsarecv: An existing connection was forcibly closed by the remote host."
+time="2026-11-23T09:07:29+05:30" level=warning msg="Request Failed" error="Get \"http://localhost:4001/api/v1/tickets?status=OPEN&page=1&limit=25\": read tcp 127.0.0.1:52570->127.0.0.1:4001: wsarecv: An existing connection was forcibly closed by the remote host."
+time="2026-11-23T09:07:29+05:30" level=warning msg="Request Failed" error="Get \"http://localhost:4001/api/v1/tickets?status=OPEN&page=1&limit=25\": read tcp 127.0.0.1:52571->127.0.0.1:4001: wsarecv: An existing connection was forcibly closed by the remote host."
+time="2026-11-23T09:07:29+05:30" level=warning msg="Request Failed" error="Get \"http://localhost:4001/api/v1/tickets?status=OPEN&page=1&limit=25\": read tcp 127.0.0.1:52584->127.0.0.1:4001: wsarecv: An existing connection was forcibly closed by the remote host."
+time="2026-11-23T09:07:29+05:30" level=warning msg="Request Failed" error="Get \"http://localhost:4001/api/v1/tickets?status=OPEN&page=1&limit=25\": read tcp 127.0.0.1:52585->127.0.0.1:4001: wsarecv: An existing connection was forcibly closed by the remote host."
+time="2026-11-23T09:07:29+05:30" level=warning msg="Request Failed" error="Get \"http://localhost:4001/api/v1/tickets?status=OPEN&page=1&limit=25\": read tcp 127.0.0.1:52586->127.0.0.1:4001: wsarecv: An existing connection was forcibly closed by the remote host."
+time="2026-11-23T09:07:29+05:30" level=warning msg="Request Failed" error="Get \"http://localhost:4001/api/v1/tickets?status=OPEN&page=1&limit=25\": read tcp 127.0.0.1:52587->127.0.0.1:4001: wsarecv: An existing connection was forcibly closed by the remote host."
+time="2026-11-23T09:07:29+05:30" level=warning msg="Request Failed" error="Get \"http://localhost:4001/api/v1/tickets?status=OPEN&page=1&limit=25\": read tcp 127.0.0.1:52588->127.0.0.1:4001: wsarecv: An existing connection was forcibly closed by the remote host."
+time="2026-11-23T09:07:29+05:30" level=warning msg="Request Failed" error="Get \"http://localhost:4001/api/v1/tickets?status=OPEN&page=1&limit=25\": read tcp 127.0.0.1:52589->127.0.0.1:4001: wsarecv: An existing connection was forcibly closed by the remote host."
+time="2026-11-23T09:07:29+05:30" level=warning msg="Request Failed" error="Get \"http://localhost:4001/api/v1/tickets?status=OPEN&page=1&limit=25\": read tcp 127.0.0.1:52590->127.0.0.1:4001: wsarecv: An existing connection was forcibly closed by the remote host."
+time="2026-11-23T09:07:30+05:30" level=warning msg="Request Failed" error="Get \"http://localhost:4001/api/v1/tickets?status=OPEN&page=1&limit=25\": read tcp 127.0.0.1:52591->127.0.0.1:4001: wsarecv: An existing connection was forcibly closed by the remote host."
+time="2026-11-23T09:07:30+05:30" level=warning msg="Request Failed" error="Get \"http://localhost:4001/api/v1/tickets?status=OPEN&page=1&limit=25\": read tcp 127.0.0.1:52608->127.0.0.1:4001: wsarecv: An existing connection was forcibly closed by the remote host."
+time="2026-11-23T09:07:30+05:30" level=warning msg="Request Failed" error="Get \"http://localhost:4001/api/v1/tickets?status=OPEN&page=1&limit=25\": read tcp 127.0.0.1:52609->127.0.0.1:4001: wsarecv: An existing connection was forcibly closed by the remote host."
+time="2026-11-23T09:07:58+05:30" level=error msg="thresholds on metrics 'http_req_duration{endpoint:tickets_spike}' have been crossed"

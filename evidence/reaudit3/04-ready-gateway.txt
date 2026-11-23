@@ -1,0 +1,33 @@
+=== EVIDENCE ARTIFACT ===
+Target: 04-ready-gateway
+Command: curl.exe -s -i -H 'x-service-token: supportpilot-internal-service-token-32c!' http://localhost:4000/health/readiness
+Timestamp (UTC): 2026-11-23T03:31:05.371544+00:00
+Git Commit: fdad02b7c74d0fade69947e41958f126ab8d8d27
+Exit Code: 0
+========================
+--- STDOUT ---
+HTTP/1.1 200 OK
+X-Powered-By: Express
+X-Content-Type-Options: nosniff
+X-Frame-Options: DENY
+X-XSS-Protection: 0
+Strict-Transport-Security: max-age=31536000; includeSubDomains
+Referrer-Policy: strict-origin-when-cross-origin
+Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' ws: wss: http: https:;
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Methods: GET, POST, PUT, PATCH, DELETE, OPTIONS
+Access-Control-Allow-Headers: Content-Type, Authorization, x-tenant-id, x-user-id, x-user-role, traceparent, x-request-id
+Access-Control-Expose-Headers: traceparent, x-request-id
+x-request-id: dbad6e33-1f0a-4af5-820a-50b56eee0dd6
+traceparent: 00-264eb273373966ad3dc53e70234227a7-dddea93a9c53bbe7-01
+Content-Type: application/json; charset=utf-8
+Content-Length: 18
+ETag: W/"12-4TtQgvFNX2eV2jVHUVwyech4XJg"
+Server-Timing: gateway;dur=0.5
+Date: Mon, 23 Nov 2026 03:31:05 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"status":"ready"}
+--- STDERR ---
+

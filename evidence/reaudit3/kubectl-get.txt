@@ -1,0 +1,45 @@
+=== EVIDENCE ARTIFACT ===
+Target: kubectl-get.txt
+Command: kubectl get pods,svc,hpa,ingress,networkpolicy -n supportpilot
+Timestamp (UTC): 2026-11-22T19:00:57.928553+00:00
+Git Commit: fdad02b7c74d0fade69947e41958f126ab8d8d27
+Exit Code: 0
+========================
+--- STDOUT ---
+NAME                                        READY   STATUS              RESTARTS   AGE
+pod/ai-service-97d67886d-zpmdv              0/1     ErrImagePull        0          15s
+pod/gateway-6974c65479-fxt6p                0/1     ContainerCreating   0          15s
+pod/gateway-6974c65479-v6rxz                0/1     ImagePullBackOff    0          15s
+pod/mongo-6df6d96cfc-hl9qg                  0/1     ContainerCreating   0          15s
+pod/notification-service-69685d746c-9qjdr   0/1     ContainerCreating   0          15s
+pod/postgres-57f77999d-lcrlq                0/1     ContainerCreating   0          15s
+pod/redis-6544c694d6-gbwx8                  0/1     ContainerCreating   0          15s
+pod/ticket-service-5495cf478b-zdl8v         0/1     ContainerCreating   0          15s
+pod/web-bfdc79bcf-zdwd2                     0/1     ContainerCreating   0          15s
+
+NAME                           TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)     AGE
+service/ai-service             ClusterIP   10.96.191.155   <none>        8000/TCP    16s
+service/gateway                ClusterIP   10.96.32.245    <none>        4000/TCP    15s
+service/mongo                  ClusterIP   10.96.230.36    <none>        27017/TCP   15s
+service/notification-service   ClusterIP   10.96.249.31    <none>        5001/TCP    15s
+service/postgres               ClusterIP   10.96.197.134   <none>        5432/TCP    15s
+service/redis                  ClusterIP   10.96.123.67    <none>        6379/TCP    15s
+service/ticket-service         ClusterIP   10.96.38.232    <none>        4001/TCP    15s
+service/web                    ClusterIP   10.96.29.132    <none>        80/TCP      15s
+
+NAME                                                     REFERENCE                   TARGETS              MINPODS   MAXPODS   REPLICAS   AGE
+horizontalpodautoscaler.autoscaling/ai-service-hpa       Deployment/ai-service       cpu: <unknown>/80%   1         3         1          15s
+horizontalpodautoscaler.autoscaling/gateway-hpa          Deployment/gateway          cpu: <unknown>/70%   2         5         1          15s
+horizontalpodautoscaler.autoscaling/ticket-service-hpa   Deployment/ticket-service   cpu: <unknown>/75%   1         4         1          15s
+
+NAME                                             CLASS   HOSTS   ADDRESS   PORTS   AGE
+ingress.networking.k8s.io/supportpilot-ingress   nginx   *                 80      15s
+
+NAME                                                                   POD-SELECTOR                         AGE
+networkpolicy.networking.k8s.io/allow-gateway-to-internal-services     app in (ai-service,ticket-service)   15s
+networkpolicy.networking.k8s.io/allow-ingress-to-edge                  app in (gateway,web)                 15s
+networkpolicy.networking.k8s.io/allow-internal-datastores              app in (mongo,postgres,redis)        15s
+networkpolicy.networking.k8s.io/allow-ticket-to-notification-service   app=notification-service             15s
+networkpolicy.networking.k8s.io/default-deny-ingress                   <none>                               15s
+--- STDERR ---
+

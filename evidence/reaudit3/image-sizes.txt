@@ -1,0 +1,26 @@
+=== EVIDENCE ARTIFACT ===
+Target: image-sizes.txt
+Command: docker images
+Timestamp (UTC): 2026-11-23T03:25:00.357363+00:00
+Git Commit: fdad02b7c74d0fade69947e41958f126ab8d8d27
+Exit Code: 0
+========================
+--- STDOUT ---
+IMAGE                                                                                  ID             DISK USAGE   CONTENT SIZE   EXTRA
+infra-ai-service:latest                                                                17dc6e0a928e        9.6GB         3.26GB   U    
+infra-gateway:latest                                                                   69aeb28ed862        300MB         69.2MB   U    
+infra-notification-service:latest                                                      74718de8047f        306MB         69.6MB   U    
+infra-ticket-service:latest                                                            aa7ac3579441        315MB         69.9MB   U    
+infra-web:latest                                                                       ce874e74cd94       74.9MB         21.2MB   U    
+infra-widget:latest                                                                    1a5097f1a66b       75.8MB         21.4MB   U    
+kindest/node@sha256:a1ed56cfb0e7b93589bdf97c8cd566405a265939e3620fc4f5de89adff580ae5   a1ed56cfb0e7       1.34GB          388MB   U    
+mailhog/mailhog:latest                                                                 8d76a3d4ffa3        572MB          146MB   U    
+mongo:7                                                                                41e8195b2791        1.2GB          305MB   U    
+node:22-alpine                                                                         1314fb30ec37        239MB         61.8MB        
+pgvector/pgvector:pg16                                                                 484e838076e0        647MB          162MB   U    
+redis:7-alpine                                                                         7f7d30b7fdd0       58.5MB         16.9MB   U    
+supportpilot-ai-service:latest                                                         0cb896097982        9.6GB         3.26GB        
+test-notification-service:latest                                                       b2162a7ccbce        306MB         69.6MB        
+test-ticket-service:latest                                                             917e53e949da        315MB         69.9MB
+--- STDERR ---
+

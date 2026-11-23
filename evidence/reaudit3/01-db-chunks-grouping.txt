@@ -1,0 +1,68 @@
+=== EVIDENCE ARTIFACT ===
+Target: 01-db-chunks-grouping
+Command: docker exec sp-postgres psql -U supportpilot -d supportpilot -c "SELECT d.title, count(*) FROM kb_chunks c JOIN kb_documents d ON d.id=c.document_id GROUP BY 1 ORDER BY 2 DESC;"
+Timestamp (UTC): 2026-11-22T18:52:22.138594+00:00
+Git Commit: fdad02b7c74d0fade69947e41958f126ab8d8d27
+Exit Code: 0
+========================
+--- STDOUT ---
+                      title                      | count 
+-------------------------------------------------+-------
+ Single Sign-On Configuration with SAML 2.0      |     3
+ Invoicing Cycles, Tax Calculation, and Receipts |     3
+ Security Event Audit Logs and SIEM Export       |     3
+ Account Lockout Triggers and Unlock Workflows   |     3
+ Cryptographic Standards and Data Encryption     |     3
+ API Authentication and Bearer Token Security    |     3
+ Subscription Downgrade and Account Cancellation |     3
+ Multi-Factor Authentication and TOTP Pairing    |     3
+ Prompt Injection Defense and System Guardrails  |     3
+ API Rate Limiting and Retry Guidelines          |     3
+ Embeddable Chat Widget and Shadow DOM           |     3
+ OpenID Connect and OAuth 2.0 Social Logins      |     3
+ 14-Day Money-Back Guarantee and Refund Policies |     3
+ Mid-Cycle Seat Additions and Proration          |     3
+ Mobile Biometric Authentication                 |     3
+ Keyset Cursor Pagination for Data Streams       |     3
+ Ticket Merging and Splitting Workflows          |     3
+ Skill-Based Routing and Language Assignment     |     3
+ Typing Indicators and Read Receipts             |     3
+ Macro Templating and Bulk Updates               |     3
+ Password Complexity and Expiration Policies     |     3
+ Webhook Signature Verification with HMAC-SHA256 |     3
+ Agent Seat Provisioning and Deprovisioning      |     3
+ Internal Notes and Agent Collision Detection    |     3
+ Custom Field Definitions and Validation         |     2
+ Inbound Email Spam Heuristics                   |     2
+ Outbound Webhooks and Event Types               |     2
+ Live Chat to Asynchronous Ticket Conversion     |     2
+ Ticket Priority Determination Matrix            |     2
+ Custom Help Center Domains and SSL              |     2
+ Mobile Offline Outbox and Synchronization       |     2
+ First Response and Resolution SLA Targets       |     2
+ Pre-Chat Survey Forms and Routing               |     2
+ Role-Based Access Control (RBAC) Matrix         |     2
+ Automated Human Handoff Triggers                |     2
+ Operating Business Hours Calendars              |     2
+ Groundedness Citation Verification              |     2
+ Hybrid RAG Retrieval Architecture               |     2
+ Webhook Delivery Retries and Dead Letter Queue  |     2
+ Subscription Plans Overview and Inclusions      |     2
+ Real-Time Chat WebSocket Protocol               |     2
+ Inbound Email Threading and Header Parsing      |     2
+ GDPR Compliance and Right to be Forgotten       |     2
+ Mobile Push Notification Setup                  |     2
+ SLA Escalation Automation and Warning Triggers  |     2
+ Stripe Payment Processing and Vaulting          |     2
+ PII Redaction and Sensitive Topic Guardrails    |     2
+ SupportPilot Mobile Agent Application           |     2
+ Status Page and Incident Severity Triage        |     2
+ REST API v1 Architecture and Conventions        |     2
+ Chat Widget Customization and Branding          |     2
+ Annual Billing Discounts and Contracts          |     2
+ Ticket Status Transitions and Lifecycle         |     2
+ Customer Satisfaction (CSAT) Surveys            |     2
+ AI Confidence Scoring and Draft Generation      |     2
+(55 rows)
+--- STDERR ---
+

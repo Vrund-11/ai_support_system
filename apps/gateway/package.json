@@ -21,10 +21,10 @@
     "@supportpilot/validators": "workspace:*",
     "dataloader": "^2.2.3",
     "express": "^5.1.0",
-    "graphql": "^16.15.0",
+    "graphql": "^17.1.0",
     "ioredis": "^6.0.0",
     "jsonwebtoken": "^9.0.3",
-    "pino": "^9.6.0",
+    "pino": "^10.4.0",
     "socket.io": "^4.8.4"
   },
   "devDependencies": {
@@ -39,6 +39,6 @@
     "supertest": "^7.3.2",
     "tsx": "^4.19.0",
     "typescript": "^5.8.0",
-    "vitest": "^3.2.0"
+    "vitest": "^5.1.1"
   }
 }

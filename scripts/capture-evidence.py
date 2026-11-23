@@ -90,6 +90,7 @@ def capture_command(
     cwd: Path = REPO_ROOT,
     out_dir: Path = DEFAULT_OUT_DIR,
     shell: bool = True,
+    timeout: int = 1200,
 ) -> int:
     """
     Executes a command, records metadata and output, and writes to evidence file.
@@ -114,7 +115,7 @@ def capture_command(
             capture_output=True,
             text=True,
             env=env,
-            timeout=300,
+            timeout=timeout,
         )
         stdout_text = proc.stdout
         stderr_text = proc.stderr
@@ -160,6 +161,7 @@ def main():
     parser.add_argument("--command", required=True, help="Command line string to execute")
     parser.add_argument("--cwd", default=str(REPO_ROOT), help="Working directory (default: repo root)")
     parser.add_argument("--out-dir", default=str(DEFAULT_OUT_DIR), help="Output directory (default: evidence/reaudit2)")
+    parser.add_argument("--timeout", type=int, default=1200, help="Command timeout in seconds (default: 1200)")
 
     args = parser.parse_args()
     code = capture_command(
@@ -167,6 +169,7 @@ def main():
         command=args.command,
         cwd=Path(args.cwd),
         out_dir=Path(args.out_dir),
+        timeout=args.timeout,
     )
     sys.exit(code)
 

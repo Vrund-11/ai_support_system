@@ -42,6 +42,7 @@ __pycache__/
 .ruff_cache/
 .mypy_cache/
 .pytest_cache/
+.cache/
 
 # Mobile
 apps/mobile/.expo/

@@ -117,6 +117,62 @@ def test_top_chunk_score_normalization():
     )
     assert pytest.approx(normalize_top_chunk_score(chunk_rrf), rel=1e-3) == 1.0
 
+    # Tuned RRF with k=20, vector_weight=1.0, text_weight=0.7 (max_rrf = 1.7 / 21)
+    tuned_max_rrf = 1.7 / 21.0
+    chunk_tuned_rrf = SearchResultChunk(
+        id="c3",
+        document_id="d1",
+        chunk_index=2,
+        content="tuned",
+        section_path="",
+        token_count=5,
+        score=tuned_max_rrf,
+        rrf_score=tuned_max_rrf,
+        vector_score=None,
+    )
+    assert pytest.approx(normalize_top_chunk_score(chunk_tuned_rrf), rel=1e-3) == 1.0
+
+
+@pytest.mark.asyncio
+async def test_chunk_to_dict_and_retrieval_score_forwarding():
+    """Verify chunk dictionary conversion preserves score, rrf_score, and vector_score."""
+    chunk = SearchResultChunk(
+        id="chunk-test-1",
+        document_id="doc-test-1",
+        chunk_index=0,
+        content="Content for retrieval forwarding test.",
+        section_path="Section > Sub",
+        token_count=12,
+        score=0.82,
+        rrf_score=0.045,
+        vector_rank=1,
+        text_rank=2,
+        vector_score=0.82,
+        text_score=0.75,
+        metadata={"title": "Test Doc"},
+    )
+    chunk_dict = chunk.to_dict()
+    assert chunk_dict["id"] == "chunk-test-1"
+    assert chunk_dict["score"] == 0.82
+    assert chunk_dict["rrf_score"] == 0.045
+    assert chunk_dict["vector_score"] == 0.82
+
+    # Forward through GenerateAnswerRequest and service
+    service = RagService(llm_provider=MockLLMProvider())
+    req = GenerateAnswerRequest(
+        tenant_id="tenant-test",
+        question="What is the content?",
+        retrieved_chunks=[chunk_dict],
+    )
+    reconstructed = await service._retrieve_chunks(req)
+    assert len(reconstructed) == 1
+    rec_chunk = reconstructed[0]
+    assert rec_chunk.score == 0.82
+    assert rec_chunk.rrf_score == 0.045
+    assert rec_chunk.vector_score == 0.82
+    assert rec_chunk.text_score == 0.75
+    assert normalize_top_chunk_score(rec_chunk) == 0.82
+
 
 def test_citation_verification_grounding():
     """Verify ungrounded chunk citations trigger violation (T-AI-02)."""

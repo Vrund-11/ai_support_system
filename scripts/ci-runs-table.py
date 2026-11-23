@@ -147,6 +147,18 @@ W: OpenPGP signature verification failed: https://dl.k6.io/deb stable InRelease:
 E: The repository 'https://dl.k6.io/deb stable InRelease' is not signed.
 ##[error]Process completed with exit code 100."""
     },
+    {
+        "workflow": "e2e.yml (E2E Tests)",
+        "run_id": "45148613050",
+        "root_cause": "Cypress binary was not installed during pnpm install due to ignored build scripts, causing step failure that was masked by continue-on-error: true. Direct cy.request calls also required mock RBAC response on port 4000.",
+        "fix": "Removed continue-on-error: true; added explicit 'npx cypress install' step; launched Cypress with xvfb-run and --browser chrome against vite dev server; added mock RBAC listener on port 4000 in setupNodeEvents; added live-compose-e2e job documented for local/manual dispatch.",
+        "log": """[trimmed 110 lines]
+End-to-End Test Suite\tRun Cypress Headless\tThe cypress npm package is installed, but the Cypress binary is missing.
+End-to-End Test Suite\tRun Cypress Headless\tWe expected the binary to be installed here: /home/runner/.cache/Cypress/16.3.0/Cypress/Cypress
+End-to-End Test Suite\tRun Cypress Headless\tAlternatively, you can run 'cypress install' to download the binary again.
+[trimmed 20 lines]
+##[error]Process completed with exit code 1."""
+    },
 ]
 
 for exc in FAILING_EXCERPTS:

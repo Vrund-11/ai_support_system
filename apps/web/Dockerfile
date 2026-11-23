@@ -31,7 +31,7 @@ COPY apps/web/ ./apps/web/
 RUN pnpm --filter @supportpilot/web... build
 
 # ── Stage 2: Production Nginx Runner ──
-FROM nginx:1.27-alpine AS runner
+FROM nginx:1.31-alpine AS runner
 
 COPY --from=builder /app/apps/web/dist /usr/share/nginx/html
 COPY apps/web/nginx.conf /etc/nginx/conf.d/default.conf

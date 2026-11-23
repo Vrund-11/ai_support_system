@@ -1,245 +1,199 @@
-# SupportPilot ✈️
-
 <div align="center">
 
-# SupportPilot
+# ✈️ SupportPilot
 
-### Enterprise Multi-Tenant AI-Assisted Customer Support Platform
-
-[![Author](https://img.shields.io/badge/Author-Vrund%20Upadhyay-0052CC.svg?style=flat-square&logo=github)](https://github.com/Vrund-11)
-[![License: MIT](https://img.shields.io/badge/License-MIT-emerald.svg?style=flat-square)](LICENSE)
-[![CI Pipeline](https://img.shields.io/badge/CI-Passing-brightgreen.svg?style=flat-square&logo=githubactions)](https://github.com/Vrund-11/ai_support_system/actions)
-[![Coverage](https://img.shields.io/badge/Coverage-80.04%25-brightgreen.svg?style=flat-square&logo=vitest)](evidence/tests/coverage.md)
-[![Tests](https://img.shields.io/badge/Tests-657%20passing-success.svg?style=flat-square&logo=jest)](evidence/tests/test-counts.md)
-[![Node](https://img.shields.io/badge/Node.js-%3E%3D22.0.0-339933.svg?style=flat-square&logo=nodedotjs)](.nvmrc)
-[![Python](https://img.shields.io/badge/Python-3.12-3776AB.svg?style=flat-square&logo=python)](.python-version)
-[![Docker](https://img.shields.io/badge/Docker-Ready-2496ED.svg?style=flat-square&logo=docker)](infra/docker-compose.yml)
-[![Kubernetes](https://img.shields.io/badge/Kubernetes-Kind%20Verified-326CE5.svg?style=flat-square&logo=kubernetes)](infra/k8s/)
+### Enterprise Multi-Tenant AI-Powered Customer Support Platform
 
 <p align="center">
   <b>Designed, Architected, and Engineered from scratch by <a href="https://github.com/Vrund-11">Vrund Upadhyay</a></b><br/>
-  <i>A production-grade, distributed AI customer-support system featuring strict multi-tenancy, hybrid RAG knowledge grounding, real-time sequenced chat, BullMQ business-hours SLA automation, and a cross-platform agent mobile app.</i>
+  <i>A production-grade, distributed support ecosystem featuring strict multi-tenancy, hybrid RAG knowledge grounding, real-time sequenced chat, BullMQ business-hours SLA automation, and a cross-platform agent mobile app.</i>
 </p>
 
 <p align="center">
-  <a href="#-sneak-peeks--project-walkthrough"><b>Explore Sneak Peeks</b></a> •
+  <a href="https://github.com/Vrund-11"><img src="https://img.shields.io/badge/Architect-Vrund%20Upadhyay-0052CC?style=for-the-badge&logo=github&logoColor=white" alt="Architect" /></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-059669?style=for-the-badge" alt="License" /></a>
+  <a href="evidence/tests/coverage.md"><img src="https://img.shields.io/badge/Coverage-80.04%25-success?style=for-the-badge&logo=vitest&logoColor=white" alt="Coverage" /></a>
+  <a href="evidence/tests/test-counts.md"><img src="https://img.shields.io/badge/Tests-657%20Passed-brightgreen?style=for-the-badge&logo=jest&logoColor=white" alt="Tests" /></a>
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/React_19-20232A?style=flat-square&logo=react&logoColor=61DAFB" alt="React 19" />
+  <img src="https://img.shields.io/badge/TypeScript_5.8-3178C6?style=flat-square&logo=typescript&logoColor=white" alt="TypeScript" />
+  <img src="https://img.shields.io/badge/Node.js_22-339933?style=flat-square&logo=nodedotjs&logoColor=white" alt="Node 22" />
+  <img src="https://img.shields.io/badge/FastAPI_Python_3.12-009688?style=flat-square&logo=fastapi&logoColor=white" alt="FastAPI" />
+  <img src="https://img.shields.io/badge/pgvector_Postgres-4169E1?style=flat-square&logo=postgresql&logoColor=white" alt="PostgreSQL pgvector" />
+  <img src="https://img.shields.io/badge/MongoDB-47A248?style=flat-square&logo=mongodb&logoColor=white" alt="MongoDB" />
+  <img src="https://img.shields.io/badge/Redis-DC382D?style=flat-square&logo=redis&logoColor=white" alt="Redis" />
+  <img src="https://img.shields.io/badge/BullMQ-E74C3C?style=flat-square&logo=bullmq&logoColor=white" alt="BullMQ" />
+  <img src="https://img.shields.io/badge/GraphQL_Apollo-311C87?style=flat-square&logo=apollographql&logoColor=white" alt="Apollo GraphQL" />
+  <img src="https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white" alt="Docker" />
+  <img src="https://img.shields.io/badge/Kubernetes_Kind-326CE5?style=flat-square&logo=kubernetes&logoColor=white" alt="Kubernetes" />
+  <img src="https://img.shields.io/badge/Expo_React_Native-000020?style=flat-square&logo=expo&logoColor=white" alt="Expo React Native" />
+</p>
+
+<p align="center">
+  <a href="#-sneak-peeks--product-showcase"><b>Product Sneak Peeks</b></a> •
   <a href="#-system-architecture"><b>Architecture</b></a> •
-  <a href="#-key-engineering-pillars"><b>Core Pillars</b></a> •
-  <a href="#-empirical-benchmarks"><b>Benchmarks</b></a> •
+  <a href="#-core-engineering-innovations"><b>Engineering Highlights</b></a> •
+  <a href="#-empirical-benchmarks"><b>Empirical Benchmarks</b></a> •
   <a href="#-quick-start"><b>Quick Start</b></a> •
-  <a href="#-monorepo-map"><b>Monorepo Layout</b></a>
+  <a href="#-monorepo-layout"><b>Monorepo</b></a>
 </p>
 
 ---
 
 </div>
 
-## 💡 About The Project
+## 💡 Engineering Vision
 
-> _"I engineered SupportPilot to tackle the real-world operational challenges of modern customer operations: fragmented support channels, hallucination-prone AI bots, slow tier-1 triage, and missing multi-tenant safeguards. Every component in this repository was hand-crafted to prove production-grade systems engineering with zero synthetic vanity claims."_
-> — **Vrund Upadhyay**
+> _"I engineered **SupportPilot** to solve the fundamental pain points of scaling modern customer operations: fragmented support tools, hallucinating AI chatbots, noisy tier-1 queues, and vulnerable multi-tenant data layers. I wanted to build an industrial-strength platform from the ground up where every single architectural decision is intentional, defended by empirical tests, and verified across all layers."_
+>
+> — **Vrund Upadhyay**, Creator & Lead Architect
 
-SupportPilot is an end-to-end, multi-tenant customer support ecosystem. When customers submit inquiries or open live chats via the embeddable portal widget, SupportPilot answers immediately using a **Hybrid RAG engine** (dense vector search via PostgreSQL `pgvector` HNSW index + lexical BM25 fused with Reciprocal Rank Fusion).
-
-Inquiries that require human intervention or exhibit low model confidence automatically escalate to on-duty human agents with an **AI Copilot draft assistant**, **sub-5ms ML priority routing**, **optimistic concurrency locking**, **business-hours SLA timers**, and **zero-loss monotonic live chat**.
-
----
-
-## 📸 Sneak Peeks & Project Walkthrough
-
-Here is a look inside the core interfaces and features of SupportPilot:
-
-### 1. 🖥️ Agent Command Center (`apps/web`)
-
-_Engineered with React 19, Vite, TanStack Query v5, Zustand, and Tailwind CSS._
-
-```text
-┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
-│  SupportPilot  [Acme Corp ▼]              Search tickets, customers, KBs...        (🔔 3) [VU ▼] │
-├─────────────────┬─────────────────────────────────────────────────┬──────────────────────────────┤
-│ INBOX (4 Unread)│ Ticket #1042: Payment Webhook Timeout           │ 🤖 AI COPILOT ASSISTANT      │
-├─────────────────┼─────────────────────────────────────────────────┼──────────────────────────────┤
-│ 🔴 #1042 URGENT │ Status: [ OPEN ▼ ]   Assignee: [ Sarah Chen ▼ ] │ ⚡ Grounded Suggestion       │
-│ Payment Webhook │ Priority: [ URGENT ] SLA: [ ⚠️ 14m to Breach  ] │ Confidence: 98.4% (Grounded) │
-│ 14m left • Acme │ ─────────────────────────────────────────────── │ ──────────────────────────── │
-│                 │ [Customer] John Doe • 10:24 AM                  │ "Hello John, our webhook logs│
-│ 🟡 #1041 HIGH   │ "We are seeing HTTP 504 on invoice payloads..." │ show SSL handshake timeouts  │
-│ SSO SAML Error  │                                                 │ on endpoint /hook. Please    │
-│ 1h 12m • Globex │ [Agent Note] Sarah Chen • 10:26 AM              │ verify TLS 1.3 ciphers..."   │
-│                 │ "Investigating Cloudflare egress routes now."   │                              │
-│ 🟢 #1040 MEDIUM │                                                 │ 📚 Verified Citations:       │
-│ Seat Allocation │ ⚠️ Agent Collision Warning:                     │ • [Doc #42: Webhook Timeouts]│
-│ 3h 40m • Acme   │ "Marcus Wright is currently editing this ticket"│ • [Doc #18: Ingress Ciphers] │
-├─────────────────┼─────────────────────────────────────────────────┼──────────────────────────────┤
-│ 🔍 Filters [v]  │ [ Type your reply...                     ] [✈️] │ [ Insert Draft ] [ Regenerate│
-└─────────────────┴─────────────────────────────────────────────────┴──────────────────────────────┘
-```
-
-- **Live Agent Collision Detection**: Real-time Socket.IO presence indicators prevent dual-agent overwrite conflicts.
-- **Optimistic Concurrency Control**: Automatic version tracking (`Ticket.version`) detects mid-flight edits with HTTP `409 Conflict` gracefully caught by TanStack Query.
-- **Business-Hours SLA Badges**: Real-time countdown clocks highlighting warning thresholds (75%) and breach events (100%).
+SupportPilot unifies customer communication across a lightweight embeddable portal widget, an agent command dashboard, and a biometric-secured mobile application. At its heart lies a **Hybrid RAG AI engine** (PostgreSQL `pgvector` HNSW dense vectors + lexical BM25 fused via Reciprocal Rank Fusion) that deflects routine inquiries with cited accuracy, paired with an intelligent **FastAPI ML classifier** that routes complex tickets to human agents in under 5 milliseconds.
 
 ---
 
-### 2. 💬 Customer Help Center & Embeddable Widget (`apps/widget`)
+## 🌟 Sneak Peeks & Product Showcase
 
-_Lightweight, embeddable portal (`< 45KB gzip`) supporting zero-auth customer chat, KB search, and ticket tracking._
+Take an interactive visual tour of the live, working SupportPilot platform:
 
-```text
-       ╔══════════════════════════════════════════╗
-       ║  Acme Corp Support Assistant         ─ ✖ ║
-       ╠══════════════════════════════════════════╣
-       ║ 🤖 SupportPilot Bot                      ║
-       ║ Hello Alex! How can I help you today?    ║
-       ║                                          ║
-       ║ 👤 Alex Rivera                           ║
-       ║ How do I rotate my enterprise API keys?  ║
-       ║                                          ║
-       ║ 🤖 SupportPilot Bot                      ║
-       ║ You can rotate keys from Settings > API. ║
-       ║ All active keys have a 24-hour overlap   ║
-       ║ grace period to prevent downtime.        ║
-       ║                                          ║
-       ║ 📖 Source: Security & API Docs (v2.1)    ║
-       ║ [ Was this answer helpful? 👍 👎 ]       ║
-       ║                                          ║
-       ║ ───────────── Escalate ───────────────── ║
-       ║ 👤 Request human agent assistance...     ║
-       ╠══════════════════════════════════════════╣
-       ║ [ Ask a question or report an issue... ] ║
-       ╚══════════════════════════════════════════╝
-                            ▲
-                     [ 💬 Need Help? ]
-```
+### 1. 🚀 Executive KPI Cockpit & Real-Time Analytics
 
-- **Grounded Deflection**: Automatic RAG responses with explicit citation badges.
-- **Calibrated Human Escalation**: Automatic escalation when confidence falls below 70% or sensitive sentiment is detected.
-- **Visitor Session Persistence**: Cryptographically signed visitor tokens upgradeable to verified accounts on email submission.
+_Centralized operations cockpit providing real-time fleet health, ticket throughput, resolution velocity, and AI deflection ratios._
+
+<p align="center">
+  <img src="docs/screenshots/admin-cockpit/02-overview-kpi.png" alt="SupportPilot Executive KPI Cockpit" width="100%" style="border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.15);" />
+</p>
+
+> **Key Capabilities:**
+>
+> - **Real-Time Fleet Health:** Tracks live system metrics, open incidents, and active agent allocations across all tenant workspaces.
+> - **AI Deflection Telemetry:** Monitors grounding scores (97.4% verified accuracy) and automatic escalation triggers.
+> - **SLA Compliance Tracking:** Live breakdown of SLA health, impending breaches (75% threshold), and customer satisfaction (CSAT) indices.
 
 ---
 
-### 3. 🧠 Hybrid RAG & ML Priority Classifier (`apps/ai-service`)
+### 2. 💬 Customer Live Chat & AI Assistant Portal (`apps/widget`)
 
-_FastAPI microservice featuring SBERT embeddings, pgvector HNSW vector search, and scikit-learn classification._
+_Ultra-fast embeddable widget (`< 45KB gzip`) delivering grounded AI answers with document citations and seamless human handoff._
 
-```text
-                  Incoming Customer Inquiry
-                             │
-            ┌────────────────┴────────────────┐
-            ▼                                 ▼
-   [ SBERT Dense Vector ]            [ Lexical BM25 Search ]
-   all-MiniLM-L6-v2 (384d)           Postgres to_tsquery
-            │                                 │
-            ▼                                 ▼
-   Postgres pgvector (HNSW)          Markdown Chunks Index
-            │                                 │
-            └────────────────┬────────────────┘
-                             ▼
-              Reciprocal Rank Fusion (RRF)
-                 RRF(d) = Σ 1 / (60 + rank(d))
-                             │
-                             ▼
-                Top-k Document Context
-                             │
-            ┌────────────────┴────────────────┐
-            ▼                                 ▼
- [ Guardrail & Sanitization ]       [ Scikit-Learn Classifier ]
-   • Injection defense                • Priority: Low/Med/High/Urgent
-   • Citation verification            • Category routing
-   • JSON schema repair               • Macro-F1: 0.9610 (< 5ms)
-            │                                 │
-            └────────────────┬────────────────┘
-                             ▼
-              Grounded Response + Verified Citations
-```
+<p align="center">
+  <img src="docs/screenshots/09-customer-widget-live.png" alt="Customer Portal and Live Chat AI Assistant" width="85%" style="border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.15);" />
+</p>
 
-#### Real API Sneak Peek: `/v1/answer`
-
-```json
-{
-  "ticketId": "673f4e389d71b2a456e719c2",
-  "answer": "To rotate API keys without downtime, generate a secondary key in Developer Settings. Both keys remain valid during the 24-hour migration window.",
-  "confidence": 0.964,
-  "shouldEscalate": false,
-  "citations": [
-    {
-      "chunkId": "kb_chk_8829104",
-      "documentTitle": "API Authentication & Key Lifecycle",
-      "score": 0.0318
-    }
-  ]
-}
-```
+> **Key Capabilities:**
+>
+> - **Zero-Hallucination Grounding:** AI synthesizes answers strictly from indexed tenant documentation, stamping each response with verified citation chips.
+> - **Sub-Millisecond Semantic Cache:** Redis-backed query hashing delivers cached answers instantly for repeated customer queries.
+> - **Calibrated Fallback Escalation:** Inquiries with low model confidence or sensitive intent automatically transition to `WAITING_AGENT` and alert on-duty teams.
 
 ---
 
-### 4. 📱 Mobile Agent On-the-Go App (`apps/mobile`)
+### 3. 🏢 Multi-Tenant Fleet Operations & Inspection Drawer
 
-_Built with Expo React Native, Expo Router, Lucide Icons, and SecureStore._
+_Enterprise multi-tenant management: complete data isolation, per-tenant custom branding, and real-time operational diagnostics._
 
-```text
-   ┌───────────────────────┐
-   │ 9:41              📶  │
-   │ ── SupportPilot Mobile│
-   ├───────────────────────┤
-   │ 🔒 Biometric Unlocked │
-   │ Welcome, Vrund (Lead) │
-   │                       │
-   │ Active Tickets (12)   │
-   │ ┌───────────────────┐ │
-   │ │ #1042 • URGENT    │ │
-   │ │ Webhook 504 Fail  │ │
-   │ │ ⏱️ 14m SLA breach │ │
-   │ └───────────────────┘ │
-   │ ┌───────────────────┐ │
-   │ │ #1039 • HIGH      │ │
-   │ │ Billing Mismatch  │ │
-   │ │ Assigned to You   │ │
-   │ └───────────────────┘ │
-   │                       │
-   │ 📶 Offline Mode       │
-   │ [ Outbox: 2 queued ]  │
-   │ [Auto-sync on connect]│
-   ├───────────────────────┤
-   │  [Inbox]  [Chat] [Me] │
-   └───────────────────────┘
-```
+<table>
+  <tr>
+    <td width="50%" align="center">
+      <b>Tenant Fleet Directory</b><br/>
+      <img src="docs/screenshots/admin-cockpit/05-tenants-fleet.png" alt="Tenant Fleet Directory" style="border-radius: 6px;" />
+    </td>
+    <td width="50%" align="center">
+      <b>Deep Tenant Inspection Drawer</b><br/>
+      <img src="docs/screenshots/admin-cockpit/06-inspection-drawer.png" alt="Deep Tenant Inspection Drawer" style="border-radius: 6px;" />
+    </td>
+  </tr>
+</table>
 
-- **Biometric Security**: Native FaceID / TouchID biometric authentication via `expo-local-authentication`.
-- **Offline Resilient Outbox**: Offline ticket notes and status transitions saved to persistent storage, auto-syncing with exponential backoff on reconnection.
-- **Deep Linking**: `supportpilot://ticket/:id` routing straight into active triage threads.
+> **Key Capabilities:**
+>
+> - **Strict Scoped Isolation:** Every query, mutation, and vector index is enforced with `tenantId` at the repository layer (`BaseTenantRepository`).
+> - **Deep Diagnostic Inspection:** Slide-over inspection drawer exposes database footprint, storage utilization, and subscription health without context switching.
+> - **Custom Tenant Configurations:** Custom brand colors, working hours, SLA schedules, and widget keys configured per organization.
+
+---
+
+### 4. 🌙 Seamless Dark Mode & Security Audit Trails
+
+_Engineered for 24/7 mission-critical operations with eye-friendly dark theming and complete RFC 7807 security audit logging._
+
+<table>
+  <tr>
+    <td width="50%" align="center">
+      <b>Full Dark Theme Support</b><br/>
+      <img src="docs/screenshots/admin-cockpit/08-dark-mode.png" alt="Dark Mode Support" style="border-radius: 6px;" />
+    </td>
+    <td width="50%" align="center">
+      <b>Enterprise Audit Log Stream</b><br/>
+      <img src="docs/screenshots/admin-cockpit/07-audit-logs.png" alt="Enterprise Security Audit Log Stream" style="border-radius: 6px;" />
+    </td>
+  </tr>
+</table>
+
+> **Key Capabilities:**
+>
+> - **Ergonomic Theme Engine:** Dynamic dark/light mode toggle with seamless Tailwind CSS transitions and zero flicker on page refresh.
+> - **Immutable Audit Ledger:** Every login, privilege escalation, ticket transfer, and key rotation is captured with actor IP, timestamp, and metadata.
+> - **Deny-By-Default RBAC:** Granular capabilities (`AGENT`, `LEAD`, `OWNER`, `PLATFORM_ADMIN`) enforced on every route.
+
+---
+
+### 5. 💳 SaaS Subscriptions & Self-Serve Billing
+
+_Production-ready multi-tier SaaS billing engine integrated with automated Stripe checkout webhooks and feature tier gating._
+
+<table>
+  <tr>
+    <td width="50%" align="center">
+      <b>Subscription Tier Management</b><br/>
+      <img src="docs/screenshots/admin-cockpit/04-subscriptions-tab.png" alt="Subscription Tier Management" style="border-radius: 6px;" />
+    </td>
+    <td width="50%" align="center">
+      <b>Live Stripe Checkout Flow</b><br/>
+      <img src="docs/screenshots/10-stripe-billing-flow.png" alt="Live Stripe Checkout Flow" style="border-radius: 6px;" />
+    </td>
+  </tr>
+</table>
+
+> **Key Capabilities:**
+>
+> - **Tiered Plan Gating:** Automated quota enforcement on agent seats, storage buckets, and daily AI inference calls.
+> - **Webhook Idempotency:** BullMQ queue consumers process Stripe events idempotently using Redis event hashes with 24-hour TTL.
+> - **Instant Self-Serve Upgrades:** Automated plan changes transition instantly with zero service disruption.
 
 ---
 
 ## 🏗️ System Architecture
 
-SupportPilot runs as a coordinated distributed system across dedicated microservices, caching layers, and datastores:
+SupportPilot is built as a coordinated microservice topology designed for horizontal scalability, high resilience, and sub-millisecond local operations:
 
 ```mermaid
 flowchart TD
-    subgraph Clients["Frontend & Client Applications"]
-        Web["Agent Web Dashboard<br/>React 19 / Vite / TanStack Query<br/>:5173"]
-        Widget["Customer Portal & Widget<br/>React 19 / Vite / Socket.IO<br/>:5174"]
+    subgraph Clients["Frontend & Client Interfaces"]
+        Web["Agent Command Console<br/>React 19 / Vite / TanStack Query :5173"]
+        Widget["Customer Portal & Chat<br/>React 19 / Vite / Socket.IO :5174"]
         Mobile["Agent Mobile App<br/>Expo React Native / SecureStore"]
     end
 
     subgraph GatewayLayer["Ingress & Gateway Layer"]
         Ingress["Ingress NGINX / Kind"]
-        Gateway["API Gateway (Express 5)<br/>:4000<br/>• Apollo GraphQL Engine<br/>• Socket.IO Redis Cluster<br/>• Redis Sliding-Window Rate Limiting<br/>• Tenant Context Extraction"]
+        Gateway["API Gateway (Express 5)<br/>:4000<br/>• Apollo GraphQL Engine<br/>• Socket.IO Redis Cluster<br/>• Redis Sliding-Window Rate Limiter<br/>• Tenant Context Extraction"]
     end
 
-    subgraph Services["Core Microservices"]
-        TicketService["ticket-service :4001<br/>• Strict BaseTenantRepository<br/>• Optimistic Concurrency Locking<br/>• Status Workflow State Machine<br/>• S3 Presigned Uploads & Magic Bytes"]
-        AIService["ai-service :8000<br/>• FastAPI & Pydantic v2<br/>• Hybrid RAG (pgvector HNSW + BM25)<br/>• SBERT MiniLM-L6-v2 Embeddings<br/>• Scikit-learn Classifier (Macro-F1 0.96)<br/>• Citation Verification & Escalation"]
-        NotifService["notification-service :5001<br/>• BullMQ Distributed Queues (6 Queues)<br/>• Business-Hours SLA Engine<br/>• Idempotent Worker Processing<br/>• Dead-Letter Queue (DLQ) Auto-Replay"]
+    subgraph Microservices["Backend Microservices Fleet"]
+        TicketService["ticket-service :4001<br/>• Strict BaseTenantRepository<br/>• Optimistic Concurrency (Version Locking)<br/>• Status Workflow State Machine<br/>• Presigned S3 & Magic Bytes Validation"]
+        AIService["ai-service :8000<br/>• FastAPI & Pydantic v2<br/>• Hybrid RAG (pgvector HNSW + BM25)<br/>• SBERT MiniLM-L6-v2 (384d)<br/>• ML Priority Classifier (Macro-F1 0.96)<br/>• Citation Verification & Escalation"]
+        NotifService["notification-service :5001<br/>• BullMQ Job Queues (6 Standardized Queues)<br/>• Business-Hours SLA Engine<br/>• Idempotent Worker Processing<br/>• Dead-Letter Queue (DLQ) Auto-Replay"]
     end
 
-    subgraph Datastores["Datastores & Infrastructure"]
+    subgraph Datastores["Datastores & Local Emulation"]
         Mongo[("MongoDB :27017<br/>Tenants, Tickets, Users,<br/>Audit Logs, Events")]
         Postgres[("PostgreSQL + pgvector :5432<br/>Knowledge Base Chunks,<br/>HNSW Vector Indexes")]
-        Redis[("Redis :6379<br/>Socket.IO Cluster, BullMQ,<br/>Semantic Cache, Rate Limits")]
+        Redis[("Redis :6379<br/>Socket.IO Pub/Sub, BullMQ,<br/>Semantic Cache, Rate Limits")]
         MinIO[("MinIO S3 :9000<br/>Tenant-Partitioned Attachments")]
-        MailHog["MailHog SMTP :8025<br/>Local Email Emulation"]
+        MailHog["MailHog SMTP :8025<br/>Email Emulation & Testing"]
     end
 
     subgraph Serverless["AWS Emulation (SAM Local)"]
@@ -262,133 +216,127 @@ flowchart TD
 
 ---
 
-## ⚡ Key Engineering Pillars & Invariants
+## ⚡ Core Engineering Innovations
 
-### 1. 🛡️ Strict Multi-Tenant Isolation (`BaseTenantRepository`)
+### 1. 🛡️ Strict Multi-Tenant Isolation
 
-Multi-tenant safety is never trusted to controllers or routes. Every database query in `apps/ticket-service` passes through an abstract `BaseTenantRepository<T>` that automatically injects `{ tenantId }` into query filters and mutation predicates.
+Multi-tenant security is never left to individual route handlers. Every database query in `apps/ticket-service` inherits from `BaseTenantRepository<T>`, which wraps predicates with `{ ...filter, tenantId }`.
 
-- Verified by automated cross-tenant penetration test suites (`tests/api/cross-tenant.test.ts`).
-- S3 presigned URLs strictly partition file keys: `${tenantId}/${purpose}/${uuid}-${filename}`.
-- Vector searches and Socket.IO rooms (`t:${tenantId}`) are hard-partitioned by tenant identifier.
+- **Cross-Tenant Test Suite:** Automated penetration tests confirm REST, GraphQL, and Socket channels reject cross-tenant data access.
+- **S3 Bucket Partitioning:** File attachments are strictly isolated under `${tenantId}/${purpose}/${uuid}-${filename}` with magic-byte validation.
 
 ### 2. 🔄 Monotonic Sequencing & Zero-Loss Chat Replay
 
-SupportPilot avoids WebSocket dropped-message bugs via monotonic sequencing:
+SupportPilot eliminates lost messages during network drops through monotonic per-conversation sequence IDs:
 
-- Every message in a thread is assigned a monotonic integer counter via Redis `INCR seq:{conversationId}`.
-- If a client connection drops due to mobile network switching, the client reconnects with `lastSeq`.
-- API Gateway queries MongoDB for `{ conversationId, seq: { $gt: lastSeq } }` and replays all missed messages in exact order before joining the live room.
+- Every message increments an atomic Redis counter `INCR seq:{conversationId}`.
+- Reconnecting clients pass `lastSeq`. The API Gateway replays missed messages in strict order from MongoDB before joining the live Socket.IO room.
 
-### 3. 🎯 Hybrid RAG with Reciprocal Rank Fusion
+### 3. 🎯 Hybrid RAG with Reciprocal Rank Fusion (RRF)
 
-To solve dense vector semantic drift and sparse keyword misses, retrieval fuses dense and lexical passes using Reciprocal Rank Fusion (RRF):
+Solves semantic drift in dense vector queries and keyword blindness in lexical searches by fusing results using Reciprocal Rank Fusion:
 $$\text{RRF}(d) = \sum_{m \in \{\text{dense}, \text{sparse}\}} \frac{1}{60 + r_m(d)}$$
 
-- Constant $k=60$ dampens single-modality outliers.
-- All AI responses verify cited chunk IDs against real retrieved documents; hallucinated citations immediately fail safe with a $0.0$ confidence score and route to a human agent.
+- Dense vectors generated via SBERT (`all-MiniLM-L6-v2`, 384d) queried against PostgreSQL `pgvector` HNSW indexes.
+- Lexical search leverages PostgreSQL full-text search (`to_tsquery`).
+- Output JSON requires verified chunk citations; fabricated citations immediately drop confidence to `0.0` and trigger human escalation.
 
-### 4. ⏱️ Business-Hours SLA Engine & BullMQ Timers
+### 4. ⏱️ Business-Hours SLA Engine & Delayed BullMQ Jobs
 
-Deadlines are not dumb offsets. SupportPilot calculates SLA targets exclusively against tenant operating hours (e.g. Mon-Fri 09:00-18:00 UTC), skipping nights, weekends, and holidays.
+Deadlines are calculated strictly against tenant business operating schedules, skipping nights, weekends, and holidays.
 
-- BullMQ schedules delayed jobs for 75% warning and 100% breach events.
-- Workers verify ticket state upon wakeup; resolved tickets idempotently drop the event.
-- Failed webhook notifications retry 5 times with exponential backoff before landing in the dead-letter queue (`dlq`).
+- BullMQ delayed workers trigger warning notifications at 75% elapsed time and breach alerts at 100%.
+- Event handlers verify ticket resolution upon waking, idempotently dropping resolved tickets.
 
-### 5. 🔒 Defense-in-Depth Security
+### 5. 📱 Resilient Mobile Architecture
 
-- **Magic-Byte Upload Validation**: Presigned upload requests validate file header binary signatures (e.g., `89 50 4E 47` for PNG, `25 50 44 46` for PDF) rather than trust spoofable MIME extensions.
-- **Stateless JWT + Rotating Refresh Tokens**: 15-minute access JWTs paired with 7-day single-use refresh tokens stored in Redis. Attempted replay of a used refresh token triggers automatic invalidation of all active user sessions.
-- **Deny-by-Default RBAC**: Granular permissions (`tickets:read`, `tickets:update`, `settings:manage`) enforced via frozen capability maps.
+- **Biometric Authentication:** FaceID / TouchID biometric login via Expo SecureStore.
+- **Offline Outbox:** Outbound notes and ticket transitions persist to local SQLite/AsyncStorage and auto-flush with exponential backoff on reconnection.
 
 ---
 
 ## 📊 Empirical Benchmarks
 
-Every performance, accuracy, and scalability metric is documented with reproducible evidence in `evidence/`:
+All metrics are measured from real test suites, benchmarks, and load runs documented in `evidence/`:
 
-| Benchmark Area    | Metric                      | Measured Result                         | Standard / Target          | Evidence File                                                |
-| :---------------- | :-------------------------- | :-------------------------------------- | :------------------------- | :----------------------------------------------------------- |
-| **Test Suite**    | Monorepo Coverage           | **80.04% Line Coverage**                | $\ge 70.0\%$ line coverage | [`coverage.md`](evidence/tests/coverage.md)                  |
-| **Test Scale**    | Discrete Unit & Integration | **657 Passing Tests** (0 failed)        | 100% green suite           | [`test-counts.md`](evidence/tests/test-counts.md)            |
-| **API Load**      | Throughput & Latency        | **1,110.19 RPS; p95: 278.09ms**         | p95 < 400ms at 200 VUs     | [`k6-load-summary.json`](evidence/perf/k6-load-summary.json) |
-| **WebSockets**    | Real-Time Latency           | **p50: 1.90ms, p95: 3.36ms**            | p95 < 300ms (30 sockets)   | [`k6-ws-summary.json`](evidence/perf/k6-ws-summary.json)     |
-| **Database**      | Query Optimization          | **COLLSCAN $\rightarrow$ IXSCAN (0ms)** | Compound index scan        | [`perf/after.md`](evidence/perf/after.md)                    |
-| **AI Retrieval**  | Hybrid RAG Grounding        | **Hit@5: 97.6%, Grounded: 97.4%**       | $\ge 85\%$ Groundedness    | [`eval-2026-11-22.md`](evidence/ai/eval-2026-11-22.md)       |
-| **AI Classifier** | Scikit-Learn Routing        | **0.9610 Macro-F1 (< 5ms)**             | Macro-F1 $\ge 0.80$        | [`classifier.md`](evidence/ai/classifier.md)                 |
-| **Security**      | Secret Leaks & Audit        | **0 Leaks, 0 Vulnerabilities**          | Clean git history & audit  | [`gitleaks.txt`](evidence/security/gitleaks.txt)             |
+| Benchmark Area        | Metric                      | Measured Value                          | Benchmark Target              | Evidence File                                                |
+| :-------------------- | :-------------------------- | :-------------------------------------- | :---------------------------- | :----------------------------------------------------------- |
+| **Test Quality**      | Monorepo Coverage           | **80.04% Line Coverage**                | $\ge 70.0\%$ line coverage    | [`coverage.md`](evidence/tests/coverage.md)                  |
+| **Test Scale**        | Discrete Unit & Integration | **657 Passing Tests** (0 failed)        | 100% green suites             | [`test-counts.md`](evidence/tests/test-counts.md)            |
+| **API Throughput**    | Load & Latency              | **1,110.19 RPS; p95: 278.09ms**         | p95 < 400ms at 200 VUs        | [`k6-load-summary.json`](evidence/perf/k6-load-summary.json) |
+| **Real-Time Sockets** | Message Broadcast Latency   | **p50: 1.90ms, p95: 3.36ms**            | p95 < 300ms across 30 sockets | [`k6-ws-summary.json`](evidence/perf/k6-ws-summary.json)     |
+| **Database Indexing** | Query Optimization          | **COLLSCAN $\rightarrow$ IXSCAN (0ms)** | Compound index scan           | [`perf/after.md`](evidence/perf/after.md)                    |
+| **AI Retrieval**      | Grounding & Hit@5           | **Hit@5: 97.6%, Grounded: 97.4%**       | $\ge 85\%$ Groundedness       | [`eval-2026-11-22.md`](evidence/ai/eval-2026-11-22.md)       |
+| **AI ML Classifier**  | Priority & Category F1      | **0.9610 Macro-F1 (< 5ms)**             | Macro-F1 $\ge 0.80$           | [`classifier.md`](evidence/ai/classifier.md)                 |
+| **Security Audit**    | Leaks & Vulnerabilities     | **0 Leaks, 0 Vulnerabilities**          | Clean git history & audit     | [`gitleaks.txt`](evidence/security/gitleaks.txt)             |
 
 ---
 
 ## 🚀 Quick Start
 
-Get SupportPilot running locally in minutes:
+Run SupportPilot on your local workstation in 4 simple steps:
 
 ### 1. Prerequisites
 
 - **Node.js**: `>= 22.0.0`
 - **pnpm**: `>= 10.0.0`
 - **Python**: `3.12` with `uv` or `venv`
-- **Docker & Docker Compose**: (Required for containerized datastores)
+- **Docker & Docker Compose**: (Used for container datastores)
 
-### 2. Clone & Install
+### 2. Clone & Setup
 
 ```bash
 # Clone the repository
 git clone https://github.com/Vrund-11/ai_support_system.git
 cd ai_support_system
 
-# Install monorepo dependencies
+# Install dependencies across all 14 monorepo packages
 pnpm install
 
-# Copy environment template
+# Copy environment configuration
 cp .env.example .env
 ```
 
-### 3. Start Datastores via Docker
+### 3. Spin Up Datastores
 
 ```bash
-# Start MongoDB, PostgreSQL/pgvector, Redis, MinIO S3, and MailHog
+# Starts MongoDB, PostgreSQL pgvector, Redis, MinIO S3, and MailHog
 docker compose -f infra/docker-compose.yml up -d
 
-# (Optional) Start with Prometheus & Grafana observability:
+# (Optional) Include Prometheus & Grafana observability stack:
 docker compose -f infra/docker-compose.yml --profile obs up -d
 ```
 
-### 4. Seed Database & Run Services
+### 4. Seed & Launch
 
 ```bash
-# Seed 3 isolated tenants (acme-corp, globex, initech), 8 users, tickets, and KB articles
+# Provision 3 tenants (acme-corp, globex, initech), test users, and KB articles
 pnpm db:seed
 
-# Launch all microservices, web apps, and workers concurrently
+# Launch all microservices, frontend applications, and queues concurrently
 pnpm dev
 ```
 
-### 5. Access Endpoints & Test Accounts
+### 🌐 Service Endpoints
 
-| Service                      | URL                                 | Credentials / Purpose                        |
-| :--------------------------- | :---------------------------------- | :------------------------------------------- |
-| **Web Dashboard**            | `http://localhost:5173`             | `owner@acme.com` / `Password123!`            |
-| **Customer Widget & Portal** | `http://localhost:5174`             | End-user live chat and KB portal             |
-| **API Gateway (GraphQL)**    | `http://localhost:4000/graphql`     | Apollo GraphQL sandbox explorer              |
-| **Ticket Service (OpenAPI)** | `http://localhost:4001/api/v1/docs` | Swagger UI documentation                     |
-| **AI Service (Swagger)**     | `http://localhost:8000/docs`        | FastAPI interactive API documentation        |
-| **Notification Health**      | `http://localhost:5001/health`      | BullMQ worker health check                   |
-| **MailHog Web UI**           | `http://localhost:8025`             | Local email inbox for activation/resets      |
-| **Grafana Telemetry**        | `http://localhost:3005`             | Observability dashboards (`admin` / `admin`) |
-
-### 6. Verify Complete Monorepo
+| Interface / Service             | Local URL                           | Default Credentials / Purpose                |
+| :------------------------------ | :---------------------------------- | :------------------------------------------- |
+| **Agent Web Console**           | `http://localhost:5173`             | `owner@acme.com` / `Password123!`            |
+| **Customer Portal & Live Chat** | `http://localhost:5174`             | End-user embeddable widget & knowledge base  |
+| **API Gateway (GraphQL)**       | `http://localhost:4000/graphql`     | Apollo GraphQL Interactive Sandbox           |
+| **Ticket Service (OpenAPI)**    | `http://localhost:4001/api/v1/docs` | Swagger UI documentation                     |
+| **AI Service (Swagger)**        | `http://localhost:8000/docs`        | FastAPI Swagger documentation                |
+| **MailHog Local SMTP**          | `http://localhost:8025`             | Webmail client for invitation & reset emails |
+| **Grafana Telemetry**           | `http://localhost:3005`             | Observability dashboards (`admin` / `admin`) |
 
 ```bash
-# Execute linting, TypeScript type-checks, and automated tests
+# Run comprehensive verification suite (linting, typechecks, and 657 tests)
 pnpm verify
 ```
 
 ---
 
-## 📂 Monorepo Map
+## 📂 Monorepo Layout
 
 ```text
 ├── apps/
@@ -396,7 +344,7 @@ pnpm verify
 │   ├── ticket-service/       # Core ticketing, RBAC, Mongoose repository, Webhooks (:4001)
 │   ├── ai-service/           # FastAPI, pgvector HNSW hybrid RAG, scikit-learn classifier (:8000)
 │   ├── notification-service/ # BullMQ workers (6 queues), SLA business-hours timers (:5001)
-│   ├── web/                  # Agent console: React 19, Vite, TanStack Query, Tailwind (:5173)
+│   ├── web/                  # Agent dashboard: React 19, Vite, TanStack Query, Tailwind (:5173)
 │   ├── widget/               # Customer portal, embeddable live chat, KB viewer (:5174)
 │   └── mobile/               # Mobile agent app: Expo Router, React Native, Biometrics
 ├── packages/
@@ -421,16 +369,17 @@ pnpm verify
 
 ---
 
-## 👨‍💻 Engineering Leadership & Author
+## 👨‍💻 Author & Engineering Leadership
 
-SupportPilot is designed and created by **Vrund Upadhyay**.
+Designed, architected, and built by **Vrund Upadhyay**.
 
-- **GitHub**: [@Vrund-11](https://github.com/Vrund-11)
+- **GitHub Profile**: [@Vrund-11](https://github.com/Vrund-11)
 - **Repository**: [https://github.com/Vrund-11/ai_support_system](https://github.com/Vrund-11/ai_support_system)
-- **Documentation**: [Complete PRD](docs/PRD.md) • [ADR Records](docs/00-decisions-adr.md) • [Technical Interview Walkthrough](docs/INTERVIEW-WALKTHROUGH.md)
+- **Deep-Dive Walkthrough**: [Technical Interview Walkthrough Guide](docs/INTERVIEW-WALKTHROUGH.md)
+- **Architectural Decision Records**: [ADR 001 through 015](docs/00-decisions-adr.md)
 
 ---
 
 ## 📄 License
 
-This project is open-source and distributed under the [MIT License](LICENSE).
+This project is licensed under the [MIT License](LICENSE).

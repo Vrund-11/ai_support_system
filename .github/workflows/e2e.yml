@@ -69,9 +69,22 @@ jobs:
       - name: Run Playwright Tests
         run: npx playwright test --config tests/e2e/playwright.config.ts --project=mocked
 
+      - name: Install Cypress Binary
+        run: npx cypress install
+
       - name: Run Cypress Headless
-        run: npx cypress run --config-file tests/e2e/cypress.config.ts
-        continue-on-error: true
+        run: |
+          pnpm --filter @supportpilot/web dev --port 5173 &
+          WEB_PID=$!
+          for i in {1..30}; do
+            if curl -s -f http://localhost:5173 > /dev/null 2>&1; then
+              echo "Web dev server ready on port 5173"
+              break
+            fi
+            sleep 1
+          done
+          xvfb-run --auto-servernum npx cypress run --config-file tests/e2e/cypress.config.ts --browser chrome
+          kill $WEB_PID || true
 
       - name: Build Web Application
         run: pnpm --filter @supportpilot/web build
@@ -94,5 +107,46 @@ jobs:
             playwright-report/
             cypress/videos/
             cypress/screenshots/
+            tests/e2e/cypress/videos/
+            tests/e2e/cypress/screenshots/
             .lighthouseci/
           retention-days: 7
+
+  # Live Compose Stack E2E suite
+  # NOTE: The full multi-service Docker compose stack (6 app containers + 3 datastores + seeding)
+  # requires building PyTorch CPU and multi-stage Node images from source, which exceeds standard
+  # 2-vCPU / 7GB GitHub-hosted runner memory limits and 20m timeout budgets.
+  # It is maintained as a documented local-only / on-demand suite triggered manually via workflow_dispatch.
+  live-compose-e2e:
+    name: Live Compose Stack & Playwright Live E2E (Manual / Local Suite)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    if: github.event_name == 'workflow_dispatch'
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Start Compose Infrastructure & Microservices
+        run: |
+          docker network create supportpilot-net || true
+          docker compose -f infra/docker-compose.infra.yml up -d
+          docker compose -f infra/docker-compose.yml up -d --build
+
+      - name: Seed Database
+        run: pnpm db:seed
+
+      - name: Run Playwright Live Tests
+        run: npx playwright test --config tests/e2e/playwright.config.ts --project=live

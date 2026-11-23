@@ -1,0 +1,284 @@
+=== EVIDENCE ARTIFACT ===
+Target: 02-retrieval-misses.txt
+Command: python scripts/run_retrieval_diagnostics.py
+Timestamp (UTC): 2026-11-23T12:33:46.161502+00:00
+Git Commit: 1e63837f4b02ba10307b8c1169a675a6854d4f48
+Exit Code: 0
+========================
+--- STDOUT ---
+================================================================================
+SUPPORTPILOT AUDIT: TASK 2 - RETRIEVAL DIAGNOSTICS & CORPUS ANALYSIS
+================================================================================
+PostgreSQL connection: postgresql://supportpilot:[REDACTED]@localhost:5432/supportpilot
+Target tenant: tenant_eval_01
+
+################################################################################
+QUERY [ind_004]: "How do I reset my password?"
+################################################################################
+Retrieved 5 chunks:
+
+------------------------------------------------------------
+Rank 1: Chunk ID: 08ec6cdc-1667-441f-ab88-e6c307de23da
+  Document ID:   661f701e-95a5-51c0-92c0-b78a01c344ea
+  Doc Slug:      doc_05_account_lockout
+  Title/Section: Account Lockout Triggers and Unlock Workflows > Unlock Procedures
+  Scores:        hybrid_score=0.0476 | rrf_score=0.0476 | vector_score=0.34199569786430173 | text_score=None
+  Ranks:         vector_rank=1 | text_rank=None
+  --- Chunk Content ---
+    ## Unlock Procedures
+    
+    1. **Automated Email Link**: An email containing a cryptographically signed HMAC token is dispatched immediately. Clicking the link verifies ownership and unlocks the account. Tokens expire in 15 minutes.
+    2. **Administrator Manual Unlock**: An Organization Owner or Admin can navigate to **Settings > Team > [User Profile]** and select **Unlock Account**.
+    3. **Audit Log Record**: Every lockout and unlock action produces a high-severity entry in the organization audit log including the originating IP address and user agent.
+
+------------------------------------------------------------
+Rank 2: Chunk ID: a12ecf35-dc88-4bfe-bf6f-8c154ab0fe01
+  Document ID:   2f1f93bc-d37a-5256-b861-4509d8c64c4c
+  Doc Slug:      doc_04_password_policy
+  Title/Section: Password Complexity and Expiration Policies > Password Requirements
+  Scores:        hybrid_score=0.0455 | rrf_score=0.0455 | vector_score=0.31410007177539434 | text_score=None
+  Ranks:         vector_rank=2 | text_rank=None
+  --- Chunk Content ---
+    ## Password Requirements
+    
+    - Minimum length: 12 characters (16 characters recommended for Admins).
+    - Character sets: At least one uppercase letter, one lowercase letter, one digit, and one special character (`!@#$%^&*()-_+=`).
+    - Breach checking: Passwords are automatically checked against the HaveIBeenPwned k-Anonymity API during registration and updates.
+    - History restriction: Users cannot reuse any of their previous 5 passwords.
+
+------------------------------------------------------------
+Rank 3: Chunk ID: 868745d4-98fe-4caa-8fdd-0f75c1d70a57
+  Document ID:   2f1f93bc-d37a-5256-b861-4509d8c64c4c
+  Doc Slug:      doc_04_password_policy
+  Title/Section: Password Complexity and Expiration Policies > Expiration and Rotation
+  Scores:        hybrid_score=0.0435 | rrf_score=0.0435 | vector_score=0.30388208066470057 | text_score=None
+  Ranks:         vector_rank=3 | text_rank=None
+  --- Chunk Content ---
+    ## Expiration and Rotation
+    
+    Administrators can configure password expiration intervals of 60, 90, or 180 days. Users receive automated email notifications 14 days and 3 days prior to required rotation.
+
+------------------------------------------------------------
+Rank 4: Chunk ID: 028a7d8e-a7ac-4094-b6c9-2d977a95714e
+  Document ID:   661f701e-95a5-51c0-92c0-b78a01c344ea
+  Doc Slug:      doc_05_account_lockout
+  Title/Section: Account Lockout Triggers and Unlock Workflows > Lockout Thresholds
+  Scores:        hybrid_score=0.0417 | rrf_score=0.0417 | vector_score=0.27730208475232293 | text_score=None
+  Ranks:         vector_rank=4 | text_rank=None
+  --- Chunk Content ---
+    ## Lockout Thresholds
+    
+    - After 5 consecutive failed login attempts within 15 minutes, the account is temporarily locked for 15 minutes.
+    - After 10 consecutive failed attempts, the account enters a hardened locked state requiring email verification or admin intervention.
+
+------------------------------------------------------------
+Rank 5: Chunk ID: 7d68b51d-175a-41a5-a3c3-3a1c9997c347
+  Document ID:   f851fe24-a9ec-5e23-a849-e17e433228f4
+  Doc Slug:      doc_27_cancellation
+  Title/Section: Subscription Downgrade and Account Cancellation > Complete Account Cancellation
+  Scores:        hybrid_score=0.0400 | rrf_score=0.0400 | vector_score=0.26787323592494217 | text_score=None
+  Ranks:         vector_rank=5 | text_rank=None
+  --- Chunk Content ---
+    ## Complete Account Cancellation
+    
+    Selecting **Cancel Subscription** stops renewal. Upon cycle expiration, the account enters a 30-day read-only grace period, after which all customer data is permanently scheduled for cryptographic erasure.
+
+################################################################################
+QUERY [ind_002]: "Can I set different business hours for weekends?"
+################################################################################
+Retrieved 5 chunks:
+
+------------------------------------------------------------
+Rank 1: Chunk ID: f81f3849-ad49-4902-ba7c-8c6116a139aa
+  Document ID:   ff4a7bee-d46f-53a4-9ed4-7197e4fcdc7a
+  Doc Slug:      doc_18_business_hours
+  Title/Section: Operating Business Hours Calendars > Setting Up Calendars
+  Scores:        hybrid_score=0.0476 | rrf_score=0.0476 | vector_score=0.6281572328934808 | text_score=None
+  Ranks:         vector_rank=1 | text_rank=None
+  --- Chunk Content ---
+    ## Setting Up Calendars
+    
+    1. Go to **Settings > SLAs > Business Hours**.
+    2. Configure default operating hours (e.g., Monday through Friday, 9:00 AM to 6:00 PM EST).
+    3. Add company holidays and seasonal office closures to the Holiday Exceptions list.
+    
+    When an SLA policy is configured to use **Business Hours**, tickets arriving on Friday evening pause their resolution countdown until Monday at 9:00 AM.
+
+------------------------------------------------------------
+Rank 2: Chunk ID: 61f3b39b-6408-4647-91ac-48d2eacb64f4
+  Document ID:   ff4a7bee-d46f-53a4-9ed4-7197e4fcdc7a
+  Doc Slug:      doc_18_business_hours
+  Title/Section: Operating Business Hours Calendars
+  Scores:        hybrid_score=0.0455 | rrf_score=0.0455 | vector_score=0.41456637605966484 | text_score=None
+  Ranks:         vector_rank=2 | text_rank=None
+  --- Chunk Content ---
+    # Operating Business Hours Calendars
+    
+    SLA deadlines accurately reflect actual working hours rather than simple wall-clock time.
+
+------------------------------------------------------------
+Rank 3: Chunk ID: 99e3c018-ba1e-4829-b8ce-7974a212cec3
+  Document ID:   f851fe24-a9ec-5e23-a849-e17e433228f4
+  Doc Slug:      doc_27_cancellation
+  Title/Section: Subscription Downgrade and Account Cancellation > Downgrading Plans
+  Scores:        hybrid_score=0.0435 | rrf_score=0.0435 | vector_score=0.23025102498548677 | text_score=None
+  Ranks:         vector_rank=3 | text_rank=None
+  --- Chunk Content ---
+    ## Downgrading Plans
+    
+    1. Navigate to **Organization Settings > Billing > Change Plan**.
+    2. Select the desired lower tier.
+    3. The downgrade takes effect at the end of the current billing cycle. Ensure your agent seat count and enabled features match the lower tier limits prior to the cycle end.
+
+------------------------------------------------------------
+Rank 4: Chunk ID: ecbe599b-23fc-4d33-87df-48900a560898
+  Document ID:   36e8bfa7-58bf-53fd-aeec-ed0909c6ff35
+  Doc Slug:      doc_25_refund_policy
+  Title/Section: 14-Day Money-Back Guarantee and Refund Policies > Mid-Cycle Cancellations
+  Scores:        hybrid_score=0.0417 | rrf_score=0.0417 | vector_score=0.18949022471144328 | text_score=None
+  Ranks:         vector_rank=4 | text_rank=None
+  --- Chunk Content ---
+    ## Mid-Cycle Cancellations
+    
+    - Subscriptions cancelled after the initial 14-day window remain active until the end of the current paid billing period (monthly or annual).
+    - We do not offer partial-month pro-rata refunds for early cancellation outside the initial guarantee window, except where required by local consumer law.
+
+------------------------------------------------------------
+Rank 5: Chunk ID: 47c12fcf-f195-491b-bd42-95d6c15dc28f
+  Document ID:   0d4ef007-1ca4-574f-9690-26917506d39c
+  Doc Slug:      doc_12_priority_sla
+  Title/Section: Ticket Priority Determination Matrix > Priority Levels
+  Scores:        hybrid_score=0.0400 | rrf_score=0.0400 | vector_score=0.17555252418381986 | text_score=None
+  Ranks:         vector_rank=5 | text_rank=None
+  --- Chunk Content ---
+    ## Priority Levels
+    
+    - **Urgent**: Complete system outage, data breach threat, or core business operations blocked for multiple users. Requires 15-minute first response SLA.
+    - **High**: Severe degradation, major feature unusable, or enterprise customer impacted. 1-hour response SLA.
+    - **Normal**: Routine issues, standard troubleshooting, billing inquiries, or minor bugs with workarounds. 4-hour response SLA.
+    - **Low**: General questions, feature requests, cosmetic bugs, or documentation clarifications. 24-hour response SLA.
+    
+    Priority can be set automatically via inbound rule triggers or manually adjusted by agents.
+
+================================================================================
+CORPUS DOCUMENT CONTENT AUDIT
+================================================================================
+
+------------------------------------------------------------
+FILE: tests/ai-eval/corpus/doc_04_password_policy.md
+------------------------------------------------------------
+# Password Complexity and Expiration Policies
+
+SupportPilot enforces robust password policies to ensure compliance with SOC 2 Type II and ISO 27001 standards.
+
+## Password Requirements
+
+- Minimum length: 12 characters (16 characters recommended for Admins).
+- Character sets: At least one uppercase letter, one lowercase letter, one digit, and one special character (`!@#$%^&*()-_+=`).
+- Breach checking: Passwords are automatically checked against the HaveIBeenPwned k-Anonymity API during registration and updates.
+- History restriction: Users cannot reuse any of their previous 5 passwords.
+
+## Expiration and Rotation
+
+Administrators can configure password expiration intervals of 60, 90, or 180 days. Users receive automated email notifications 14 days and 3 days prior to required rotation.
+
+------------------------------------------------------------
+FILE: tests/ai-eval/corpus/doc_05_account_lockout.md
+------------------------------------------------------------
+# Account Lockout Triggers and Unlock Workflows
+
+To thwart automated credential brute-force attacks, SupportPilot implements tiered account lockouts.
+
+## Lockout Thresholds
+
+- After 5 consecutive failed login attempts within 15 minutes, the account is temporarily locked for 15 minutes.
+- After 10 consecutive failed attempts, the account enters a hardened locked state requiring email verification or admin intervention.
+
+## Unlock Procedures
+
+1. **Automated Email Link**: An email containing a cryptographically signed HMAC token is dispatched immediately. Clicking the link verifies ownership and unlocks the account. Tokens expire in 15 minutes.
+2. **Administrator Manual Unlock**: An Organization Owner or Admin can navigate to **Settings > Team > [User Profile]** and select **Unlock Account**.
+3. **Audit Log Record**: Every lockout and unlock action produces a high-severity entry in the organization audit log including the originating IP address and user agent.
+
+------------------------------------------------------------
+FILE: tests/ai-eval/corpus/doc_18_business_hours.md
+------------------------------------------------------------
+# Operating Business Hours Calendars
+
+SLA deadlines accurately reflect actual working hours rather than simple wall-clock time.
+
+## Setting Up Calendars
+
+1. Go to **Settings > SLAs > Business Hours**.
+2. Configure default operating hours (e.g., Monday through Friday, 9:00 AM to 6:00 PM EST).
+3. Add company holidays and seasonal office closures to the Holiday Exceptions list.
+
+When an SLA policy is configured to use **Business Hours**, tickets arriving on Friday evening pause their resolution countdown until Monday at 9:00 AM.
+
+================================================================================
+ROOT CAUSE ANALYSIS: WHY BOTH QUESTIONS RESULTED IN REFUSALS
+================================================================================
+
+1. ANALYSIS FOR ind_004 ('How do I reset my password?'):
+--------------------------------------------------------------------------------
+- Question: "How do I reset my password?"
+- Annotator expectation in independent_v1.jsonl: should_escalate=false, expecting
+  doc_04_password_policy and doc_05_account_lockout to answer.
+- What doc_04_password_policy.md contains:
+  * Minimum password length (12 characters).
+  * Character complexity (uppercase, lowercase, digit, special character).
+  * HaveIBeenPwned k-Anonymity API breach checking.
+  * History restrictions (cannot reuse last 5 passwords).
+  * Expiration intervals (60, 90, 180 days) and reminder email timings.
+  * ZERO mention of how a user or admin initiates a password reset, reset links,
+    or the 'Forgot Password' workflow on the login page.
+- What doc_05_account_lockout.md contains:
+  * Lockout thresholds (5 consecutive failed attempts = 15m lock; 10 = hardened lock).
+  * Unlock procedures (automated email link with HMAC token to unlock account, or
+    admin unlock via Settings > Team > User Profile > Unlock Account).
+  * ZERO mention of resetting a password. It only covers unlocking a locked account.
+- RAG Generation & Anti-Hallucination Policy:
+  * The RAG system prompt explicitly commands:
+    "If the retrieved documents do not provide adequate evidence to answer the
+     question, or if the question requires guessing or extrapolating facts not
+     in the context, you MUST refuse to answer and state:
+     'I do not have enough information in the provided knowledge base to answer this question.'
+     Do NOT hallucinate policies or procedures."
+  * Because the retrieved chunks explain password rules and lockout recovery but
+    contain zero steps for password reset, the real LLM (Gemini) correctly refused:
+    "I do not have enough information in the provided knowledge base to answer how to reset your password."
+  * CONCLUSION: Retrieval succeeded in finding the most semantically related chunks
+    (doc_04 and doc_05), but the corpus itself lacks password reset instructions.
+    The refusal is the correct, honest behavior, and the benchmark label in
+    independent_v1.jsonl was a human annotator false assumption.
+
+2. ANALYSIS FOR ind_002 ('Can I set different business hours for weekends?'):
+--------------------------------------------------------------------------------
+- Question: "Can I set different business hours for weekends?"
+- Annotator expectation in independent_v1.jsonl: should_escalate=false, expecting
+  doc_18_business_hours.md to answer.
+- What doc_18_business_hours.md contains:
+  * Setting up calendars via Settings > SLAs > Business Hours.
+  * Configuring default operating hours (e.g., Monday through Friday, 9:00 AM to 6:00 PM EST).
+  * Adding company holidays and seasonal office closures to Holiday Exceptions.
+  * Explicit note: "When an SLA policy is configured to use Business Hours, tickets
+    arriving on Friday evening pause their resolution countdown until Monday at 9:00 AM."
+  * ZERO mention or capability for configuring separate or different hours on weekends.
+- RAG Generation & Anti-Hallucination Policy:
+  * The user explicitly asks if they can set *different* business hours for weekends.
+  * In the product documentation, weekends are completely off-hours (Friday evening pauses
+    countdown until Monday morning). There is no provision to configure weekend hours.
+  * Because the knowledge base does not define weekend business hours settings,
+    answering "yes" or hallucinating a configuration setting would violate grounding.
+  * Gemini responded:
+    "I do not have enough information in the knowledge base to answer whether you can set different business hours for weekends."
+  * Alternatively, a human agent could clarify that weekends are strictly non-operational.
+  * CONCLUSION: Retrieval succeeded in returning doc_18_business_hours.
+    The refusal occurred because the feature requested ("different business hours for weekends")
+    is not documented or supported in the corpus. Refusal prevents false promise hallucination.
+================================================================================
+--- STDERR ---
+
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 103/103 [00:00<00:00, 1347.37it/s]
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.

@@ -1,0 +1,53 @@
+=== EVIDENCE ARTIFACT ===
+Target: 03-clean-stale-data.txt
+Command: python scripts/run_clean_stale_data.py
+Timestamp (UTC): 2026-11-23T10:11:27.649892+00:00
+Git Commit: b7ad2ffc53b8ad8ff3500794c34c9e4b0be14808
+Exit Code: 0
+========================
+--- STDOUT ---
+================================================================================
+SUPPORTPILOT AUDIT: TASK 3 - CLEAN STALE KNOWLEDGE BASE DATA
+================================================================================
+Connecting to PostgreSQL: postgresql://supportpilot:[REDACTED]@localhost:5432/supportpilot
+Target tenant: tenant_eval_01
+Corpus directory: C:\Users\vrund\OneDrive\Desktop\ai_project\tests\ai-eval\corpus
+
+--- BEFORE CLEANUP ---
+Total kb_documents for 'tenant_eval_01': 63
+Total kb_chunks for 'tenant_eval_01': 142
+
+Discovered 8 stale non-corpus document(s) in 'tenant_eval_01':
+  - UUID: 1ce2f04f-973b-52d6-b5ed-daf8992b00f8 | Source: seed | Chunks:  1 | Title: Authentication, Single Sign-On (SAML/OIDC), and MFA Setup
+  - UUID: cade59c5-65aa-532a-a92b-2ebdff0ab690 | Source: seed | Chunks:  1 | Title: Billing, Subscriptions, Invoicing Cycles, and Refund Policies
+  - UUID: 2cd4a90e-4c8b-59eb-9cd6-2accc05970da | Source: seed | Chunks:  1 | Title: REST API v1 Reference, Rate Limits, and Bearer Tokens
+  - UUID: 57581004-47c6-5a87-84af-3dbd690bb313 | Source: seed | Chunks:  1 | Title: Live Chat Widget Embed, WebSockets, and AI Escalation Handoff
+  - UUID: c638a2cc-d4ed-5df1-9bab-9cdaeac8fcb4 | Source: seed | Chunks:  1 | Title: Role-Based Access Control (RBAC) Permissions Matrix
+  - UUID: 2086f209-d982-5e63-8157-356e73aab854 | Source: seed | Chunks:  1 | Title: Service Level Agreement (SLA) Policies and Breach Alerts
+  - UUID: fca59efc-5d27-56e6-91aa-656549d3ff55 | Source: seed | Chunks:  1 | Title: Mobile App Setup, Biometrics (FaceID/TouchID), and Offline Outbox
+  - UUID: 1556adf9-60ab-5628-bc42-fe19c24085fe | Source: seed | Chunks:  1 | Title: Data Privacy, GDPR/CCPA Compliance, and Security Architecture
+
+[CONFIRMED] Stale document UUID 2cd4a90e-4c8b-59eb-9cd6-2accc05970da ('REST API v1 Reference, Rate Limits, and Bearer Tokens') identified.
+
+--- DELETING STALE ROWS ---
+Deleted 8 stale chunk(s) from kb_chunks.
+Deleted 8 stale document(s) from kb_documents.
+Database transaction successfully committed.
+
+--- RE-INGESTING 55 CORPUS DOCUMENTS ---
+Discovered 55 corpus documents in C:\Users\vrund\OneDrive\Desktop\ai_project\tests\ai-eval\corpus
+Using PostgresIngestRepository (PostgreSQL pgvector)
+Ingestion complete: 55 documents, 134 chunks in 44.4s.
+Ingestion result: {'documents': 55, 'chunks': 134, 'elapsed_sec': 44.4, 'tenant_id': 'tenant_eval_01'}
+
+--- AFTER CLEANUP AND RE-INGESTION ---
+Total kb_documents for 'tenant_eval_01': 55
+Total kb_chunks for 'tenant_eval_01': 134
+Non-corpus documents remaining: 0
+
+[VERIFIED] Exactly 55 documents remain for tenant_eval_01. Zero stale documents.
+--- STDERR ---
+
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 103/103 [00:00<00:00, 1523.61it/s]
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.

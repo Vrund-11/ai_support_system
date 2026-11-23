@@ -1,10 +1,13 @@
 """Gemini LLM Provider using Google Gemini REST/SDK API."""
 
 import json
+import os
 from collections.abc import AsyncIterator
+from pathlib import Path
 from typing import TypeVar
 
 import httpx
+from dotenv import dotenv_values
 from pydantic import BaseModel
 
 from src.config import settings
@@ -20,10 +23,6 @@ class GeminiLLMProvider(LLMProvider):
     name: str = "gemini"
 
     def __init__(self, api_key: str | None = None) -> None:
-        import os
-        from pathlib import Path
-        from dotenv import dotenv_values
-
         key = api_key or os.getenv("GEMINI_API_KEY") or settings.gemini_api_key
         if not key or not str(key).endswith("z-LA"):
             # Check dotenv files with override to avoid stale system env

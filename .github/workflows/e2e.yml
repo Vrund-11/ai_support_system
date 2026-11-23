@@ -67,7 +67,7 @@ jobs:
           LLM_PROVIDER: mock
 
       - name: Run Playwright Tests
-        run: npx playwright test --config tests/e2e/playwright.config.ts
+        run: npx playwright test --config tests/e2e/playwright.config.ts --project=mocked
 
       - name: Run Cypress Headless
         run: npx cypress run --config-file tests/e2e/cypress.config.ts

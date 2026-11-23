@@ -172,7 +172,7 @@ Ran repository line counter script excluding `.git`, `node_modules`, `dist`, `.t
 | **Docker**                    | YES              | `infra/docker/Dockerfile.gateway#L1`, `infra/docker-compose.yml#L1`                                                    |
 | **Kubernetes manifests**      | YES              | `infra/k8s/base/gateway-deployment.yaml#L1`, `infra/k8s/base/kustomization.yaml#L1`                                    |
 | **Kustomize / Helm**          | YES              | `infra/k8s/base/kustomization.yaml#L1` (Helm: **NOT FOUND**)                                                           |
-| **GitHub Actions**            | YES              | `.github/workflows/ci.yml#L1`, `.github/workflows/deploy.yml#L1`                                                       |
+| **GitHub Actions**            | YES              | `.github/workflows/ci.yml#L1`, `.github/workflows/deploy-staging.yml#L1`                                               |
 | **Jest**                      | NO               | **NOT FOUND** (All JS/TS testing is standard Vitest across all monorepo packages)                                      |
 | **Vitest**                    | YES              | `apps/gateway/vitest.config.ts#L1`, `packages/common/vitest.config.ts#L1`                                              |
 | **Cypress**                   | YES              | `tests/e2e/cypress.config.ts#L1`, `package.json#L77`                                                                   |
@@ -915,7 +915,7 @@ Defined in `apps/mobile/app/`:
 ### GitHub Actions
 
 1. `ci.yml`: Triggers on push to `main` and pull requests. Steps: checkout, pnpm setup, python setup, lint, typecheck, test, build.
-2. `deploy.yml`: Triggers on push to `main` (paths: `apps/**`, `packages/**`). Steps: build docker images, push to container registry, deploy to Kubernetes.
+2. `deploy-staging.yml`: Triggers on push to `main`. Steps: set up Kind cluster, build docker images, load images into Kind, copy secrets, apply Kustomize staging overlay, verify rollouts.
 3. `ai-eval.yml`: Triggers on changes to `apps/ai-service/**`. Steps: run RAG and classifier golden evaluation benchmarks.
 4. `e2e.yml`: Scheduled nightly + manual workflow dispatch for Playwright suite.
 5. `release.yml`: Triggers on version tag push (`v*`). Publishes release artifacts.

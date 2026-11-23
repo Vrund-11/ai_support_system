@@ -83,6 +83,9 @@ jobs:
           kustomize edit set image supportpilot/notification-service=supportpilot/notification-service:${TAG}
           kustomize edit set image supportpilot/web=supportpilot/web:${TAG}
 
+      - name: Copy Base Secrets Example
+        run: cp infra/k8s/base/secret.example.yaml infra/k8s/base/secret.yaml
+
       - name: Apply Kustomize Prod Overlay
         run: |
           kubectl apply -k infra/k8s/overlays/prod

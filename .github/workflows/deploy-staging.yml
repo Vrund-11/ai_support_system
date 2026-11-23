@@ -51,6 +51,9 @@ jobs:
           kind load docker-image supportpilot/notification-service:staging --name supportpilot-staging
           kind load docker-image supportpilot/web:staging --name supportpilot-staging
 
+      - name: Copy Base Secrets Example
+        run: cp infra/k8s/base/secret.example.yaml infra/k8s/base/secret.yaml
+
       - name: Apply Kustomize Staging Overlay
         run: |
           kubectl apply -k infra/k8s/overlays/staging

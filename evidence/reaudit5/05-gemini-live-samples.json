@@ -1,0 +1,154 @@
+[
+  {
+    "sample_id": "ind_001",
+    "question": "How do I add a new agent to my team?",
+    "answer": "To add a new agent to your team, follow these steps:\n1. Navigate to **Team Settings > Members > Invite User**.\n2. Enter the agent's corporate email address and select their assigned Role and Skill Groups.\n3. An invitation link valid for 72 hours will be sent.",
+    "citations": [
+      {
+        "chunk_id": "9f2c5128-6ba1-4a0d-8094-f7704007773a",
+        "doc_id": "doc_07_seat_provisioning",
+        "title": "Agent Seat Provisioning and Deprovisioning"
+      }
+    ],
+    "confidence": 0.45,
+    "should_escalate": true,
+    "provider": "gemini",
+    "tokens_used": 1021
+  },
+  {
+    "sample_id": "ind_002",
+    "question": "Can I set different business hours for weekends?",
+    "answer": "I do not have enough information in the knowledge base to answer whether you can set different business hours for weekends.",
+    "citations": [],
+    "confidence": 0.2,
+    "should_escalate": true,
+    "provider": "gemini",
+    "tokens_used": 993
+  },
+  {
+    "sample_id": "ind_003",
+    "question": "Where do I find my API key?",
+    "answer": "You can generate and find your API keys by navigating to Settings > Integrations > API Keys (or Settings > API Keys for account Admins).",
+    "citations": [
+      {
+        "chunk_id": "9a24f5c7-6f19-4c71-b187-e683d35ce31e",
+        "doc_id": "doc_29_api_authentication",
+        "title": "API Authentication and Bearer Token Security"
+      },
+      {
+        "chunk_id": "4112b9dc-6215-455f-ae92-cb706912a10d",
+        "doc_id": "2cd4a90e-4c8b-59eb-9cd6-2accc05970da",
+        "title": "Section 3: REST API and Webhooks"
+      }
+    ],
+    "confidence": 0.45,
+    "should_escalate": true,
+    "provider": "gemini",
+    "tokens_used": 967
+  },
+  {
+    "sample_id": "ind_004",
+    "question": "How do I reset my password?",
+    "answer": "I do not have enough information in the provided knowledge base to answer how to reset your password.",
+    "citations": [],
+    "confidence": 0.2,
+    "should_escalate": true,
+    "provider": "gemini",
+    "tokens_used": 1135
+  },
+  {
+    "sample_id": "ind_005",
+    "question": "What happens when a ticket breaches its SLA?",
+    "answer": "When a ticket breaches its SLA (reaching 100% elapsed time), it is automatically reassigned to the on-duty Team Lead, tagged with `sla-breached`, and logged in the monthly compliance report.",
+    "citations": [
+      {
+        "chunk_id": "a9b44d5c-480d-49f5-a460-6f5cbfabbf0c",
+        "doc_id": "doc_20_sla_breach_alerts",
+        "title": "SLA Escalation Automation and Warning Triggers"
+      }
+    ],
+    "confidence": 0.45,
+    "should_escalate": true,
+    "provider": "gemini",
+    "tokens_used": 1117
+  },
+  {
+    "sample_id": "ind_006",
+    "question": "How do I turn on two-factor authentication?",
+    "answer": "To set up Multi-Factor Authentication (MFA), open an authenticator app (such as Google Authenticator, Authy, 1Password, or Bitwarden) and scan the QR code or manually enter the 32-character base32 secret key provided in SupportPilot. Then, submit the 6-digit verification code to confirm pairing, and download your 10 emergency backup recovery codes.",
+    "citations": [
+      {
+        "chunk_id": "c2c827f7-c7c5-4f2a-b8c4-05aaedd76d11",
+        "doc_id": "doc_03_mfa_totp",
+        "title": "Multi-Factor Authentication and TOTP Pairing"
+      }
+    ],
+    "confidence": 0.45,
+    "should_escalate": true,
+    "provider": "gemini",
+    "tokens_used": 1088
+  },
+  {
+    "sample_id": "ind_008",
+    "question": "How do I assign a ticket to someone else?",
+    "answer": "I am sorry, but I do not have enough information in my knowledge base to explain how to assign a ticket to someone else.",
+    "citations": [],
+    "confidence": 0.2,
+    "should_escalate": true,
+    "provider": "gemini",
+    "tokens_used": 1129
+  },
+  {
+    "sample_id": "ind_009",
+    "question": "How do I create a canned reply?",
+    "answer": "You can create canned responses by setting up macros. To create a macro, navigate to Settings > Workflows > Macros, where you can combine multiple actions including inserting formatted canned responses with template placeholders [chunk:67aa784c-e5f2-4147-9391-c184e8b144b9].",
+    "citations": [
+      {
+        "chunk_id": "67aa784c-e5f2-4147-9391-c184e8b144b9",
+        "doc_id": "doc_14_macros_bulk_actions",
+        "title": "Macro Templating and Bulk Updates"
+      }
+    ],
+    "confidence": 0.45,
+    "should_escalate": true,
+    "provider": "gemini",
+    "tokens_used": 1084
+  },
+  {
+    "sample_id": "ind_011",
+    "question": "How long before an inactive ticket is automatically closed?",
+    "answer": "A ticket is permanently archived and moved to the Closed status after remaining in the Solved status for 48 hours without a customer reply.",
+    "citations": [
+      {
+        "chunk_id": "0db28446-a44d-4d99-afe2-76c99a44a728",
+        "doc_id": "doc_11_ticket_lifecycle",
+        "title": "Ticket Status Transitions and Lifecycle"
+      }
+    ],
+    "confidence": 0.45,
+    "should_escalate": true,
+    "provider": "gemini",
+    "tokens_used": 988
+  },
+  {
+    "sample_id": "ind_012",
+    "question": "How do I embed the chat widget on my website?",
+    "answer": "You can embed the SupportPilot live chat widget on any website using a single asynchronous script tag before the closing </body> tag:\n\n```html\n<script\n  src=\"https://static.supportpilot.io/widget/v1/widget.js\"\n  data-tenant-id=\"YOUR_TENANT_ID\"\n  async\n></script>\n```",
+    "citations": [
+      {
+        "chunk_id": "5ac457ff-99f7-4689-98f9-1c98ab4776bc",
+        "doc_id": "doc_35_chat_widget_embed",
+        "title": "Embeddable Chat Widget and Shadow DOM"
+      },
+      {
+        "chunk_id": "8bf7de99-2644-421d-bb17-945736ae168c",
+        "doc_id": "57581004-47c6-5a87-84af-3dbd690bb313",
+        "title": "Section 4: Live Chat Widget and Handoff"
+      }
+    ],
+    "confidence": 0.45,
+    "should_escalate": true,
+    "provider": "gemini",
+    "tokens_used": 947
+  }
+]

@@ -1,0 +1,847 @@
+=== EVIDENCE ARTIFACT ===
+Target: pnpm-verify.txt
+Command: pnpm verify
+Timestamp (UTC): 2026-11-23T09:26:51.002677+00:00
+Git Commit: 9fbf9e5208f59921e2edf731b3ab12309288a664
+Exit Code: 0
+========================
+--- STDOUT ---
+
+> supportpilot@0.0.0 verify C:\Users\vrund\OneDrive\Desktop\ai_project
+> turbo run lint typecheck test
+
+
+   • turbo 2.11.13
+   • Packages in scope: @supportpilot/admin, @supportpilot/api-client, @supportpilot/eslint-config, @supportpilot/gateway, @supportpilot/mobile, @supportpilot/notification-service, @supportpilot/queue, @supportpilot/shared-lib, @supportpilot/shared-types, @supportpilot/ticket-service, @supportpilot/validators, @supportpilot/web, @supportpilot/webhook-lambda, @supportpilot/widget
+   • Running lint, typecheck, test in 14 packages
+   • Remote caching disabled
+
+@supportpilot/shared-types:typecheck: cache miss, executing 0f76219f24be6f43
+@supportpilot/shared-types:lint: cache miss, executing 759ef30864aa419a
+@supportpilot/shared-types:build: cache miss, executing 043d93869bcb74d2
+@supportpilot/queue:build: cache miss, executing fabc6eea5c01e074
+@supportpilot/webhook-lambda:typecheck: cache miss, executing 1c2c1635429ac61b
+@supportpilot/validators:test: cache miss, executing 0742e34757aa0455
+@supportpilot/shared-types:test: cache miss, executing 6e38c65633e70a0f
+@supportpilot/queue:lint: cache miss, executing 83caf86be5d55bd9
+@supportpilot/webhook-lambda:lint: cache miss, executing ac6551ff546a8a06
+@supportpilot/queue:typecheck: cache miss, executing 58e6a27e6e3dc365
+@supportpilot/shared-types:typecheck: 
+@supportpilot/shared-types:typecheck: > @supportpilot/shared-types@0.0.0 typecheck C:\Users\vrund\OneDrive\Desktop\ai_project\packages\shared-types
+@supportpilot/shared-types:typecheck: > tsc --noEmit
+@supportpilot/shared-types:typecheck: 
+@supportpilot/shared-types:lint: 
+@supportpilot/shared-types:lint: > @supportpilot/shared-types@0.0.0 lint C:\Users\vrund\OneDrive\Desktop\ai_project\packages\shared-types
+@supportpilot/shared-types:lint: > eslint .
+@supportpilot/shared-types:lint: 
+@supportpilot/shared-types:build: 
+@supportpilot/shared-types:build: > @supportpilot/shared-types@0.0.0 build C:\Users\vrund\OneDrive\Desktop\ai_project\packages\shared-types
+@supportpilot/shared-types:build: > tsc --build
+@supportpilot/shared-types:build: 
+@supportpilot/queue:build: 
+@supportpilot/queue:build: > @supportpilot/queue@0.0.0 build C:\Users\vrund\OneDrive\Desktop\ai_project\packages\queue
+@supportpilot/queue:build: > tsc --build
+@supportpilot/queue:build: 
+@supportpilot/webhook-lambda:typecheck: 
+@supportpilot/webhook-lambda:typecheck: > @supportpilot/webhook-lambda@0.0.0 typecheck C:\Users\vrund\OneDrive\Desktop\ai_project\apps\webhook-lambda
+@supportpilot/webhook-lambda:typecheck: > tsc --noEmit
+@supportpilot/webhook-lambda:typecheck: 
+@supportpilot/validators:test: 
+@supportpilot/validators:test: > @supportpilot/validators@0.0.0 test C:\Users\vrund\OneDrive\Desktop\ai_project\packages\validators
+@supportpilot/validators:test: > vitest run
+@supportpilot/validators:test: 
+@supportpilot/shared-types:test: 
+@supportpilot/shared-types:test: > @supportpilot/shared-types@0.0.0 test C:\Users\vrund\OneDrive\Desktop\ai_project\packages\shared-types
+@supportpilot/shared-types:test: > echo "No tests yet"
+@supportpilot/shared-types:test: 
+@supportpilot/queue:test: cache miss, executing ec785683c2f30d0f
+@supportpilot/shared-types:test: "No tests yet"
+@supportpilot/queue:lint: 
+@supportpilot/queue:lint: > @supportpilot/queue@0.0.0 lint C:\Users\vrund\OneDrive\Desktop\ai_project\packages\queue
+@supportpilot/queue:lint: > eslint .
+@supportpilot/queue:lint: 
+@supportpilot/validators:lint: cache miss, executing 0c6d7748c18e2948
+@supportpilot/webhook-lambda:test: cache miss, executing f8423c96c5f6a46b
+@supportpilot/webhook-lambda:lint: 
+@supportpilot/webhook-lambda:lint: > @supportpilot/webhook-lambda@0.0.0 lint C:\Users\vrund\OneDrive\Desktop\ai_project\apps\webhook-lambda
+@supportpilot/webhook-lambda:lint: > eslint .
+@supportpilot/webhook-lambda:lint: 
+@supportpilot/queue:typecheck: 
+@supportpilot/queue:typecheck: > @supportpilot/queue@0.0.0 typecheck C:\Users\vrund\OneDrive\Desktop\ai_project\packages\queue
+@supportpilot/queue:typecheck: > tsc --noEmit
+@supportpilot/queue:typecheck: 
+@supportpilot/queue:test: 
+@supportpilot/queue:test: > @supportpilot/queue@0.0.0 test C:\Users\vrund\OneDrive\Desktop\ai_project\packages\queue
+@supportpilot/queue:test: > vitest run
+@supportpilot/queue:test: 
+@supportpilot/validators:lint: 
+@supportpilot/validators:lint: > @supportpilot/validators@0.0.0 lint C:\Users\vrund\OneDrive\Desktop\ai_project\packages\validators
+@supportpilot/validators:lint: > eslint .
+@supportpilot/validators:lint: 
+@supportpilot/webhook-lambda:test: 
+@supportpilot/webhook-lambda:test: > @supportpilot/webhook-lambda@0.0.0 test C:\Users\vrund\OneDrive\Desktop\ai_project\apps\webhook-lambda
+@supportpilot/webhook-lambda:test: > echo "No tests yet"
+@supportpilot/webhook-lambda:test: 
+@supportpilot/webhook-lambda:test: "No tests yet"
+@supportpilot/validators:build: cache miss, executing eae3ffdd666a0760
+@supportpilot/validators:test: 
+@supportpilot/validators:test: [1m[46m RUN [49m[22m [36mv3.2.7 [39m[90mC:/Users/vrund/OneDrive/Desktop/ai_project/packages/validators[39m
+@supportpilot/validators:test: 
+@supportpilot/validators:typecheck: cache miss, executing 65a08553bfcb085f
+@supportpilot/validators:build: 
+@supportpilot/validators:build: > @supportpilot/validators@0.0.0 build C:\Users\vrund\OneDrive\Desktop\ai_project\packages\validators
+@supportpilot/validators:build: > tsc --build
+@supportpilot/validators:build: 
+@supportpilot/admin:test: cache miss, executing b5f2e5c6843c2df5
+@supportpilot/queue:test: 
+@supportpilot/queue:test: [1m[46m RUN [49m[22m [36mv3.2.7 [39m[90mC:/Users/vrund/OneDrive/Desktop/ai_project/packages/queue[39m
+@supportpilot/queue:test: 
+@supportpilot/validators:typecheck: 
+@supportpilot/validators:typecheck: > @supportpilot/validators@0.0.0 typecheck C:\Users\vrund\OneDrive\Desktop\ai_project\packages\validators
+@supportpilot/validators:typecheck: > tsc --noEmit
+@supportpilot/validators:typecheck: 
+@supportpilot/widget:typecheck: cache miss, executing e118a99faa7f3f03
+@supportpilot/validators:test:  [32m✓[39m tests/team.test.ts [2m([22m[2m8 tests[22m[2m)[22m[32m 34[2mms[22m[39m
+@supportpilot/validators:test:  [32m✓[39m tests/ticket.test.ts [2m([22m[2m23 tests[22m[2m)[22m[32m 62[2mms[22m[39m
+@supportpilot/validators:test:  [32m✓[39m tests/message.test.ts [2m([22m[2m9 tests[22m[2m)[22m[32m 21[2mms[22m[39m
+@supportpilot/validators:test:  [32m✓[39m tests/env.test.ts [2m([22m[2m13 tests[22m[2m)[22m[32m 54[2mms[22m[39m
+@supportpilot/validators:test:  [32m✓[39m tests/customer.test.ts [2m([22m[2m8 tests[22m[2m)[22m[32m 33[2mms[22m[39m
+@supportpilot/admin:test: 
+@supportpilot/admin:test: > @supportpilot/admin@0.0.0 test C:\Users\vrund\OneDrive\Desktop\ai_project\apps\admin
+@supportpilot/admin:test: > vitest run
+@supportpilot/admin:test: 
+@supportpilot/validators:test:  [32m✓[39m tests/auth.test.ts [2m([22m[2m23 tests[22m[2m)[22m[32m 34[2mms[22m[39m
+@supportpilot/validators:test:  [32m✓[39m tests/transitions.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 8[2mms[22m[39m
+@supportpilot/widget:typecheck: 
+@supportpilot/widget:typecheck: > @supportpilot/widget@0.0.0 typecheck C:\Users\vrund\OneDrive\Desktop\ai_project\apps\widget
+@supportpilot/widget:typecheck: > tsc --noEmit
+@supportpilot/widget:typecheck: 
+@supportpilot/validators:test:  [32m✓[39m tests/upload.test.ts [2m([22m[2m10 tests[22m[2m)[22m[32m 29[2mms[22m[39m
+@supportpilot/validators:test: 
+@supportpilot/validators:test: [2m Test Files [22m [1m[32m8 passed[39m[22m[90m (8)[39m
+@supportpilot/validators:test: [2m      Tests [22m [1m[32m99 passed[39m[22m[90m (99)[39m
+@supportpilot/validators:test: [2m   Start at [22m 14:56:55
+@supportpilot/validators:test: [2m   Duration [22m 3.22s[2m (transform 2.63s, setup 0ms, collect 9.16s, tests 275ms, environment 3ms, prepare 4.77s)[22m
+@supportpilot/validators:test: 
+@supportpilot/widget:test: cache miss, executing f10d1a68b99bf8c7
+@supportpilot/shared-lib:test: cache miss, executing 446ee25a5b44b1c7
+@supportpilot/queue:test:  [32m✓[39m tests/sqs.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 27[2mms[22m[39m
+@supportpilot/queue:test: 
+@supportpilot/queue:test: [2m Test Files [22m [1m[32m1 passed[39m[22m[90m (1)[39m
+@supportpilot/queue:test: [2m      Tests [22m [1m[32m7 passed[39m[22m[90m (7)[39m
+@supportpilot/queue:test: [2m   Start at [22m 14:56:56
+@supportpilot/queue:test: [2m   Duration [22m 3.05s[2m (transform 140ms, setup 0ms, collect 1.32s, tests 27ms, environment 0ms, prepare 477ms)[22m
+@supportpilot/queue:test: 
+@supportpilot/api-client:lint: cache miss, executing 30f2de7eaad778e9
+@supportpilot/widget:test: 
+@supportpilot/widget:test: > @supportpilot/widget@0.0.0 test C:\Users\vrund\OneDrive\Desktop\ai_project\apps\widget
+@supportpilot/widget:test: > vitest run
+@supportpilot/widget:test: 
+@supportpilot/api-client:test: cache miss, executing 8db2ee1da9454f38
+@supportpilot/admin:test: 
+@supportpilot/admin:test: [1m[46m RUN [49m[22m [36mv3.2.7 [39m[90mC:/Users/vrund/OneDrive/Desktop/ai_project/apps/admin[39m
+@supportpilot/admin:test: 
+@supportpilot/shared-lib:test: 
+@supportpilot/shared-lib:test: > @supportpilot/shared-lib@0.0.0 test C:\Users\vrund\OneDrive\Desktop\ai_project\packages\shared-lib
+@supportpilot/shared-lib:test: > vitest run
+@supportpilot/shared-lib:test: 
+@supportpilot/api-client:lint: 
+@supportpilot/api-client:lint: > @supportpilot/api-client@0.0.0 lint C:\Users\vrund\OneDrive\Desktop\ai_project\packages\api-client
+@supportpilot/api-client:lint: > eslint .
+@supportpilot/api-client:lint: 
+@supportpilot/api-client:test: 
+@supportpilot/api-client:test: > @supportpilot/api-client@0.0.0 test C:\Users\vrund\OneDrive\Desktop\ai_project\packages\api-client
+@supportpilot/api-client:test: > echo "No tests yet"
+@supportpilot/api-client:test: 
+@supportpilot/api-client:test: "No tests yet"
+@supportpilot/admin:typecheck: cache miss, executing da7e6b4ed6a2871c
+@supportpilot/admin:typecheck: 
+@supportpilot/admin:typecheck: > @supportpilot/admin@0.0.0 typecheck C:\Users\vrund\OneDrive\Desktop\ai_project\apps\admin
+@supportpilot/admin:typecheck: > tsc --noEmit
+@supportpilot/admin:typecheck: 
+@supportpilot/shared-lib:test: 
+@supportpilot/shared-lib:test: [1m[46m RUN [49m[22m [36mv3.2.7 [39m[90mC:/Users/vrund/OneDrive/Desktop/ai_project/packages/shared-lib[39m
+@supportpilot/shared-lib:test: 
+@supportpilot/widget:test: 
+@supportpilot/widget:test: [1m[46m RUN [49m[22m [36mv3.2.7 [39m[90mC:/Users/vrund/OneDrive/Desktop/ai_project/apps/widget[39m
+@supportpilot/widget:test: 
+@supportpilot/shared-lib:test:  [32m✓[39m tests/rules-engine.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 13[2mms[22m[39m
+@supportpilot/shared-lib:test:  [32m✓[39m tests/rbac.test.ts [2m([22m[2m13 tests[22m[2m)[22m[32m 15[2mms[22m[39m
+@supportpilot/shared-lib:test:  [32m✓[39m tests/sla-calculator.property.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 68[2mms[22m[39m
+@supportpilot/shared-lib:test:  [32m✓[39m tests/request-id.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 11[2mms[22m[39m
+@supportpilot/shared-lib:test:  [32m✓[39m tests/logger.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 16[2mms[22m[39m
+@supportpilot/shared-lib:test:  [32m✓[39m tests/error-handler.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 29[2mms[22m[39m
+@supportpilot/shared-lib:build: cache miss, executing 1f61108561536793
+@supportpilot/shared-lib:build: 
+@supportpilot/shared-lib:build: > @supportpilot/shared-lib@0.0.0 build C:\Users\vrund\OneDrive\Desktop\ai_project\packages\shared-lib
+@supportpilot/shared-lib:build: > tsc --build
+@supportpilot/shared-lib:build: 
+@supportpilot/api-client:typecheck: cache miss, executing 6a544fdf0678542f
+@supportpilot/shared-lib:test:  [32m✓[39m tests/observability.test.ts [2m([22m[2m9 tests[22m[2m)[22m[32m 227[2mms[22m[39m
+@supportpilot/shared-lib:test: 
+@supportpilot/shared-lib:test: [2m Test Files [22m [1m[32m7 passed[39m[22m[90m (7)[39m
+@supportpilot/shared-lib:test: [2m      Tests [22m [1m[32m41 passed[39m[22m[90m (41)[39m
+@supportpilot/shared-lib:test: [2m   Start at [22m 14:57:02
+@supportpilot/shared-lib:test: [2m   Duration [22m 6.92s[2m (transform 3.11s, setup 0ms, collect 9.87s, tests 377ms, environment 3ms, prepare 5.22s)[22m
+@supportpilot/shared-lib:test: 
+@supportpilot/api-client:typecheck: 
+@supportpilot/api-client:typecheck: > @supportpilot/api-client@0.0.0 typecheck C:\Users\vrund\OneDrive\Desktop\ai_project\packages\api-client
+@supportpilot/api-client:typecheck: > tsc --noEmit
+@supportpilot/api-client:typecheck: 
+@supportpilot/widget:lint: cache miss, executing 2a86cc7a5f035b8c
+@supportpilot/widget:lint: 
+@supportpilot/widget:lint: > @supportpilot/widget@0.0.0 lint C:\Users\vrund\OneDrive\Desktop\ai_project\apps\widget
+@supportpilot/widget:lint: > eslint .
+@supportpilot/widget:lint: 
+@supportpilot/shared-lib:typecheck: cache miss, executing 9d5ccfa4f74f65cf
+@supportpilot/shared-lib:lint: cache miss, executing b1bdee58b5083f09
+@supportpilot/web:test: cache miss, executing baf41ce3877a6d3f
+@supportpilot/shared-lib:typecheck: 
+@supportpilot/shared-lib:typecheck: > @supportpilot/shared-lib@0.0.0 typecheck C:\Users\vrund\OneDrive\Desktop\ai_project\packages\shared-lib
+@supportpilot/shared-lib:typecheck: > tsc --noEmit
+@supportpilot/shared-lib:typecheck: 
+@supportpilot/web:lint: cache miss, executing 41782c07467c59e2
+@supportpilot/shared-lib:lint: 
+@supportpilot/shared-lib:lint: > @supportpilot/shared-lib@0.0.0 lint C:\Users\vrund\OneDrive\Desktop\ai_project\packages\shared-lib
+@supportpilot/shared-lib:lint: > eslint .
+@supportpilot/shared-lib:lint: 
+@supportpilot/web:test: 
+@supportpilot/web:test: > @supportpilot/web@0.0.0 test C:\Users\vrund\OneDrive\Desktop\ai_project\apps\web
+@supportpilot/web:test: > vitest run
+@supportpilot/web:test: 
+@supportpilot/web:typecheck: cache miss, executing 3f378b9c60400e8c
+@supportpilot/mobile:typecheck: cache miss, executing 0122dd3a1910606a
+@supportpilot/web:lint: 
+@supportpilot/web:lint: > @supportpilot/web@0.0.0 lint C:\Users\vrund\OneDrive\Desktop\ai_project\apps\web
+@supportpilot/web:lint: > eslint .
+@supportpilot/web:lint: 
+@supportpilot/admin:test: [90mstderr[2m | src/test/admin-app.test.tsx[2m > [22m[2mSupportPilot SuperAdmin Application (apps/admin)[2m > [22m[2m1) Login form authentication: requires superadmin credentials and grants root access
+@supportpilot/admin:test: [22m[39mSuperAdmin login failed: Error: Invalid superadmin credentials. Please verify your root key.
+@supportpilot/admin:test:     at SuperAdminApiClient.login [90m(C:\Users\vrund\OneDrive\Desktop\ai_project\apps\admin\[39msrc\lib\admin-api.ts:463:15[90m)[39m
+@supportpilot/admin:test: [90m    at processTicksAndRejections (node:internal/process/task_queues:104:5)[39m
+@supportpilot/admin:test:     at login [90m(C:\Users\vrund\OneDrive\Desktop\ai_project\apps\admin\[39msrc\store\admin-auth.store.ts:43:19[90m)[39m
+@supportpilot/admin:test:     at handleSubmit [90m(C:\Users\vrund\OneDrive\Desktop\ai_project\apps\admin\[39msrc\components\auth\AdminLoginForm.tsx:17:23[90m)[39m
+@supportpilot/admin:test: 
+@supportpilot/widget:test:  [32m✓[39m src/test/OfflineForm.test.tsx [2m([22m[2m2 tests[22m[2m)[22m[32m 271[2mms[22m[39m
+@supportpilot/web:typecheck: 
+@supportpilot/web:typecheck: > @supportpilot/web@0.0.0 typecheck C:\Users\vrund\OneDrive\Desktop\ai_project\apps\web
+@supportpilot/web:typecheck: > tsc --noEmit
+@supportpilot/web:typecheck: 
+@supportpilot/widget:test:  [32m✓[39m src/test/WidgetBubble.test.tsx [2m([22m[2m2 tests[22m[2m)[22m[32m 229[2mms[22m[39m
+@supportpilot/widget:test:  [32m✓[39m src/test/WidgetChat.test.tsx [2m([22m[2m4 tests[22m[2m)[22m[33m 322[2mms[22m[39m
+@supportpilot/widget:test:  [32m✓[39m src/test/WidgetApp.test.tsx [2m([22m[2m1 test[22m[2m)[22m[32m 146[2mms[22m[39m
+@supportpilot/widget:test: 
+@supportpilot/widget:test: [2m Test Files [22m [1m[32m4 passed[39m[22m[90m (4)[39m
+@supportpilot/widget:test: [2m      Tests [22m [1m[32m9 passed[39m[22m[90m (9)[39m
+@supportpilot/widget:test: [2m   Start at [22m 14:57:02
+@supportpilot/widget:test: [2m   Duration [22m 11.86s[2m (transform 707ms, setup 9.44s, collect 2.48s, tests 968ms, environment 25.72s, prepare 2.82s)[22m
+@supportpilot/widget:test: 
+@supportpilot/mobile:typecheck: 
+@supportpilot/mobile:typecheck: > @supportpilot/mobile@0.1.0 typecheck C:\Users\vrund\OneDrive\Desktop\ai_project\apps\mobile
+@supportpilot/mobile:typecheck: > tsc --noEmit
+@supportpilot/mobile:typecheck: 
+@supportpilot/mobile:test: cache miss, executing 2df164a8c65533cf
+@supportpilot/admin:test:  [32m✓[39m src/test/admin-app.test.tsx [2m([22m[2m4 tests[22m[2m)[22m[33m 1730[2mms[22m[39m
+@supportpilot/admin:test:    [33m[2m✓[22m[39m SupportPilot SuperAdmin Application (apps/admin)[2m > [22m1) Login form authentication: requires superadmin credentials and grants root access [33m 427[2mms[22m[39m
+@supportpilot/admin:test:    [33m[2m✓[22m[39m SupportPilot SuperAdmin Application (apps/admin)[2m > [22mAuthenticated SuperAdmin Console[2m > [22m2) Navigation across Overview, Registrations, Subscriptions, Tenants, and Audit tabs [33m 395[2mms[22m[39m
+@supportpilot/admin:test:    [33m[2m✓[22m[39m SupportPilot SuperAdmin Application (apps/admin)[2m > [22mAuthenticated SuperAdmin Console[2m > [22m3) Searching and filtering in Registrations and Tenants views [33m 358[2mms[22m[39m
+@supportpilot/admin:test:    [33m[2m✓[22m[39m SupportPilot SuperAdmin Application (apps/admin)[2m > [22mAuthenticated SuperAdmin Console[2m > [22m4) Tenant suspend/activate action and quota drawer [33m 547[2mms[22m[39m
+@supportpilot/admin:test: 
+@supportpilot/admin:test: [2m Test Files [22m [1m[32m1 passed[39m[22m[90m (1)[39m
+@supportpilot/admin:test: [2m      Tests [22m [1m[32m4 passed[39m[22m[90m (4)[39m
+@supportpilot/admin:test: [2m   Start at [22m 14:57:00
+@supportpilot/admin:test: [2m   Duration [22m 14.98s[2m (transform 749ms, setup 3.33s, collect 1.60s, tests 1.73s, environment 7.12s, prepare 559ms)[22m
+@supportpilot/admin:test: 
+@supportpilot/mobile:lint: cache miss, executing ed810c1566392c7a
+@supportpilot/mobile:test: 
+@supportpilot/mobile:test: > @supportpilot/mobile@0.1.0 test C:\Users\vrund\OneDrive\Desktop\ai_project\apps\mobile
+@supportpilot/mobile:test: > vitest run
+@supportpilot/mobile:test: 
+@supportpilot/web:test: 
+@supportpilot/web:test: [1m[46m RUN [49m[22m [36mv3.2.7 [39m[90mC:/Users/vrund/OneDrive/Desktop/ai_project/apps/web[39m
+@supportpilot/web:test: 
+@supportpilot/notification-service:test: cache miss, executing bf6506878789be81
+@supportpilot/gateway:lint: cache miss, executing 3e957afabd619161
+@supportpilot/mobile:lint: 
+@supportpilot/mobile:lint: > @supportpilot/mobile@0.1.0 lint C:\Users\vrund\OneDrive\Desktop\ai_project\apps\mobile
+@supportpilot/mobile:lint: > eslint .
+@supportpilot/mobile:lint: 
+@supportpilot/notification-service:test: 
+@supportpilot/notification-service:test: > @supportpilot/notification-service@0.0.0 test C:\Users\vrund\OneDrive\Desktop\ai_project\apps\notification-service
+@supportpilot/notification-service:test: > vitest run --passWithNoTests
+@supportpilot/notification-service:test: 
+@supportpilot/gateway:lint: 
+@supportpilot/gateway:lint: > @supportpilot/gateway@0.0.0 lint C:\Users\vrund\OneDrive\Desktop\ai_project\apps\gateway
+@supportpilot/gateway:lint: > eslint .
+@supportpilot/gateway:lint: 
+@supportpilot/mobile:test: 
+@supportpilot/mobile:test: [1m[46m RUN [49m[22m [36mv3.2.7 [39m[90mC:/Users/vrund/OneDrive/Desktop/ai_project/apps/mobile[39m
+@supportpilot/mobile:test: 
+@supportpilot/notification-service:test: 
+@supportpilot/notification-service:test: [1m[46m RUN [49m[22m [36mv3.2.7 [39m[90mC:/Users/vrund/OneDrive/Desktop/ai_project/apps/notification-service[39m
+@supportpilot/notification-service:test: 
+@supportpilot/mobile:test:  [32m✓[39m tests/notifications.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 8[2mms[22m[39m
+@supportpilot/mobile:test:  [32m✓[39m tests/outbox.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 11[2mms[22m[39m
+@supportpilot/mobile:test:  [32m✓[39m tests/auth.test.ts [2m([22m[2m8 tests[22m[2m)[22m[32m 16[2mms[22m[39m
+@supportpilot/mobile:test:  [32m✓[39m tests/inbox-chat.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 32[2mms[22m[39m
+@supportpilot/mobile:test: 
+@supportpilot/mobile:test: [2m Test Files [22m [1m[32m4 passed[39m[22m[90m (4)[39m
+@supportpilot/mobile:test: [2m      Tests [22m [1m[32m21 passed[39m[22m[90m (21)[39m
+@supportpilot/mobile:test: [2m   Start at [22m 14:57:18
+@supportpilot/mobile:test: [2m   Duration [22m 4.33s[2m (transform 2.37s, setup 0ms, collect 6.08s, tests 68ms, environment 2ms, prepare 2.48s)[22m
+@supportpilot/mobile:test: 
+@supportpilot/notification-service:lint: cache miss, executing c670a798b1ef84a1
+@supportpilot/notification-service:lint: 
+@supportpilot/notification-service:lint: > @supportpilot/notification-service@0.0.0 lint C:\Users\vrund\OneDrive\Desktop\ai_project\apps\notification-service
+@supportpilot/notification-service:lint: > eslint .
+@supportpilot/notification-service:lint: 
+@supportpilot/notification-service:test:  [32m✓[39m tests/push-provider.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 33[2mms[22m[39m
+@supportpilot/notification-service:test: {"level":"info","time":"2026-11-23T09:27:24.347Z","pid":11024,"hostname":"Thats-my-Laptop","name":"test-webhook-worker","queueUrl":"http://localhost:4566/000000000000/test-webhooks","deliveryId":"idemp-hook-001","event":"ticket.created","tenantId":"tenant-omega","msg":"Enqueuing webhook event to SQS queue"}
+@supportpilot/notification-service:test: {"level":"info","time":"2026-11-23T09:27:24.380Z","pid":11024,"hostname":"Thats-my-Laptop","name":"test-webhook-worker","queueUrl":"http://localhost:4566/000000000000/supportpilot-webhooks","deliveryId":"whk-56","event":"ticket.resolved","tenantId":"tenant-omega","msg":"Enqueuing webhook event to SQS queue"}
+@supportpilot/notification-service:test: {"level":"info","time":"2026-11-23T09:27:24.389Z","pid":11024,"hostname":"Thats-my-Laptop","name":"test-webhook-worker","queueUrl":"http://localhost:4566/000000000000/test-webhooks","deliveryId":"idemp-sqs-fail-then-retry","event":"ticket.updated","tenantId":"tenant-omega","msg":"Enqueuing webhook event to SQS queue"}
+@supportpilot/notification-service:test: {"level":"info","time":"2026-11-23T09:27:24.389Z","pid":11024,"hostname":"Thats-my-Laptop","name":"test-webhook-worker","queueUrl":"http://localhost:4566/000000000000/test-webhooks","deliveryId":"idemp-sqs-fail-then-retry","event":"ticket.updated","tenantId":"tenant-omega","msg":"Enqueuing webhook event to SQS queue"}
+@supportpilot/notification-service:test: {"level":"info","time":"2026-11-23T09:27:24.390Z","pid":11024,"hostname":"Thats-my-Laptop","name":"test-webhook-worker","key":"idemp-sqs-fail-then-retry","msg":"Duplicate notification job skipped by idempotency consumer"}
+@supportpilot/notification-service:test: {"level":"info","time":"2026-11-23T09:27:24.392Z","pid":11024,"hostname":"Thats-my-Laptop","name":"test-webhook-worker","url":"https://webhook.site/receiver","event":"user.created","tenantId":"tenant-alpha","deliveryId":"whk-99","msg":"Delivering signed webhook via direct HTTP POST"}
+@supportpilot/notification-service:test: {"level":"info","time":"2026-11-23T09:27:24.395Z","pid":11024,"hostname":"Thats-my-Laptop","name":"test-webhook-worker","url":"https://failing-webhook.site/receiver","event":"ticket.escalated","tenantId":"tenant-alpha","deliveryId":"whk-100","msg":"Delivering signed webhook via direct HTTP POST"}
+@supportpilot/notification-service:test: {"level":"info","time":"2026-11-23T09:27:24.397Z","pid":11024,"hostname":"Thats-my-Laptop","name":"test-webhook-worker","url":"https://subscriber.example.com/events","event":"ticket.created","tenantId":"tenant-alpha","deliveryId":"idemp-http-fail-retry","msg":"Delivering signed webhook via direct HTTP POST"}
+@supportpilot/notification-service:test: {"level":"info","time":"2026-11-23T09:27:24.397Z","pid":11024,"hostname":"Thats-my-Laptop","name":"test-webhook-worker","url":"https://subscriber.example.com/events","event":"ticket.created","tenantId":"tenant-alpha","deliveryId":"idemp-http-fail-retry","msg":"Delivering signed webhook via direct HTTP POST"}
+@supportpilot/notification-service:test: {"level":"info","time":"2026-11-23T09:27:24.399Z","pid":11024,"hostname":"Thats-my-Laptop","name":"test-webhook-worker","url":"https://example.com/wh","event":"ticket.created","tenantId":"tenant-1","deliveryId":"idemp-fixed-key","msg":"Delivering signed webhook via direct HTTP POST"}
+@supportpilot/notification-service:test: {"level":"info","time":"2026-11-23T09:27:24.399Z","pid":11024,"hostname":"Thats-my-Laptop","name":"test-webhook-worker","key":"idemp-fixed-key","msg":"Duplicate notification job skipped by idempotency consumer"}
+@supportpilot/notification-service:test:  [32m✓[39m tests/webhook-worker.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 61[2mms[22m[39m
+@supportpilot/ticket-service:typecheck: cache miss, executing 884b4fc2caf9aa95
+@supportpilot/ticket-service:typecheck: 
+@supportpilot/ticket-service:typecheck: > @supportpilot/ticket-service@0.0.0 typecheck C:\Users\vrund\OneDrive\Desktop\ai_project\apps\ticket-service
+@supportpilot/ticket-service:typecheck: > tsc --noEmit
+@supportpilot/ticket-service:typecheck: 
+@supportpilot/notification-service:test:  [32m✓[39m tests/sla-automation.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 15[2mms[22m[39m
+@supportpilot/notification-service:test:  [32m✓[39m tests/queue-manager.test.ts [2m([22m[2m6 tests[22m[2m)[22m[33m 319[2mms[22m[39m
+@supportpilot/notification-service:test:  [32m✓[39m tests/notification-api.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 291[2mms[22m[39m
+@supportpilot/notification-service:test: [90mstderr[2m | tests/email-service.test.ts[2m > [22m[2mEmail Service & MailHog SMTP Integration (NOTIF-3, AUTH-4)[2m > [22m[2mEmail inspection endpoint[2m > [22m[2mallows querying sent emails by recipient via HTTP API
+@supportpilot/notification-service:test: [22m[39mIMPORTANT! Eviction policy is allkeys-lru. It should be "noeviction"
+@supportpilot/notification-service:test: 
+@supportpilot/notification-service:test: [90mstderr[2m | tests/email-service.test.ts[2m > [22m[2mEmail Service & MailHog SMTP Integration (NOTIF-3, AUTH-4)[2m > [22m[2mEmail inspection endpoint[2m > [22m[2mallows querying sent emails by recipient via HTTP API
+@supportpilot/notification-service:test: [22m[39mIMPORTANT! Eviction policy is allkeys-lru. It should be "noeviction"
+@supportpilot/notification-service:test: 
+@supportpilot/notification-service:test: [90mstderr[2m | tests/email-service.test.ts[2m > [22m[2mEmail Service & MailHog SMTP Integration (NOTIF-3, AUTH-4)[2m > [22m[2mEmail inspection endpoint[2m > [22m[2mallows querying sent emails by recipient via HTTP API
+@supportpilot/notification-service:test: [22m[39mIMPORTANT! Eviction policy is allkeys-lru. It should be "noeviction"
+@supportpilot/notification-service:test: 
+@supportpilot/notification-service:test: [90mstderr[2m | tests/email-service.test.ts[2m > [22m[2mEmail Service & MailHog SMTP Integration (NOTIF-3, AUTH-4)[2m > [22m[2mEmail inspection endpoint[2m > [22m[2mallows querying sent emails by recipient via HTTP API
+@supportpilot/notification-service:test: [22m[39mIMPORTANT! Eviction policy is allkeys-lru. It should be "noeviction"
+@supportpilot/notification-service:test: 
+@supportpilot/notification-service:test: [90mstderr[2m | tests/email-service.test.ts[2m > [22m[2mEmail Service & MailHog SMTP Integration (NOTIF-3, AUTH-4)[2m > [22m[2mEmail inspection endpoint[2m > [22m[2mallows querying sent emails by recipient via HTTP API
+@supportpilot/notification-service:test: [22m[39mIMPORTANT! Eviction policy is allkeys-lru. It should be "noeviction"
+@supportpilot/notification-service:test: 
+@supportpilot/notification-service:test: [90mstderr[2m | tests/email-service.test.ts[2m > [22m[2mEmail Service & MailHog SMTP Integration (NOTIF-3, AUTH-4)[2m > [22m[2mEmail inspection endpoint[2m > [22m[2mallows querying sent emails by recipient via HTTP API
+@supportpilot/notification-service:test: [22m[39mIMPORTANT! Eviction policy is allkeys-lru. It should be "noeviction"
+@supportpilot/notification-service:test: 
+@supportpilot/notification-service:test: [90mstderr[2m | tests/email-service.test.ts[2m > [22m[2mEmail Service & MailHog SMTP Integration (NOTIF-3, AUTH-4)[2m > [22m[2mEmail inspection endpoint[2m > [22m[2mallows querying sent emails by recipient via HTTP API
+@supportpilot/notification-service:test: [22m[39mIMPORTANT! Eviction policy is allkeys-lru. It should be "noeviction"
+@supportpilot/notification-service:test: 
+@supportpilot/notification-service:test: [90mstderr[2m | tests/email-service.test.ts[2m > [22m[2mEmail Service & MailHog SMTP Integration (NOTIF-3, AUTH-4)[2m > [22m[2mEmail inspection endpoint[2m > [22m[2mallows querying sent emails by recipient via HTTP API
+@supportpilot/notification-service:test: [22m[39mIMPORTANT! Eviction policy is allkeys-lru. It should be "noeviction"
+@supportpilot/notification-service:test: 
+@supportpilot/notification-service:test: [90mstderr[2m | tests/email-service.test.ts[2m > [22m[2mEmail Service & MailHog SMTP Integration (NOTIF-3, AUTH-4)[2m > [22m[2mEmail inspection endpoint[2m > [22m[2mallows querying sent emails by recipient via HTTP API
+@supportpilot/notification-service:test: [22m[39mIMPORTANT! Eviction policy is allkeys-lru. It should be "noeviction"
+@supportpilot/notification-service:test: 
+@supportpilot/notification-service:test: [90mstderr[2m | tests/email-service.test.ts[2m > [22m[2mEmail Service & MailHog SMTP Integration (NOTIF-3, AUTH-4)[2m > [22m[2mEmail inspection endpoint[2m > [22m[2mallows querying sent emails by recipient via HTTP API
+@supportpilot/notification-service:test: [22m[39mIMPORTANT! Eviction policy is allkeys-lru. It should be "noeviction"
+@supportpilot/notification-service:test: 
+@supportpilot/notification-service:test: [90mstderr[2m | tests/email-service.test.ts[2m > [22m[2mEmail Service & MailHog SMTP Integration (NOTIF-3, AUTH-4)[2m > [22m[2mEmail inspection endpoint[2m > [22m[2mallows querying sent emails by recipient via HTTP API
+@supportpilot/notification-service:test: [22m[39mIMPORTANT! Eviction policy is allkeys-lru. It should be "noeviction"
+@supportpilot/notification-service:test: 
+@supportpilot/notification-service:test: [90mstderr[2m | tests/email-service.test.ts[2m > [22m[2mEmail Service & MailHog SMTP Integration (NOTIF-3, AUTH-4)[2m > [22m[2mEmail inspection endpoint[2m > [22m[2mallows querying sent emails by recipient via HTTP API
+@supportpilot/notification-service:test: [22m[39mIMPORTANT! Eviction policy is allkeys-lru. It should be "noeviction"
+@supportpilot/notification-service:test: 
+@supportpilot/notification-service:test: [90mstderr[2m | tests/email-service.test.ts[2m > [22m[2mEmail Service & MailHog SMTP Integration (NOTIF-3, AUTH-4)[2m > [22m[2mEmail inspection endpoint[2m > [22m[2mallows querying sent emails by recipient via HTTP API
+@supportpilot/notification-service:test: [22m[39mIMPORTANT! Eviction policy is allkeys-lru. It should be "noeviction"
+@supportpilot/notification-service:test: 
+@supportpilot/notification-service:test: [90mstderr[2m | tests/email-service.test.ts[2m > [22m[2mEmail Service & MailHog SMTP Integration (NOTIF-3, AUTH-4)[2m > [22m[2mEmail inspection endpoint[2m > [22m[2mallows querying sent emails by recipient via HTTP API
+@supportpilot/notification-service:test: [22m[39mIMPORTANT! Eviction policy is allkeys-lru. It should be "noeviction"
+@supportpilot/notification-service:test: 
+@supportpilot/notification-service:test: [90mstderr[2m | tests/email-service.test.ts[2m > [22m[2mEmail Service & MailHog SMTP Integration (NOTIF-3, AUTH-4)[2m > [22m[2mEmail inspection endpoint[2m > [22m[2mallows querying sent emails by recipient via HTTP API
+@supportpilot/notification-service:test: [22m[39mIMPORTANT! Eviction policy is allkeys-lru. It should be "noeviction"
+@supportpilot/notification-service:test: 
+@supportpilot/notification-service:test: [90mstderr[2m | tests/email-service.test.ts[2m > [22m[2mEmail Service & MailHog SMTP Integration (NOTIF-3, AUTH-4)[2m > [22m[2mEmail inspection endpoint[2m > [22m[2mallows querying sent emails by recipient via HTTP API
+@supportpilot/notification-service:test: [22m[39mIMPORTANT! Eviction policy is allkeys-lru. It should be "noeviction"
+@supportpilot/notification-service:test: 
+@supportpilot/notification-service:test: [90mstderr[2m | tests/email-service.test.ts[2m > [22m[2mEmail Service & MailHog SMTP Integration (NOTIF-3, AUTH-4)[2m > [22m[2mEmail inspection endpoint[2m > [22m[2mallows querying sent emails by recipient via HTTP API
+@supportpilot/notification-service:test: [22m[39mIMPORTANT! Eviction policy is allkeys-lru. It should be "noeviction"
+@supportpilot/notification-service:test: 
+@supportpilot/notification-service:test: [90mstderr[2m | tests/email-service.test.ts[2m > [22m[2mEmail Service & MailHog SMTP Integration (NOTIF-3, AUTH-4)[2m > [22m[2mEmail inspection endpoint[2m > [22m[2mallows querying sent emails by recipient via HTTP API
+@supportpilot/notification-service:test: [22m[39mIMPORTANT! Eviction policy is allkeys-lru. It should be "noeviction"
+@supportpilot/notification-service:test: 
+@supportpilot/notification-service:test:  [32m✓[39m tests/email-service.test.ts [2m([22m[2m7 tests[22m[2m)[22m[33m 1937[2mms[22m[39m
+@supportpilot/notification-service:test:    [33m[2m✓[22m[39m Email Service & MailHog SMTP Integration (NOTIF-3, AUTH-4)[2m > [22mEmail inspection endpoint[2m > [22mallows querying sent emails by recipient via HTTP API [33m 1589[2mms[22m[39m
+@supportpilot/notification-service:test: 
+@supportpilot/notification-service:test: [2m Test Files [22m [1m[32m6 passed[39m[22m[90m (6)[39m
+@supportpilot/notification-service:test: [2m      Tests [22m [1m[32m34 passed[39m[22m[90m (34)[39m
+@supportpilot/notification-service:test: [2m   Start at [22m 14:57:20
+@supportpilot/notification-service:test: [2m   Duration [22m 9.73s[2m (transform 2.94s, setup 0ms, collect 28.58s, tests 2.66s, environment 2ms, prepare 3.58s)[22m
+@supportpilot/notification-service:test: 
+@supportpilot/ticket-service:test: cache miss, executing d427dd02d521ed03
+@supportpilot/ticket-service:test: 
+@supportpilot/ticket-service:test: > @supportpilot/ticket-service@0.0.0 test C:\Users\vrund\OneDrive\Desktop\ai_project\apps\ticket-service
+@supportpilot/ticket-service:test: > vitest run --passWithNoTests
+@supportpilot/ticket-service:test: 
+@supportpilot/gateway:test: cache miss, executing a3ae59c432ac2029
+@supportpilot/widget:lint: 
+@supportpilot/widget:lint: C:\Users\vrund\OneDrive\Desktop\ai_project\apps\widget\src\components\WidgetChat.tsx
+@supportpilot/widget:lint:   239:53  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/widget:lint: 
+@supportpilot/widget:lint: ✖ 1 problem (0 errors, 1 warning)
+@supportpilot/widget:lint: 
+@supportpilot/gateway:test: 
+@supportpilot/gateway:test: > @supportpilot/gateway@0.0.0 test C:\Users\vrund\OneDrive\Desktop\ai_project\apps\gateway
+@supportpilot/gateway:test: > vitest run --passWithNoTests
+@supportpilot/gateway:test: 
+@supportpilot/ticket-service:test: 
+@supportpilot/ticket-service:test: [1m[46m RUN [49m[22m [36mv3.2.7 [39m[90mC:/Users/vrund/OneDrive/Desktop/ai_project/apps/ticket-service[39m
+@supportpilot/ticket-service:test: 
+@supportpilot/gateway:typecheck: cache miss, executing e78806f3da71eece
+@supportpilot/gateway:typecheck: 
+@supportpilot/gateway:typecheck: > @supportpilot/gateway@0.0.0 typecheck C:\Users\vrund\OneDrive\Desktop\ai_project\apps\gateway
+@supportpilot/gateway:typecheck: > tsc --noEmit
+@supportpilot/gateway:typecheck: 
+@supportpilot/web:test:  [32m✓[39m src/test/login-form.test.tsx [2m([22m[2m3 tests[22m[2m)[22m[33m 565[2mms[22m[39m
+@supportpilot/web:test:  [32m✓[39m src/test/optimistic.test.tsx [2m([22m[2m6 tests[22m[2m)[22m[33m 517[2mms[22m[39m
+@supportpilot/gateway:test: 
+@supportpilot/gateway:test: [1m[46m RUN [49m[22m [36mv3.2.7 [39m[90mC:/Users/vrund/OneDrive/Desktop/ai_project/apps/gateway[39m
+@supportpilot/gateway:test: 
+@supportpilot/web:test:  [32m✓[39m src/test/automation-view.test.tsx [2m([22m[2m3 tests[22m[2m)[22m[33m 705[2mms[22m[39m
+@supportpilot/web:test:    [33m[2m✓[22m[39m AutomationView Component[2m > [22mswitches to SLA Policies tab and updates policies [33m 352[2mms[22m[39m
+@supportpilot/web:test:  [32m✓[39m src/test/team-view.test.tsx [2m([22m[2m2 tests[22m[2m)[22m[33m 1044[2mms[22m[39m
+@supportpilot/web:test:    [33m[2m✓[22m[39m TeamView Component[2m > [22mrenders team member list with role badge and status [33m 456[2mms[22m[39m
+@supportpilot/web:test:    [33m[2m✓[22m[39m TeamView Component[2m > [22mopens invite modal and submits member invitation [33m 584[2mms[22m[39m
+@supportpilot/web:test:  [32m✓[39m src/test/customers-view.test.tsx [2m([22m[2m4 tests[22m[2m)[22m[33m 1306[2mms[22m[39m
+@supportpilot/web:test:    [33m[2m✓[22m[39m CustomersView Component[2m > [22mrenders customer list and table [33m 450[2mms[22m[39m
+@supportpilot/web:test:    [33m[2m✓[22m[39m CustomersView Component[2m > [22mfilters customers on search input change [33m 391[2mms[22m[39m
+@supportpilot/web:test:  [32m✓[39m src/test/ticket-inbox.test.tsx [2m([22m[2m5 tests[22m[2m)[22m[33m 1423[2mms[22m[39m
+@supportpilot/web:test:    [33m[2m✓[22m[39m TicketInbox[2m > [22mrenders ticket list with numbers, subjects, statuses and priorities [33m 616[2mms[22m[39m
+@supportpilot/web:test:    [33m[2m✓[22m[39m TicketInbox[2m > [22msupports checkbox selection and bulk actions bar [33m 342[2mms[22m[39m
+@supportpilot/web:test:  [32m✓[39m src/test/ticket-detail.test.tsx [2m([22m[2m6 tests[22m[2m)[22m[33m 1898[2mms[22m[39m
+@supportpilot/web:test:    [33m[2m✓[22m[39m TicketDetail[2m > [22mrenders ticket details, messages, and activity timeline [33m 759[2mms[22m[39m
+@supportpilot/web:test:    [33m[2m✓[22m[39m TicketDetail[2m > [22mupdates ticket status and passes current version [33m 363[2mms[22m[39m
+@supportpilot/web:test:  [32m✓[39m src/test/public-ticket-tracker.test.tsx [2m([22m[2m3 tests[22m[2m)[22m[33m 898[2mms[22m[39m
+@supportpilot/web:test:    [33m[2m✓[22m[39m PublicTicketTracker Component[2m > [22mrenders lookup inputs and handles successful ticket lookup [33m 419[2mms[22m[39m
+@supportpilot/web:test:    [33m[2m✓[22m[39m PublicTicketTracker Component[2m > [22mfires onBack callback when back button clicked [33m 396[2mms[22m[39m
+@supportpilot/web:test:  [32m✓[39m src/test/analytics-dashboard.test.tsx [2m([22m[2m2 tests[22m[2m)[22m[33m 970[2mms[22m[39m
+@supportpilot/web:test:    [33m[2m✓[22m[39m AnalyticsDashboard Component (ANL-1..4: S3-T07)[2m > [22mrenders dashboard with KPI cards, volume chart, SLA percentiles, and agent performance table [33m 436[2mms[22m[39m
+@supportpilot/web:test:    [33m[2m✓[22m[39m AnalyticsDashboard Component (ANL-1..4: S3-T07)[2m > [22mswitches time range and reloads metrics when 30 Days clicked [33m 529[2mms[22m[39m
+@supportpilot/web:test:  [32m✓[39m src/test/help-center.test.tsx [2m([22m[2m3 tests[22m[2m)[22m[33m 1109[2mms[22m[39m
+@supportpilot/web:test:    [33m[2m✓[22m[39m HelpCenterView Component (Public Help Center & Status)[2m > [22mfilters articles by search query and category pill [33m 497[2mms[22m[39m
+@supportpilot/web:test:    [33m[2m✓[22m[39m HelpCenterView Component (Public Help Center & Status)[2m > [22mopens article detail, displays markdown, and records feedback rating [33m 339[2mms[22m[39m
+@supportpilot/web:test:  [32m✓[39m src/test/live-chat.test.tsx [2m([22m[2m7 tests[22m[2m)[22m[33m 3020[2mms[22m[39m
+@supportpilot/web:test:    [33m[2m✓[22m[39m LiveChatView Component (S2-T14)[2m > [22mrenders live chat console with queue tabs and active conversation [33m 676[2mms[22m[39m
+@supportpilot/web:test:    [33m[2m✓[22m[39m LiveChatView Component (S2-T14)[2m > [22mallows agent to send a reply in the active conversation [33m 1557[2mms[22m[39m
+@supportpilot/web:test:  [32m✓[39m src/test/knowledge-base.test.tsx [2m([22m[2m4 tests[22m[2m)[22m[33m 2827[2mms[22m[39m
+@supportpilot/web:test:    [33m[2m✓[22m[39m KnowledgeBaseView Component (S2-T14)[2m > [22mswitches to test console and executes test retrieval query [33m 1717[2mms[22m[39m
+@supportpilot/web:test:    [33m[2m✓[22m[39m KnowledgeBaseView Component (S2-T14)[2m > [22mopens upload modal and registers new document [33m 646[2mms[22m[39m
+@supportpilot/web:test:  [32m✓[39m src/test/admin-cockpit.test.tsx [2m([22m[2m5 tests[22m[2m)[22m[33m 6120[2mms[22m[39m
+@supportpilot/web:test:    [33m[2m✓[22m[39m AdminCockpitView Component[2m > [22mrenders KPI telemetry cards and tenant directory list [33m 842[2mms[22m[39m
+@supportpilot/web:test:    [33m[2m✓[22m[39m AdminCockpitView Component[2m > [22mfilters tenants by search query and plan filter chips [33m 1256[2mms[22m[39m
+@supportpilot/web:test:    [33m[2m✓[22m[39m AdminCockpitView Component[2m > [22mopens slide-over inspection drawer on clicking Inspect and edits quotas [33m 1073[2mms[22m[39m
+@supportpilot/web:test:    [33m[2m✓[22m[39m AdminCockpitView Component[2m > [22mprovisions new tenant via modal form [33m 2734[2mms[22m[39m
+@supportpilot/web:test:  [32m✓[39m src/test/stripe-checkout.test.tsx [2m([22m[2m9 tests[22m[2m)[22m[33m 2900[2mms[22m[39m
+@supportpilot/web:test:    [33m[2m✓[22m[39m StripeCheckoutModal & Billing Simulation (STRIPE-FRONTEND)[2m > [22mStripeCheckoutModal UI component[2m > [22mrenders plan summary, pro features, and powered by stripe emulation badge [33m 564[2mms[22m[39m
+@supportpilot/web:test:    [33m[2m✓[22m[39m StripeCheckoutModal & Billing Simulation (STRIPE-FRONTEND)[2m > [22mStripeCheckoutModal UI component[2m > [22mauto-spaces card number every 4 digits up to 19 characters [33m 787[2mms[22m[39m
+@supportpilot/web:test:    [33m[2m✓[22m[39m StripeCheckoutModal & Billing Simulation (STRIPE-FRONTEND)[2m > [22mSettingsView integration with Stripe Checkout[2m > [22mopens StripeCheckoutModal on Upgrade to PRO and refreshes subscription on payment completion [33m 790[2mms[22m[39m
+@supportpilot/web:test:  [32m✓[39m src/test/settings-view.test.tsx [2m([22m[2m6 tests[22m[2m)[22m[33m 3039[2mms[22m[39m
+@supportpilot/web:test:    [33m[2m✓[22m[39m SettingsView Component (INT-1, INT-2, ADM-1, ADM-2, ADM-3)[2m > [22mrenders API keys sub-tab, shows keys, and opens generate modal [33m 988[2mms[22m[39m
+@supportpilot/web:test:    [33m[2m✓[22m[39m SettingsView Component (INT-1, INT-2, ADM-1, ADM-2, ADM-3)[2m > [22mnavigates to webhooks tab, lists subscriptions, and handles ping [33m 443[2mms[22m[39m
+@supportpilot/web:test:    [33m[2m✓[22m[39m SettingsView Component (INT-1, INT-2, ADM-1, ADM-2, ADM-3)[2m > [22mnavigates to billing tab, renders quotas and PRO features, and upgrades plan via simulated Stripe [33m 541[2mms[22m[39m
+@supportpilot/web:test:    [33m[2m✓[22m[39m SettingsView Component (INT-1, INT-2, ADM-1, ADM-2, ADM-3)[2m > [22msupports simulated webhook payment in upgrade modal [33m 468[2mms[22m[39m
+@supportpilot/web:test:    [33m[2m✓[22m[39m SettingsView Component (INT-1, INT-2, ADM-1, ADM-2, ADM-3)[2m > [22mallows owner to update tenant plan in admin tab [33m 343[2mms[22m[39m
+@supportpilot/mobile:lint: 
+@supportpilot/mobile:lint: C:\Users\vrund\OneDrive\Desktop\ai_project\apps\mobile\src\lib\api.ts
+@supportpilot/mobile:lint:    57:78  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/mobile:lint:    80:35  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/mobile:lint:    80:48  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/mobile:lint:    83:35  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/mobile:lint:    83:48  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/mobile:lint:    83:65  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/mobile:lint:    87:62  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/mobile:lint:    88:35  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/mobile:lint:    95:68  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/mobile:lint:    97:35  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/mobile:lint:   107:60  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/mobile:lint:   115:51  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/mobile:lint:   128:35  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/mobile:lint: 
+@supportpilot/mobile:lint: C:\Users\vrund\OneDrive\Desktop\ai_project\apps\mobile\src\lib\auth.store.ts
+@supportpilot/mobile:lint:    99:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/mobile:lint:   164:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/mobile:lint: 
+@supportpilot/mobile:lint: C:\Users\vrund\OneDrive\Desktop\ai_project\apps\mobile\src\lib\socket.ts
+@supportpilot/mobile:lint:   76:31  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/mobile:lint: 
+@supportpilot/mobile:lint: ✖ 16 problems (0 errors, 16 warnings)
+@supportpilot/mobile:lint: 
+@supportpilot/ticket-service:lint: cache miss, executing 0613bc6ecf7e2605
+@supportpilot/gateway:test:  [32m✓[39m tests/proxy.test.ts [2m([22m[2m5 tests[22m[2m)[22m[33m 623[2mms[22m[39m
+@supportpilot/gateway:test:  [32m✓[39m tests/rate-limiter.test.ts [2m([22m[2m2 tests[22m[2m)[22m[33m 372[2mms[22m[39m
+@supportpilot/ticket-service:lint: 
+@supportpilot/ticket-service:lint: > @supportpilot/ticket-service@0.0.0 lint C:\Users\vrund\OneDrive\Desktop\ai_project\apps\ticket-service
+@supportpilot/ticket-service:lint: > eslint .
+@supportpilot/ticket-service:lint: 
+@supportpilot/notification-service:typecheck: cache miss, executing cc46afd928f0a69d
+@supportpilot/notification-service:typecheck: 
+@supportpilot/notification-service:typecheck: > @supportpilot/notification-service@0.0.0 typecheck C:\Users\vrund\OneDrive\Desktop\ai_project\apps\notification-service
+@supportpilot/notification-service:typecheck: > tsc --noEmit
+@supportpilot/notification-service:typecheck: 
+@supportpilot/gateway:lint: 
+@supportpilot/gateway:lint: C:\Users\vrund\OneDrive\Desktop\ai_project\apps\gateway\src\index.ts
+@supportpilot/gateway:lint:   30:25  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/gateway:lint: 
+@supportpilot/gateway:lint: C:\Users\vrund\OneDrive\Desktop\ai_project\apps\gateway\src\lib\redis.ts
+@supportpilot/gateway:lint:    10:36  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/gateway:lint:    85:16  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/gateway:lint:    93:60  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/gateway:lint:   122:29  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/gateway:lint: 
+@supportpilot/gateway:lint: C:\Users\vrund\OneDrive\Desktop\ai_project\apps\gateway\src\middleware\quota.middleware.ts
+@supportpilot/gateway:lint:    99:35  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/gateway:lint:   100:17  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/gateway:lint: 
+@supportpilot/gateway:lint: C:\Users\vrund\OneDrive\Desktop\ai_project\apps\gateway\src\middleware\server-timing.middleware.ts
+@supportpilot/gateway:lint:    8:76  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/gateway:lint:   15:69  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/gateway:lint: 
+@supportpilot/gateway:lint: C:\Users\vrund\OneDrive\Desktop\ai_project\apps\gateway\src\realtime\socket-server.ts
+@supportpilot/gateway:lint:   304:74  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/gateway:lint: 
+@supportpilot/gateway:lint: ✖ 10 problems (0 errors, 10 warnings)
+@supportpilot/gateway:lint: 
+@supportpilot/ticket-service:test:  [32m✓[39m tests/rbac-matrix.test.ts [2m([22m[2m35 tests[22m[2m)[22m[33m 488[2mms[22m[39m
+@supportpilot/gateway:test: {"level":"warn","time":"2026-11-23T09:27:54.610Z","pid":27516,"hostname":"Thats-my-Laptop","name":"gateway","err":{"type":"AppError","message":"Bad Gateway: Downstream service is currently unreachable","stack":"AppError: Bad Gateway: Downstream service is currently unreachable\n    at C:\\Users\\vrund\\OneDrive\\Desktop\\ai_project\\apps\\gateway\\src\\middleware\\proxy.ts:101:9\n    at processTicksAndRejections (node:internal/process/task_queues:104:5)","status":502,"name":"AppError"},"requestId":"85d51625-287b-4d79-a793-8e91070fffeb","status":502,"path":"/api/v1/auth/login","msg":"Bad Gateway: Downstream service is currently unreachable"}
+@supportpilot/gateway:test: {"level":"warn","time":"2026-11-23T09:27:54.661Z","pid":27516,"hostname":"Thats-my-Laptop","name":"gateway","err":{"type":"AppError","message":"Bad Gateway: Downstream service is currently unreachable","stack":"AppError: Bad Gateway: Downstream service is currently unreachable\n    at C:\\Users\\vrund\\OneDrive\\Desktop\\ai_project\\apps\\gateway\\src\\middleware\\proxy.ts:101:9\n    at processTicksAndRejections (node:internal/process/task_queues:104:5)","status":502,"name":"AppError"},"requestId":"25322e40-d90f-41ea-9aaf-743c596a5369","status":502,"path":"/api/v1/auth/login","msg":"Bad Gateway: Downstream service is currently unreachable"}
+@supportpilot/gateway:test:  [32m✓[39m tests/quota-middleware.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 228[2mms[22m[39m
+@supportpilot/gateway:test: {"level":"warn","time":"2026-11-23T09:27:54.690Z","pid":27516,"hostname":"Thats-my-Laptop","name":"gateway","err":{"type":"AppError","message":"Bad Gateway: Downstream service is currently unreachable","stack":"AppError: Bad Gateway: Downstream service is currently unreachable\n    at C:\\Users\\vrund\\OneDrive\\Desktop\\ai_project\\apps\\gateway\\src\\middleware\\proxy.ts:101:9\n    at processTicksAndRejections (node:internal/process/task_queues:104:5)","status":502,"name":"AppError"},"requestId":"482a27ea-b412-440f-a09c-5686106ab45f","status":502,"path":"/api/v1/auth/login","msg":"Bad Gateway: Downstream service is currently unreachable"}
+@supportpilot/gateway:test: {"level":"warn","time":"2026-11-23T09:27:54.743Z","pid":27516,"hostname":"Thats-my-Laptop","name":"gateway","err":{"type":"AppError","message":"Bad Gateway: Downstream service is currently unreachable","stack":"AppError: Bad Gateway: Downstream service is currently unreachable\n    at C:\\Users\\vrund\\OneDrive\\Desktop\\ai_project\\apps\\gateway\\src\\middleware\\proxy.ts:101:9\n    at processTicksAndRejections (node:internal/process/task_queues:104:5)","status":502,"name":"AppError"},"requestId":"c4742676-e66a-4864-93ff-1795700218b5","status":502,"path":"/api/v1/auth/login","msg":"Bad Gateway: Downstream service is currently unreachable"}
+@supportpilot/gateway:test:  [32m✓[39m tests/graphql.test.ts [2m([22m[2m13 tests[22m[2m)[22m[33m 2097[2mms[22m[39m
+@supportpilot/gateway:test:    [33m[2m✓[22m[39m GraphQL Gateway Layer (INT-3)[2m > [22mrejects unauthenticated GraphQL operations with UNAUTHENTICATED code [33m 1325[2mms[22m[39m
+@supportpilot/gateway:test: {"level":"warn","time":"2026-11-23T09:27:54.779Z","pid":27516,"hostname":"Thats-my-Laptop","name":"gateway","err":{"type":"AppError","message":"Bad Gateway: Downstream service is currently unreachable","stack":"AppError: Bad Gateway: Downstream service is currently unreachable\n    at C:\\Users\\vrund\\OneDrive\\Desktop\\ai_project\\apps\\gateway\\src\\middleware\\proxy.ts:101:9\n    at processTicksAndRejections (node:internal/process/task_queues:104:5)","status":502,"name":"AppError"},"requestId":"9e7a1bae-d71c-46e3-a9fd-c97652c01d3a","status":502,"path":"/api/v1/auth/login","msg":"Bad Gateway: Downstream service is currently unreachable"}
+@supportpilot/gateway:test: {"level":"warn","time":"2026-11-23T09:27:54.796Z","pid":27516,"hostname":"Thats-my-Laptop","name":"gateway","err":{"type":"AppError","message":"Too many requests. Please retry in 900 seconds.","stack":"AppError: Too many requests. Please retry in 900 seconds.\n    at C:\\Users\\vrund\\OneDrive\\Desktop\\ai_project\\apps\\gateway\\src\\middleware\\rate-limiter.ts:59:15\n    at processTicksAndRejections (node:internal/process/task_queues:104:5)","status":429,"name":"AppError"},"requestId":"23ddeacb-ec56-4058-889a-9ef26a43f4c7","status":429,"path":"/api/v1/auth/login","msg":"Too many requests. Please retry in 900 seconds."}
+@supportpilot/gateway:test:  [32m✓[39m tests/security-headers.test.ts [2m([22m[2m3 tests[22m[2m)[22m[33m 816[2mms[22m[39m
+@supportpilot/gateway:test:    [33m[2m✓[22m[39m Gateway Security Headers & Rate Limiting (AUTH-5, SEC-1)[2m > [22menforces login rate limit: 6th request within window returns 429 Too Many Requests [33m 373[2mms[22m[39m
+@supportpilot/gateway:test:  [32m✓[39m tests/health.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 134[2mms[22m[39m
+@supportpilot/gateway:test:  [32m✓[39m tests/handoff.test.ts [2m([22m[2m6 tests[22m[2m)[22m[33m 574[2mms[22m[39m
+@supportpilot/gateway:test:  [32m✓[39m tests/socket-auth-rooms.test.ts [2m([22m[2m9 tests[22m[2m)[22m[33m 639[2mms[22m[39m
+@supportpilot/gateway:test:  [32m✓[39m tests/sequence-replay.test.ts [2m([22m[2m4 tests[22m[2m)[22m[33m 652[2mms[22m[39m
+@supportpilot/gateway:test:  [32m✓[39m tests/typing-presence-read.test.ts [2m([22m[2m3 tests[22m[2m)[22m[33m 742[2mms[22m[39m
+@supportpilot/gateway:test: 
+@supportpilot/gateway:test: [2m Test Files [22m [1m[32m10 passed[39m[22m[90m (10)[39m
+@supportpilot/gateway:test: [2m      Tests [22m [1m[32m53 passed[39m[22m[90m (53)[39m
+@supportpilot/gateway:test: [2m   Start at [22m 14:57:36
+@supportpilot/gateway:test: [2m   Duration [22m 20.21s[2m (transform 5.56s, setup 0ms, collect 137.62s, tests 6.88s, environment 4ms, prepare 10.19s)[22m
+@supportpilot/gateway:test: 
+@supportpilot/ticket-service:test:  [32m✓[39m tests/analytics-aggregation.test.ts [2m([22m[2m9 tests[22m[2m)[22m[32m 196[2mms[22m[39m
+@supportpilot/ticket-service:test:  [32m✓[39m tests/quota-assignment-bulk.test.ts [2m([22m[2m8 tests[22m[2m)[22m[32m 288[2mms[22m[39m
+@supportpilot/ticket-service:test:  [32m✓[39m tests/rules-api.test.ts [2m([22m[2m4 tests[22m[2m)[22m[33m 532[2mms[22m[39m
+@supportpilot/ticket-service:test:  [32m✓[39m tests/security-pass.test.ts [2m([22m[2m4 tests[22m[2m)[22m[33m 545[2mms[22m[39m
+@supportpilot/ticket-service:test:    [33m[2m✓[22m[39m Ticket Service Security Pass (TEN-1..3: Cross-Tenant Isolation & Observability)[2m > [22m1. Cross-Tenant Data Isolation (TEN-1, TEN-2, TEN-3)[2m > [22menforces tenant namespacing on S3 presigned attachment keys [33m 355[2mms[22m[39m
+@supportpilot/ticket-service:test:  [32m✓[39m tests/customers-team-docs.test.ts [2m([22m[2m7 tests[22m[2m)[22m[33m 627[2mms[22m[39m
+@supportpilot/ticket-service:test:  [32m✓[39m tests/ticket-messages-events.test.ts [2m([22m[2m8 tests[22m[2m)[22m[33m 650[2mms[22m[39m
+@supportpilot/web:lint: 
+@supportpilot/web:lint: C:\Users\vrund\OneDrive\Desktop\ai_project\apps\web\src\components\automation\AutomationView.tsx
+@supportpilot/web:lint:   614:82  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/web:lint:   624:91  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/web:lint:   646:93  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/web:lint: 
+@supportpilot/web:lint: C:\Users\vrund\OneDrive\Desktop\ai_project\apps\web\src\components\settings\SettingsView.tsx
+@supportpilot/web:lint:    89:52  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/web:lint:   122:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/web:lint:   138:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/web:lint:   148:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/web:lint:   167:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/web:lint:   177:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/web:lint:   211:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/web:lint:   222:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/web:lint:   232:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/web:lint:   469:62  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/web:lint:   471:65  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/web:lint:   477:63  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/web:lint:   479:67  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/web:lint:   484:61  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/web:lint:   492:60  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/web:lint:   494:63  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/web:lint:   500:56  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/web:lint:   514:64  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/web:lint: 
+@supportpilot/web:lint: C:\Users\vrund\OneDrive\Desktop\ai_project\apps\web\src\components\settings\StripeCheckoutModal.tsx
+@supportpilot/web:lint:    87:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/web:lint:   128:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/web:lint:   142:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/web:lint: 
+@supportpilot/web:lint: C:\Users\vrund\OneDrive\Desktop\ai_project\apps\web\src\components\tickets\CreateTicketModal.tsx
+@supportpilot/web:lint:   58:28  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/web:lint:   58:51  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/web:lint: 
+@supportpilot/web:lint: C:\Users\vrund\OneDrive\Desktop\ai_project\apps\web\src\components\tickets\TicketDetail.tsx
+@supportpilot/web:lint:   253:39  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/web:lint:   254:39  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/web:lint:   398:31  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/web:lint:   401:33  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/web:lint:   487:35  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/web:lint:   488:38  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/web:lint:   494:39  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/web:lint:   495:42  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/web:lint:   503:37  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/web:lint:   530:77  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/web:lint:   776:67  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/web:lint:   923:33  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/web:lint: 
+@supportpilot/web:lint: C:\Users\vrund\OneDrive\Desktop\ai_project\apps\web\src\components\tickets\TicketInbox.tsx
+@supportpilot/web:lint:    91:31  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/web:lint:   730:36  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/web:lint:   731:39  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/web:lint:   735:36  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/web:lint:   777:36  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/web:lint:   779:39  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/web:lint:   784:36  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/web:lint: 
+@supportpilot/web:lint: C:\Users\vrund\OneDrive\Desktop\ai_project\apps\web\src\hooks\useStreamingDraft.ts
+@supportpilot/web:lint:   141:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/web:lint: 
+@supportpilot/web:lint: C:\Users\vrund\OneDrive\Desktop\ai_project\apps\web\src\hooks\useTickets.ts
+@supportpilot/web:lint:   66:64  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/web:lint: 
+@supportpilot/web:lint: C:\Users\vrund\OneDrive\Desktop\ai_project\apps\web\src\lib\api.ts
+@supportpilot/web:lint:   333:37  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/web:lint:   339:45  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/web:lint:   351:12  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/web:lint:   359:29  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/web:lint:   627:24  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/web:lint:   650:25  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/web:lint:   659:22  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/web:lint:   685:39  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/web:lint:   696:24  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/web:lint:   706:25  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/web:lint:   711:58  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/web:lint:   720:24  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/web:lint: 
+@supportpilot/web:lint: C:\Users\vrund\OneDrive\Desktop\ai_project\apps\web\src\lib\optimistic.ts
+@supportpilot/web:lint:   12:30  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/web:lint:   12:61  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/web:lint:   36:47  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/web:lint:   39:20  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/web:lint: 
+@supportpilot/web:lint: C:\Users\vrund\OneDrive\Desktop\ai_project\apps\web\src\test\optimistic.test.tsx
+@supportpilot/web:lint:    23:32  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/web:lint:    36:48  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/web:lint:   115:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/web:lint:   118:34  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/web:lint:   118:45  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/web:lint:   196:84  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/web:lint: 
+@supportpilot/web:lint: C:\Users\vrund\OneDrive\Desktop\ai_project\apps\web\src\test\stripe-checkout.test.tsx
+@supportpilot/web:lint:   61:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/web:lint: 
+@supportpilot/web:lint: ✖ 70 problems (0 errors, 70 warnings)
+@supportpilot/web:lint: 
+@supportpilot/ticket-service:test:  [32m✓[39m tests/auth.test.ts [2m([22m[2m10 tests[22m[2m)[22m[33m 730[2mms[22m[39m
+@supportpilot/ticket-service:test:  [32m✓[39m tests/superadmin-api.test.ts [2m([22m[2m13 tests[22m[2m)[22m[33m 765[2mms[22m[39m
+@supportpilot/ticket-service:test:    [33m[2m✓[22m[39m SuperAdmin Platform Portal APIs (superadmin.routes.ts)[2m > [22mAuthentication & Access Control[2m > [22mLogin with wrong credentials -> 401 [33m 301[2mms[22m[39m
+@supportpilot/ticket-service:test:  [32m✓[39m tests/billing.test.ts [2m([22m[2m28 tests[22m[2m)[22m[33m 745[2mms[22m[39m
+@supportpilot/notification-service:lint: 
+@supportpilot/notification-service:lint: C:\Users\vrund\OneDrive\Desktop\ai_project\apps\notification-service\src\push\expo-provider.ts
+@supportpilot/notification-service:lint:   44:47  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/notification-service:lint:   48:36  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/notification-service:lint:   67:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/notification-service:lint: 
+@supportpilot/notification-service:lint: ✖ 3 problems (0 errors, 3 warnings)
+@supportpilot/notification-service:lint: 
+@supportpilot/ticket-service:test:  [32m✓[39m tests/ticket.test.ts [2m([22m[2m16 tests[22m[2m)[22m[33m 881[2mms[22m[39m
+@supportpilot/ticket-service:test:  [32m✓[39m tests/uploads-attachments.test.ts [2m([22m[2m25 tests[22m[2m)[22m[33m 877[2mms[22m[39m
+@supportpilot/ticket-service:test:    [33m[2m✓[22m[39m S2-T05: S3 Presigned Uploads, Magic Bytes Verification & Attachments (KB-1, T-FILE-01)[2m > [22m2. Presigned Upload Endpoint (POST /api/v1/uploads/presign)[2m > [22mreturns presigned URL and tenant-isolated key for authenticated user [33m 365[2mms[22m[39m
+@supportpilot/ticket-service:test:  [32m✓[39m tests/register.test.ts [2m([22m[2m3 tests[22m[2m)[22m[33m 972[2mms[22m[39m
+@supportpilot/ticket-service:test:    [33m[2m✓[22m[39m Auth Register (POST /api/v1/auth/register)[2m > [22mregisters tenant and owner user successfully [33m 696[2mms[22m[39m
+@supportpilot/ticket-service:test:  [32m✓[39m tests/integrations-admin.test.ts [2m([22m[2m13 tests[22m[2m)[22m[33m 1203[2mms[22m[39m
+@supportpilot/ticket-service:test:  [32m✓[39m tests/auth-reset-verify.test.ts [2m([22m[2m8 tests[22m[2m)[22m[33m 1632[2mms[22m[39m
+@supportpilot/ticket-service:test:    [33m[2m✓[22m[39m Auth Password Reset & Email Verification Flow (AUTH-4, NOTIF-3)[2m > [22mPOST /api/v1/auth/forgot-password[2m > [22mgenerates reset token, saves expiration, and dispatches reset email [33m 308[2mms[22m[39m
+@supportpilot/ticket-service:test:    [33m[2m✓[22m[39m Auth Password Reset & Email Verification Flow (AUTH-4, NOTIF-3)[2m > [22mPOST /api/v1/auth/reset-password[2m > [22mresets password, updates hash, clears token, and revokes Redis sessions [33m 1173[2mms[22m[39m
+@supportpilot/web:test:  [32m✓[39m src/test/auth.store.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 8[2mms[22m[39m
+@supportpilot/web:test:  [32m✓[39m src/test/billing-api.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 16[2mms[22m[39m
+@supportpilot/ticket-service:test:  [32m✓[39m tests/health.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 111[2mms[22m[39m
+@supportpilot/ticket-service:test:  [32m✓[39m tests/status-transition.test.ts [2m([22m[2m9 tests[22m[2m)[22m[32m 35[2mms[22m[39m
+@supportpilot/web:test:  [32m✓[39m src/test/shell.test.tsx [2m([22m[2m2 tests[22m[2m)[22m[32m 232[2mms[22m[39m
+@supportpilot/ticket-service:test:  [32m✓[39m tests/tenant-repository.test.ts [2m([22m[2m19 tests[22m[2m)[22m[32m 37[2mms[22m[39m
+@supportpilot/web:test:  [32m✓[39m src/test/notification-bell.test.tsx [2m([22m[2m3 tests[22m[2m)[22m[32m 173[2mms[22m[39m
+@supportpilot/web:test: 
+@supportpilot/web:test: [2m Test Files [22m [1m[32m19 passed[39m[22m[90m (19)[39m
+@supportpilot/web:test: [2m      Tests [22m [1m[32m80 passed[39m[22m[90m (80)[39m
+@supportpilot/web:test: [2m   Start at [22m 14:57:15
+@supportpilot/web:test: [2m   Duration [22m 45.37s[2m (transform 13.96s, setup 80.91s, collect 94.61s, tests 28.77s, environment 221.15s, prepare 12.89s)[22m
+@supportpilot/web:test: 
+@supportpilot/ticket-service:test:  [32m✓[39m tests/seed.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 14[2mms[22m[39m
+@supportpilot/ticket-service:test:  [32m✓[39m tests/keyset-pagination.test.ts [2m([22m[2m9 tests[22m[2m)[22m[32m 18[2mms[22m[39m
+@supportpilot/ticket-service:test:  [32m✓[39m tests/ticket-search-indexes.test.ts [2m([22m[2m9 tests[22m[2m)[22m[32m 15[2mms[22m[39m
+@supportpilot/ticket-service:test:  [32m✓[39m tests/ticket-counter.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 14[2mms[22m[39m
+@supportpilot/ticket-service:test: 
+@supportpilot/ticket-service:test: [2m Test Files [22m [1m[32m22 passed[39m[22m[90m (22)[39m
+@supportpilot/ticket-service:test: [2m      Tests [22m [1m[32m251 passed[39m[22m[90m (251)[39m
+@supportpilot/ticket-service:test: [2m   Start at [22m 14:57:33
+@supportpilot/ticket-service:test: [2m   Duration [22m 27.97s[2m (transform 18.61s, setup 0ms, collect 332.89s, tests 11.37s, environment 13ms, prepare 20.59s)[22m
+@supportpilot/ticket-service:test: 
+@supportpilot/ticket-service:lint: 
+@supportpilot/ticket-service:lint: C:\Users\vrund\OneDrive\Desktop\ai_project\apps\ticket-service\src\lib\redis.ts
+@supportpilot/ticket-service:lint:    11:36  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:    49:57  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:   105:60  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:   129:29  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint: 
+@supportpilot/ticket-service:lint: C:\Users\vrund\OneDrive\Desktop\ai_project\apps\ticket-service\src\middleware\quota.middleware.ts
+@supportpilot/ticket-service:lint:   100:35  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:   101:17  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint: 
+@supportpilot/ticket-service:lint: C:\Users\vrund\OneDrive\Desktop\ai_project\apps\ticket-service\src\middleware\server-timing.middleware.ts
+@supportpilot/ticket-service:lint:   15:74  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:   30:67  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint: 
+@supportpilot/ticket-service:lint: C:\Users\vrund\OneDrive\Desktop\ai_project\apps\ticket-service\src\models\ticket.model.ts
+@supportpilot/ticket-service:lint:   127:45  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:   136:45  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint: 
+@supportpilot/ticket-service:lint: C:\Users\vrund\OneDrive\Desktop\ai_project\apps\ticket-service\src\repositories\audit-log.repository.ts
+@supportpilot/ticket-service:lint:   21:32  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:   28:10  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:   39:32  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint: 
+@supportpilot/ticket-service:lint: C:\Users\vrund\OneDrive\Desktop\ai_project\apps\ticket-service\src\repositories\base.repository.ts
+@supportpilot/ticket-service:lint:   158:14  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:   169:31  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:   170:34  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint: 
+@supportpilot/ticket-service:lint: C:\Users\vrund\OneDrive\Desktop\ai_project\apps\ticket-service\src\repositories\feature-flag.repository.ts
+@supportpilot/ticket-service:lint:   50:14  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:   61:16  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:   70:52  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:   79:12  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:   81:38  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint: 
+@supportpilot/ticket-service:lint: C:\Users\vrund\OneDrive\Desktop\ai_project\apps\ticket-service\src\repositories\message.repository.ts
+@supportpilot/ticket-service:lint:   78:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint: 
+@supportpilot/ticket-service:lint: C:\Users\vrund\OneDrive\Desktop\ai_project\apps\ticket-service\src\repositories\ticket.repository.ts
+@supportpilot/ticket-service:lint:    32:25  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:    33:49  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:    34:22  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:    45:26  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:    46:50  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:    47:29  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:    68:57  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:    98:29  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:    99:53  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:   100:26  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:   112:30  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:   113:54  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:   114:33  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:   150:20  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:   176:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:   278:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint: 
+@supportpilot/ticket-service:lint: C:\Users\vrund\OneDrive\Desktop\ai_project\apps\ticket-service\src\routes\admin.routes.ts
+@supportpilot/ticket-service:lint:    96:23  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:    97:25  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:   223:30  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:   224:33  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:   236:28  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:   237:38  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:   238:39  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:   239:33  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:   242:23  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:   246:31  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:   247:34  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:   266:31  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:   267:34  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:   281:26  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:   282:28  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:   325:32  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:   326:35  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:   334:41  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:   477:26  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:   477:70  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint: 
+@supportpilot/ticket-service:lint: C:\Users\vrund\OneDrive\Desktop\ai_project\apps\ticket-service\src\routes\billing.routes.ts
+@supportpilot/ticket-service:lint:   95:56  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint: 
+@supportpilot/ticket-service:lint: C:\Users\vrund\OneDrive\Desktop\ai_project\apps\ticket-service\src\routes\integration.routes.ts
+@supportpilot/ticket-service:lint:    67:12  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:    73:33  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:   115:33  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:   183:12  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:   189:33  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:   231:33  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:   364:33  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint: 
+@supportpilot/ticket-service:lint: C:\Users\vrund\OneDrive\Desktop\ai_project\apps\ticket-service\src\routes\superadmin.routes.ts
+@supportpilot/ticket-service:lint:    42:16  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:    49:62  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:    61:66  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:    80:11  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:   127:25  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:   212:18  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:   216:30  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:   216:70  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:   226:31  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:   227:34  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:   264:18  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:   268:30  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:   268:70  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:   277:31  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:   278:34  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:   319:18  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:   323:30  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:   323:70  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:   401:30  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:   458:30  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:   512:35  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:   540:30  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:   573:15  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:   577:27  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:   577:67  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint: 
+@supportpilot/ticket-service:lint: C:\Users\vrund\OneDrive\Desktop\ai_project\apps\ticket-service\src\routes\ticket.routes.ts
+@supportpilot/ticket-service:lint:   254:94  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:   414:92  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:   496:95  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint: 
+@supportpilot/ticket-service:lint: C:\Users\vrund\OneDrive\Desktop\ai_project\apps\ticket-service\src\seed.ts
+@supportpilot/ticket-service:lint:    793:16  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:    795:18  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:    820:39  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:    889:12  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:    891:16  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:    893:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:    894:17  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:   1072:47  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:   1073:16  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:   1117:40  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:   1117:54  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:   1118:16  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:   1187:42  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:   1188:15  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:   1223:43  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:   1224:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:   1250:44  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:   1250:58  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:   1251:15  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:   1336:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:   1337:20  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:   1338:18  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint: 
+@supportpilot/ticket-service:lint: C:\Users\vrund\OneDrive\Desktop\ai_project\apps\ticket-service\src\services\analytics.service.ts
+@supportpilot/ticket-service:lint:   239:62  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:   245:59  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:   249:59  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:   253:55  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:   257:55  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint:   420:60  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@supportpilot/ticket-service:lint: 
+@supportpilot/ticket-service:lint: ✖ 122 problems (0 errors, 122 warnings)
+@supportpilot/ticket-service:lint: 
+
+ Tasks:    42 successful, 42 total
+Cached:    0 cached, 42 total
+  Time:    1m15.809s
+--- STDERR ---
+

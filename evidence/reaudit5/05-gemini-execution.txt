@@ -1,0 +1,89 @@
+=== EVIDENCE ARTIFACT ===
+Target: 05-gemini-execution.txt
+Command: apps\ai-service\.venv\Scripts\python.exe scripts/run_gemini_live_and_judge.py
+Timestamp (UTC): 2026-11-23T09:24:27.367073+00:00
+Git Commit: 9fbf9e5208f59921e2edf731b3ab12309288a664
+Exit Code: 0
+========================
+--- STDOUT ---
+=================================================================
+SUPPORTPILOT REAL GEMINI /v1/answer & LLM-JUDGE EVALUATION
+=================================================================
+Configured LLM Provider: gemini
+Database: postgresql://supportpilot:[REDACTED]@localhost:5433/supportpilot
+Total Questions to Evaluate: 10
+
+--- STEP 1: Generating Live /v1/answer Responses with Gemini ---
+[1/10] Generating answer for ind_001: 'How do I add a new agent to my team?'...
+    -> Answer length: 259 chars, Citations: 1, Escalate: True
+[2/10] Generating answer for ind_002: 'Can I set different business hours for weekends?'...
+    -> Answer length: 123 chars, Citations: 0, Escalate: True
+[3/10] Generating answer for ind_003: 'Where do I find my API key?'...
+    -> Answer length: 136 chars, Citations: 2, Escalate: True
+[4/10] Generating answer for ind_004: 'How do I reset my password?'...
+    -> Answer length: 101 chars, Citations: 0, Escalate: True
+[5/10] Generating answer for ind_005: 'What happens when a ticket breaches its SLA?'...
+    -> Answer length: 190 chars, Citations: 1, Escalate: True
+[6/10] Generating answer for ind_006: 'How do I turn on two-factor authentication?'...
+    -> Answer length: 350 chars, Citations: 1, Escalate: True
+[7/10] Generating answer for ind_008: 'How do I assign a ticket to someone else?'...
+    -> Answer length: 120 chars, Citations: 0, Escalate: True
+[8/10] Generating answer for ind_009: 'How do I create a canned reply?'...
+    -> Answer length: 274 chars, Citations: 1, Escalate: True
+[9/10] Generating answer for ind_011: 'How long before an inactive ticket is automatically closed?'...
+    -> Answer length: 139 chars, Citations: 1, Escalate: True
+[10/10] Generating answer for ind_012: 'How do I embed the chat widget on my website?'...
+    -> Answer length: 266 chars, Citations: 2, Escalate: True
+
+--- STEP 2: Running Gemini LLM-Judge Groundedness Evaluation ---
+[1/10] Judging groundedness for ind_001...
+    -> Status: success, Verdict: GROUNDED, Score: 1.0
+[2/10] Judging groundedness for ind_002...
+    -> Status: success, Verdict: GROUNDED, Score: 1.0
+[3/10] Judging groundedness for ind_003...
+    -> Status: success, Verdict: GROUNDED, Score: 1.0
+[4/10] Judging groundedness for ind_004...
+    -> Status: success, Verdict: GROUNDED, Score: 1.0
+[5/10] Judging groundedness for ind_005...
+    -> Status: success, Verdict: GROUNDED, Score: 1.0
+[6/10] Judging groundedness for ind_006...
+    -> Status: success, Verdict: GROUNDED, Score: 1.0
+[7/10] Judging groundedness for ind_008...
+    -> Status: success, Verdict: GROUNDED, Score: 1.0
+[8/10] Judging groundedness for ind_009...
+    -> Status: success, Verdict: GROUNDED, Score: 1.0
+[9/10] Judging groundedness for ind_011...
+    -> Status: success, Verdict: GROUNDED, Score: 1.0
+[10/10] Judging groundedness for ind_012...
+    -> Status: success, Verdict: GROUNDED, Score: 1.0
+
+================================================================================
+LLM JUDGE EVALUATION RESULTS SUMMARY
+================================================================================
+Total Evaluated Samples (n): 10
+Successful Evaluations:      10
+Failed / Quota 429s:         0
+Fully Grounded Samples:      10/10
+Aggregate Mean Groundedness: 1.0000 (over successful samples, n=10)
+================================================================================
+
+| Sample ID | Verdict | Score | Question | Reasoning |
+|---|---|---|---|---|
+| `ind_001` | **GROUNDED** | `1.0` | How do I add a new agent to my team... | Every step provided in the Answer matches the exact instruct... |
+| `ind_002` | **GROUNDED** | `1.0` | Can I set different business hours ... | The provided reference context does not mention whether diff... |
+| `ind_003` | **GROUNDED** | `1.0` | Where do I find my API key?... | Every claim in the answer is directly supported by the text.... |
+| `ind_004` | **GROUNDED** | `1.0` | How do I reset my password?... | The provided reference context contains information about un... |
+| `ind_005` | **GROUNDED** | `1.0` | What happens when a ticket breaches... | Every claim in the answer is directly supported by the text ... |
+| `ind_006` | **GROUNDED** | `1.0` | How do I turn on two-factor authent... | Every step and detail included in the Answer regarding how t... |
+| `ind_008` | **GROUNDED** | `1.0` | How do I assign a ticket to someone... | The reference context contains information about merging tic... |
+| `ind_009` | **GROUNDED** | `1.0` | How do I create a canned reply?... | The answer is fully supported by the reference context under... |
+| `ind_011` | **GROUNDED** | `1.0` | How long before an inactive ticket ... | The answer is fully supported by the reference context under... |
+| `ind_012` | **GROUNDED** | `1.0` | How do I embed the chat widget on m... | All claims made in the Answer are directly supported by the ... |
+
+Saved raw live samples to: C:\Users\vrund\OneDrive\Desktop\ai_project\evidence\reaudit5\05-gemini-live-samples.json
+Saved raw judge results to: C:\Users\vrund\OneDrive\Desktop\ai_project\evidence\reaudit5\05-gemini-judge-results.json
+--- STDERR ---
+
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 103/103 [00:00<00:00, 2725.12it/s]
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.

@@ -1,0 +1,32 @@
+=== EVIDENCE ARTIFACT ===
+Target: 08-sam-invoke-retry-path.txt
+Command: python scripts/run-sam-webhook-test.py --mode failure
+Timestamp (UTC): 2026-11-23T09:22:49.513512+00:00
+Git Commit: 94c84cdaa14137d8031c56e3096f1c7e304b65d9
+Exit Code: 0
+========================
+--- STDOUT ---
+=================================================================
+SAM LOCAL INVOKE: RETRY PATH / TARGET UNAVAILABLE FAILURE
+=================================================================
+Executing SAM command:
+C:\Program Files\Amazon\AWSSAMCLI\bin\sam.cmd local invoke WebhookFunction -e C:\Users\vrund\OneDrive\Desktop\ai_project\infra\sam\events\sqs.json -t C:\Users\vrund\OneDrive\Desktop\ai_project\infra\sam\.aws-sam\build\template.yaml
+--- STDOUT ---
+{"batchItemFailures": [{"itemIdentifier": "msg-sam-local-001"}]}
+--- STDERR ---
+No current session found, using default AWS::AccountId
+Invoking handlers.webhook.handler (python3.12)
+Local image is up-to-date
+Using local image: public.ecr.aws/lambda/python:3.12-rapid-x86_64.
+
+Mounting C:\Users\vrund\OneDrive\Desktop\ai_project\infra\sam\.aws-sam\build\WebhookFunction as /var/task:ro,delegated, inside runtime container
+SAM_CONTAINER_ID: a984b9232847350aa42d5f29eeaa4def917cbd4e4fff75dbd58ffc4dda131bee
+START RequestId: 15e7fdc5-1f5c-41b5-8eea-3803b8e12534 Version: $LATEST
+[ERROR]	2026-11-23T09:22:58.391Z	15e7fdc5-1f5c-41b5-8eea-3803b8e12534	Failed to deliver webhook for message msg-sam-local-001: SSRF blocked: URL http://127.0.0.1:9999/webhook targets private, loopback, or invalid destination
+END RequestId: 15e7fdc5-1f5c-41b5-8eea-3803b8e12534
+REPORT RequestId: 15e7fdc5-1f5c-41b5-8eea-3803b8e12534	Init Duration: 0.03 ms	Duration: 150.54 ms	Billed Duration: 151 ms	Memory Size: 256 MB	Max Memory Used: 256 MB	
+
+
+Invocation Exit Code: 0
+--- STDERR ---
+
